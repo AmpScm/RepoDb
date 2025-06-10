@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿#nullable enable
+using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
 using MySqlConnector;
@@ -296,10 +297,9 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
 
         return new()
         {
-            DbSetting = connection.GetDbSetting(),
             EngineName = engineName,
             EngineVersion = parsedVersion,
-            CompatibilityVersion = null, // Not really applicable for MySQL
+            //CompatibilityVersion = null, // Not really applicable for MySQL
             ParameterTypeMap = null // No TVPs
         };
     }

@@ -1,3 +1,4 @@
+#nullable enable
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
@@ -361,10 +362,9 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
 
         return new()
         {
-            DbSetting = connection.GetDbSetting(),
             EngineName = engineName,
             EngineVersion = parsedVersion,
-            CompatibilityVersion = null, // PostgreSQL has no compatibility levels
+            //CompatibilityVersion = null, // PostgreSQL has no compatibility levels
             ParameterTypeMap = null // No TVPs
         };
     }

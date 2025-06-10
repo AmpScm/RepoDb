@@ -1751,7 +1751,7 @@ public static partial class DbConnectionExtension
         DbCommand command,
         DbConnection dbConnection,
         IDbTransaction? transaction,
-        IEnumerable<QueryField> queryFields)
+        IEnumerable<QueryField>? queryFields)
     {
         if (queryFields == null)
         {

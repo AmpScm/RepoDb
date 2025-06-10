@@ -214,8 +214,8 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="handlerInstance"></param>
     /// <returns></returns>
-    private static MethodInfo? GetClassHandlerGetMethod(object handlerInstance) =>
-        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<object, object>.Get));
+    private static MethodInfo GetClassHandlerGetMethod(object handlerInstance) =>
+        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<object, object>.Get))!;
 
     /// <summary>
     ///
@@ -1001,7 +1001,7 @@ internal sealed partial class Compiler
 
         // Return
         return isNullExpression == null ? falseExpression :
-            Expression.Condition(isNullExpression, trueExpression, falseExpression);
+            Expression.Condition(isNullExpression, trueExpression!, falseExpression);
     }
 
     /// <summary>
@@ -1143,7 +1143,7 @@ internal sealed partial class Compiler
         expression = Expression.Call(Expression.Constant(handlerInstance), getMethod, new[]
         {
             ConvertExpressionToTypeExpression(expression, getParameter.ParameterType),
-            CreatePropertyHandlerGetOptionsExpression(readerExpression, classPropertyParameterInfo?.ClassProperty)
+            CreatePropertyHandlerGetOptionsExpression(readerExpression, classPropertyParameterInfo.ClassProperty)
         });
 
         // Convert to the return type
@@ -1654,7 +1654,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static Expression GetDbNullExpression(ParameterExpression readerParameterExpression,
         ConstantExpression ordinalExpression) =>
-        Expression.Call(readerParameterExpression, StaticType.DbDataReader.GetMethod(nameof(DbDataReader.IsDBNull)), ordinalExpression);
+        Expression.Call(readerParameterExpression, GetMethodInfo<DbDataReader>(x => x.IsDBNull(0)), ordinalExpression);
 
     /// <summary>
     ///
@@ -1838,7 +1838,7 @@ internal sealed partial class Compiler
         Expression objectInstanceExpression,
         DbField dbField)
     {
-        var methodInfo = StaticType.PropertyInfo.GetMethod("GetValue", new[] { StaticType.Object });
+        var methodInfo = GetMethodInfo<PropertyInfo>(x => x.GetValue(null));
         var expression = (Expression)Expression.Call(propertyExpression, methodInfo, objectInstanceExpression);
 
         // Property Handler

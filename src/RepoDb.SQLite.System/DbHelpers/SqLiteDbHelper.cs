@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿#nullable enable
+using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
@@ -450,10 +451,9 @@ SELECT sqlite_version();
 
         return new()
         {
-            DbSetting = connection.GetDbSetting(),
             EngineName = "SQLite",
             EngineVersion = parsedVersion,
-            CompatibilityVersion = null, // Not applicable
+            //CompatibilityVersion = null, // Not applicable
             ParameterTypeMap = null // No TVPs
         };
     }

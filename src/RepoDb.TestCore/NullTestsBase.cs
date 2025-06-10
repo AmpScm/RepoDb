@@ -578,4 +578,14 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         await sql.MergeAsync(ftf[0]);
     }
+
+    [TestMethod]
+    public async Task GetRuntimeInfo()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        var info = await DbRuntimeSettingCache.GetAsync(sql, null);
+
+        Assert.IsNotNull(info);
+    }
 }

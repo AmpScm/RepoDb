@@ -279,57 +279,60 @@ ORDER BY C.COLUMN_ID
         }
     }
 
-    private const string OracleRuntimeInfoQuery = @"
-        SELECT banner FROM v$version;
-        SELECT PRODUCT, VERSION FROM PRODUCT_COMPONENT_VERSION WHERE PRODUCT LIKE 'Oracle%';
-";
+    private const string QueryVersion = @"SELECT banner FROM v$version";
+    private const string QueryProduct = @"SELECT PRODUCT, VERSION FROM PRODUCT_COMPONENT_VERSION WHERE PRODUCT LIKE 'Oracle%'";
 
     public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
     {
-        using var rdr = (OracleDataReader)connection.ExecuteReader(OracleRuntimeInfoQuery, transaction: transaction);
-
         string? banner = null;
-        if (rdr.Read())
-        {
-            banner = rdr.GetString(0);
-        }
-
         string? productName = null;
         string? productVersion = null;
 
-        if (rdr.NextResult())
+        // Execute first query
+        using (var command = connection.CreateCommand(QueryVersion, transaction: transaction))
+        using (var reader = command.ExecuteReader())
         {
-            while (rdr.Read())
+            if (reader.Read())
             {
-                var prod = rdr.GetString(0); // PRODUCT
+                banner = reader.GetString(0);
+            }
+        }
+
+        // Execute second query
+        using (var command = connection.CreateCommand(QueryProduct, transaction: transaction))
+        using (var reader = command.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var prod = reader.GetString(0); // PRODUCT
                 if (prod.StartsWith("Oracle", StringComparison.OrdinalIgnoreCase))
                 {
                     productName = prod;
-                    productVersion = rdr.GetString(1); // VERSION
+                    productVersion = reader.GetString(1); // VERSION
                     break;
                 }
             }
         }
 
         // Extract version number
-        var versionMatch = Regex.Match(productVersion ?? banner ?? "", @"\d+(\.\d+)+");
+        var versionMatch = Regex.Match(productVersion ?? banner ?? "", @"\d+(\.\d+){0,3}");
         var parsedVersion = versionMatch.Success ? Version.Parse(versionMatch.Value) : new Version(0, 0);
 
         // Determine edition or flavor
         var engineName = productName switch
         {
-            var name when name?.IndexOf("Express", StringComparison.OrdinalIgnoreCase) >= 0 => "Oracle XE",
-            var name when name?.IndexOf("Free", StringComparison.OrdinalIgnoreCase) >= 0 => "Oracle Free",
-            var name when name?.IndexOf("Enterprise", StringComparison.OrdinalIgnoreCase) >= 0 => "Oracle Enterprise",
+            var name when name?.Contains("Express", StringComparison.OrdinalIgnoreCase) == true => "Oracle XE",
+            var name when name?.Contains("Free", StringComparison.OrdinalIgnoreCase) == true => "Oracle Free",
+            var name when name?.Contains("Enterprise", StringComparison.OrdinalIgnoreCase) == true => "Oracle Enterprise",
             _ => "Oracle"
         };
 
-        return new()
+        return new DbRuntimeSetting
         {
-            DbSetting = connection.GetDbSetting(),
             EngineName = engineName,
             EngineVersion = parsedVersion,
-            CompatibilityVersion = parsedVersion, // Optional: see below
+            CompatibilityVersion = parsedVersion
         };
     }
+
 }

@@ -447,7 +447,6 @@ SELECT sqlite_version();
 
         return new()
         {
-            DbSetting = connection.GetDbSetting(),
             EngineName = "SQLite",
             EngineVersion = parsedVersion,
             CompatibilityVersion = null, // Not applicable

@@ -45,7 +45,6 @@ public abstract class BaseDbHelper : IDbHelper
     {
         return new()
         {
-            DbSetting = connection.GetDbSetting()
         };
     }
 
