@@ -393,6 +393,15 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         return null;
     }
 
+    public override bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values)
+    {
+        var info = DbRuntimeSettingCache.Get(connection, transaction);
+
+        return info?.ParameterTypeMap is { } pm
+            && values.GetElementType() is { } elementType
+            && pm.TryGetValue(elementType, out var mapping);
+    }
+
     public override string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
     {
         var info = DbRuntimeSettingCache.Get(connection, transaction);

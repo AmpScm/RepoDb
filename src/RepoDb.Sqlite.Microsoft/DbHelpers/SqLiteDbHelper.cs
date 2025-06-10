@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
+using Microsoft.Data.Sqlite;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -425,4 +426,32 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     };
 
     #endregion
+
+    private const string SqliteRuntimeInfoQuery = @"
+SELECT sqlite_version();
+";
+
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    {
+        using var rdr = (SqliteDataReader)connection.ExecuteReader(SqliteRuntimeInfoQuery, transaction: transaction);
+
+        string? versionString = null;
+        if (rdr.Read())
+        {
+            versionString = rdr.GetString(0); // e.g., "3.43.1"
+        }
+
+        var parsedVersion = Version.TryParse(versionString, out var v)
+            ? v
+            : new Version(0, 0);
+
+        return new()
+        {
+            DbSetting = connection.GetDbSetting(),
+            EngineName = "SQLite",
+            EngineVersion = parsedVersion,
+            CompatibilityVersion = null, // Not applicable
+            ParameterTypeMap = null // No TVPs
+        };
+    }
 }

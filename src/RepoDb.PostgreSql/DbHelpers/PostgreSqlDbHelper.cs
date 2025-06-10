@@ -1,6 +1,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using Npgsql;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
@@ -319,4 +320,52 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     #endregion
 
     #endregion
+
+    private const string PostgresRuntimeInfoQuery = @"
+        SHOW server_version;
+        SELECT version();
+";
+
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    {
+        using var rdr = (NpgsqlDataReader)connection.ExecuteReader(PostgresRuntimeInfoQuery, transaction: transaction);
+
+        string? serverVersion = null;
+        string? fullVersion = null;
+
+        if (rdr.Read())
+        {
+            serverVersion = rdr.GetString(0);
+        }
+
+        if (rdr.NextResult() && rdr.Read())
+        {
+            fullVersion = rdr.GetString(0);
+        }
+
+        var versionMatch = Regex.Match(serverVersion ?? "", @"\d+(\.\d+)+");
+        var parsedVersion = versionMatch.Success
+            ? Version.Parse(versionMatch.Value)
+            : new Version(0, 0);
+
+        var engineName = "PostgreSQL";
+
+        // Optional: try to detect a fork (e.g., Amazon Aurora, EDB) from full version string
+        if (fullVersion is { } fv)
+        {
+            if (fv.Contains("Aurora", StringComparison.OrdinalIgnoreCase))
+                engineName = "Aurora PostgreSQL";
+            if (fv.Contains("EDB", StringComparison.OrdinalIgnoreCase))
+                engineName = "EDB PostgreSQL";
+        }
+
+        return new()
+        {
+            DbSetting = connection.GetDbSetting(),
+            EngineName = engineName,
+            EngineVersion = parsedVersion,
+            CompatibilityVersion = null, // PostgreSQL has no compatibility levels
+            ParameterTypeMap = null // No TVPs
+        };
+    }
 }

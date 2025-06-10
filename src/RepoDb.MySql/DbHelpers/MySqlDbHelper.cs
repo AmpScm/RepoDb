@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
@@ -277,4 +278,45 @@ public sealed class MySqlDbHelper : BaseDbHelper
     #endregion
 
     #endregion
+
+    private const string MySqlRuntimeInfoQuery = @"
+    SELECT VERSION() AS Version;
+    SHOW VARIABLES LIKE 'version_comment';
+";
+
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    {
+        using var rdr = (MySqlDataReader)connection.ExecuteReader(MySqlRuntimeInfoQuery, transaction: transaction);
+
+        string? versionString = null;
+        string? versionComment = null;
+
+        if (rdr.Read())
+        {
+            versionString = rdr.GetString(0);
+        }
+
+        if (rdr.NextResult() && rdr.Read())
+        {
+            versionComment = rdr.GetString(1); // second column = 'Value' from SHOW VARIABLES LIKE ...
+        }
+
+        var engineName = versionComment?.Contains("MariaDB", StringComparison.OrdinalIgnoreCase) == true
+            ? "MariaDB"
+            : "MySQL";
+
+        var versionMatch = Regex.Match(versionString ?? "", @"\d+(\.\d+)+");
+        var parsedVersion = versionMatch.Success
+            ? Version.Parse(versionMatch.Value)
+            : new Version(0, 0);
+
+        return new()
+        {
+            DbSetting = connection.GetDbSetting(),
+            EngineName = engineName,
+            EngineVersion = parsedVersion,
+            CompatibilityVersion = null, // Not really applicable for MySQL
+            ParameterTypeMap = null // No TVPs
+        };
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Text.RegularExpressions;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 using RepoDb.DbSettings;
@@ -276,5 +277,59 @@ ORDER BY C.COLUMN_ID
         {
             return static () => null;
         }
+    }
+
+    private const string OracleRuntimeInfoQuery = @"
+        SELECT banner FROM v$version;
+        SELECT PRODUCT, VERSION FROM PRODUCT_COMPONENT_VERSION WHERE PRODUCT LIKE 'Oracle%';
+";
+
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    {
+        using var rdr = (OracleDataReader)connection.ExecuteReader(OracleRuntimeInfoQuery, transaction: transaction);
+
+        string? banner = null;
+        if (rdr.Read())
+        {
+            banner = rdr.GetString(0);
+        }
+
+        string? productName = null;
+        string? productVersion = null;
+
+        if (rdr.NextResult())
+        {
+            while (rdr.Read())
+            {
+                var prod = rdr.GetString(0); // PRODUCT
+                if (prod.StartsWith("Oracle", StringComparison.OrdinalIgnoreCase))
+                {
+                    productName = prod;
+                    productVersion = rdr.GetString(1); // VERSION
+                    break;
+                }
+            }
+        }
+
+        // Extract version number
+        var versionMatch = Regex.Match(productVersion ?? banner ?? "", @"\d+(\.\d+)+");
+        var parsedVersion = versionMatch.Success ? Version.Parse(versionMatch.Value) : new Version(0, 0);
+
+        // Determine edition or flavor
+        var engineName = productName switch
+        {
+            var name when name?.IndexOf("Express", StringComparison.OrdinalIgnoreCase) >= 0 => "Oracle XE",
+            var name when name?.IndexOf("Free", StringComparison.OrdinalIgnoreCase) >= 0 => "Oracle Free",
+            var name when name?.IndexOf("Enterprise", StringComparison.OrdinalIgnoreCase) >= 0 => "Oracle Enterprise",
+            _ => "Oracle"
+        };
+
+        return new()
+        {
+            DbSetting = connection.GetDbSetting(),
+            EngineName = engineName,
+            EngineVersion = parsedVersion,
+            CompatibilityVersion = parsedVersion, // Optional: see below
+        };
     }
 }
