@@ -595,7 +595,7 @@ public class QueryTest
         var table = Database.CreateCompleteTables(1).First();
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
 
-        var info = DbConnectionRuntimeInformationCache.Get(connection, null);
+        var info = DbRuntimeSettingCache.Get(connection, null);
 
         Assert.IsNotNull(info);
         Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int)), "INT TVP defined");
@@ -615,18 +615,37 @@ public class QueryTest
     }
 
     [TestMethod]
-    public void TestValuesSupport()
+    public void TestValues30Support()
     {
         var table = Database.CreateCompleteTables(1).First();
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
 
-        var info = DbConnectionRuntimeInformationCache.Get(connection, null);
+        var info = DbRuntimeSettingCache.Get(connection, null);
 
         Assert.IsNotNull(info);
         Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int)), "INT TVP defined");
         Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int?)), "INT? TVP defined");
 
         var values = Enumerable.Range(0, 30).Concat([table.Id]);
+
+        var items = connection.Query<CompleteTable>(where: x => values.Contains(x.Id), fields: Field.Parse<CompleteTable>(x => x.ColumnDate), trace: new DiagnosticsTracer());
+
+        Assert.AreEqual(1, items.Count());
+    }
+
+    [TestMethod]
+    public void TestValues8Support()
+    {
+        var table = Database.CreateCompleteTables(1).First();
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+
+        var info = DbRuntimeSettingCache.Get(connection, null);
+
+        Assert.IsNotNull(info);
+        Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int)), "INT TVP defined");
+        Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int?)), "INT? TVP defined");
+
+        var values = Enumerable.Range(0, 8).Concat([table.Id]);
 
         var items = connection.Query<CompleteTable>(where: x => values.Contains(x.Id), fields: Field.Parse<CompleteTable>(x => x.ColumnDate), trace: new DiagnosticsTracer());
 

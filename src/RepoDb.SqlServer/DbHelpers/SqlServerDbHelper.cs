@@ -309,7 +309,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     ORDER BY 
         ColumnType, is_nullable DESC;";
 
-    public override DbConnectionRuntimeInformation GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
     {
         using var rdr = (SqlDataReader)connection.ExecuteReader(DbRuntimeInfoQuery, transaction: transaction);
 
@@ -364,9 +364,9 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         };
     }
 
-    public override DbParameter? CreateTableParameter(DbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName)
+    public override DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName)
     {
-        var info = DbConnectionRuntimeInformationCache.Get(connection, transaction);
+        var info = DbRuntimeSettingCache.Get(connection, transaction);
 
         if (info?.ParameterTypeMap is { } pm
             && values.GetElementType() is { } elementType
@@ -375,7 +375,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             var dt = new DataTable();
             dt.Columns.Add(mapping.ColumnName, elementType);
 
-            foreach (var v in values.AsTypedEnumerableSet(mapping.RequiresDistinct)) //
+            foreach (var v in values.AsTypedSet(mapping.RequiresDistinct)) //
             {
                 if (v is null && mapping.NoNull)
                     continue;
@@ -393,15 +393,15 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         return null;
     }
 
-    public override string? CreateTableParameterText(DbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
+    public override string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
     {
-        var info = DbConnectionRuntimeInformationCache.Get(connection, transaction);
+        var info = DbRuntimeSettingCache.Get(connection, transaction);
 
         if (info?.ParameterTypeMap is { } pm
             && values.GetElementType() is { } elementType
             && pm.TryGetValue(elementType, out var mapping))
         {
-            return $"SELECT {mapping.ColumnName} FROM {parameterName}";
+            return $"SELECT * FROM {parameterName}";
         }
 
         return null;

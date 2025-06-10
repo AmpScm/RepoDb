@@ -17,9 +17,9 @@ public partial class QueryField : IEquatable<QueryField>
     private int? hashCode = null;
 
     // For boolean handling
-    internal bool canSkip;
+    internal bool canSkip { get; init; }
     internal bool skip;
-    private byte sizeMode;
+    internal bool TableParameterMode { get; set; }
 
     #region Constructors
 
@@ -267,13 +267,16 @@ public partial class QueryField : IEquatable<QueryField>
         else if (Operation is Operation.In or Operation.NotIn &&
             Parameter.Value is IEnumerable enumerable)
         {
-            hashCode = sizeMode switch
-            {
-                1 => HashCode.Combine(hashCode, 1), // TVP mode
-                2 => HashCode.Combine(hashCode, 2, RoundUpInLength(enumerable.WithType<object>().Count())),
-                _ => HashCode.Combine(hashCode, 0, enumerable.WithType<object>().Count())
-            };
+            int cnt;
+
+            if (TableParameterMode)
+                cnt = -999;
+            else
+                cnt = RoundUpInLength(enumerable.AsTypedSet().Count);
+
+            hashCode = HashCode.Combine(hashCode, cnt);
         }
+
         // The string representation affects the collision
         // var objA = QueryGroup.Parse<EntityClass>(c => c.Id == 1 && c.Value != 1);
         // var objB = QueryGroup.Parse<EntityClass>(c => c.Id != 1 && c.Value == 1);
@@ -342,17 +345,6 @@ public partial class QueryField : IEquatable<QueryField>
     #endregion
 
     #region Specialized IN handling
-    internal void SetNormalizeCount()
-    {
-        sizeMode = 2;
-        hashCode = null;
-    }
-
-    internal void SetTVPCount()
-    {
-        sizeMode = 1;
-        hashCode = null;
-    }
 
     /// <summary>
     /// Rounds up the specified size to the next threshold value using a custom progression pattern.
@@ -377,7 +369,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// int result4 = RoundUpInLength(150);  // Returns: 200
     /// </code>
     /// </example>
-    public static int RoundUpInLength(int size)
+    internal static int RoundUpInLength(int size)
     {
         if (size <= 10 || size >= 2000) // 2098 is sqlserver max params. Issues ahead if we go beyond that
             return size;
@@ -398,18 +390,6 @@ public partial class QueryField : IEquatable<QueryField>
 
         return threshold;
     }
-
-    internal int? MoreParams()
-    {
-        if (Operation is Operation.In or Operation.NotIn && (sizeMode == 2)
-            && Parameter.Value is IEnumerable enumerable)
-        {
-            return RoundUpInLength(enumerable.WithType<object>().Count());
-        }
-
-        return null;
-    }
-
 
     #endregion
 }

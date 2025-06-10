@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
@@ -459,6 +460,24 @@ public static partial class DbConnectionExtension
         return statementBuilder!;
     }
 
+    internal static DbRuntimeSetting GetDbRuntimeSetting(this IDbConnection connection, IDbTransaction? transaction)
+    {
+        // Check the connection
+        if (connection == null)
+        {
+            throw new ArgumentNullException(nameof(connection));
+        }
+        // Get the runtime setting
+        var runtimeSetting = DbRuntimeSettingCache.Get(connection, transaction);
+        // Check the presence
+        if (runtimeSetting == null)
+        {
+            ThrowMissingMappingException("runtime setting", connection.GetType());
+        }
+        // Return the runtime setting
+        return runtimeSetting!;
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -513,7 +532,7 @@ public static partial class DbConnectionExtension
     ///
     /// </summary>
     /// <param name="queryFields"></param>
-    internal static void SetOutputParameters(IEnumerable<QueryField> queryFields)
+    internal static void SetOutputParameters(IEnumerable<QueryField>? queryFields)
     {
         if (queryFields?.Any() != true)
         {
@@ -1860,7 +1879,7 @@ public static partial class DbConnectionExtension
         }
 
         // Items
-        var items = values.AsTypedEnumerableSet();
+        var items = values.AsTypedSet();
         var parameter = parameterName.AsParameter(dbSetting);
         if (items.Count == 0)
         {

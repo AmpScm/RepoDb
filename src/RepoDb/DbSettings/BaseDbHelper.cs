@@ -17,26 +17,31 @@ public abstract class BaseDbHelper : IDbHelper
 
     public IResolver<string, Type> DbTypeResolver { get; protected init; }
 
-    public virtual DbParameter? CreateTableParameter(DbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName)
+    public virtual DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName)
     {
         return null;
     }
 
-    public ValueTask<DbParameter?> CreateTableParameterAsync(DbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName, CancellationToken cancellationToken = default)
+    public ValueTask<DbParameter?> CreateTableParameterAsync(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName, CancellationToken cancellationToken = default)
     {
         return new(CreateTableParameter(connection, transaction, dbType, values, parameterName));
     }
 
-    public virtual string? CreateTableParameterText(DbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
+    public virtual string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
     {
         return null;
+    }
+
+    public virtual bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values)
+    {
+        return CreateTableParameter(connection, transaction, dbType, values, "Q") is not null;
     }
 
     /// <inheritdoc />
     public virtual void DynamicHandler<TEventInstance>(TEventInstance instance, string key)
     { }
 
-    public virtual DbConnectionRuntimeInformation GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public virtual DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
     {
         return new()
         {
@@ -44,7 +49,7 @@ public abstract class BaseDbHelper : IDbHelper
         };
     }
 
-    public virtual ValueTask<DbConnectionRuntimeInformation> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction transaction, CancellationToken cancellationToken)
+    public virtual ValueTask<DbRuntimeSetting> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction transaction, CancellationToken cancellationToken)
     {
         return new(GetDbConnectionRuntimeInformation(connection, transaction));
     }

@@ -148,7 +148,7 @@ public static class DbCommandExtension
         DbType? dbType,
         IDbSetting dbSetting)
     {
-        var values = commandArrayParameter.Values.AsTypedEnumerableSet();
+        var values = commandArrayParameter.Values.AsTypedSet();
 
         if (values.Count == 0)
         {
@@ -262,6 +262,13 @@ public static class DbCommandExtension
         DbType? dbType,
         Type? fallbackType)
     {
+        if (value is IDbDataParameter parameter)
+        {
+            // If the value is already a parameter, just set the name and return it
+            parameter.ParameterName = name.AsParameter(index: 0, quote: false, DbSettingMapper.Get(command.Connection!));
+            return parameter;
+        }
+
         var valueType = TypeCache.Get(value?.GetType() ?? classProperty?.PropertyInfo.PropertyType).GetUnderlyingType();
 
         if (valueType?.IsEnum == true)
@@ -663,13 +670,17 @@ public static class DbCommandExtension
         QueryField queryField,
         DbField? dbField = null)
     {
-        var values = (queryField?.Parameter.Value as System.Collections.IEnumerable)?.AsTypedEnumerableSet();
-        if (values?.Count > 0)
+        var enumerable = (System.Collections.IEnumerable?)queryField.Parameter.Value;
+        if (!queryField.TableParameterMode)
         {
+            var values = (queryField.Parameter.Value as System.Collections.IEnumerable)?.AsTypedSet();
+            if (!(values?.Count > 0))
+                return;
+
             int i = 0;
             foreach (var value in values)
             {
-                var name = string.Concat(queryField!.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
+                var name = string.Concat(queryField.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
                 var parameter = CreateParameter(command,
                     name,
                     values,
@@ -683,24 +694,28 @@ public static class DbCommandExtension
                 i++;
             }
 
-            if (queryField!.MoreParams() is { } mp)
+            int mp = QueryField.RoundUpInLength(i);
+            while (i < mp)
             {
-                while (i < mp)
-                {
-                    var name = string.Concat(queryField!.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
-                    var parameter = CreateParameter(command,
-                        name,
-                        values,
-                        dbField?.Size,
-                        null,
-                        dbField,
-                        null,
-                        queryField.Parameter.DbType,
-                        null);
-                    command.Parameters.Add(parameter);
-                    i++;
-                }
+                var name = string.Concat(queryField.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
+                var parameter = CreateParameter(command,
+                    name,
+                    values,
+                    dbField?.Size,
+                    null,
+                    dbField,
+                    null,
+                    queryField.Parameter.DbType,
+                    null);
+                command.Parameters.Add(parameter);
+                i++;
             }
+        }
+        else
+        {
+            var connection = command.Connection ?? throw new InvalidOperationException("The command connection cannot be null.");
+            var param = connection.GetDbHelper().CreateTableParameter(command.Connection!, null, null, enumerable ?? Enumerable.Empty<object>(), queryField.Parameter.Name.AsParameter(0, false, connection.GetDbSetting(), suffix: "_In_"));
+            command.Parameters.Add(param);
         }
     }
 

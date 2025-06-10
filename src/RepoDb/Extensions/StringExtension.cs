@@ -13,15 +13,15 @@ namespace RepoDb.Extensions;
 public static partial class StringExtension
 {
 #if NET9_0_OR_GREATER
-    [GeneratedRegex(@"[^a-zA-Z0-9]", RegexOptions.ExplicitCapture)]
+    [GeneratedRegex(@"[^a-zA-Z0-9]+", RegexOptions.ExplicitCapture)]
     private static partial
 #else
     private static
 #endif
-    Regex AlphaNumericRegex
+    Regex NotAlphaNumericRegex
     { get; }
 #if !NET9_0_OR_GREATER
-        = new(@"[^a-zA-Z0-9]", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+        = new(@"[^a-zA-Z0-9]+", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 #endif
 
     /// <summary>
@@ -74,7 +74,7 @@ public static partial class StringExtension
             value = value.Trim();
         }
 
-        return AlphaNumericRegex.Replace(value, "_");
+        return NotAlphaNumericRegex.Replace(value, "_");
     }
 
     /// <summary>
@@ -351,7 +351,7 @@ public static partial class StringExtension
 
         value = string.Concat(
             parameterPrefix,
-            value,
+            value.AsAlphaNumeric(),
             index > 0 ? "_" + index.ToString(CultureInfo.InvariantCulture) : "",
             suffix,
             quote ? dbSetting!.ClosingQuote : "");

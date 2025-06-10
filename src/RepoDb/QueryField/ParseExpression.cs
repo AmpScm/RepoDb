@@ -67,7 +67,7 @@ public partial class QueryField
         ExpressionType? unaryNodeType = null)
     {
         var operation = unaryNodeType == ExpressionType.Not ? Operation.NotIn : Operation.In;
-        return new QueryField(fieldName, operation, enumerable.WithType<object>().AsArray(), null, false);
+        return new QueryField(fieldName, operation, enumerable.AsTypedSet(), null, false);
     }
 
     /// <summary>

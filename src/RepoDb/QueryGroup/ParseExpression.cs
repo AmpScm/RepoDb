@@ -68,7 +68,7 @@ public partial class QueryGroup
         }
 
         // Return the parsed values
-        return parsed.Fix<TEntity>(connection, transaction, tableName);
+        return parsed.Fix(connection, transaction, tableName ?? ClassMappedNameCache.Get<TEntity>());
     }
 
     /// <summary>

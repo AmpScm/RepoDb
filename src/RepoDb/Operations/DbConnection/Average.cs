@@ -39,7 +39,8 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
-        return AverageInternal<TEntity>(connection: connection,
+        return AverageInternal<TEntity>(
+            connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -412,7 +413,7 @@ public static partial class DbConnectionExtension
         // Converts to property mapped object
         if (where != null)
         {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() });
+            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity)));
         }
 
         // Return the result
@@ -834,7 +835,7 @@ public static partial class DbConnectionExtension
         // Converts to property mapped object
         if (where != null)
         {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() });
+            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity)));
         }
 
         // Return the result
@@ -1256,7 +1257,8 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static ValueTask<object> AverageAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static ValueTask<object> AverageAsyncInternal<TEntity>(
+        this IDbConnection connection,
         Field field,
         QueryGroup? where = null,
         int commandTimeout = 0,
@@ -1276,13 +1278,9 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
 
         // Return the result
         return AverageAsyncInternalBase<object>(connection: connection,
@@ -1731,13 +1729,9 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
 
         // Return the result
         return AverageAsyncInternalBase<TResult>(connection: connection,
@@ -1935,22 +1929,18 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo(null) });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
 
         // Return the result
         return AverageInternalBase<object>(connection: connection,
-            request: request,
-            param: param,
-            commandTimeout: commandTimeout,
-            traceKey: traceKey,
-            transaction: transaction,
-            trace: trace);
+    request: request,
+    param: param,
+    commandTimeout: commandTimeout,
+    traceKey: traceKey,
+    transaction: transaction,
+    trace: trace);
     }
 
     /// <averagemary>
@@ -2139,13 +2129,9 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo(null) });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
 
         // Return the result
         return AverageInternalBase<TResult>(connection: connection,
@@ -2356,13 +2342,9 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo(null) });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
 
         // Return the result
         return AverageAsyncInternalBase<object>(connection: connection,
@@ -2575,13 +2557,9 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo(null) });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
 
         // Return the result
         return AverageAsyncInternalBase<TResult>(connection: connection,

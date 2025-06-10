@@ -1811,14 +1811,10 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        var commandText = CommandTextCache.GetBatchQueryText(request);
-        object? param = null;
 
-        // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, tableName) : null;
+
+        var commandText = CommandTextCache.GetBatchQueryText(request);
 
         // Actual Execution
         var result = ExecuteQueryInternal<TEntity>(connection: connection,
@@ -1890,14 +1886,10 @@ public static partial class DbConnectionExtension
             where,
             hints,
             statementBuilder);
-        var commandText = await CommandTextCache.GetBatchQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
-        object? param = null;
 
-        // Converts to property mapped object
-        if (where != null)
-        {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() });
-        }
+        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, tableName) : null;
+
+        var commandText = await CommandTextCache.GetBatchQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
 
         // Actual Execution
         var result = await ExecuteQueryAsyncInternal<TEntity>(connection: connection,

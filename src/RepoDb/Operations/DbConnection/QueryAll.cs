@@ -574,12 +574,11 @@ public static partial class DbConnectionExtension
             hints,
             statementBuilder);
         var commandText = CommandTextCache.GetQueryAllText(request);
-        object? param = null;
 
         // Actual Execution
         var result = ExecuteQueryInternal<TEntity>(connection: connection,
             commandText: commandText,
-            param: param,
+            param: null,
             commandType: commandType,
             cacheKey: null,
             cacheItemExpiration: cacheItemExpiration,
@@ -660,12 +659,11 @@ public static partial class DbConnectionExtension
             hints,
             statementBuilder);
         var commandText = await CommandTextCache.GetQueryAllTextAsync(request, cancellationToken).ConfigureAwait(false);
-        object? param = null;
 
         // Actual Execution
         var result = await ExecuteQueryAsyncInternal<TEntity>(connection: connection,
             commandText: commandText,
-            param: param,
+            param: null,
             commandType: commandType,
             cacheKey: null,
             cacheItemExpiration: cacheItemExpiration,

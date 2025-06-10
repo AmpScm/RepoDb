@@ -133,44 +133,52 @@ public static class QueryFieldExtension
         int index,
         IDbSetting dbSetting)
     {
-        var enumerable = ((System.Collections.IEnumerable)queryField.Parameter.Value!).AsTypedEnumerableSet();
+        var enumerable = ((System.Collections.IEnumerable)queryField.Parameter.Value!).AsTypedSet();
 
-        if (enumerable.Count > dbSetting.UseArrayParameterTreshold
-            && dbSetting is IDbRuntimeSetting dbr && false /*&& dbr.CanCreateArrayParameter(enumerable)*/)
+        if (!queryField.TableParameterMode)
         {
-            return default!;
-        }
-        else if (enumerable.Count > dbSetting.UseInValuesTreshold)
-        {
-            queryField.SetNormalizeCount();
-            StringBuilder sb = new();
+            int count = QueryField.RoundUpInLength(enumerable.Count);
 
-            queryField.SetNormalizeCount();
-            var createVals = QueryField.RoundUpInLength(enumerable.Count);
-
-            sb.Append("(SELECT val FROM (VALUES ");
-
-            for (int valueIndex = 0; valueIndex < createVals; valueIndex++)
+            if (count > dbSetting.UseInValuesTreshold)
             {
-                if (valueIndex > 0)
+                StringBuilder sb = new();
+
+                sb.Append("(SELECT v FROM (VALUES ");
+
+                for (int valueIndex = 0; valueIndex < count; valueIndex++)
                 {
-                    sb.Append(", ");
+                    if (valueIndex > 0)
+                    {
+                        sb.Append(", ");
+                    }
+                    sb.Append('(');
+                    sb.Append($"{queryField.Parameter.Name}{(index > 0 ? index.ToString(CultureInfo.InvariantCulture) : "")}_In_{valueIndex.ToString(CultureInfo.InvariantCulture)}".AsParameter(dbSetting));
+                    sb.Append(')');
                 }
-                sb.Append('(');
-                sb.Append($"{queryField.Parameter.Name}{(index > 0 ? index.ToString(CultureInfo.InvariantCulture) : "")}_In_{valueIndex.ToString(CultureInfo.InvariantCulture)}".AsParameter(dbSetting));
-                sb.Append(')');
+                sb.Append(") AS t(v) WHERE t.v IS NOT NULL)");
+                return sb.ToString();
             }
-            sb.Append(") AS v(val) WHERE val IS NOT NULL)");
-            return sb.ToString();
+            else
+            {
+                StringBuilder sb = new();
+
+                sb.Append("(");
+
+                for (int valueIndex = 0; valueIndex < count; valueIndex++)
+                {
+                    if (valueIndex > 0)
+                    {
+                        sb.Append(", ");
+                    }
+                    sb.Append($"{queryField.Parameter.Name}{(index > 0 ? index.ToString(CultureInfo.InvariantCulture) : "")}_In_{valueIndex.ToString(CultureInfo.InvariantCulture)}".AsParameter(dbSetting));
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
         }
         else
         {
-            var values = enumerable
-                .OfType<object>()
-                .Select((_, valueIndex) =>
-                        string.Concat(queryField.Parameter.Name, index > 0 ? index.ToString(CultureInfo.InvariantCulture) : "", "_In_", valueIndex.ToString(CultureInfo.InvariantCulture)).AsParameter(true, dbSetting))
-                .Join(", ");
-            return string.Concat("(", values, ")");
+            return $"(SELECT * FROM {queryField.Parameter.Name.AsParameter(0, true, dbSetting, suffix: "_In_")})";
         }
     }
 

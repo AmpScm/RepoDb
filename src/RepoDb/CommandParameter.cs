@@ -5,7 +5,7 @@ namespace RepoDb;
 /// <summary>
 /// A class that is being used to hold the definition of the <see cref="DbCommand"/> parameters.
 /// </summary>
-internal class CommandParameter
+internal sealed record class CommandParameter
 {
     /// <summary>
     /// Creates a new instance of <see cref="CommandParameter"/> class.

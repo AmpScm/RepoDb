@@ -2,7 +2,7 @@
 
 namespace RepoDb;
 
-public sealed record class DbConnectionRuntimeInformation : IDbRuntimeSetting
+public sealed record class DbRuntimeSetting : IDbRuntimeSetting
 {
     public string EngineName { get; init; } = "";
     public Version EngineVersion { get; init; } = new Version(0, 0);
@@ -12,7 +12,7 @@ public sealed record class DbConnectionRuntimeInformation : IDbRuntimeSetting
 
     public required IDbSetting DbSetting { get; init; }
 
-    DbConnectionRuntimeInformation IDbRuntimeSetting.RuntimeInfo => this;
+    DbRuntimeSetting IDbRuntimeSetting.RuntimeInfo => this;
 
     bool IDbSetting.AreTableHintsSupported => DbSetting.AreTableHintsSupported;
 

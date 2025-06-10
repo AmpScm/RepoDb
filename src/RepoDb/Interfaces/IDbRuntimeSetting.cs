@@ -2,5 +2,5 @@
 
 internal interface IDbRuntimeSetting : IDbSetting
 {
-    DbConnectionRuntimeInformation RuntimeInfo { get; }
+    DbRuntimeSetting RuntimeInfo { get; }
 }

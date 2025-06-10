@@ -176,7 +176,7 @@ public static class EnumerableExtension
     private static MethodInfo? _distinctMethod;
     private static MethodInfo? _toListMethod;
 
-    public static ICollection AsTypedEnumerableSet(this IEnumerable value, bool distinct = false)
+    public static ICollection AsTypedSet(this IEnumerable value, bool distinct = false)
     {
         if (value.GetEnumerableElementType() is not Type elementType)
         {

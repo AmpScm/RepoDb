@@ -651,38 +651,9 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// </summary>
     /// <returns>The current instance.</returns>
     public QueryGroup Fix()
-    {
-        if (isFixed)
-        {
-            return this;
-        }
+        => Fix(null, null, null);
 
-        // Check the presence
-        var fields = GetFields(true);
-
-        // Check any item
-        if (fields?.Any() != true)
-        {
-            return this;
-        }
-
-        // Fix the fields
-        FixQueryFields(fields);
-
-        // Force the variables
-        ForceIsFixedVariables();
-
-        // Return the current instance
-        return this;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <returns></returns>
-    internal QueryGroup Fix<TEntity>(IDbConnection? connection, IDbTransaction? transaction, string? tableName)
-        where TEntity : class
+    internal QueryGroup Fix(IDbConnection? connection, IDbTransaction? transaction, string? tableName)
     {
         if (isFixed)
         {
@@ -701,7 +672,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         if (connection is { })
         {
             DbFieldCollection? dbFields = null;
-            FixNotNullable<TEntity>(connection, transaction, tableName, ref dbFields);
+            FixForDb(connection, transaction, tableName, ref dbFields);
         }
 
         // Fix the fields
@@ -714,14 +685,13 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         return this;
     }
 
-    private void FixNotNullable<TEntity>(IDbConnection connection, IDbTransaction? transaction, string? tableName, ref DbFieldCollection? dbFields)
-        where TEntity : class
+    private void FixForDb(IDbConnection connection, IDbTransaction? transaction, string? tableName, ref DbFieldCollection? dbFields)
     {
         if (QueryGroups != null)
         {
             foreach (var qg in QueryGroups)
             {
-                qg.FixNotNullable<TEntity>(connection, transaction, tableName, ref dbFields);
+                qg.FixForDb(connection, transaction, tableName, ref dbFields);
             }
         }
 
@@ -733,7 +703,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
             {
                 if (qf.canSkip)
                 {
-                    dbFields ??= DbFieldCache.Get(connection, tableName ?? ClassMappedNameCache.Get<TEntity>(), transaction);
+                    dbFields ??= tableName is { } ? DbFieldCache.Get(connection, tableName, transaction) : null;
 
                     if (dbFields?.GetByName(qf.Field.Name)?.IsNullable == false)
                     {
@@ -744,6 +714,29 @@ public partial class QueryGroup : IEquatable<QueryGroup>
                             qf.skip = true;
                         else if (!isOr && !isIsNull)
                             qf.skip = true;
+                    }
+                }
+            }
+        }
+
+        if (QueryFields?.Count >= 1)
+        {
+            IDbSetting? dbs = null;
+            IDbHelper? dbh = null;
+
+            foreach (var qf in QueryFields)
+            {
+                if (qf.Operation is Operation.In or Operation.NotIn)
+                {
+                    var e = qf.Parameter.Value as System.Collections.IEnumerable;
+                    var cnt = e?.AsTypedSet().Count;
+
+                    if (cnt > 5 && (dbs ??= connection?.GetDbSetting()) is { } dbSetting)
+                    {
+                        qf.TableParameterMode =
+                            dbSetting.UseArrayParameterTreshold < cnt
+                            && (dbh ??= connection?.GetDbHelper()) is { } h
+                            && h.CanCreateTableParameter(connection!, transaction, null, e!);
                     }
                 }
             }
