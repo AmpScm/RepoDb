@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Resolvers;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RepoDb.UnitTests.Resolvers;
 
@@ -65,7 +65,7 @@ public class PropertyMappedNameResolverTest
 
         // Act
         var result = resolver.Resolve(typeof(EntityModelWithMapAttribute).GetProperty("Id"), null);
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, result);
@@ -79,7 +79,7 @@ public class PropertyMappedNameResolverTest
 
         // Act
         var result = resolver.Resolve(typeof(EntityModelWithColumnAttribute).GetProperty("Id"), null);
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, result);
@@ -93,7 +93,7 @@ public class PropertyMappedNameResolverTest
 
         // Act
         var result = resolver.Resolve(typeof(EntityModelWithMapAndColumnAttribute).GetProperty("Id"), null);
-        var expected = "[MapId]";
+        var expected = "MapId";
 
         // Assert
         Assert.AreEqual(expected, result);
@@ -114,7 +114,7 @@ public class PropertyMappedNameResolverTest
 
         // Act
         var result = resolver.Resolve(typeof(EntityModelWithMapAttribute).GetProperty("Id"), null);
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, result);
@@ -131,7 +131,7 @@ public class PropertyMappedNameResolverTest
 
         // Act
         var result = resolver.Resolve(typeof(EntityModelWithColumnAttribute).GetProperty("Id"), null);
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, result);

@@ -542,7 +542,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyString] LIKE @_PropertyString_)";
+        var expected = "([PropertyString] LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -806,7 +806,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyString] IN (@_PropertyString__In_0, @_PropertyString__In_1))";
+        var expected = "([PropertyString] IN (@PropertyString_In_0, @PropertyString_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -820,7 +820,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyString] NOT IN (@_PropertyString__In_0, @_PropertyString__In_1))";
+        var expected = "([PropertyString] NOT IN (@PropertyString_In_0, @PropertyString_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -835,7 +835,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyString] IN (@_PropertyString__In_0, @_PropertyString__In_1))";
+        var expected = "([PropertyString] IN (@PropertyString_In_0, @PropertyString_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -850,7 +850,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyString] IN (@_PropertyString__In_0, @_PropertyString__In_1))";
+        var expected = "([PropertyString] IN (@PropertyString_In_0, @PropertyString_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1099,7 +1099,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyString] IN (@_PropertyString__In_0, @_PropertyString__In_1))";
+        var expected = "([PropertyString] IN (@PropertyString_In_0, @PropertyString_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1114,7 +1114,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyString] IN (@_PropertyString__In_0, @_PropertyString__In_1))";
+        var expected = "([PropertyString] IN (@PropertyString_In_0, @PropertyString_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);

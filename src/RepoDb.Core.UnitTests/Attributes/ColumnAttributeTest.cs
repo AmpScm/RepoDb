@@ -129,7 +129,7 @@ public class ColumnAttributeTest
     {
         // Act
         var actual = PropertyMappedNameCache.Get<TestColumnAttributeQuotedNameClass>(e => e.Id);
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -140,7 +140,7 @@ public class ColumnAttributeTest
     {
         // Act
         var actual = PropertyMappedNameCache.Get<TestColumnAttributeQuotedNameClass>("Id");
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -151,7 +151,7 @@ public class ColumnAttributeTest
     {
         // Act
         var actual = PropertyMappedNameCache.Get<TestColumnAttributeQuotedNameClass>(new Field("Id"));
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, actual);

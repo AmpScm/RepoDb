@@ -161,7 +161,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.QuotedPropertyString == "A").GetString(m_dbSetting);
-        var expected = "([PropertyString] = @_PropertyString_)";
+        var expected = "([PropertyString] = @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);

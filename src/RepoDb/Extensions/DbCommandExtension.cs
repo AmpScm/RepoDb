@@ -92,7 +92,7 @@ public static class DbCommandExtension
     ///
     /// </summary>
     /// <param name="parameter"></param>
-    private static void EnsureTableValueParameter(IDbDataParameter parameter)
+    internal static void EnsureTableValueParameter(IDbDataParameter parameter)
     {
         if (parameter == null || parameter.Value is DataTable table == false)
         {

@@ -88,7 +88,7 @@ public class MapAttributeTest
     {
         // Act
         var actual = PropertyMappedNameCache.Get<TestMapAttributeQuotedNameClass>(e => e.Id);
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -99,7 +99,7 @@ public class MapAttributeTest
     {
         // Act
         var actual = PropertyMappedNameCache.Get<TestMapAttributeQuotedNameClass>("Id");
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -110,7 +110,7 @@ public class MapAttributeTest
     {
         // Act
         var actual = PropertyMappedNameCache.Get<TestMapAttributeQuotedNameClass>(new Field("Id"));
-        var expected = "[PrimaryId]";
+        var expected = "PrimaryId";
 
         // Assert
         Assert.AreEqual(expected, actual);

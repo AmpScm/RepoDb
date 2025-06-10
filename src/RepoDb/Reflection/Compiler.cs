@@ -222,8 +222,8 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="handlerInstance"></param>
     /// <returns></returns>
-    private static MethodInfo? GetClassHandlerSetMethod(object handlerInstance) =>
-        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<object, object>.Set));
+    private static MethodInfo GetClassHandlerSetMethod(object handlerInstance) =>
+        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<object, object>.Set))!;
 
     /// <summary>
     ///
@@ -1282,7 +1282,7 @@ internal sealed partial class Compiler
         return entityOrEntitiesExpression;
     }
 
-#endregion
+    #endregion
 
     #region Common
 
@@ -1858,7 +1858,7 @@ internal sealed partial class Compiler
     private static Expression GetDictionaryStringObjectPropertyValueExpression(Expression dictionaryInstanceExpression,
         DbField dbField)
     {
-        var methodInfo = StaticType.IDictionaryStringObject.GetMethod("get_Item", new[] { StaticType.String });
+        var methodInfo = StaticType.IDictionaryStringObject.GetMethod("get_Item", new[] { StaticType.String })!;
         var expression = (Expression)Expression.Call(dictionaryInstanceExpression, methodInfo, Expression.Constant(dbField.Name));
 
         // Property Handler
@@ -2000,7 +2000,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static MethodCallExpression GetDbCommandCreateParameterExpression(ParameterExpression dbCommandExpression)
     {
-        var dbCommandCreateParameterMethod = StaticType.DbCommand.GetMethod(nameof(DbCommand.CreateParameter));
+        var dbCommandCreateParameterMethod = GetMethodInfo<DbCommand>(x => x.CreateParameter());
         return Expression.Call(dbCommandExpression, dbCommandCreateParameterMethod);
     }
 
@@ -2172,8 +2172,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static MethodCallExpression EnsureTableValueParameterExpression(Expression dbParameterExpression)
     {
-        var method = StaticType.DbCommandExtension.GetMethod("EnsureTableValueParameter",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        var method = GetMethodInfo(() => DbCommandExtension.EnsureTableValueParameter(default!));
         return Expression.Call(method, dbParameterExpression);
     }
 
@@ -2231,7 +2230,7 @@ internal sealed partial class Compiler
         if (TypeCache.Get(entityExpression.Type).IsClassType() == false)
         {
             var typeGetPropertyMethod = GetMethodInfo<Type>(t => t.GetProperty("", BindingFlags.Instance));
-            var objectGetTypeMethod = StaticType.Object.GetMethod(nameof(object.GetType));
+            var objectGetTypeMethod = GetMethodInfo<object>(x => x.GetType());
             propertyVariableExpression = Expression.Variable(StaticType.PropertyInfo, string.Concat("propertyVariable", propertyName));
             propertyInstanceExpression = Expression.Call(Expression.Call(entityExpression, objectGetTypeMethod),
                 typeGetPropertyMethod, new[]
