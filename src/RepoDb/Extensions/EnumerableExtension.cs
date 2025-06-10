@@ -189,8 +189,7 @@ public static class EnumerableExtension
                 }
                 var vt = v.GetType();
 
-                if (p is null)
-                    p = vt;
+                p ??= vt;
 
                 while (!p.IsAssignableFrom(vt))
                     p = p.BaseType;
@@ -250,8 +249,7 @@ public static class EnumerableExtension
                 }
                 var vt = v.GetType();
 
-                if (p is null)
-                    p = vt;
+                p ??= vt;
 
                 while (!p.IsAssignableFrom(vt))
                     p = p.BaseType;

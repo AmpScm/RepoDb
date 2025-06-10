@@ -6,7 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using System.Globalization;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
@@ -1299,7 +1298,7 @@ public static partial class DbConnectionExtension
             }
         }
 
-        if (queryFields.Any() != true)
+        if (queryFields.Count == 0)
         {
             throw new MissingFieldsException();
         }
@@ -1349,7 +1348,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         if (TypeCache.Get(typeof(TEntity)).IsClassType())
-            return FieldCache.Get(typeof(TEntity));
+            return FieldCache.Get<TEntity>();
         else
             return null;
     }
@@ -1537,7 +1536,7 @@ public static partial class DbConnectionExtension
                 .Select(cap => cap.ParameterName)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-            command.CreateParameters(param, propertiesToSkip, entityType, dbFields, connection, transaction);
+            command.CreateParameters(param, propertiesToSkip, entityType, dbFields);
         }
 
         // Return the command

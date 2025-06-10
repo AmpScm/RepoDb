@@ -39,37 +39,34 @@ public sealed class MySqlDbHelper : BaseDbHelper
     /// 
     /// </summary>
     /// <returns></returns>
-    private string GetCommandText()
-    {
-        return @"
-            SELECT
-                c.COLUMN_NAME AS ColumnName,
-                CASE WHEN kcu.COLUMN_NAME IS NOT NULL THEN 1 ELSE 0 END AS IsPrimary,
-                CASE 
-                    WHEN c.EXTRA = 'auto_increment' AND c.DATA_TYPE IN ('int', 'bigint', 'smallint', 'tinyint', 'mediumint') THEN 1 
-                    ELSE 0 
-                END AS IsIdentity,
-                CASE WHEN c.IS_NULLABLE = 'YES' THEN 1 ELSE 0 END AS IsNullable,
-                c.DATA_TYPE AS ColumnType,
-                c.CHARACTER_MAXIMUM_LENGTH AS Size,
-                COALESCE(c.NUMERIC_PRECISION, c.DATETIME_PRECISION) AS `Precision`,
-                c.NUMERIC_SCALE AS Scale,
-                c.DATA_TYPE AS DatabaseType,
-                CASE WHEN c.COLUMN_DEFAULT IS NOT NULL THEN 1 ELSE 0 END AS HasDefaultValue,
-                CASE WHEN c.EXTRA LIKE '%VIRTUAL%' OR c.EXTRA LIKE '%STORED%' THEN 1 ELSE 0 END AS IsComputed
-            FROM INFORMATION_SCHEMA.COLUMNS c
-            LEFT JOIN INFORMATION_SCHEMA.TABLES t
-                ON t.TABLE_SCHEMA = c.TABLE_SCHEMA AND t.TABLE_NAME = c.TABLE_NAME
-            LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu
-                ON kcu.TABLE_SCHEMA = c.TABLE_SCHEMA
-                AND kcu.TABLE_NAME = c.TABLE_NAME
-                AND kcu.COLUMN_NAME = c.COLUMN_NAME
-                AND kcu.CONSTRAINT_NAME = 'PRIMARY'
-            WHERE c.TABLE_SCHEMA = @TableSchema
-              AND c.TABLE_NAME = @TableName
-              AND t.TABLE_TYPE = 'BASE TABLE'
-            ORDER BY c.ORDINAL_POSITION;";
-    }
+    private const string FieldCommandText = @"
+        SELECT
+            c.COLUMN_NAME AS ColumnName,
+            CASE WHEN kcu.COLUMN_NAME IS NOT NULL THEN 1 ELSE 0 END AS IsPrimary,
+            CASE 
+                WHEN c.EXTRA = 'auto_increment' AND c.DATA_TYPE IN ('int', 'bigint', 'smallint', 'tinyint', 'mediumint') THEN 1 
+                ELSE 0 
+            END AS IsIdentity,
+            CASE WHEN c.IS_NULLABLE = 'YES' THEN 1 ELSE 0 END AS IsNullable,
+            c.DATA_TYPE AS ColumnType,
+            c.CHARACTER_MAXIMUM_LENGTH AS Size,
+            COALESCE(c.NUMERIC_PRECISION, c.DATETIME_PRECISION) AS `Precision`,
+            c.NUMERIC_SCALE AS Scale,
+            c.DATA_TYPE AS DatabaseType,
+            CASE WHEN c.COLUMN_DEFAULT IS NOT NULL THEN 1 ELSE 0 END AS HasDefaultValue,
+            CASE WHEN c.EXTRA LIKE '%VIRTUAL%' OR c.EXTRA LIKE '%STORED%' THEN 1 ELSE 0 END AS IsComputed
+        FROM INFORMATION_SCHEMA.COLUMNS c
+        LEFT JOIN INFORMATION_SCHEMA.TABLES t
+            ON t.TABLE_SCHEMA = c.TABLE_SCHEMA AND t.TABLE_NAME = c.TABLE_NAME
+        LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu
+            ON kcu.TABLE_SCHEMA = c.TABLE_SCHEMA
+            AND kcu.TABLE_NAME = c.TABLE_NAME
+            AND kcu.COLUMN_NAME = c.COLUMN_NAME
+            AND kcu.CONSTRAINT_NAME = 'PRIMARY'
+        WHERE c.TABLE_SCHEMA = @TableSchema
+            AND c.TABLE_NAME = @TableName
+            AND t.TABLE_TYPE = 'BASE TABLE'
+        ORDER BY c.ORDINAL_POSITION;";
 
     /// <summary>
     /// 
@@ -175,7 +172,7 @@ public sealed class MySqlDbHelper : BaseDbHelper
         IDbTransaction? transaction = null)
     {
         // Variables
-        var commandText = GetCommandText();
+        var commandText = FieldCommandText;
         var param = new
         {
             TableSchema = connection.Database,
@@ -213,7 +210,7 @@ public sealed class MySqlDbHelper : BaseDbHelper
         cancellationToken.ThrowIfCancellationRequested();
 
         // Variables
-        var commandText = GetCommandText();
+        var commandText = FieldCommandText;
         var param = new
         {
             TableSchema = connection.Database,

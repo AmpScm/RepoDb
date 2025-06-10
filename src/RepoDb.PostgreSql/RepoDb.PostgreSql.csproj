@@ -17,6 +17,7 @@
     <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\RepoDb\Compat.cs" />
     <None Include="..\..\LICENSE.txt" Pack="True" PackagePath="\" />
     <None Include="README.md" Pack="True" PackagePath="\" />
   </ItemGroup>

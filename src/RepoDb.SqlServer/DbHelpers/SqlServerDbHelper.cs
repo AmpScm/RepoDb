@@ -383,9 +383,11 @@ public sealed class SqlServerDbHelper : BaseDbHelper
                 dt.Rows.Add(v);
             }
 
-            var p = new SqlParameter(parameterName, SqlDbType.Structured);
-            p.Value = dt;
-            p.TypeName = $"{mapping.Schema}.{mapping.SchemaObject}";
+            var p = new SqlParameter(parameterName, SqlDbType.Structured)
+            {
+                Value = dt,
+                TypeName = $"{mapping.Schema}.{mapping.SchemaObject}"
+            };
 
             return p;
         }
@@ -399,7 +401,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
 
         return info?.ParameterTypeMap is { } pm
             && values.GetElementType() is { } elementType
-            && pm.TryGetValue(elementType, out var mapping);
+            && pm.TryGetValue(elementType, out _);
     }
 
     public override string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
@@ -408,7 +410,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
 
         if (info?.ParameterTypeMap is { } pm
             && values.GetElementType() is { } elementType
-            && pm.TryGetValue(elementType, out var mapping))
+            && pm.TryGetValue(elementType, out _))
         {
             return $"SELECT * FROM {parameterName}";
         }

@@ -55,6 +55,6 @@ public partial class QueryGroup
         }
 
         // Return
-        return queryFields.Any() == true ? new QueryGroup(queryFields).Fix() : null;
+        return queryFields.Count > 0 ? new QueryGroup(queryFields).Fix() : null;
     }
 }

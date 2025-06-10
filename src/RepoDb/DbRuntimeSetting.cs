@@ -8,7 +8,7 @@ public sealed record class DbRuntimeSetting : IDbRuntimeSetting
     public Version EngineVersion { get; init; } = new Version(0, 0);
     public Version CompatibilityVersion { get; init; } = new Version(0, 0);
 
-    public IReadOnlyDictionary<Type, DbDataParameterTypeMap> ParameterTypeMap { get; set; }
+    public IReadOnlyDictionary<Type, DbDataParameterTypeMap>? ParameterTypeMap { get; set; }
 
     public required IDbSetting DbSetting { get; init; }
 

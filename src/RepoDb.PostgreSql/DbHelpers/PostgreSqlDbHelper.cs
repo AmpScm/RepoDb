@@ -307,7 +307,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     ///
     /// </summary>
     /// <param name="parameter"></param>
-    private void HandleDbParameterPostCreation(NpgsqlParameter parameter)
+    private static void HandleDbParameterPostCreation(NpgsqlParameter parameter)
     {
         if (parameter.Value is Enum)
         {

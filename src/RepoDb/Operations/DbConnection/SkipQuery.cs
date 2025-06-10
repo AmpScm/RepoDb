@@ -1813,7 +1813,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, tableName) : null;
 
         var commandText = CommandTextCache.GetSkipQueryText(request);
 
@@ -1889,7 +1889,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, tableName) : null;
 
         var commandText = await CommandTextCache.GetSkipQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
 

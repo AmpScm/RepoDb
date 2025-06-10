@@ -409,7 +409,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return MinInternalBase<object>(connection: connection,
@@ -827,7 +827,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return MinInternalBase<TResult>(connection: connection,
@@ -1270,7 +1270,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return MinAsyncInternalBase<object>(connection: connection,
@@ -1721,7 +1721,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return MinAsyncInternalBase<TResult>(connection: connection,
@@ -1921,7 +1921,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return MinInternalBase<object>(connection: connection,
@@ -2121,7 +2121,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return MinInternalBase<TResult>(connection: connection,
@@ -2334,7 +2334,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return MinAsyncInternalBase<object>(connection: connection,
@@ -2549,7 +2549,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return MinAsyncInternalBase<TResult>(connection: connection,

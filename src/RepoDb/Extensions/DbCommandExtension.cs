@@ -155,8 +155,8 @@ public static class DbCommandExtension
             command.Parameters.Add(
                 command.CreateParameter(commandArrayParameter.ParameterName, null, dbType));
         }
-        else if (values.Count > 5 && command.Connection?.GetDbSetting().UseArrayParameterTreshold < values.Count
-            && command.Connection.GetDbHelper().CreateTableParameter(connection, transaction, dbType,
+        else if (values.Count > 5 && dbSetting.UseArrayParameterTreshold < values.Count
+            && command.Connection?.GetDbHelper().CreateTableParameter(connection, transaction, dbType,
             values, commandArrayParameter.ParameterName) is { } tableParameter)
         {
             command.Parameters.Add(tableParameter);
@@ -200,9 +200,7 @@ public static class DbCommandExtension
         object? param,
         HashSet<string>? propertiesToSkip,
         Type? entityType,
-        DbFieldCollection? dbFields = null,
-        DbConnection? connection = null,
-        IDbTransaction? transaction = null)
+        DbFieldCollection? dbFields = null)
     {
         // Check
         if (param == null)
@@ -566,7 +564,7 @@ public static class DbCommandExtension
     /// <param name="entityType"></param>
     /// <param name="dbFields"></param>
     internal static void CreateParameters(this IDbCommand command,
-        IEnumerable<QueryField> queryFields,
+        IEnumerable<QueryField>? queryFields,
         HashSet<string>? propertiesToSkip,
         Type? entityType,
         DbFieldCollection? dbFields = null)
@@ -683,7 +681,7 @@ public static class DbCommandExtension
                 var name = string.Concat(queryField.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
                 var parameter = CreateParameter(command,
                     name,
-                    values,
+                    value,
                     dbField?.Size,
                     null,
                     dbField,
@@ -700,7 +698,7 @@ public static class DbCommandExtension
                 var name = string.Concat(queryField.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
                 var parameter = CreateParameter(command,
                     name,
-                    values,
+                    null,
                     dbField?.Size,
                     null,
                     dbField,

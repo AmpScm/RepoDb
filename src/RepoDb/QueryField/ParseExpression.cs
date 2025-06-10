@@ -196,7 +196,7 @@ public partial class QueryField
             if (value == null)
                 check = new QueryField(field, Operation.IsNull, value, null, false);
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
-                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNotNull, value, null, false) { canSkip = true } }, Conjunction.And);
+                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNotNull, value, null, false) { CanSkip = true } }, Conjunction.And);
         }
         else if (operation == Operation.NotEqual)
         {
@@ -205,7 +205,7 @@ public partial class QueryField
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
             {
                 // X != @Y OR X is NULL
-                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNull, value, null, false) { canSkip = true } }, Conjunction.Or);
+                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNull, value, null, false) { CanSkip = true } }, Conjunction.Or);
             }
         }
 
@@ -286,7 +286,7 @@ public partial class QueryField
         else if (expression.Method.Name == "CompareString")
         {
             // Usual case for VB.Net (Microsoft.VisualBasic.CompilerServices.Operators.CompareString #767)
-            return ParseCompareString<TEntity>(expression, unaryNodeType)?.AsEnumerable();
+            return ParseCompareString<TEntity>(expression)?.AsEnumerable();
         }
         else if (expression.Method.Name == "Contains")
         {
@@ -340,10 +340,9 @@ public partial class QueryField
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
-    /// <param name="unaryNodeType"></param>
+    /// 
     /// <returns></returns>
-    internal static QueryField ParseCompareString<TEntity>(MethodCallExpression expression,
-        ExpressionType? unaryNodeType = null)
+    internal static QueryField ParseCompareString<TEntity>(MethodCallExpression expression)
         where TEntity : class
     {
         // Property

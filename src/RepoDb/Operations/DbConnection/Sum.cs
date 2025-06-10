@@ -409,7 +409,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return SumInternalBase<object>(
@@ -828,7 +828,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return SumInternalBase<TResult>(connection: connection,
@@ -1271,7 +1271,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return SumAsyncInternalBase<object>(
@@ -1723,7 +1723,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return SumAsyncInternalBase<TResult>(connection: connection,
@@ -1923,7 +1923,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return SumInternalBase<object>(connection: connection,
@@ -2123,7 +2123,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return SumInternalBase<TResult>(connection: connection,
@@ -2336,7 +2336,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return SumAsyncInternalBase<object>(connection: connection,
@@ -2551,7 +2551,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return SumAsyncInternalBase<TResult>(connection: connection,

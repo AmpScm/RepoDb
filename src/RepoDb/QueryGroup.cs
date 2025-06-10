@@ -27,7 +27,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="queryField">The field to be grouped for the query expression.</param>
     public QueryGroup(QueryField? queryField) :
         this(queryField?.AsEnumerable(),
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             Conjunction.And,
             false)
     { }
@@ -53,7 +53,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     public QueryGroup(QueryField queryField,
         Conjunction conjunction) :
         this(queryField?.AsEnumerable(),
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             conjunction,
             false)
     { }
@@ -66,7 +66,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     public QueryGroup(QueryField queryField,
         bool isNot) :
         this(queryField?.AsEnumerable(),
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             Conjunction.And,
             isNot)
     { }
@@ -81,7 +81,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         Conjunction conjunction,
         bool isNot) :
         this(queryField?.AsEnumerable(),
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             conjunction,
             isNot)
     { }
@@ -94,7 +94,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="queryFields">The list of fields to be grouped for the query expression.</param>
     public QueryGroup(IEnumerable<QueryField> queryFields) :
         this(queryFields,
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             Conjunction.And,
             false)
     { }
@@ -120,7 +120,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     public QueryGroup(IEnumerable<QueryField> queryFields,
         Conjunction conjunction) :
         this(queryFields,
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             conjunction,
             false)
     { }
@@ -133,7 +133,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     public QueryGroup(IEnumerable<QueryField> queryFields,
         bool isNot) :
         this(queryFields,
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             Conjunction.And,
             isNot)
     { }
@@ -148,7 +148,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         Conjunction conjunction,
         bool isNot) :
         this(queryFields,
-            (IEnumerable<QueryGroup>)null,
+            (IEnumerable<QueryGroup>?)null,
             conjunction,
             isNot)
     { }
@@ -160,7 +160,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// </summary>
     /// <param name="queryGroup">The child query group to be grouped for the query expression.</param>
     public QueryGroup(QueryGroup queryGroup) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroup?.AsEnumerable(),
             Conjunction.And,
             false)
@@ -173,7 +173,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="conjunction">The conjunction to be used for every group separation.</param>
     public QueryGroup(QueryGroup queryGroup,
         Conjunction conjunction) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroup?.AsEnumerable(),
             conjunction,
             false)
@@ -186,7 +186,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="isNot">The prefix to be added whether the field value is in opposite state.</param>
     public QueryGroup(QueryGroup queryGroup,
         bool isNot) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroup?.AsEnumerable(),
             Conjunction.And,
             isNot)
@@ -201,7 +201,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     public QueryGroup(QueryGroup queryGroup,
         Conjunction conjunction,
         bool isNot) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroup?.AsEnumerable(),
             conjunction,
             isNot)
@@ -214,7 +214,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// </summary>
     /// <param name="queryGroups">The child query groups to be grouped for the query expression.</param>
     public QueryGroup(IEnumerable<QueryGroup> queryGroups) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroups,
             Conjunction.And,
             false)
@@ -227,7 +227,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="conjunction">The conjunction to be used for every group separation.</param>
     public QueryGroup(IEnumerable<QueryGroup> queryGroups,
         Conjunction conjunction) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroups,
             conjunction,
             false)
@@ -240,7 +240,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="isNot">The prefix to be added whether the field value is in opposite state.</param>
     public QueryGroup(IEnumerable<QueryGroup> queryGroups,
         bool isNot) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroups,
             Conjunction.And,
             isNot)
@@ -255,7 +255,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     public QueryGroup(IEnumerable<QueryGroup> queryGroups,
         Conjunction conjunction,
         bool isNot) :
-        this((IEnumerable<QueryField>)null,
+        this((IEnumerable<QueryField>?)null,
             queryGroups,
             conjunction,
             isNot)
@@ -473,7 +473,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="queryGroups">The child query groups to be grouped for the query expression.</param>
     /// <param name="conjunction">The conjunction to be used for every group separation.</param>
     /// <param name="isNot">The prefix to be added whether the field value is in opposite state.</param>
-    public QueryGroup(IEnumerable<QueryField> queryFields,
+    public QueryGroup(IEnumerable<QueryField>? queryFields,
         IEnumerable<QueryGroup>? queryGroups,
         Conjunction conjunction,
         bool isNot)
@@ -701,7 +701,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
 
             foreach (QueryField qf in QueryFields)
             {
-                if (qf.canSkip)
+                if (qf.CanSkip)
                 {
                     dbFields ??= tableName is { } ? DbFieldCache.Get(connection, tableName, transaction) : null;
 
@@ -711,9 +711,9 @@ public partial class QueryGroup : IEquatable<QueryGroup>
 
                         // IsNotNul within OR -> Ignore
                         if (isOr && isIsNull)
-                            qf.skip = true;
+                            qf.Skip = true;
                         else if (!isOr && !isIsNull)
-                            qf.skip = true;
+                            qf.Skip = true;
                     }
                 }
             }
@@ -781,7 +781,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         if (QueryFields?.Count > 0)
         {
             var fields = QueryFields
-                .Where(qf => !qf.skip)
+                .Where(qf => !qf.Skip)
                 .Select(qf =>
                     qf.GetString(index, dbSetting)).Join(separator);
             groupList.Add(fields);
@@ -910,8 +910,8 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     public bool Equals(QueryGroup? other)
     {
         return other is not null
-            && other.QueryFields?.Count() == QueryFields?.Count()
-            && other.QueryGroups?.Count() == QueryGroups?.Count()
+            && other.QueryFields?.Count == QueryFields?.Count
+            && other.QueryGroups?.Count == QueryGroups?.Count
             && other.Conjunction == Conjunction
             && other.IsNot == IsNot
             && ((other.QueryFields == null && QueryFields == null) || (other.QueryFields is { } q1 && QueryFields is { } q2 && q1.Count == q2.Count && q1.Zip(q2, Equals).All(v => v)))

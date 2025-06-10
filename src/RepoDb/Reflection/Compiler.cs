@@ -449,7 +449,12 @@ internal sealed partial class Compiler
 
     private static TEnum? EnumParseNullDefined<TEnum>(string value) where TEnum : struct, Enum
     {
-        if (Enum.TryParse<TEnum>(value, true, out var r) && Enum.IsDefined(typeof(TEnum), r))
+        if (Enum.TryParse<TEnum>(value, true, out var r)
+#if NET
+            && Enum.IsDefined<TEnum>(r))
+#else
+            && Enum.IsDefined(typeof(TEnum), r))
+#endif
             return r;
         else
             return null;
@@ -1277,7 +1282,7 @@ internal sealed partial class Compiler
         return entityOrEntitiesExpression;
     }
 
-    #endregion
+#endregion
 
     #region Common
 
@@ -1594,14 +1599,13 @@ internal sealed partial class Compiler
                 p.ClassProperty?.GetMappedName().AsUnquoted(true, dbSetting);
 
             // Skip if not found
-            var ordinal = readerFieldsName.IndexOf(mappedName?.ToLowerInvariant());
-            if (ordinal < 0)
+            if (mappedName is null || !readerFieldsName.Contains(mappedName.ToLowerInvariant()))
             {
                 continue;
             }
 
             // Get the value expression
-            var readerField = readerFields.First(f => string.Equals(f.Name.AsUnquoted(true, dbSetting), mappedName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase));
+            var readerField = readerFields.First(f => string.Equals(f.Name, mappedName, StringComparison.OrdinalIgnoreCase));
             var expression = GetClassPropertyParameterInfoValueExpression(readerParameterExpression,
                 p, readerField, dbSetting, readerType);
 
@@ -1761,7 +1765,7 @@ internal sealed partial class Compiler
                 if (!IsPostgreSqlUserDefined(dbField))
                 {
                     var dbType = classProperty.GetDbType() ?? underlyingType.GetDbType();
-                    var toType = dbType.HasValue ? new DbTypeToClientTypeResolver().Resolve(dbType.Value) : targetType;
+                    var toType = dbType.HasValue ? new DbTypeToClientTypeResolver().Resolve(dbType.Value)! : targetType;
 
                     expression = ConvertEnumExpressionToTypeExpression(expression, toType);
                 }
@@ -2035,7 +2039,7 @@ internal sealed partial class Compiler
     private static MethodCallExpression GetDbParameterNameAssignmentExpression(Expression dbParameterExpression,
         Expression paramaterNameExpression)
     {
-        var dbParameterValueNameMethod = StaticType.DbParameter.GetProperty(nameof(DbParameter.ParameterName)).SetMethod;
+        var dbParameterValueNameMethod = GetPropertyInfo<DbParameter>(x => x.ParameterName).SetMethod!;
         return Expression.Call(dbParameterExpression, dbParameterValueNameMethod, paramaterNameExpression);
     }
 
@@ -2059,8 +2063,8 @@ internal sealed partial class Compiler
         Expression valueExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterValueSetMethod = StaticType.DbParameter.GetProperty(nameof(DbParameter.Value)).SetMethod;
-        var convertToDbNullMethod = StaticType.Converter.GetMethod(nameof(Converter.NullToDbNull));
+        var dbParameterValueSetMethod = GetPropertyInfo<DbParameter>(x => x.Value).SetMethod!;
+        var convertToDbNullMethod = GetMethodInfo(() => Converter.NullToDbNull(null));
         return Expression.Call(parameterExpression, dbParameterValueSetMethod,
             Expression.Call(convertToDbNullMethod, ConvertExpressionToTypeExpression(valueExpression, StaticType.Object)));
     }
@@ -2085,7 +2089,7 @@ internal sealed partial class Compiler
         Expression directionExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterDirectionSetMethod = StaticType.DbParameter.GetProperty(nameof(DbParameter.Direction)).SetMethod;
+        var dbParameterDirectionSetMethod = GetPropertyInfo<DbParameter>(x => x.Direction).SetMethod!;
         return Expression.Call(parameterExpression, dbParameterDirectionSetMethod, directionExpression);
     }
 
@@ -2109,7 +2113,7 @@ internal sealed partial class Compiler
         Expression sizeExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterSizeSetMethod = StaticType.DbParameter.GetProperty(nameof(DbParameter.Size)).SetMethod;
+        var dbParameterSizeSetMethod = GetPropertyInfo<DbParameter>(x => x.Size).SetMethod!;
         return Expression.Call(parameterExpression, dbParameterSizeSetMethod, sizeExpression);
     }
 
@@ -2133,7 +2137,7 @@ internal sealed partial class Compiler
         Expression precisionExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterPrecisionSetMethod = StaticType.DbParameter.GetProperty(nameof(DbParameter.Precision)).SetMethod;
+        var dbParameterPrecisionSetMethod = GetPropertyInfo<DbParameter>(x => x.Precision).SetMethod!;
         return Expression.Call(parameterExpression, dbParameterPrecisionSetMethod, precisionExpression);
     }
 

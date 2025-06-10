@@ -44,7 +44,6 @@ public class DbAttributeFormatAnalyzer : DiagnosticAnalyzer
         if (context.Node is not AttributeSyntax attribute)
             return;
 
-        var name = attribute.Name.ToString();
         var semanticModel = context.SemanticModel;
         var symbolInfo = semanticModel.GetSymbolInfo(attribute);
 

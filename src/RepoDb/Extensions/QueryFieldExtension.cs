@@ -162,7 +162,7 @@ public static class QueryFieldExtension
             {
                 StringBuilder sb = new();
 
-                sb.Append("(");
+                sb.Append('(');
 
                 for (int valueIndex = 0; valueIndex < count; valueIndex++)
                 {

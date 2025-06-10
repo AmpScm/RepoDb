@@ -41,7 +41,7 @@ public partial class QueryGroup
     /// <returns>An instance of an object that contains all the definition of the converted underlying <see cref="QueryFields"/>s.</returns>
     /// <param name="transaction"></param><param name="fixParameters">A boolean value whether to fix the parameter name before converting.</param>
     internal static async ValueTask<object> AsMappedObjectAsync(QueryGroupTypeMap[] queryGroupTypeMaps,
-        IDbConnection connection, IDbTransaction? transaction, string? tableName, bool fixParameters = true, CancellationToken cancellationToken = default)
+        IDbConnection connection, IDbTransaction? transaction, string? tableName, CancellationToken cancellationToken = default)
     {
         var dictionary = new ExpandoObject() as IDictionary<string, object>;
 

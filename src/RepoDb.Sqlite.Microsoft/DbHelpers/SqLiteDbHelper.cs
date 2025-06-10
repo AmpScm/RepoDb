@@ -179,7 +179,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// </summary>
     /// <param name="sql"></param>
     /// <returns></returns>
-    private string GetIdentityFieldNameInternal(string sql)
+    private static string GetIdentityFieldNameInternal(string sql)
     {
         // Get fieldname
         var identityField = TokenizeSchema(sql.AsMemory()).FirstOrDefault(def => IsIdentity(def.Definition));
@@ -215,7 +215,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// </summary>
     /// <param name="field"></param>
     /// <returns></returns>
-    private bool IsIdentity(string field)
+    private static bool IsIdentity(string field)
     {
         return field.Contains("AUTOINCREMENT", StringComparison.OrdinalIgnoreCase) ||
                (field.Contains("INTEGER", StringComparison.OrdinalIgnoreCase)

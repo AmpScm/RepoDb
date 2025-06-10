@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Setup;
 using RepoDb.Interfaces;
-using System.Data;
-using Microsoft.Data.SqlClient;
 using RepoDb.Options;
 
 namespace RepoDb.IntegrationTests;
@@ -22,9 +22,9 @@ public class PropertyHandlerTest
     [TestCleanup]
     public void Cleanup()
     {
-        PropertyHandlerMapper.Remove(typeof(float));
-        PropertyHandlerMapper.Remove(typeof(decimal));
-        PropertyHandlerMapper.Remove(typeof(DateTime));
+        PropertyHandlerMapper.Remove<float>();
+        PropertyHandlerMapper.Remove<decimal>();
+        PropertyHandlerMapper.Remove<DateTime>();
         Database.Cleanup();
     }
 

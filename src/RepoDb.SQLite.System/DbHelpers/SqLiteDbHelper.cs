@@ -107,7 +107,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     private static Regex FieldTypeRegex() => re;
 #endif
 
-    private string? SplitDbType(string v, out int? size)
+    private static string? SplitDbType(string v, out int? size)
     {
         size = null;
 

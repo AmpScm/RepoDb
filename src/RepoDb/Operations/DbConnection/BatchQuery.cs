@@ -1812,7 +1812,7 @@ public static partial class DbConnectionExtension
             hints,
             statementBuilder);
 
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, tableName) : null;
 
         var commandText = CommandTextCache.GetBatchQueryText(request);
 
@@ -1887,7 +1887,7 @@ public static partial class DbConnectionExtension
             hints,
             statementBuilder);
 
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, tableName) : null;
 
         var commandText = await CommandTextCache.GetBatchQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
 

@@ -413,7 +413,7 @@ public static partial class DbConnectionExtension
         // Converts to property mapped object
         if (where != null)
         {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity)));
+            param = QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>());
         }
 
         // Return the result
@@ -835,7 +835,7 @@ public static partial class DbConnectionExtension
         // Converts to property mapped object
         if (where != null)
         {
-            param = QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity)));
+            param = QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>());
         }
 
         // Return the result
@@ -1280,7 +1280,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return AverageAsyncInternalBase<object>(connection: connection,
@@ -1731,7 +1731,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return AverageAsyncInternalBase<TResult>(connection: connection,
@@ -1931,7 +1931,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return AverageInternalBase<object>(connection: connection,
@@ -2131,7 +2131,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return AverageInternalBase<TResult>(connection: connection,
@@ -2344,7 +2344,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return AverageAsyncInternalBase<object>(connection: connection,
@@ -2559,7 +2559,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return AverageAsyncInternalBase<TResult>(connection: connection,

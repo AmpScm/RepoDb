@@ -17,8 +17,8 @@ public partial class QueryField : IEquatable<QueryField>
     private int? hashCode = null;
 
     // For boolean handling
-    internal bool canSkip { get; init; }
-    internal bool skip;
+    internal bool CanSkip { get; init; }
+    internal bool Skip;
     internal bool TableParameterMode { get; set; }
 
     #region Constructors
@@ -72,7 +72,7 @@ public partial class QueryField : IEquatable<QueryField>
         object? value,
         DbType? dbType,
         bool prependUnderscore = false)
-        : this(new Field(fieldName), operation, value, dbType, false)
+        : this(new Field(fieldName), operation, value, dbType, prependUnderscore)
     { }
 
     /// <summary>

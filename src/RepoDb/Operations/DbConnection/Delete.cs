@@ -281,7 +281,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        object param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return DeleteInternalBase(connection: connection,
@@ -587,7 +587,7 @@ public static partial class DbConnectionExtension
 
         // Converts to property mapped object. Do this after calculating text
 
-        var param = (where is not null) ? QueryGroup.AsMappedObject(new[] { where.MapTo<TEntity>() }, connection, transaction, ClassMappedNameCache.Get(typeof(TEntity))) : null;
+        var param = (where is not null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
         return DeleteAsyncInternalBase(connection: connection,
@@ -809,7 +809,7 @@ public static partial class DbConnectionExtension
 
         // Converts to property mapped object. Do this after creating text
 
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return DeleteInternalBase(
@@ -1048,7 +1048,7 @@ public static partial class DbConnectionExtension
 
         // Converts to property mapped object
 
-        var param = (where != null) ? QueryGroup.AsMappedObject(new[] { where.MapTo(null) }, connection, transaction, tableName) : null;
+        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
         return DeleteAsyncInternalBase(
