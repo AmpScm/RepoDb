@@ -12,11 +12,11 @@ RepoDB is an open-source .NET ORM library that bridges the gaps of micro-ORMs an
 
 Like with any other ORMs, RepoDB does provide the preliminary [methods](https://repodb.net/docs#operations) needed for your basic operations. The good thing is, it also does provide the operations that is needed to cater your edge-cases like [2nd-Layer Cache](https://repodb.net/feature/caching), [Tracing](https://repodb.net/feature/tracing), [Repositories](https://repodb.net/feature/repositories), [Property Handlers](https://repodb.net/feature/propertyhandlers) and [Batch](https://repodb.net/feature/batchoperations)/[Bulk Operations](https://repodb.net/feature/bulkoperations).
 
-If you are to use [RepoDB](https://github.com/mikependon/RepoDb/blob/master/RepoDb.Docs/development-experience.md#repodb), your [development experience](https://github.com/mikependon/RepoDb/blob/master/RepoDb.Docs/development-experience.md) is as simple as opening a connection and calling the advance operations with a very minimal code. It is the reason that makes this library the simpliest ORM to use.
+If you are to use [RepoDB](docs/development-experience.md#repodb), your [development experience](docs/development-experience.md) is as simple as opening a connection and calling the advance operations with a very minimal code. It is the reason that makes this library the simpliest ORM to use.
 
-When you do the [bulk operations](https://repodb.net/feature/bulkoperations), the generated value of the [identity columns](https://github.com/mikependon/RepoDb/blob/master/RepoDb.Docs/bulk-operation-edge-cases.md#identity-columns) will be set back to the data models, just right after your execution. It is an important use-case that is/may needed by you and/or most developers, and both the [BulkInsert](https://repodb.net/operation/bulkinsert) and [BulkMerge](https://repodb.net/operation/bulkmerge) operations addressed this need.
+When you do the [bulk operations](https://repodb.net/feature/bulkoperations), the generated value of the [identity columns](docs/bulk-operation-edge-cases.md#identity-columns) will be set back to the data models, just right after your execution. It is an important use-case that is/may needed by you and/or most developers, and both the [BulkInsert](https://repodb.net/operation/bulkinsert) and [BulkMerge](https://repodb.net/operation/bulkmerge) operations addressed this need.
 
-RepoDB also does support the different way-of-executions (the [atomic](https://github.com/mikependon/RepoDb/blob/master/RepoDb.Docs/atomic-batch-bulk.md#atomic-operation), the [batch](https://github.com/mikependon/RepoDb/blob/master/RepoDb.Docs/atomic-batch-bulk.md#batch-operation) and the [bulk](https://github.com/mikependon/RepoDb/blob/master/RepoDb.Docs/atomic-batch-bulk.md#bulk-operation)). Through this, it is easy for you to establish your repository that can process the smallest-to-the-largest datasets without even affecting the efficiency and the performance of your application.
+RepoDB also does support the different way-of-executions (the [atomic](docs/atomic-batch-bulk.md#atomic-operation), the [batch](docs/atomic-batch-bulk.md#batch-operation) and the [bulk](docs/atomic-batch-bulk.md#bulk-operation)). Through this, it is easy for you to establish your repository that can process the smallest-to-the-largest datasets without even affecting the efficiency and the performance of your application.
 
 <details>
 <summary><b>Important Attributes</b></summary>
@@ -139,11 +139,11 @@ StatementBuilderMapper
 	.Add<System.Data.SqlClient.SqlConnection>(new SqlServerStatementBuilder(dbSetting), true);
 ```
 
-Or, you can replicate the actual [SqlServerBootstrap](https://github.com/mikependon/RepoDB/blob/master/RepoDb.SqlServer/RepoDb.SqlServer/SqlServerBootstrap.cs) class implementation and attach it to your solution. Then, call the local class initializer method explicitly.
+Or, you can replicate the actual [SqlServerBootstrap](src/RepoDb.SqlServer/RepoDb.SqlServer/SqlServerBootstrap.cs) class implementation and attach it to your solution. Then, call the local class initializer method explicitly.
 
 ## Trust Server Certificate
 
-For [RepoDb.SqlServer](https://www.nuget.org/packages/RepoDb.SqlServer) package, starting the version [v1.1.5-beta4](https://www.nuget.org/packages/RepoDb.SqlServer/1.1.5-beta4), the [Microsoft.Data.SqlClient v4.0.0](https://www.nuget.org/packages/Microsoft.Data.SqlClient/4.0.0) is used, however, it seems to require a TLS 1.2 when connecting to the database via Integrated Security.
+For [RepoDb.SqlServer](https://www.nuget.org/packages/RepoDb.SqlServer) package, starting the version [v1.1.5-beta4](https://www.nuget.org/packages/AmpScm.RepoDb.SqlServer/1.1.5-beta4), the [Microsoft.Data.SqlClient v4.0.0](https://www.nuget.org/packages/Microsoft.Data.SqlClient/4.0.0) is used, however, it seems to require a TLS 1.2 when connecting to the database via Integrated Security.
 
 In most cases, an exception below is thrown if the mentioned security chain is not enabled.
 
@@ -159,7 +159,7 @@ The issue above can be rectified by simply enabling the TLS 1.2. Alternatively, 
 
 ## Library Limitations
 
-It is very important for you and to the community of .NET to learn the things the library is capable and is-not capable of doing, so please spend time reading the [limitation](https://github.com/mikependon/RepoDb/blob/master/RepoDb.Docs/limitations.md) page before using the library.
+It is very important for you and to the community of .NET to learn the things the library is capable and is-not capable of doing, so please spend time reading the [limitation](docs/limitations.md) page before using the library.
 
 ## Benchmark
 
@@ -204,7 +204,7 @@ Please get in touch with us via:
 - [Twitter](https://twitter.com/search?q=%23repodb) - for the latest news.
 - [Gitter Chat](https://gitter.im/RepoDb/community) - for direct and live Q&A.
 
-Ensure to visit our [Support Policy](https://github.com/mikependon/RepoDB/blob/master/RepoDb.Docs/support-policy.md) to get more details about our policies when handling the operational support for this library.
+Ensure to visit our [Support Policy](docs/support-policy.md) to get more details about our policies when handling the operational support for this library.
 
 ### Hints
 
