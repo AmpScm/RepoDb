@@ -9,7 +9,7 @@ namespace RepoDb.Reflection;
 partial class Compiler
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="paramType"></param>
     /// <param name="entityType"></param>
@@ -158,7 +158,7 @@ partial class Compiler
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="dbCommandExpression"></param>
     /// <param name="parameterName"></param>
@@ -180,7 +180,7 @@ partial class Compiler
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="paramterExpression"></param>
     /// <param name="classProperty"></param>

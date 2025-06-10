@@ -58,7 +58,7 @@ partial class Compiler
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="dbParameterExpression"></param>
     /// <param name="attribute"></param>
@@ -69,7 +69,7 @@ partial class Compiler
         GetPropertyValueAttributesAssignmentExpression((Expression)dbParameterExpression, attribute);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="parameterExpression"></param>
     /// <param name="attribute"></param>
@@ -83,7 +83,7 @@ partial class Compiler
             return null;
         }
 
-        // The problem to this is because of the possibilities of multiple attributes configured for 
+        // The problem to this is because of the possibilities of multiple attributes configured for
         // DB multiple providers within a single entity and if the parameterExpression is not really
         // covertible to the target attriute.ParameterType
 
@@ -96,7 +96,7 @@ partial class Compiler
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <returns></returns>
     private static MethodInfo GetPropertyValueAttributeSetValueMethod() =>

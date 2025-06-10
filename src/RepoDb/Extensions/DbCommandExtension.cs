@@ -839,7 +839,7 @@ public static class DbCommandExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="dbField"></param>
     /// <param name="valueType"></param>

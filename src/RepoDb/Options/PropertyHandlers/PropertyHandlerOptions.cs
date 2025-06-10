@@ -6,7 +6,7 @@
 public abstract class PropertyHandlerOptions
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="property"></param>
     internal PropertyHandlerOptions(ClassProperty property)

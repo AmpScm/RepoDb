@@ -9,7 +9,7 @@ namespace RepoDb.Reflection;
 partial class Compiler
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="field"></param>

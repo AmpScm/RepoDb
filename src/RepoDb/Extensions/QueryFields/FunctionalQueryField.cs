@@ -77,8 +77,8 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
             return this.hashCode.Value;
         }
 
-        // FullName: This is to ensure that even the user has created an identical formatting 
-        //  on the derived class with the existing classes, the Type.FullName could still 
+        // FullName: This is to ensure that even the user has created an identical formatting
+        //  on the derived class with the existing classes, the Type.FullName could still
         // differentiate the instances
         var hashCode = GetType().FullName.GetHashCode();
 

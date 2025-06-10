@@ -24,14 +24,14 @@ public class DbTypeToPostgreSqlStringNameResolver : IResolver<DbType, string>
             DbType.Date => "DATE",
             DbType.DateTime => "TIMESTAMP",
             DbType.DateTime2 => "TIMESTAMP",
-            DbType.DateTimeOffset => "TIMESTAMPTZ", 
+            DbType.DateTimeOffset => "TIMESTAMPTZ",
             DbType.Decimal => "NUMERIC",
             DbType.Single => "REAL",
             DbType.Double => "DOUBLE PRECISION",
             DbType.Int32 => "INTEGER",
             DbType.Int16 => "SMALLINT",
             DbType.Time => "INTERVAL",
-            /* 
+            /*
             DbType.Guid
             DbType.Xml
             DbType.Object

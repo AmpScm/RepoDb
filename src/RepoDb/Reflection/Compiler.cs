@@ -1934,7 +1934,7 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="dictionaryInstanceExpression"></param>
     /// <param name="dbField"></param>
-    /// 
+    ///
     /// <returns></returns>
     private static Expression GetDictionaryStringObjectDbParameterValueAssignmentExpression(ParameterExpression dbParameterExpression,
         Expression dictionaryInstanceExpression,
@@ -1996,7 +1996,7 @@ internal sealed partial class Compiler
     ///
     /// </summary>
     /// <param name="dbCommandExpression"></param>
-    /// 
+    ///
     /// <returns></returns>
     private static MethodCallExpression GetDbCommandCreateParameterExpression(ParameterExpression dbCommandExpression)
     {

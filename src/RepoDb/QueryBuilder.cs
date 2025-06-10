@@ -11,7 +11,7 @@ namespace RepoDb;
 /// </summary>
 public sealed class QueryBuilder
 {
-    // A StringBuilder's capacity grows dynamically as required (e.g. during append operations), but there's a 
+    // A StringBuilder's capacity grows dynamically as required (e.g. during append operations), but there's a
     // performance penalty to be paid every time this happens (memory allocation + copy). The initial capacity
     // of a StringBuilder buffer is only 16 characters by default - too small to hold any meaningful query string,
     // so let's increase this to something more sensible. This should improve overall performance at the expense
@@ -81,7 +81,7 @@ public sealed class QueryBuilder
 
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="text"></param>
     /// <param name="dbSetting"></param>
@@ -97,7 +97,7 @@ public sealed class QueryBuilder
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="spaceBefore"></param>
@@ -118,7 +118,7 @@ public sealed class QueryBuilder
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -131,7 +131,7 @@ public sealed class QueryBuilder
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="values"></param>
     /// <param name="separator"></param>
@@ -764,7 +764,7 @@ public sealed class QueryBuilder
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="take"></param>
     /// <returns></returns>
@@ -777,7 +777,7 @@ public sealed class QueryBuilder
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="skip"></param>
     /// <returns></returns>

@@ -14,7 +14,7 @@ public partial class QueryGroup
      */
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -72,7 +72,7 @@ public partial class QueryGroup
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -107,7 +107,7 @@ public partial class QueryGroup
      */
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -155,7 +155,7 @@ public partial class QueryGroup
      */
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -193,7 +193,7 @@ public partial class QueryGroup
      */
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -212,7 +212,7 @@ public partial class QueryGroup
      */
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -226,7 +226,7 @@ public partial class QueryGroup
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -243,7 +243,7 @@ public partial class QueryGroup
     #region GetConjunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -255,7 +255,7 @@ public partial class QueryGroup
     };
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -267,7 +267,7 @@ public partial class QueryGroup
     #region GetNodeType
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -285,7 +285,7 @@ public partial class QueryGroup
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -293,7 +293,7 @@ public partial class QueryGroup
         GetNodeType(expression.Body);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -301,7 +301,7 @@ public partial class QueryGroup
         expression.NodeType;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -309,7 +309,7 @@ public partial class QueryGroup
         expression.NodeType;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>

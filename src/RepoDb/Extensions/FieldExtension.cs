@@ -21,7 +21,7 @@ public static class FieldExtension
         => field is { } v ? [v] : null;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="field"></param>
     /// <param name="dbSetting"></param>
@@ -31,7 +31,7 @@ public static class FieldExtension
         field.Name.AsQuoted(true, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="field"></param>
     /// <param name="index"></param>
@@ -43,7 +43,7 @@ public static class FieldExtension
         field.Name.AsParameter(index, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="field"></param>
     /// <param name="index"></param>
@@ -56,7 +56,7 @@ public static class FieldExtension
         field.Name.AsParameter(index, quote, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="field"></param>
     /// <param name="alias"></param>
@@ -68,7 +68,7 @@ public static class FieldExtension
         field.Name.AsAliasField(alias, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="field"></param>
     /// <param name="index"></param>
@@ -81,7 +81,7 @@ public static class FieldExtension
         field.Name.AsParameterAsField(index, quote, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="field"></param>
     /// <param name="index"></param>
@@ -94,7 +94,7 @@ public static class FieldExtension
         field.Name.AsFieldAndParameter(index, quote, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="field"></param>
     /// <param name="leftAlias"></param>
@@ -124,7 +124,7 @@ public static class FieldExtension
         field.Name.AsJoinQualifier(leftAlias, rightAlias, considerNulls, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="dbSetting"></param>
@@ -134,7 +134,7 @@ public static class FieldExtension
         fields.Select(field => field.AsField(dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="index"></param>
@@ -147,7 +147,7 @@ public static class FieldExtension
 
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="index"></param>
@@ -160,7 +160,7 @@ public static class FieldExtension
         fields.Select(field => field.AsParameter(index, quote, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="alias"></param>
@@ -172,7 +172,7 @@ public static class FieldExtension
         fields.Select(field => field.AsAliasField(alias, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="index"></param>
@@ -185,7 +185,7 @@ public static class FieldExtension
         fields.Select(field => field.AsParameterAsField(index, quote, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="index"></param>
@@ -198,7 +198,7 @@ public static class FieldExtension
         fields.Select(field => field.AsFieldAndParameter(index, quote, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="leftAlias"></param>

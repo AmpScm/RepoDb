@@ -17,7 +17,7 @@ internal static class UpdateAllExecutionContextCache
         cache.Clear();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="key"></param>
     /// <param name="context"></param>
@@ -26,7 +26,7 @@ internal static class UpdateAllExecutionContextCache
         cache.TryAdd(key, context);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>

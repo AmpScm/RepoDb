@@ -11,7 +11,7 @@ public sealed class DiagnosticsTracer : ITrace
 {
     Dictionary<long, DateTime> _timeMap = new();
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="log"></param>
@@ -28,7 +28,7 @@ public sealed class DiagnosticsTracer : ITrace
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="log"></param>
@@ -49,7 +49,7 @@ public sealed class DiagnosticsTracer : ITrace
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="log"></param>
     public void BeforeExecution(CancellableTraceLog log)
@@ -60,7 +60,7 @@ public sealed class DiagnosticsTracer : ITrace
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="log"></param>
     /// <param name="cancellationToken"></param>

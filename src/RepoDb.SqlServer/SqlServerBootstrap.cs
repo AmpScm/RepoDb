@@ -28,7 +28,7 @@ public static class SqlServerBootstrap
     public static void Initialize() => InitializeInternal();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal static void InitializeInternal()
     {

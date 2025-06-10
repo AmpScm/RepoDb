@@ -294,7 +294,7 @@ public static partial class StringExtension
         AsField(value, null, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="functionFormat"></param>
@@ -360,7 +360,7 @@ public static partial class StringExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="leftAlias"></param>
@@ -377,7 +377,7 @@ public static partial class StringExtension
             AsJoinQualifierWithoutNullChecks(value, leftAlias, rightAlias, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="leftAlias"></param>
@@ -392,7 +392,7 @@ public static partial class StringExtension
             rightAlias, ".", value.AsQuoted(true, true, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="leftAlias"></param>
@@ -411,7 +411,7 @@ public static partial class StringExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="alias"></param>
@@ -423,7 +423,7 @@ public static partial class StringExtension
         string.Concat(alias, ".", value.AsQuoted(true, true, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="index"></param>
@@ -436,7 +436,7 @@ public static partial class StringExtension
         string.Concat(AsParameter(value, index, quote, dbSetting), " AS ", AsField(value, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="index"></param>
@@ -449,7 +449,7 @@ public static partial class StringExtension
         string.Concat(AsField(value, dbSetting), " = ", AsParameter(value, index, quote, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="leftAlias"></param>
@@ -465,7 +465,7 @@ public static partial class StringExtension
             (string.IsNullOrWhiteSpace(rightAlias) ? string.Empty : string.Concat(rightAlias, ".")), AsField(value, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="values"></param>
     /// <param name="dbSetting"></param>
@@ -474,7 +474,7 @@ public static partial class StringExtension
         values.Select(value => value.AsField(dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="values"></param>
     /// <param name="alias"></param>
@@ -484,7 +484,7 @@ public static partial class StringExtension
         values.Select(value => value.AsAliasField(alias, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="values"></param>
     /// <param name="leftAlias"></param>
@@ -495,7 +495,7 @@ public static partial class StringExtension
         values.Select(value => value.AsFieldAndAliasField(leftAlias, rightAlias, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="value"></param>
     /// <param name="argument"></param>

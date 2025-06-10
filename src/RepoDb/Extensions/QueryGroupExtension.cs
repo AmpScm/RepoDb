@@ -17,7 +17,7 @@ public static class QueryGroupExtension
 
     /// <summary>
     /// Maps the current <see cref="QueryGroup"/> object to a type.
-    /// </summary> 
+    /// </summary>
     /// <param name="queryGroup">The <see cref="QueryGroup"/> object to be mapped.</param>
     /// <returns>An instance of <see cref="QueryGroupTypeMap"/> object that holds the mapping.</returns>
     internal static QueryGroupTypeMap MapTo(this QueryGroup queryGroup) =>
@@ -25,7 +25,7 @@ public static class QueryGroupExtension
 
     /// <summary>
     /// Maps the current <see cref="QueryGroup"/> object to a type.
-    /// </summary> 
+    /// </summary>
     /// <typeparam name="TEntity">The target type where the current <see cref="QueryGroup"/> is to be mapped.</typeparam>
     /// <param name="queryGroup">The <see cref="QueryGroup"/> object to be mapped.</param>
     /// <returns>An instance of <see cref="QueryGroupTypeMap"/> object that holds the mapping.</returns>

@@ -33,7 +33,7 @@ public static class QueryFieldExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal static void PrependAnUnderscoreAtParameter(this QueryField queryField)
     {
@@ -41,7 +41,7 @@ public static class QueryFieldExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="dbSetting"></param>
@@ -51,7 +51,7 @@ public static class QueryFieldExtension
         AsField(queryField, null, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="functionFormat"></param>
@@ -63,7 +63,7 @@ public static class QueryFieldExtension
         queryField.Field.Name.AsField(functionFormat, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
@@ -76,7 +76,7 @@ public static class QueryFieldExtension
         queryField.Parameter.Name.AsParameter(index, quote, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
@@ -88,7 +88,7 @@ public static class QueryFieldExtension
         string.Concat(queryField.AsParameter(index, true, dbSetting), " AS ", queryField.AsField(dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
@@ -100,7 +100,7 @@ public static class QueryFieldExtension
         AsBetweenParameter(queryField, index, null, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
@@ -122,12 +122,12 @@ public static class QueryFieldExtension
 
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
     /// <param name="dbSetting"></param>
-    /// 
+    ///
     /// <returns></returns>
     internal static string AsInParameter(this QueryField queryField,
         int index,
@@ -183,7 +183,7 @@ public static class QueryFieldExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
@@ -195,7 +195,7 @@ public static class QueryFieldExtension
         AsFieldAndParameterForBetween(queryField, index, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
@@ -210,7 +210,7 @@ public static class QueryFieldExtension
             queryField.Operation.GetText(), " ", queryField.AsBetweenParameter(index /*, functionFormat */, dbSetting));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
@@ -222,7 +222,7 @@ public static class QueryFieldExtension
         AsFieldAndParameterForIn(queryField, index, null, dbSetting);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>

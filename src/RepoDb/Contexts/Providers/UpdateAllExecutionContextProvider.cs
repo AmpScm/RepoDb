@@ -10,12 +10,12 @@ using RepoDb.Requests;
 namespace RepoDb.Contexts.Providers;
 
 /// <summary>
-/// 
+///
 /// </summary>
 internal static class UpdateAllExecutionContextProvider
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="tableName"></param>
@@ -45,7 +45,7 @@ internal static class UpdateAllExecutionContextProvider
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="connection"></param>
@@ -114,7 +114,7 @@ internal static class UpdateAllExecutionContextProvider
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="connection"></param>
@@ -185,7 +185,7 @@ internal static class UpdateAllExecutionContextProvider
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="connection"></param>

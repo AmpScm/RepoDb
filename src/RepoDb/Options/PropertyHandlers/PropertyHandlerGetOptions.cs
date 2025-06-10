@@ -8,7 +8,7 @@ namespace RepoDb.Options;
 public sealed class PropertyHandlerGetOptions : PropertyHandlerOptions
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="property"></param>
@@ -31,7 +31,7 @@ public sealed class PropertyHandlerGetOptions : PropertyHandlerOptions
     #region Methods
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="property"></param>

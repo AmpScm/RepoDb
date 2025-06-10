@@ -89,10 +89,10 @@ public static class EnumerableExtension
     /// <example>
     /// <code>
     /// var items = Enumerable.Range(1, 2500);
-    /// 
+    ///
     /// // Creates chunks of sizes: 2000, 500 (2 different cached plans)
     /// var chunks = items.ChunkOptimally(maxChunkSize: 2000);
-    /// 
+    ///
     /// // Small collection optimization
     /// var smallItems = Enumerable.Range(1, 8);
     /// var smallChunks = smallItems.ChunkOptimally(); // Returns single chunk of 8 items
@@ -153,7 +153,7 @@ public static class EnumerableExtension
     }
 
     /// <summary>
-    /// Checks whether the instance of <see cref="IEnumerable"/> is of type <see cref="IEnumerable{T}"/>, then casts it, otherwise, 
+    /// Checks whether the instance of <see cref="IEnumerable"/> is of type <see cref="IEnumerable{T}"/>, then casts it, otherwise,
     /// returns the instance of <see cref="IEnumerable{T}"/> with the specified items. The items that are not of type <typeparamref name="T"/> will be
     /// eliminated from the result. This method is using the underlying method <see cref="Enumerable.OfType{TResult}(IEnumerable)"/>.
     /// </summary>

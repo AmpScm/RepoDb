@@ -140,7 +140,7 @@ public class Field : IEquatable<Field>
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
@@ -156,7 +156,7 @@ public class Field : IEquatable<Field>
     }
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result
     /// to <see cref="Field"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -167,7 +167,7 @@ public class Field : IEquatable<Field>
         Parse<TEntity, object>(expression);
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result
     /// to <see cref="Field"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -188,7 +188,7 @@ public class Field : IEquatable<Field>
     }
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="UnaryExpression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="UnaryExpression"/> and converts the result
     /// to <see cref="Field"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -211,7 +211,7 @@ public class Field : IEquatable<Field>
     }
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="MemberExpression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="MemberExpression"/> and converts the result
     /// to <see cref="Field"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -231,7 +231,7 @@ public class Field : IEquatable<Field>
     }
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="BinaryExpression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="BinaryExpression"/> and converts the result
     /// to <see cref="Field"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -242,7 +242,7 @@ public class Field : IEquatable<Field>
         (new Field(expression.GetName())).AsEnumerable();
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="NewExpression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="NewExpression"/> and converts the result
     /// to <see cref="Field"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>

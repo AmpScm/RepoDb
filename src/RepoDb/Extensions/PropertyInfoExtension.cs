@@ -214,7 +214,7 @@ public static class PropertyInfoExtension
         GetPropertyValueAttributes(property, declaringType ?? property.DeclaringType!).OfType<TPropertyValueAttribute>().LastOrDefault();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="property"></param>
     /// <param name="declaringType"></param>
@@ -223,7 +223,7 @@ public static class PropertyInfoExtension
         GetPropertyValueAttributeByParameterName(property, declaringType ?? property.DeclaringType!, nameof(IDbDataParameter.DbType));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="property"></param>
     /// <param name="declaringType"></param>

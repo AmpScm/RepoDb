@@ -287,7 +287,7 @@ public static partial class DbConnectionExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="connection"></param>
     /// <param name="commandText"></param>
@@ -645,7 +645,7 @@ public static partial class DbConnectionExtension
     #endregion
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="connection"></param>
     /// <param name="commandText"></param>

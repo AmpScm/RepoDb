@@ -6,14 +6,14 @@ using RepoDb.Interfaces;
 namespace RepoDb;
 
 /// <summary>
-/// 
+///
 /// </summary>
 internal static class Tracer
 {
     #region BeforeExecution
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="key"></param>
     /// <param name="trace"></param>
@@ -42,7 +42,7 @@ internal static class Tracer
     #region BeforeExecutionAsync
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="key"></param>
     /// <param name="trace"></param>
@@ -73,7 +73,7 @@ internal static class Tracer
     #region AfterExecution
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="result"></param>
@@ -107,7 +107,7 @@ internal static class Tracer
     #region AfterExecution
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="result"></param>
@@ -139,7 +139,7 @@ internal static class Tracer
     #region Helpers
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="key"></param>
     /// <param name="log"></param>

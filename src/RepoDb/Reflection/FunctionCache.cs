@@ -14,7 +14,7 @@ internal static class FunctionCache
     #region Helpers
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="reader"></param>
     /// <returns></returns>
@@ -38,7 +38,7 @@ internal static class FunctionCache
     #region GetDataReaderToDataEntityCompiledFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="reader"></param>
@@ -53,7 +53,7 @@ internal static class FunctionCache
     #region DataReaderToTypeCache
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     private static class DataReaderToTypeCache<TResult>
@@ -61,7 +61,7 @@ internal static class FunctionCache
         private static readonly ConcurrentDictionary<long, Func<DbDataReader, TResult>> cache = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
@@ -76,7 +76,7 @@ internal static class FunctionCache
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
@@ -91,7 +91,7 @@ internal static class FunctionCache
     #region GetDataReaderToExpandoObjectCompileFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
@@ -105,14 +105,14 @@ internal static class FunctionCache
     #region DataReaderToExpandoObjectCache
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     private static class DataReaderToExpandoObjectCache
     {
         private static readonly ConcurrentDictionary<long, Func<DbDataReader, dynamic>> cache = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dbFields"></param>
@@ -128,7 +128,7 @@ internal static class FunctionCache
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
@@ -143,7 +143,7 @@ internal static class FunctionCache
     #region GetDataEntityDbParameterSetterCompiledFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="cacheKey"></param>
@@ -168,14 +168,14 @@ internal static class FunctionCache
     #region DataEntityDbParameterSetterCache
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     private static class DataEntityDbParameterSetterCache
     {
         private static readonly ConcurrentDictionary<long, Action<DbCommand, object>> cache = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="entityType"></param>
         /// <param name="cacheKey"></param>
@@ -201,7 +201,7 @@ internal static class FunctionCache
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="entityType"></param>
         /// <param name="cacheKey"></param>
@@ -239,7 +239,7 @@ internal static class FunctionCache
     #region GetDataEntityListDbParameterSetterCompiledFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="cacheKey"></param>
@@ -261,14 +261,14 @@ internal static class FunctionCache
     #region DataEntityListDbParameterSetterCache
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     private static class DataEntityListDbParameterSetterCache
     {
         private static readonly ConcurrentDictionary<long, Action<DbCommand, IList<object>>> cache = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="entityType"></param>
         /// <param name="cacheKey"></param>
@@ -304,7 +304,7 @@ internal static class FunctionCache
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="entityType"></param>
         /// <param name="cacheKey"></param>
@@ -345,7 +345,7 @@ internal static class FunctionCache
     #region GetDbCommandToPropertyCompiledFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="field"></param>
@@ -363,7 +363,7 @@ internal static class FunctionCache
     #region DbCommandToPropertyCache
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     private static class DbCommandToPropertyCache<TEntity>
@@ -372,7 +372,7 @@ internal static class FunctionCache
         private static readonly ConcurrentDictionary<long, Action<TEntity, DbCommand>> cache = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="field"></param>
         /// <param name="parameterName"></param>
@@ -396,7 +396,7 @@ internal static class FunctionCache
     #region GetDataEntityPropertySetterCompiledFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="field"></param>
@@ -408,14 +408,14 @@ internal static class FunctionCache
     #region DataEntityPropertySetterCache
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     private static class DataEntityPropertySetterCache
     {
         private static readonly ConcurrentDictionary<long, Action<object, object>> cache = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="type"></param>
         /// <param name="field"></param>
@@ -439,7 +439,7 @@ internal static class FunctionCache
     #region GetPlainTypeToDbParametersCompiledFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="paramType"></param>
     /// <param name="entityType"></param>
@@ -453,14 +453,14 @@ internal static class FunctionCache
     #region PlainTypeToDbParametersCompiledFunctionCache
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     private static class PlainTypeToDbParametersCompiledFunctionCache
     {
         private static readonly ConcurrentDictionary<long, Action<DbCommand, object>> cache = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="paramType"></param>
         /// <param name="entityType"></param>

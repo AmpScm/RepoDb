@@ -63,7 +63,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
                 AND KCU.TABLE_NAME = C.TABLE_NAME
                 AND KCU.COLUMN_NAME = C.COLUMN_NAME
                 AND TC.CONSTRAINT_TYPE = 'PRIMARY KEY'
-        ) TC 
+        ) TC
         OUTER APPLY
         (
             SELECT SC.name
@@ -248,16 +248,16 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     #endregion
 
     private const string DbRuntimeInfoQuery = @"
-    SELECT 
+    SELECT
         SERVERPROPERTY('ProductVersion') AS SqlServerVersion,
         compatibility_level AS CompatibilityLevel
-    FROM 
+    FROM
         sys.databases
-    WHERE 
+    WHERE
         name = DB_NAME();
 
     WITH TypeCandidates AS (
-        SELECT 
+        SELECT
             tt.name AS TVPName,
             s.name AS SchemaName,
             t.name AS ColumnType,
@@ -267,35 +267,35 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             COALESCE(i.is_primary_key, 0) AS IsPrimaryKey,
             COALESCE(i.ignore_dup_key, 0) AS IgnoreDupKey,
             ROW_NUMBER() OVER (
-                PARTITION BY t.name, c.is_nullable 
-                ORDER BY 
+                PARTITION BY t.name, c.is_nullable
+                ORDER BY
                     -- Prefer TVPs with a PK
                     CASE WHEN i.is_primary_key = 1 THEN 0 ELSE 1 END,
                     -- Then prefer varchar with longer length
-                    CASE 
+                    CASE
                         WHEN t.name = 'varchar' THEN c.max_length
-                        ELSE 0 
+                        ELSE 0
                     END DESC
             ) AS rn
-        FROM 
+        FROM
             sys.table_types tt
-        JOIN 
+        JOIN
             sys.schemas s ON tt.schema_id = s.schema_id
-        JOIN 
+        JOIN
             sys.columns c ON c.object_id = tt.type_table_object_id
-        JOIN 
+        JOIN
             sys.types t ON c.user_type_id = t.user_type_id
-        LEFT JOIN 
+        LEFT JOIN
             sys.index_columns ic ON ic.object_id = tt.type_table_object_id AND ic.column_id = c.column_id
-        LEFT JOIN 
+        LEFT JOIN
             sys.indexes i ON i.object_id = tt.type_table_object_id AND i.index_id = ic.index_id AND i.is_primary_key = 1
-        WHERE 
-            (SELECT COUNT(*) 
-             FROM sys.columns c2 
+        WHERE
+            (SELECT COUNT(*)
+             FROM sys.columns c2
              WHERE c2.object_id = tt.type_table_object_id) = 1
             AND t.name IN ('int', 'bigint', 'tinyint', 'varchar', 'uniqueidentifier', 'bit')
     )
-    SELECT 
+    SELECT
         ColumnType,
         TVPName,
         SchemaName,
@@ -303,11 +303,11 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         is_nullable,
         IsPrimaryKey,
         IgnoreDupKey
-    FROM 
+    FROM
         TypeCandidates
-    WHERE 
+    WHERE
         rn = 1
-    ORDER BY 
+    ORDER BY
         ColumnType, is_nullable DESC;";
 
     public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)

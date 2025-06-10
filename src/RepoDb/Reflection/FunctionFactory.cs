@@ -12,7 +12,7 @@ internal static class FunctionFactory
     #region CompileDataReaderToType
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="reader"></param>
@@ -29,7 +29,7 @@ internal static class FunctionFactory
     #region CompileDataReaderToExpandoObject
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
@@ -45,7 +45,7 @@ internal static class FunctionFactory
     #region CompileDataEntityDbParameterSetter
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="inputFields"></param>
@@ -65,7 +65,7 @@ internal static class FunctionFactory
     #region CompileDataEntityListDbParameterSetter
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="inputFields"></param>
@@ -87,7 +87,7 @@ internal static class FunctionFactory
     #region CompileDictionaryStringObjectDbParameterSetter
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="inputFields"></param>
@@ -105,7 +105,7 @@ internal static class FunctionFactory
     #region CompileDictionaryStringObjectListDbParameterSetter
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="inputFields"></param>
@@ -125,7 +125,7 @@ internal static class FunctionFactory
     #region CompileDictionaryStringObjectItemSetter
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="field"></param>
@@ -139,7 +139,7 @@ internal static class FunctionFactory
     #region CompileDbCommandToProperty
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="field"></param>
@@ -159,7 +159,7 @@ internal static class FunctionFactory
     #region CompileDataEntityPropertySetter
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="field"></param>
@@ -173,7 +173,7 @@ internal static class FunctionFactory
     #region GetPlainTypeToDbParametersCompiledFunction
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="paramType"></param>
     /// <param name="entityType"></param>

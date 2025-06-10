@@ -29,7 +29,7 @@ public static class SQLiteBootstrap
     public static void Initialize() => InitializeInternal();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal static void InitializeInternal()
     {

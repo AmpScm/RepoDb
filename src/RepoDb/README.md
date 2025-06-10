@@ -12,7 +12,7 @@ RepoDB is an open-source .NET ORM library that bridges the gaps of micro-ORMs an
 - [Website](https://repodb.net) - docs, features, classes, references, releases and blogs.
 
 ## Core Features
- 
+
 - [Batch Operations](https://repodb.net/feature/batchoperations)
 - [Bulk Operations](https://repodb.net/feature/bulkoperations)
 - [Caching](https://repodb.net/feature/caching)

@@ -107,7 +107,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// </summary>
     /// <param name="connectionString">The connection string to be used by this repository.</param>
     /// <param name="connectionPersistency">
-    /// The database connection persistency type. Setting to <see cref="ConnectionPersistency.Instance"/> will make the repository re-used a single connection all throughout its lifespan. Setting 
+    /// The database connection persistency type. Setting to <see cref="ConnectionPersistency.Instance"/> will make the repository re-used a single connection all throughout its lifespan. Setting
     /// to <see cref="ConnectionPersistency.PerCall"/> will create a new connection object on every repository call.
     /// </param>
     public DbRepository(string connectionString,
@@ -193,7 +193,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="connectionString">The connection string to be used by this repository.</param>
     /// <param name="commandTimeout">The command timeout in seconds to be used on every operation by this repository.</param>
     /// <param name="connectionPersistency">
-    /// The database connection persistency type. Setting to <see cref="ConnectionPersistency.Instance"/> will make the repository re-used a single connection all throughout its lifespan. Setting 
+    /// The database connection persistency type. Setting to <see cref="ConnectionPersistency.Instance"/> will make the repository re-used a single connection all throughout its lifespan. Setting
     /// to <see cref="ConnectionPersistency.PerCall"/> will create a new connection object on every repository call.
     /// </param>
     /// <param name="cache">The cache object to be used by this repository. This object must implement the <see cref="ICache"/> interface.</param>
@@ -516,7 +516,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     #region ExecuteQueryAsync
 
     /// <summary>
-    /// Executes a SQL statement from the database in an asynchronous way. It uses the underlying method of <see cref="IDbCommand.ExecuteReader(CommandBehavior)"/> and 
+    /// Executes a SQL statement from the database in an asynchronous way. It uses the underlying method of <see cref="IDbCommand.ExecuteReader(CommandBehavior)"/> and
     /// converts the result back to an enumerable list of data entity object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>

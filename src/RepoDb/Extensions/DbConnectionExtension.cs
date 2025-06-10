@@ -478,7 +478,7 @@ public static partial class DbConnectionExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="property"></param>
     /// <param name="connectionType"></param>
@@ -715,7 +715,7 @@ public static partial class DbConnectionExtension
             GetAndGuardPrimaryKeysOrIdentityKeyForEntity(entityType, dbFields);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="type"></param>
     /// <param name="dbFields"></param>
@@ -1934,7 +1934,7 @@ public static partial class DbConnectionExtension
     #endregion
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="entity"></param>
@@ -1945,7 +1945,7 @@ public static partial class DbConnectionExtension
 
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="entities"></param>
@@ -1956,7 +1956,7 @@ public static partial class DbConnectionExtension
         (entities.FirstOrDefault() is { } entity ? ClassMappedNameCache.Get(entity.GetType()) : ClassMappedNameCache.Get<TEntity>()) ?? throw new ArgumentException($"Can't map table name for '{typeof(TEntity).FullName}'.", nameof(entities));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="entities"></param>
@@ -1966,7 +1966,7 @@ public static partial class DbConnectionExtension
         GetEntityType(entities?.FirstOrDefault());
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="entity"></param>

@@ -9,7 +9,7 @@ namespace RepoDb.Extensions;
 internal static class ObjectExtension
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
@@ -17,7 +17,7 @@ internal static class ObjectExtension
         ThrowIfNull(obj, null);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="argument"></param>
     /// <param name="parameterName"></param>

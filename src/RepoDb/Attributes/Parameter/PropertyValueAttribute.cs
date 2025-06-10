@@ -33,7 +33,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="propertyName">The name to be set to the parameter.</param>
     /// <param name="value">The value to be set to the parameter.</param>
     /// <param name="includedInCompilation">
-    /// The value that indicates whether this current attribute method invocation 
+    /// The value that indicates whether this current attribute method invocation
     /// will be included on the ahead-of-time (AOT) compilation.
     /// </param>
     internal PropertyValueAttribute(Type parameterType,
@@ -71,7 +71,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     protected internal object Value { get; }
 
     /// <summary>
-    /// Gets the value that indicates whether this current attribute method invocation 
+    /// Gets the value that indicates whether this current attribute method invocation
     /// will be included on the ahead-of-time (AOT) compilation.
     /// </summary>
     protected internal bool IncludedInCompilation { get; }
@@ -94,7 +94,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
         $"{ParameterType?.FullName}.{PropertyName} = {Value}";
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="parameter"></param>
     internal void SetValue(IDbDataParameter parameter)
@@ -110,7 +110,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal virtual object GetValue() => Value;
 
@@ -119,7 +119,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     #region Helpers
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="parameterType"></param>
     /// <param name="propertyName"></param>
@@ -133,7 +133,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="parameterType"></param>
     private void ValidateParameterType(Type parameterType)
@@ -146,7 +146,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="parameterType"></param>
     /// <param name="propertyName"></param>
@@ -174,8 +174,8 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
             return this.hashCode.Value;
         }
 
-        // FullName: This is to ensure that even the user has created an identical formatting 
-        //  on the derived class with the existing classes, the Type.FullName could still 
+        // FullName: This is to ensure that even the user has created an identical formatting
+        //  on the derived class with the existing classes, the Type.FullName could still
         // differentiate the instances
         var hashCode = HashCode.Combine(GetType().FullName);
 

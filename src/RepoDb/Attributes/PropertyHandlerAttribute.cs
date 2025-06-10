@@ -31,7 +31,7 @@ public class PropertyHandlerAttribute : Attribute
     #region Methods
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="handlerType"></param>
     private void Validate(Type handlerType)

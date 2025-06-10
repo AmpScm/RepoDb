@@ -82,7 +82,7 @@ namespace System.Diagnostics.CodeAnalysis
         //     parameter will not be null.
         public NotNullWhenAttribute(bool returnValue)
         {
-            ReturnValue = returnValue; 
+            ReturnValue = returnValue;
         }
 
         //
@@ -113,7 +113,7 @@ namespace RepoDb
     internal static class NetCompatExtensions
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dbConnection"></param>
         /// <param name="cancellationToken"></param>

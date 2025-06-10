@@ -4,14 +4,14 @@ using RepoDb.Extensions;
 namespace RepoDb.Contexts.Providers;
 
 /// <summary>
-/// 
+///
 /// </summary>
 internal static class ExecutionContextProvider
 {
     #region KeyColumnReturnBehavior
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="dbFields"></param>
@@ -38,7 +38,7 @@ internal static class ExecutionContextProvider
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="dbFields"></param>
@@ -50,7 +50,7 @@ internal static class ExecutionContextProvider
             dbFields?.GetPrimary()?.AsField();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="entityType"></param>
     /// <param name="dbFields"></param>

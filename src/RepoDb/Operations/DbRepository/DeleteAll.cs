@@ -400,7 +400,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     }
 
     /// <summary>
-    /// Delete all the rows from the table in an asynchronous way. 
+    /// Delete all the rows from the table in an asynchronous way.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <param name="entities">The list of data entity objects to be deleted.</param>
@@ -439,7 +439,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     }
 
     /// <summary>
-    /// Delete all the rows from the table in an asynchronous way. 
+    /// Delete all the rows from the table in an asynchronous way.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <typeparam name="TKey">The type of the key column.</typeparam>
@@ -479,7 +479,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     }
 
     /// <summary>
-    /// Delete all the rows from the table in an asynchronous way. 
+    /// Delete all the rows from the table in an asynchronous way.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <param name="keys">The list of the primary keys to be deleted.</param>

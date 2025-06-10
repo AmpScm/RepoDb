@@ -30703,7 +30703,7 @@ public static partial class DbConnectionExtension
     #region Helpers
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="cacheKey"></param>
@@ -30733,7 +30733,7 @@ public static partial class DbConnectionExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="cacheKey"></param>
     /// <param name="cache"></param>
@@ -30761,7 +30761,7 @@ public static partial class DbConnectionExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="connection"></param>
@@ -30804,7 +30804,7 @@ public static partial class DbConnectionExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="cacheKey"></param>
@@ -30836,7 +30836,7 @@ public static partial class DbConnectionExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="cacheKey"></param>
     /// <param name="cache"></param>
@@ -30866,7 +30866,7 @@ public static partial class DbConnectionExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="connection"></param>

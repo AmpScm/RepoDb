@@ -9,7 +9,7 @@ namespace RepoDb.Reflection;
 partial class Compiler
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>

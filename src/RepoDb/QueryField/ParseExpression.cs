@@ -9,7 +9,7 @@ namespace RepoDb;
 public partial class QueryField
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="field"></param>
@@ -37,7 +37,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expressionType"></param>
     /// <returns></returns>
@@ -56,7 +56,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fieldName"></param>
     /// <param name="enumerable"></param>
@@ -71,7 +71,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fieldName"></param>
     /// <param name="enumerable"></param>
@@ -90,7 +90,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="fieldName"></param>
     /// <param name="value"></param>
@@ -105,7 +105,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="methodName"></param>
     /// <param name="value"></param>
@@ -134,7 +134,7 @@ public partial class QueryField
      */
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -214,7 +214,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="enumType"></param>
     /// <param name="value"></param>
@@ -225,7 +225,7 @@ public partial class QueryField
             ToEnumValue(enumType, Enum.GetName(enumType, value)) : null) ?? value;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="enumType"></param>
     /// <param name="name"></param>
@@ -269,7 +269,7 @@ public partial class QueryField
      */
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -309,11 +309,11 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
-    /// 
+    ///
     /// <returns></returns>
     internal static QueryField ParseEquals<TEntity>(MethodCallExpression expression)
         where TEntity : class
@@ -336,11 +336,11 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
-    /// 
+    ///
     /// <returns></returns>
     internal static QueryField ParseCompareString<TEntity>(MethodCallExpression expression)
         where TEntity : class
@@ -356,7 +356,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -391,7 +391,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -413,7 +413,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -432,7 +432,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="expression"></param>
@@ -453,7 +453,7 @@ public partial class QueryField
     #region GetProperty
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -472,7 +472,7 @@ public partial class QueryField
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -481,7 +481,7 @@ public partial class QueryField
         GetProperty<TEntity>(expression.Body);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -490,7 +490,7 @@ public partial class QueryField
         GetProperty<TEntity>(expression.Left) ?? GetProperty<TEntity>(expression.Right);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -501,7 +501,7 @@ public partial class QueryField
         GetProperty<TEntity>(expression.Arguments.LastOrDefault());
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -510,7 +510,7 @@ public partial class QueryField
         GetProperty<TEntity>(expression.Member.ToPropertyInfo());
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="propertyInfo"></param>

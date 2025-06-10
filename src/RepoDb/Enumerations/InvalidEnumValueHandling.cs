@@ -1,7 +1,7 @@
 ﻿namespace RepoDb.Enumerations;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public enum InvalidEnumValueHandling
 {

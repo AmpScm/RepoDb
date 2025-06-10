@@ -48,7 +48,7 @@ public class OrderField : IEquatable<OrderField>
     #region Static Methods
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result
     /// to <see cref="OrderField"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -69,7 +69,7 @@ public class OrderField : IEquatable<OrderField>
     }
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="UnaryExpression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="UnaryExpression"/> and converts the result
     /// to <see cref="OrderField"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -89,7 +89,7 @@ public class OrderField : IEquatable<OrderField>
     }
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="MemberExpression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="MemberExpression"/> and converts the result
     /// to <see cref="OrderField"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -102,7 +102,7 @@ public class OrderField : IEquatable<OrderField>
         new(expression.Member.GetMappedName(), order);
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="BinaryExpression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="BinaryExpression"/> and converts the result
     /// to <see cref="OrderField"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -115,7 +115,7 @@ public class OrderField : IEquatable<OrderField>
         new(expression.GetName(), order);
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result
     /// to <see cref="OrderField"/> object with <see cref="Order.Ascending"/> value.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
@@ -126,7 +126,7 @@ public class OrderField : IEquatable<OrderField>
         Parse(expression, Order.Ascending);
 
     /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result 
+    /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result
     /// to <see cref="OrderField"/> object with <see cref="Order.Descending"/> value.
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>

@@ -5,12 +5,12 @@ using System.Data.Common;
 namespace RepoDb;
 
 /// <summary>
-/// 
+///
 /// </summary>
 internal sealed class TraceResult
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="log"></param>
     public TraceResult(CancellableTraceLog log)
@@ -23,17 +23,17 @@ internal sealed class TraceResult
     #region Properties
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public long SessionId { get; }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public DateTime StartTime { get; }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public CancellableTraceLog CancellableTraceLog { get; }
 
@@ -44,7 +44,7 @@ internal sealed class TraceResult
     static long _nextSessionId = 1;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="key"></param>
     /// <param name="command"></param>
@@ -56,7 +56,7 @@ internal sealed class TraceResult
                 key, command.CommandText, GetParameters(command)));
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
