@@ -264,8 +264,8 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             c.name AS ColumnName,
             c.max_length,
             c.is_nullable,
-            -- Detect if this column is part of the primary key
-            COALESCE(i.is_primary_key, 0) AS HasPrimaryKey,
+            COALESCE(i.is_primary_key, 0) AS IsPrimaryKey,
+            COALESCE(i.ignore_dup_key, 0) AS IgnoreDupKey,
             ROW_NUMBER() OVER (
                 PARTITION BY t.name, c.is_nullable 
                 ORDER BY 
@@ -301,7 +301,8 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         SchemaName,
         ColumnName,
         is_nullable,
-        HasPrimaryKey
+        IsPrimaryKey,
+        IgnoreDupKey
     FROM 
         TypeCandidates
     WHERE 
@@ -330,26 +331,26 @@ public sealed class SqlServerDbHelper : BaseDbHelper
                     TVPName = rdr.GetString(1),
                     SchemaName = rdr.GetString(2),
                     ColumnName = rdr.GetString(3),
-                    isNullable = rdr.GetBoolean(4),
-                    RequiresDistinct = rdr.GetInt32(5) != 0
+                    IsNullable = rdr.GetBoolean(4),
+                    RequiresDistinct = rdr.GetInt32(5) != 0 && !(rdr.GetInt32(6) != 0),
                 };
 
                 var type = DbTypeResolver.Resolve(info.ColumnType);
 
-                if (type.IsValueType && info.isNullable)
+                if (type.IsValueType && info.IsNullable)
                 {
                     var nullableType = typeof(Nullable<>).MakeGenericType(type);
 
-                    typeMap[nullableType] = new(nullableType, info.TVPName, info.SchemaName, info.ColumnName, !info.isNullable, info.RequiresDistinct);
+                    typeMap[nullableType] = new(nullableType, info.TVPName, info.SchemaName, info.ColumnName, !info.IsNullable, info.RequiresDistinct);
 
                     if (!typeMap.ContainsKey(type))
                     {
-                        typeMap[type] = new(nullableType, info.TVPName, info.SchemaName, info.ColumnName, !info.isNullable, info.RequiresDistinct);
+                        typeMap[type] = new(nullableType, info.TVPName, info.SchemaName, info.ColumnName, !info.IsNullable, info.RequiresDistinct);
                     }
                 }
                 else
                 {
-                    typeMap[type] = new(type, info.TVPName, info.SchemaName, info.ColumnName, !info.isNullable, info.RequiresDistinct);
+                    typeMap[type] = new(type, info.TVPName, info.SchemaName, info.ColumnName, !info.IsNullable, info.RequiresDistinct);
                 }
             }
         }
@@ -374,7 +375,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             var dt = new DataTable();
             dt.Columns.Add(mapping.ColumnName, elementType);
 
-            foreach (var v in values.AsTypedSet(mapping.RequiresDistinct)) //
+            foreach (var v in values.AsTypedSet(mapping.RequiresDistinct))
             {
                 if (v is null && mapping.NoNull)
                     continue;

@@ -105,7 +105,7 @@ public static class Database
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_int')
     BEGIN
-        CREATE TYPE RepoDB_TVP_int AS TABLE (Value INT NOT NULL PRIMARY KEY);
+        CREATE TYPE RepoDB_TVP_int AS TABLE (Value INT NOT NULL PRIMARY KEY WITH (IGNORE_DUP_KEY = ON));
     END
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_int_NULL')
@@ -115,7 +115,7 @@ public static class Database
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_bigint')
     BEGIN
-        CREATE TYPE RepoDB_TVP_bigint AS TABLE (Value bigint NOT NULL PRIMARY KEY);
+        CREATE TYPE RepoDB_TVP_bigint AS TABLE (Value bigint NOT NULL PRIMARY KEY WITH (IGNORE_DUP_KEY = ON));
     END
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_bigint_NULL')
@@ -125,7 +125,7 @@ public static class Database
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_tinyint')
     BEGIN
-        CREATE TYPE RepoDB_TVP_tinyint AS TABLE (Value tinyint NOT NULL PRIMARY KEY);
+        CREATE TYPE RepoDB_TVP_tinyint AS TABLE (Value tinyint NOT NULL PRIMARY KEY WITH (IGNORE_DUP_KEY = ON));
     END
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_tinyint_NULL')
@@ -135,27 +135,17 @@ public static class Database
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_varchar')
     BEGIN
-        CREATE TYPE RepoDB_TVP_varchar AS TABLE (Value varchar(200) NOT NULL PRIMARY KEY);
+        CREATE TYPE RepoDB_TVP_varchar AS TABLE (Value varchar(50) NOT NULL PRIMARY KEY WITH (IGNORE_DUP_KEY = ON));
     END
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_varchar_NULL')
     BEGIN
-        CREATE TYPE RepoDB_TVP_varchar_NULL AS TABLE (Value varchar(200));
-    END
-
-    IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_bit')
-    BEGIN
-        CREATE TYPE RepoDB_TVP_bit AS TABLE (Value bit NOT NULL PRIMARY KEY);
-    END
-
-    IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_bit_NULL')
-    BEGIN
-        CREATE TYPE RepoDB_TVP_bit_NULL AS TABLE (Value bit);
+        CREATE TYPE RepoDB_TVP_varchar_NULL AS TABLE (Value varchar(50));
     END
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_uuid')
     BEGIN
-        CREATE TYPE RepoDB_TVP_uuid AS TABLE (Value uniqueidentifier NOT NULL PRIMARY KEY);
+        CREATE TYPE RepoDB_TVP_uuid AS TABLE (Value uniqueidentifier NOT NULL PRIMARY KEY WITH (IGNORE_DUP_KEY = ON));
     END
 
     IF NOT EXISTS (SELECT 1 FROM sys.table_types WHERE name = 'RepoDB_TVP_uuid_NULL')
