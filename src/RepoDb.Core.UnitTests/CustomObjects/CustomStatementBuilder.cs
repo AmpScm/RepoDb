@@ -66,12 +66,12 @@ public class CustomStatementBuilder : IStatementBuilder
         return string.Empty;
     }
 
-    public string CreateMerge(string tableName, IEnumerable<Field> fields, IEnumerable<Field>? qualifiers = null, IEnumerable<DbField>? keyFields = null, string? hints = null)
+    public string CreateMerge(string tableName, IEnumerable<Field> fields, IEnumerable<Field> noUpdateFields, IEnumerable<DbField>? keyFields = null, IEnumerable<Field>? qualifiers = null, string? hints = null)
     {
         return string.Empty;
     }
 
-    public string CreateMergeAll(string tableName, IEnumerable<Field> fields, IEnumerable<Field> qualifiers, int batchSize = 10, IEnumerable<DbField>? keyFields = null, string? hints = null)
+    public string CreateMergeAll(string tableName, IEnumerable<Field> fields, IEnumerable<Field> noUpdateFields, IEnumerable<Field> qualifiers, int batchSize = 10, IEnumerable<DbField>? keyFields = null, string? hints = null)
     {
         return string.Empty;
     }
@@ -152,12 +152,12 @@ public class CustomBaseStatementBuilder : BaseStatementBuilder
         return string.Empty;
     }
 
-    public override string CreateMerge(string tableName, IEnumerable<Field> fields, IEnumerable<Field>? qualifiers = null, IEnumerable<DbField>? keyFields = null, string? hints = null)
+    public override string CreateMerge(string tableName, IEnumerable<Field> fields, IEnumerable<Field>? noUpdateFields, IEnumerable<DbField>? keyFields = null, IEnumerable<Field>? qualifiers = null, string? hints = null)
     {
         return string.Empty;
     }
 
-    public override string CreateMergeAll(string tableName, IEnumerable<Field> fields, IEnumerable<Field>? qualifiers = null, int batchSize = 10, IEnumerable<DbField>? keyFields = null, string? hints = null)
+    public override string CreateMergeAll(string tableName, IEnumerable<Field> fields, IEnumerable<Field>? noUpdateFields, IEnumerable<Field>? qualifiers = null, int batchSize = 10, IEnumerable<DbField>? keyFields = null, string? hints = null)
     {
         return string.Empty;
     }

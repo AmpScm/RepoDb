@@ -438,9 +438,9 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> noUpdateFields,
         IEnumerable<DbField> keyFields,
-        string? hints = null)
+        IEnumerable<Field>? qualifiers, string? hints = null)
     {
         // Ensure with guards
         GuardTableName(tableName);
@@ -482,7 +482,11 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             .WriteText("ON DUPLICATE KEY")
             .Update();
 
-        IdentityFieldsAndParametersFrom(builder, fields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && fields.GetByName(x.Name) is null));
+        var updateFields = fields
+            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
+            .ToList();
+
+        IdentityFieldsAndParametersFrom(builder, fields, updateFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && fields.GetByName(x.Name) is null));
         builder
             .End();
 
@@ -536,10 +540,10 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMergeAll(string tableName,
         IEnumerable<Field> fields,
+        IEnumerable<Field> noUpdateFields,
         IEnumerable<Field> qualifiers,
         int batchSize,
-        IEnumerable<DbField> keyFields,
-        string? hints = null)
+        IEnumerable<DbField> keyFields, string? hints = null)
     {
         // Ensure with guards
         GuardTableName(tableName);
@@ -552,6 +556,10 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         }
 
         var builder = new QueryBuilder();
+
+        var updateFields = fields
+            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
+            .ToList();
 
         // Iterate the indexes
         for (var index = 0; index < batchSize; index++)
@@ -571,7 +579,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, index, keyFields.FirstOrDefault(x => x.IsIdentity));
+            IdentityFieldsAndParametersFrom(builder, fields, updateFields, index, keyFields.FirstOrDefault(x => x.IsIdentity));
 
             builder
                 .End(DbSetting);
@@ -613,11 +621,11 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         return builder.ToString();
     }
 
-    private void IdentityFieldsAndParametersFrom(QueryBuilder builder, IEnumerable<Field> fields, int index, DbField? identityField)
+    private void IdentityFieldsAndParametersFrom(QueryBuilder builder, IEnumerable<Field> fields, IEnumerable<Field> updateFields, int index, DbField? identityField)
     {
         if (identityField is null || fields.GetByName(identityField.Name) is null)
         {
-            builder.FieldsAndParametersFrom(fields, index, DbSetting);
+            builder.FieldsAndParametersFrom(updateFields, index, DbSetting);
         }
         else
         {
@@ -629,7 +637,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             builder.WriteText(id.Name.AsParameter(index, DbSetting));
             builder.CloseParen();
 
-            var filteredFields = fields.Where(x => !string.Equals(x.Name, id.Name, StringComparison.OrdinalIgnoreCase));
+            var filteredFields = updateFields.Where(x => !string.Equals(x.Name, id.Name, StringComparison.OrdinalIgnoreCase));
             if (filteredFields.Any())
             {
                 builder.Comma();

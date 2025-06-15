@@ -458,9 +458,9 @@ public static class CommandTextCache
         var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
         return statementBuilder.CreateMerge(request.Name,
             fields,
-            request.Qualifiers,
+            null,
             keyFields,
-            request.Hints);
+            request.Qualifiers, request.Hints);
     }
 
     #endregion
@@ -525,7 +525,7 @@ public static class CommandTextCache
         var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
         return statementBuilder.CreateMergeAll(request.Name,
             fields,
-            request.Qualifiers,
+            null, request.Qualifiers,
             request.BatchSize,
             keyFields,
             request.Hints);

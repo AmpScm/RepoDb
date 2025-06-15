@@ -449,8 +449,7 @@ SELECT sqlite_version();
         {
             EngineName = "SQLite",
             EngineVersion = parsedVersion,
-            CompatibilityVersion = null, // Not applicable
-            ParameterTypeMap = null // No TVPs
+            //CompatibilityVersion = null, // Not applicable
         };
     }
 }

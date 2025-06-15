@@ -905,8 +905,8 @@ public class ExecuteQueryBuilderTest
             var sql = builder.CreateMerge(
                 ClassMappedNameCache.Get<IdentityTable>(),
                 fields: fields,
-                qualifiers: fields.Where(f => dbFields.Any(df => (df.IsPrimary || df.IsIdentity) && df.Name == f.Name)),
-                dbFields.Where(df => (df.IsPrimary || df.IsIdentity)));
+                noUpdateFields: null,
+                keyFields: dbFields.Where(df => (df.IsPrimary || df.IsIdentity)), qualifiers: fields.Where(f => dbFields.Any(df => (df.IsPrimary || df.IsIdentity) && df.Name == f.Name)));
 
             // Act
             var affectedRow = connection.ExecuteNonQuery(sql, table);

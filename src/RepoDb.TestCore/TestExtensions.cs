@@ -42,7 +42,7 @@ public static class TestExtensions
         string? hints = null)
     {
         IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
-        return sb.CreateMerge(tableName, fields, qualifiers ?? [], keyFields, hints);
+        return sb.CreateMerge(tableName, fields, null, keyFields, qualifiers ?? [], hints);
     }
 
     public static string CreateMergeAll(
@@ -56,7 +56,7 @@ public static class TestExtensions
         string? hints = null)
     {
         IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
-        return sb.CreateMergeAll(tableName, fields, qualifiers, batchSize, keyFields, hints);
+        return sb.CreateMergeAll(tableName, fields, null, qualifiers, batchSize, keyFields, hints);
     }
 
     public static string CreateUpdate(

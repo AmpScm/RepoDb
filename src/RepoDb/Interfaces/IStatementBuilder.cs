@@ -246,6 +246,7 @@ public interface IStatementBuilder
     /// </summary>
     /// <param name="tableName">The name of the target table.</param>
     /// <param name="fields">The list of fields to be merged.</param>
+    /// <param name="noUpdateFields">The fields not to update on collisions</param>
     /// <param name="qualifiers">The list of the qualifier <see cref="Field"/> objects.</param>
     /// <param name="primaryField">The primary field from the database.</param>
     /// <param name="identityField">The identity field from the database.</param>
@@ -254,8 +255,9 @@ public interface IStatementBuilder
     string CreateMerge(
         string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields,
+        IEnumerable<Field> qualifiers,
         string? hints = null);
 
     #endregion
@@ -276,10 +278,10 @@ public interface IStatementBuilder
     string CreateMergeAll(
         string tableName,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         int batchSize,
-        IEnumerable<DbField> keyFields,
-        string? hints = null);
+        IEnumerable<DbField> keyFields, string? hints = null);
 
     #endregion
 

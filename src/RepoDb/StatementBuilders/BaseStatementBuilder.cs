@@ -1004,9 +1004,9 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     public abstract string CreateMerge(
         string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields,
-        string? hints = null);
+        IEnumerable<Field> qualifiers, string? hints = null);
 
     #endregion
 
@@ -1026,10 +1026,10 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     public abstract string CreateMergeAll(
         string tableName,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         int batchSize,
-        IEnumerable<DbField> keyFields,
-        string? hints = null);
+        IEnumerable<DbField> keyFields, string? hints = null);
 
     #endregion
 

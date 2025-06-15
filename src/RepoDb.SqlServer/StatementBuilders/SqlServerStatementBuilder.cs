@@ -413,9 +413,9 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> noUpdateFields,
         IEnumerable<DbField> keyFields,
-        string? hints = null)
+        IEnumerable<Field>? qualifiers, string? hints = null)
     {
         // Ensure with guards
         GuardTableName(tableName);
@@ -471,11 +471,9 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Get the insertable and updateable fields
-        var insertableFields = fields
-            .Where(field => !string.Equals(field.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase));
-        var updateableFields = fields
-            .Where(field => !string.Equals(field.Name, primaryField?.Name, StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(field.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase));
+        var insertableFields = fields.Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true }).ToList();
+        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
+            .AsList();
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -520,7 +518,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .Then()
             .Update()
             .Set()
-            .FieldsAndAliasFieldsFrom(updateableFields, "T", "S", DbSetting);
+            .FieldsAndAliasFieldsFrom(updatableFields, "T", "S", DbSetting);
 
         // Variables needed
         var keyColumn = GetReturnKeyColumnAsDbField(primaryField, identityField);
@@ -557,10 +555,10 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMergeAll(string tableName,
         IEnumerable<Field> fields,
+        IEnumerable<Field> noUpdateFields,
         IEnumerable<Field>? qualifiers,
         int batchSize,
-        IEnumerable<DbField> keyFields,
-        string? hints = null)
+        IEnumerable<DbField> keyFields, string? hints = null)
     {
         // Ensure with guards
         GuardTableName(tableName);
@@ -618,9 +616,8 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         // Get the insertable and updateable fields
         var insertableFields = fields
             .Where(field => !string.Equals(field.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase));
-        var updateableFields = fields
-            .Where(field => !string.Equals(field.Name, primaryField?.Name, StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(field.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase));
+        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
+            .AsList();
 
         // Initialize the builder
         var keyColumn = GetReturnKeyColumnAsDbField(primaryField, identityField);
@@ -699,7 +696,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .Then()
             .Update()
             .Set()
-            .FieldsAndAliasFieldsFrom(updateableFields, "T", "S", DbSetting);
+            .FieldsAndAliasFieldsFrom(updatableFields, "T", "S", DbSetting);
 
         // Set the output
         if (keyFields.Any())

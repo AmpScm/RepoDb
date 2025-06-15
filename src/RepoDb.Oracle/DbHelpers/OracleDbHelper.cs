@@ -331,7 +331,7 @@ ORDER BY C.COLUMN_ID
         {
             EngineName = engineName,
             EngineVersion = parsedVersion,
-            CompatibilityVersion = parsedVersion
+            //CompatibilityVersion = null
         };
     }
 

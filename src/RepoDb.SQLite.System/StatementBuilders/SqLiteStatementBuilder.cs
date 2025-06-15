@@ -304,9 +304,9 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> noUpdateFields,
         IEnumerable<DbField> keyFields,
-        string? hints = null)
+        IEnumerable<Field>? qualifiers, string? hints = null)
     {
         // Ensure with guards
         GuardTableName(tableName);
@@ -345,7 +345,9 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers from the fields
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null)
+        var insertFields = fields.Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true })
+            .AsList();
+        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .AsList();
 
         // Build the query
@@ -354,7 +356,7 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
             .Into()
             .TableNameFrom(tableName, DbSetting)
             .OpenParen()
-            .FieldsFrom(fields, DbSetting)
+            .FieldsFrom(insertFields, DbSetting)
             .CloseParen();
 
         //// Override the system value
@@ -367,7 +369,7 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
         builder
             .Values()
             .OpenParen()
-            .ParametersFrom(fields, 0, DbSetting)
+            .ParametersFrom(insertFields, 0, DbSetting)
             .CloseParen()
             .OnConflict(qualifiers, DbSetting)
             .DoUpdate()
@@ -405,10 +407,10 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMergeAll(string tableName,
         IEnumerable<Field> fields,
+        IEnumerable<Field> noUpdateFields,
         IEnumerable<Field> qualifiers,
         int batchSize,
-        IEnumerable<DbField> keyFields,
-        string? hints = null)
+        IEnumerable<DbField> keyFields, string? hints = null)
     {
         // Ensure with guards
         GuardTableName(tableName);
@@ -447,7 +449,7 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers from the fields
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null)
+        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .AsList();
 
         // Iterate the indexes

@@ -361,6 +361,9 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             EngineVersion = Version.Parse(Regex.Replace(ver.serverVersion, "^.*?([0-9]+(\\.[0-9]+)*).*?$", "$1") ?? "0.0"),
             CompatibilityVersion = ver.compatibilityLevel is { } c ? new(c / 10, c % 10) : default,
             ParameterTypeMap = typeMap
+#if NET
+            .AsReadOnly()
+#endif
         };
     }
 

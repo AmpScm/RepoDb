@@ -133,7 +133,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// <param name="tableName"></param>
     /// <param name="transaction"></param>
     /// <returns></returns>
-    private string GetIdentityFieldName<TDbConnection>(TDbConnection connection,
+    private string? GetIdentityFieldName<TDbConnection>(TDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null)
         where TDbConnection : IDbConnection
@@ -147,7 +147,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         // Return
         return GetIdentityFieldNameInternal(tableDefinition)?
             .AsUnquoted(connection.GetDbSetting())?
-            .Replace(doubleQuote, string.Empty);
+            .Replace(doubleQuote, "");
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private async ValueTask<string> GetIdentityFieldNameAsync<TDbConnection>(TDbConnection connection,
+    private async ValueTask<string?> GetIdentityFieldNameAsync<TDbConnection>(TDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
@@ -175,7 +175,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         // Return
         return GetIdentityFieldNameInternal(tableDefinition)?
             .AsUnquoted(connection.GetDbSetting())?
-            .Replace(doubleQuote, string.Empty);
+            .Replace(doubleQuote, "");
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// </summary>
     /// <param name="sql"></param>
     /// <returns></returns>
-    private string GetIdentityFieldNameInternal(string sql)
+    private string GetIdentityFieldNameInternal(string? sql)
     {
         // Get fieldname
         var identityField = TokenizeSchema(sql.AsMemory()).FirstOrDefault(def => IsIdentity(def.Definition));
@@ -204,9 +204,9 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
 
             var def = identityField.FieldName + " " + identityField.Definition;
 
-            def = def.Replace("PRIMARY KEY", string.Empty)
+            def = def.Replace("PRIMARY KEY", "")
                     .Trim()
-                    .Replace("(", string.Empty);
+                    .Replace("(", "");
 
             return def.Substring(0, def.IndexOf(' ')).Replace("\"", "");
         }
@@ -382,7 +382,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         if (nameEnd == -1)
         {
             // If no valid separator is found, the entire field is the name with no definition
-            return (field.ToString(), string.Empty);
+            return (field.ToString(), "");
         }
 
         ReadOnlySpan<char> fieldNameSpan;

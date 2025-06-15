@@ -40,9 +40,9 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
 
     public override string CreateMerge(string tableName,
                                    IEnumerable<Field> fields,
-                                   IEnumerable<Field>? qualifiers,
+                                   IEnumerable<Field>? noUpdateFields,
                                    IEnumerable<DbField> keyFields,
-                                   string? hints = null)
+                                   IEnumerable<Field>? qualifiers, string? hints = null)
     {
         if (tableName == null)
             throw new ArgumentNullException(nameof(tableName));
@@ -71,13 +71,14 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
 
         // UPDATE SET T.ColX = S.ColX (exclude qualifiers and identity fields)
         var updateFields = fieldList
-            .Where(f => !qualifierList.Any(q => q.Name == f.Name) &&
-                        (identityField == null || identityField.Name != f.Name))
+            .Where(f => qualifierList.GetByName(f.Name) is null &&
+                        noUpdateFields?.GetByName(f.Name) is null &&
+                        keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .ToList();
 
         // INSERT clause
         var insertColumns = fieldList
-            .Where(f => identityField == null || identityField.Name != f.Name)
+            .Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .ToList();
 
         var builder = new QueryBuilder();
@@ -130,7 +131,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         return builder.ToString();
     }
 
-    public override string CreateMergeAll(string tableName, IEnumerable<Field> fields, IEnumerable<Field>? qualifiers, int batchSize, IEnumerable<DbField> keyFields, string? hints = null)
+    public override string CreateMergeAll(string tableName, IEnumerable<Field> fields, IEnumerable<Field>? noUpdateFields, IEnumerable<Field>? qualifiers, int batchSize, IEnumerable<DbField> keyFields, string? hints = null)
     {
         throw new NotImplementedException();
     }

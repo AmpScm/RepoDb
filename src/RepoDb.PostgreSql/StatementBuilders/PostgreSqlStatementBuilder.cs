@@ -331,8 +331,9 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> noUpdateFields,
         IEnumerable<DbField> keyFields,
+        IEnumerable<Field>? qualifiers,
         string? hints = null)
     {
         // Ensure with guards
@@ -372,7 +373,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers from the fields
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null)
+        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .AsList();
 
         // Build the query
@@ -432,10 +433,10 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMergeAll(string tableName,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         int batchSize,
-        IEnumerable<DbField> keyFields,
-        string? hints = null)
+        IEnumerable<DbField> keyFields, string? hints = null)
     {
         // Ensure with guards
         GuardTableName(tableName);
@@ -474,7 +475,8 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers from the fields
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null)
+
+        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .AsList();
 
         // Iterate the indexes
