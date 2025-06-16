@@ -30,7 +30,8 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static object Merge<TEntity>(this IDbConnection connection,
+    public static object Merge<TEntity>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? fields = null,
@@ -47,7 +48,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -71,11 +72,13 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static object Merge<TEntity>(this IDbConnection connection,
+    public static object Merge<TEntity>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -89,6 +92,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -113,11 +117,13 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static object Merge<TEntity>(this IDbConnection connection,
+    public static object Merge<TEntity>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -131,6 +137,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -155,11 +162,13 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static object Merge<TEntity>(this IDbConnection connection,
+    public static object Merge<TEntity>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -173,6 +182,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -197,7 +207,8 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static TResult Merge<TEntity, TResult>(this IDbConnection connection,
+    public static TResult Merge<TEntity, TResult>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? fields = null,
@@ -214,7 +225,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -239,11 +250,13 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static TResult Merge<TEntity, TResult>(this IDbConnection connection,
+    public static TResult Merge<TEntity, TResult>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -257,6 +270,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -282,11 +296,13 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static TResult Merge<TEntity, TResult>(this IDbConnection connection,
+    public static TResult Merge<TEntity, TResult>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -300,6 +316,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -325,11 +342,13 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static TResult Merge<TEntity, TResult>(this IDbConnection connection,
+    public static TResult Merge<TEntity, TResult>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -343,6 +362,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -365,7 +385,8 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static object Merge<TEntity>(this IDbConnection connection,
+    public static object Merge<TEntity>(
+        this IDbConnection connection,
         TEntity entity,
         IEnumerable<Field>? fields = null,
         string? hints = null,
@@ -381,7 +402,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -404,10 +425,12 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static object Merge<TEntity>(this IDbConnection connection,
+    public static object Merge<TEntity>(
+        this IDbConnection connection,
         TEntity entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -421,6 +444,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -444,10 +468,12 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static object Merge<TEntity>(this IDbConnection connection,
+    public static object Merge<TEntity>(
+        this IDbConnection connection,
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -461,6 +487,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -488,6 +515,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -501,6 +529,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -540,7 +569,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -581,7 +610,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -609,6 +638,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -622,6 +652,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -650,6 +681,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -663,6 +695,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -688,17 +721,18 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    internal static TResult MergeInternal<TEntity, TResult>(this IDbConnection connection,
+    internal static TResult MergeInternal<TEntity, TResult>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? qualifiers,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
         IDbTransaction? transaction = null,
-        ITrace? trace = null,
-        IStatementBuilder? statementBuilder = null)
+        ITrace? trace = null, IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
         // Variables needed
@@ -712,6 +746,7 @@ public static partial class DbConnectionExtension
                 entity: (IDictionary<string, object>)entity,
                 qualifiers: qualifiers,
                 fields: fields ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields,
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -726,6 +761,7 @@ public static partial class DbConnectionExtension
                 entity: entity,
                 qualifiers: qualifiers,
                 fields: fields ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields,
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -755,7 +791,8 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static async Task<object> MergeAsync<TEntity>(this IDbConnection connection,
+    public static async Task<object> MergeAsync<TEntity>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? fields = null,
@@ -768,12 +805,13 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAsyncInternal<TEntity, object>(connection: connection,
+        return await MergeAsyncInternal<TEntity, object>(
+            connection: connection,
             tableName: tableName,
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -799,11 +837,13 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    public static async Task<object> MergeAsync<TEntity>(this IDbConnection connection,
+    public static async Task<object> MergeAsync<TEntity>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -818,6 +858,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -849,6 +890,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -863,6 +905,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -894,6 +937,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -908,6 +952,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -952,7 +997,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -984,6 +1029,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -998,6 +1044,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1030,6 +1077,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1044,6 +1092,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1076,6 +1125,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1090,6 +1140,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1131,6 +1182,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
+            noUpdateFields: null,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1160,6 +1212,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1174,6 +1227,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1203,6 +1257,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1217,6 +1272,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1246,6 +1302,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1260,6 +1317,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1302,6 +1360,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
+            noUpdateFields: null,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1332,6 +1391,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1346,6 +1406,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1376,6 +1437,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1390,6 +1452,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1420,6 +1483,7 @@ public static partial class DbConnectionExtension
         TEntity entity,
         Expression<Func<TEntity, object?>> qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1434,6 +1498,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: Field.Parse(qualifiers),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1461,18 +1526,19 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    internal static ValueTask<TResult> MergeAsyncInternal<TEntity, TResult>(this IDbConnection connection,
+    internal static ValueTask<TResult> MergeAsyncInternal<TEntity, TResult>(
+        this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? qualifiers,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
         IDbTransaction? transaction = null,
         ITrace? trace = null,
-        IStatementBuilder? statementBuilder = null,
-        CancellationToken cancellationToken = default)
+        IStatementBuilder? statementBuilder = null, CancellationToken cancellationToken = default)
         where TEntity : class
     {
         // Variables needed
@@ -1481,14 +1547,16 @@ public static partial class DbConnectionExtension
         // Return the result
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject() == true)
         {
-            return MergeAsyncInternalBase<IDictionary<string, object>, TResult>(connection: connection,
+            return MergeAsyncInternalBase<IDictionary<string, object>, TResult>(
+                connection: connection,
                 tableName: tableName,
                 entity: (IDictionary<string, object>)entity,
-                qualifiers: qualifiers,
                 fields: fields ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields,
+                qualifiers: qualifiers,
                 hints: hints,
                 commandTimeout: commandTimeout,
-        traceKey: traceKey,
+                traceKey: traceKey,
                 transaction: transaction,
                 trace: trace,
                 statementBuilder: statementBuilder,
@@ -1496,14 +1564,16 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return MergeAsyncInternalBase<TEntity, TResult>(connection: connection,
+            return MergeAsyncInternalBase<TEntity, TResult>(
+                connection: connection,
                 tableName: tableName,
                 entity: entity,
-                qualifiers: qualifiers,
                 fields: fields ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields,
+                qualifiers: qualifiers,
                 hints: hints,
                 commandTimeout: commandTimeout,
-        traceKey: traceKey,
+                traceKey: traceKey,
                 transaction: transaction,
                 trace: trace,
                 statementBuilder: statementBuilder,
@@ -1545,7 +1615,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -1573,6 +1643,7 @@ public static partial class DbConnectionExtension
         object entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1585,6 +1656,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1613,6 +1685,7 @@ public static partial class DbConnectionExtension
         object entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1625,6 +1698,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1664,7 +1738,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -1693,6 +1767,7 @@ public static partial class DbConnectionExtension
         object entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1705,6 +1780,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1734,6 +1810,7 @@ public static partial class DbConnectionExtension
         object entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1746,6 +1823,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1790,7 +1868,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -1820,6 +1898,7 @@ public static partial class DbConnectionExtension
         object entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1833,6 +1912,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1863,6 +1943,7 @@ public static partial class DbConnectionExtension
         object entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1876,6 +1957,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1918,7 +2000,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: null,
             fields: fields,
-            hints: hints,
+            noUpdateFields: null, hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -1949,6 +2031,7 @@ public static partial class DbConnectionExtension
         object entity,
         Field qualifier,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -1962,6 +2045,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifier?.AsEnumerable(),
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1993,6 +2077,7 @@ public static partial class DbConnectionExtension
         object entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field>? fields = null,
+        IEnumerable<Field>? noUpdateFields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -2006,6 +2091,7 @@ public static partial class DbConnectionExtension
             entity: entity,
             qualifiers: qualifiers,
             fields: fields,
+            noUpdateFields: noUpdateFields,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -2041,12 +2127,12 @@ public static partial class DbConnectionExtension
         TEntity entity,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
         IDbTransaction? transaction = null,
-        ITrace? trace = null,
-        IStatementBuilder? statementBuilder = null)
+        ITrace? trace = null, IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
         // Check the qualifiers
@@ -2064,6 +2150,7 @@ public static partial class DbConnectionExtension
             tableName,
             qualifiers,
             fields,
+            noUpdateFields,
             hints,
             transaction,
             statementBuilder);
@@ -2139,14 +2226,14 @@ public static partial class DbConnectionExtension
         string tableName,
         TEntity entity,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field>? qualifiers = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
         IDbTransaction? transaction = null,
         ITrace? trace = null,
-        IStatementBuilder? statementBuilder = null,
-        CancellationToken cancellationToken = default)
+        IStatementBuilder? statementBuilder = null, CancellationToken cancellationToken = default)
         where TEntity : class
     {
         // Check the qualifiers
@@ -2164,6 +2251,7 @@ public static partial class DbConnectionExtension
             tableName,
             qualifiers,
             fields,
+            noUpdateFields,
             hints,
             transaction,
             statementBuilder,

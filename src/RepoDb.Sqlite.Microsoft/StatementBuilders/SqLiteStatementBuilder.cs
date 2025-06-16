@@ -8,8 +8,13 @@ namespace RepoDb.StatementBuilders;
 /// <summary>
 /// A class that is being used to build a SQL Statement for SqLite.
 /// </summary>
+#if !SQLITESYSTEM
 public sealed class SqLiteStatementBuilder : BaseStatementBuilder
+#else
+public sealed class SQLiteStatementBuilder : BaseStatementBuilder
+#endif
 {
+#if !SQLITESYSTEM
     /// <summary>
     /// Creates a new instance of <see cref="SqLiteStatementBuilder"/> class.
     /// </summary>
@@ -23,6 +28,21 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
               convertFieldResolver,
               averageableClientTypeResolver)
     { }
+#else
+    /// <summary>
+    /// Creates a new instance of <see cref="SqLiteStatementBuilder"/> class.
+    /// </summary>
+    /// <param name="dbSetting">The database settings object currently in used.</param>
+    /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
+    /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
+    public SQLiteStatementBuilder(IDbSetting dbSetting,
+        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
+        IResolver<Type, Type> averageableClientTypeResolver = null)
+        : base(dbSetting,
+              convertFieldResolver,
+              averageableClientTypeResolver)
+    { }
+#endif
 
     #region CreateBatchQuery
 
@@ -345,8 +365,6 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers and identity field from the fields to update
-        var insertFields = fields.Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .AsList();
         var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .AsList();
 
@@ -356,14 +374,14 @@ public sealed class SqLiteStatementBuilder : BaseStatementBuilder
             .Into()
             .TableNameFrom(tableName, DbSetting)
             .OpenParen()
-            .FieldsFrom(insertFields, DbSetting)
+            .FieldsFrom(fields, DbSetting)
             .CloseParen();
 
         // Continue
         builder
             .Values()
             .OpenParen()
-            .ParametersFrom(insertFields, 0, DbSetting)
+            .ParametersFrom(fields, 0, DbSetting)
             .CloseParen()
             .OnConflict(qualifiers, DbSetting)
             .DoUpdate()

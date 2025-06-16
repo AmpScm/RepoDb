@@ -25,15 +25,15 @@ internal sealed record MergeAllExecutionContext
     /// <summary>
     ///
     /// </summary>
-    public Action<DbCommand, object> SingleDataEntityParametersSetterFunc { get; init; }
+    public Action<DbCommand, object>? SingleDataEntityParametersSetterFunc { get; init; }
 
     /// <summary>
     ///
     /// </summary>
-    public Action<DbCommand, IList<object>> MultipleDataEntitiesParametersSetterFunc { get; init; }
+    public Action<DbCommand, IList<object>>? MultipleDataEntitiesParametersSetterFunc { get; init; }
 
     /// <summary>
     ///
     /// </summary>
-    public Action<object, object?> KeyPropertySetterFunc { get; init; }
+    public Action<object, object?>? KeyPropertySetterFunc { get; init; }
 }

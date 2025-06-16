@@ -101,48 +101,13 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
             reader.GetBoolean(1),
             reader.GetBoolean(2),
             reader.GetBoolean(3),
-            DbTypeResolver.Resolve(columnType),
+            DbTypeResolver.Resolve(columnType)!,
             size,
             reader.IsDBNull(6) ? (byte?)null : byte.Parse(reader.GetInt32(6).ToString()),
             reader.IsDBNull(7) ? (byte?)null : byte.Parse(reader.GetInt32(7).ToString()),
             reader.GetString(8),
             reader.GetBoolean(9),
             reader.GetBoolean(10),
-            "MYSQLC");
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="reader"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private async Task<DbField> ReaderToDbFieldAsync(DbDataReader reader,
-        CancellationToken cancellationToken = default)
-    {
-        var columnType = await reader.GetFieldValueAsync<string>(4, cancellationToken);
-        var excluded = GetBlobTypes();
-        int? size;
-        if (excluded.Contains(columnType.ToLowerInvariant()))
-        {
-            size = null;
-        }
-        else
-        {
-            size = await reader.IsDBNullAsync(5, cancellationToken) ? (int?)null :
-                await reader.GetFieldValueAsync<int>(5, cancellationToken);
-        }
-        return new DbField(await reader.GetFieldValueAsync<string>(0, cancellationToken),
-            await reader.GetFieldValueAsync<bool>(1, cancellationToken),
-            await reader.GetFieldValueAsync<bool>(2, cancellationToken),
-            await reader.GetFieldValueAsync<bool>(3, cancellationToken),
-            DbTypeResolver.Resolve(columnType),
-            size,
-            await reader.IsDBNullAsync(6, cancellationToken) ? null : byte.Parse((await reader.GetFieldValueAsync<int>(6, cancellationToken)).ToString()),
-            await reader.IsDBNullAsync(7, cancellationToken) ? null : byte.Parse((await reader.GetFieldValueAsync<int>(7, cancellationToken)).ToString()),
-            await reader.GetFieldValueAsync<string>(8, cancellationToken),
-            await reader.GetFieldValueAsync<bool>(9, cancellationToken),
-            await reader.GetFieldValueAsync<bool>(10, cancellationToken),
             "MYSQLC");
     }
 
@@ -218,7 +183,7 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
         // Iterate the list of the fields
         while (await reader.ReadAsync(cancellationToken))
         {
-            dbFields.Add(await ReaderToDbFieldAsync(reader, cancellationToken));
+            dbFields.Add(ReaderToDbField(reader));
         }
 
         // Return the list of fields

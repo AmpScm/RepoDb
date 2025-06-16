@@ -13,16 +13,16 @@ namespace RepoDb.DbHelpers;
 /// <summary>
 /// A helper class for database specially for the direct access. This class is only meant for SqLite.
 /// </summary>
-public sealed partial class SqLiteDbHelper : BaseDbHelper
+public sealed partial class SQLiteDbHelper : BaseDbHelper
 {
     private const string doubleQuote = "\"";
 
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteDbHelper"/> class.
+    /// Creates a new instance of <see cref="SQLiteDbHelper"/> class.
     /// </summary>
     /// <param name="dbTypeResolver">The type resolver to be used.</param>
     /// <param name="dbSetting">The instance of the <see cref="IDbSetting"/> object to be used.</param>
-    public SqLiteDbHelper(IDbSetting dbSetting, IResolver<string, Type> dbTypeResolver)
+    public SQLiteDbHelper(IDbSetting dbSetting, IResolver<string, Type> dbTypeResolver)
         : base(dbTypeResolver)
     {
         DbSetting = dbSetting;
@@ -31,7 +31,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     #region Properties
 
     /// <summary>
-    /// Gets the database setting used by this <see cref="SqLiteDbHelper"/> instance.
+    /// Gets the database setting used by this <see cref="SQLiteDbHelper"/> instance.
     /// </summary>
     public IDbSetting DbSetting { get; }
 
@@ -54,7 +54,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// <param name="identityFieldName"></param>
     /// <returns></returns>
     private DbField ReaderToDbField(DbDataReader reader,
-        string identityFieldName)
+        string? identityFieldName)
     {
         var dbType = SplitDbType(reader.IsDBNull(2) ? null : reader.GetString(2), out var size);
 
@@ -62,41 +62,13 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
             !reader.IsDBNull(5) && reader.GetBoolean(5),
             string.Equals(reader.GetString(1), identityFieldName, StringComparison.OrdinalIgnoreCase),
             reader.IsDBNull(3) || reader.GetBoolean(3) == false,
-            DbTypeResolver.Resolve(dbType ?? "text"),
+            DbTypeResolver.Resolve(dbType ?? "text")!,
             size,
             null,
             null,
             dbType,
             !reader.IsDBNull(4),
             reader.GetInt32(reader.FieldCount - 1) is 2 /* dynamic generated */ or 3 /* stored generated */,
-            "SYSSQLITE");
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="reader"></param>
-    /// <param name="identityFieldName"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private async ValueTask<DbField> ReaderToDbFieldAsync(DbDataReader reader,
-        string identityFieldName,
-        CancellationToken cancellationToken = default)
-    {
-        var rawDbType = await reader.IsDBNullAsync(2, cancellationToken) ? null : await reader.GetFieldValueAsync<string>(2, cancellationToken);
-        var dbType = SplitDbType(rawDbType, out var size);
-
-        return new DbField(await reader.GetFieldValueAsync<string>(1, cancellationToken),
-            !await reader.IsDBNullAsync(5, cancellationToken) && Convert.ToBoolean(await reader.GetFieldValueAsync<long>(5, cancellationToken)),
-            string.Equals(await reader.GetFieldValueAsync<string>(1, cancellationToken), identityFieldName, StringComparison.OrdinalIgnoreCase),
-            await reader.IsDBNullAsync(3, cancellationToken) || Convert.ToBoolean(await reader.GetFieldValueAsync<long>(3, cancellationToken)) == false,
-            DbTypeResolver.Resolve(dbType ?? "text"),
-            size,
-            null,
-            null,
-            dbType,
-            !await reader.IsDBNullAsync(4, cancellationToken),
-            await reader.GetFieldValueAsync<long>(reader.FieldCount - 1, cancellationToken) is 2 /* dynamic generated */ or 3 /* stored generated */,
             "SYSSQLITE");
     }
 
@@ -108,18 +80,18 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     private static Regex FieldTypeRegex() => re;
 #endif
 
-    private static string? SplitDbType(string v, out int? size)
+    private static string? SplitDbType(string? v, out int? size)
     {
         size = null;
 
-        if (FieldTypeRegex().Match(v) is { } r && r.Success)
+        if (FieldTypeRegex().Match(v ?? "") is { } r && r.Success)
         {
             // Get the size
             if (int.TryParse(r.Groups[1].Value, out var s))
             {
                 size = s;
             }
-            v = v.Substring(0, r.Index);
+            v = v!.Substring(0, r.Index);
         }
 
         return v;
@@ -183,7 +155,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// </summary>
     /// <param name="sql"></param>
     /// <returns></returns>
-    private string GetIdentityFieldNameInternal(string? sql)
+    private string? GetIdentityFieldNameInternal(string? sql)
     {
         // Get fieldname
         var identityField = TokenizeSchema(sql.AsMemory()).FirstOrDefault(def => IsIdentity(def.Definition));
@@ -287,7 +259,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         // Iterate the list of the fields
         while (await reader.ReadAsync(cancellationToken))
         {
-            dbFields.Add(await ReaderToDbFieldAsync(reader, identity, cancellationToken));
+            dbFields.Add(ReaderToDbField(reader, identity));
         }
 
         // Return the list of fields

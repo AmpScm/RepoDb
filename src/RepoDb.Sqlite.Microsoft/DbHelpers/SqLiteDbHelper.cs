@@ -68,34 +68,6 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
             "MSSQLITE");
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="reader"></param>
-    /// <param name="identityFieldName"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private async Task<DbField> ReaderToDbFieldAsync(DbDataReader reader,
-        string identityFieldName,
-        CancellationToken cancellationToken = default)
-    {
-        var rawDbType = await reader.IsDBNullAsync(2, cancellationToken) ? null : await reader.GetFieldValueAsync<string>(2, cancellationToken);
-        var dbType = SplitDbType(rawDbType, out var size);
-
-        return new DbField(await reader.GetFieldValueAsync<string>(1, cancellationToken),
-            !await reader.IsDBNullAsync(5, cancellationToken) && Convert.ToBoolean(await reader.GetFieldValueAsync<long>(5, cancellationToken)),
-            string.Equals(await reader.GetFieldValueAsync<string>(1, cancellationToken), identityFieldName, StringComparison.OrdinalIgnoreCase),
-            await reader.IsDBNullAsync(3, cancellationToken) || Convert.ToBoolean(await reader.GetFieldValueAsync<long>(3, cancellationToken)) == false,
-            DbTypeResolver.Resolve(dbType ?? "text"),
-            size,
-            null,
-            null,
-            dbType,
-            !await reader.IsDBNullAsync(4, cancellationToken),
-            await reader.GetFieldValueAsync<long>(reader.FieldCount - 1, cancellationToken) is 2 /* dynamic generated */ or 3 /* stored generated */,
-            "MSSQLITE");
-    }
-
 #if NET
     [GeneratedRegex(@"\((\d+)(,(\d+))*\)$")]
     private static partial Regex FieldTypeRegex();
@@ -283,7 +255,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         // Iterate the list of the fields
         while (await reader.ReadAsync(cancellationToken))
         {
-            dbFields.Add(await ReaderToDbFieldAsync(reader, identity, cancellationToken));
+            dbFields.Add(ReaderToDbField(reader, identity));
         }
 
         // Return the list of fields

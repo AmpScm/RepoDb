@@ -12,7 +12,7 @@ public class TypeNameAttributeTest
     [TestInitialize]
     public void Initialize()
     {
-        DbSettingMapper.Add<SQLiteConnection>(new SqLiteDbSetting(), true);
+        DbSettingMapper.Add<SQLiteConnection>(new SQLiteDbSetting(), true);
     }
 
     #region Classes

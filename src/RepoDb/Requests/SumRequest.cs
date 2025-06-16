@@ -66,7 +66,7 @@ internal sealed class SumRequest : BaseRequest
     /// <summary>
     /// Gets the field to be summarized.
     /// </summary>
-    public Field Field { get; }
+    public Field? Field { get; }
 
     /// <summary>
     /// Gets the query expression used.

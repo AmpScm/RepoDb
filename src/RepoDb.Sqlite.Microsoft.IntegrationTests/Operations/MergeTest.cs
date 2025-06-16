@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Sqlite.Microsoft.IntegrationTests.Models;
 using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
+using RepoDb.Trace;
 
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
@@ -316,7 +317,7 @@ public class MergeTest
 
             // Act
             var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
-                table);
+                table, trace: new DiagnosticsTracer());
 
             // Assert
             Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());

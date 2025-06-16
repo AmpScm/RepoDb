@@ -54,7 +54,7 @@ partial class Compiler
     /// <param name="classProperty"></param>
     /// <returns></returns>
     private static Expression CreatePropertyHandlerGetOptionsExpression(Expression readerExpression,
-        ClassProperty classProperty) =>
+        ClassProperty? classProperty) =>
         CreatePropertyHandlerGetOptionsExpression(readerExpression,
             classProperty == null ? null : Expression.Constant(classProperty));
 

@@ -152,10 +152,10 @@ internal static class FunctionCache
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    internal static Action<DbCommand, object> GetDataEntityDbParameterSetterCompiledFunction(Type entityType,
+    internal static Action<DbCommand, object?> GetDataEntityDbParameterSetterCompiledFunction(Type entityType,
         string cacheKey,
-        IEnumerable<DbField> inputFields,
-        IEnumerable<DbField> outputFields,
+        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField>? outputFields,
         IDbSetting? dbSetting = null,
         IDbHelper dbHelper = null) =>
         DataEntityDbParameterSetterCache.Get(entityType,
@@ -251,8 +251,8 @@ internal static class FunctionCache
     /// <returns></returns>
     internal static Action<DbCommand, IList<object>> GetDataEntityListDbParameterSetterCompiledFunction(Type entityType,
         string cacheKey,
-        IEnumerable<DbField> inputFields,
-        IEnumerable<DbField> outputFields,
+        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField>? outputFields,
         int batchSize,
         IDbSetting? dbSetting = null,
         IDbHelper dbHelper = null) =>
@@ -401,7 +401,7 @@ internal static class FunctionCache
     /// <param name="entityType"></param>
     /// <param name="field"></param>
     /// <returns></returns>
-    internal static Action<object, object> GetDataEntityPropertySetterCompiledFunction(Type entityType,
+    internal static Action<object, object?> GetDataEntityPropertySetterCompiledFunction(Type entityType,
         Field field) =>
         DataEntityPropertySetterCache.Get(entityType, field);
 

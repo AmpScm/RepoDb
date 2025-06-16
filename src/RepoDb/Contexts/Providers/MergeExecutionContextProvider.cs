@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿#nullable enable
+using System.Data;
 using RepoDb.Contexts.Cachers;
 using RepoDb.Contexts.Execution;
 using RepoDb.Extensions;
@@ -25,7 +26,8 @@ internal static class MergeExecutionContextProvider
         string tableName,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field> fields,
-        string hints)
+        IEnumerable<Field>? noUpdateFields,
+        string? hints)
     {
         return string.Concat(entityType.FullName,
             ";",
@@ -33,7 +35,9 @@ internal static class MergeExecutionContextProvider
             ";",
             qualifiers?.Select(f => f.Name).Join(","),
             ";",
-            fields?.Select(f => f.Name).Join(","),
+            fields.Select(f => f.Name).Join(","),
+            ";",
+            noUpdateFields?.Select(f => f.Name).Join(","),
             ";",
             hints);
     }
@@ -46,20 +50,21 @@ internal static class MergeExecutionContextProvider
     /// <param name="tableName"></param>
     /// <param name="qualifiers"></param>
     /// <param name="fields"></param>
+    /// <param name="noUpdateFields"></param>
     /// <param name="hints"></param>
     /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
     /// <returns></returns>
+    /// <param name="statementBuilder"></param>
     public static MergeExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> qualifiers,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
-        IDbTransaction? transaction = null,
-        IStatementBuilder? statementBuilder = null)
+        IDbTransaction? transaction = null, IStatementBuilder? statementBuilder = null)
     {
-        var key = GetKey(entityType, tableName, qualifiers, fields, hints);
+        var key = GetKey(entityType, tableName, qualifiers, fields, noUpdateFields, hints);
 
         // Get from cache
         var context = MergeExecutionContextCache.Get(key);
@@ -71,7 +76,7 @@ internal static class MergeExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields?.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
         }
@@ -80,6 +85,7 @@ internal static class MergeExecutionContextProvider
             connection,
             transaction,
             fields,
+            noUpdateFields,
             qualifiers,
             hints,
             statementBuilder);
@@ -108,22 +114,23 @@ internal static class MergeExecutionContextProvider
     /// <param name="tableName"></param>
     /// <param name="qualifiers"></param>
     /// <param name="fields"></param>
+    /// <param name="noUpdateFields"></param>
     /// <param name="hints"></param>
     /// <param name="transaction"></param>
     /// <param name="statementBuilder"></param>
-    /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    /// <param name="cancellationToken"></param>
     public static async Task<MergeExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         string tableName,
         IEnumerable<Field> qualifiers,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
         IDbTransaction? transaction = null,
-        IStatementBuilder? statementBuilder = null,
-        CancellationToken cancellationToken = default)
+        IStatementBuilder? statementBuilder = null, CancellationToken cancellationToken = default)
     {
-        var key = GetKey(entityType, tableName, qualifiers, fields, hints);
+        var key = GetKey(entityType, tableName, qualifiers, fields, noUpdateFields, hints);
 
         // Get from cache
         var context = MergeExecutionContextCache.Get(key);
@@ -135,7 +142,7 @@ internal static class MergeExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        if (dbFields?.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
         }
@@ -144,6 +151,7 @@ internal static class MergeExecutionContextProvider
             connection,
             transaction,
             fields,
+            noUpdateFields,
             qualifiers,
             hints,
             statementBuilder);
@@ -190,7 +198,7 @@ internal static class MergeExecutionContextProvider
             .AsList();
 
         // Variables for the entity action
-        Action<object, object> keyPropertySetterFunc = null;
+        Action<object, object?>? keyPropertySetterFunc = null;
         var keyField = ExecutionContextProvider
             .GetTargetReturnColumnAsField(entityType, dbFields);
 

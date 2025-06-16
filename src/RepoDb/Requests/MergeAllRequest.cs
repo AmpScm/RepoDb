@@ -24,7 +24,8 @@ internal class MergeAllRequest : BaseRequest
         IDbConnection connection,
         IDbTransaction? transaction,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field>? noUpdateFields,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -33,6 +34,7 @@ internal class MergeAllRequest : BaseRequest
             connection,
             transaction,
             fields,
+            noUpdateFields,
             qualifiers,
             batchSize,
             hints,
@@ -54,7 +56,8 @@ internal class MergeAllRequest : BaseRequest
         IDbConnection connection,
         IDbTransaction? transaction,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field>? noUpdateFields,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -63,6 +66,7 @@ internal class MergeAllRequest : BaseRequest
             connection,
             transaction,
             fields,
+            noUpdateFields,
             qualifiers,
             batchSize,
             hints,
@@ -86,7 +90,8 @@ internal class MergeAllRequest : BaseRequest
         IDbConnection connection,
         IDbTransaction? transaction,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field>? noUpdateFields,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -96,8 +101,9 @@ internal class MergeAllRequest : BaseRequest
             statementBuilder)
     {
         Type = type;
-        Fields = fields?.AsList();
-        Qualifiers = qualifiers?.AsList();
+        Fields = fields.AsList();
+        noUpdateFields = noUpdateFields?.AsList();
+        Qualifiers = qualifiers.AsList();
         BatchSize = batchSize;
         Hints = hints;
     }
@@ -108,9 +114,14 @@ internal class MergeAllRequest : BaseRequest
     public IEnumerable<Field> Fields { get; init; }
 
     /// <summary>
+    /// Gets the list of the target fields.
+    /// </summary>
+    public IEnumerable<Field>? NoUpdateFields { get; init; }
+
+    /// <summary>
     /// Gets the qualifier <see cref="Field"/> objects.
     /// </summary>
-    public IEnumerable<Field>? Qualifiers { get; init; }
+    public IEnumerable<Field> Qualifiers { get; init; }
 
     /// <summary>
     /// Gets the size batch of the update operation.
@@ -137,12 +148,22 @@ internal class MergeAllRequest : BaseRequest
                 typeof(MergeAllRequest),
                 Name,
                 BatchSize,
-                Hints);
+                Hints,
+                Fields.Count(),
+                NoUpdateFields?.Count() ?? 0);
 
             // Get the qualifier <see cref="Field"/> objects
             if (Fields != null)
             {
                 foreach (var field in Fields)
+                {
+                    hashCode = System.HashCode.Combine(hashCode, field);
+                }
+            }
+
+            if (NoUpdateFields != null)
+            {
+                foreach (var field in NoUpdateFields)
                 {
                     hashCode = System.HashCode.Combine(hashCode, field);
                 }

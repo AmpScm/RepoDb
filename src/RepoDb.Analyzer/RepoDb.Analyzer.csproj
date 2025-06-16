@@ -8,6 +8,7 @@
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
     <Description>Analyzer to validate some usages that will throw errors on runtime.</Description>
     <ImplicitUsings>true</ImplicitUsings>
+    <IsRoslynAnalyzer>true</IsRoslynAnalyzer>
     <Nullable>enable</Nullable>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>

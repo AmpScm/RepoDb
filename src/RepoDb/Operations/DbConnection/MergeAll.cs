@@ -419,6 +419,7 @@ public static partial class DbConnectionExtension
                     qualifiers: qualifiers,
                     batchSize: batchSize,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                    noUpdateFields: null,
                     hints: hints,
                     commandTimeout: commandTimeout,
                     traceKey: traceKey,
@@ -434,6 +435,7 @@ public static partial class DbConnectionExtension
                     qualifiers: qualifiers,
                     batchSize: batchSize,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                    noUpdateFields: null,
                     hints: hints,
                     commandTimeout: commandTimeout,
                     traceKey: traceKey,
@@ -906,6 +908,7 @@ public static partial class DbConnectionExtension
                     qualifiers: qualifiers,
                     batchSize: batchSize,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                    noUpdateFields: null,
                     hints: hints,
                     commandTimeout: commandTimeout,
                     traceKey: traceKey,
@@ -922,6 +925,7 @@ public static partial class DbConnectionExtension
                     qualifiers: qualifiers,
                     batchSize: batchSize,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                    noUpdateFields: null,
                     hints: hints,
                     commandTimeout: commandTimeout,
                     traceKey: traceKey,
@@ -1030,7 +1034,7 @@ public static partial class DbConnectionExtension
     public static int MergeAll(this IDbConnection connection,
         string tableName,
         IEnumerable<object> entities,
-        Field qualifier,
+        Field? qualifier,
         int batchSize = 0,
         IEnumerable<Field>? fields = null,
         string? hints = null,
@@ -1261,9 +1265,10 @@ public static partial class DbConnectionExtension
     internal static int MergeAllInternalBase<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.MergeAll,
@@ -1283,7 +1288,7 @@ public static partial class DbConnectionExtension
 
         // Validate the batch size
         int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers ?? []).Select(x => x.Name).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
+            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers).Select(x => x.Name).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
@@ -1296,6 +1301,7 @@ public static partial class DbConnectionExtension
             qualifiers,
             batchSize,
             fields,
+            noUpdateFields,
             hints,
             transaction,
             statementBuilder);
@@ -1368,7 +1374,7 @@ public static partial class DbConnectionExtension
                             qualifiers,
                             batchItems.Length,
                             fields,
-                            hints,
+                            null, hints,
                             transaction,
                             statementBuilder);
 
@@ -1482,9 +1488,10 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<int> MergeAllAsyncInternalBase<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.MergeAll,
@@ -1505,7 +1512,7 @@ public static partial class DbConnectionExtension
 
         // Validate the batch size
         int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers ?? []).Select(x => x.Name).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
+            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers).Select(x => x.Name).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
@@ -1518,6 +1525,7 @@ public static partial class DbConnectionExtension
             qualifiers,
             Math.Min(maxBatchSize, entities.Count()),
             fields,
+            noUpdateFields,
             hints,
             transaction,
             statementBuilder,
@@ -1593,7 +1601,7 @@ public static partial class DbConnectionExtension
                             qualifiers,
                             batchItems.Length,
                             fields,
-                            hints,
+                            null, hints,
                             transaction,
                             statementBuilder,
                             cancellationToken).ConfigureAwait(false);

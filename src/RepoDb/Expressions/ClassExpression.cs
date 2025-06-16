@@ -177,9 +177,7 @@ public static partial class ClassExpression
         return func(obj);
     }
 
-    /// <summary>
-    private static Func<TEntity, IEnumerable<PropertyValue>> GetFunc<TEntity>()
-    where TEntity : class
+    private static Func<TEntity, IEnumerable<PropertyValue>> GetFunc<TEntity>() where TEntity : class
     {
         // Expressions
         var obj = Expression.Parameter(typeof(TEntity), "obj");

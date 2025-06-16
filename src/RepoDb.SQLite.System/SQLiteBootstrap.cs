@@ -1,8 +1,8 @@
-﻿using RepoDb.DbHelpers;
+﻿using System.Data.SQLite;
+using RepoDb.DbHelpers;
 using RepoDb.DbSettings;
 using RepoDb.Resolvers;
 using RepoDb.StatementBuilders;
-using System.Data.SQLite;
 
 namespace RepoDb;
 
@@ -42,14 +42,14 @@ public static class SQLiteBootstrap
         #region SDS
 
         // Map the DbSetting
-        var sdsDbSetting = new SqLiteDbSetting(true);
+        var sdsDbSetting = new SQLiteDbSetting(true);
         DbSettingMapper.Add<SQLiteConnection>(sdsDbSetting, true);
 
         // Map the DbHelper
-        DbHelperMapper.Add<SQLiteConnection>(new SqLiteDbHelper(sdsDbSetting, new SqLiteDbTypeNameToClientTypeResolver()), true);
+        DbHelperMapper.Add<SQLiteConnection>(new SQLiteDbHelper(sdsDbSetting, new SqLiteDbTypeNameToClientTypeResolver()), true);
 
         // Map the Statement Builder
-        StatementBuilderMapper.Add<SQLiteConnection>(new SqLiteStatementBuilder(sdsDbSetting,
+        StatementBuilderMapper.Add<SQLiteConnection>(new SQLiteStatementBuilder(sdsDbSetting,
             new SqLiteConvertFieldResolver(),
             new ClientTypeToAverageableClientTypeResolver()), true);
 

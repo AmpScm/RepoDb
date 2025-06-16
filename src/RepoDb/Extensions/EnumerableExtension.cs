@@ -187,7 +187,7 @@ public static class EnumerableExtension
                 {
                     continue;
                 }
-                var vt = v.GetType();
+                var vt = v.GetType() ?? StaticType.Object;
 
                 p ??= vt;
 
@@ -247,7 +247,7 @@ public static class EnumerableExtension
                 {
                     continue;
                 }
-                var vt = v.GetType();
+                var vt = v.GetType() ?? StaticType.Object;
 
                 p ??= vt;
 

@@ -16,7 +16,7 @@ namespace RepoDb.DbHelpers;
 /// </summary>
 public sealed class MySqlDbHelper : BaseDbHelper
 {
-    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<MySqlConnection>();
+    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<MySqlConnection>()!;
 
     /// <summary>
     /// Creates a new instance of <see cref="MySqlDbHelper"/> class.
@@ -111,47 +111,13 @@ public sealed class MySqlDbHelper : BaseDbHelper
             reader.GetBoolean(1),
             reader.GetBoolean(2),
             reader.GetBoolean(3),
-            DbTypeResolver.Resolve(columnType),
+            DbTypeResolver.Resolve(columnType)!,
             size,
             reader.IsDBNull(6) ? null : byte.Parse(reader.GetInt32(6).ToString()),
             reader.IsDBNull(7) ? null : byte.Parse(reader.GetInt32(7).ToString()),
             reader.GetString(8),
             reader.GetBoolean(9),
             reader.GetBoolean(10),
-            "MYSQL");
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="reader"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private async Task<DbField> ReaderToDbFieldAsync(DbDataReader reader,
-        CancellationToken cancellationToken = default)
-    {
-        var columnType = await reader.GetFieldValueAsync<string>(4, cancellationToken);
-        var excluded = GetBlobTypes();
-        int? size;
-        if (excluded.Contains(columnType.ToLowerInvariant()))
-        {
-            size = null;
-        }
-        else
-        {
-            size = await reader.IsDBNullAsync(5, cancellationToken) ? (int?)null :
-                Convert.ToInt32(await reader.GetFieldValueAsync<long>(5, cancellationToken));
-        }
-        return new DbField(await reader.GetFieldValueAsync<string>(0, cancellationToken),
-            Convert.ToBoolean(await reader.GetFieldValueAsync<int>(1, cancellationToken)),
-            Convert.ToBoolean(await reader.GetFieldValueAsync<int>(2, cancellationToken)),
-            Convert.ToBoolean(await reader.GetFieldValueAsync<int>(1, cancellationToken)),
-            DbTypeResolver.Resolve(columnType),
-            size,
-            await reader.IsDBNullAsync(6, cancellationToken) ? (byte?)null : byte.Parse((await reader.GetFieldValueAsync<ulong>(6, cancellationToken)).ToString()),
-            await reader.IsDBNullAsync(7, cancellationToken) ? (byte?)null : byte.Parse((await reader.GetFieldValueAsync<ulong>(7, cancellationToken)).ToString()),
-            await reader.GetFieldValueAsync<string>(8, cancellationToken),
-            Convert.ToBoolean(await reader.GetFieldValueAsync<int>(1, cancellationToken)),
             "MYSQL");
     }
 

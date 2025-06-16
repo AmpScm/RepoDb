@@ -25,5 +25,5 @@ internal sealed record MergeExecutionContext
     /// <summary>
     ///
     /// </summary>
-    public Action<object, object> KeyPropertySetterFunc { get; init; }
+    public Action<object, object?>? KeyPropertySetterFunc { get; init; }
 }

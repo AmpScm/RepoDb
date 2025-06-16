@@ -9,6 +9,7 @@
     <PackageReleaseNotes>https://repodb.net/release/sqlite</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/AmpScm/RepoDB/tree/master/src/RepoDb.SQLite.System/</PackageProjectUrl>
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
+    <DefineConstants>$(DefineConstants);SQLITESYSTEM</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.SQLite.Core" />
@@ -18,6 +19,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\RepoDb\Compat.cs" />
+    <Compile Include="..\RepoDb.Sqlite.Microsoft\StatementBuilders\SqLiteStatementBuilder.cs">
+      <Link>StatementBuilders\SQLiteStatementBuilder.cs</Link>
+    </Compile>
     <None Include="..\..\LICENSE.txt" Pack="True" PackagePath="\" />
     <None Include="README.md" Pack="True" PackagePath="\" />
   </ItemGroup>

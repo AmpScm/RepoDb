@@ -3,19 +3,19 @@
 /// <summary>
 /// A setting class used for SQLite data provider.
 /// </summary>
-public sealed record SqLiteDbSetting : BaseDbSetting
+public sealed record SQLiteDbSetting : BaseDbSetting
 {
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteDbSetting"/> class.
+    /// Creates a new instance of <see cref="SQLiteDbSetting"/> class.
     /// </summary>
-    public SqLiteDbSetting()
+    public SQLiteDbSetting()
         : this(true)
     { }
 
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteDbSetting"/> class.
+    /// Creates a new instance of <see cref="SQLiteDbSetting"/> class.
     /// </summary>
-    public SqLiteDbSetting(bool isExecuteReaderDisposable)
+    public SQLiteDbSetting(bool isExecuteReaderDisposable)
     {
         AreTableHintsSupported = false;
         AverageableType = typeof(double);

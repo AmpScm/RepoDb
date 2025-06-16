@@ -1079,7 +1079,7 @@ public static partial class DbConnectionExtension
     public static async Task<int> UpdateAllAsync(this IDbConnection connection,
         string tableName,
         IEnumerable<object> entities,
-        Field qualifier,
+        Field? qualifier,
         int batchSize = 0,
         IEnumerable<Field>? fields = null,
         string? hints = null,

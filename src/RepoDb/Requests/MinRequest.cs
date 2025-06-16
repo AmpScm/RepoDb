@@ -66,7 +66,7 @@ internal sealed class MinRequest : BaseRequest
     /// <summary>
     /// Gets the field to be minimized.
     /// </summary>
-    public Field Field { get; }
+    public Field? Field { get; }
 
     /// <summary>
     /// Gets the query expression used.

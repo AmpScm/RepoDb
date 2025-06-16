@@ -9,10 +9,12 @@
     <PackageReleaseNotes>https://repodb.net/release/core</PackageReleaseNotes>
     <PackageProjectUrl>https://repodb.net/</PackageProjectUrl>
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Disable some nullability for netstandard2.0, as some smart annotations are not available there -->
     <NoWarn Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net48'">$(NoWarn);CS8603;CS8604</NoWarn>
+    <NoWarn>$(NoWarn);CS1572;CS1591;CS1573;CS1711</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="RepoDb.Core.UnitTests" />
@@ -36,8 +38,6 @@
     <Compile Update="Reflection\Compiler.*.cs">
       <DependentUpon>Compiler.cs</DependentUpon>
     </Compile>
-    <ProjectReference Include="..\RepoDb.Analyzer\RepoDb.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"
-                  PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-
+    <ProjectReference Include="..\RepoDb.Analyzer\RepoDb.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
   </ItemGroup>
 </Project>

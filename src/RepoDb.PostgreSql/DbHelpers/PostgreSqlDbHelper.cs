@@ -17,7 +17,7 @@ namespace RepoDb.DbHelpers;
 /// </summary>
 public sealed class PostgreSqlDbHelper : BaseDbHelper
 {
-    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<NpgsqlConnection>();
+    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<NpgsqlConnection>()!;
 
     /// <summary>
     /// Creates a new instance of <see cref="PostgreSqlDbHelper"/> class.
@@ -92,7 +92,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
             !reader.IsDBNull(1) && reader.GetBoolean(1),
             !reader.IsDBNull(2) && reader.GetBoolean(2),
             !reader.IsDBNull(3) && reader.GetBoolean(3),
-            DbTypeResolver.Resolve(dbType),
+            DbTypeResolver.Resolve(dbType)!,
             reader.IsDBNull(5) ? null : reader.GetInt32(5),
             null,
             null,
@@ -117,7 +117,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
             !await reader.IsDBNullAsync(1, cancellationToken) && await reader.GetFieldValueAsync<bool>(1, cancellationToken),
             !await reader.IsDBNullAsync(2, cancellationToken) && await reader.GetFieldValueAsync<bool>(2, cancellationToken),
             !await reader.IsDBNullAsync(3, cancellationToken) && await reader.GetFieldValueAsync<bool>(3, cancellationToken),
-            DbTypeResolver.Resolve(dbType),
+            DbTypeResolver.Resolve(dbType)!,
             await reader.IsDBNullAsync(5) ? null : await reader.GetFieldValueAsync<int>(5, cancellationToken),
             null,
             null,
@@ -184,7 +184,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         var commandText = GetCommandText();
         var param = new
         {
-            Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting).AsUnquoted(m_dbSetting),
+            Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting)?.AsUnquoted(m_dbSetting),
             TableName = DataEntityExtension.GetTableName(tableName, m_dbSetting).AsUnquoted(m_dbSetting)
         };
 
@@ -227,7 +227,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         var commandText = GetCommandText();
         var param = new
         {
-            Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting).AsUnquoted(m_dbSetting),
+            Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting)?.AsUnquoted(m_dbSetting),
             TableName = DataEntityExtension.GetTableName(tableName, m_dbSetting).AsUnquoted(m_dbSetting)
         };
 

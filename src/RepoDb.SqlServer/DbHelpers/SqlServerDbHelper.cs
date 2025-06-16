@@ -29,9 +29,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     /// <param name="dbTypeResolver">The type resolver to be used.</param>
     public SqlServerDbHelper(IResolver<string, Type> dbTypeResolver)
         : base(dbTypeResolver)
-    {
-    }
-
+    { }
 
     #region Helpers
 

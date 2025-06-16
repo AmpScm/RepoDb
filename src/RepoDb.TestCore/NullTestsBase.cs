@@ -588,4 +588,12 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         Assert.IsNotNull(info);
     }
+
+    [TestMethod]
+    public async Task BulkQuery()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        
+    }
 }

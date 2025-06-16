@@ -66,7 +66,7 @@ internal sealed class AverageRequest : BaseRequest
     /// <summary>
     /// Gets the field to be averaged.
     /// </summary>
-    public Field Field { get; }
+    public Field? Field { get; }
 
     /// <summary>
     /// Gets the query expression used.

@@ -24,6 +24,7 @@ internal sealed class MergeRequest : BaseRequest
         IDbConnection connection,
         IDbTransaction? transaction,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -32,6 +33,7 @@ internal sealed class MergeRequest : BaseRequest
             connection,
             transaction,
             fields,
+            noUpdateFields,
             qualifiers,
             hints,
             statementBuilder)
@@ -51,6 +53,7 @@ internal sealed class MergeRequest : BaseRequest
         IDbConnection connection,
         IDbTransaction? transaction,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -59,6 +62,7 @@ internal sealed class MergeRequest : BaseRequest
             connection,
             transaction,
             fields,
+            noUpdateFields,
             qualifiers,
             hints,
             statementBuilder)
@@ -80,6 +84,7 @@ internal sealed class MergeRequest : BaseRequest
         IDbConnection connection,
         IDbTransaction? transaction,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -90,6 +95,7 @@ internal sealed class MergeRequest : BaseRequest
     {
         Type = type;
         Fields = fields.AsList();
+        noUpdateFields = noUpdateFields?.AsList();
         Qualifiers = qualifiers.AsList();
         Hints = hints;
     }
@@ -98,6 +104,8 @@ internal sealed class MergeRequest : BaseRequest
     /// Gets the list of the target fields.
     /// </summary>
     public IEnumerable<Field> Fields { get; init; }
+
+    public IEnumerable<Field>? NoUpdateFields { get; init; }
 
     /// <summary>
     /// Gets the qualifier <see cref="Field"/> objects.
@@ -123,12 +131,22 @@ internal sealed class MergeRequest : BaseRequest
             hashCode = System.HashCode.Combine(
                 typeof(MergeRequest),
                 Name,
-                Hints);
+                Hints,
+                Fields.Count(),
+                NoUpdateFields?.Count() ?? 0);
 
             // Get the qualifier <see cref="Field"/> objects
             if (Fields != null)
             {
                 foreach (var field in Fields)
+                {
+                    hashCode = System.HashCode.Combine(hashCode, field);
+                }
+            }
+
+            if (NoUpdateFields != null)
+            {
+                foreach (var field in NoUpdateFields)
                 {
                     hashCode = System.HashCode.Combine(hashCode, field);
                 }

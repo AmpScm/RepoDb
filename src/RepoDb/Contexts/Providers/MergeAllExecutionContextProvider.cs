@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿#nullable enable
+using System.Data;
 using System.Data.Common;
 using System.Globalization;
 using RepoDb.Contexts.Cachers;
@@ -28,8 +29,9 @@ internal static class MergeAllExecutionContextProvider
         string tableName,
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         int batchSize,
-        string hints)
+        string? hints)
     {
         return string.Concat(entityType.FullName,
             ";",
@@ -37,7 +39,9 @@ internal static class MergeAllExecutionContextProvider
             ";",
             qualifiers?.Select(f => f.Name).Join(","),
             ";",
-            fields?.Select(f => f.Name).Join(","),
+            fields.Select(f => f.Name).Join(","),
+            ";",
+            noUpdateFields?.Select(f => f.Name).Join(","),
             ";",
             batchSize.ToString(CultureInfo.InvariantCulture),
             ";",
@@ -54,22 +58,23 @@ internal static class MergeAllExecutionContextProvider
     /// <param name="qualifiers"></param>
     /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
     /// <param name="fields"></param>
+    /// <param name="noUpdateFields"></param>
     /// <param name="hints"></param>
     /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
     /// <returns></returns>
+    /// <param name="statementBuilder"></param>
     public static MergeAllExecutionContext Create(Type entityType,
         IDbConnection connection,
         IEnumerable<object> entities,
         string tableName,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
-        IDbTransaction? transaction = null,
-        IStatementBuilder? statementBuilder = null)
+        IDbTransaction? transaction = null, IStatementBuilder? statementBuilder = null)
     {
-        var key = GetKey(entityType, tableName, qualifiers, fields, batchSize, hints);
+        var key = GetKey(entityType, tableName, qualifiers, fields, noUpdateFields, batchSize, hints);
 
         // Get from cache
         var context = MergeAllExecutionContextCache.Get(key);
@@ -83,7 +88,7 @@ internal static class MergeAllExecutionContextProvider
             .Get(connection, tableName, transaction);
         string commandText;
 
-        if (dbFields?.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
         }
@@ -95,6 +100,7 @@ internal static class MergeAllExecutionContextProvider
                 connection,
                 transaction,
                 fields,
+                noUpdateFields,
                 qualifiers,
                 batchSize,
                 hints,
@@ -107,6 +113,7 @@ internal static class MergeAllExecutionContextProvider
                 connection,
                 transaction,
                 fields,
+                noUpdateFields,
                 qualifiers,
                 hints,
                 statementBuilder);
@@ -141,24 +148,25 @@ internal static class MergeAllExecutionContextProvider
     /// <param name="qualifiers"></param>
     /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
     /// <param name="fields"></param>
+    /// <param name="noUpdateFields"></param>
     /// <param name="hints"></param>
     /// <param name="transaction"></param>
     /// <param name="statementBuilder"></param>
-    /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    /// <param name="cancellationToken"></param>
     public static async Task<MergeAllExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         IEnumerable<object> entities,
         string tableName,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         string? hints = null,
         IDbTransaction? transaction = null,
-        IStatementBuilder? statementBuilder = null,
-        CancellationToken cancellationToken = default)
+        IStatementBuilder? statementBuilder = null, CancellationToken cancellationToken = default)
     {
-        var key = GetKey(entityType, tableName, qualifiers, fields, batchSize, hints);
+        var key = GetKey(entityType, tableName, qualifiers, fields, noUpdateFields, batchSize, hints);
 
         // Get from cache
         var context = MergeAllExecutionContextCache.Get(key);
@@ -172,7 +180,7 @@ internal static class MergeAllExecutionContextProvider
         string commandText;
 
         // On Merge we do want to have the identity key in the fields
-        if (dbFields?.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
         }
@@ -184,6 +192,7 @@ internal static class MergeAllExecutionContextProvider
                 connection,
                 transaction,
                 fields,
+                noUpdateFields,
                 qualifiers,
                 batchSize,
                 hints,
@@ -196,6 +205,7 @@ internal static class MergeAllExecutionContextProvider
                 connection,
                 transaction,
                 fields,
+                noUpdateFields,
                 qualifiers,
                 hints,
                 statementBuilder);
@@ -245,12 +255,12 @@ internal static class MergeAllExecutionContextProvider
     {
         var dbSetting = connection.GetDbSetting();
         var dbHelper = connection.GetDbHelper();
-        IEnumerable<DbField>? inputFields = null;
+        IEnumerable<DbField> inputFields;
 
         // Check the fields
         if (fields?.Any() != true)
         {
-            fields = dbFields?.AsFields();
+            fields = dbFields.AsFields();
         }
 
         // Filter the actual properties for input fields
@@ -264,7 +274,7 @@ internal static class MergeAllExecutionContextProvider
         if (TypeCache.Get(entityType).IsClassType() == false)
         {
             var entityFields = Field.Parse(entities?.FirstOrDefault());
-            inputFields = inputFields?
+            inputFields = inputFields
                 .Where(field =>
                     entityFields.FirstOrDefault(f =>
                         string.Equals(f.Name.AsUnquoted(true, dbSetting), field.Name.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
@@ -272,7 +282,7 @@ internal static class MergeAllExecutionContextProvider
         }
 
         // Variables for the context
-        Action<object, object> keyPropertySetterFunc = null;
+        Action<object, object?>? keyPropertySetterFunc = null;
         var keyField = ExecutionContextProvider
             .GetTargetReturnColumnAsField(entityType, dbFields);
 
@@ -289,8 +299,8 @@ internal static class MergeAllExecutionContextProvider
         }
 
         // Identity which objects to set
-        Action<DbCommand, IList<object>> multipleEntitiesParametersSetterFunc = null;
-        Action<DbCommand, object> singleEntityParametersSetterFunc = null;
+        Action<DbCommand, IList<object>>? multipleEntitiesParametersSetterFunc = null;
+        Action<DbCommand, object?>? singleEntityParametersSetterFunc = null;
 
         if (batchSize <= 1)
         {
