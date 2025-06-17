@@ -4824,7 +4824,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntity>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(1));
 
@@ -4845,7 +4845,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntity>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(0));
     }
@@ -4873,7 +4873,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForTableName>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(1));
 
@@ -4894,7 +4894,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForTableName>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(0));
     }
@@ -4922,7 +4922,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(1));
 
@@ -4944,7 +4944,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(0));
     }
@@ -5033,7 +5033,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntity>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(1));
 
@@ -5055,7 +5055,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntity>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(0));
     }
@@ -5085,7 +5085,8 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMergeAll(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForTableName>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null, It.IsAny<IEnumerable<Field>>(),
+                It.IsAny<IEnumerable<Field>>(),
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<int>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<string>()), Times.Exactly(1));
@@ -5109,7 +5110,8 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMergeAll(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForTableName>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null, It.IsAny<IEnumerable<Field>>(),
+                It.IsAny<IEnumerable<Field>>(),
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<int>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<string>()), Times.Exactly(0));
@@ -5139,7 +5141,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForTableName>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(1));
 
@@ -5161,7 +5163,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForTableName>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(0));
     }
@@ -5248,7 +5250,7 @@ public class IStatementBuilderForDbConnectionTest
             builder.CreateMerge(
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>()),
                 It.IsAny<IEnumerable<Field>>(),
-                null,
+                It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(1));
 
