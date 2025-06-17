@@ -34,7 +34,7 @@ public sealed class DbField : IEquatable<DbField>
         byte? scale,
         string? databaseType,
         bool hasDefaultValue = false,
-        string provider = null)
+        string? provider = null)
         : this(name, isPrimary, isIdentity, isNullable, type, size, precision, scale, databaseType, hasDefaultValue, false, provider)
     { }
 
@@ -49,7 +49,7 @@ public sealed class DbField : IEquatable<DbField>
         string? databaseType,
         bool hasDefaultValue,
         bool isGenerated,
-        string provider = null)
+        string? provider = null)
     {
         // Name is required
         if (string.IsNullOrWhiteSpace(name))

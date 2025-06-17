@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿#nullable enable
+using System.Collections.Concurrent;
 using System.Data;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
@@ -413,8 +414,13 @@ public static class CommandTextCache
                 request.Name,
                 request.Fields,
                 request.Transaction);
+
+            var noUpdateFields = request.NoUpdateFields is { } ?
+                GetTargetFields(request.Connection, request.Name, request.NoUpdateFields, request.Transaction)
+                : null;
+
             var keyFields = GetKeyFields(request);
-            commandText = GetMergeTextInternal(request, fields, keyFields);
+            commandText = GetMergeTextInternal(request, fields, noUpdateFields, keyFields);
             cache.TryAdd(request, commandText);
         }
         return commandText;
@@ -436,8 +442,13 @@ public static class CommandTextCache
                 request.Fields,
                 request.Transaction,
                 cancellationToken).ConfigureAwait(false);
+
+            var noUpdateFields = request.Fields is { } ?
+                await GetTargetFieldsAsync(request.Connection, request.Name, request.NoUpdateFields, request.Transaction).ConfigureAwait(false)
+                : null;
+
             var keyFields = await GetKeyFieldsAsync(request, cancellationToken).ConfigureAwait(false);
-            commandText = GetMergeTextInternal(request, fields, keyFields);
+            commandText = GetMergeTextInternal(request, fields, noUpdateFields, keyFields);
             cache.TryAdd(request, commandText);
         }
         return commandText;
@@ -453,14 +464,16 @@ public static class CommandTextCache
     /// <returns></returns>
     private static string GetMergeTextInternal(MergeRequest request,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields)
     {
         var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
         return statementBuilder.CreateMerge(request.Name,
             fields,
-            null,
+            noUpdateFields,
             keyFields,
-            request.Qualifiers, request.Hints);
+            request.Qualifiers,
+            request.Hints);
     }
 
     #endregion
@@ -480,8 +493,12 @@ public static class CommandTextCache
                 request.Name,
                 request.Fields,
                 request.Transaction);
+            var noUpdateFields = request.NoUpdateFields is { } ?
+                GetTargetFields(request.Connection, request.Name, request.NoUpdateFields, request.Transaction)
+                : null;
+
             var keyFields = GetKeyFields(request);
-            commandText = GetMergeAllTextInternal(request, fields, keyFields);
+            commandText = GetMergeAllTextInternal(request, fields!, noUpdateFields, keyFields);
             cache.TryAdd(request, commandText);
         }
         return commandText;
@@ -503,8 +520,15 @@ public static class CommandTextCache
                 request.Fields,
                 request.Transaction,
                 cancellationToken).ConfigureAwait(false);
+
+            var noUpdateFields = request.NoUpdateFields is { } ? await GetTargetFieldsAsync(request.Connection,
+                request.Name,
+                request.Fields,
+                request.Transaction,
+                cancellationToken).ConfigureAwait(false) : null;
+
             var keyFields = await GetKeyFieldsAsync(request, cancellationToken).ConfigureAwait(false);
-            commandText = GetMergeAllTextInternal(request, fields, keyFields);
+            commandText = GetMergeAllTextInternal(request, fields!, noUpdateFields, keyFields);
             cache.TryAdd(request, commandText);
         }
         return commandText;
@@ -520,12 +544,14 @@ public static class CommandTextCache
     /// <returns></returns>
     private static string GetMergeAllTextInternal(MergeAllRequest request,
         IEnumerable<Field> fields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields)
     {
         var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
         return statementBuilder.CreateMergeAll(request.Name,
             fields,
-            null, request.Qualifiers,
+            noUpdateFields,
+            request.Qualifiers,
             request.BatchSize,
             keyFields,
             request.Hints);
@@ -1127,11 +1153,11 @@ public static class CommandTextCache
     private static IEnumerable<Field> GetTargetFields(IDbConnection connection,
         string tableName,
         IEnumerable<Field> fields,
-        IDbTransaction transaction)
+        IDbTransaction? transaction)
     {
         if (fields?.Any() != true)
         {
-            return null;
+            return [];
         }
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
         return GetTargetFieldsInternal(fields, dbFields, connection.GetDbSetting());
@@ -1148,13 +1174,13 @@ public static class CommandTextCache
     /// <returns></returns>
     private static async ValueTask<IEnumerable<Field>> GetTargetFieldsAsync(IDbConnection connection,
         string tableName,
-        IEnumerable<Field> fields,
+        IEnumerable<Field>? fields,
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default)
     {
         if (fields?.Any() != true)
         {
-            return null;
+            return [];
         }
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
         return GetTargetFieldsInternal(fields, dbFields, connection.GetDbSetting());
@@ -1312,94 +1338,11 @@ public static class CommandTextCache
     /// <summary>
     ///
     /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    private static DbField GetIdentityField(BaseRequest request)
-    {
-        var dbFields = DbFieldCache.Get(request.Connection, request.Name, request.Transaction);
-        return GetIdentityField(request, dbFields);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private static async ValueTask<DbField> GetIdentityFieldAsync(BaseRequest request,
-        CancellationToken cancellationToken = default)
-    {
-        var dbFields = await DbFieldCache.GetAsync(request.Connection, request.Name, request.Transaction, cancellationToken).ConfigureAwait(false);
-        return GetIdentityField(request, dbFields);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="dbFields"></param>
-    /// <returns></returns>
-    private static DbField GetIdentityField(BaseRequest request,
-        DbFieldCollection dbFields)
-    {
-        var identityField = GetIdentityField(request.Type, dbFields);
-
-        if (identityField is { })
-        {
-            if (dbFields.GetByName(identityField.Name) is { } dbIdentity)
-            {
-                if (dbIdentity.IsIdentity)
-                    return dbIdentity;
-
-                return new DbField(
-                    dbIdentity?.Name ?? identityField.Name,
-                    dbIdentity.IsPrimary,
-                    true,
-                    dbIdentity.IsNullable,
-                    dbIdentity.Type,
-                    dbIdentity.Size,
-                    dbIdentity.Precision,
-                    dbIdentity.Scale,
-                    dbIdentity.DatabaseType,
-                    dbIdentity.HasDefaultValue,
-                    dbIdentity.IsGenerated,
-                    dbIdentity.Provider);
-            }
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="dbFields"></param>
-    /// <returns></returns>
-    private static Field GetPrimaryField(Type type,
-        DbFieldCollection dbFields) =>
-        (type != null && type.IsObjectType() == false ? PrimaryCache.Get(type) : null)?.AsField() ??
-            dbFields?.GetPrimary()?.AsField();
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="dbFields"></param>
-    /// <returns></returns>
-    private static Field GetIdentityField(Type type,
-        DbFieldCollection dbFields) =>
-        (type != null && type.IsObjectType() == false ? IdentityCache.Get(type) : null)?.AsField() ??
-            dbFields?.GetIdentity()?.AsField();
-
-    /// <summary>
-    ///
-    /// </summary>
     /// <param name="connection"></param>
     /// <param name="builder"></param>
     /// <returns></returns>
     private static IStatementBuilder EnsureStatementBuilder(IDbConnection connection,
-        IStatementBuilder builder) =>
+        IStatementBuilder? builder) =>
         builder ?? connection.GetStatementBuilder();
 
     #endregion
