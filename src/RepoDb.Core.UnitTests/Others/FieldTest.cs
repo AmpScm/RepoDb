@@ -117,7 +117,7 @@ public partial class FieldTest
         var field = new Field("Field1", typeof(int));
 
         // Act
-        var parsed = Field.Parse<FieldTestClass>(e => e.Field1)?.FirstOrDefault();
+        var parsed = Field.Parse<FieldTestClass>(e => e.Field1).FirstOrDefault();
 
         // Assert
         Assert.AreEqual(field, parsed);

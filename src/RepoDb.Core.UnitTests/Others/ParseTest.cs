@@ -125,7 +125,7 @@ public class ParseTest
     public void TestFieldParseAsExpression()
     {
         // Act
-        var field = Field.Parse<DerivedClass>(e => e.PrimaryId)?.FirstOrDefault();
+        var field = Field.Parse<DerivedClass>(e => e.PrimaryId).FirstOrDefault();
 
         // Assert
         Assert.AreEqual("PrimaryId", field?.Name);

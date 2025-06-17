@@ -21,7 +21,7 @@ internal sealed class AverageRequest : BaseRequest
     public AverageRequest(Type type,
         IDbConnection connection,
         IDbTransaction? transaction,
-        Field? field = null,
+        Field field,
         QueryGroup? where = null,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -49,7 +49,7 @@ internal sealed class AverageRequest : BaseRequest
     public AverageRequest(string name,
         IDbConnection connection,
         IDbTransaction? transaction,
-        Field? field = null,
+        Field field,
         QueryGroup? where = null,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -66,7 +66,7 @@ internal sealed class AverageRequest : BaseRequest
     /// <summary>
     /// Gets the field to be averaged.
     /// </summary>
-    public Field? Field { get; }
+    public Field Field { get; }
 
     /// <summary>
     /// Gets the query expression used.

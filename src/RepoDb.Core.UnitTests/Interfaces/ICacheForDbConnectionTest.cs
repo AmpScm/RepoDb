@@ -43,7 +43,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         new CacheDbConnection().Query<CacheEntity>(where: (QueryGroup)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -73,7 +73,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         new CacheDbConnection().Query<CacheEntity>(what: null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -103,7 +103,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         new CacheDbConnection().Query<CacheEntity>(where: (QueryField)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -133,7 +133,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         new CacheDbConnection().Query<CacheEntity>(where: (IEnumerable<QueryField>)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -163,7 +163,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         new CacheDbConnection().Query<CacheEntity>(where: (Expression<Func<CacheEntity, bool>>)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -193,7 +193,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         new CacheDbConnection().Query<CacheEntity>(where: (QueryGroup)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -226,7 +226,7 @@ public class ICacheForDbConnectionTest
         var cacheItemExpiration = 60;
 
         // Act
-        new CacheDbConnection().QueryAll<CacheEntity>(fields: null,
+        new CacheDbConnection().QueryAll<CacheEntity>(fields: default,
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,
@@ -254,7 +254,7 @@ public class ICacheForDbConnectionTest
         var cacheItemExpiration = 60;
 
         // Act
-        new CacheDbConnection().QueryAll<CacheEntity>(fields: null,
+        new CacheDbConnection().QueryAll<CacheEntity>(fields: default,
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,
@@ -282,7 +282,7 @@ public class ICacheForDbConnectionTest
         var cacheItemExpiration = 60;
 
         // Act
-        new CacheDbConnection().QueryAll<CacheEntity>(fields: null,
+        new CacheDbConnection().QueryAll<CacheEntity>(fields: default,
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,
@@ -319,7 +319,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         await new CacheDbConnection().QueryAsync<CacheEntity>(where: (QueryGroup)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -351,7 +351,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         await new CacheDbConnection().QueryAsync<CacheEntity>(what: null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -383,7 +383,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         await new CacheDbConnection().QueryAsync<CacheEntity>(where: (QueryField)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -415,7 +415,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         await new CacheDbConnection().QueryAsync<CacheEntity>(where: (IEnumerable<QueryField>)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -447,7 +447,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         await new CacheDbConnection().QueryAsync<CacheEntity>(where: (Expression<Func<CacheEntity, bool>>)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -479,7 +479,7 @@ public class ICacheForDbConnectionTest
 
         // Act
         await new CacheDbConnection().QueryAsync<CacheEntity>(where: (QueryGroup)null,
-            fields: null,
+            fields: default,
             orderBy: null,
             top: 0,
             hints: null,
@@ -514,7 +514,7 @@ public class ICacheForDbConnectionTest
         var cacheItemExpiration = 60;
 
         // Act
-        await new CacheDbConnection().QueryAllAsync<CacheEntity>(fields: null,
+        await new CacheDbConnection().QueryAllAsync<CacheEntity>(fields: default,
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,
@@ -544,7 +544,7 @@ public class ICacheForDbConnectionTest
         var cacheItemExpiration = 60;
 
         // Act
-        await new CacheDbConnection().QueryAllAsync<CacheEntity>(fields: null,
+        await new CacheDbConnection().QueryAllAsync<CacheEntity>(fields: default,
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,
@@ -574,7 +574,7 @@ public class ICacheForDbConnectionTest
         var cacheItemExpiration = 60;
 
         // Act
-        await new CacheDbConnection().QueryAllAsync<CacheEntity>(fields: null,
+        await new CacheDbConnection().QueryAllAsync<CacheEntity>(fields: default,
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,

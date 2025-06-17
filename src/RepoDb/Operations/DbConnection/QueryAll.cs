@@ -32,7 +32,7 @@ public static partial class DbConnectionExtension
     /// <returns>An enumerable list of data entity objects.</returns>
     public static IEnumerable<TEntity> QueryAll<TEntity>(this IDbConnection connection,
         string tableName,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -78,7 +78,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public static IEnumerable<TEntity> QueryAll<TEntity>(this IDbConnection connection,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -140,13 +140,13 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Ensure the fields
-        fields ??= GetQualifiedFields<TEntity>() ??
+        IEnumerable<Field>? flds = fields ?? GetQualifiedFields<TEntity>() ??
             DbFieldCache.Get(connection, tableName, transaction)?.AsFields();
 
         // Return
         return QueryAllInternalBase<TEntity>(connection: connection,
             tableName: tableName,
-            fields: fields,
+            fields: flds,
             orderBy: orderBy,
             hints: hints,
             cacheKey: cacheKey,
@@ -184,7 +184,7 @@ public static partial class DbConnectionExtension
     /// <returns>An enumerable list of data entity objects.</returns>
     public static async Task<IEnumerable<TEntity>> QueryAllAsync<TEntity>(this IDbConnection connection,
         string tableName,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -233,7 +233,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public static async Task<IEnumerable<TEntity>> QueryAllAsync<TEntity>(this IDbConnection connection,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -300,7 +300,7 @@ public static partial class DbConnectionExtension
     {
         // Ensure the fields
         fields ??= GetQualifiedFields<TEntity>() ??
-            (await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false))?.AsFields();
+           (await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false))?.AsFields();
 
         // Return
         return await QueryAllAsyncInternalBase<TEntity>(connection: connection,
@@ -342,7 +342,7 @@ public static partial class DbConnectionExtension
     /// <returns>An enumerable list of data entity objects.</returns>
     public static IEnumerable<dynamic> QueryAll(this IDbConnection connection,
         string tableName,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -388,7 +388,7 @@ public static partial class DbConnectionExtension
     /// <returns>An enumerable list of data entity objects.</returns>
     internal static IEnumerable<dynamic> QueryAllInternal(this IDbConnection connection,
         string tableName,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -439,7 +439,7 @@ public static partial class DbConnectionExtension
     /// <returns>An enumerable list of data entity objects.</returns>
     public static async Task<IEnumerable<dynamic>> QueryAllAsync(this IDbConnection connection,
         string tableName,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,

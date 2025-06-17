@@ -25,7 +25,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(string tableName,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -79,7 +79,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity, TWhat>(string tableName,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -132,7 +132,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(string tableName,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -185,7 +185,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(string tableName,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -238,7 +238,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(string tableName,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -291,7 +291,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(string tableName,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -342,7 +342,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -393,7 +393,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity, TWhat>(TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -443,7 +443,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -493,7 +493,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -542,7 +542,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -592,7 +592,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> Query<TEntity>(QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -649,7 +649,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string tableName,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -706,7 +706,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity, TWhat>(string tableName,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -762,7 +762,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string tableName,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -818,7 +818,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string tableName,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -874,7 +874,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string tableName,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -930,7 +930,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string tableName,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -984,7 +984,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1038,7 +1038,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity, TWhat>(TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1091,7 +1091,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1144,7 +1144,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1197,7 +1197,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1250,7 +1250,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1308,7 +1308,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public IEnumerable<dynamic> Query<TWhat>(string tableName,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1359,7 +1359,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public IEnumerable<dynamic> Query(string tableName,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1410,7 +1410,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public IEnumerable<dynamic> Query(string tableName,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1460,7 +1460,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public IEnumerable<dynamic> Query(string tableName,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1511,7 +1511,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public IEnumerable<dynamic> Query(string tableName,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1568,7 +1568,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public async Task<IEnumerable<dynamic>> QueryAsync<TWhat>(string tableName,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1622,7 +1622,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public async Task<IEnumerable<dynamic>> QueryAsync(string tableName,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1676,7 +1676,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public async Task<IEnumerable<dynamic>> QueryAsync(string tableName,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1730,7 +1730,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public async Task<IEnumerable<dynamic>> QueryAsync(string tableName,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,
@@ -1784,7 +1784,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>An enumerable list of dynamic objects.</returns>
     public async Task<IEnumerable<dynamic>> QueryAsync(string tableName,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
         string? hints = null,

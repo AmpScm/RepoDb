@@ -24,7 +24,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int UpdateAll<TEntity>(string tableName,
         IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -69,9 +69,9 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int UpdateAll<TEntity>(string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -119,7 +119,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<TEntity> entities,
         Expression<Func<TEntity, object?>> qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -163,7 +163,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int UpdateAll<TEntity>(IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -205,9 +205,9 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>The number of affected rows during the update process.</returns>
     public int UpdateAll<TEntity>(IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -252,7 +252,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int UpdateAll<TEntity>(IEnumerable<TEntity> entities,
         Expression<Func<TEntity, object?>> qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -302,7 +302,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAllAsync<TEntity>(string tableName,
         IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -350,9 +350,9 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAllAsync<TEntity>(string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -403,7 +403,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<TEntity> entities,
         Expression<Func<TEntity, object?>> qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -450,7 +450,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAllAsync<TEntity>(IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -495,9 +495,9 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAllAsync<TEntity>(IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -545,7 +545,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAllAsync<TEntity>(IEnumerable<TEntity> entities,
         Expression<Func<TEntity, object?>> qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -595,7 +595,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int UpdateAll(string tableName,
         IEnumerable<object> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -640,7 +640,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<object> entities,
         Field qualifier,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -684,9 +684,9 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int UpdateAll(string tableName,
         IEnumerable<object> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null)
@@ -735,7 +735,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAllAsync(string tableName,
         IEnumerable<object> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -783,7 +783,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<object> entities,
         Field qualifier,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,
@@ -830,9 +830,9 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAllAsync(string tableName,
         IEnumerable<object> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.UpdateAll,
         IDbTransaction? transaction = null,

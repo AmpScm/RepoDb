@@ -17,7 +17,7 @@ public static class FieldExtension
 #if NET
     [return: NotNullIfNotNull(nameof(field))]
 #endif
-    public static IEnumerable<Field>? AsEnumerable(this Field? field)
+    public static Field[]? AsEnumerable(this Field? field)
         => field is { } v ? [v] : null;
 
     /// <summary>

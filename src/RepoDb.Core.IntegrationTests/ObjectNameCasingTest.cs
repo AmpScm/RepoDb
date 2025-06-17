@@ -318,7 +318,7 @@ public class ObjectNameCasingTest
             // Act
             var rows = connection.UpdateAll("COMPLETETABLE",
                 new[] { entity },
-                fields: entity.GetType().GetProperties().AsFields());
+                fields: new(entity.GetType().GetProperties().AsFields()));
 
             // Act Query
             data = connection.Query("COMPLETETABLE", new { SessionId = entity.SESSIONID }).FirstOrDefault();

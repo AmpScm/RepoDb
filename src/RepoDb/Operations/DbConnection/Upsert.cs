@@ -29,7 +29,7 @@ public static partial class DbConnectionExtension
         string tableName,
         TEntity entity,
         IEnumerable<Field>? qualifiers = null,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field> fields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -107,7 +107,7 @@ public static partial class DbConnectionExtension
             var updateResult = connection.Update(tableName,
                 entity,
                 where,
-                fields: fields,
+                fields: new(fields),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -140,7 +140,7 @@ public static partial class DbConnectionExtension
             // Call the insert operation
             var insertResult = connection.Insert(tableName,
                 entity,
-                fields: fields,
+                fields: new(fields),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -182,7 +182,7 @@ public static partial class DbConnectionExtension
         string tableName,
         TEntity entity,
         IEnumerable<Field>? qualifiers = null,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field> fields = default,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -264,7 +264,7 @@ public static partial class DbConnectionExtension
             var updateResult = await connection.UpdateAsync(tableName,
                 entity,
                 where,
-                fields: fields,
+                fields: new(fields),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -292,13 +292,14 @@ public static partial class DbConnectionExtension
                     }
                 }
             }
+            return result;
         }
         else
         {
             // Call the insert operation
-            var insertResult = await connection.InsertAsync(tableName,
+            return await connection.InsertAsync<TEntity, TResult>(tableName,
                 entity,
-                fields: fields,
+                fields: new(fields),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -306,13 +307,7 @@ public static partial class DbConnectionExtension
                 trace: trace,
                 statementBuilder: statementBuilder,
                 cancellationToken: cancellationToken).ConfigureAwait(false);
-
-            // Set the result
-            result = Converter.ToType<TResult>(insertResult)!;
         }
-
-        // Return the result
-        return result;
     }
 
     #endregion

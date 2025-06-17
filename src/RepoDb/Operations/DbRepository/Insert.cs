@@ -21,7 +21,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public object Insert<TEntity>(string tableName,
         TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null)
@@ -64,7 +64,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public TResult Insert<TEntity, TResult>(string tableName,
         TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null)
@@ -104,7 +104,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public object Insert<TEntity>(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null)
@@ -144,7 +144,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public TResult Insert<TEntity, TResult>(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null)
@@ -190,7 +190,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public async Task<object> InsertAsync<TEntity>(string tableName,
         TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null,
@@ -236,7 +236,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public async Task<TResult> InsertAsync<TEntity, TResult>(string tableName,
         TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null,
@@ -279,7 +279,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public async Task<object> InsertAsync<TEntity>(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null,
@@ -322,7 +322,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public async Task<TResult> InsertAsync<TEntity, TResult>(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null,
@@ -368,7 +368,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public object Insert(string tableName,
         object entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null)
@@ -409,7 +409,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public TResult Insert<TResult>(string tableName,
         object entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null)
@@ -454,7 +454,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
     public async Task<object> InsertAsync(string tableName,
         object entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null,
@@ -498,7 +498,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The value of the primary key of the newly inserted data.</returns>
     public async Task<TResult> InsertAsync<TResult>(string tableName,
         object entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Insert,
         IDbTransaction? transaction = null,

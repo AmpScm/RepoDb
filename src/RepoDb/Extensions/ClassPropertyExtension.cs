@@ -1,6 +1,4 @@
 ﻿#nullable enable
-using System.Diagnostics.CodeAnalysis;
-
 namespace RepoDb.Extensions;
 
 /// <summary>
@@ -13,11 +11,8 @@ public static class ClassPropertyExtension
     /// </summary>
     /// <param name="properties">The current instance of <see cref="ClassProperty"/>.</param>
     /// <returns>A list of <see cref="string"/> objects.</returns>
-#if NET
-    [return: NotNullIfNotNull(nameof(properties))]
-#endif
-    public static IEnumerable<Field>? AsFields(this IEnumerable<ClassProperty>? properties)
-        => properties?.Select(p => p.AsField());
+    public static FieldSet AsFields(this IEnumerable<ClassProperty>? properties)
+        => new(properties?.Select(p => p.AsField()));
 
     /// <summary>
     /// Retrieves the first ClassProperty from a collection that matches a specified mapped name using the specified comparison (case-insensitive by default)

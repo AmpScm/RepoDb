@@ -17,7 +17,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -42,7 +42,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TWhat>(TEntity entity,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -67,7 +67,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update(TEntity entity,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -92,7 +92,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update(TEntity entity,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -117,7 +117,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update(TEntity entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -142,7 +142,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update(TEntity entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -167,7 +167,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update(TEntity entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -195,7 +195,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the update process.</returns>
     public Task<int> UpdateAsync(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -223,7 +223,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public Task<int> UpdateAsync<TWhat>(TEntity entity,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -251,7 +251,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public Task<int> UpdateAsync(TEntity entity,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -279,7 +279,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public Task<int> UpdateAsync(TEntity entity,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -307,7 +307,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public Task<int> UpdateAsync(TEntity entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -335,7 +335,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public Task<int> UpdateAsync(TEntity entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -363,7 +363,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of affected rows during the update process.</returns>
     public Task<int> UpdateAsync(TEntity entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,

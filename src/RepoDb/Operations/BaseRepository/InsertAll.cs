@@ -18,7 +18,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of inserted rows in the table.</returns>
     public int InsertAll(IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null)
@@ -48,7 +48,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <returns>The number of inserted rows in the table.</returns>
     public Task<int> InsertAllAsync(IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null,

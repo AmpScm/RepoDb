@@ -18,7 +18,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public IEnumerable<TEntity> QueryAll(string tableName,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -44,7 +44,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="traceKey">The tracing key to be used.</param>
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    public IEnumerable<TEntity> QueryAll(IEnumerable<Field>? fields = null,
+    public IEnumerable<TEntity> QueryAll(FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -76,7 +76,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
     public Task<IEnumerable<TEntity>> QueryAllAsync(string tableName,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,
@@ -105,7 +105,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="transaction">The transaction to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    public Task<IEnumerable<TEntity>> QueryAllAsync(IEnumerable<Field>? fields = null,
+    public Task<IEnumerable<TEntity>> QueryAllAsync(FieldSet fields = default,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,

@@ -508,7 +508,7 @@ public class CancellableTraceLogTest
 
         // Act
         connection
-            .Insert("", null, trace: new ErroneousCancellationTrace());
+            .Insert("", fields: default, trace: new ErroneousCancellationTrace());
     }
 
     [TestMethod, ExpectedException(typeof(CancelledExecutionException))]
@@ -519,7 +519,7 @@ public class CancellableTraceLogTest
 
         // Act
         await connection
-            .InsertAsync("", null, trace: new ErroneousCancellationTrace())
+            .InsertAsync("", fields: default, trace: new ErroneousCancellationTrace())
             ;
     }
 

@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Dynamic;
+using System.Reflection;
+using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Enumerations;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.Interfaces;
-using Microsoft.Data.SqlClient;
-using System.Dynamic;
-using System.Reflection;
 
 namespace RepoDb.IntegrationTests;
 
@@ -1240,7 +1240,7 @@ public static class Helper
     /// </summary>
     /// <param name="count">The number of rows.</param>
     /// <returns>A list of dynamic objects.</returns>
-    public static Tuple<List<dynamic>, IEnumerable<Field>> CreateDynamicIdentityTablesWithLimitedColumns(int count)
+    public static Tuple<List<dynamic>, FieldSet> CreateDynamicIdentityTablesWithLimitedColumns(int count)
     {
         var tables = new List<dynamic>();
         var fields = Field.From(new[]
@@ -1262,7 +1262,7 @@ public static class Helper
                 ColumnNVarChar = $"NVARCHAR{index}"
             });
         }
-        return new Tuple<List<dynamic>, IEnumerable<Field>>(tables, fields);
+        return new(tables, fields);
     }
 
     #endregion
@@ -1320,7 +1320,7 @@ public static class Helper
     /// </summary>
     /// <param name="count">The number of rows.</param>
     /// <returns>A list of dynamic objects.</returns>
-    public static Tuple<List<dynamic>, IEnumerable<Field>> CreateDynamicNonIdentityTablesWithLimitedColumns(int count)
+    public static Tuple<List<dynamic>, FieldSet> CreateDynamicNonIdentityTablesWithLimitedColumns(int count)
     {
         var tables = new List<dynamic>();
         var fields = Field.From(new[]
@@ -1341,7 +1341,7 @@ public static class Helper
                 ColumnNVarChar = $"NVARCHAR{index}"
             });
         }
-        return new Tuple<List<dynamic>, IEnumerable<Field>>(tables, fields);
+        return new(tables, fields);
     }
 
     #endregion

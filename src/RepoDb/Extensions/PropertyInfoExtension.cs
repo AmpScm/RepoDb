@@ -164,8 +164,8 @@ public static class PropertyInfoExtension
 #if NET
     [return: NotNullIfNotNull(nameof(properties))]
 #endif
-    public static IEnumerable<Field>? AsFields(this IEnumerable<PropertyInfo>? properties)
-        => properties?.Select(x => x.AsField());
+    public static FieldSet AsFields(this IEnumerable<PropertyInfo>? properties)
+        => new(properties?.Select(x => x.AsField()));
 
     /// <summary>
     /// Gets the mapped <see cref="DbType"/> for the current <see cref="PropertyInfo"/>.

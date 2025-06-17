@@ -23,7 +23,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int InsertAll<TEntity>(string tableName,
         IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null)
@@ -66,7 +66,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of inserted rows in the table.</returns>
     public int InsertAll<TEntity>(IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null)
@@ -115,7 +115,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> InsertAllAsync<TEntity>(string tableName,
         IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null,
@@ -161,7 +161,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of inserted rows in the table.</returns>
     public async Task<int> InsertAllAsync<TEntity>(IEnumerable<TEntity> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null,
@@ -210,7 +210,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int InsertAll(string tableName,
         IEnumerable<object> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null)
@@ -258,7 +258,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> InsertAllAsync(string tableName,
         IEnumerable<object> entities,
         int batchSize = 0,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.InsertAll,
         IDbTransaction? transaction = null,

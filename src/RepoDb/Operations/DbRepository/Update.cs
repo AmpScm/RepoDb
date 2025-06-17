@@ -22,7 +22,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity>(string tableName,
         TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -67,7 +67,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update<TEntity, TWhat>(string tableName,
         TEntity entity,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -112,7 +112,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update<TEntity>(string tableName,
         TEntity entity,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -157,7 +157,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update<TEntity>(string tableName,
         TEntity entity,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -202,7 +202,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update<TEntity>(string tableName,
         TEntity entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -247,7 +247,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update<TEntity>(string tableName,
         TEntity entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -292,7 +292,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update<TEntity>(string tableName,
         TEntity entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -333,7 +333,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity>(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -375,7 +375,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity, TWhat>(TEntity entity,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -417,7 +417,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity>(TEntity entity,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -459,7 +459,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity>(TEntity entity,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -501,7 +501,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity>(TEntity entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -543,7 +543,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity>(TEntity entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -585,7 +585,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update<TEntity>(TEntity entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -632,7 +632,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity>(string tableName,
         TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -680,7 +680,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync<TEntity, TWhat>(string tableName,
         TEntity entity,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -728,7 +728,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync<TEntity>(string tableName,
         TEntity entity,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -776,7 +776,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync<TEntity>(string tableName,
         TEntity entity,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -824,7 +824,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync<TEntity>(string tableName,
         TEntity entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -872,7 +872,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync<TEntity>(string tableName,
         TEntity entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -920,7 +920,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync<TEntity>(string tableName,
         TEntity entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -964,7 +964,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity>(TEntity entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1009,7 +1009,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity, TWhat>(TEntity entity,
         TWhat what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1054,7 +1054,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity>(TEntity entity,
         object what,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1099,7 +1099,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity>(TEntity entity,
         Expression<Func<TEntity, bool>> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1144,7 +1144,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity>(TEntity entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1189,7 +1189,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity>(TEntity entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1234,7 +1234,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync<TEntity>(TEntity entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1281,7 +1281,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public int Update(string tableName,
         object entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -1323,7 +1323,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update(string tableName,
         object entity,
         object where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -1366,7 +1366,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update(string tableName,
         object entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -1409,7 +1409,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update(string tableName,
         object entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -1452,7 +1452,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public int Update(string tableName,
         object entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
@@ -1498,7 +1498,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <returns>The number of affected rows during the update process.</returns>
     public async Task<int> UpdateAsync(string tableName,
         object entity,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1543,7 +1543,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync(string tableName,
         object entity,
         object where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1589,7 +1589,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync(string tableName,
         object entity,
         QueryField where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1635,7 +1635,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync(string tableName,
         object entity,
         IEnumerable<QueryField> where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
@@ -1681,7 +1681,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     public async Task<int> UpdateAsync(string tableName,
         object entity,
         QueryGroup where,
-        IEnumerable<Field>? fields = null,
+        FieldSet fields = default,
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
