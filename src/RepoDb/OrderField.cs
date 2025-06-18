@@ -189,7 +189,7 @@ public class OrderField : IEquatable<OrderField>
     /// </summary>
     /// <param name="obj">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equals.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return Equals(obj as OrderField);
     }
@@ -199,7 +199,7 @@ public class OrderField : IEquatable<OrderField>
     /// </summary>
     /// <param name="other">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public bool Equals(OrderField other)
+    public bool Equals(OrderField? other)
     {
         return other is not null
             && other.Name == Name
@@ -212,8 +212,8 @@ public class OrderField : IEquatable<OrderField>
     /// <param name="objA">The first <see cref="OrderField"/> object.</param>
     /// <param name="objB">The second <see cref="OrderField"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(OrderField objA,
-        OrderField objB)
+    public static bool operator ==(OrderField? objA,
+        OrderField? objB)
     {
         if (objA is null)
         {
@@ -228,8 +228,8 @@ public class OrderField : IEquatable<OrderField>
     /// <param name="objA">The first <see cref="OrderField"/> object.</param>
     /// <param name="objB">The second <see cref="OrderField"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(OrderField objA,
-        OrderField objB) =>
+    public static bool operator !=(OrderField? objA,
+        OrderField? objB) =>
         (objA == objB) == false;
 
     #endregion

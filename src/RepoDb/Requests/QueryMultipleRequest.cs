@@ -26,7 +26,7 @@ internal sealed class QueryMultipleRequest : BaseRequest
         Type type,
         IDbConnection connection,
         IDbTransaction? transaction,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field> fields,
         QueryGroup? where = null,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
@@ -63,7 +63,7 @@ internal sealed class QueryMultipleRequest : BaseRequest
         string name,
         IDbConnection connection,
         IDbTransaction? transaction,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field> fields,
         QueryGroup? where = null,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
@@ -75,7 +75,7 @@ internal sealed class QueryMultipleRequest : BaseRequest
               statementBuilder)
     {
         Index = index;
-        Fields = fields?.AsList();
+        Fields = fields.AsList();
         Where = where;
         OrderBy = orderBy?.AsList();
         Top = top;
@@ -90,12 +90,12 @@ internal sealed class QueryMultipleRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field> Fields { get; init; }
 
     /// <summary>
     /// Gets the query expression used.
     /// </summary>
-    public QueryGroup Where { get; }
+    public QueryGroup? Where { get; }
 
     /// <summary>
     /// Gets the list of the order fields.
@@ -110,7 +110,7 @@ internal sealed class QueryMultipleRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Transactions;
@@ -1197,7 +1196,7 @@ public static partial class DbConnectionExtension
 
         // Validate the batch size
         int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers ?? []).Select(x => x.Name).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
+            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers ?? []).DistinctBy(x => x.Name).Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
@@ -1288,7 +1287,7 @@ public static partial class DbConnectionExtension
                     }
                     else
                     {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object>().AsList());
+                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                     }
 
                     // Prepare the command
@@ -1463,7 +1462,7 @@ public static partial class DbConnectionExtension
                     }
                     else
                     {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object>().AsList());
+                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                     }
 
                     // Prepare the command

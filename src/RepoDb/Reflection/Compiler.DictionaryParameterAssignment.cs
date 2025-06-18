@@ -22,7 +22,7 @@ partial class Compiler
         Expression dictionaryInstanceExpression,
         DbField dbField,
         IDbSetting dbSetting,
-        IDbHelper dbHelper)
+        IDbHelper? dbHelper)
     {
         var parameterAssignmentExpressions = new List<Expression>();
         var dbParameterExpression = Expression.Variable(StaticType.DbParameter,

@@ -22,7 +22,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="value">The value to be set to the parameter.</param>
     public PropertyValueAttribute(Type parameterType,
         string propertyName,
-        object value)
+        object? value)
         : this(parameterType, propertyName, value, true)
     { }
 
@@ -38,7 +38,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// </param>
     internal PropertyValueAttribute(Type parameterType,
         string propertyName,
-        object value,
+        object? value,
         bool includedInCompilation)
     {
         // Validation
@@ -68,7 +68,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <summary>
     /// Gets the value that is being used to set the target parameter property value.
     /// </summary>
-    protected internal object Value { get; }
+    protected internal object? Value { get; }
 
     /// <summary>
     /// Gets the value that indicates whether this current attribute method invocation
@@ -80,7 +80,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// Gets the instance of the <see cref="PropertyInfo"/> based on the target property name.
     /// </summary>
     /// <returns></returns>
-    internal PropertyInfo PropertyInfo { get; private set; }
+    internal PropertyInfo? PropertyInfo { get; private set; }
 
     #endregion
 
@@ -105,14 +105,14 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
         {
             // The reason why we use the 'GetValue()' method over the 'Value' property is because
             // of the fact that derived class should sometime customize the value.
-            PropertyInfo.SetValue(parameter, GetValue());
+            PropertyInfo?.SetValue(parameter, GetValue());
         }
     }
 
     /// <summary>
     ///
     /// </summary>
-    internal virtual object GetValue() => Value;
+    internal virtual object? GetValue() => Value;
 
     #endregion
 
@@ -154,9 +154,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
         string propertyName)
     {
         // Property
-        PropertyInfo = parameterType?.GetProperty(propertyName);
-        ObjectExtension.ThrowIfNull(PropertyInfo,
-            $"The property '{propertyName}' is not found from type '{parameterType?.FullName}'.");
+        PropertyInfo = parameterType?.GetProperty(propertyName) ?? throw new ArgumentNullException(nameof(propertyName), $"The property '{propertyName}' is not found from type '{parameterType?.FullName}'.");
     }
 
     #endregion
@@ -212,7 +210,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// </summary>
     /// <param name="obj">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equals.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return Equals(obj as PropertyValueAttribute);
     }
@@ -222,7 +220,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// </summary>
     /// <param name="other">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public bool Equals(PropertyValueAttribute other)
+    public bool Equals(PropertyValueAttribute? other)
     {
         return other is not null
             && other.GetType() == GetType()
@@ -237,8 +235,8 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="objA">The first <see cref="PropertyValueAttribute"/> object.</param>
     /// <param name="objB">The second <see cref="PropertyValueAttribute"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(PropertyValueAttribute objA,
-        PropertyValueAttribute objB)
+    public static bool operator ==(PropertyValueAttribute? objA,
+        PropertyValueAttribute? objB)
     {
         if (objA is null)
         {
@@ -253,8 +251,8 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="objA">The first <see cref="PropertyValueAttribute"/> object.</param>
     /// <param name="objB">The second <see cref="PropertyValueAttribute"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(PropertyValueAttribute objA,
-        PropertyValueAttribute objB) =>
+    public static bool operator !=(PropertyValueAttribute? objA,
+        PropertyValueAttribute? objB) =>
         (objA == objB) == false;
 
     #endregion

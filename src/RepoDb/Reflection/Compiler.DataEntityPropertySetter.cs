@@ -12,7 +12,7 @@ partial class Compiler
     /// <param name="entityType"></param>
     /// <param name="field"></param>
     /// <returns></returns>
-    public static Action<object, object> CompileDataEntityPropertySetter(Type entityType,
+    public static Action<object, object?> CompileDataEntityPropertySetter(Type entityType,
         Field field)
     {
         // Get the entity property
@@ -31,20 +31,20 @@ partial class Compiler
     /// <param name="property"></param>
     /// <param name="targetType"></param>
     /// <returns></returns>
-    private static Action<object, object> CompileDataEntityPropertySetter(Type entityType,
+    private static Action<object, object?> CompileDataEntityPropertySetter(Type entityType,
         PropertyInfo property,
         Type targetType)
     {
         // Check the property first
         if (property == null)
         {
-            return null;
+            return (_, _) => { };
         }
 
         // Make sure we can write
         if (property.CanWrite == false)
         {
-            return null;
+            return (_, _) => { };
         }
 
         // Variables for argument
@@ -53,7 +53,7 @@ partial class Compiler
         // Get the converter
         var toTypeMethod = StaticType
             .Converter
-            .GetMethod("ToType", new[] { StaticType.Object })
+            .GetMethod("ToType", new[] { StaticType.Object })!
             .MakeGenericMethod(TypeCache.Get(targetType).GetUnderlyingType());
 
         // Conversion (if needed)
@@ -73,7 +73,7 @@ partial class Compiler
             valueExpression);
 
         // Return function
-        return Expression.Lambda<Action<object, object>>(propertyAssignment,
+        return Expression.Lambda<Action<object, object?>>(propertyAssignment,
             entityParameter, valueParameter).Compile();
     }
 }

@@ -3,12 +3,12 @@
 /// <summary>
 /// A class that is being used to handle the field definition of the data reader.
 /// </summary>
-internal class DataReaderField
+internal record DataReaderField
 {
     /// <summary>
     /// Gets or sets the name value.
     /// </summary>
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Gets or sets the column ordinal value.
@@ -23,7 +23,7 @@ internal class DataReaderField
     /// <summary>
     /// Gets or sets the type value.
     /// </summary>
-    public Type Type { get; init; }
+    public required Type Type { get; init; }
 
     /// <summary>
     /// Returns a string that represents the current object.

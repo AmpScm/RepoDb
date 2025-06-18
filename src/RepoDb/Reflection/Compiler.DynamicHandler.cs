@@ -12,7 +12,7 @@ partial class Compiler
     /// <param name="dbHelper"></param>
     /// <returns></returns>
     private static MethodCallExpression GetCompilerDbParameterPostCreationExpression(ParameterExpression dbCommandExpression,
-        IDbHelper dbHelper)
+        IDbHelper? dbHelper)
     {
         var method = StaticType.IDbHelper.GetMethod(nameof(IDbHelper.DynamicHandler))
             .MakeGenericMethod(dbCommandExpression.Type);

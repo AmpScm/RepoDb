@@ -46,6 +46,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? hints = null,
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null)
+        where TWhat : notnull
     {
         return DbRepository.Update(entity: entity,
             what: what,
@@ -228,6 +229,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? traceKey = TraceKeys.Update,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
+        where TWhat : notnull
     {
         return DbRepository.UpdateAsync(entity: entity,
             what: what,

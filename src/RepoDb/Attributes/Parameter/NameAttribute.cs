@@ -21,7 +21,7 @@ public class NameAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped name of the equivalent database object/field.
     /// </summary>
-    public string Name => (string)Value;
+    public string Name => (string)Value!;
 
     /// <summary>
     ///

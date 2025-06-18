@@ -1,4 +1,3 @@
-#nullable enable
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
@@ -148,7 +147,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="fields"></param>
     /// <returns></returns>
-    private static IEnumerable<FieldDirection> GetInputFieldDirections(IEnumerable<DbField> fields)
+    private static IEnumerable<FieldDirection> GetInputFieldDirections(IEnumerable<DbField>? fields)
     {
         if (fields?.Any() != true)
         {
@@ -167,7 +166,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="fields"></param>
     /// <returns></returns>
-    private static IEnumerable<FieldDirection> GetOutputFieldDirections(IEnumerable<DbField> fields)
+    private static IEnumerable<FieldDirection> GetOutputFieldDirections(IEnumerable<DbField>? fields)
     {
         if (fields?.Any() != true)
         {

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;

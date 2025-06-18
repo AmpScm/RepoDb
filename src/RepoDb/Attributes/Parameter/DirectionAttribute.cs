@@ -22,5 +22,5 @@ public class DirectionAttribute : PropertyValueAttribute
     /// Gets the mapped value that indicates whether the parameter is input, output, bidirectional
     /// or a return value from the stored procedure.
     /// </summary>
-    public ParameterDirection Direction => (ParameterDirection)Value;
+    public ParameterDirection Direction => (ParameterDirection)Value!;
 }

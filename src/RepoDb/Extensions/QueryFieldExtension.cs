@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using RepoDb.Interfaces;
 
@@ -204,7 +203,7 @@ public static class QueryFieldExtension
     /// <returns></returns>
     internal static string AsFieldAndParameterForBetween(this QueryField queryField,
         int index,
-        string functionFormat,
+        string? functionFormat,
         IDbSetting dbSetting) =>
         string.Concat(queryField.AsField(functionFormat, dbSetting), " ",
             queryField.Operation.GetText(), " ", queryField.AsBetweenParameter(index /*, functionFormat */, dbSetting));

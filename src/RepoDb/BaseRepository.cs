@@ -53,7 +53,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="connectionString">The connection string to be used by this repository.</param>
     /// <param name="cache">The cache object to be used by this repository. This object must implement the <see cref="ICache"/> interface.</param>
     public BaseRepository(string connectionString,
-        ICache cache)
+        ICache? cache)
         : this(connectionString,
               null,
               ConnectionPersistency.PerCall,
@@ -69,7 +69,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="connectionString">The connection string to be used by this repository.</param>
     /// <param name="trace">The trace object to be used by this repository. This object must implement the <see cref="ITrace"/> interface.</param>
     public BaseRepository(string connectionString,
-        ITrace trace)
+        ITrace? trace)
         : this(connectionString,
               null,
               ConnectionPersistency.PerCall,
@@ -123,7 +123,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="cacheItemExpiration">The expiration in minutes of the cache item.</param>
     public BaseRepository(string connectionString,
         int? commandTimeout,
-        ICache cache,
+        ICache? cache,
         int cacheItemExpiration = Constant.DefaultCacheItemExpirationInMinutes)
         : this(connectionString,
               commandTimeout,
@@ -144,7 +144,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="trace">The trace object to be used by this repository. This object must implement the <see cref="ITrace"/> interface.</param>
     public BaseRepository(string connectionString,
         int? commandTimeout,
-        ICache cache,
+        ICache? cache,
         int cacheItemExpiration = Constant.DefaultCacheItemExpirationInMinutes,
         ITrace? trace = null)
         : this(connectionString,
@@ -166,7 +166,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="statementBuilder">The SQL statement builder object to be used by this repository. This object must implement the <see cref="IStatementBuilder"/> interface.</param>
     public BaseRepository(string connectionString,
         int? commandTimeout,
-        ICache cache,
+        ICache? cache,
         int cacheItemExpiration = Constant.DefaultCacheItemExpirationInMinutes,
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
@@ -195,7 +195,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     public BaseRepository(string connectionString,
         int? commandTimeout,
         ConnectionPersistency connectionPersistency,
-        ICache cache,
+        ICache? cache,
         int cacheItemExpiration = Constant.DefaultCacheItemExpirationInMinutes,
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
@@ -231,7 +231,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <summary>
     /// Gets the cache object that is being used by this repository.
     /// </summary>
-    public ICache Cache => DbRepository.Cache;
+    public ICache? Cache => DbRepository.Cache;
 
     /// <summary>
     /// Gets the expiration in minutes of the cache item.

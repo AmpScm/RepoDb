@@ -328,8 +328,8 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>> QueryMultiple<T1, T2>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
+        QueryGroup? where1,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -399,8 +399,8 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>> QueryMultipleInternal<T1, T2>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
+        QueryGroup? where1,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -847,9 +847,9 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> QueryMultiple<T1, T2, T3>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -938,9 +938,9 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> QueryMultipleInternal<T1, T2, T3>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -1492,10 +1492,10 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 4 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>
         QueryMultiple<T1, T2, T3, T4>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -1604,10 +1604,10 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 4 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>
         QueryMultipleInternal<T1, T2, T3, T4>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -2259,11 +2259,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 5 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>
         QueryMultiple<T1, T2, T3, T4, T5>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -2391,11 +2391,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 5 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>
         QueryMultipleInternal<T1, T2, T3, T4, T5>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -3147,12 +3147,12 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 6 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>
         QueryMultiple<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -3299,12 +3299,12 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 6 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>
         QueryMultipleInternal<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -4156,13 +4156,13 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 7 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>
         QueryMultiple<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
-        QueryGroup where7,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -4328,13 +4328,13 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 7 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>
         QueryMultipleInternal<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
-        QueryGroup where7,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -4776,8 +4776,8 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleAsync<T1, T2>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
+        QueryGroup? where1,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -4850,8 +4850,8 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleAsyncInternal<T1, T2>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
+        QueryGroup? where1,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -5313,9 +5313,9 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleAsync<T1, T2, T3>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -5407,9 +5407,9 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleAsyncInternal<T1, T2, T3>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -5976,10 +5976,10 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 4 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>>
         QueryMultipleAsync<T1, T2, T3, T4>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -6091,10 +6091,10 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 4 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -6761,11 +6761,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 5 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>>
         QueryMultipleAsync<T1, T2, T3, T4, T5>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -6896,11 +6896,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 5 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -7667,12 +7667,12 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 6 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>>
         QueryMultipleAsync<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -7822,12 +7822,12 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 6 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -8694,13 +8694,13 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 7 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>>
         QueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
-        QueryGroup where7,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -8869,13 +8869,13 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 7 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
-        QueryGroup where1,
-        QueryGroup where2,
-        QueryGroup where3,
-        QueryGroup where4,
-        QueryGroup where5,
-        QueryGroup where6,
-        QueryGroup where7,
+        QueryGroup? where1,
+        QueryGroup? where2,
+        QueryGroup? where3,
+        QueryGroup? where4,
+        QueryGroup? where5,
+        QueryGroup? where6,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -9335,9 +9335,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>> QueryMultiple<T1, T2>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -9412,9 +9412,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>> QueryMultipleInternal<T1, T2>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -9437,7 +9437,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -9469,7 +9469,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -9486,7 +9487,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Shared variables
@@ -9497,7 +9499,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -9518,7 +9520,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], []);
             }
 
             // DB setting
@@ -10000,11 +10002,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> QueryMultiple<T1, T2, T3>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -10100,11 +10102,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> QueryMultipleInternal<T1, T2, T3>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -10133,7 +10135,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -10170,7 +10172,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -10187,7 +10190,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -10204,7 +10208,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Shared variables
@@ -10215,7 +10220,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -10236,7 +10241,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], []);
             }
 
             // DB setting
@@ -10835,13 +10840,13 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>
         QueryMultiple<T1, T2, T3, T4>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -10959,13 +10964,13 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>
         QueryMultipleInternal<T1, T2, T3, T4>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -11000,7 +11005,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -11042,7 +11047,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -11059,7 +11065,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -11076,7 +11083,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -11093,7 +11101,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Shared variables
@@ -11104,7 +11113,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -11125,7 +11134,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], []);
             }
 
             // DB setting
@@ -11835,15 +11844,15 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>
         QueryMultiple<T1, T2, T3, T4, T5>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -11982,15 +11991,15 @@ public static partial class DbConnectionExtension
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>
         QueryMultipleInternal<T1, T2, T3, T4, T5>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -12031,7 +12040,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -12078,7 +12087,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -12095,7 +12105,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -12112,7 +12123,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -12129,7 +12141,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Item5 Request
@@ -12146,7 +12159,8 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request5));
-            maps.Add(where5.MapTo<T5>());
+            if (where5 is not null)
+                maps.Add(where5.MapTo<T5>());
         }
 
         // Shared variables
@@ -12157,7 +12171,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -12178,7 +12192,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], []);
             }
 
             // DB setting
@@ -12999,17 +13013,17 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>
         QueryMultiple<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -13169,17 +13183,17 @@ public static partial class DbConnectionExtension
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>
         QueryMultipleInternal<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -13226,7 +13240,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -13278,7 +13292,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -13295,7 +13310,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -13312,7 +13328,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -13329,7 +13346,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Item5 Request
@@ -13346,7 +13364,8 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request5));
-            maps.Add(where5.MapTo<T5>());
+            if (where5 is not null)
+                maps.Add(where5.MapTo<T5>());
         }
 
         // Item6 Request
@@ -13363,7 +13382,8 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request6));
-            maps.Add(where6.MapTo<T6>());
+            if (where6 is not null)
+                maps.Add(where6.MapTo<T6>());
         }
 
         // Shared variables
@@ -13374,7 +13394,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -13395,7 +13415,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], []);
             }
 
             // DB setting
@@ -14327,19 +14347,19 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>
         QueryMultiple<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -14520,19 +14540,19 @@ public static partial class DbConnectionExtension
     internal static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>
         QueryMultipleInternal<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -14585,7 +14605,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -14642,7 +14662,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -14659,7 +14680,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -14676,7 +14698,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -14693,7 +14716,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Item5 Request
@@ -14710,7 +14734,8 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request5));
-            maps.Add(where5.MapTo<T5>());
+            if (where5 is not null)
+                maps.Add(where5.MapTo<T5>());
         }
 
         // Item6 Request
@@ -14727,7 +14752,8 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request6));
-            maps.Add(where6.MapTo<T6>());
+            if (where6 is not null)
+                maps.Add(where6.MapTo<T6>());
         }
 
         // Item7 Request
@@ -14744,7 +14770,8 @@ public static partial class DbConnectionExtension
                 hints7,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request7));
-            maps.Add(where7.MapTo<T7>());
+            if (where7 is not null)
+                maps.Add(where7.MapTo<T7>());
         }
 
         // Shared variables
@@ -14755,7 +14782,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -14776,7 +14803,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], [], []);
             }
 
             // DB setting
@@ -15127,9 +15154,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>> QueryMultiple(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -15200,9 +15227,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>> QueryMultipleInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -15223,7 +15250,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -15255,7 +15282,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -15272,7 +15301,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Shared variables
@@ -15283,7 +15314,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -15304,7 +15335,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], []);
             }
 
             // DB setting
@@ -15665,11 +15696,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     public static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> QueryMultiple(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -15759,11 +15790,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     internal static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> QueryMultipleInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -15789,7 +15820,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -15826,7 +15857,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -15843,7 +15876,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -15860,7 +15895,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Shared variables
@@ -15871,7 +15908,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -15892,7 +15929,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], []);
             }
 
             // DB setting
@@ -16339,13 +16376,13 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultiple(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -16455,13 +16492,13 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultipleInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -16492,7 +16529,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -16534,7 +16571,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -16551,7 +16590,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -16568,7 +16609,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -16585,7 +16628,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Shared variables
@@ -16596,7 +16641,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -16617,7 +16662,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], []);
             }
 
             // DB setting
@@ -17144,15 +17189,15 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultiple(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -17281,15 +17326,15 @@ public static partial class DbConnectionExtension
     internal static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultipleInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -17325,7 +17370,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -17372,7 +17417,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -17389,7 +17436,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -17406,7 +17455,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -17423,7 +17474,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Item5 Request
@@ -17440,7 +17493,9 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request5));
-            maps.Add(where5.MapTo());
+
+            if (where5 is not null)
+                maps.Add(where5.MapTo());
         }
 
         // Shared variables
@@ -17451,7 +17506,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -17472,7 +17527,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], []);
             }
 
             // DB setting
@@ -18081,17 +18136,17 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultiple(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -18239,17 +18294,17 @@ public static partial class DbConnectionExtension
     internal static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultipleInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -18290,7 +18345,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -18342,7 +18397,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -18359,7 +18416,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -18376,7 +18435,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -18393,7 +18454,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Item5 Request
@@ -18410,7 +18473,9 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request5));
-            maps.Add(where5.MapTo());
+
+            if (where5 is not null)
+                maps.Add(where5.MapTo());
         }
 
         // Item6 Request
@@ -18427,7 +18492,9 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request6));
-            maps.Add(where6.MapTo());
+
+            if (where6 is not null)
+                maps.Add(where6.MapTo());
         }
 
         // Shared variables
@@ -18438,7 +18505,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -18459,7 +18526,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], []);
             }
 
             // DB setting
@@ -19149,19 +19216,19 @@ public static partial class DbConnectionExtension
     public static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultiple(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -19328,19 +19395,19 @@ public static partial class DbConnectionExtension
     internal static Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>
         QueryMultipleInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -19386,7 +19453,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -19443,7 +19510,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request1));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -19460,7 +19529,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request2));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -19477,7 +19548,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request3));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -19494,7 +19567,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request4));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Item5 Request
@@ -19511,7 +19586,9 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request5));
-            maps.Add(where5.MapTo());
+
+            if (where5 is not null)
+                maps.Add(where5.MapTo());
         }
 
         // Item6 Request
@@ -19528,7 +19605,9 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request6));
-            maps.Add(where6.MapTo());
+
+            if (where6 is not null)
+                maps.Add(where6.MapTo());
         }
 
         // Item7 Request
@@ -19545,7 +19624,9 @@ public static partial class DbConnectionExtension
                 hints7,
                 statementBuilder);
             commandTexts.Add(CommandTextCache.GetQueryMultipleText(request7));
-            maps.Add(where7.MapTo());
+
+            if (where7 is not null)
+                maps.Add(where7.MapTo());
         }
 
         // Shared variables
@@ -19556,7 +19637,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        var beforeExecutionCallback = new Func<DbCommand, TraceResult>(command =>
+        var beforeExecutionCallback = new Func<DbCommand, TraceResult?>(command =>
             traceResult = Tracer
                 .InvokeBeforeExecution(traceKey, trace, command));
 
@@ -19577,7 +19658,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], [], []);
             }
 
             // DB setting
@@ -20036,9 +20117,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleAsync<T1, T2>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -20116,9 +20197,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleAsyncInternal<T1, T2>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -20142,7 +20223,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -20176,7 +20257,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -20193,7 +20275,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Shared variables
@@ -20204,7 +20287,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -20229,7 +20312,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], []);
             }
 
             // DB setting
@@ -20726,11 +20809,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleAsync<T1, T2, T3>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -20829,11 +20912,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleAsyncInternal<T1, T2, T3>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -20863,7 +20946,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -20903,7 +20986,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -20920,7 +21004,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -20937,7 +21022,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Shared variables
@@ -20948,7 +21034,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -20973,7 +21059,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], []);
             }
 
             // DB setting
@@ -21587,13 +21673,13 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>>
         QueryMultipleAsync<T1, T2, T3, T4>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -21714,13 +21800,13 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -21756,7 +21842,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -21802,7 +21888,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -21819,7 +21906,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -21836,7 +21924,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -21853,7 +21942,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Shared variables
@@ -21864,7 +21954,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -21889,7 +21979,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], []);
             }
 
             // DB setting
@@ -22615,15 +22705,15 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>>
         QueryMultipleAsync<T1, T2, T3, T4, T5>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -22765,15 +22855,15 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -22815,7 +22905,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -22867,7 +22957,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -22884,7 +22975,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -22901,7 +22993,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -22918,7 +23011,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Item5 Request
@@ -22935,7 +23029,8 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request5, cancellationToken).ConfigureAwait(false));
-            maps.Add(where5.MapTo<T5>());
+            if (where5 is not null)
+                maps.Add(where5.MapTo<T5>());
         }
 
         // Shared variables
@@ -22946,7 +23041,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -22971,7 +23066,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], []);
             }
 
             // DB setting
@@ -23809,17 +23904,17 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>>
         QueryMultipleAsync<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -23982,17 +24077,17 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -24040,7 +24135,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -24098,7 +24193,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -24115,7 +24211,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -24132,7 +24229,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -24149,7 +24247,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Item5 Request
@@ -24166,7 +24265,8 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request5, cancellationToken).ConfigureAwait(false));
-            maps.Add(where5.MapTo<T5>());
+            if (where5 is not null)
+                maps.Add(where5.MapTo<T5>());
         }
 
         // Item6 Request
@@ -24183,7 +24283,8 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request6, cancellationToken).ConfigureAwait(false));
-            maps.Add(where6.MapTo<T6>());
+            if (where6 is not null)
+                maps.Add(where6.MapTo<T6>());
         }
 
         // Shared variables
@@ -24194,7 +24295,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -24219,7 +24320,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], []);
             }
 
             // DB setting
@@ -25169,19 +25270,19 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>>
         QueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -25365,19 +25466,19 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>>
         QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -25431,7 +25532,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -25495,7 +25596,8 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo<T1>());
+            if (where1 is not null)
+                maps.Add(where1.MapTo<T1>());
         }
 
         // Item2 Request
@@ -25512,7 +25614,8 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo<T2>());
+            if (where2 is not null)
+                maps.Add(where2.MapTo<T2>());
         }
 
         // Item3 Request
@@ -25529,7 +25632,8 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo<T3>());
+            if (where3 is not null)
+                maps.Add(where3.MapTo<T3>());
         }
 
         // Item4 Request
@@ -25546,7 +25650,8 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo<T4>());
+            if (where4 is not null)
+                maps.Add(where4.MapTo<T4>());
         }
 
         // Item5 Request
@@ -25563,7 +25668,8 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request5, cancellationToken).ConfigureAwait(false));
-            maps.Add(where5.MapTo<T5>());
+            if (where5 is not null)
+                maps.Add(where5.MapTo<T5>());
         }
 
         // Item6 Request
@@ -25580,7 +25686,8 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request6, cancellationToken).ConfigureAwait(false));
-            maps.Add(where6.MapTo<T6>());
+            if (where6 is not null)
+                maps.Add(where6.MapTo<T6>());
         }
 
         // Item7 Request
@@ -25597,7 +25704,8 @@ public static partial class DbConnectionExtension
                 hints7,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request7, cancellationToken).ConfigureAwait(false));
-            maps.Add(where7.MapTo<T7>());
+            if (where7 is not null)
+                maps.Add(where7.MapTo<T7>());
         }
 
         // Shared variables
@@ -25608,7 +25716,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -25633,7 +25741,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], [], []);
             }
 
             // DB setting
@@ -26000,9 +26108,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleAsync(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -26076,9 +26184,9 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleAsyncInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -26100,7 +26208,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -26134,7 +26242,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -26151,7 +26261,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Shared variables
@@ -26162,7 +26274,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -26187,7 +26299,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], []);
             }
 
             // DB setting
@@ -26560,11 +26672,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     public static async Task<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleAsync(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -26657,11 +26769,11 @@ public static partial class DbConnectionExtension
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleAsyncInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -26688,7 +26800,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -26728,7 +26840,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -26745,7 +26859,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -26762,7 +26878,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Shared variables
@@ -26773,7 +26891,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -26798,7 +26916,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], []);
             }
 
             // DB setting
@@ -27257,13 +27375,13 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsync(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -27376,13 +27494,13 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsyncInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -27414,7 +27532,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -27460,7 +27578,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -27477,7 +27597,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -27494,7 +27616,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -27511,7 +27635,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Shared variables
@@ -27522,7 +27648,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -27547,7 +27673,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], []);
             }
 
             // DB setting
@@ -28088,15 +28214,15 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsync(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -28228,15 +28354,15 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsyncInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -28273,7 +28399,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -28325,7 +28451,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -28342,7 +28470,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -28359,7 +28489,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -28376,7 +28508,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Item5 Request
@@ -28393,7 +28527,9 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request5, cancellationToken).ConfigureAwait(false));
-            maps.Add(where5.MapTo());
+
+            if (where5 is not null)
+                maps.Add(where5.MapTo());
         }
 
         // Shared variables
@@ -28404,7 +28540,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -28429,7 +28565,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], []);
             }
 
             // DB setting
@@ -29052,17 +29188,17 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsync(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -29213,17 +29349,17 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsyncInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -29265,7 +29401,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -29323,7 +29459,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -29340,7 +29478,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -29357,7 +29497,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -29374,7 +29516,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Item5 Request
@@ -29391,7 +29535,9 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request5, cancellationToken).ConfigureAwait(false));
-            maps.Add(where5.MapTo());
+
+            if (where5 is not null)
+                maps.Add(where5.MapTo());
         }
 
         // Item6 Request
@@ -29408,7 +29554,9 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request6, cancellationToken).ConfigureAwait(false));
-            maps.Add(where6.MapTo());
+
+            if (where6 is not null)
+                maps.Add(where6.MapTo());
         }
 
         // Shared variables
@@ -29419,7 +29567,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -29444,7 +29592,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], []);
             }
 
             // DB setting
@@ -30149,19 +30297,19 @@ public static partial class DbConnectionExtension
     public static async Task<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsync(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -30331,19 +30479,19 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
         QueryMultipleAsyncInternal(this IDbConnection connection,
         string tableName1,
-        QueryGroup where1,
+        QueryGroup? where1,
         string tableName2,
-        QueryGroup where2,
+        QueryGroup? where2,
         string tableName3,
-        QueryGroup where3,
+        QueryGroup? where3,
         string tableName4,
-        QueryGroup where4,
+        QueryGroup? where4,
         string tableName5,
-        QueryGroup where5,
+        QueryGroup? where5,
         string tableName6,
-        QueryGroup where6,
+        QueryGroup? where6,
         string tableName7,
-        QueryGroup where7,
+        QueryGroup? where7,
         IEnumerable<Field>? fields1 = null,
         IEnumerable<OrderField>? orderBy1 = null,
         int top1 = 0,
@@ -30390,7 +30538,7 @@ public static partial class DbConnectionExtension
     {
         // Variables
         var commandType = CommandType.Text;
-        var queryGroups = new List<QueryGroup>();
+        var queryGroups = new List<QueryGroup?>();
         var maps = new List<QueryGroupTypeMap>();
         var commandTexts = new List<string>();
 
@@ -30454,7 +30602,9 @@ public static partial class DbConnectionExtension
                 hints1,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request1, cancellationToken).ConfigureAwait(false));
-            maps.Add(where1.MapTo());
+
+            if (where1 is not null)
+                maps.Add(where1.MapTo());
         }
 
         // Item2 Request
@@ -30471,7 +30621,9 @@ public static partial class DbConnectionExtension
                 hints2,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request2, cancellationToken).ConfigureAwait(false));
-            maps.Add(where2.MapTo());
+
+            if (where2 is not null)
+                maps.Add(where2.MapTo());
         }
 
         // Item3 Request
@@ -30488,7 +30640,9 @@ public static partial class DbConnectionExtension
                 hints3,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request3, cancellationToken).ConfigureAwait(false));
-            maps.Add(where3.MapTo());
+
+            if (where3 is not null)
+                maps.Add(where3.MapTo());
         }
 
         // Item4 Request
@@ -30505,7 +30659,9 @@ public static partial class DbConnectionExtension
                 hints4,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request4, cancellationToken).ConfigureAwait(false));
-            maps.Add(where4.MapTo());
+
+            if (where4 is not null)
+                maps.Add(where4.MapTo());
         }
 
         // Item5 Request
@@ -30522,7 +30678,9 @@ public static partial class DbConnectionExtension
                 hints5,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request5, cancellationToken).ConfigureAwait(false));
-            maps.Add(where5.MapTo());
+
+            if (where5 is not null)
+                maps.Add(where5.MapTo());
         }
 
         // Item6 Request
@@ -30539,7 +30697,9 @@ public static partial class DbConnectionExtension
                 hints6,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request6, cancellationToken).ConfigureAwait(false));
-            maps.Add(where6.MapTo());
+
+            if (where6 is not null)
+                maps.Add(where6.MapTo());
         }
 
         // Item7 Request
@@ -30556,7 +30716,9 @@ public static partial class DbConnectionExtension
                 hints7,
                 statementBuilder);
             commandTexts.Add(await CommandTextCache.GetQueryMultipleTextAsync(request7, cancellationToken).ConfigureAwait(false));
-            maps.Add(where7.MapTo());
+
+            if (where7 is not null)
+                maps.Add(where7.MapTo());
         }
 
         // Shared variables
@@ -30567,7 +30729,7 @@ public static partial class DbConnectionExtension
         TraceResult? traceResult = null;
 
         // Before Execution
-        async Task<TraceResult> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
+        async ValueTask<TraceResult?> beforeExecutionCallbackAsync(DbCommand command, CancellationToken cancellationToken) =>
             traceResult = await Tracer
                 .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
@@ -30592,7 +30754,7 @@ public static partial class DbConnectionExtension
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
             {
-                return default;
+                return new([], [], [], [], [], [], []);
             }
 
             // DB setting
@@ -30711,17 +30873,18 @@ public static partial class DbConnectionExtension
     /// <param name="where"></param>
     /// <param name="queryGroups"></param>
     /// <returns></returns>
-    private static IEnumerable<T> QueryMultipleInternal<T>(string cacheKey,
-        ICache cache,
-        QueryGroup where,
-        List<QueryGroup> queryGroups)
+    private static IEnumerable<T>? QueryMultipleInternal<T>(
+        string? cacheKey,
+        ICache? cache,
+        QueryGroup? where,
+        List<QueryGroup?> queryGroups)
         where T : class
     {
-        IEnumerable<T> item = null;
+        IEnumerable<T>? item = null;
 
-        if (cache != null && string.IsNullOrEmpty(cacheKey))
+        if (cache != null && !string.IsNullOrEmpty(cacheKey))
         {
-            item = cache?.Get<IEnumerable<T>>(cacheKey, false)?.Value;
+            item = cache.Get<IEnumerable<T>>(cacheKey, false)?.Value;
         }
 
         if (item == null)
@@ -30740,16 +30903,16 @@ public static partial class DbConnectionExtension
     /// <param name="where"></param>
     /// <param name="queryGroups"></param>
     /// <returns></returns>
-    private static IEnumerable<dynamic> QueryMultipleInternal(string cacheKey,
-        ICache cache,
-        QueryGroup where,
-        List<QueryGroup> queryGroups)
+    private static IEnumerable<dynamic>? QueryMultipleInternal(string? cacheKey,
+        ICache? cache,
+        QueryGroup? where,
+        List<QueryGroup?> queryGroups)
     {
-        IEnumerable<dynamic> item = null;
+        IEnumerable<dynamic>? item = null;
 
-        if (cache != null && string.IsNullOrEmpty(cacheKey))
+        if (cache != null && !string.IsNullOrEmpty(cacheKey))
         {
-            item = cache?.Get<IEnumerable<dynamic>>(cacheKey, false)?.Value;
+            item = cache.Get<IEnumerable<dynamic>>(cacheKey, false)?.Value;
         }
 
         if (item == null)
@@ -30776,7 +30939,7 @@ public static partial class DbConnectionExtension
     /// <returns></returns>
     private static IEnumerable<T> QueryMultipleInternal<T>(IDbConnection connection,
         DbDataReader reader,
-        IEnumerable<T> items,
+        IEnumerable<T>? items,
         string? cacheKey = null,
         IDbSetting? dbSetting = null,
         int cacheItemExpiration = Constant.DefaultCacheItemExpirationInMinutes,
@@ -30795,7 +30958,7 @@ public static partial class DbConnectionExtension
             items = DataReader.ToEnumerable<T>(reader, dbFields, dbSetting).AsList();
         }
 
-        if (cache != null && string.IsNullOrEmpty(cacheKey))
+        if (cache != null && !string.IsNullOrEmpty(cacheKey))
         {
             cache?.Add(cacheKey, items, cacheItemExpiration, false);
         }
@@ -30813,16 +30976,17 @@ public static partial class DbConnectionExtension
     /// <param name="queryGroups"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<IEnumerable<T>> QueryMultipleAsyncInternal<T>(string cacheKey,
-        ICache cache,
-        QueryGroup where,
-        List<QueryGroup> queryGroups,
+    private static async ValueTask<IEnumerable<T>?> QueryMultipleAsyncInternal<T>(
+        string? cacheKey,
+        ICache? cache,
+        QueryGroup? where,
+        List<QueryGroup?> queryGroups,
         CancellationToken cancellationToken = default)
         where T : class
     {
-        IEnumerable<T> item = null;
+        IEnumerable<T>? item = null;
 
-        if (cache != null && string.IsNullOrEmpty(cacheKey))
+        if (cache != null && !string.IsNullOrEmpty(cacheKey))
         {
             item = (await cache.GetAsync<IEnumerable<T>>(cacheKey, false, cancellationToken).ConfigureAwait(false))?.Value;
         }
@@ -30844,15 +31008,15 @@ public static partial class DbConnectionExtension
     /// <param name="queryGroups"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<IEnumerable<dynamic>> QueryMultipleAsyncInternal(string cacheKey,
-        ICache cache,
-        QueryGroup where,
-        List<QueryGroup> queryGroups,
+    private static async ValueTask<IEnumerable<dynamic>?> QueryMultipleAsyncInternal(string? cacheKey,
+        ICache? cache,
+        QueryGroup? where,
+        List<QueryGroup?> queryGroups,
         CancellationToken cancellationToken = default)
     {
-        IEnumerable<dynamic> item = null;
+        IEnumerable<dynamic>? item = null;
 
-        if (cache != null && string.IsNullOrEmpty(cacheKey))
+        if (cache != null && !string.IsNullOrEmpty(cacheKey))
         {
             item = (await cache.GetAsync<IEnumerable<dynamic>>(cacheKey, false, cancellationToken).ConfigureAwait(false))?.Value;
         }
@@ -30882,7 +31046,7 @@ public static partial class DbConnectionExtension
     /// <returns></returns>
     private static async ValueTask<IEnumerable<T>> QueryMultipleAsyncInternal<T>(IDbConnection connection,
         DbDataReader reader,
-        IEnumerable<T> items,
+        IEnumerable<T>? items,
         string? cacheKey = null,
         IDbSetting? dbSetting = null,
         int cacheItemExpiration = Constant.DefaultCacheItemExpirationInMinutes,
@@ -30902,7 +31066,7 @@ public static partial class DbConnectionExtension
             items = await DataReader.ToEnumerableAsync<T>(reader, dbFields, dbSetting, cancellationToken).ToListAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        if (cache != null && string.IsNullOrEmpty(cacheKey))
+        if (cache != null && !string.IsNullOrEmpty(cacheKey))
         {
             await cache.AddAsync(cacheKey, items, cacheItemExpiration, false, cancellationToken).ConfigureAwait(false);
         }

@@ -15,11 +15,11 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    internal static Action<DbCommand, IList<object>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
-        IEnumerable<DbField> inputFields,
+    internal static Action<DbCommand, IList<object?>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
+        IEnumerable<DbField>? inputFields,
         int batchSize,
         IDbSetting dbSetting,
-        IDbHelper dbHelper)
+        IDbHelper? dbHelper)
     {
         var typeOfListEntity = typeof(IList<>).MakeGenericType(StaticType.Object);
         var getItemMethod = typeOfListEntity.GetMethod("get_Item", new[] { StaticType.Int32 });
@@ -56,7 +56,7 @@ partial class Compiler
 
         // Compile
         return Expression
-            .Lambda<Action<DbCommand, IList<object>>>(Expression.Block(bodyExpressions),
+            .Lambda<Action<DbCommand, IList<object?>>>(Expression.Block(bodyExpressions),
                 dbCommandExpression,
                 entitiesParameterExpression)
             .Compile();

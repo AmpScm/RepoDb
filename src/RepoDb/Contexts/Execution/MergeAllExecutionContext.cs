@@ -10,12 +10,12 @@ internal sealed record MergeAllExecutionContext
     /// <summary>
     ///
     /// </summary>
-    public string CommandText { get; init; }
+    public required string CommandText { get; init; }
 
     /// <summary>
     ///
     /// </summary>
-    public IEnumerable<DbField> InputFields { get; init; }
+    public required IEnumerable<DbField> InputFields { get; init; }
 
     /// <summary>
     ///
@@ -25,12 +25,12 @@ internal sealed record MergeAllExecutionContext
     /// <summary>
     ///
     /// </summary>
-    public Action<DbCommand, object>? SingleDataEntityParametersSetterFunc { get; init; }
+    public Action<DbCommand, object?>? SingleDataEntityParametersSetterFunc { get; init; }
 
     /// <summary>
     ///
     /// </summary>
-    public Action<DbCommand, IList<object>>? MultipleDataEntitiesParametersSetterFunc { get; init; }
+    public Action<DbCommand, IList<object?>>? MultipleDataEntitiesParametersSetterFunc { get; init; }
 
     /// <summary>
     ///

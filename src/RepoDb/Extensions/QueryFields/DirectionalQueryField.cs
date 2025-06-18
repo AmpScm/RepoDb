@@ -229,7 +229,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="prependUnderscore">The value to identify whether the underscore prefix will be appended to the parameter name.</param>
     internal DirectionalQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         ParameterDirection? direction,
         int? size,
         DbType? dbType,
@@ -294,7 +294,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// </summary>
     /// <param name="obj">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equals.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return Equals(obj as DirectionalQueryField);
     }
@@ -304,7 +304,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// </summary>
     /// <param name="other">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public bool Equals(DirectionalQueryField other)
+    public bool Equals(DirectionalQueryField? other)
     {
         return other is not null
             && other.Direction == Direction

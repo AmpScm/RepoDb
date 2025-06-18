@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using RepoDb.Extensions;
 using RepoDb.Resolvers;
 
@@ -20,21 +19,26 @@ public static class ClassMappedNameCache
     /// </summary>
     /// <typeparam name="T">The type of the target type.</typeparam>
     /// <returns>The cached mapped name of the data entity.</returns>
-    public static string? Get<T>() =>
+    public static string Get<T>() =>
         Get(typeof(T));
+
+
+    public static string? Get<T>(bool throwOnError) => Get(typeof(T), throwOnError);
 
     /// <summary>
     /// Gets the cached database object name of the data entity type.
     /// </summary>
     /// <param name="entityType">The type of the data entity.</param>
     /// <returns>The cached mapped name of the data entity.</returns>
-    public static string? Get(Type entityType)
+    public static string Get(Type entityType) => Get(entityType, true)!;
+
+    public static string? Get(Type entityType, bool throwOnError)
     {
         // Validate
         ObjectExtension.ThrowIfNull(entityType, nameof(entityType));
 
         // Try get the value
-        return cache.GetOrAdd(entityType, resolver.Resolve);
+        return cache.GetOrAdd(entityType, resolver.Resolve) ?? (throwOnError ? throw new ArgumentException($"Type '{entityType}' not resolvable to table name", nameof(entityType)) : null);
     }
 
     #endregion

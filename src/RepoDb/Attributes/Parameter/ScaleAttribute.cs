@@ -20,5 +20,5 @@ public class ScaleAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped scale value of the parameter.
     /// </summary>
-    public byte Scale => (byte)Value;
+    public byte Scale => (byte)Value!;
 }

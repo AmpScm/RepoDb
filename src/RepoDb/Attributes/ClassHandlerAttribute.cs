@@ -36,7 +36,7 @@ public class ClassHandlerAttribute : Attribute
     /// <param name="handlerType"></param>
     private static void Validate(Type handlerType)
     {
-        if (handlerType?.IsInterfacedTo(StaticType.IClassHandler) != true)
+        if (handlerType.IsInterfacedTo(StaticType.IClassHandler) != true)
         {
             throw new InvalidTypeException($"Type '{handlerType.FullName}' must implement the '{StaticType.IClassHandler}' interface.");
         }
@@ -64,7 +64,7 @@ public class ClassHandlerAttribute<T> : Attribute
     /// <param name="handlerType"></param>
     private static void Validate(Type handlerType)
     {
-        if (handlerType?.IsInterfacedTo(StaticType.IClassHandler) != true)
+        if (handlerType.IsInterfacedTo(StaticType.IClassHandler) != true)
         {
             throw new InvalidTypeException($"Type '{handlerType.FullName}' must implement the '{StaticType.IClassHandler}' interface.");
         }

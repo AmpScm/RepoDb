@@ -143,6 +143,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? traceKey = TraceKeys.Exists,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
+        where TWhat : notnull
     {
         return DbRepository.ExistsAsync<TEntity, TWhat>(what: what,
             hints: hints,

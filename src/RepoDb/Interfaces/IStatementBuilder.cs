@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace RepoDb.Interfaces;
+﻿namespace RepoDb.Interfaces;
 
 /// <summary>
 /// An interface that is used to mark a class to be a statement builder object. The statement builder is an object that is being mapped and/or injected into the repositories to be used for

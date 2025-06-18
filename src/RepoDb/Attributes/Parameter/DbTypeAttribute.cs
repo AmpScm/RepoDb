@@ -21,5 +21,5 @@ public class DbTypeAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped <see cref="DbParameter.DbType"/> value of the parameter.
     /// </summary>
-    public DbType DbType => (DbType)Value;
+    public DbType DbType => (DbType)Value!;
 }

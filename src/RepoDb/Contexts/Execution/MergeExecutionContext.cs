@@ -10,17 +10,17 @@ internal sealed record MergeExecutionContext
     /// <summary>
     ///
     /// </summary>
-    public string CommandText { get; init; }
+    public required string CommandText { get; init; }
 
     /// <summary>
     ///
     /// </summary>
-    public IEnumerable<DbField> InputFields { get; init; }
+    public required IEnumerable<DbField> InputFields { get; init; }
 
     /// <summary>
     ///
     /// </summary>
-    public Action<DbCommand, object> ParametersSetterFunc { get; init; }
+    public required Action<DbCommand, object?> ParametersSetterFunc { get; init; }
 
     /// <summary>
     ///

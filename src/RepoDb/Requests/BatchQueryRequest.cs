@@ -74,7 +74,7 @@ internal sealed class BatchQueryRequest : BaseRequest
               transaction,
               statementBuilder)
     {
-        Fields = fields?.AsList();
+        Fields = fields.AsList();
         Where = where;
         Page = page;
         RowsPerBatch = rowsPerBatch;
@@ -85,12 +85,12 @@ internal sealed class BatchQueryRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field> Fields { get; init; }
 
     /// <summary>
     /// Gets the query expression used.
     /// </summary>
-    public QueryGroup Where { get; }
+    public QueryGroup? Where { get; }
 
     /// <summary>
     /// Gets the filter for the rows.
@@ -110,7 +110,7 @@ internal sealed class BatchQueryRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

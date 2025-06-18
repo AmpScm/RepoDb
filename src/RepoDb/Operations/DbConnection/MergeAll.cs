@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Transactions;
@@ -1425,7 +1424,7 @@ public static partial class DbConnectionExtension
                     }
                     else
                     {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object>().AsList());
+                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                     }
 
                     // Prepare the command
@@ -1654,7 +1653,7 @@ public static partial class DbConnectionExtension
                     }
                     else
                     {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object>().AsList());
+                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                     }
 
                     // Prepare the command

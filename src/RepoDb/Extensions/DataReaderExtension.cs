@@ -51,7 +51,7 @@ public static class DataReaderExtension
     {
         while (reader.Read())
         {
-            var obj = new ExpandoObject() as IDictionary<string, object>;
+            var obj = new ExpandoObject() as IDictionary<string, object?>;
             for (var i = 0; i < reader.FieldCount; i++)
             {
                 var value = reader.IsDBNull(i) ? null : reader[i];

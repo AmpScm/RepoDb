@@ -87,6 +87,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         string? cacheKey = null,
         IDbTransaction? transaction = null)
         where TEntity : class
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -401,6 +402,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         string? cacheKey = null,
         IDbTransaction? transaction = null)
         where TEntity : class
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -715,6 +717,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where TEntity : class
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -1047,6 +1050,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where TEntity : class
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -1315,6 +1319,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         string? traceKey = TraceKeys.Query,
         string? cacheKey = null,
         IDbTransaction? transaction = null)
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -1576,6 +1581,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         string? cacheKey = null,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());

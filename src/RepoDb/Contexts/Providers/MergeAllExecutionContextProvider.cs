@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Globalization;
 using RepoDb.Contexts.Cachers;
@@ -299,7 +298,7 @@ internal static class MergeAllExecutionContextProvider
         }
 
         // Identity which objects to set
-        Action<DbCommand, IList<object>>? multipleEntitiesParametersSetterFunc = null;
+        Action<DbCommand, IList<object?>>? multipleEntitiesParametersSetterFunc = null;
         Action<DbCommand, object?>? singleEntityParametersSetterFunc = null;
 
         if (batchSize <= 1)

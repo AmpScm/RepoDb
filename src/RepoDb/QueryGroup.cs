@@ -1,4 +1,3 @@
-#nullable enable
 using System.Data;
 using System.Globalization;
 using RepoDb.Enumerations;
@@ -540,7 +539,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// </summary>
     /// <param name="queryGroups">The list of query groups.</param>
     /// <returns>An instance of <see cref="QueryGroup"/> object containing all the fields.</returns>
-    internal static void FixForQueryMultiple(QueryGroup[] queryGroups)
+    internal static void FixForQueryMultiple(QueryGroup?[] queryGroups)
     {
         for (var i = 0; i < queryGroups.Length; i++)
         {

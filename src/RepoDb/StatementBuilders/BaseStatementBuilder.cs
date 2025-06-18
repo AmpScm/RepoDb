@@ -1,5 +1,4 @@
-﻿#nullable enable
-using RepoDb.Enumerations;
+﻿using RepoDb.Enumerations;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;

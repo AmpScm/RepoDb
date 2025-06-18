@@ -50,8 +50,8 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="connection">The actual <see cref="IDbConnection"/> object used.</param>
     /// <param name="transaction">The transaction object that is currently in used.</param>
     public DataEntityDataReader(IEnumerable<TEntity> entities,
-        IDbConnection connection,
-        IDbTransaction transaction)
+        IDbConnection? connection,
+        IDbTransaction? transaction)
         : this(null, entities, connection, transaction)
     { }
 
@@ -62,10 +62,10 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="entities">The list of the data entity object to be used for manipulation.</param>
     /// <param name="connection">The actual <see cref="IDbConnection"/> object used.</param>
     /// <param name="transaction">The transaction object that is currently in used.</param>
-    public DataEntityDataReader(string tableName,
+    public DataEntityDataReader(string? tableName,
         IEnumerable<TEntity> entities,
-        IDbConnection connection,
-        IDbTransaction transaction)
+        IDbConnection? connection,
+        IDbTransaction? transaction)
         : this(tableName, entities, connection, transaction, false)
     { }
 
@@ -77,9 +77,9 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="transaction">The transaction object that is currently in used.</param>
     /// <param name="connection">The actual <see cref="IDbConnection"/> object used.</param>
     /// <param name="hasOrderingColumn">The value that signifies whether the ordering column will be defined.</param>
-    public DataEntityDataReader(string tableName,
+    public DataEntityDataReader(string? tableName,
         IEnumerable<TEntity> entities,
-        IDbConnection connection,
+        IDbConnection? connection,
         IDbTransaction? transaction,
         bool hasOrderingColumn)
     {
@@ -118,17 +118,17 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// </summary>
     /// <returns>The enumerator object of the current collection.</returns>
     public override IEnumerator GetEnumerator() =>
-        Entities?.GetEnumerator();
+        Entities.GetEnumerator();
 
     /// <summary>
     /// Gets the instance of <see cref="IDbConnection"/> in used.
     /// </summary>
-    public IDbConnection Connection { get; }
+    public IDbConnection? Connection { get; }
 
     /// <summary>
     /// Gets the instance of <see cref="IDbTransaction"/> in used.
     /// </summary>
-    public IDbTransaction Transaction { get; }
+    public IDbTransaction? Transaction { get; }
 
     /// <summary>
     /// Gets a value that indicates whether the current instance of <see cref="DataEntityDataReader{TEntity}"/> object has already been initialized.
@@ -234,8 +234,8 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public new void Dispose()
     {
         base.Dispose();
-        Entities = null;
-        Enumerator = null;
+        Entities = null!;
+        Enumerator = null!;
         Close();
         isDisposed = true;
     }
@@ -254,35 +254,35 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets the boolean value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override bool GetBoolean(int i)
+    public override bool GetBoolean(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<bool>(GetValue(i));
+        return Converter.ToType<bool>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the byte value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override byte GetByte(int i)
+    public override byte GetByte(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<byte>(GetValue(i));
+        return Converter.ToType<byte>(GetValue(ordinal));
     }
 
     /// <summary>
     /// GetBytes
     /// </summary>
-    /// <param name="i">Int</param>
-    /// <param name="fieldOffset">Int64</param>
+    /// <param name="ordinal">Int</param>
+    /// <param name="dataOffset">Int64</param>
     /// <param name="buffer">byte[]</param>
-    /// <param name="bufferoffset">Int</param>
+    /// <param name="bufferOffset">Int</param>
     /// <param name="length">Int</param>
     /// <returns></returns>
-    public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+    public override long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length)
     {
         ThrowExceptionIfNotAvailable();
         throw new NotSupportedException("This is not supported by this data reader.");
@@ -291,24 +291,24 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets the char value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override char GetChar(int i)
+    public override char GetChar(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<char>(GetValue(i));
+        return Converter.ToType<char>(GetValue(ordinal));
     }
 
     /// <summary>
     /// GetChars
     /// </summary>
-    /// <param name="i">Int</param>
-    /// <param name="fieldoffset">Int64</param>
+    /// <param name="ordinal">Int</param>
+    /// <param name="dataOffset">Int64</param>
     /// <param name="buffer">char[]</param>
-    /// <param name="bufferoffset">Int</param>
+    /// <param name="bufferOffset">Int</param>
     /// <param name="length">Int</param>
     /// <returns></returns>
-    public override long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+    public override long GetChars(int ordinal, long dataOffset, char[] buffer, int bufferOffset, int length)
     {
         ThrowExceptionIfNotAvailable();
         throw new NotSupportedException("This is not supported by this data reader.");
@@ -328,120 +328,120 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets the name of the property data type from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The property type name from the property index.</returns>
-    public override string GetDataTypeName(int i)
+    public override string GetDataTypeName(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Properties[i].PropertyInfo.PropertyType.Name;
+        return Properties[ordinal].PropertyInfo.PropertyType.Name;
     }
 
     /// <summary>
     /// Gets the date time value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override DateTime GetDateTime(int i)
+    public override DateTime GetDateTime(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<DateTime>(GetValue(i));
+        return Converter.ToType<DateTime>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the decimal value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override decimal GetDecimal(int i)
+    public override decimal GetDecimal(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<decimal>(GetValue(i));
+        return Converter.ToType<decimal>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the double value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override double GetDouble(int i)
+    public override double GetDouble(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<double>(GetValue(i));
+        return Converter.ToType<double>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the type of the property from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The property type from the property index.</returns>
-    public override Type GetFieldType(int i)
+    public override Type GetFieldType(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Properties[i].PropertyInfo.PropertyType;
+        return Properties[ordinal].PropertyInfo.PropertyType;
     }
 
     /// <summary>
     /// Gets the float value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override float GetFloat(int i)
+    public override float GetFloat(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<float>(GetValue(i));
+        return Converter.ToType<float>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the Guid value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override Guid GetGuid(int i)
+    public override Guid GetGuid(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Guid.Parse(GetValue(i)?.ToString());
+        return Guid.Parse(GetValue(ordinal)?.ToString());
     }
 
     /// <summary>
     /// Gets the short value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override short GetInt16(int i)
+    public override short GetInt16(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<short>(GetValue(i));
+        return Converter.ToType<short>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the int value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override int GetInt32(int i)
+    public override int GetInt32(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<int>(GetValue(i));
+        return Converter.ToType<int>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the long value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override long GetInt64(int i)
+    public override long GetInt64(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<long>(GetValue(i));
+        return Converter.ToType<long>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the name of the property from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The name from the property index.</returns>
-    public override string GetName(int i) =>
-        isDictionaryStringObject ? GetNameForDictionaryStringObject(i) : GetNameForEntities(i);
+    public override string GetName(int ordinal) =>
+        isDictionaryStringObject ? GetNameForDictionaryStringObject(ordinal) : GetNameForEntities(ordinal);
 
     /// <summary>
     ///
@@ -538,21 +538,21 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets the string value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override string GetString(int i)
+    public override string GetString(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<string>(GetValue(i));
+        return Converter.ToType<string>(GetValue(ordinal));
     }
 
     /// <summary>
     /// Gets the current value from the defined property index.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override object GetValue(int i) =>
-        isDictionaryStringObject ? GetValueForDictionaryStringObject(i) : GetValueForEntities(i);
+    public override object GetValue(int ordinal) =>
+        isDictionaryStringObject ? GetValueForDictionaryStringObject(ordinal) : GetValueForEntities(ordinal);
 
     /// <summary>
     ///
@@ -618,12 +618,12 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets a value that checks whether the value of the property from the desired index is equals to <see cref="DBNull.Value"/>.
     /// </summary>
-    /// <param name="i">The index of the property.</param>
+    /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
-    public override bool IsDBNull(int i)
+    public override bool IsDBNull(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return GetValue(i) == DBNull.Value;
+        return GetValue(ordinal) == DBNull.Value;
     }
 
     /// <summary>

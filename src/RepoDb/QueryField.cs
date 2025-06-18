@@ -116,7 +116,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <summary>
     /// Gets the in-used instance of database parameter object.
     /// </summary>
-    internal IDbDataParameter DbParameter { get; set; }
+    internal IDbDataParameter? DbParameter { get; set; }
 
     #endregion
 
@@ -148,7 +148,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="dbSetting">The database setting currently in used.</param>
     /// <returns>The string representations of the current <see cref="QueryField"/> object using the LOWER function.</returns>
     protected virtual string GetString(int index,
-        string functionFormat,
+        string? functionFormat,
         IDbSetting dbSetting)
     {
         // = AND NULL
@@ -185,7 +185,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <summary>
     /// Returns the name of the <see cref="Field"/> object current in used.
     /// </summary>
-    public string GetName() =>
+    public string? GetName() =>
         Field?.Name;
 
     /// <summary>
@@ -194,7 +194,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// object, then the value of the in-used <see cref="IDbDataParameter"/> object will be returned.
     /// </summary>
     /// <returns>The value of the <see cref="Parameter"/> object.</returns>
-    public object GetValue() =>
+    public object? GetValue() =>
         GetValue<object>();
 
     /// <summary>
@@ -204,7 +204,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns>The value of the converted <see cref="Parameter"/> object.</returns>
-    public T GetValue<T>() =>
+    public T? GetValue<T>() =>
         Converter.ToType<T>(DbParameter?.Value ?? Parameter?.Value);
 
     /// <summary>

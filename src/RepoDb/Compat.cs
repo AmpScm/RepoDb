@@ -105,6 +105,16 @@ namespace System.Diagnostics.CodeAnalysis
     {
     }
 
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true, Inherited = false)]
+    public sealed class NotNullIfNotNullAttribute : Attribute
+    {
+        public NotNullIfNotNullAttribute(string parameterName)
+        {
+            ParameterName = parameterName;
+        }
+        public string ParameterName { get; }
+    }
+
 }
 #endif
 
@@ -136,6 +146,10 @@ namespace RepoDb
             else
                 dbTransaction.Commit();
         }
+
+#if !NET
+        internal static IEnumerable<TResult> DistinctBy<TElement, TResult>(this IEnumerable<TElement> source, Func<TElement, TResult> keySelector) => source.Select(keySelector).Distinct();
+#endif
 
 #if !NET
         public static Task PrepareAsync(this DbCommand dbCommand, CancellationToken cancellationToken = default)

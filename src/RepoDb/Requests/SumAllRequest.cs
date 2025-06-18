@@ -20,7 +20,7 @@ internal sealed class SumAllRequest : BaseRequest
     public SumAllRequest(Type type,
         IDbConnection connection,
         IDbTransaction? transaction,
-        Field? field = null,
+        Field field,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
         : this(ClassMappedNameCache.Get(type),
@@ -45,7 +45,7 @@ internal sealed class SumAllRequest : BaseRequest
     public SumAllRequest(string name,
         IDbConnection connection,
         IDbTransaction? transaction,
-        Field? field = null,
+        Field field,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
         : base(name,
@@ -65,7 +65,7 @@ internal sealed class SumAllRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace RepoDb.Extensions;
 

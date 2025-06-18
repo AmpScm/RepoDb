@@ -29,7 +29,7 @@ internal static class UpdateAllExecutionContextProvider
         IEnumerable<Field>? qualifiers,
         IEnumerable<Field> fields,
         int batchSize,
-        string hints)
+        string? hints)
     {
         return string.Concat(entityType.FullName,
             ";",
@@ -81,7 +81,7 @@ internal static class UpdateAllExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields?.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
         }
@@ -152,7 +152,7 @@ internal static class UpdateAllExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        if (dbFields?.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
         }
@@ -219,15 +219,15 @@ internal static class UpdateAllExecutionContextProvider
         if (TypeCache.Get(entityType).IsClassType() == false)
         {
             var entityFields = Field.Parse(entities?.FirstOrDefault());
-            inputFields = inputFields?
+            inputFields = inputFields
                 .Where(field =>
                     entityFields.FirstOrDefault(f => string.Equals(f.Name.AsUnquoted(true, dbSetting), field.Name.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
                 .AsList();
         }
 
         // Variables for the context
-        Action<DbCommand, IList<object>> multipleEntitiesParametersSetterFunc = null;
-        Action<DbCommand, object> singleEntityParametersSetterFunc = null;
+        Action<DbCommand, IList<object?>>? multipleEntitiesParametersSetterFunc = null;
+        Action<DbCommand, object?>? singleEntityParametersSetterFunc = null;
 
         // Identity which objects to set
         if (batchSize <= 1)

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
@@ -48,7 +47,7 @@ public class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IRes
         }
 
         // Mapping.Name + Id
-        if (properties.GetByName(ClassMappedNameCache.Get(entityType) + "Id") is { } mapIdProperty)
+        if (ClassMappedNameCache.Get(entityType, false) is { } name && properties.GetByName(name + "Id") is { } mapIdProperty)
         {
             return [mapIdProperty];
         }

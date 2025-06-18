@@ -64,6 +64,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? cacheKey = null,
         string? traceKey = TraceKeys.Query,
         IDbTransaction? transaction = null)
+        where TWhat : notnull
     {
         return DbRepository.Query<TEntity, TWhat>(tableName: tableName,
             what: what,
@@ -264,6 +265,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? cacheKey = null,
         string? traceKey = TraceKeys.Query,
         IDbTransaction? transaction = null)
+        where TWhat : notnull
     {
         return DbRepository.Query<TEntity, TWhat>(what: what,
             fields: fields,
@@ -465,6 +467,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? traceKey = TraceKeys.Query,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
+        where TWhat : notnull
     {
         return DbRepository.QueryAsync<TEntity, TWhat>(tableName: tableName,
             what: what,
@@ -683,6 +686,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? traceKey = TraceKeys.Query,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
+        where TWhat : notnull
     {
         return DbRepository.QueryAsync<TEntity, TWhat>(what: what,
             fields: fields,

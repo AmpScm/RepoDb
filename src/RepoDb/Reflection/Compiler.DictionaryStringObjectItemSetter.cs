@@ -10,7 +10,7 @@ partial class Compiler
     /// <param name="entityType"></param>
     /// <param name="field"></param>
     /// <returns></returns>
-    public static Action<object, object> CompileDictionaryStringObjectItemSetter(Type entityType,
+    public static Action<object, object?> CompileDictionaryStringObjectItemSetter(Type entityType,
         Field field)
     {
         // Check the property first
@@ -53,7 +53,7 @@ partial class Compiler
 
         // Return function
         return Expression
-            .Lambda<Action<object, object>>(itemAssignment,
+            .Lambda<Action<object, object?>>(itemAssignment,
                 dictionaryParameter, valueParameter)
             .Compile();
     }

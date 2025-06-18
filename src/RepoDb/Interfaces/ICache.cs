@@ -114,7 +114,8 @@ public interface ICache : IEnumerable
     /// <param name="throwException">Throws an exception if the item is not found.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A cached item object from the cache collection based on the given key.</returns>
-    ValueTask<CacheItem<T>?> GetAsync<T>(string key,
+    ValueTask<CacheItem<T>?> GetAsync<T>(
+        string key,
         bool throwException = true,
         CancellationToken cancellationToken = default);
 

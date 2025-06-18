@@ -85,12 +85,12 @@ internal sealed class SkipQueryRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field>? Fields { get; init; }
 
     /// <summary>
     /// Gets the query expression used.
     /// </summary>
-    public QueryGroup Where { get; }
+    public QueryGroup? Where { get; }
 
     /// <summary>
     /// Gets the number of rows to skip.
@@ -110,7 +110,7 @@ internal sealed class SkipQueryRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

@@ -21,7 +21,7 @@ internal sealed class MaxRequest : BaseRequest
     public MaxRequest(Type type,
         IDbConnection connection,
         IDbTransaction? transaction,
-        Field? field = null,
+        Field field,
         QueryGroup? where = null,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -49,7 +49,7 @@ internal sealed class MaxRequest : BaseRequest
     public MaxRequest(string name,
         IDbConnection connection,
         IDbTransaction? transaction,
-        Field? field = null,
+        Field field,
         QueryGroup? where = null,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -71,12 +71,12 @@ internal sealed class MaxRequest : BaseRequest
     /// <summary>
     /// Gets the query expression used.
     /// </summary>
-    public QueryGroup Where { get; }
+    public QueryGroup? Where { get; }
 
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

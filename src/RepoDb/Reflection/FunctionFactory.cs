@@ -1,6 +1,6 @@
-﻿using RepoDb.Interfaces;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Dynamic;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Reflection;
 
@@ -53,7 +53,7 @@ internal static class FunctionFactory
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    public static Action<DbCommand, object> CompileDataEntityDbParameterSetter(Type entityType,
+    public static Action<DbCommand, object?> CompileDataEntityDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
         IEnumerable<DbField> outputFields,
         IDbSetting dbSetting,
@@ -74,7 +74,7 @@ internal static class FunctionFactory
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    public static Action<DbCommand, IList<object>> CompileDataEntityListDbParameterSetter(Type entityType,
+    public static Action<DbCommand, IList<object?>> CompileDataEntityListDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
         IEnumerable<DbField> outputFields,
         int batchSize,
@@ -94,7 +94,7 @@ internal static class FunctionFactory
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    public static Action<DbCommand, object> CompileDictionaryStringObjectDbParameterSetter(Type entityType,
+    public static Action<DbCommand, object?> CompileDictionaryStringObjectDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
         IDbSetting dbSetting,
         IDbHelper dbHelper) =>
@@ -113,11 +113,11 @@ internal static class FunctionFactory
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    public static Action<DbCommand, IList<object>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
+    public static Action<DbCommand, IList<object?>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
         int batchSize,
         IDbSetting dbSetting,
-        IDbHelper dbHelper) =>
+        IDbHelper? dbHelper) =>
         Compiler.CompileDictionaryStringObjectListDbParameterSetter(entityType, inputFields, batchSize, dbSetting, dbHelper);
 
     #endregion
@@ -130,7 +130,7 @@ internal static class FunctionFactory
     /// <param name="entityType"></param>
     /// <param name="field"></param>
     /// <returns></returns>
-    public static Action<object, object> CompileDictionaryStringObjectItemSetter(Type entityType,
+    public static Action<object, object?> CompileDictionaryStringObjectItemSetter(Type entityType,
         Field field) =>
         Compiler.CompileDictionaryStringObjectItemSetter(entityType, field);
 
@@ -164,7 +164,7 @@ internal static class FunctionFactory
     /// <param name="entityType"></param>
     /// <param name="field"></param>
     /// <returns></returns>
-    public static Action<object, object> CompileDataEntityPropertySetter(Type entityType,
+    public static Action<object, object?> CompileDataEntityPropertySetter(Type entityType,
         Field field) =>
         Compiler.CompileDataEntityPropertySetter(entityType, field);
 

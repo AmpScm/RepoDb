@@ -22,7 +22,7 @@ internal class QueryAllRequest : BaseRequest
     public QueryAllRequest(Type type,
         IDbConnection connection,
         IDbTransaction? transaction,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field> fields,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -50,7 +50,7 @@ internal class QueryAllRequest : BaseRequest
     public QueryAllRequest(string name,
         IDbConnection connection,
         IDbTransaction? transaction,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field> fields,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
@@ -59,7 +59,7 @@ internal class QueryAllRequest : BaseRequest
               transaction,
               statementBuilder)
     {
-        Fields = fields?.AsList();
+        Fields = fields.AsList();
         OrderBy = orderBy?.AsList();
         Hints = hints;
     }
@@ -67,7 +67,7 @@ internal class QueryAllRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field> Fields { get; init; }
 
     /// <summary>
     /// Gets the list of the order fields.
@@ -77,7 +77,7 @@ internal class QueryAllRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

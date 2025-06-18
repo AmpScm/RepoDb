@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Data;
 using RepoDb.DbSettings;
 using RepoDb.Exceptions;

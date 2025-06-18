@@ -1,5 +1,4 @@
-﻿#nullable enable
-using RepoDb.Interfaces;
+﻿using RepoDb.Interfaces;
 using SystemDiagnosticsTrace = System.Diagnostics.Trace;
 
 namespace RepoDb.Trace;

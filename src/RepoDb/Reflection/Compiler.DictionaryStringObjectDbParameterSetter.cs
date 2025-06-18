@@ -14,7 +14,7 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    public static Action<DbCommand, object> CompileDictionaryStringObjectDbParameterSetter(Type entityType,
+    public static Action<DbCommand, object?> CompileDictionaryStringObjectDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
         IDbSetting dbSetting,
         IDbHelper dbHelper)
@@ -46,7 +46,7 @@ partial class Compiler
 
         // Compile
         return Expression
-            .Lambda<Action<DbCommand, object>>(Expression.Block(bodyExpressions),
+            .Lambda<Action<DbCommand, object?>>(Expression.Block(bodyExpressions),
                 dbCommandExpression,
                 entityParameterExpression)
             .Compile();

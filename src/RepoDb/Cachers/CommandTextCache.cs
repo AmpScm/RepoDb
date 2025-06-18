@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Data;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
@@ -1090,8 +1089,8 @@ public static class CommandTextCache
     /// <param name="transaction"></param>
     private static void ValidateOrderFields(IDbConnection connection,
         string tableName,
-        IEnumerable<OrderField> orderFields,
-        IDbTransaction transaction)
+        IEnumerable<OrderField>? orderFields,
+        IDbTransaction? transaction)
     {
         if (orderFields?.Any() == true)
         {
@@ -1111,7 +1110,7 @@ public static class CommandTextCache
     /// <returns></returns>
     private static async ValueTask ValidateOrderFieldsAsync(IDbConnection connection,
         string tableName,
-        IEnumerable<OrderField> orderFields,
+        IEnumerable<OrderField>? orderFields,
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default)
     {
@@ -1152,7 +1151,7 @@ public static class CommandTextCache
     /// <returns></returns>
     private static IEnumerable<Field> GetTargetFields(IDbConnection connection,
         string tableName,
-        IEnumerable<Field> fields,
+        IEnumerable<Field>? fields,
         IDbTransaction? transaction)
     {
         if (fields?.Any() != true)

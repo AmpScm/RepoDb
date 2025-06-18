@@ -25,8 +25,8 @@ internal static class UpdateExecutionContextProvider
     private static string GetKey(Type entityType,
         string tableName,
         IEnumerable<Field> fields,
-        string hints,
-        QueryGroup where)
+        string? hints,
+        QueryGroup? where)
     {
         return string.Concat(entityType.FullName,
             ";",

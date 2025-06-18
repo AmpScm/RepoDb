@@ -1,7 +1,7 @@
-﻿using RepoDb.Exceptions;
-using RepoDb.Interfaces;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Data;
+using RepoDb.Exceptions;
+using RepoDb.Interfaces;
 
 namespace RepoDb;
 
@@ -68,7 +68,7 @@ public static class StatementBuilderMapper
         maps.TryGetValue(typeof(TDbConnection), out var value);
 
         // Return the value
-        return value;
+        return value!;
     }
 
     /// <summary>
@@ -77,14 +77,14 @@ public static class StatementBuilderMapper
     /// <typeparam name="TDbConnection">The type of <see cref="IDbConnection"/>.</typeparam>
     /// <param name="connection">The instance of <see cref="IDbConnection"/>.</param>
     /// <returns>The instance of exising mapped <see cref="IStatementBuilder"/> object.</returns>
-    public static IStatementBuilder Get<TDbConnection>(TDbConnection connection)
+    public static IStatementBuilder? Get<TDbConnection>(TDbConnection connection)
         where TDbConnection : IDbConnection
     {
         // get the value
         maps.TryGetValue(connection.GetType(), out var value);
 
         // Return the value
-        return value;
+        return value!;
     }
 
     /*

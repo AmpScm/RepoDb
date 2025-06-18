@@ -64,7 +64,7 @@ internal sealed class UpdateAllRequest : BaseRequest
             transaction,
             statementBuilder)
     {
-        Fields = fields?.AsList();
+        Fields = fields.AsList();
         Qualifiers = qualifiers?.AsList();
         BatchSize = batchSize;
         Hints = hints;
@@ -73,12 +73,12 @@ internal sealed class UpdateAllRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field> Fields { get; init; }
 
     /// <summary>
     /// Gets the qualifiers fields.
     /// </summary>
-    public IEnumerable<Field> Qualifiers { get; init; }
+    public List<Field>? Qualifiers { get; init; }
 
     /// <summary>
     /// Gets the size batch of the update operation.
@@ -88,7 +88,7 @@ internal sealed class UpdateAllRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

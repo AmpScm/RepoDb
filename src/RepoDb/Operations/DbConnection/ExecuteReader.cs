@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using RepoDb.Interfaces;
 
@@ -73,7 +72,7 @@ public static partial class DbConnectionExtension
         Type? entityType,
         DbFieldCollection? dbFields,
         bool skipCommandArrayParametersCheck,
-        Func<DbCommand, TraceResult>? beforeExecutionCallback = null)
+        Func<DbCommand, TraceResult?>? beforeExecutionCallback = null)
     {
         // Variables
         var setting = DbSettingMapper.Get(connection);
@@ -204,7 +203,7 @@ public static partial class DbConnectionExtension
         Type? entityType,
         DbFieldCollection? dbFields,
         bool skipCommandArrayParametersCheck,
-        Func<DbCommand, CancellationToken, Task<TraceResult>>? beforeExecutionCallbackAsync = null,
+        Func<DbCommand, CancellationToken, ValueTask<TraceResult?>>? beforeExecutionCallbackAsync = null,
         CancellationToken cancellationToken = default)
     {
         // Variables

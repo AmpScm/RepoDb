@@ -14,7 +14,7 @@ public partial class QueryField
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="field"></param>
     /// <returns></returns>
-    private static ClassProperty GetTargetProperty<TEntity>(Field field)
+    private static ClassProperty? GetTargetProperty<TEntity>(Field field)
         where TEntity : class
     {
         var properties = PropertyCache.Get<TEntity>();
@@ -219,7 +219,7 @@ public partial class QueryField
     /// <param name="enumType"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    private static object ToEnumValue(Type enumType,
+    private static object? ToEnumValue(Type enumType,
         object value) =>
         (value != null ?
             ToEnumValue(enumType, Enum.GetName(enumType, value)) : null) ?? value;
@@ -230,7 +230,7 @@ public partial class QueryField
     /// <param name="enumType"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    private static object ToEnumValue(Type enumType,
+    private static object? ToEnumValue(Type enumType,
         string name) =>
         !string.IsNullOrEmpty(name) && Enum.IsDefined(enumType, name) ?
             Enum.Parse(enumType, name) : null;
@@ -275,7 +275,7 @@ public partial class QueryField
     /// <param name="expression"></param>
     /// <param name="unaryNodeType"></param>
     /// <returns></returns>
-    internal static IEnumerable<QueryField> Parse<TEntity>(MethodCallExpression expression,
+    internal static IEnumerable<QueryField>? Parse<TEntity>(MethodCallExpression expression,
     ExpressionType? unaryNodeType = null)
     where TEntity : class
     {
@@ -370,7 +370,7 @@ public partial class QueryField
         var property = GetProperty<TEntity>(expression);
 
         // Value
-        if (expression?.Object != null)
+        if (expression.Object != null)
         {
             if (expression.Object?.Type == StaticType.String)
             {
@@ -380,13 +380,13 @@ public partial class QueryField
             else
             {
                 var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Object.GetValue());
-                return ToIn(property.GetMappedName(), enumerable, unaryNodeType);
+                return ToIn(property.GetMappedName(), enumerable!, unaryNodeType);
             }
         }
         else
         {
             var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-            return ToIn(property.GetMappedName(), enumerable, unaryNodeType);
+            return ToIn(property.GetMappedName(), enumerable!, unaryNodeType);
         }
     }
 
@@ -428,7 +428,7 @@ public partial class QueryField
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-        return ToQueryFields(property.GetMappedName(), enumerable, unaryNodeType);
+        return ToQueryFields(property.GetMappedName(), enumerable!, unaryNodeType);
     }
 
     /// <summary>
@@ -447,7 +447,7 @@ public partial class QueryField
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-        return ToQueryFields(property.GetMappedName(), enumerable, unaryNodeType);
+        return ToQueryFields(property.GetMappedName(), enumerable!, unaryNodeType);
     }
 
     #region GetProperty
@@ -457,7 +457,7 @@ public partial class QueryField
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    internal static ClassProperty GetProperty<TEntity>(Expression expression)
+    internal static ClassProperty? GetProperty<TEntity>(Expression expression)
         where TEntity : class
     {
         return expression switch
@@ -476,7 +476,7 @@ public partial class QueryField
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    internal static ClassProperty GetProperty<TEntity>(LambdaExpression expression)
+    internal static ClassProperty? GetProperty<TEntity>(LambdaExpression expression)
         where TEntity : class =>
         GetProperty<TEntity>(expression.Body);
 
@@ -485,7 +485,7 @@ public partial class QueryField
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    internal static ClassProperty GetProperty<TEntity>(BinaryExpression expression)
+    internal static ClassProperty? GetProperty<TEntity>(BinaryExpression expression)
         where TEntity : class =>
         GetProperty<TEntity>(expression.Left) ?? GetProperty<TEntity>(expression.Right);
 
@@ -494,7 +494,7 @@ public partial class QueryField
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    internal static ClassProperty GetProperty<TEntity>(MethodCallExpression expression)
+    internal static ClassProperty? GetProperty<TEntity>(MethodCallExpression expression)
         where TEntity : class =>
         expression?.Object?.Type == StaticType.String ?
         GetProperty<TEntity>(expression.Object.ToMember()) :
@@ -515,7 +515,7 @@ public partial class QueryField
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="propertyInfo"></param>
     /// <returns></returns>
-    internal static ClassProperty GetProperty<TEntity>(PropertyInfo propertyInfo)
+    internal static ClassProperty? GetProperty<TEntity>(PropertyInfo propertyInfo)
         where TEntity : class
     {
         if (propertyInfo == null)
@@ -528,20 +528,8 @@ public partial class QueryField
         var name = PropertyMappedNameCache.Get(propertyInfo);
 
         // Failing at some point - for base interfaces
-        var property = properties
-            .FirstOrDefault(p =>
-                string.Equals(p.GetMappedName(), name, StringComparison.OrdinalIgnoreCase));
-
-        // Matches to the actual class properties
-        if (property == null)
-        {
-            property = properties
-                .FirstOrDefault(p =>
-                    string.Equals(p.PropertyInfo.Name, name, StringComparison.OrdinalIgnoreCase));
-        }
-
-        // Return the value
-        return property;
+        return properties.GetByMappedName(name)
+            ?? properties.GetByName(name);
     }
 
     #endregion

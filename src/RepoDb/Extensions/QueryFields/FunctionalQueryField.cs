@@ -31,9 +31,9 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// <param name="format">The properly constructed format of the target function to be used.</param>
     public FunctionalQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         DbType? dbType,
-        string format = null)
+        string? format = null)
         : base(fieldName, operation, value, dbType)
     {
         Format = format;
@@ -46,7 +46,7 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// <summary>
     /// Gets the properly constructed format of the target function.
     /// </summary>
-    public string Format { get; }
+    public string? Format { get; }
 
     #endregion
 
@@ -100,7 +100,7 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// </summary>
     /// <param name="obj">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equals.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return Equals(obj as FunctionalQueryField);
     }
@@ -110,7 +110,7 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// </summary>
     /// <param name="other">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public bool Equals(FunctionalQueryField other)
+    public bool Equals(FunctionalQueryField? other)
     {
         return other is not null
             && other.GetType() == GetType()

@@ -23,7 +23,7 @@ internal static class InsertExecutionContextProvider
     private static string GetKey(Type type,
         string tableName,
         IEnumerable<Field> fields,
-        string hints)
+        string? hints)
     {
         return string.Concat(type.FullName,
             ";",
@@ -65,7 +65,7 @@ internal static class InsertExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields?.Any(x => x.IsReadOnly) == true)
+        if (dbFields.Any(x => x.IsReadOnly) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsReadOnly != true);
         }
@@ -126,7 +126,7 @@ internal static class InsertExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        if (dbFields?.Any(x => x.IsReadOnly) == true)
+        if (dbFields.Any(x => x.IsReadOnly) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsReadOnly != true);
         }
@@ -182,7 +182,7 @@ internal static class InsertExecutionContextProvider
             .AsList();
 
         // Variables for the entity action
-        Action<object, object> keyPropertySetterFunc = null;
+        Action<object, object?>? keyPropertySetterFunc = null;
         var keyField = ExecutionContextProvider
             .GetTargetReturnColumnAsField(entityType, dbFields);
 

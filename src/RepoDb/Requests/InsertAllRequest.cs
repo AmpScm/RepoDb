@@ -74,7 +74,7 @@ internal sealed class InsertAllRequest : BaseRequest
     /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
     /// <param name="hints">The hints for the table.</param>
     /// <param name="statementBuilder">The statement builder.</param>
-    public InsertAllRequest(Type type,
+    public InsertAllRequest(Type? type,
         string name,
         IDbConnection connection,
         IDbTransaction? transaction,
@@ -88,7 +88,7 @@ internal sealed class InsertAllRequest : BaseRequest
               statementBuilder)
     {
         Type = type;
-        Fields = fields?.AsList();
+        Fields = fields.AsList();
         BatchSize = batchSize;
         Hints = hints;
     }
@@ -96,7 +96,7 @@ internal sealed class InsertAllRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field> Fields { get; init; }
 
     /// <summary>
     /// Gets the size batch of the insertion.
@@ -106,7 +106,7 @@ internal sealed class InsertAllRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

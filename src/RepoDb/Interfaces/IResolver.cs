@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace RepoDb.Interfaces;
+﻿namespace RepoDb.Interfaces;
 
 /// <summary>
 /// An interfaced that is used to mark a class to be a resolver.

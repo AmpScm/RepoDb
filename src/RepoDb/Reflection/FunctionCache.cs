@@ -99,7 +99,7 @@ internal static class FunctionCache
     /// <returns></returns>
     internal static Func<DbDataReader, dynamic> GetDataReaderToExpandoObjectCompileFunction(DbDataReader reader,
         DbFieldCollection? dbFields = null,
-        IDbSetting dbSetting = null) =>
+        IDbSetting? dbSetting = null) =>
         DataReaderToExpandoObjectCache.Get(reader, dbFields, dbSetting);
 
     #region DataReaderToExpandoObjectCache
@@ -120,7 +120,7 @@ internal static class FunctionCache
         /// <returns></returns>
         internal static Func<DbDataReader, dynamic> Get(DbDataReader reader,
             DbFieldCollection? dbFields = null,
-            IDbSetting dbSetting = null)
+            IDbSetting? dbSetting = null)
         {
             var key = GetKey(reader);
 
@@ -157,7 +157,7 @@ internal static class FunctionCache
         IEnumerable<DbField>? inputFields,
         IEnumerable<DbField>? outputFields,
         IDbSetting? dbSetting = null,
-        IDbHelper dbHelper = null) =>
+        IDbHelper? dbHelper = null) =>
         DataEntityDbParameterSetterCache.Get(entityType,
             cacheKey,
             inputFields,
@@ -172,7 +172,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataEntityDbParameterSetterCache
     {
-        private static readonly ConcurrentDictionary<long, Action<DbCommand, object>> cache = new();
+        private static readonly ConcurrentDictionary<long, Action<DbCommand, object?>> _cache = new();
 
         /// <summary>
         ///
@@ -184,16 +184,16 @@ internal static class FunctionCache
         /// <param name="dbSetting"></param>
         /// <param name="dbHelper"></param>
         /// <returns></returns>
-        internal static Action<DbCommand, object> Get(Type entityType,
+        internal static Action<DbCommand, object?> Get(Type entityType,
             string cacheKey,
-            IEnumerable<DbField> inputFields,
-            IEnumerable<DbField> outputFields,
-            IDbSetting dbSetting,
-            IDbHelper dbHelper)
+            IEnumerable<DbField>? inputFields,
+            IEnumerable<DbField>? outputFields,
+            IDbSetting? dbSetting,
+            IDbHelper? dbHelper)
         {
             var key = GetKey(entityType, cacheKey, inputFields, outputFields);
 
-            return cache.GetOrAdd(key, (_) =>
+            return _cache.GetOrAdd(key, (_) =>
                 TypeCache.Get(entityType).IsDictionaryStringObject()
                 ? FunctionFactory.CompileDictionaryStringObjectDbParameterSetter(entityType, inputFields, dbSetting, dbHelper)
                 : FunctionFactory.CompileDataEntityDbParameterSetter(entityType, inputFields, outputFields, dbSetting, dbHelper)
@@ -210,22 +210,22 @@ internal static class FunctionCache
         /// <returns></returns>
         private static long GetKey(Type entityType,
             string cacheKey,
-            IEnumerable<DbField> inputFields,
-            IEnumerable<DbField> outputFields)
+            IEnumerable<DbField>? inputFields,
+            IEnumerable<DbField>? outputFields)
         {
-            var key = HashCode.Combine((long)entityType.GetHashCode(), cacheKey.GetHashCode());
+            var key = HashCode.Combine(entityType.GetHashCode(), cacheKey);
             if (inputFields != null)
             {
                 foreach (var field in inputFields)
                 {
-                    key = HashCode.Combine(key, field.GetHashCode());
+                    key = HashCode.Combine(key, field);
                 }
             }
             if (outputFields != null)
             {
                 foreach (var field in outputFields)
                 {
-                    key = HashCode.Combine(key, field.GetHashCode());
+                    key = HashCode.Combine(key, field);
                 }
             }
             return key;
@@ -249,13 +249,13 @@ internal static class FunctionCache
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    internal static Action<DbCommand, IList<object>> GetDataEntityListDbParameterSetterCompiledFunction(Type entityType,
+    internal static Action<DbCommand, IList<object?>> GetDataEntityListDbParameterSetterCompiledFunction(Type entityType,
         string cacheKey,
         IEnumerable<DbField>? inputFields,
         IEnumerable<DbField>? outputFields,
         int batchSize,
         IDbSetting? dbSetting = null,
-        IDbHelper dbHelper = null) =>
+        IDbHelper? dbHelper = null) =>
         DataEntityListDbParameterSetterCache.Get(entityType, cacheKey, inputFields, outputFields, batchSize, dbSetting, dbHelper);
 
     #region DataEntityListDbParameterSetterCache
@@ -265,7 +265,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataEntityListDbParameterSetterCache
     {
-        private static readonly ConcurrentDictionary<long, Action<DbCommand, IList<object>>> cache = new();
+        private static readonly ConcurrentDictionary<long, Action<DbCommand, IList<object?>>> cache = new();
 
         /// <summary>
         ///
@@ -278,13 +278,13 @@ internal static class FunctionCache
         /// <param name="dbSetting"></param>
         /// <param name="dbHelper"></param>
         /// <returns></returns>
-        internal static Action<DbCommand, IList<object>> Get(Type entityType,
+        internal static Action<DbCommand, IList<object?>> Get(Type entityType,
             string cacheKey,
             IEnumerable<DbField> inputFields,
-            IEnumerable<DbField> outputFields,
+            IEnumerable<DbField>? outputFields,
             int batchSize,
-            IDbSetting? dbSetting = null,
-            IDbHelper dbHelper = null)
+            IDbSetting dbSetting,
+            IDbHelper? dbHelper = null)
         {
             var key = GetKey(entityType, cacheKey, inputFields, outputFields, batchSize);
 
@@ -314,24 +314,24 @@ internal static class FunctionCache
         /// <returns></returns>
         private static long GetKey(Type entityType,
             string cacheKey,
-            IEnumerable<DbField> inputFields,
-            IEnumerable<DbField> outputFields,
+            IEnumerable<DbField>? inputFields,
+            IEnumerable<DbField>? outputFields,
             int batchSize)
         {
-            var key = HashCode.Combine((long)entityType.GetHashCode(), batchSize.GetHashCode(), cacheKey?.GetHashCode());
+            var key = HashCode.Combine(entityType, batchSize, cacheKey);
 
             if (inputFields?.Any() == true)
             {
                 foreach (var field in inputFields)
                 {
-                    key = HashCode.Combine(key, field.GetHashCode());
+                    key = HashCode.Combine(key, field);
                 }
             }
             if (outputFields?.Any() == true)
             {
                 foreach (var field in outputFields)
                 {
-                    key = HashCode.Combine(key, field.GetHashCode());
+                    key = HashCode.Combine(key, field);
                 }
             }
             return key;
@@ -356,7 +356,7 @@ internal static class FunctionCache
     internal static Action<TEntity, DbCommand> GetDbCommandToPropertyCompiledFunction<TEntity>(Field field,
         string parameterName,
         int index,
-        IDbSetting dbSetting = null)
+        IDbSetting? dbSetting = null)
         where TEntity : class =>
         DbCommandToPropertyCache<TEntity>.Get(field, parameterName, index, dbSetting);
 
@@ -382,7 +382,7 @@ internal static class FunctionCache
         internal static Action<TEntity, DbCommand> Get(Field field,
             string parameterName,
             int index,
-            IDbSetting dbSetting = null)
+            IDbSetting? dbSetting = null)
         {
             var key = HashCode.Combine((long)typeof(TEntity).GetHashCode(), field.GetHashCode(), parameterName.GetHashCode(), index.GetHashCode());
             return cache.GetOrAdd(key, (_) => FunctionFactory.CompileDbCommandToProperty<TEntity>(field, parameterName, index, dbSetting));
@@ -412,7 +412,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataEntityPropertySetterCache
     {
-        private static readonly ConcurrentDictionary<long, Action<object, object>> cache = new();
+        private static readonly ConcurrentDictionary<long, Action<object, object?>> cache = new();
 
         /// <summary>
         ///
@@ -420,7 +420,7 @@ internal static class FunctionCache
         /// <param name="type"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        internal static Action<object, object> Get(Type type,
+        internal static Action<object, object?> Get(Type type,
             Field field)
         {
             var key = HashCode.Combine(type.GetHashCode(), field.GetHashCode());

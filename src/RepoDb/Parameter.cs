@@ -137,7 +137,7 @@ public sealed class Parameter : IEquatable<Parameter>
     /// </summary>
     /// <returns></returns>
     public override string ToString() =>
-        string.Concat(Name, " (", Value.ToString(), ")");
+        string.Concat(Name, " (", Value?.ToString(), ")");
 
     #endregion
 

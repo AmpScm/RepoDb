@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -34,9 +33,7 @@ public static class Converter
     /// <typeparam name="T">The target type.</typeparam>
     /// <param name="value">The value to be converted.</param>
     /// <returns>The converted value or null when <see cref="DBNull"/>.</returns>
-#if NET
     [return: NotNullIfNotNull(nameof(value))] // Except when DBNull
-#endif
     public static T? ToType<T>(object? value)
     {
         value = Converter.DbNullToNull(value);

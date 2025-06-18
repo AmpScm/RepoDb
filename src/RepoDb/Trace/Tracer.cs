@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data.Common;
+﻿using System.Data.Common;
 using RepoDb.Exceptions;
 using RepoDb.Interfaces;
 
@@ -95,8 +94,8 @@ internal static class Tracer
 
         var log = new ResultTraceLog<TResult>(result.SessionId,
             result.CancellableTraceLog.Key,
-            DateTime.UtcNow.TimeOfDay.Subtract(result.StartTime.TimeOfDay),
             value,
+            DateTime.UtcNow.TimeOfDay.Subtract(result.StartTime.TimeOfDay),
             result.CancellableTraceLog);
 
         trace.AfterExecution(log);
@@ -127,8 +126,8 @@ internal static class Tracer
 
         var log = new ResultTraceLog<TResult>(result.SessionId,
             result.CancellableTraceLog.Key,
-            DateTime.UtcNow.TimeOfDay.Subtract(result.StartTime.TimeOfDay),
             value,
+            DateTime.UtcNow.TimeOfDay.Subtract(result.StartTime.TimeOfDay),
             result.CancellableTraceLog);
 
         await trace.AfterExecutionAsync(log, cancellationToken).ConfigureAwait(false);

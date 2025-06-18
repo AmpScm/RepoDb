@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -369,7 +368,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             cache: cache,
             trace: trace,
-            tableName: ClassMappedNameCache.Get<TResult>(),
+            tableName: ClassMappedNameCache.Get<TResult>(false),
             skipCommandArrayParametersCheck: false);
     }
 
@@ -670,7 +669,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             cache: cache,
             trace: trace,
-            tableName: ClassMappedNameCache.Get<TResult>(),
+            tableName: ClassMappedNameCache.Get<TResult>(false),
             skipCommandArrayParametersCheck: false,
             cancellationToken: cancellationToken);
     }

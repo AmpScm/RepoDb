@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections;
+﻿using System.Collections;
 using System.Data;
 using System.Data.Common;
 
@@ -62,8 +61,8 @@ public interface IDbHelper
     /// <param name="key">The key of the event to handle.</param>
     void DynamicHandler<TEventInstance>(TEventInstance instance,
         string key);
-    DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction);
-    ValueTask<DbRuntimeSetting> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction transaction, CancellationToken cancellationToken);
+    DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction);
+    ValueTask<DbRuntimeSetting> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction? transaction, CancellationToken cancellationToken);
     DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName);
     bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values);
 

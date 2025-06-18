@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace RepoDb;
+﻿namespace RepoDb;
 
 /// <summary>
 /// A class that holds the information of the tracing operations.

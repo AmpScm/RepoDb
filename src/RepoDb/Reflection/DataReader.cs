@@ -21,7 +21,7 @@ public static class DataReader
     /// <returns>A list of the target result type.</returns>
     public static IEnumerable<TResult> ToEnumerable<TResult>(DbDataReader reader,
         DbFieldCollection? dbFields = null,
-        IDbSetting dbSetting = null)
+        IDbSetting? dbSetting = null)
     {
         if (reader?.IsClosed == false && reader.HasRows)
         {
@@ -78,7 +78,7 @@ public static class DataReader
     /// <returns>An array of dynamic objects.</returns>
     public static IEnumerable<dynamic> ToEnumerable(DbDataReader reader,
         DbFieldCollection? dbFields = null,
-        IDbSetting dbSetting = null)
+        IDbSetting? dbSetting = null)
     {
         if (reader?.IsClosed == false && reader.HasRows)
         {

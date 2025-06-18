@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -191,7 +190,7 @@ public static class EnumerableExtension
 
                 p ??= vt;
 
-                while (!p.IsAssignableFrom(vt))
+                while (p?.IsAssignableFrom(vt) == true)
                     p = p.BaseType;
 
                 if (p is null || p == StaticType.Object)
@@ -251,7 +250,7 @@ public static class EnumerableExtension
 
                 p ??= vt;
 
-                while (!p.IsAssignableFrom(vt))
+                while (p?.IsAssignableFrom(vt) == true)
                     p = p.BaseType;
 
                 if (p is null || p == StaticType.Object)

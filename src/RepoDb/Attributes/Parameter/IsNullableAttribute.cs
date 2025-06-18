@@ -20,5 +20,5 @@ public class IsNullableAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped value that defines whether the parameter accepts a null value.
     /// </summary>
-    public bool IsNullable => (bool)Value;
+    public bool IsNullable => (bool)Value!;
 }

@@ -14,7 +14,7 @@ internal sealed record class CommandParameter
     /// <param name="value">The value of the parameter.</param>
     /// <param name="mappedToType">The parent type where this parameter is mapped.</param>
     public CommandParameter(Field field,
-        object value,
+        object? value,
         Type mappedToType)
     {
         Field = field;
@@ -30,7 +30,7 @@ internal sealed record class CommandParameter
     /// <summary>
     /// The value of the parameter.
     /// </summary>
-    public object Value { get; }
+    public object? Value { get; }
 
     /// <summary>
     /// The parent type where this parameter is mapped.

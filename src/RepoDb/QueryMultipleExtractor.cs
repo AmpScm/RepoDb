@@ -1,4 +1,5 @@
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Reflection;
@@ -15,13 +16,13 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
      *       we are not passing the values to the DataReader.ToEnumerable() method.
      */
 
-    private readonly DbConnection _connection = null;
-    private readonly DbDataReader _reader = null;
+    private readonly DbConnection? _connection = null;
+    private readonly DbDataReader? _reader = null;
     private readonly bool _isDisposeConnection = false;
-    private readonly object _param = null;
-    private readonly string _cacheKey = null;
+    private readonly object? _param = null;
+    private readonly string? _cacheKey = null;
     private readonly int _cacheItemExpiration;
-    private readonly ICache _cache = null;
+    private readonly ICache? _cache = null;
     private readonly List<object> _items = [];
 
     /// <summary>
@@ -119,7 +120,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <typeparam name="T"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    private bool GetCacheItem<T>(out T value)
+    private bool TryGetCacheItem<T>([NotNullWhen(true)] out T? value)
     {
         if (_cacheKey != null)
         {
@@ -177,7 +178,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public IEnumerable<TEntity> Extract<TEntity>(bool isMoveToNextResult = true)
     {
-        if (GetCacheItem<IEnumerable<TEntity>>(out var result) == false)
+        if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
         {
             result = DataReader.ToEnumerable<TEntity>(_reader, dbSetting: _connection?.GetDbSetting()).AsList();
             AddToCache(result);
@@ -199,7 +200,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public async Task<IEnumerable<TEntity>> ExtractAsync<TEntity>(bool isMoveToNextResult = true, CancellationToken cancellationToken = default)
     {
-        if (GetCacheItem<IEnumerable<TEntity>>(out var result) == false)
+        if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
         {
             result = await DataReader
                 .ToEnumerableAsync<TEntity>(_reader, dbSetting: _connection?.GetDbSetting(), cancellationToken: cancellationToken)
@@ -229,7 +230,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public IEnumerable<dynamic> Extract(bool isMoveToNextResult = true)
     {
-        if (GetCacheItem<IEnumerable<dynamic>>(out var result) == false)
+        if (TryGetCacheItem<IEnumerable<dynamic>>(out var result) == false)
         {
             result = DataReader.ToEnumerable(_reader).AsList();
             AddToCache(result);
@@ -250,7 +251,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public async Task<IEnumerable<dynamic>> ExtractAsync(bool isMoveToNextResult = true)
     {
-        if (GetCacheItem<IEnumerable<dynamic>>(out var result) == false)
+        if (TryGetCacheItem<IEnumerable<dynamic>>(out var result) == false)
         {
             result = await DataReader.ToEnumerableAsync(_reader, cancellationToken: CancellationToken)
                 .ToListAsync(CancellationToken).ConfigureAwait(false);
@@ -278,11 +279,11 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="isMoveToNextResult">A flag to use whether the operation would call the <see cref="System.Data.IDataReader.NextResult()"/> method.</param>
     /// <returns>An instance of extracted object as value result.</returns>
-    public TResult Scalar<TResult>(bool isMoveToNextResult = true)
+    public TResult? Scalar<TResult>(bool isMoveToNextResult = true)
     {
-        if (GetCacheItem<TResult>(out var result) == false)
+        if (TryGetCacheItem<TResult>(out var result) == false)
         {
-            if (_reader.Read())
+            if (_reader?.Read() == true)
             {
                 result = Converter.ToType<TResult>(_reader[0]);
                 AddToCache(result);
@@ -303,9 +304,9 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="isMoveToNextResult">A flag to use whether the operation would call the <see cref="System.Data.IDataReader.NextResult()"/> method.</param>
     /// <returns>An instance of extracted object as value result.</returns>
-    public async Task<TResult> ScalarAsync<TResult>(bool isMoveToNextResult = true)
+    public async Task<TResult?> ScalarAsync<TResult>(bool isMoveToNextResult = true)
     {
-        if (GetCacheItem<TResult>(out var result) == false)
+        if (TryGetCacheItem<TResult>(out var result) == false)
         {
             if (await _reader.ReadAsync(CancellationToken).ConfigureAwait(false))
             {
@@ -331,7 +332,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="isMoveToNextResult">A flag to use whether the operation would call the <see cref="System.Data.IDataReader.NextResult()"/> method.</param>
     /// <returns>An instance of extracted object as value result.</returns>
-    public object Scalar(bool isMoveToNextResult = true) =>
+    public object? Scalar(bool isMoveToNextResult = true) =>
         Scalar<object>(isMoveToNextResult);
 
     /// <summary>
@@ -339,8 +340,8 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="isMoveToNextResult">A flag to use whether the operation would call the <see cref="System.Data.IDataReader.NextResult()"/> method.</param>
     /// <returns>An instance of extracted object as value result.</returns>
-    public Task<object> ScalarAsync(bool isMoveToNextResult = true) =>
-        ScalarAsync<object>(isMoveToNextResult);
+    public Task<object?> ScalarAsync(bool isMoveToNextResult = true) =>
+        ScalarAsync<object?>(isMoveToNextResult);
 
     #endregion
 
@@ -353,18 +354,18 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>True if there are more result sets; otherwise false.</returns>
     /// </summary>
     public bool NextResult() =>
-        (Position = _reader.NextResult() ? Position + 1 : -1) >= 0;
+        _reader is { } && ((Position = _reader.NextResult() ? Position + 1 : -1) >= 0);
 
     /// <summary>
     /// Advances the <see cref="DbDataReader"/> object to the next result in an asynchronous way.
     /// <returns>True if there are more result sets; otherwise false.</returns>
     /// </summary>
     public async Task<bool> NextResultAsync() =>
-        (Position = await _reader.NextResultAsync(CancellationToken).ConfigureAwait(false) ? Position + 1 : -1) >= 0;
+        _reader is { } && ((Position = await _reader.NextResultAsync(CancellationToken).ConfigureAwait(false) ? Position + 1 : -1) >= 0);
 
 
     public async Task<bool> NextResultAsync(CancellationToken? cancellationToken) =>
-        (Position = await _reader.NextResultAsync(cancellationToken ?? CancellationToken).ConfigureAwait(false) ? Position + 1 : -1) >= 0;
+        _reader is { } && ((Position = await _reader.NextResultAsync(cancellationToken ?? CancellationToken).ConfigureAwait(false) ? Position + 1 : -1) >= 0);
 
     #endregion
 }

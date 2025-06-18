@@ -46,9 +46,9 @@ public static class DbFieldExtension
     public static TItem? OneOrDefault<TItem>(this IEnumerable<TItem> source)
     {
         if (source is IReadOnlyCollection<TItem> col && col.Count == 1)
-            return source.FirstOrDefault();
+            return source.FirstOrDefault()!;
         else
-            return DoOne(source);
+            return DoOne(source)!;
     }
 
     public static TItem? OneOrDefault<TItem>(this IEnumerable<TItem> source, Func<TItem, bool> predicate)

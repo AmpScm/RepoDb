@@ -20,5 +20,5 @@ public class PrecisionAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped precision value of the parameter.
     /// </summary>
-    public byte Precision => (byte)Value;
+    public byte Precision => (byte)Value!;
 }

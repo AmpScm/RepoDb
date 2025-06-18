@@ -11,22 +11,20 @@ public class ResultTraceLog<TResult> : TraceLog
     /// </summary>
     /// <param name="sessionId"></param>
     /// <param name="key"></param>
-    /// <param name="executionTime"></param>
     /// <param name="result"></param>
+    /// <param name="executionTime"></param>
     /// <param name="beforeExecutionLog"></param>
-    protected internal ResultTraceLog(long sessionId,
+    protected internal ResultTraceLog(
+        long sessionId,
         string? key,
-        TimeSpan? executionTime = null,
-        TResult result = default,
-        CancellableTraceLog beforeExecutionLog = null)
+        TResult result,
+        TimeSpan executionTime,
+        CancellableTraceLog beforeExecutionLog)
         : base(sessionId, key)
     {
         Result = result;
         BeforeExecutionLog = beforeExecutionLog;
-        if (executionTime != null)
-        {
-            ExecutionTime = executionTime.Value;
-        }
+        ExecutionTime = executionTime;
     }
 
     #region Properties

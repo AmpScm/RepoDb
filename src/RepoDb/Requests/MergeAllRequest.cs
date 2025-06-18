@@ -85,7 +85,7 @@ internal class MergeAllRequest : BaseRequest
     /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
     /// <param name="hints">The hints for the table.</param>
     /// <param name="statementBuilder">The statement builder.</param>
-    public MergeAllRequest(Type type,
+    public MergeAllRequest(Type? type,
         string name,
         IDbConnection connection,
         IDbTransaction? transaction,
@@ -111,7 +111,7 @@ internal class MergeAllRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field> Fields { get; init; }
 
     /// <summary>
     /// Gets the list of the target fields.
@@ -131,7 +131,7 @@ internal class MergeAllRequest : BaseRequest
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

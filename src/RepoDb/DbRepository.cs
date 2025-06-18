@@ -16,7 +16,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     #region Fields
 
     private static readonly object syncLock = new();
-    private TDbConnection connection;
+    private TDbConnection? connection;
 
     #endregion
 
@@ -245,12 +245,12 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <summary>
     /// Gets the trace object that is being used by this repository.
     /// </summary>
-    public ITrace Trace { get; }
+    public ITrace? Trace { get; }
 
     /// <summary>
     /// Gets the statement builder object that is being used by this repository.
     /// </summary>
-    public IStatementBuilder StatementBuilder { get; }
+    public IStatementBuilder? StatementBuilder { get; }
 
     /// <summary>
     /// Gets the database connection persistency used by this repository. The default value is <see cref="ConnectionPersistency.PerCall"/>.
@@ -770,7 +770,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// </param>
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>A first occurrence occurrence (first column of first row) of the execution.</returns>
-    public TResult ExecuteScalar<TResult>(string commandText,
+    public TResult? ExecuteScalar<TResult>(string commandText,
         object? param = null,
         CommandType commandType = default,
         string? cacheKey = null,

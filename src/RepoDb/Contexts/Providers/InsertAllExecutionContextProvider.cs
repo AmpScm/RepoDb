@@ -27,7 +27,7 @@ internal static class InsertAllExecutionContextProvider
         string tableName,
         IEnumerable<Field> fields,
         int batchSize,
-        string hints)
+        string? hints)
     {
         return string.Concat(entityType.FullName,
             ";",
@@ -74,7 +74,7 @@ internal static class InsertAllExecutionContextProvider
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
         string commandText;
 
-        if (dbFields?.Any(x => x.IsReadOnly) == true)
+        if (dbFields.Any(x => x.IsReadOnly) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsReadOnly != true);
         }
@@ -156,7 +156,7 @@ internal static class InsertAllExecutionContextProvider
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
         string commandText;
 
-        if (dbFields?.Any(x => x.IsReadOnly) == true)
+        if (dbFields.Any(x => x.IsReadOnly) == true)
         {
             fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsReadOnly != true);
         }
@@ -233,7 +233,7 @@ internal static class InsertAllExecutionContextProvider
             .AsList();
 
         // Variables for the context
-        Action<object, object> keyPropertySetterFunc = null;
+        Action<object, object?>? keyPropertySetterFunc = null;
         var keyField = ExecutionContextProvider
             .GetTargetReturnColumnAsField(entityType, dbFields);
         if (keyField != null)
@@ -243,8 +243,8 @@ internal static class InsertAllExecutionContextProvider
         }
 
         // Identity which objects to set
-        Action<DbCommand, IList<object>> multipleEntitiesParametersSetterFunc = null;
-        Action<DbCommand, object> singleEntityParametersSetterFunc = null;
+        Action<DbCommand, IList<object?>>? multipleEntitiesParametersSetterFunc = null;
+        Action<DbCommand, object?>? singleEntityParametersSetterFunc = null;
 
         if (batchSize <= 1)
         {

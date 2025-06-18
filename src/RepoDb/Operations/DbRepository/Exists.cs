@@ -60,6 +60,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         string? traceKey = TraceKeys.Exists,
         IDbTransaction? transaction = null)
         where TEntity : class
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -286,6 +287,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where TEntity : class
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -484,6 +486,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         string? hints = null,
         string? traceKey = TraceKeys.Exists,
         IDbTransaction? transaction = null)
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());
@@ -676,6 +679,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         string? traceKey = TraceKeys.Exists,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
+        where TWhat : notnull
     {
         // Create a connection
         var connection = (transaction?.Connection ?? CreateConnection());

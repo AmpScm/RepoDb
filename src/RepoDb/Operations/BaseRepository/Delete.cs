@@ -39,6 +39,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? hints = null,
         string? traceKey = TraceKeys.Delete,
         IDbTransaction? transaction = null)
+        where TWhat : notnull
     {
         return DbRepository.Delete<TEntity, TWhat>(what: what,
             hints: hints,
@@ -182,6 +183,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         string? traceKey = TraceKeys.Delete,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
+        where TWhat : notnull
     {
         return DbRepository.DeleteAsync<TEntity, TWhat>(what: what,
             hints: hints,

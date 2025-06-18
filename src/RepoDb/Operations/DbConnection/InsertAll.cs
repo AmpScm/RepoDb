@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Transactions;
 using RepoDb.Contexts.Execution;
@@ -559,7 +558,7 @@ public static partial class DbConnectionExtension
                     }
                     else
                     {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object>().AsList());
+                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                     }
 
                     var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
@@ -800,7 +799,7 @@ public static partial class DbConnectionExtension
                     }
                     else
                     {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object>().AsList());
+                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                     }
 
                     // Prepare the command

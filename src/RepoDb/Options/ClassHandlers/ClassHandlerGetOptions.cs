@@ -10,11 +10,6 @@ public sealed class ClassHandlerGetOptions : ClassHandlerOptions
     /// <summary>
     ///
     /// </summary>
-    private ClassHandlerGetOptions() { }
-
-    /// <summary>
-    ///
-    /// </summary>
     /// <param name="reader"></param>
     internal ClassHandlerGetOptions(DbDataReader reader)
     {

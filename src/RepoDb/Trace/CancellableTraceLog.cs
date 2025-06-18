@@ -18,7 +18,7 @@ public class CancellableTraceLog : TraceLog
     protected internal CancellableTraceLog(long sessionId,
         string? key,
         string statement,
-        IEnumerable<IDbDataParameter> parameters = null)
+        IEnumerable<IDbDataParameter>? parameters = null)
         : base(sessionId, key)
     {
         Statement = statement;
@@ -35,7 +35,7 @@ public class CancellableTraceLog : TraceLog
     /// <summary>
     /// Gets the parameters used on the actual operation.
     /// </summary>
-    public IEnumerable<IDbDataParameter> Parameters { get; }
+    public IEnumerable<IDbDataParameter>? Parameters { get; }
 
     /// <summary>
     /// Gets the actual date/time value of when the actual execution has started.

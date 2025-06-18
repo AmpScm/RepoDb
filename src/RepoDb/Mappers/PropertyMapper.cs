@@ -224,7 +224,7 @@ public static class PropertyMapper
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped name of the property.</returns>
     internal static string Get(PropertyInfo propertyInfo) =>
-        Get(propertyInfo.DeclaringType, propertyInfo);
+        Get(propertyInfo.DeclaringType!, propertyInfo);
 
     /// <summary>
     /// Gets the mapped database column of the <see cref="PropertyInfo"/> object.

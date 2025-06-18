@@ -22,8 +22,8 @@ internal sealed class UpdateRequest : BaseRequest
     public UpdateRequest(Type type,
         IDbConnection connection,
         IDbTransaction? transaction,
-        QueryGroup? where = null,
-        IEnumerable<Field>? fields = null,
+        QueryGroup? where,
+        IEnumerable<Field> fields,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
         : this(ClassMappedNameCache.Get(type),
@@ -50,8 +50,8 @@ internal sealed class UpdateRequest : BaseRequest
     public UpdateRequest(string name,
         IDbConnection connection,
         IDbTransaction? transaction,
-        QueryGroup? where = null,
-        IEnumerable<Field>? fields = null,
+        QueryGroup? where,
+        IEnumerable<Field> fields,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
         : base(name,
@@ -60,24 +60,24 @@ internal sealed class UpdateRequest : BaseRequest
               statementBuilder)
     {
         Where = where;
-        Fields = fields?.AsList();
+        Fields = fields.AsList();
         Hints = hints;
     }
 
     /// <summary>
     /// Gets the query expression used.
     /// </summary>
-    public QueryGroup Where { get; }
+    public QueryGroup? Where { get; }
 
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public List<Field> Fields { get; init; }
 
     /// <summary>
     /// Gets the hints for the table.
     /// </summary>
-    public string Hints { get; }
+    public string? Hints { get; }
 
     #region Equality and comparers
 

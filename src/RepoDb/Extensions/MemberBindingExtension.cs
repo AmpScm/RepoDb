@@ -12,7 +12,7 @@ internal static class MemberBindingExtension
     /// </summary>
     /// <param name="member">The instance of <see cref="MemberBinding"/> object where the value is to be extracted.</param>
     /// <returns>The extracted value from <see cref="MemberBinding"/> object.</returns>
-    public static object GetValue(this MemberBinding member)
+    public static object? GetValue(this MemberBinding member)
     {
         if (member is MemberAssignment memberAssignment)
         {

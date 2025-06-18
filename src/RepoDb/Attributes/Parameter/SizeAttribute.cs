@@ -20,5 +20,5 @@ public class SizeAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped size value of the parameter.
     /// </summary>
-    public int Size => (int)Value;
+    public int Size => (int)Value!;
 }

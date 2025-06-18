@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using RepoDb.Options;
 

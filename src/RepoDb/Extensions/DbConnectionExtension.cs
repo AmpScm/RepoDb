@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections;
+﻿using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
@@ -1611,9 +1610,6 @@ public static partial class DbConnectionExtension
                 continue;
             }
 
-            // Create
-            commandArrayParametersText ??= new CommandArrayParametersText();
-
             // CommandText
             commandText = GetRawSqlText(commandText,
                 connection, transaction,
@@ -1621,14 +1617,17 @@ public static partial class DbConnectionExtension
                 commandArrayParameter.Values,
                 dbSetting);
 
+            // Create
+            commandArrayParametersText ??= new CommandArrayParametersText() { CommandText = commandText };
+
             // Add
             commandArrayParametersText.CommandArrayParameters.Add(commandArrayParameter);
         }
 
         // CommandText
-        if (commandArrayParametersText != null)
+        if (commandArrayParametersText != null && !ReferenceEquals(commandArrayParametersText.CommandText, commandText))
         {
-            commandArrayParametersText.CommandText = commandText;
+            commandArrayParametersText = commandArrayParametersText with { CommandText = commandText };
         }
 
         // Return
@@ -1663,9 +1662,6 @@ public static partial class DbConnectionExtension
                 continue;
             }
 
-            // Create
-            commandArrayParametersText ??= new CommandArrayParametersText();
-
             // CommandText
             commandText = GetRawSqlText(commandText,
                 connection, transaction,
@@ -1673,14 +1669,17 @@ public static partial class DbConnectionExtension
                 commandArrayParameter.Values,
                 dbSetting);
 
+            // Create
+            commandArrayParametersText ??= new CommandArrayParametersText() { CommandText = commandText };
+
             // Add
             commandArrayParametersText.CommandArrayParameters.Add(commandArrayParameter);
         }
 
         // CommandText
-        if (commandArrayParametersText != null)
+        if (commandArrayParametersText != null && !ReferenceEquals(commandArrayParametersText.CommandText, commandText))
         {
-            commandArrayParametersText.CommandText = commandText;
+            commandArrayParametersText = commandArrayParametersText with { CommandText = commandText };
         }
 
         // Return
@@ -1785,13 +1784,6 @@ public static partial class DbConnectionExtension
                 continue;
             }
 
-            // Create
-            commandArrayParametersText ??= new CommandArrayParametersText()
-            {
-                // TODO: First element from the array?
-                DbType = queryField.Parameter.DbType
-            };
-
             // CommandText
             commandText = GetRawSqlText(commandText,
                 dbConnection, transaction,
@@ -1799,14 +1791,22 @@ public static partial class DbConnectionExtension
                 commandArrayParameter.Values,
                 dbSetting);
 
+            // Create
+            commandArrayParametersText ??= new CommandArrayParametersText()
+            {
+                CommandText = commandText,
+                // TODO: First element from the array?
+                DbType = queryField.Parameter.DbType
+            };
+
             // Add
             commandArrayParametersText.CommandArrayParameters.Add(commandArrayParameter);
         }
 
         // CommandText
-        if (commandArrayParametersText != null)
+        if (commandArrayParametersText != null && !ReferenceEquals(commandArrayParametersText.CommandText, commandText))
         {
-            commandArrayParametersText.CommandText = commandText;
+            commandArrayParametersText = commandArrayParametersText with { CommandText = commandText };
         }
 
         // Return

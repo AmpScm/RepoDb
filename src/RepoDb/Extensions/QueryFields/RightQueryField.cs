@@ -70,10 +70,10 @@ public sealed class RightQueryField : FunctionalQueryField
     /// <param name="charCount">The number of characters from the right to be evaluated.</param>
     private RightQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         DbType? dbType,
         int charCount = 0)
-        : base(fieldName, operation, value, dbType, $"RIGHT({{0}}, {(charCount > 0 ? charCount : (value?.ToString().Length ?? 0))})")
+        : base(fieldName, operation, value, dbType, $"RIGHT({{0}}, {(charCount > 0 ? charCount : (value?.ToString()?.Length ?? 0))})")
     {
         CharCount = charCount;
     }

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data.Common;
+﻿using System.Data.Common;
 
 namespace RepoDb.Interfaces;
 

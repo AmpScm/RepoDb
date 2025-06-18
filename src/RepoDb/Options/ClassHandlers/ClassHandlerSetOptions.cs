@@ -10,11 +10,6 @@ public sealed class ClassHandlerSetOptions : ClassHandlerOptions
     /// <summary>
     ///
     /// </summary>
-    private ClassHandlerSetOptions() { }
-
-    /// <summary>
-    ///
-    /// </summary>
     /// <param name="command"></param>
     internal ClassHandlerSetOptions(DbCommand command)
     {

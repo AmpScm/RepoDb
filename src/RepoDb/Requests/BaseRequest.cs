@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Requests;
