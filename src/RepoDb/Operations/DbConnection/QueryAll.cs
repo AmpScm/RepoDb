@@ -140,7 +140,7 @@ public static partial class DbConnectionExtension
     {
         // Ensure the fields
         fields ??= GetQualifiedFields<TEntity>() ??
-            DbFieldCache.Get(connection, tableName, transaction)?.AsFields();
+            DbFieldCache.Get(connection, tableName, transaction).AsFields();
 
         // Return
         return QueryAllInternalBase<TEntity>(connection: connection,
@@ -540,7 +540,7 @@ public static partial class DbConnectionExtension
     /// <returns>An enumerable list of data entity objects.</returns>
     internal static IEnumerable<TEntity> QueryAllInternalBase<TEntity>(this IDbConnection connection,
         string tableName,
-        IEnumerable<Field>? fields = null,
+        IEnumerable<Field> fields,
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null,
         string? cacheKey = null,

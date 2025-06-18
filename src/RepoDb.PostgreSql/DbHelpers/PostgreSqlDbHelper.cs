@@ -327,7 +327,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         SELECT version();
 ";
 
-    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         using var rdr = (NpgsqlDataReader)connection.ExecuteReader(PostgresRuntimeInfoQuery, transaction: transaction);
 

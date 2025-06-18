@@ -6,6 +6,7 @@ using RepoDb.Exceptions;
 namespace RepoDb.SqlServer.Tests.UnitTests;
 
 [TestClass]
+[DoNotParallelize]
 public class StatementBuilderTest
 {
     [TestInitialize]
@@ -1188,7 +1189,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(new[] { "Field1", "Field2", "Field3a" });
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
@@ -1206,14 +1207,14 @@ public class StatementBuilderTest
         var expected =
             "BEGIN TRY SET IDENTITY_INSERT [Table] ON; END TRY BEGIN CATCH END CATCH " +
             "MERGE [Table] AS T " +
-            "USING (VALUES (@Field1, @Field2, @Field3)) " +
-            "AS S ([Field1], [Field2], [Field3]) " +
+            "USING (VALUES (@Field1, @Field2, @Field3a)) " +
+            "AS S ([Field1], [Field2], [Field3a]) " +
             "ON ((S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
             "WHEN NOT MATCHED THEN " +
-            "INSERT ([Field1], [Field2], [Field3]) " +
-            "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
+            "INSERT ([Field1], [Field2], [Field3a]) " +
+            "VALUES (S.[Field1], S.[Field2], S.[Field3a]) " +
             "WHEN MATCHED THEN " +
-            "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
+            "UPDATE SET T.[Field2] = S.[Field2], T.[Field3a] = S.[Field3a] " +
             "OUTPUT INSERTED.[Field1]; " +
             "BEGIN TRY SET IDENTITY_INSERT [Table] OFF; END TRY BEGIN CATCH END CATCH";
 
@@ -1744,7 +1745,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(new[] { "Field1", "Field2", "Field3b" });
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
         var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
@@ -1757,17 +1758,17 @@ public class StatementBuilderTest
             qualifiers: qualifiers,
             primaryField: primaryField,
             identityField: primaryField);
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
         var expected =
             "BEGIN TRY SET IDENTITY_INSERT [Table] ON; END TRY BEGIN CATCH END CATCH " +
             "MERGE [Table] AS T " +
-            "USING (SELECT @Field1 AS [Field1], @Field2 AS [Field2], @Field3 AS [Field3]) " +
+            "USING (SELECT @Field1 AS [Field1], @Field2 AS [Field2], @Field3b AS [Field3b]) " +
             "AS S ON ((S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
             "WHEN NOT MATCHED THEN " +
-            "INSERT ([Field1], [Field2], [Field3]) " +
-            "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
+            "INSERT ([Field1], [Field2], [Field3b]) " +
+            "VALUES (S.[Field1], S.[Field2], S.[Field3b]) " +
             "WHEN MATCHED THEN " +
-            "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
+            "UPDATE SET T.[Field2] = S.[Field2], T.[Field3b] = S.[Field3b] " +
             "OUTPUT INSERTED.[Field1] AS [Result]; " +
             "BEGIN TRY SET IDENTITY_INSERT [Table] OFF; END TRY BEGIN CATCH END CATCH";
 
@@ -1878,6 +1879,8 @@ public class StatementBuilderTest
         var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
         var primaryField = new DbField("Field1", true, isIdentity: false, false, typeof(int), null, null, null, null);
 
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+
         // Act
         var actual = statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
@@ -1908,6 +1911,8 @@ public class StatementBuilderTest
         var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
+
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
 
         // Act
         var actual = statementBuilder.CreateMerge(tableName: tableName,

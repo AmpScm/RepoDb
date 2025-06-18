@@ -495,7 +495,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the merge process.</returns>
     public async Task<int> MergeAllAsync<TEntity>(IEnumerable<TEntity> entities,
-        IEnumerable<Field> qualifiers,
+        IEnumerable<Field>? qualifiers,
         int batchSize = 0,
         IEnumerable<Field>? fields = null,
         string? hints = null,
