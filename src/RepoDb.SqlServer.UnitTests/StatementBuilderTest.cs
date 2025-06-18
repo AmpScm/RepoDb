@@ -1157,6 +1157,7 @@ public class StatementBuilderTest
         var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
 
         // Act
         var actual = statementBuilder.CreateMergeAll(tableName: tableName,
@@ -1176,6 +1177,45 @@ public class StatementBuilderTest
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
             "OUTPUT INSERTED.[Field1];";
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    public void TestSqlServerStatementBuilderCreateMergeAllWithCoveredIdentity2()
+    {
+        // Setup
+        var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
+        var tableName = "Table";
+        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var qualifiers = Field.From("Field1");
+        var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+
+        // Act
+        var actual = statementBuilder.CreateMergeAll(tableName: tableName,
+            fields: fields,
+            qualifiers: qualifiers,
+            batchSize: 1,
+            primaryField: null,
+            identityField: identityField);
+
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+
+        var expected =
+            "BEGIN TRY SET IDENTITY_INSERT [Table] ON; END TRY BEGIN CATCH END CATCH " +
+            "MERGE [Table] AS T " +
+            "USING (VALUES (@Field1, @Field2, @Field3)) " +
+            "AS S ([Field1], [Field2], [Field3]) " +
+            "ON ((S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
+            "WHEN NOT MATCHED THEN " +
+            "INSERT ([Field1], [Field2], [Field3]) " +
+            "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
+            "WHEN MATCHED THEN " +
+            "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
+            "OUTPUT INSERTED.[Field1]; " +
+            "BEGIN TRY SET IDENTITY_INSERT [Table] OFF; END TRY BEGIN CATCH END CATCH";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1676,6 +1716,8 @@ public class StatementBuilderTest
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
         var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+
         // Act
         var actual = statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
@@ -1696,6 +1738,43 @@ public class StatementBuilderTest
         // Assert
         Assert.AreEqual(expected, actual);
     }
+    [TestMethod]
+    public void TestSqlServerStatementBuilderCreateMergeWithCoveredPrimaryAsIdentity2()
+    {
+        // Setup
+        var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
+        var tableName = "Table";
+        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var qualifiers = Field.From("Field1");
+        var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
+        var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
+
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+
+        // Act
+        var actual = statementBuilder.CreateMerge(tableName: tableName,
+            fields: fields,
+            qualifiers: qualifiers,
+            primaryField: primaryField,
+            identityField: primaryField);
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+        var expected =
+            "BEGIN TRY SET IDENTITY_INSERT [Table] ON; END TRY BEGIN CATCH END CATCH " +
+            "MERGE [Table] AS T " +
+            "USING (SELECT @Field1 AS [Field1], @Field2 AS [Field2], @Field3 AS [Field3]) " +
+            "AS S ON ((S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
+            "WHEN NOT MATCHED THEN " +
+            "INSERT ([Field1], [Field2], [Field3]) " +
+            "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
+            "WHEN MATCHED THEN " +
+            "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
+            "OUTPUT INSERTED.[Field1] AS [Result]; " +
+            "BEGIN TRY SET IDENTITY_INSERT [Table] OFF; END TRY BEGIN CATCH END CATCH";
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
 
     [TestMethod]
     public void TestSqlServerStatementBuilderCreateMergeWithUncoveredPrimary()

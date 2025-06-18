@@ -9,16 +9,23 @@
     <PackageReleaseNotes>https://repodb.net/release/mysql</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/AmpScm/RepoDB/tree/master/src/RepoDb.MySql/</PackageProjectUrl>
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
+    <DefineConstants>$(DefineConstants);MYSQLPLAIN</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\RepoDb.MysqlConnector\StatementBuilders\MysqlConnectorStatementBuilder.cs">
+      <Link>StatementBuilders\MysqlStatementBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\RepoDb\Compat.cs" />
     <None Include="..\..\LICENSE.txt" Pack="True" PackagePath="\" />
     <None Include="README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StatementBuilders\" />
   </ItemGroup>
 </Project>

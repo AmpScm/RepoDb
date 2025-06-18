@@ -282,7 +282,7 @@ ORDER BY C.COLUMN_ID
     private const string QueryVersion = @"SELECT banner FROM v$version";
     private const string QueryProduct = @"SELECT PRODUCT, VERSION FROM PRODUCT_COMPONENT_VERSION WHERE PRODUCT LIKE 'Oracle%'";
 
-    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         string? banner = null;
         string? productName = null;

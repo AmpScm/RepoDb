@@ -407,7 +407,7 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
 SELECT sqlite_version();
 ";
 
-    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         using var rdr = (SQLiteDataReader)connection.ExecuteReader(SqliteRuntimeInfoQuery, transaction: transaction);
 

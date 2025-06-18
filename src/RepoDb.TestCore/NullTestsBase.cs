@@ -121,6 +121,8 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     public virtual string BlobDbType => "varbinary(128)";
     public virtual string TextDbType => "TEXT";
 
+    public virtual string IntDbType => "int";
+
     [TestMethod]
     public async Task GuidNullTest()
     {
@@ -496,7 +498,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         public string? Value { get; set; }
     }
 
-    protected virtual string IdentityDefinition => "INT GENERATED ALWAYS AS IDENTITY";
+    protected virtual string IdentityDefinition => IntDbType + " GENERATED ALWAYS AS IDENTITY";
 
 
 
@@ -594,6 +596,92 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        
+
+    }
+
+    record MergeEdgeTable
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string? Value { get; set; }
+    }
+
+    [TestMethod]
+    public async Task MergeEdgeCasesTest()
+    {
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+        try
+        {
+            using var sql = await CreateOpenConnectionAsync();
+
+            if (sql.GetType().Name.Contains("Oracle"))
+                return;
+
+            bool noIdentityInPrimaryKey = sql.GetType().Name.Contains("iteConnection") || sql.GetType().Name.Contains("Oracle");
+
+            if (!await sql.SchemaObjectExistsAsync(nameof(MergeEdgeTable)))
+            {
+                await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(MergeEdgeTable)}] (
+                    [ID] {IdentityDefinition},
+                    [Name] {VarCharName}(20) NOT NULL,
+                    [Value] {VarCharName}(38) NULL,
+                    CONSTRAINT [PK_{nameof(MergeEdgeTable)}] PRIMARY KEY
+                    (
+                        [ID], [Name]
+                    )
+            )".Replace(IdentityDefinition, noIdentityInPrimaryKey ? IntDbType + " NOT NULL" : IdentityDefinition));
+
+                await PerformCreateTableAsync(sql, $@"CREATE UNIQUE INDEX [IX_{nameof(MergeEdgeTable)}] ON [{nameof(MergeEdgeTable)}] ([Name]);
+        ");
+            }
+            else
+            {
+                await sql.TruncateAsync<MergeEdgeTable>();
+            }
+
+            var r = new MergeEdgeTable()
+            {
+                ID = 1,
+                Name = "a",
+                Value = "b"
+            };
+            await sql.MergeAsync(r);
+            await sql.MergeAsync(r);
+
+            var all = await sql.QueryAllAsync<MergeEdgeTable>();
+            Assert.AreEqual(1, all.Count());
+
+            // Still doing the same thing
+            await sql.MergeAsync(r, qualifiers: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer());
+
+            // Now just update the first two fields. No-op
+            await sql.MergeAsync(r, fields: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer());
+
+
+            var r2 = new MergeEdgeTable()
+            {
+                ID = 2,
+                Name = "b",
+                Value = "c"
+            };
+
+            await sql.MergeAsync(r2);
+            await sql.MergeAsync(r2);
+
+            all = await sql.QueryAllAsync<MergeEdgeTable>();
+            Assert.AreEqual(2, all.Count());
+
+            await sql.DeleteAsync(r);
+            await sql.MergeAsync(r, trace: new DiagnosticsTracer());
+
+            all = await sql.QueryAllAsync<MergeEdgeTable>();
+            Assert.AreEqual(2, all.Count());
+
+            Assert.IsTrue(all.Any(x => x.ID == 1 || x.ID == 2));
+        }
+        finally
+        {
+            GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        }
     }
 }

@@ -45,4 +45,9 @@ public record GlobalConfigurationOptions
     /// </summary>
     public bool DateOnlyAndTimeOnly { get; init; } = false;
 #endif
+
+    /// <summary>
+    /// Enable the support for the SQL Server's <c>IDENTITY_INSERT</c> feature. This allows the insertion of explicit values into identity columns.
+    /// </summary>
+    public bool SqlServerIdentityInsert { get; init; }
 }

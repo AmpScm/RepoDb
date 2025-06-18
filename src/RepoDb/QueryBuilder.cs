@@ -501,6 +501,12 @@ public sealed class QueryBuilder
     }
 
     /// <summary>
+    /// Appends a word IGNORE to the SQL Query Statement.
+    /// </summary>
+    /// <returns>The current instance.</returns>
+    public QueryBuilder Ignore() => Append("IGNORE");
+
+    /// <summary>
     /// Appends a word INSERT to the SQL Query Statement.
     /// </summary>
     /// <returns>The current instance.</returns>
@@ -949,6 +955,12 @@ public sealed class QueryBuilder
     /// </summary>
     /// <returns>The current instance.</returns>
     public QueryBuilder On() => Append("ON");
+
+    /// <summary>
+    /// Appends a word OFF to the SQL Query Statement.
+    /// </summary>
+    /// <returns>The current instance.</returns>
+    public QueryBuilder Off() => Append("OFF");
 
     /// <summary>
     /// Appends a word IN to the SQL Query Statement.

@@ -383,10 +383,20 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             .OpenParen()
             .ParametersFrom(fields, 0, DbSetting)
             .CloseParen()
-            .OnConflict(qualifiers, DbSetting)
-            .DoUpdate()
-            .Set()
-            .FieldsAndParametersFrom(updatableFields, 0, DbSetting);
+            .OnConflict(qualifiers, DbSetting);
+
+        if (updatableFields.Any())
+        {
+            builder
+                .DoUpdate()
+                .Set()
+                .FieldsAndParametersFrom(updatableFields, 0, DbSetting);
+        }
+        else
+        {
+            builder
+                .DoNothing();
+        }
 
         if (keyFields.Any())
         {

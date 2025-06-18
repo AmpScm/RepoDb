@@ -26,7 +26,9 @@ public class NullTests : RepoDb.TestCore.NullTestsBase<OracleDbInstance>
     public override string BlobDbType => "RAW(128)";
     public override string UuidDbType => "RAW(16)";
     public override string TextDbType => "CLOB";
+    public override string IntDbType => "NUMBER";
 
-    //protected override string IdentityDefinition => "INT IDENTITY(1,1) NOT NULL";
+    protected override string IdentityDefinition => "NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1)";
+
 
 }

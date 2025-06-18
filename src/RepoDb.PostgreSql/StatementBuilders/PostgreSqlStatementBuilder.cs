@@ -397,10 +397,20 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             .OpenParen()
             .ParametersFrom(fields, 0, DbSetting)
             .CloseParen()
-            .OnConflict(qualifiers, DbSetting)
-            .DoUpdate()
-            .Set()
-            .FieldsAndParametersFrom(updatableFields, 0, DbSetting);
+            .OnConflict(qualifiers, DbSetting);
+
+        if (updatableFields.Any())
+        {
+            builder
+                .DoUpdate()
+                .Set()
+                .FieldsAndParametersFrom(updatableFields, 0, DbSetting);
+        }
+        else
+        {
+            builder
+                .DoNothing();
+        }
 
         if (keyFields.Any())
         {
@@ -503,10 +513,20 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
                 .OpenParen()
                 .ParametersFrom(fields, index, DbSetting)
                 .CloseParen()
-                .OnConflict(qualifiers, DbSetting)
-                .DoUpdate()
-                .Set()
-                .FieldsAndParametersFrom(updatableFields, index, DbSetting);
+                .OnConflict(qualifiers, DbSetting);
+
+            if (updatableFields.Any())
+            {
+                builder
+                    .DoUpdate()
+                    .Set()
+                    .FieldsAndParametersFrom(updatableFields, index, DbSetting);
+            }
+            else
+            {
+                builder
+                    .DoNothing();
+            }
 
             if (keyFields.Any())
             {

@@ -234,7 +234,7 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
     SHOW VARIABLES LIKE 'version_comment';
 ";
 
-    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         using var rdr = (MySqlDataReader)connection.ExecuteReader(MySqlRuntimeInfoQuery, transaction: transaction);
 

@@ -1,4 +1,8 @@
-﻿using MySqlConnector;
+﻿#if MYSQLPLAIN
+using MySql.Data.MySqlClient;
+#else
+using MySqlConnector;
+#endif
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -8,8 +12,33 @@ namespace RepoDb.StatementBuilders;
 /// <summary>
 /// A class that is being used to build a SQL Statement for MySql.
 /// </summary>
+#if MYSQLPLAIN
+public sealed class MySqlStatementBuilder : BaseStatementBuilder
+#else
 public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
+#endif
 {
+#if MYSQLPLAIN
+    public MySqlStatementBuilder()
+        : this(DbSettingMapper.Get<MySqlConnection>(),
+              null,
+              null)
+    { }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="MySqlStatementBuilder"/> class.
+    /// </summary>
+    /// <param name="dbSetting">The database settings object currently in used.</param>
+    /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
+    /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
+    public MySqlStatementBuilder(IDbSetting dbSetting,
+        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
+        IResolver<Type, Type> averageableClientTypeResolver = null)
+        : base(dbSetting,
+              convertFieldResolver,
+              averageableClientTypeResolver)
+    { }
+#else
     /// <summary>
     /// Creates a new instance of <see cref="MySqlStatementBuilder"/> object.
     /// </summary>
@@ -32,6 +61,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
               convertFieldResolver,
               averageableClientTypeResolver)
     { }
+#endif
 
     #region CreateBatchQuery
 
@@ -464,12 +494,21 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}'.");
         }
 
+        var updateFields = fields
+            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
+            .ToList();
+
         // Initialize the builder
         var builder = new QueryBuilder();
 
         // Build the query
         builder
-            .Insert()
+            .Insert();
+
+        if (!updateFields.Any())
+            builder.Ignore();
+
+        builder
             .Into()
             .TableNameFrom(tableName, DbSetting)
             .OpenParen()
@@ -478,15 +517,16 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             .Values()
             .OpenParen()
             .ParametersFrom(fields, 0, DbSetting)
-            .CloseParen()
-            .WriteText("ON DUPLICATE KEY")
-            .Update();
+            .CloseParen();
 
-        var updateFields = fields
-            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .ToList();
+        if (updateFields.Any())
+        {
+            builder
+                .WriteText("ON DUPLICATE KEY")
+                .Update();
 
-        IdentityFieldsAndParametersFrom(builder, fields, updateFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && fields.GetByName(x.Name) is null));
+            IdentityFieldsAndParametersFrom(builder, fields, updateFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && fields.GetByName(x.Name) is null));
+        }
         builder
             .End();
 

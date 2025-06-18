@@ -471,54 +471,76 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Get the insertable and updateable fields
-        var insertableFields = fields.Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true }).ToList();
+        var insertableFields = fields;
         var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .AsList();
+
+        bool insertingIdentity = fields.Any(f => keyFields.GetByName(f.Name) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
 
         // Initialize the builder
         var builder = new QueryBuilder();
 
+        if (insertingIdentity)
+        {
+            builder
+                .WriteText("BEGIN TRY")
+                .Set()
+                .WriteText("IDENTITY_INSERT")
+                .TableNameFrom(tableName, DbSetting)
+                .On()
+                .End()
+                .WriteText("END TRY BEGIN CATCH END CATCH");
+        }
+        else
+            insertableFields = fields.Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true }).ToList();
+
+
         // Build the query
         builder
-            // MERGE T USING S
-            .Merge()
-            .TableNameFrom(tableName, DbSetting)
-            .HintsFrom(hints)
-            .As("T")
-            .Using()
-            .OpenParen()
-            .Select()
-            .ParametersAsFieldsFrom(fields, 0, DbSetting)
-            .CloseParen()
-            .As("S")
-            // QUALIFIERS
-            .On()
-            .OpenParen()
-            .WriteText(qualifiers?
-                .Select(
-                    field => field.AsJoinQualifier("S", "T", true, DbSetting))
-                        .Join(" AND "))
-            .CloseParen()
-            // WHEN NOT MATCHED THEN INSERT VALUES
-            .When()
-            .Not()
-            .Matched()
-            .Then()
-            .Insert()
-            .OpenParen()
-            .FieldsFrom(insertableFields, DbSetting)
-            .CloseParen()
-            .Values()
-            .OpenParen()
-            .AsAliasFieldsFrom(insertableFields, "S", DbSetting)
-            .CloseParen()
-            // WHEN MATCHED THEN UPDATE SET
-            .When()
-            .Matched()
-            .Then()
-            .Update()
-            .Set()
-            .FieldsAndAliasFieldsFrom(updatableFields, "T", "S", DbSetting);
+                // MERGE T USING S
+                .Merge()
+                .TableNameFrom(tableName, DbSetting)
+                .HintsFrom(hints)
+                .As("T")
+                .Using()
+                .OpenParen()
+                .Select()
+                .ParametersAsFieldsFrom(fields, 0, DbSetting)
+                .CloseParen()
+                .As("S")
+                // QUALIFIERS
+                .On()
+                .OpenParen()
+                .WriteText(qualifiers?
+                    .Select(
+                        field => field.AsJoinQualifier("S", "T", true, DbSetting))
+                            .Join(" AND "))
+                .CloseParen()
+                // WHEN NOT MATCHED THEN INSERT VALUES
+                .When()
+                .Not()
+                .Matched()
+                .Then()
+                .Insert()
+                .OpenParen()
+                .FieldsFrom(insertableFields, DbSetting)
+                .CloseParen()
+                .Values()
+                .OpenParen()
+                .AsAliasFieldsFrom(insertableFields, "S", DbSetting)
+                .CloseParen();
+
+        if (updatableFields.Any())
+        {
+            builder
+                // WHEN MATCHED THEN UPDATE SET
+                .When()
+                .Matched()
+                .Then()
+                .Update()
+                .Set()
+                .FieldsAndAliasFieldsFrom(updatableFields, "T", "S", DbSetting);
+        }
 
         // Variables needed
         var keyColumn = GetReturnKeyColumnAsDbField(primaryField, identityField);
@@ -533,6 +555,18 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 
         // End the builder
         builder.End();
+
+        if (insertingIdentity)
+        {
+            builder
+                .WriteText("BEGIN TRY")
+                .Set()
+                .WriteText("IDENTITY_INSERT")
+                .TableNameFrom(tableName, DbSetting)
+                .Off()
+                .End()
+                .WriteText("END TRY BEGIN CATCH END CATCH");
+        }
 
         // Return the query
         return builder.ToString();
@@ -614,14 +648,29 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Get the insertable and updateable fields
-        var insertableFields = fields
-            .Where(field => !string.Equals(field.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase));
+        var insertableFields = fields;
         var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
             .AsList();
 
         // Initialize the builder
         var keyColumn = GetReturnKeyColumnAsDbField(primaryField, identityField);
         var builder = new QueryBuilder();
+
+        bool insertingIdentity = fields.Any(f => keyFields.GetByName(f.Name) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+
+        if (insertingIdentity)
+        {
+            builder
+                .WriteText("BEGIN TRY")
+                .Set()
+                .WriteText("IDENTITY_INSERT")
+                .TableNameFrom(tableName, DbSetting)
+                .On()
+                .End()
+                .WriteText("END TRY BEGIN CATCH END CATCH");
+        }
+        else
+            insertableFields = fields.Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true }).ToList();
 
         // Iterate the indexes
         // MERGE T USING S
@@ -689,14 +738,19 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .Values()
             .OpenParen()
             .AsAliasFieldsFrom(insertableFields, "S", DbSetting)
-            .CloseParen()
-            // WHEN MATCHED THEN UPDATE SET
-            .When()
-            .Matched()
-            .Then()
-            .Update()
-            .Set()
-            .FieldsAndAliasFieldsFrom(updatableFields, "T", "S", DbSetting);
+            .CloseParen();
+
+        if (updatableFields.Any())
+        {
+            builder
+                // WHEN MATCHED THEN UPDATE SET
+                .When()
+                .Matched()
+                .Then()
+                .Update()
+                .Set()
+                .FieldsAndAliasFieldsFrom(updatableFields, "T", "S", DbSetting);
+        }
 
         // Set the output
         if (keyFields.Any())
@@ -716,6 +770,18 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 
         // End the builder
         builder.End(DbSetting);
+
+        if (insertingIdentity)
+        {
+            builder
+                .WriteText("BEGIN TRY")
+                .Set()
+                .WriteText("IDENTITY_INSERT")
+                .TableNameFrom(tableName, DbSetting)
+                .Off()
+                .End()
+                .WriteText("END TRY BEGIN CATCH END CATCH");
+        }
 
         // Return the query
         return builder.ToString();
