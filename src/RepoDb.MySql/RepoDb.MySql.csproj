@@ -15,8 +15,8 @@
     <PackageReference Include="MySql.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\RepoDb.MysqlConnector\StatementBuilders\MysqlConnectorStatementBuilder.cs">
-      <Link>StatementBuilders\MysqlStatementBuilder.cs</Link>
+    <Compile Include="..\RepoDb.MySqlConnector\StatementBuilders\MySqlConnectorStatementBuilder.cs">
+      <Link>StatementBuilders\MySqlStatementBuilder.cs</Link>
     </Compile>
     <Compile Include="..\RepoDb\Compat.cs" />
     <None Include="..\..\LICENSE.txt" Pack="True" PackagePath="\" />
