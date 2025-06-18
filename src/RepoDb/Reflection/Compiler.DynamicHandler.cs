@@ -14,7 +14,7 @@ partial class Compiler
     private static MethodCallExpression GetCompilerDbParameterPostCreationExpression(ParameterExpression dbCommandExpression,
         IDbHelper? dbHelper)
     {
-        var method = StaticType.IDbHelper.GetMethod(nameof(IDbHelper.DynamicHandler))
+        var method = StaticType.IDbHelper.GetMethod(nameof(IDbHelper.DynamicHandler))!
             .MakeGenericMethod(dbCommandExpression.Type);
         return Expression.Call(Expression.Constant(dbHelper),
             method, dbCommandExpression, Expression.Constant("RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]"));

@@ -20,8 +20,8 @@ internal static class FunctionFactory
     /// <param name="dbSetting">The instance of <see cref="IDbSetting"/> object to be used.</param>
     /// <returns></returns>
     public static Func<DbDataReader, TResult> CompileDataReaderToType<TResult>(DbDataReader reader,
-        DbFieldCollection dbFields,
-        IDbSetting dbSetting) =>
+        DbFieldCollection? dbFields,
+        IDbSetting? dbSetting) =>
         Compiler.CompileDataReaderToType<TResult>(reader, dbFields, dbSetting);
 
     #endregion
@@ -36,8 +36,8 @@ internal static class FunctionFactory
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     public static Func<DbDataReader, ExpandoObject> CompileDataReaderToExpandoObject(DbDataReader reader,
-        DbFieldCollection dbFields,
-        IDbSetting dbSetting) =>
+        DbFieldCollection? dbFields,
+        IDbSetting? dbSetting) =>
         Compiler.CompileDataReaderToExpandoObject(reader, dbFields, dbSetting);
 
     #endregion
@@ -76,10 +76,10 @@ internal static class FunctionFactory
     /// <returns></returns>
     public static Action<DbCommand, IList<object?>> CompileDataEntityListDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
-        IEnumerable<DbField> outputFields,
+        IEnumerable<DbField>? outputFields,
         int batchSize,
-        IDbSetting dbSetting,
-        IDbHelper dbHelper) =>
+        IDbSetting? dbSetting,
+        IDbHelper? dbHelper) =>
         Compiler.CompileDataEntityListDbParameterSetter(entityType, inputFields, outputFields, batchSize, dbSetting, dbHelper);
 
     #endregion
@@ -116,7 +116,7 @@ internal static class FunctionFactory
     public static Action<DbCommand, IList<object?>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
         int batchSize,
-        IDbSetting dbSetting,
+        IDbSetting? dbSetting,
         IDbHelper? dbHelper) =>
         Compiler.CompileDictionaryStringObjectListDbParameterSetter(entityType, inputFields, batchSize, dbSetting, dbHelper);
 
@@ -150,7 +150,7 @@ internal static class FunctionFactory
     public static Action<TEntity, DbCommand> CompileDbCommandToProperty<TEntity>(Field field,
         string parameterName,
         int index,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
         where TEntity : class =>
         Compiler.CompileDbCommandToProperty<TEntity>(field, parameterName, index, dbSetting);
 

@@ -1,5 +1,4 @@
 ﻿using RepoDb.Enumerations;
-using RepoDb.Extensions;
 
 namespace RepoDb.Contexts.Providers;
 
@@ -16,7 +15,7 @@ internal static class ExecutionContextProvider
     /// <param name="entityType"></param>
     /// <param name="dbFields"></param>
     /// <returns></returns>
-    public static Field GetTargetReturnColumnAsField(Type entityType,
+    public static Field? GetTargetReturnColumnAsField(Type entityType,
         DbFieldCollection dbFields)
     {
         var primaryField = GetPrimaryAsReturnKeyField(entityType, dbFields);
@@ -44,7 +43,7 @@ internal static class ExecutionContextProvider
     /// <param name="dbFields"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private static Field GetPrimaryAsReturnKeyField(Type entityType,
+    private static Field? GetPrimaryAsReturnKeyField(Type entityType,
         DbFieldCollection dbFields) =>
         PrimaryCache.Get(entityType)?.AsField() ??
             dbFields?.GetPrimary()?.AsField();
@@ -56,7 +55,7 @@ internal static class ExecutionContextProvider
     /// <param name="dbFields"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private static Field GetIdentityAsReturnKeyField(Type entityType,
+    private static Field? GetIdentityAsReturnKeyField(Type entityType,
         DbFieldCollection dbFields) =>
         IdentityCache.Get(entityType)?.AsField() ??
             dbFields?.GetIdentity()?.AsField();

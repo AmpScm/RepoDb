@@ -16,8 +16,8 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     public static Func<DbDataReader, TResult> CompileDataReaderToType<TResult>(DbDataReader reader,
-        DbFieldCollection dbFields,
-        IDbSetting dbSetting)
+        DbFieldCollection? dbFields,
+        IDbSetting? dbSetting)
     {
         var typeOfResult = typeof(TResult);
 
@@ -49,7 +49,7 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static Func<DbDataReader, TResult> CompileDataReaderToTargetType<TResult>(DbDataReader reader,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         var typeOfResult = typeof(TResult);
 
@@ -81,8 +81,8 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static Func<DbDataReader, TResult> CompileDataReaderToDataEntity<TResult>(DbDataReader reader,
-        DbFieldCollection dbFields,
-        IDbSetting dbSetting)
+        DbFieldCollection? dbFields,
+        IDbSetting? dbSetting)
     {
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
         var readerFields = GetDataReaderFields(reader, dbFields, dbSetting);
@@ -100,7 +100,7 @@ partial class Compiler
         }
 
         // Initialize the members
-        var constructorInfo = typeOfResult.GetConstructorWithMostArguments();
+        var constructorInfo = typeOfResult.GetConstructorWithMostArguments()!;
         Expression? entityExpression = null;
 
         // Validate arguments equality
@@ -153,13 +153,13 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static Func<DbDataReader, TResult> CompileDataReaderToTuple<TResult>(DbDataReader reader,
-        DbFieldCollection dbFields,
-        IDbSetting dbSetting)
+        DbFieldCollection? dbFields,
+        IDbSetting? dbSetting)
     {
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
         var readerFields = GetDataReaderFields(reader, dbFields, dbSetting);
         var typeOfResult = typeof(TResult);
-        var constructorInfo = typeOfResult.GetConstructorWithMostArguments();
+        var constructorInfo = typeOfResult.GetConstructorWithMostArguments()!;
         var parameters = constructorInfo.GetParameters();
 
         if (parameters.Length > readerFields.Count())

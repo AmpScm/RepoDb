@@ -24,7 +24,7 @@ internal sealed class QueryRequest : BaseRequest
     public QueryRequest(Type type,
         IDbConnection connection,
         IDbTransaction? transaction,
-        IEnumerable<Field> fields,
+        IEnumerable<Field>? fields,
         QueryGroup? where = null,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
@@ -58,7 +58,7 @@ internal sealed class QueryRequest : BaseRequest
     public QueryRequest(string name,
         IDbConnection connection,
         IDbTransaction? transaction,
-        IEnumerable<Field> fields,
+        IEnumerable<Field>? fields,
         QueryGroup? where = null,
         IEnumerable<OrderField>? orderBy = null,
         int top = 0,
@@ -69,7 +69,7 @@ internal sealed class QueryRequest : BaseRequest
               transaction,
               statementBuilder)
     {
-        Fields = fields.AsList();
+        Fields = fields?.AsList();
         Where = where;
         OrderBy = orderBy?.AsList();
         Top = top;
@@ -79,7 +79,7 @@ internal sealed class QueryRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public List<Field> Fields { get; init; }
+    public List<Field>? Fields { get; init; }
 
     /// <summary>
     /// Gets the query expression used.

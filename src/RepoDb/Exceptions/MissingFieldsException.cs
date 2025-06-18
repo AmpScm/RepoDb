@@ -19,8 +19,8 @@ public class MissingFieldsException : DbException
     /// Creates a new instance of <see cref="MissingFieldsException"/> class.
     /// </summary>
     /// <param name="fields">The list of fields that is missing.</param>
-    public MissingFieldsException(IEnumerable<string> fields)
-        : this(fields.Any() == true ? $"The fields '{fields.Join(", ")}' are missing." : null) { }
+    public MissingFieldsException(IEnumerable<string>? fields)
+        : this(fields?.Any() == true ? $"The fields '{fields.Join(", ")}' are missing." : null) { }
 
     /// <summary>
     /// Creates a new instance of <see cref="MissingFieldsException"/> class.

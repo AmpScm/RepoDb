@@ -163,7 +163,7 @@ public static class PropertyMapper
             else
             {
                 // Throws an exception
-                throw new MappingExistsException($"A property mapping to '{propertyInfo.DeclaringType.FullName}.{propertyInfo.Name}' already exists.");
+                throw new MappingExistsException($"A property mapping to '{propertyInfo.DeclaringType?.FullName}.{propertyInfo.Name}' already exists.");
             }
         }
         else

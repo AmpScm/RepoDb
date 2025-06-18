@@ -119,7 +119,7 @@ public sealed class Parameter : IEquatable<Parameter>
     /// Set the value of the parameter.
     /// </summary>
     /// <param name="value">The new value.</param>
-    internal void SetValue(object value) =>
+    internal void SetValue(object? value) =>
         Value = value;
 
     /// <summary>
@@ -174,7 +174,7 @@ public sealed class Parameter : IEquatable<Parameter>
     /// </summary>
     /// <param name="obj">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equals.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return Equals(obj as Parameter);
     }
@@ -184,7 +184,7 @@ public sealed class Parameter : IEquatable<Parameter>
     /// </summary>
     /// <param name="other">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public bool Equals(Parameter other)
+    public bool Equals(Parameter? other)
     {
         return other is not null
             && other.OriginalName == OriginalName

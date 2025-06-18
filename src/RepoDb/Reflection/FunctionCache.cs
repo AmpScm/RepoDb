@@ -283,7 +283,7 @@ internal static class FunctionCache
             IEnumerable<DbField> inputFields,
             IEnumerable<DbField>? outputFields,
             int batchSize,
-            IDbSetting dbSetting,
+            IDbSetting? dbSetting,
             IDbHelper? dbHelper = null)
         {
             var key = GetKey(entityType, cacheKey, inputFields, outputFields, batchSize);
@@ -303,15 +303,6 @@ internal static class FunctionCache
                         dbHelper));
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="entityType"></param>
-        /// <param name="cacheKey"></param>
-        /// <param name="inputFields"></param>
-        /// <param name="outputFields"></param>
-        /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
-        /// <returns></returns>
         private static long GetKey(Type entityType,
             string cacheKey,
             IEnumerable<DbField>? inputFields,

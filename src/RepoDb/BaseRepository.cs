@@ -510,7 +510,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// </param>
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>A first occurrence value (first column of first row) of the execution.</returns>
-    public TResult ExecuteScalar<TResult>(string commandText,
+    public TResult? ExecuteScalar<TResult>(string commandText,
         object? param = null,
         CommandType commandType = default,
         string? cacheKey = null,

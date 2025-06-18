@@ -40,14 +40,14 @@ public abstract class BaseDbHelper : IDbHelper
     public virtual void DynamicHandler<TEventInstance>(TEventInstance instance, string key)
     { }
 
-    public virtual DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public virtual DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         return new()
         {
         };
     }
 
-    public virtual ValueTask<DbRuntimeSetting> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction transaction, CancellationToken cancellationToken)
+    public virtual ValueTask<DbRuntimeSetting> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction? transaction, CancellationToken cancellationToken)
     {
         return new(GetDbConnectionRuntimeInformation(connection, transaction));
     }

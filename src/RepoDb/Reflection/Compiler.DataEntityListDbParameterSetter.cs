@@ -20,8 +20,8 @@ partial class Compiler
         IEnumerable<DbField>? inputFields,
         IEnumerable<DbField>? outputFields,
         int batchSize,
-        IDbSetting dbSetting,
-        IDbHelper dbHelper)
+        IDbSetting? dbSetting,
+        IDbHelper? dbHelper)
     {
         var typeOfListEntity = typeof(IList<>).MakeGenericType(StaticType.Object);
         var dbCommandExpression = Expression.Parameter(StaticType.DbCommand, "command");

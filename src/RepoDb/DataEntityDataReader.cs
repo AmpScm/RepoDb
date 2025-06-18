@@ -282,7 +282,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="bufferOffset">Int</param>
     /// <param name="length">Int</param>
     /// <returns></returns>
-    public override long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length)
+    public override long GetBytes(int ordinal, long dataOffset, byte[]? buffer, int bufferOffset, int length)
     {
         ThrowExceptionIfNotAvailable();
         throw new NotSupportedException("This is not supported by this data reader.");
@@ -308,7 +308,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="bufferOffset">Int</param>
     /// <param name="length">Int</param>
     /// <returns></returns>
-    public override long GetChars(int ordinal, long dataOffset, char[] buffer, int bufferOffset, int length)
+    public override long GetChars(int ordinal, long dataOffset, char[]? buffer, int bufferOffset, int length)
     {
         ThrowExceptionIfNotAvailable();
         throw new NotSupportedException("This is not supported by this data reader.");
@@ -673,7 +673,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         {
             return Enumerable.Empty<ClassProperty>();
         }
-        return PropertyCache.Get(EntityType)?.AsList();
+        return PropertyCache.Get(EntityType);
     }
 
     /// <summary>

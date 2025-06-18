@@ -16,8 +16,8 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     public static Func<DbDataReader, ExpandoObject> CompileDataReaderToExpandoObject(DbDataReader reader,
-        DbFieldCollection dbFields,
-        IDbSetting dbSetting)
+        DbFieldCollection? dbFields,
+        IDbSetting? dbSetting)
     {
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
         var readerFields = GetDataReaderFields(reader, dbFields, dbSetting);

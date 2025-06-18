@@ -1064,7 +1064,7 @@ public static class CommandTextCache
         var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
         return statementBuilder.CreateUpdateAll(request.Name,
             fields,
-            request.Qualifiers,
+            request.Qualifiers ?? keyFields.Where(x => x.IsPrimary).AsFields(),
             request.BatchSize,
             keyFields,
             request.Hints);

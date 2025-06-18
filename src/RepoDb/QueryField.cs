@@ -311,7 +311,7 @@ public partial class QueryField : IEquatable<QueryField>
             && other.Operation == Operation
             && other.Parameter == Parameter
             && (Operation is Operation.Equal or Operation.NotEqual ? (other.Parameter.Value == null) == (Parameter.Value == null) : true)
-            && (Operation is Operation.In or Operation.NotIn ? (other.Parameter.Value as IEnumerable<object>)?.Count() == (Parameter.Value as IEnumerable<object>).Count() : true)
+            && (Operation is Operation.In or Operation.NotIn ? (other.Parameter.Value as IEnumerable<object>)?.Count() == (Parameter.Value as IEnumerable<object>)?.Count() : true)
             && other.Field?.Name == Field?.Name
             && other.Operation.GetText() == Operation.GetText();
     }

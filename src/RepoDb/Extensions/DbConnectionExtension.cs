@@ -899,7 +899,7 @@ public static partial class DbConnectionExtension
     /// <returns></returns>
     internal static QueryGroup? WhatToQueryGroup(Type entityType,
         IDbConnection connection,
-        object what,
+        object? what,
         IDbTransaction? transaction)
     {
         if (what == null)

@@ -354,7 +354,7 @@ internal sealed partial class Compiler
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static IEnumerable<DataReaderField> GetDataReaderFields(DbDataReader reader,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         GetDataReaderFields(reader, null, dbSetting);
 
     /// <summary>
@@ -366,7 +366,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static IEnumerable<DataReaderField> GetDataReaderFields(DbDataReader reader,
         DbFieldCollection? dbFields,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         return Enumerable.Range(0, reader.FieldCount)
             .Select(reader.GetName)
@@ -1822,7 +1822,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="dbField"></param>
     /// <returns></returns>
-    private static bool IsPostgreSqlUserDefined(DbField dbField) =>
+    private static bool IsPostgreSqlUserDefined(DbField? dbField) =>
         string.Equals(dbField?.DatabaseType, "USER-DEFINED", StringComparison.OrdinalIgnoreCase) &&
         string.Equals(dbField?.Provider, "PGSQL", StringComparison.OrdinalIgnoreCase);
 
@@ -2336,8 +2336,8 @@ internal sealed partial class Compiler
         Expression entitiesParameterExpression,
         IEnumerable<FieldDirection> fieldDirections,
         int entityIndex,
-        IDbSetting dbSetting,
-        IDbHelper dbHelper)
+        IDbSetting? dbSetting,
+        IDbHelper? dbHelper)
     {
         // Get the current instance
         var entityVariableExpression = Expression.Variable(StaticType.Object, "instance");

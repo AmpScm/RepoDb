@@ -27,7 +27,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <returns>A boolean value that indicates whether the rows are existing in the table.</returns>
     public static bool Exists<TEntity>(this IDbConnection connection,
-        object what,
+        object? what,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Exists,

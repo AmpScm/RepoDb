@@ -1,7 +1,7 @@
-﻿using RepoDb.Exceptions;
+﻿using System.Collections.Concurrent;
+using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
-using System.Collections.Concurrent;
 
 namespace RepoDb;
 
@@ -90,7 +90,7 @@ public static class ClassHandlerMapper
     /// <typeparam name="TType">The target .NET CLR type.</typeparam>
     /// <typeparam name="TClassHandler">The type of the handler.</typeparam>
     /// <returns>An instance of mapped class handler for .NET CLR type.</returns>
-    public static TClassHandler Get<TType, TClassHandler>() =>
+    public static TClassHandler? Get<TType, TClassHandler>() =>
         Get<TClassHandler>(typeof(TType));
 
     /// <summary>
@@ -99,7 +99,7 @@ public static class ClassHandlerMapper
     /// <typeparam name="TClassHandler">The type of the handler.</typeparam>
     /// <param name="type">The target .NET CLR type.</param>
     /// <returns>An instance of mapped class handler for .NET CLR type.</returns>
-    public static TClassHandler Get<TClassHandler>(Type type)
+    public static TClassHandler? Get<TClassHandler>(Type type)
     {
         // Check the presence
         ObjectExtension.ThrowIfNull(type, "type");

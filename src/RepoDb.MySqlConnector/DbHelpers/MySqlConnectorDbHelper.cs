@@ -16,7 +16,7 @@ namespace RepoDb.DbHelpers;
 /// </summary>
 public sealed class MySqlConnectorDbHelper : BaseDbHelper
 {
-    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<MySqlConnection>();
+    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<MySqlConnection>() ?? throw new InvalidOperationException();
 
     /// <summary>
     /// Creates a new instance of <see cref="MySqlConnectorDbHelper"/> class.

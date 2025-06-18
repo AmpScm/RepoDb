@@ -20,7 +20,7 @@ partial class Compiler
     public static Action<TEntity, DbCommand> CompileDbCommandToProperty<TEntity>(Field field,
         string parameterName,
         int index,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
         where TEntity : class
     {
         // Variables needed

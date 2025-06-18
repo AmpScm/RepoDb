@@ -158,7 +158,7 @@ public class OrderField : IEquatable<OrderField>
             {
                 throw new InvalidTypeException($"The type of field '{property.GetMappedName()}' must be of '{typeof(Order).FullName}'.");
             }
-            var order = (Order)property.GetValue(obj);
+            var order = (Order)property.GetValue(obj)!;
             list.Add(new OrderField(property.GetMappedName(), order));
         }
         return list;

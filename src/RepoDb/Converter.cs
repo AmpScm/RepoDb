@@ -98,7 +98,7 @@ public static class Converter
                         if (mode == Enumerations.InvalidEnumValueHandling.ThrowError)
                             throw new ArgumentOutOfRangeException("value", sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
 
-                        return default;
+                        return default!;
                     }
 #endif
 

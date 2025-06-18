@@ -69,7 +69,7 @@ partial class Compiler
 
         // Assign the value into DataEntity.Property
         var entityParameter = Expression.Parameter(StaticType.Object, "entity");
-        var propertyAssignment = Expression.Call(Expression.Convert(entityParameter, entityType), property.SetMethod,
+        var propertyAssignment = Expression.Call(Expression.Convert(entityParameter, entityType), property.SetMethod!,
             valueExpression);
 
         // Return function
