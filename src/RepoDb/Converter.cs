@@ -178,7 +178,7 @@ public static class Converter
         }
     }
 
-
+#if !NET
     static object? EnumTryParse<TEnum>(string value)
         where TEnum : struct, Enum
     {
@@ -186,6 +186,7 @@ public static class Converter
             return result;
         return null;
     }
+#endif
 
     #endregion
 }
