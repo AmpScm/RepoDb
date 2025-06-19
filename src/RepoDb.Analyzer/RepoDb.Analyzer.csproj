@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectCapability Include="RoslynAnalyzer" />
-    <None Include="..\..\LICENSE.txt" Pack="True" PackagePath="\" />
     <None Include="..\RepoDb\README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
 </Project>

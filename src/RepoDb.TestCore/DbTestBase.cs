@@ -46,6 +46,21 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
         }
     }
 
+    public DbConnection CreateOpenConnection()
+    {
+        var db = CreateConnection();
+        try
+        {
+            db.Open();
+            return db;
+        }
+        catch
+        {
+            db.Dispose();
+            throw;
+        }
+    }
+
     protected static async Task<string> PerformCreateTableAsync(System.Data.Common.DbConnection sql, string sqlText)
     {
         sqlText = ApplySqlRules(sql, sqlText);
@@ -53,6 +68,21 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
         try
         {
             await sql.ExecuteNonQueryAsync(sqlText);
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"While performing: {sqlText}", e);
+        }
+        return sqlText;
+    }
+
+    protected static string PerformCreateTable(System.Data.Common.DbConnection sql, string sqlText)
+    {
+        sqlText = ApplySqlRules(sql, sqlText);
+
+        try
+        {
+            sql.ExecuteNonQuery(sqlText);
         }
         catch (Exception e)
         {

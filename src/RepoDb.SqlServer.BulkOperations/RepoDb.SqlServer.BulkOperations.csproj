@@ -16,7 +16,6 @@
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\LICENSE.txt" Pack="True" PackagePath="\" />
     <None Include="README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>

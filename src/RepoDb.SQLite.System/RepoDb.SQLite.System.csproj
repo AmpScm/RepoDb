@@ -22,7 +22,6 @@
     <Compile Include="..\RepoDb.Sqlite.Microsoft\StatementBuilders\SqLiteStatementBuilder.cs">
       <Link>StatementBuilders\SQLiteStatementBuilder.cs</Link>
     </Compile>
-    <None Include="..\..\LICENSE.txt" Pack="True" PackagePath="\" />
     <None Include="README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
 </Project>

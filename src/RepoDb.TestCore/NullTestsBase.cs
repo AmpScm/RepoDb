@@ -607,7 +607,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     }
 
     [TestMethod]
-    public async Task MergeEdgeCasesTest()
+    public async Task MergeEdgeCasesTestAsync()
     {
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
         try
@@ -645,18 +645,21 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 Name = "a",
                 Value = "b"
             };
-            await sql.MergeAsync(r);
-            await sql.MergeAsync(r);
+
+            var v1 = await sql.MergeAsync<MergeEdgeTable, int>(r, trace: new DiagnosticsTracer());
+            var v2 = await sql.MergeAsync<MergeEdgeTable, int>(r);
+
+            Assert.IsTrue(v1 > 0);
+            Assert.AreEqual(v1, v2);
 
             var all = await sql.QueryAllAsync<MergeEdgeTable>();
             Assert.AreEqual(1, all.Count());
 
             // Still doing the same thing
-            await sql.MergeAsync(r, qualifiers: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer());
+            Assert.AreEqual(v2, await sql.MergeAsync<MergeEdgeTable, int>(r, qualifiers: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer()));
 
             // Now just update the first two fields. No-op
-            await sql.MergeAsync(r, fields: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer());
-
+            Assert.AreEqual(v2, await sql.MergeAsync<MergeEdgeTable, int>(r, fields: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer()));
 
             var r2 = new MergeEdgeTable()
             {
@@ -675,6 +678,88 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             await sql.MergeAsync(r, trace: new DiagnosticsTracer());
 
             all = await sql.QueryAllAsync<MergeEdgeTable>();
+            Assert.AreEqual(2, all.Count());
+
+            Assert.IsTrue(all.Any(x => x.ID == 1 || x.ID == 2));
+        }
+        finally
+        {
+            GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        }
+    }
+
+    [TestMethod]
+    public void MergeEdgeCasesTest()
+    {
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+        try
+        {
+            using var sql = CreateOpenConnection();
+
+            if (sql.GetType().Name.Contains("Oracle"))
+                return;
+
+            bool noIdentityInPrimaryKey = sql.GetType().Name.Contains("iteConnection") || sql.GetType().Name.Contains("Oracle");
+
+            if (!sql.SchemaObjectExists(nameof(MergeEdgeTable)))
+            {
+                PerformCreateTable(sql, $@"CREATE TABLE [{nameof(MergeEdgeTable)}] (
+                    [ID] {IdentityDefinition},
+                    [Name] {VarCharName}(20) NOT NULL,
+                    [Value] {VarCharName}(38) NULL,
+                    CONSTRAINT [PK_{nameof(MergeEdgeTable)}] PRIMARY KEY
+                    (
+                        [ID], [Name]
+                    )
+            )".Replace(IdentityDefinition, noIdentityInPrimaryKey ? IntDbType + " NOT NULL" : IdentityDefinition));
+
+                PerformCreateTable(sql, $@"CREATE UNIQUE INDEX [IX_{nameof(MergeEdgeTable)}] ON [{nameof(MergeEdgeTable)}] ([Name]);");
+            }
+            else
+            {
+                sql.Truncate<MergeEdgeTable>();
+            }
+
+            var r = new MergeEdgeTable()
+            {
+                ID = 1,
+                Name = "a",
+                Value = "b"
+            };
+            {
+                var v1 = sql.Merge(r, trace: new DiagnosticsTracer());
+                var v2 = sql.Merge<MergeEdgeTable, int>(r);
+
+                Assert.IsTrue(Converter.ToType<int>(v1) is int i1 && i1 > 0);
+                Assert.IsTrue(v2 > 0);
+            }
+
+            var all = sql.QueryAll<MergeEdgeTable>();
+            Assert.AreEqual(1, all.Count());
+
+            // Still doing the same thing
+            sql.Merge(r, qualifiers: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer());
+
+            // Now just update the first two fields. No-op
+            sql.Merge(r, fields: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer());
+
+            var r2 = new MergeEdgeTable()
+            {
+                ID = 2,
+                Name = "b",
+                Value = "c"
+            };
+
+            sql.Merge(r2);
+            sql.Merge(r2);
+
+            all = sql.QueryAll<MergeEdgeTable>();
+            Assert.AreEqual(2, all.Count());
+
+            sql.Delete(r);
+            sql.Merge(r, trace: new DiagnosticsTracer());
+
+            all = sql.QueryAll<MergeEdgeTable>();
             Assert.AreEqual(2, all.Count());
 
             Assert.IsTrue(all.Any(x => x.ID == 1 || x.ID == 2));
