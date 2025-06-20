@@ -598,7 +598,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         var updateFields = fields
-            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
+            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers?.GetByName(f.Name) is null && keyFields?.GetByName(f.Name) is not { IsIdentity: true })
             .ToList();
 
         // Iterate the indexes
