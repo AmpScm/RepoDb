@@ -43,7 +43,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -113,7 +113,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -183,7 +183,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -253,7 +253,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -323,7 +323,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -410,7 +410,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -500,7 +500,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -590,7 +590,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -680,7 +680,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -770,7 +770,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -878,7 +878,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -989,7 +989,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1100,7 +1100,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1211,7 +1211,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1322,7 +1322,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1450,7 +1450,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1581,7 +1581,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1712,7 +1712,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1843,7 +1843,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -1974,7 +1974,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -2122,7 +2122,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -2273,7 +2273,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -2424,7 +2424,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -2575,7 +2575,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -2726,7 +2726,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -2894,7 +2894,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -3065,7 +3065,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -3236,7 +3236,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -3407,7 +3407,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -3578,7 +3578,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -3692,7 +3692,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -3765,7 +3765,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -3838,7 +3838,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -3911,7 +3911,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -3984,7 +3984,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4074,7 +4074,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4167,7 +4167,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4260,7 +4260,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4353,7 +4353,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4446,7 +4446,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4557,7 +4557,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4671,7 +4671,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4785,7 +4785,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -4899,7 +4899,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5013,7 +5013,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5144,7 +5144,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5278,7 +5278,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5412,7 +5412,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5546,7 +5546,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5680,7 +5680,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5831,7 +5831,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -5985,7 +5985,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -6139,7 +6139,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -6293,7 +6293,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -6447,7 +6447,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -6618,7 +6618,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -6792,7 +6792,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -6966,7 +6966,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -7140,7 +7140,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -7314,7 +7314,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -7435,7 +7435,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -7511,7 +7511,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -7587,7 +7587,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -7663,7 +7663,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -7739,7 +7739,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -7834,7 +7834,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -7933,7 +7933,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8032,7 +8032,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8131,7 +8131,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8230,7 +8230,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8349,7 +8349,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8472,7 +8472,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8595,7 +8595,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8718,7 +8718,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8841,7 +8841,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -8983,7 +8983,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -9129,7 +9129,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -9275,7 +9275,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -9421,7 +9421,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -9567,7 +9567,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -9732,7 +9732,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -9901,7 +9901,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -10070,7 +10070,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -10239,7 +10239,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -10408,7 +10408,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -10596,7 +10596,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -10788,7 +10788,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -10980,7 +10980,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -11172,7 +11172,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -11364,7 +11364,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
         where T1 : class
         where T2 : class
@@ -11486,7 +11486,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -11558,7 +11558,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -11630,7 +11630,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -11702,7 +11702,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -11792,7 +11792,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -11885,7 +11885,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -11978,7 +11978,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12071,7 +12071,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12183,7 +12183,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12298,7 +12298,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12413,7 +12413,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12529,7 +12529,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12662,7 +12662,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12798,7 +12798,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -12934,7 +12934,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -13071,7 +13071,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -13225,7 +13225,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -13382,7 +13382,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -13539,7 +13539,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -13697,7 +13697,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -13872,7 +13872,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -14050,7 +14050,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -14228,7 +14228,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -14407,7 +14407,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null)
     {
         // Create a connection
@@ -14529,7 +14529,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -14608,7 +14608,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -14687,7 +14687,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -14766,7 +14766,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -14845,7 +14845,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -14943,7 +14943,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15045,7 +15045,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15147,7 +15147,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15249,7 +15249,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15351,7 +15351,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15473,7 +15473,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15599,7 +15599,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15725,7 +15725,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15851,7 +15851,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -15977,7 +15977,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -16122,7 +16122,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -16271,7 +16271,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -16420,7 +16420,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -16569,7 +16569,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -16718,7 +16718,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -16886,7 +16886,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -17058,7 +17058,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -17230,7 +17230,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -17402,7 +17402,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -17574,7 +17574,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -17765,7 +17765,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -17960,7 +17960,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -18155,7 +18155,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -18350,7 +18350,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -18545,7 +18545,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where T1 : class
@@ -18670,7 +18670,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -18745,7 +18745,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -18820,7 +18820,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -18895,7 +18895,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IEnumerable<OrderField>? orderBy2 = null,
         string? hints2 = null,
         string? cacheKey2 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -18988,7 +18988,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19084,7 +19084,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19180,7 +19180,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19276,7 +19276,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top3 = 0,
         string? hints3 = null,
         string? cacheKey3 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19391,7 +19391,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19509,7 +19509,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19627,7 +19627,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19746,7 +19746,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top4 = 0,
         string? hints4 = null,
         string? cacheKey4 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -19882,7 +19882,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -20021,7 +20021,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -20160,7 +20160,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -20300,7 +20300,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top5 = 0,
         string? hints5 = null,
         string? cacheKey5 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -20457,7 +20457,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -20617,7 +20617,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -20777,7 +20777,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -20938,7 +20938,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top6 = 0,
         string? hints6 = null,
         string? cacheKey6 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -21116,7 +21116,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -21297,7 +21297,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -21478,7 +21478,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
@@ -21660,7 +21660,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         int top7 = 0,
         string? hints7 = null,
         string? cacheKey7 = null,
-        string? traceKey = null,
+        string? traceKey = TraceKeys.QueryMultiple,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
