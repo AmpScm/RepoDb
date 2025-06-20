@@ -23,7 +23,7 @@ public interface IDbHelper
     /// <param name="tableName">The name of the target table.</param>
     /// <param name="transaction">The transaction object that is currently in used.</param>
     /// <returns>A list of <see cref="DbField"/> of the target table.</returns>
-    IEnumerable<DbField> GetFields(IDbConnection connection,
+    DbFieldCollection GetFields(IDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null);
 
@@ -35,7 +35,7 @@ public interface IDbHelper
     /// <param name="transaction">The transaction object that is currently in used.</param>
     /// <param name="cancellationToken"> A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>A list of <see cref="DbField"/> of the target table.</returns>
-    ValueTask<IEnumerable<DbField>> GetFieldsAsync(IDbConnection connection,
+    ValueTask<DbFieldCollection> GetFieldsAsync(IDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default);

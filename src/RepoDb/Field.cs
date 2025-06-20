@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using RepoDb.Exceptions;
@@ -75,13 +76,18 @@ public class Field : IEquatable<Field>
     /// </summary>
     /// <param name="name">The enumerable of string values that signifies the name of the fields (for each item).</param>
     /// <returns>An enumerable of <see cref="Field"/> object.</returns>
-    public static IEnumerable<Field> From(string name)
+    public static FieldSet From(string name)
     {
+#if NET
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+#else
         if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentNullException(nameof(name), "The field name must not be null or empty.");
         }
-        yield return new Field(name);
+#endif
+
+        return new([new Field(name)]);
     }
 
     /// <summary>
@@ -89,20 +95,23 @@ public class Field : IEquatable<Field>
     /// </summary>
     /// <param name="fields">The enumerable of string values that signifies the name of the fields (for each item).</param>
     /// <returns>An enumerable of <see cref="Field"/> object.</returns>
-    public static IEnumerable<Field> From(params string[] fields)
+    public static FieldSet From(params string[] fields)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(fields);
+#else
         if (fields == null)
         {
             throw new ArgumentNullException(nameof(fields), "The list of fields must not be null.");
         }
+#endif
+
         if (fields.Any(field => string.IsNullOrWhiteSpace(field)))
         {
             throw new ArgumentNullException(nameof(fields), "The field name must not be null or empty.");
         }
-        foreach (var field in fields)
-        {
-            yield return new Field(field);
-        }
+
+        return new(fields.Select(field => new Field(field)));
     }
 
     /// <summary>
@@ -110,32 +119,39 @@ public class Field : IEquatable<Field>
     /// </summary>
     /// <param name="obj">An object to be parsed.</param>
     /// <returns>An enumerable of <see cref="Field"/> objects.</returns>
-    public static IEnumerable<Field> Parse(object? obj) =>
-        TypeCache.Get(obj?.GetType()).IsDictionaryStringObject() == true ?
-            ParseDictionaryStringObject((IDictionary<string, object>)obj!) : Parse(obj?.GetType());
+    public static FieldSet Parse(object? obj) =>
+        obj switch
+        {
+            null => new FieldSet(),
+            _ when (TypeCache.Get(obj.GetType()).IsDictionaryStringObject() == true) => ParseDictionaryStringObject((IDictionary<string, object>)obj),
+            _ => Parse(obj.GetType())
+        };
 
     /// <summary>
     /// Parses an object and creates an enumerable of <see cref="Field"/> objects.
     /// </summary>
     /// <typeparam name="TEntity">The target type.</typeparam>
+    /// <param name="instance"></param>
     /// <returns>An enumerable of <see cref="Field"/> objects.</returns>
-    public static IEnumerable<Field> Parse<TEntity>()
-        where TEntity : class =>
-        Parse(typeof(TEntity));
+    public static FieldSet Parse<TEntity>(TEntity? instance = null) where TEntity : class
+    {
+        if (instance is { } && TypeCache.Get(instance.GetType()).IsDictionaryStringObject() == true)
+            return ParseDictionaryStringObject((IDictionary<string, object>)instance);
+
+        return Parse(instance?.GetType() ?? typeof(TEntity));
+    }
 
     /// <summary>
     /// Parses a type and creates an enumerable of <see cref="Field"/> objects.
     /// </summary>
     /// <returns>An enumerable of <see cref="Field"/> objects.</returns>
-    public static IEnumerable<Field> Parse(Type? type)
+    public static FieldSet Parse(Type type)
     {
-        if (type != null)
-        {
-            foreach (var property in TypeCache.Get(type).GetProperties())
-            {
-                yield return property.AsField();
-            }
-        }
+#if NET
+        ArgumentNullException.ThrowIfNull(type);
+#endif
+
+        return new FieldSet(TypeCache.Get(type).GetProperties().Select(PropertyInfoExtension.AsField));
     }
 
     /// <summary>
@@ -143,15 +159,13 @@ public class Field : IEquatable<Field>
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
-    private static IEnumerable<Field> ParseDictionaryStringObject(IDictionary<string, object> obj)
+    private static FieldSet ParseDictionaryStringObject(IDictionary<string, object> obj)
     {
-        if (obj != null)
-        {
-            foreach (var kvp in obj)
-            {
-                yield return new Field(kvp.Key, (kvp.Value?.GetType() ?? StaticType.Object));
-            }
-        }
+#if NET
+        ArgumentNullException.ThrowIfNull(obj);
+#endif
+
+        return new(obj.Select(kvp => new Field(kvp.Key, (kvp.Value?.GetType() ?? StaticType.Object))));
     }
 
     /// <summary>
@@ -161,7 +175,7 @@ public class Field : IEquatable<Field>
     /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>An enumerable list of <see cref="Field"/> objects.</returns>
-    public static IEnumerable<Field> Parse<TEntity>(Expression<Func<TEntity, object?>> expression)
+    public static FieldSet Parse<TEntity>(Expression<Func<TEntity, object?>> expression)
         where TEntity : class =>
         Parse<TEntity, object>(expression);
 
@@ -173,17 +187,17 @@ public class Field : IEquatable<Field>
     /// <typeparam name="TResult">The type of the result and the property to be parsed.</typeparam>
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>An enumerable list of <see cref="Field"/> objects.</returns>
-    public static IEnumerable<Field> Parse<TEntity, TResult>(Expression<Func<TEntity, TResult?>> expression)
+    public static FieldSet Parse<TEntity, TResult>(Expression<Func<TEntity, TResult?>> expression)
         where TEntity : class
     {
-        return expression.Body switch
+        return new(expression.Body switch
         {
             UnaryExpression unaryExpression => Parse<TEntity>(unaryExpression),
             MemberExpression memberExpression => Parse<TEntity>(memberExpression),
             BinaryExpression binaryExpression => Parse<TEntity>(binaryExpression),
             NewExpression newExpression => Parse<TEntity>(newExpression),
             _ => throw new InvalidExpressionException($"Expression '{expression}' is invalid.")
-        };
+        });
     }
 
     /// <summary>
@@ -274,14 +288,7 @@ public class Field : IEquatable<Field>
     /// <returns>The hashcode value.</returns>
     public override int GetHashCode()
     {
-        if (HashCode is not { } hashCode)
-        {
-            HashCode = hashCode = System.HashCode.Combine(
-                Name,
-                Type);
-        }
-
-        return hashCode;
+        return HashCode ??= System.HashCode.Combine(Name, Type);
     }
 
     /// <summary>
@@ -333,4 +340,19 @@ public class Field : IEquatable<Field>
         (objA == objB) == false;
 
     #endregion
+
+    internal static IEqualityComparer<Field> CompareByName { get; } = new FieldNameComparer();
+
+    private class FieldNameComparer : IEqualityComparer<Field>
+    {
+        public bool Equals(Field? x, Field? y)
+        {
+            return StringComparer.OrdinalIgnoreCase.Equals(x?.Name, y?.Name);
+        }
+
+        public int GetHashCode([DisallowNull] Field obj)
+        {
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(obj?.Name ?? "");
+        }
+    }
 }

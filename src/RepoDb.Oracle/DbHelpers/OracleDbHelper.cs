@@ -76,7 +76,7 @@ public sealed class OracleDbHelper : BaseDbHelper
 ORDER BY C.COLUMN_ID
     ";
 
-    public override IEnumerable<DbField> GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null)
+    public override DbFieldCollection GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null)
     {
         var commandText = GetFieldsQuery;
         var param = new
@@ -102,10 +102,10 @@ ORDER BY C.COLUMN_ID
         }
 
         // Return the list of fields
-        return dbFields;
+        return new(dbFields);
     }
 
-    public override async ValueTask<IEnumerable<DbField>> GetFieldsAsync(IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public override async ValueTask<DbFieldCollection> GetFieldsAsync(IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
         var commandText = GetFieldsQuery;
         var param = new
@@ -132,7 +132,7 @@ ORDER BY C.COLUMN_ID
         }
 
         // Return the list of fields
-        return dbFields;
+        return new(dbFields);
     }
 
     #region GetSchemaObjects

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RepoDb;
 
@@ -6,7 +7,7 @@ namespace RepoDb;
 /// A class the holds the column definition of the table.
 /// </summary>
 [DebuggerDisplay("{DebuggerDisplay, nq}")]
-public sealed class DbField : IEquatable<DbField>
+public sealed class DbField : Field, IEquatable<DbField>
 {
     private int? HashCode { get; set; }
 
@@ -50,6 +51,7 @@ public sealed class DbField : IEquatable<DbField>
         bool hasDefaultValue,
         bool isGenerated,
         string? provider = null)
+        : base(name, type)
     {
         // Name is required
         if (string.IsNullOrWhiteSpace(name))
@@ -58,11 +60,9 @@ public sealed class DbField : IEquatable<DbField>
         }
 
         // Set the properties
-        Name = name;
         IsPrimary = isPrimary;
         IsIdentity = isIdentity;
         IsNullable = isNullable;
-        Type = type;
         Size = size;
         if (type == StaticType.Double && precision > 38)
         {
@@ -82,11 +82,6 @@ public sealed class DbField : IEquatable<DbField>
     #region Properties
 
     /// <summary>
-    /// Gets the quoted name of the database field.
-    /// </summary>
-    public string Name { get; }
-
-    /// <summary>
     /// Gets the value that indicates whether the column is a primary column.
     /// </summary>
     public bool IsPrimary { get; }
@@ -104,7 +99,7 @@ public sealed class DbField : IEquatable<DbField>
     /// <summary>
     /// Gets the .NET type of the column.
     /// </summary>
-    public Type Type { get; }
+    public new Type Type => base.Type!;
 
     /// <summary>
     /// Gets the size of the column.
@@ -152,13 +147,7 @@ public sealed class DbField : IEquatable<DbField>
     /// <returns></returns>
     public Type TypeNullable() => IsNullable && Type.IsValueType ? typeof(Nullable<>).MakeGenericType(Type) : Type;
 
-
-    Field? field;
-
-    public Field AsField()
-    {
-        return field ??= new(Name, Type);
-    }
+    public Field AsField() => this;
 
     #endregion
 
@@ -180,6 +169,8 @@ public sealed class DbField : IEquatable<DbField>
                 Type?.Name is { } name ? $"type={name}" : null,
                 DatabaseType is { } dbType ? $"dbtype={dbType}" : null
             }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+    internal static new IEqualityComparer<DbField> CompareByName { get; } = new DbFieldNameEqualityComparer();
 
 
     #endregion
@@ -272,4 +263,17 @@ public sealed class DbField : IEquatable<DbField>
         (objA == objB) == false;
 
     #endregion
+
+    private sealed class DbFieldNameEqualityComparer : IEqualityComparer<DbField>
+    {
+        public bool Equals(DbField? x, DbField? y)
+        {
+            return StringComparer.OrdinalIgnoreCase.Equals(x?.Name, y?.Name);
+        }
+
+        public int GetHashCode([DisallowNull] DbField obj)
+        {
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(obj.Name);
+        }
+    }
 }

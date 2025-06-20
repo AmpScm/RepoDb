@@ -101,12 +101,12 @@ namespace System.Diagnostics.CodeAnalysis
     }
 
     [AttributeUsage(AttributeTargets.Constructor, AllowMultiple = false, Inherited = false)]
-    public sealed class SetsRequiredMembersAttribute : Attribute
+    internal sealed class SetsRequiredMembersAttribute : Attribute
     {
     }
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true, Inherited = false)]
-    public sealed class NotNullIfNotNullAttribute : Attribute
+    internal sealed class NotNullIfNotNullAttribute : Attribute
     {
         public NotNullIfNotNullAttribute(string parameterName)
         {
@@ -115,6 +115,14 @@ namespace System.Diagnostics.CodeAnalysis
         public string ParameterName { get; }
     }
 
+    //
+    // Summary:
+    //     Specifies that null is disallowed as an input even if the corresponding type
+    //     allows it.
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, Inherited = false)]
+    internal sealed class DisallowNullAttribute : Attribute
+    {
+    }
 }
 #endif
 

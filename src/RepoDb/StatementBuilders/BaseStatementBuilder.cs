@@ -866,7 +866,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     public virtual string CreateUpdateAll(
         string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<DbField> keyFields,
         string? hints = null)
@@ -874,8 +874,6 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         // Ensure with guards
         GuardTableName(tableName);
         GuardHints(hints);
-        var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
-        var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
 
         // Validate the multiple statement execution
         ValidateMultipleStatementExecution(batchSize);
@@ -884,48 +882,6 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         if (fields?.Any() != true)
         {
             throw new EmptyException(nameof(fields), $"The list of fields cannot be null or empty.");
-        }
-
-        qualifiers ??= keyFields.Where(x => x.IsPrimary).AsFields();
-
-        // Check the qualifiers
-        if (qualifiers?.Any() == true)
-        {
-            // Check if the qualifiers are present in the given fields
-            var unmatchesQualifiers = qualifiers.Where(field =>
-                fields?.FirstOrDefault(f =>
-                    string.Equals(field.Name, f.Name, StringComparison.OrdinalIgnoreCase)) == null);
-
-            // Throw an error we found any unmatches
-            if (unmatchesQualifiers.Any() == true)
-            {
-                throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.Name).Join(", ")}' are not " +
-                    $"present at the given fields '{fields.Select(field => field.Name).Join(", ")}'.");
-            }
-        }
-        else
-        {
-            if (primaryField != null)
-            {
-                // Make sure that primary is present in the list of fields before qualifying to become a qualifier
-                var isPresent = fields.FirstOrDefault(f =>
-                    string.Equals(f.Name, primaryField.Name, StringComparison.OrdinalIgnoreCase)) != null;
-
-                // Throw if not present
-                if (isPresent == false)
-                {
-                    throw new InvalidQualifiersException($"There are no qualifier field objects found for '{tableName}'. Ensure that the " +
-                        $"primary field is present at the given fields '{fields.Select(field => field.Name).Join(", ")}'.");
-                }
-
-                // The primary is present, use it as a default if there are no qualifiers given
-                qualifiers = keyFields.AsFields();
-            }
-            else
-            {
-                // Throw exception, qualifiers are not defined
-                throw new ArgumentNullException($"There are no qualifier field objects found for '{tableName}'.");
-            }
         }
 
         // Gets the updatable fields

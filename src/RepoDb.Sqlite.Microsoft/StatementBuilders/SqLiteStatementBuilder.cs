@@ -214,7 +214,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         {
             builder
                 .Returning()
-                .FieldsFrom(keyFields.AsFields().Take(1), DbSetting);
+                .FieldsFrom(keyFields, DbSetting);
         }
 
         builder.End(DbSetting);
@@ -298,7 +298,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         {
             builder
                 .Returning()
-                .FieldsFrom(keyFields.AsFields().Take(1), DbSetting);
+                .FieldsFrom(keyFields, DbSetting);
         }
 
         builder.End(DbSetting);
@@ -402,7 +402,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         {
             builder
                 .Returning()
-                .FieldsFrom(keyFields.AsFields(), DbSetting);
+                .FieldsFrom(keyFields, DbSetting);
         }
 
         // End the builder
@@ -486,12 +486,6 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
                 .FieldsFrom(fields, DbSetting)
                 .CloseParen();
 
-            // Override the system value
-            //if (identityField != null)
-            //{
-            //    builder.WriteText("OVERRIDING SYSTEM VALUE");
-            //}
-
             // Continue
             builder
                 .Values()
@@ -507,7 +501,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             {
                 builder
                     .Returning()
-                    .FieldsFrom(keyFields.AsFields(), DbSetting);
+                    .FieldsFrom(keyFields, DbSetting);
             }
 
             // End the builder

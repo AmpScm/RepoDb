@@ -1767,36 +1767,14 @@ public static partial class DbConnectionExtension
         // Variables needed
         var type = GetEntityType(entities);
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
-        var primary = dbFields?.GetPrimary();
-        IEnumerable<ClassProperty>? properties = null;
-        ClassProperty? primaryKey = null;
 
-        // Get the properties
-        if (type.IsGenericType == true)
-        {
-            properties = type.GetClassProperties();
-        }
-        else
-        {
-            properties = PropertyCache.Get(type);
-        }
+        qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
 
         // Check the qualifiers
         if (qualifiers?.Any() != true)
         {
-            // Throw if there is no primary
-            if (primary == null)
-            {
-                throw new PrimaryFieldNotFoundException($"There is no primary found for '{tableName}'.");
-            }
-
-            // Set the primary as the qualifier
-            qualifiers = primary.AsField().AsEnumerable();
+            throw new PrimaryFieldNotFoundException($"There are no qualifiers, nor primary keys for '{tableName}'.");
         }
-
-        // Set the primary key
-        primaryKey = properties?.FirstOrDefault(p =>
-            string.Equals(primary?.Name, p.GetMappedName(), StringComparison.OrdinalIgnoreCase));
 
         // Execution variables
         var result = 0;
@@ -1872,36 +1850,14 @@ public static partial class DbConnectionExtension
         // Variables needed
         var type = GetEntityType(entities);
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
-        var primary = dbFields?.GetPrimary();
-        IEnumerable<ClassProperty>? properties = null;
-        ClassProperty? primaryKey = null;
 
-        // Get the properties
-        if (type.IsGenericType == true)
-        {
-            properties = type.GetClassProperties();
-        }
-        else
-        {
-            properties = PropertyCache.Get(type);
-        }
+        qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
 
         // Check the qualifiers
         if (qualifiers?.Any() != true)
         {
-            // Throw if there is no primary
-            if (primary == null)
-            {
-                throw new PrimaryFieldNotFoundException($"There is no primary found for '{tableName}'.");
-            }
-
-            // Set the primary as the qualifier
-            qualifiers = primary.AsField().AsEnumerable();
+            throw new PrimaryFieldNotFoundException($"There are no qualifiers, nor primary keys for '{tableName}'.");
         }
-
-        // Set the primary key
-        primaryKey = properties?.FirstOrDefault(p =>
-            string.Equals(primary?.Name, p.GetMappedName(), StringComparison.OrdinalIgnoreCase));
 
         // Execution variables
         var result = 0;
@@ -1909,7 +1865,6 @@ public static partial class DbConnectionExtension
         await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
         using var myTransaction = (transaction is null && Transaction.Current is null) ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
         transaction ??= myTransaction;
-
 
         // Iterate the entities
         var immutableFields = fields.AsList(); // Fix for the IDictionary<string, object> object

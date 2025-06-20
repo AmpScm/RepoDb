@@ -90,7 +90,7 @@ public class ParseTest
     {
         // Act
         var properties = typeof(DerivedClass).GetProperties().AsList();
-        var fields = FieldCache.Get<DerivedClass>().AsList();
+        var fields = FieldCache.Get<DerivedClass>();
 
         // Assert
         Assert.AreEqual(4, properties.Count());
@@ -108,7 +108,7 @@ public class ParseTest
     {
         // Act
         var properties = typeof(DerivedClass).GetProperties().AsList();
-        var fields = Field.Parse(new DerivedClass()).AsList();
+        var fields = Field.Parse(new DerivedClass());
 
         // Assert
         Assert.AreEqual(4, properties.Count());

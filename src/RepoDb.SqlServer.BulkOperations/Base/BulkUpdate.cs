@@ -61,7 +61,7 @@ public static partial class SqlConnectionExtension
             // Variables needed
             var readerFields = Enumerable.Range(0, reader.FieldCount)
                 .Select((index) => reader.GetName(index));
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.GetPrimary();
             var identityDbField = dbFields?.GetIdentity();
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
@@ -228,7 +228,7 @@ public static partial class SqlConnectionExtension
             // Variables needed
             var tableFields = Enumerable.Range(0, dataTable.Columns.Count)
                 .Select((index) => dataTable.Columns[index].ColumnName);
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.GetPrimary();
             var identityDbField = dbFields?.GetIdentity();
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
@@ -399,7 +399,7 @@ public static partial class SqlConnectionExtension
             // Variables needed
             var readerFields = Enumerable.Range(0, reader.FieldCount)
                 .Select(index => reader.GetName(index));
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.GetPrimary();
             var identityDbField = dbFields?.GetIdentity();
             var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
@@ -567,7 +567,7 @@ public static partial class SqlConnectionExtension
             // Variables needed
             var tableFields = Enumerable.Range(0, dataTable.Columns.Count)
                 .Select((index) => dataTable.Columns[index].ColumnName);
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.GetPrimary();
             var identityDbField = dbFields?.GetIdentity();
             var primaryOrIdentityDbField = primaryDbField ?? identityDbField;

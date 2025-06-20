@@ -405,7 +405,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder FieldsAndParametersFrom(IEnumerable<Field> fields, int index, IDbSetting dbSetting) =>
-        AppendJoin(fields?.AsFieldsAndParameters(index, true, dbSetting));
+        AppendJoin(fields?.Select(field => field.Name.AsFieldAndParameter(index, true, dbSetting)));
 
     /// <summary>
     /// Appends a stringified fields and parameters to the SQL Query Statement with aliases.
@@ -433,7 +433,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder FieldsAndAliasFieldsFrom(IEnumerable<Field> fields, string leftAlias, string rightAlias, IDbSetting dbSetting) =>
-        AppendJoin(fields?.AsFieldsAndAliasFields(leftAlias, rightAlias, dbSetting));
+        AppendJoin(fields?.Select(field => field.Name.AsFieldAndAliasField(leftAlias, rightAlias, dbSetting)));
 
     /// <summary>
     /// Appends a stringified fields to the SQL Query Statement with aliases.
@@ -458,7 +458,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder AsAliasFieldsFrom(IEnumerable<Field> fields, string alias, IDbSetting dbSetting) =>
-        AppendJoin(fields?.AsAliasFields(alias, dbSetting));
+        AppendJoin(fields?.Select(field => field.Name.AsAliasField(alias, dbSetting)));
 
     /// <summary>
     /// Appends a word FROM to the SQL Query Statement.
@@ -478,7 +478,7 @@ public sealed class QueryBuilder
         if (fields.IsNullOrEmpty()) return this;
 
         return Append("GROUP BY")
-            .AppendJoin(fields.AsFields(dbSetting));
+            .AppendJoin(fields.Select(field => field.Name.AsQuoted(true, dbSetting)));
     }
 
     /// <summary>
@@ -667,7 +667,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder ParametersFrom(IEnumerable<Field> fields, int index, IDbSetting dbSetting) =>
-        AppendJoin(fields?.AsParameters(index, true, dbSetting));
+        AppendJoin(fields?.Select(field => field.Name.AsParameter(index, true, dbSetting)));
 
     /// <summary>
     /// Append the stringified parameter as fields to the SQL Query Statement.
@@ -695,7 +695,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder ParametersAsFieldsFrom(IEnumerable<Field> fields, int index, IDbSetting dbSetting) =>
-        AppendJoin(fields?.AsParametersAsFields(index, false, dbSetting));
+        AppendJoin(fields?.Select(field => field.Name.AsParameterAsField(index, false, dbSetting)));
 
     /// <summary>
     /// Appends a word SELECT to the SQL Query Statement.

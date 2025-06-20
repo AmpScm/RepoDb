@@ -1062,9 +1062,54 @@ public static class CommandTextCache
         IEnumerable<DbField> keyFields)
     {
         var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
+
+        IEnumerable<Field> qualifiers = request.Qualifiers ?? keyFields.Where(x => x.IsPrimary).AsFields();
+
+        // Check the qualifiers
+        if (qualifiers?.Any() == true)
+        {
+            // Check if the qualifiers are present in the given fields
+            var unmatchesQualifiers = qualifiers.Where(field =>
+                fields?.FirstOrDefault(f =>
+                    string.Equals(field.Name, f.Name, StringComparison.OrdinalIgnoreCase)) == null);
+
+            // Throw an error we found any unmatches
+            if (unmatchesQualifiers.Any() == true)
+            {
+                throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.Name).Join(", ")}' are not " +
+                    $"present at the given fields '{fields.Select(field => field.Name).Join(", ")}'.");
+            }
+        }
+        else
+        {
+            var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
+
+            if (primaryField != null)
+            {
+                // Make sure that primary is present in the list of fields before qualifying to become a qualifier
+                var isPresent = fields.FirstOrDefault(f =>
+                    string.Equals(f.Name, primaryField.Name, StringComparison.OrdinalIgnoreCase)) != null;
+
+                // Throw if not present
+                if (isPresent == false)
+                {
+                    throw new InvalidQualifiersException($"There are no qualifier field objects found for '{request.Name}'. Ensure that the " +
+                        $"primary field is present at the given fields '{fields.Select(field => field.Name).Join(", ")}'.");
+                }
+
+                // The primary is present, use it as a default if there are no qualifiers given
+                qualifiers = keyFields;
+            }
+            else
+            {
+                // Throw exception, qualifiers are not defined
+                throw new ArgumentNullException($"There are no qualifier field objects found for '{request.Name}'.");
+            }
+        }
+
         return statementBuilder.CreateUpdateAll(request.Name,
             fields,
-            request.Qualifiers ?? keyFields.Where(x => x.IsPrimary).AsFields(),
+            qualifiers,
             request.BatchSize,
             keyFields,
             request.Hints);

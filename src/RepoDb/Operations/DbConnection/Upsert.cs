@@ -46,14 +46,12 @@ public static partial class DbConnectionExtension
         IEnumerable<ClassProperty>? properties = null;
         ClassProperty? primaryKey = null;
 
+        qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
+
         // Check the qualifiers
         if (qualifiers?.Any() != true)
         {
-            // Set the primary as the qualifier
-            qualifiers = dbFields.GetPrimaryFields()?.AsFields();
-
-            if (qualifiers is null)
-                throw new PrimaryFieldNotFoundException($"There is no primary found for '{tableName}'.");
+            throw new PrimaryFieldNotFoundException($"There are no qualifiers, nor primary keys for '{tableName}'.");
         }
 
         // Get the properties
@@ -70,8 +68,7 @@ public static partial class DbConnectionExtension
             }
 
             // Set the primary key
-            primaryKey = properties.FirstOrDefault(p =>
-                string.Equals(primary?.Name, p.GetMappedName(), StringComparison.OrdinalIgnoreCase));
+            primaryKey = properties.GetByMappedName(primary?.Name);
 
             where = CreateQueryGroupForUpsert(entity,
                 properties,

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
@@ -160,11 +159,8 @@ public static class PropertyInfoExtension
     /// </summary>
     /// <param name="properties">The enumerable array of properties to be converted.</param>
     /// <returns>An enumerable array of <see cref="Field"/>.</returns>
-#if NET
-    [return: NotNullIfNotNull(nameof(properties))]
-#endif
-    public static IEnumerable<Field>? AsFields(this IEnumerable<PropertyInfo>? properties)
-        => properties?.Select(x => x.AsField());
+    public static FieldSet AsFields(this IEnumerable<PropertyInfo> properties)
+        => new(properties.Select(x => x.AsField()));
 
     /// <summary>
     /// Gets the mapped <see cref="DbType"/> for the current <see cref="PropertyInfo"/>.

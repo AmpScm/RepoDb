@@ -53,10 +53,10 @@ public abstract class BaseDbHelper : IDbHelper
     }
 
     /// <inheritdoc />
-    public abstract IEnumerable<DbField> GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null);
+    public abstract DbFieldCollection GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null);
 
     /// <inheritdoc />
-    public virtual ValueTask<IEnumerable<DbField>> GetFieldsAsync(IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default) => new(GetFields(connection, tableName, transaction));
+    public virtual ValueTask<DbFieldCollection> GetFieldsAsync(IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default) => new(GetFields(connection, tableName, transaction));
 
     /// <inheritdoc />
     public abstract IEnumerable<DbSchemaObject> GetSchemaObjects(IDbConnection connection, IDbTransaction? transaction = null);

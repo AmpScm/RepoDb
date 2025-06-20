@@ -46,7 +46,7 @@ internal static class ExecutionContextProvider
     private static Field? GetPrimaryAsReturnKeyField(Type entityType,
         DbFieldCollection dbFields) =>
         PrimaryCache.Get(entityType)?.AsField() ??
-            dbFields?.GetPrimary()?.AsField();
+            dbFields?.GetPrimary();
 
     /// <summary>
     ///
@@ -58,7 +58,7 @@ internal static class ExecutionContextProvider
     private static Field? GetIdentityAsReturnKeyField(Type entityType,
         DbFieldCollection dbFields) =>
         IdentityCache.Get(entityType)?.AsField() ??
-            dbFields?.GetIdentity()?.AsField();
+            dbFields?.GetIdentity();
 
     #endregion
 }

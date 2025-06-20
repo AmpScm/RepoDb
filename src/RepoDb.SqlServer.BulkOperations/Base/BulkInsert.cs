@@ -61,7 +61,7 @@ public static partial class SqlConnectionExtension
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject() ?
                 GetDictionaryStringObjectFields(entities?.FirstOrDefault() as IDictionary<string, object>) :
                 FieldCache.Get(entityType);
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
 
             // Filter the fields (based on mappings)
             if (mappings?.Any() == true)
@@ -197,7 +197,7 @@ public static partial class SqlConnectionExtension
             var readerFields = Enumerable
                 .Range(0, reader.FieldCount)
                 .Select(index => reader.GetName(index));
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
 
             // Filter the fields (based on mappings)
             if (mappings?.Any() == true)
@@ -307,7 +307,7 @@ public static partial class SqlConnectionExtension
             var identityDbField = dbFields?.GetIdentity();
             var tableFields = GetDataColumns(dataTable)
                 .Select(column => column.ColumnName);
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
 
             // Filter the fields (based on mappings)
             if (mappings?.Any() == true)
@@ -471,7 +471,7 @@ public static partial class SqlConnectionExtension
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject() ?
                 GetDictionaryStringObjectFields(firstEntity as IDictionary<string, object>) :
                 FieldCache.Get(entityType);
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
 
             // Filter the fields (based on mappings)
             if (mappings?.Any() == true)
@@ -608,7 +608,7 @@ public static partial class SqlConnectionExtension
             var readerFields = Enumerable
                 .Range(0, reader.FieldCount)
                 .Select(index => reader.GetName(index));
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
 
             // Filter the fields (based on mappings)
             if (mappings?.Any() == true)
@@ -721,7 +721,7 @@ public static partial class SqlConnectionExtension
             var identityDbField = dbFields?.GetIdentity();
             var tableFields = GetDataColumns(dataTable)
                 .Select(column => column.ColumnName);
-            var fields = dbFields?.AsFields();
+            var fields = dbFields.AsFields().AsEnumerable();
 
             // Filter the fields (based on mappings)
             if (mappings?.Any() == true)

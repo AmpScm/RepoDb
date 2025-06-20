@@ -212,7 +212,7 @@ internal static class UpdateAllExecutionContextProvider
 
         // Filter the actual properties for input fields
         inputFields = dbFields
-            .Where(dbField => fields.GetByName(dbField.Name) != null || fields.GetByNameUnquoted(dbField.Name, dbSetting) != null)
+            .Where(dbField => fields.GetByName(dbField.Name) != null)
             .AsList();
 
         // Exclude the fields not on the actual entity

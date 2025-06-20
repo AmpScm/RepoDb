@@ -395,7 +395,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 .As()
                 .WriteText("RESULT")
                 .OpenParen()
-                .FieldsFrom(keyFields.AsFields(), DbSetting)
+                .FieldsFrom(keyFields, DbSetting)
                 .CloseParen()
                 .End();
         }

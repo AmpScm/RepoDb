@@ -119,7 +119,7 @@ public class InherittanceTest
     public void TestFieldCacheGetForDerivedClass()
     {
         // Act
-        var fields = FieldCache.Get<DerivedClass>().AsList();
+        var fields = FieldCache.Get<DerivedClass>();
 
         // Assert
         Assert.AreEqual(4, fields.Count());
@@ -129,7 +129,7 @@ public class InherittanceTest
     public void TestFieldParseForDerivedClass()
     {
         // Act
-        var fields = Field.Parse(new DerivedClass()).AsList();
+        var fields = Field.Parse(new DerivedClass());
 
         // Assert
         Assert.AreEqual(4, fields.Count());

@@ -1,5 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -9,22 +10,33 @@ namespace RepoDb;
 /// <summary>
 /// A class the holds the collection of column definitions of the table.
 /// </summary>
-public sealed class DbFieldCollection : ReadOnlyCollection<DbField>
+[DebuggerDisplay($"{{{nameof(DebuggerDisplay)},nq}}")]
+public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
+#if NET
+    , IReadOnlySet<DbField>
+#endif
 {
-    private readonly Lazy<IEnumerable<Field>> lazyFields;
+    readonly HashSet<DbField> _fields;
+    private readonly Lazy<FieldSet> lazyFields;
     private readonly Lazy<DbField?> lazyIdentity;
-    private readonly Lazy<IReadOnlyList<DbField>?> lazyPrimaryFields;
+    private readonly Lazy<DbFieldCollection?> lazyPrimaryFields;
     private readonly Lazy<Dictionary<string, DbField>> lazyMapByName;
     private readonly Lazy<DbField?> lazyPrimary;
+
+
+    public int Count => _fields.Count;
 
     /// <summary>
     /// Creates a new instance of <see cref="DbFieldCollection" /> object.
     /// </summary>
     /// <param name="dbFields">A collection of column definitions of the table.</param>
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
-    internal DbFieldCollection(IEnumerable<DbField> dbFields)
-        : base(dbFields.AsList())
+    public DbFieldCollection(IEnumerable<DbField> dbFields)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(dbFields);
+#endif
+        _fields = new(dbFields is DbFieldCollection fc ? fc._fields : dbFields, DbField.CompareByName);
         lazyPrimaryFields = new(GetPrimaryDbFields);
         lazyPrimary = new(GetPrimaryDbField);
         lazyIdentity = new(GetIdentityDbField);
@@ -33,6 +45,7 @@ public sealed class DbFieldCollection : ReadOnlyCollection<DbField>
     }
 
     [Obsolete]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public DbFieldCollection(IEnumerable<DbField> dbFields, IDbSetting dbSetting)
         : this(dbFields)
     { }
@@ -43,7 +56,7 @@ public sealed class DbFieldCollection : ReadOnlyCollection<DbField>
     /// <returns>A primary column definition.</returns>
     public DbField? GetPrimary() => lazyPrimary.Value;
 
-    public IReadOnlyList<DbField>? GetPrimaryFields() => lazyPrimaryFields.Value;
+    public DbFieldCollection? GetPrimaryFields() => lazyPrimaryFields.Value;
 
     /// <summary>
     /// Gets the identity column of this table if there is ine
@@ -56,13 +69,14 @@ public sealed class DbFieldCollection : ReadOnlyCollection<DbField>
     /// </summary>
     /// <returns>A column definitions of the table.</returns>
     [Obsolete("Use DbFieldCollection directly")]
-    public IEnumerable<DbField> GetItems() => this;
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public DbFieldCollection GetItems() => this;
 
     /// <summary>
     /// Get the list of <see cref="DbField" /> objects converted into an <see cref="IReadOnlyList{T}" /> of <see cref="Field" /> objects.
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Field> AsFields() => lazyFields.Value;
+    public FieldSet AsFields() => lazyFields.Value;
 
     /// <summary>
     /// Gets a value indicating whether the current column definitions of the table is empty.
@@ -88,6 +102,7 @@ public sealed class DbFieldCollection : ReadOnlyCollection<DbField>
     /// <param name="name">The name of the mapping that is equivalent to the column definition of the table.</param>
     /// <returns>A column definition of table.</returns>
     [Obsolete("We assume that DbField instances are normalized, as we get them from the database")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public DbField? GetByUnquotedName(string name) => GetByName(name);
 
     private Dictionary<string, DbField> GetDbFieldsMappedByName() =>
@@ -96,21 +111,68 @@ public sealed class DbFieldCollection : ReadOnlyCollection<DbField>
     private DbField? GetPrimaryDbField() => this.OneOrDefault(df => df.IsPrimary);
 
 
-    private IReadOnlyList<DbField>? GetPrimaryDbFields() => this.Where(x => x.IsPrimary) is { } p && p.Any() ? p.ToArray() : null;
+    private DbFieldCollection? GetPrimaryDbFields() => this.Where(x => x.IsPrimary) is { } p && p.Any() ? new DbFieldCollection(p) : null;
 
     private DbField? GetIdentityDbField() => this.FirstOrDefault(df => df.IsIdentity);
 
-    private IEnumerable<Field> GetDbFieldsAsFields() => this.Select(f => f.AsField()).ToList().AsReadOnly();
+    private FieldSet GetDbFieldsAsFields() => new FieldSet(_fields);
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public IEnumerable<Field> GetAsFields() => AsFields();
+    public FieldSet GetAsFields() => AsFields();
 
     internal DbField? GetKeyColumnReturn(KeyColumnReturnBehavior keyColumnReturnBehavior) => GlobalConfiguration.Options.KeyColumnReturnBehavior switch
     {
-        KeyColumnReturnBehavior.Primary => GetPrimaryFields()?[0],
+        KeyColumnReturnBehavior.Primary => GetPrimaryFields()?.FirstOrDefault(),
         KeyColumnReturnBehavior.Identity => GetIdentity(),
-        KeyColumnReturnBehavior.PrimaryOrElseIdentity => GetPrimaryFields()?[0] ?? GetIdentity(),
-        KeyColumnReturnBehavior.IdentityOrElsePrimary => GetIdentity() ?? GetPrimaryFields()?[0],
+        KeyColumnReturnBehavior.PrimaryOrElseIdentity => GetPrimaryFields()?.FirstOrDefault() ?? GetIdentity(),
+        KeyColumnReturnBehavior.IdentityOrElsePrimary => GetIdentity() ?? GetPrimaryFields()?.FirstOrDefault(),
         _ => throw new NotSupportedException($"The key column return behavior '{GlobalConfiguration.Options.KeyColumnReturnBehavior}' is not supported."),
     };
+
+    public bool Contains(DbField item)
+    {
+        return _fields.Contains(item);
+    }
+
+    public bool IsProperSubsetOf(IEnumerable<DbField> other)
+    {
+        return _fields.IsProperSubsetOf(other);
+    }
+
+    public bool IsProperSupersetOf(IEnumerable<DbField> other)
+    {
+        return _fields.IsProperSupersetOf(other);
+    }
+
+    public bool IsSubsetOf(IEnumerable<DbField> other)
+    {
+        return _fields.IsSubsetOf(other);
+    }
+
+    public bool IsSupersetOf(IEnumerable<DbField> other)
+    {
+        return _fields.IsSupersetOf(other);
+    }
+
+    public bool Overlaps(IEnumerable<DbField> other)
+    {
+        return _fields.Overlaps(other);
+    }
+
+    public bool SetEquals(IEnumerable<DbField> other)
+    {
+        return _fields.SetEquals(other);
+    }
+
+    public IEnumerator<DbField> GetEnumerator()
+    {
+        return _fields.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.Name));
 }

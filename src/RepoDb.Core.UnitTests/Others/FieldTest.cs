@@ -63,8 +63,7 @@ public partial class FieldTest
         var fields = obj
             .GetType()
             .GetProperties()
-            .AsFields()
-            .AsList();
+            .AsFields();
 
         // Act
         var parsed = Field.Parse(obj);
@@ -80,8 +79,7 @@ public partial class FieldTest
         // Prepare
         var fields = PropertyCache
             .Get<FieldTestClass>()
-            .AsFields()
-            .AsList();
+            .AsFields();
 
         // Act
         var parsed = Field.Parse<FieldTestClass>();
@@ -99,8 +97,7 @@ public partial class FieldTest
         var fields = obj
             .GetType()
             .GetProperties()
-            .AsFields()
-            .AsList();
+            .AsFields();
 
         // Act
         var parsed = Field.Parse(obj);
@@ -154,7 +151,7 @@ public partial class FieldTest
         string? fields = null;
 
         // Act/Assert
-        Field.From(fields).AsList();
+        Field.From(fields);
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -164,7 +161,7 @@ public partial class FieldTest
         var fields = new[] { "" };
 
         // Act/Assert
-        Field.From(fields).AsList();
+        Field.From(fields);
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -174,7 +171,7 @@ public partial class FieldTest
         var fields = new[] { " " };
 
         // Act/Assert
-        Field.From(fields).AsList();
+        Field.From(fields);
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -184,7 +181,7 @@ public partial class FieldTest
         var fields = new[] { "Field1", null, "Field3" };
 
         // Act/Assert
-        Field.From(fields).AsList();
+        Field.From(fields);
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -194,7 +191,7 @@ public partial class FieldTest
         var fields = new[] { "Field1", "", "Field3" };
 
         // Act/Assert
-        Field.From(fields).AsList();
+        Field.From(fields);
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -204,6 +201,6 @@ public partial class FieldTest
         var fields = new[] { "Field1", " ", "Field3" };
 
         // Act/Assert
-        Field.From(fields).AsList();
+        Field.From(fields);
     }
 }

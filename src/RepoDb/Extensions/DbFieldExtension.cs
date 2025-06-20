@@ -1,6 +1,4 @@
-﻿
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace RepoDb.Extensions;
 
@@ -14,35 +12,27 @@ public static class DbFieldExtension
     /// </summary>
     /// <param name="dbField">The <see cref="DbField"/> to be converted.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> list of <see cref="DbField"/> object.</returns>
-    public static IEnumerable<DbField> AsEnumerable(this DbField dbField)
+    public static DbFieldCollection AsEnumerable(this DbField dbField)
     {
-        yield return dbField;
+        return new([dbField]);
     }
-
-    /// <summary>
-    /// Converts an instance of a <see cref="DbField"/> into <see cref="Field"/> object.
-    /// </summary>
-    /// <param name="dbField">The <see cref="DbField"/> to be converted.</param>
-    /// <returns>An instance of <see cref="Field"/> object.</returns>
-    [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Defined on DbField directly")]
-    public static Field AsField(this DbField dbField) => dbField.AsField();
 
     /// <summary>
     /// Converts the list of <see cref="DbField"/> objects into an <see cref="IEnumerable{T}"/> of <see cref="Field"/> objects.
     /// </summary>
     /// <param name="dbFields">The <see cref="DbField"/> to be converted.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> list of <see cref="Field"/> object.</returns>
-    public static IEnumerable<Field> AsFields(this IEnumerable<DbField> dbFields) => dbFields.Select(x => x.AsField());
+    public static IEnumerable<Field> AsFields(this IEnumerable<DbField> dbFields) => dbFields;
 
     /// <summary>
-    /// Converts the list of <see cref="DbField"/> objects into an <see cref="IReadOnlyList{T}"/> of <see cref="Field"/> objects.
+    /// Like <see cref="Enumerable.SingleOrDefault{TSource}(IEnumerable{TSource})"/>, but handles a list of more that one item as default instead of an exception
     /// </summary>
-    /// <param name="source">The <see cref="DbField"/> to be converted.</param>
-    /// <returns>An <see cref="IEnumerable{T}"/> list of <see cref="Field"/> object.</returns>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="source"></param>
+    /// <returns></returns>
 #if NET
     [return: NotNullIfNotNull(nameof(source))]
 #endif
-
     public static TItem? OneOrDefault<TItem>(this IEnumerable<TItem> source)
     {
         if (source is IReadOnlyCollection<TItem> col && col.Count == 1)
@@ -51,6 +41,13 @@ public static class DbFieldExtension
             return DoOne(source)!;
     }
 
+    /// <summary>
+    /// Like <see cref="Enumerable.SingleOrDefault{TSource}(IEnumerable{TSource}, Func{TSource, bool})"/>, but handles a list of more that one item as default instead of an exception
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="source"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public static TItem? OneOrDefault<TItem>(this IEnumerable<TItem> source, Func<TItem, bool> predicate)
     {
         return source.Where(predicate).OneOrDefault();
@@ -66,7 +63,7 @@ public static class DbFieldExtension
         return item;
     }
 
-    public static DbField? GetByName(this IEnumerable<DbField> dbFields, string name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+    public static DbField? GetByName(this IEnumerable<DbField> dbFields, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
     {
         return dbFields.FirstOrDefault(dbField => string.Equals(dbField.Name, name, stringComparison));
     }

@@ -210,7 +210,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         {
             builder
                 .Returning()
-                .FieldsFrom(keyFields.AsFields(), DbSetting);
+                .FieldsFrom(keyFields, DbSetting);
         }
 
         builder
@@ -306,7 +306,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         {
             builder
                 .Returning()
-                .FieldsFrom(keyFields.AsFields(), DbSetting);
+                .FieldsFrom(keyFields, DbSetting);
         }
 
         // Return the query
@@ -416,7 +416,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         {
             builder
                 .Returning()
-                .FieldsFrom(keyFields.AsFields(), DbSetting);
+                .FieldsFrom(keyFields, DbSetting);
         }
 
         // End the builder
@@ -532,7 +532,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             {
                 builder
                     .Returning()
-                    .FieldsFrom(keyFields.AsFields(), DbSetting);
+                    .FieldsFrom(keyFields, DbSetting);
             }
 
             // End the builder
@@ -704,7 +704,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     public override string CreateUpdateAll(
         string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field>? qualifiers,
+        IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<DbField> keyFields,
         string? hints = null)
@@ -725,41 +725,6 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         if (fields?.Any() != true)
         {
             throw new EmptyException(nameof(fields), "The list of fields cannot be null or empty.");
-        }
-
-        qualifiers ??= keyFields.Where(x => x.IsPrimary).AsFields();
-
-        if (qualifiers?.Any() == true)
-        {
-            var unmatchedQualifiers = qualifiers.Where(field =>
-                fields.FirstOrDefault(f =>
-                    string.Equals(field.Name, f.Name, StringComparison.OrdinalIgnoreCase)) == null);
-
-            if (unmatchedQualifiers.Any())
-            {
-                throw new InvalidQualifiersException($"The qualifiers '{unmatchedQualifiers.Select(f => f.Name).Join(", ")}' are not " +
-                    $"present in the given fields '{fields.Select(f => f.Name).Join(", ")}'.");
-            }
-        }
-        else
-        {
-            if (primaryField != null)
-            {
-                var isPresent = fields.Any(f =>
-                    string.Equals(f.Name, primaryField.Name, StringComparison.OrdinalIgnoreCase));
-
-                if (!isPresent)
-                {
-                    throw new InvalidQualifiersException($"There are no qualifier fields found for '{tableName}'. Ensure that the " +
-                        $"primary field is present in the given fields '{fields.Select(f => f.Name).Join(", ")}'.");
-                }
-
-                qualifiers = keyFields.AsFields();
-            }
-            else
-            {
-                throw new ArgumentNullException(nameof(qualifiers), $"There are no qualifier fields found for '{tableName}'.");
-            }
         }
 
         var updateFields = fields

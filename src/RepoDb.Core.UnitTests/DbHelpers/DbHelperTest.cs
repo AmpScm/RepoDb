@@ -32,13 +32,13 @@ public class DbHelperTest
 
     #region Helpers
 
-    private IEnumerable<DbField> GetDbFields()
+    private DbFieldCollection GetDbFields()
     {
-        return new[]
+        return new(new[]
         {
             new DbField("Id", true, true, false, typeof(int), null, null, null, null),
             new DbField("Name", false, false, false, typeof(string), null, null, null, null)
-        };
+        });
     }
 
     public class MyDbHelper : BaseDbHelper
@@ -47,7 +47,7 @@ public class DbHelperTest
         {
         }
 
-        public override IEnumerable<DbField> GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null)
+        public override DbFieldCollection GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null)
         {
             throw new NotImplementedException();
         }

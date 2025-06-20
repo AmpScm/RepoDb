@@ -139,7 +139,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     /// <param name="tableName">The name of the target table.</param>
     /// <param name="transaction">The transaction object that is currently in used.</param>
     /// <returns>A list of <see cref="DbField"/> of the target table.</returns>
-    public override IEnumerable<DbField> GetFields(IDbConnection connection,
+    public override DbFieldCollection GetFields(IDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null)
     {
@@ -164,7 +164,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         }
 
         // Return the list of fields
-        return dbFields;
+        return new(dbFields);
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     /// <param name="transaction">The transaction object that is currently in used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A list of <see cref="DbField"/> of the target table.</returns>
-    public override async ValueTask<IEnumerable<DbField>> GetFieldsAsync(IDbConnection connection,
+    public override async ValueTask<DbFieldCollection> GetFieldsAsync(IDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
@@ -202,7 +202,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         }
 
         // Return the list of fields
-        return dbFields;
+        return new(dbFields);
     }
 
     #endregion

@@ -170,15 +170,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     /// <param name="tableName">The name of the target table.</param>
     /// <param name="transaction">The transaction object that is currently in used.</param>
     /// <returns>A list of <see cref="DbField"/> of the target table.</returns>
-    public override IEnumerable<DbField> GetFields(IDbConnection connection,
-        string tableName,
-        IDbTransaction? transaction = null)
-
-     => TryExecuteOnExistingConnection(connection, c => GetFieldsInternal(c, tableName, transaction));
-
-    private IEnumerable<DbField> GetFieldsInternal(IDbConnection connection,
-        string tableName,
-        IDbTransaction? transaction = null)
+    public override DbFieldCollection GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null)
     {
         // Variables
         var commandText = GetCommandText();
@@ -200,7 +192,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         }
 
         // Return the list of fields
-        return dbFields;
+        return new(dbFields);
     }
 
     /// <summary>
@@ -211,17 +203,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     /// <param name="transaction">The transaction object that is currently in used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A list of <see cref="DbField"/> of the target table.</returns>
-    public override ValueTask<IEnumerable<DbField>> GetFieldsAsync(IDbConnection connection,
-        string tableName,
-        IDbTransaction? transaction = null,
-        CancellationToken cancellationToken = default)
-
-     => TryExecuteOnExistingConnectionAsync(connection, c => GetFieldsAsyncInternal(c, tableName, transaction, cancellationToken));
-
-    private async Task<IEnumerable<DbField>> GetFieldsAsyncInternal(IDbConnection connection,
-        string tableName,
-        IDbTransaction? transaction = null,
-        CancellationToken cancellationToken = default)
+    public override async ValueTask<DbFieldCollection> GetFieldsAsync(IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
         // Variables
         var commandText = GetCommandText();
@@ -244,7 +226,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         }
 
         // Return the list of fields
-        return dbFields;
+        return new(dbFields);
     }
 
     #endregion

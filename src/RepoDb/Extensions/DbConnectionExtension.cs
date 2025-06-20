@@ -729,7 +729,7 @@ public static partial class DbConnectionExtension
             ?? throw GetKeyFieldNotFoundException(type);
 
         // Return
-        return dbField.AsFields();
+        return dbField;
     }
 
     /// <summary>
@@ -1334,7 +1334,7 @@ public static partial class DbConnectionExtension
         if (TypeCache.Get(typeOfEntity).IsClassType())
             return FieldCache.Get(typeOfEntity);
         else
-            return Field.Parse(entity);
+            return Field.Parse<TEntity>(entity);
     }
 
     /// <summary>

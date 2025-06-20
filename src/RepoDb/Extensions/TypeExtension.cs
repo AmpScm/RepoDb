@@ -111,7 +111,7 @@ public static class TypeExtension
     /// </summary>
     /// <param name="type">The current type.</param>
     /// <returns>A list of <see cref="Field"/> objects.</returns>
-    internal static IEnumerable<Field> AsFields(this Type type) =>
+    internal static FieldSet AsFields(this Type type) =>
         PropertyCache.Get(type).AsFields();
 
     /// <summary>

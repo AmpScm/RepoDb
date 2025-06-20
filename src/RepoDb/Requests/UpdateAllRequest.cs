@@ -117,7 +117,7 @@ internal sealed class UpdateAllRequest : BaseRequest
             }
 
             // Get the qualifier <see cref="Field"/> objects
-            if (Fields != null)
+            if (Qualifiers != null)
             {
                 foreach (var field in Qualifiers)
                 {
