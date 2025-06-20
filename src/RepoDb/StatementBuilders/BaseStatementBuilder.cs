@@ -886,7 +886,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
 
         // Gets the updatable fields
         var updateFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null);
+            .Where(f => keyFields.GetByName(f.Name) is null && qualifiers?.GetByName(f.Name) is null);
 
         // Check if there are updatable fields
         if (updateFields.Any() != true)

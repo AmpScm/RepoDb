@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Exceptions;
 using RepoDb.UnitTests.CustomObjects;
 
 namespace RepoDb.UnitTests.StatementBuilders;
@@ -134,7 +133,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Act
         var actual = statementBuilder.CreateUpdateAll(tableName: tableName,
             fields: fields,
-            qualifiers: null,
+            qualifiers: Field.From("Field1"),
             batchSize: 1,
             primaryField: field,
             identityField: null);
@@ -378,24 +377,6 @@ public class BaseStatementBuilderCreateUpdateAllTest
             batchSize: 1,
             primaryField: null,
             identityField: identifyField);
-    }
-
-    [TestMethod, ExpectedException(typeof(InvalidQualifiersException))]
-    public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfAnyOfTheQualifierIsNotCovered()
-    {
-        // Setup
-        var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
-        var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
-        var qualifiers = Field.From("Id");
-
-        // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
-            fields: fields,
-            qualifiers: qualifiers,
-            batchSize: 1,
-            primaryField: null,
-            identityField: null);
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]

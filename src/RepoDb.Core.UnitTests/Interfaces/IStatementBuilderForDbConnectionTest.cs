@@ -3213,9 +3213,9 @@ public class IStatementBuilderForDbConnectionTest
         connection.UpdateAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new[]
             {
-                new { Name = "Name1" },
-                new { Name = "Name2" },
-                new { Name = "Name3" }
+                new { Id = 0, Name = "Name1" },
+                new { Id = 0, Name = "Name2" },
+                new { Id = 0, Name = "Name3" }
             },
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilder.Object);
@@ -3237,9 +3237,9 @@ public class IStatementBuilderForDbConnectionTest
         connection.UpdateAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new[]
             {
-                new { Name = "Name1" },
-                new { Name = "Name2" },
-                new { Name = "Name3" }
+                new { Id = 0, Name = "Name1" },
+                new { Id = 0, Name = "Name2" },
+                new { Id = 0, Name = "Name3" }
             },
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilderNever.Object);
@@ -6444,9 +6444,9 @@ public class IStatementBuilderForDbConnectionTest
         await connection.UpdateAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new[]
             {
-                new { Name = "Name1" },
-                new { Name = "Name2" },
-                new { Name = "Name3" }
+                new { Id = 0, Name = "Name1" },
+                new { Id = 0, Name = "Name2" },
+                new { Id = 0, Name = "Name3" }
             },
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilder.Object);
@@ -6468,9 +6468,9 @@ public class IStatementBuilderForDbConnectionTest
         await connection.UpdateAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new[]
             {
-                new { Name = "Name1" },
-                new { Name = "Name2" },
-                new { Name = "Name3" }
+                new { Id = 0, Name = "Name1" },
+                new { Id = 0, Name = "Name2" },
+                new { Id = 0, Name = "Name3" }
             },
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilderNever.Object);
