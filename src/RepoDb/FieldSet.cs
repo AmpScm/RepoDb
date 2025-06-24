@@ -90,9 +90,35 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
         return SetEquals(fs);
     }
 
+    public static bool operator ==(FieldSet left, FieldSet right)
+    {
+        if (left is null && right is null)
+            return true;
+        if (left is null || right is null)
+            return false;
+        return left.Equals(right);
+    }
+    public static bool operator !=(FieldSet left, FieldSet right)
+    {
+        return !(left == right);
+    }
+
     public override int GetHashCode()
     {
         return _hashCode ??= HashCode.Combine(Count, _fields.Aggregate(0, (current, field) => current ^ field.GetHashCode()));
+    }
+
+    public static bool operator ==(FieldSet left, FieldSet right)
+    {
+        if (left is null && right is null)
+            return true;
+        if (left is null || right is null)
+            return false;
+        return left.Equals(right);
+    }
+    public static bool operator !=(FieldSet left, FieldSet right)
+    {
+        return !(left == right);
     }
 
     private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.FieldName));

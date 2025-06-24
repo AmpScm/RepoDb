@@ -74,7 +74,7 @@ internal sealed class InsertRequest : BaseRequest
         IEnumerable<Field> fields,
         string? hints = null,
         IStatementBuilder? statementBuilder = null)
-        : base(name ?? ClassMappedNameCache.Get(type),
+        : base(name ?? ClassMappedNameCache.Get(type ?? throw new ArgumentNullException(nameof(type))),
             connection,
             transaction,
             statementBuilder)

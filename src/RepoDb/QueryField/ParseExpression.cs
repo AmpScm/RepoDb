@@ -462,7 +462,6 @@ public partial class QueryField
     {
         return expression switch
         {
-            null => null,
             LambdaExpression lambdaExpression => GetProperty<TEntity>(lambdaExpression),
             BinaryExpression binaryExpression => GetProperty<TEntity>(binaryExpression),
             MethodCallExpression methodCallExpression => GetProperty<TEntity>(methodCallExpression),
@@ -476,7 +475,7 @@ public partial class QueryField
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    internal static ClassProperty? GetProperty<TEntity>(LambdaExpression expression)
+    private static ClassProperty? GetProperty<TEntity>(LambdaExpression expression)
         where TEntity : class =>
         GetProperty<TEntity>(expression.Body);
 
@@ -485,7 +484,7 @@ public partial class QueryField
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    internal static ClassProperty? GetProperty<TEntity>(BinaryExpression expression)
+    private static ClassProperty? GetProperty<TEntity>(BinaryExpression expression)
         where TEntity : class =>
         GetProperty<TEntity>(expression.Left) ?? GetProperty<TEntity>(expression.Right);
 
