@@ -11,6 +11,7 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
 {
     private readonly HashSet<Field> _fields;
     static readonly HashSet<Field> EmptyFields = new();
+    int? _hashCode;
 
     public FieldSet()
     {
@@ -73,6 +74,14 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
         return GetEnumerator();
     }
 
+    public FieldSet Union(IEnumerable<Field> other)
+    {
+        if (IsSupersetOf(other))
+            return this;
+
+        return new FieldSet(_fields.Concat(other));
+    }
+
     public override bool Equals(object? obj)
     {
         if (obj is not FieldSet fs || fs.Count != Count)
@@ -83,8 +92,8 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
 
     public override int GetHashCode()
     {
-        return Count;
+        return _hashCode ??= HashCode.Combine(Count, _fields.Aggregate(0, (current, field) => current ^ field.GetHashCode()));
     }
 
-    private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.Name));
+    private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.FieldName));
 }

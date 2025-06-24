@@ -2179,7 +2179,7 @@ public static partial class DbConnectionExtension
                 result = Converter.ToType<TResult>(reader.GetValue(0))!;
             }
             else if (connection.GetDbFields(tableName, transaction).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
-                && PropertyCache.Get(entityType, returnField.Name) is { } pcv)
+                && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
             {
                 result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
             }
@@ -2285,7 +2285,7 @@ public static partial class DbConnectionExtension
                 result = Converter.ToType<TResult>(reader.GetValue(0))!;
             }
             else if (connection.GetDbFields(tableName, transaction).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
-                && PropertyCache.Get(entityType, returnField.Name) is { } pcv)
+                && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
             {
                 result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
             }

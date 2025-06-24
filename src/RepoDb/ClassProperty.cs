@@ -55,7 +55,13 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// <summary>
     /// Gets the propertyname via <see cref="PropertyInfo"/>
     /// </summary>
-    public string Name => PropertyInfo.Name;
+    public string PropertyName => PropertyInfo.Name;
+
+    private string? _fieldName;
+    public string FieldName => _fieldName ??= PropertyMappedNameCache.Get(DeclaringType, PropertyInfo);
+
+    [Obsolete("Please use .PropertyName or .FieldName")]
+    public string Name => PropertyName;
 
     #endregion
 
@@ -223,18 +229,12 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
         return Converter.ToType<TPropertyHandler>(PropertyHandlerCache.Get<TPropertyHandler>(DeclaringType, PropertyInfo));
     }
 
-    /*
-     * GetMappedName
-     */
-
-    private string? mappedName;
-
     /// <summary>
     /// Gets the mapped-name for the current property.
     /// </summary>
     /// <returns>The mapped-name value.</returns>
-    public string GetMappedName() =>
-        mappedName ??= PropertyMappedNameCache.Get(DeclaringType, PropertyInfo);
+    public string GetMappedName() => FieldName;
+
 
     /*
      * PropertyHandlerAttributes

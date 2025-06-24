@@ -112,10 +112,10 @@ public static class PropertyMapper
         ObjectExtension.ThrowIfNull(field, nameof(field));
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(field.Name);
+        var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
         if (property == null)
         {
-            throw new PropertyNotFoundException(nameof(field), $"Property '{field.Name}' is not found at type '{typeof(TEntity).FullName}'.");
+            throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
         }
 
         // Add to the mapping
@@ -205,7 +205,7 @@ public static class PropertyMapper
     /// <returns>The mapped name of the property.</returns>
     public static string Get<TEntity>(Field field)
         where TEntity : class =>
-        Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.Name));
+        Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName));
 
 
     /// <summary>
@@ -277,7 +277,7 @@ public static class PropertyMapper
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     public static void Remove<TEntity>(Field field)
         where TEntity : class =>
-        Remove<TEntity>(TypeExtension.GetProperty<TEntity>(field.Name));
+        Remove<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName));
 
     /// <summary>
     /// Removes the mapped database column from a <see cref="PropertyInfo"/> object.

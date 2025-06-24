@@ -48,7 +48,7 @@ public class DbHelperTests
                 while (reader.Read())
                 {
                     var name = reader.GetString(0);
-                    var field = fields.FirstOrDefault(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
+                    var field = fields.FirstOrDefault(f => string.Equals(f.FieldName, name, StringComparison.OrdinalIgnoreCase));
 
                     // Assert
                     Assert.IsNotNull(field);
@@ -76,7 +76,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 
@@ -94,7 +94,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 
@@ -126,7 +126,7 @@ public class DbHelperTests
                 while (reader.Read())
                 {
                     var name = reader.GetString(0);
-                    var field = fields.FirstOrDefault(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
+                    var field = fields.FirstOrDefault(f => string.Equals(f.FieldName, name, StringComparison.OrdinalIgnoreCase));
 
                     // Assert
                     Assert.IsNotNull(field);
@@ -154,7 +154,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 
@@ -172,7 +172,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 

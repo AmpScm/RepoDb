@@ -179,7 +179,7 @@ public static class PropertyValueAttributeMapper
         ObjectExtension.ThrowIfNull(field, "Field");
 
         // Add to the mapping
-        Add(DataEntityExtension.GetPropertyOrThrow<TEntity>(field.Name), attributes, force);
+        Add(DataEntityExtension.GetPropertyOrThrow<TEntity>(field.FieldName), attributes, force);
     }
 
     /// <summary>
@@ -326,7 +326,7 @@ public static class PropertyValueAttributeMapper
     /// <returns>The list of mapped <see cref="PropertyValueAttribute"/> objects.</returns>
     public static IEnumerable<PropertyValueAttribute>? Get<TEntity>(Field field)
         where TEntity : class =>
-        Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.Name));
+        Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
 
     /// <summary>
     /// Get the list of mapped <see cref="PropertyValueAttribute"/> objects of the <see cref="PropertyInfo"/> object.
@@ -387,7 +387,7 @@ public static class PropertyValueAttributeMapper
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     public static void Remove<TEntity>(Field field)
         where TEntity : class =>
-        Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.Name));
+        Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
 
     /// <summary>
     /// Removes the existing mapped <see cref="PropertyValueAttribute"/> objects of the <see cref="PropertyInfo"/> object.

@@ -725,7 +725,7 @@ public static partial class DbConnectionExtension
         // Primary/Identity
         var dbField = (dbFields.GetPrimaryFields() ??
             dbFields.GetIdentity()?.AsEnumerable() ??
-            dbFields.GetByName("Id")?.AsEnumerable())
+            dbFields.GetByFieldName("Id")?.AsEnumerable())
             ?? throw GetKeyFieldNotFoundException(type);
 
         // Return
@@ -747,7 +747,7 @@ public static partial class DbConnectionExtension
         // Primary
         if (dbFields?.GetPrimaryFields() is { } dbPrimary) // Database driven
         {
-            return dbPrimary.Select(f => properties.GetByMappedName(f.Name) ?? throw GetKeyFieldNotFoundException(type)).AsFields();
+            return dbPrimary.Select(f => properties.GetByFieldName(f.FieldName) ?? throw GetKeyFieldNotFoundException(type)).AsFields();
         }
         else if (PrimaryCache.GetPrimaryKeys(type) is { } pcPrimary) // Model driven
         {
@@ -757,7 +757,7 @@ public static partial class DbConnectionExtension
         // Identity
         if (dbFields?.GetIdentity() is { } dbIdentity)
         {
-            return properties.GetByMappedName(dbIdentity.Name)?.AsField()?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(type);
+            return properties.GetByFieldName(dbIdentity.FieldName)?.AsField()?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(type);
         }
 
         throw GetKeyFieldNotFoundException(type);
@@ -970,13 +970,13 @@ public static partial class DbConnectionExtension
         }
         var type = typeof(T);
         var properties = PropertyCache.Get(type) ?? type.GetClassProperties();
-        if (properties?.GetByMappedName(dbField.Name, StringComparison.OrdinalIgnoreCase) is { } property)
+        if (properties?.GetByFieldName(dbField.FieldName, StringComparison.OrdinalIgnoreCase) is { } property)
         {
             return WhatToQueryGroup(property.AsField(), what);
         }
         else
         {
-            return new QueryGroup(new QueryField(dbField.Name, what));
+            return new QueryGroup(new QueryField(dbField.FieldName, what));
         }
     }
 
@@ -1010,7 +1010,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return new QueryGroup(new QueryField(field.Name, what));
+            return new QueryGroup(new QueryField(field.FieldName, what));
         }
     }
 
@@ -1086,14 +1086,14 @@ public static partial class DbConnectionExtension
             if (TypeCache.Get(type).IsClassType())
             {
                 var properties = PropertyCache.Get(type) ?? type.GetClassProperties();
-                if (properties?.GetByMappedName(dbField.Name) is { } property)
+                if (properties?.GetByFieldName(dbField.FieldName) is { } property)
                 {
                     return new QueryGroup(property.PropertyInfo.AsQueryField(entity));
                 }
             }
             else
             {
-                return new QueryGroup(new QueryField(dbField.Name, entity));
+                return new QueryGroup(new QueryField(dbField.FieldName, entity));
             }
         }
         throw new KeyFieldNotFoundException($"No primary key and identity key found.");
@@ -1124,11 +1124,11 @@ public static partial class DbConnectionExtension
     internal static QueryGroup? ToQueryGroup(Field field,
         IDictionary<string, object> dictionary)
     {
-        if (!dictionary.TryGetValue(field.Name, out var value))
+        if (!dictionary.TryGetValue(field.FieldName, out var value))
         {
-            throw new MissingFieldsException(new[] { field.Name });
+            throw new MissingFieldsException(new[] { field.FieldName });
         }
-        return ToQueryGroup(new QueryField(field.Name, value));
+        return ToQueryGroup(new QueryField(field.FieldName, value));
     }
 
     /// <summary>
@@ -1265,9 +1265,9 @@ public static partial class DbConnectionExtension
         var queryFields = new List<QueryField>();
         foreach (var field in qualifiers)
         {
-            if (properties.GetByMappedName(field.Name) is { } property)
+            if (properties.GetByFieldName(field.FieldName) is { } property)
             {
-                queryFields.Add(new QueryField(field.Name, property.PropertyInfo.GetValue(entity)));
+                queryFields.Add(new QueryField(field.FieldName, property.PropertyInfo.GetValue(entity)));
             }
         }
         return new QueryGroup(queryFields);
@@ -1291,9 +1291,9 @@ public static partial class DbConnectionExtension
 
         foreach (var field in qualifiers)
         {
-            if (dictionary.TryGetValue(field.Name, out var value))
+            if (dictionary.TryGetValue(field.FieldName, out var value))
             {
-                queryFields.Add(new QueryField(field.Name, value));
+                queryFields.Add(new QueryField(field.FieldName, value));
             }
         }
 
@@ -1712,7 +1712,7 @@ public static partial class DbConnectionExtension
         // Get
         var commandArrayParameter = GetCommandArrayParameter(
             command,
-            queryField.Field.Name,
+            queryField.Field.FieldName,
             queryField.Parameter.Value);
 
         // Check
@@ -1726,7 +1726,7 @@ public static partial class DbConnectionExtension
         {
             CommandText = GetRawSqlText(commandText,
                 dbConnection, transaction,
-                queryField.Field.Name,
+                queryField.Field.FieldName,
                 commandArrayParameter.Values,
                 dbSetting),
             DbType = queryField.Parameter.DbType
@@ -1775,7 +1775,7 @@ public static partial class DbConnectionExtension
             // Get
             var commandArrayParameter = GetCommandArrayParameter(
                 command,
-                queryField.Field.Name,
+                queryField.Field.FieldName,
                 queryField.Parameter.Value);
 
             // Skip
@@ -1787,7 +1787,7 @@ public static partial class DbConnectionExtension
             // CommandText
             commandText = GetRawSqlText(commandText,
                 dbConnection, transaction,
-                queryField.Field.Name,
+                queryField.Field.FieldName,
                 commandArrayParameter.Values,
                 dbSetting);
 

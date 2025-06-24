@@ -49,7 +49,7 @@ public static partial class NpgsqlConnectionExtension
         {
             fields = fields?
                 .Where(field =>
-                    !string.Equals(field.Name, identityField?.Name, System.StringComparison.OrdinalIgnoreCase));
+                    !string.Equals(field.FieldName, identityField?.FieldName, System.StringComparison.OrdinalIgnoreCase));
         }
 
         // Build the query
@@ -86,7 +86,7 @@ public static partial class NpgsqlConnectionExtension
                 .WriteText("-1")
                 .As("Index", dbSetting)
                 .WriteText(", ")
-                .WriteText(identityField.Name.AsQuoted(true, dbSetting))
+                .WriteText(identityField.FieldName.AsQuoted(true, dbSetting))
                 .As("Identity", dbSetting);
         }
 
@@ -256,7 +256,7 @@ public static partial class NpgsqlConnectionExtension
         var setColumns = updatableFields
             .Select(field =>
             {
-                var name = field.Name.AsQuoted(true, dbSetting);
+                var name = field.FieldName.AsQuoted(true, dbSetting);
                 return $"{name} = EXCLUDED.{name}";
             })
             .Join(", ");
@@ -529,7 +529,7 @@ WHERE 1 = 0;";
         var returnIdentityTableName = GetTemporaryReturnIdentityTableName().AsQuoted(true, dbSetting);
         var orderColumnOrderField = GetOderColumnOrderField();
         var orderColumnName = orderColumnOrderField.Name.AsQuoted(true, dbSetting);
-        var idColumnName = identityField.Name.AsQuoted(true, dbSetting);
+        var idColumnName = identityField.FieldName.AsQuoted(true, dbSetting);
 
         // Drop if exists
         builder
@@ -613,7 +613,7 @@ ORDER BY ""Index"";";
         {
             fields = fields?
                 .Where(field =>
-                    !string.Equals(field.Name, identityField?.Name, System.StringComparison.OrdinalIgnoreCase));
+                    !string.Equals(field.FieldName, identityField?.FieldName, System.StringComparison.OrdinalIgnoreCase));
         }
 
         // Insert
@@ -654,7 +654,7 @@ ORDER BY ""Index"";";
                 qualifiers
                     .Select(
                         field =>
-                            $"T.{field.Name.AsQuoted(true, dbSetting)} IS NULL")
+                            $"T.{field.FieldName.AsQuoted(true, dbSetting)} IS NULL")
                     .Join(" AND "))
             .Returning()
             .WriteText("-1 AS \"Index\", -1 AS \"Identity\"")
@@ -694,11 +694,11 @@ ORDER BY ""Index"";";
             .AsQuoted(true, dbSetting);
         var targetFields = fields
             .Select(field =>
-                field.Name.AsQuoted(true, dbSetting))
+                field.FieldName.AsQuoted(true, dbSetting))
             .Join(", ");
         var sourceFields = fields
             .Select(field =>
-                $"S.{field.Name.AsQuoted(true, dbSetting)}")
+                $"S.{field.FieldName.AsQuoted(true, dbSetting)}")
             .Join(", ");
         var joinQualifiers = qualifiers
             .Select(
@@ -708,9 +708,9 @@ ORDER BY ""Index"";";
         var whereQualifiers = qualifiers
             .Select(
                 field =>
-                    $"T.{field.Name.AsQuoted(true, dbSetting)} IS NULL")
+                    $"T.{field.FieldName.AsQuoted(true, dbSetting)} IS NULL")
             .Join(" AND ");
-        var identityName = identityField.Name.AsField(dbSetting);
+        var identityName = identityField.FieldName.AsField(dbSetting);
         var orderColumnOrderField = GetOderColumnOrderField();
         var orderColumnName = orderColumnOrderField.Name.AsQuoted(true, dbSetting);
 
@@ -868,9 +868,9 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
             .End()
             .WriteText("WITH CTE AS (")
             .Select()
-            .WriteText($"ROW_NUMBER() OVER (PARTITION BY S.{orderColumnName} ORDER BY T.{identityField.Name.AsQuoted(true, dbSetting)} DESC) AS {rowNumber},")
+            .WriteText($"ROW_NUMBER() OVER (PARTITION BY S.{orderColumnName} ORDER BY T.{identityField.FieldName.AsQuoted(true, dbSetting)} DESC) AS {rowNumber},")
             .WriteText($"S.{orderColumnName} AS {indexName},")
-            .WriteText($"T.{identityField.Name.AsQuoted(true, dbSetting)} AS {identityName}")
+            .WriteText($"T.{identityField.FieldName.AsQuoted(true, dbSetting)} AS {identityName}")
             .From()
             .TableNameFrom(sourceTableName, dbSetting)
             .WriteText("AS S")
@@ -1244,7 +1244,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
 
         if (missingQualifiers?.Any() == true)
         {
-            throw new InvalidOperationException($"The qualifiers '{missingQualifiers.Select(field => field.Name).Join(", ")}' are not found from the list of fields.");
+            throw new InvalidOperationException($"The qualifiers '{missingQualifiers.Select(field => field.FieldName).Join(", ")}' are not found from the list of fields.");
         }
     }
 
@@ -1261,7 +1261,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         qualifiers?
             .Where(qualifier =>
                 fields?.FirstOrDefault(field => field == qualifier ||
-                    string.Equals(field.Name.AsQuoted(true, dbSetting), qualifier.Name.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) == null);
+                    string.Equals(field.FieldName.AsQuoted(true, dbSetting), qualifier.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) == null);
 
     /// <summary>
     /// 
@@ -1297,7 +1297,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         fields?
             .Where(field =>
             {
-                var isIdentity = string.Equals(identityField?.Name.AsQuoted(true, dbSetting), field.Name.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase);
+                var isIdentity = string.Equals(identityField?.FieldName.AsQuoted(true, dbSetting), field.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase);
                 return (isIdentity == false) ||
                     (isIdentity && identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
             });
@@ -1316,10 +1316,10 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         IDbSetting dbSetting) =>
         fields?
             .Where(field =>
-                !string.Equals(primaryField?.Name.AsQuoted(true, dbSetting), field.Name.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase))
+                !string.Equals(primaryField?.FieldName.AsQuoted(true, dbSetting), field.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase))
             .Where(field =>
                 qualfiers?.FirstOrDefault(qualifier => qualifier == field ||
-                    string.Equals(qualifier.Name.AsQuoted(true, dbSetting), field.Name.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) == null);
+                    string.Equals(qualifier.FieldName.AsQuoted(true, dbSetting), field.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) == null);
 
     #endregion
 }

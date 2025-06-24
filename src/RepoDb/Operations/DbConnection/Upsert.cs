@@ -68,7 +68,7 @@ public static partial class DbConnectionExtension
             }
 
             // Set the primary key
-            primaryKey = properties.GetByMappedName(primary?.Name);
+            primaryKey = properties.GetByFieldName(primary?.FieldName);
 
             where = CreateQueryGroupForUpsert(entity,
                 properties,
@@ -125,7 +125,7 @@ public static partial class DbConnectionExtension
                 else
                 {
                     var dictionary = (IDictionary<string, object>)entity;
-                    if (primary != null && dictionary.TryGetValue(primary.Name, out var value))
+                    if (primary != null && dictionary.TryGetValue(primary.FieldName, out var value))
                     {
                         result = Converter.ToType<TResult>(value);
                     }
@@ -224,7 +224,7 @@ public static partial class DbConnectionExtension
 
             // Set the primary key
             primaryKey = properties.FirstOrDefault(p =>
-                string.Equals(primary?.Name, p.GetMappedName(), StringComparison.OrdinalIgnoreCase));
+                string.Equals(primary?.FieldName, p.FieldName, StringComparison.OrdinalIgnoreCase));
 
             where = CreateQueryGroupForUpsert(entity,
                 properties,
@@ -283,7 +283,7 @@ public static partial class DbConnectionExtension
                 else
                 {
                     var dictionary = (IDictionary<string, object>)entity;
-                    if (primary != null && dictionary.TryGetValue(primary.Name, out var value))
+                    if (primary != null && dictionary.TryGetValue(primary.FieldName, out var value))
                     {
                         result = Converter.ToType<TResult>(value)!;
                     }

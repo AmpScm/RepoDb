@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -37,7 +38,7 @@ public class Field : IEquatable<Field>
         }
 
         // Set the name
-        Name = name;
+        FieldName = name;
 
         // Set the type
         Type = type;
@@ -46,9 +47,13 @@ public class Field : IEquatable<Field>
     #region Properties
 
     /// <summary>
-    /// Gets the quoted name of the field.
+    /// Gets the unquoted name of the field.
     /// </summary>
-    public string Name { get; }
+    public string FieldName { get; }
+
+
+    [Obsolete("Use .FieldName"), EditorBrowsable(EditorBrowsableState.Never)]
+    public string Name => FieldName;
 
     /// <summary>
     /// Gets the type of the field.
@@ -64,7 +69,7 @@ public class Field : IEquatable<Field>
     /// </summary>
     /// <returns>The string value equivalent to the name of the field.</returns>
     public override string ToString() =>
-        string.Concat(Name, ", ", Type?.FullName, " (", HashCode?.ToString(CultureInfo.InvariantCulture), ")");
+        string.Concat(FieldName, ", ", Type?.FullName, " (", HashCode?.ToString(CultureInfo.InvariantCulture), ")");
 
 
     #endregion
@@ -288,7 +293,7 @@ public class Field : IEquatable<Field>
     /// <returns>The hashcode value.</returns>
     public override int GetHashCode()
     {
-        return HashCode ??= System.HashCode.Combine(Name, Type);
+        return HashCode ??= System.HashCode.Combine(FieldName, Type);
     }
 
     /// <summary>
@@ -309,7 +314,7 @@ public class Field : IEquatable<Field>
     public bool Equals(Field? other)
     {
         return other is not null
-            && other.Name == Name
+            && other.FieldName == FieldName
             && other.Type == Type;
     }
 
@@ -347,12 +352,12 @@ public class Field : IEquatable<Field>
     {
         public bool Equals(Field? x, Field? y)
         {
-            return StringComparer.OrdinalIgnoreCase.Equals(x?.Name, y?.Name);
+            return StringComparer.OrdinalIgnoreCase.Equals(x?.FieldName, y?.FieldName);
         }
 
         public int GetHashCode([DisallowNull] Field obj)
         {
-            return StringComparer.OrdinalIgnoreCase.GetHashCode(obj?.Name ?? "");
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(obj?.FieldName ?? "");
         }
     }
 }

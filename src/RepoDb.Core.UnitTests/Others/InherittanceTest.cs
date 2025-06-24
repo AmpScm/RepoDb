@@ -94,7 +94,7 @@ public class InherittanceTest
         var queryField = queryGroup.GetFields(true).First();
 
         // Assert
-        Assert.AreEqual("PrimaryId", queryField.Field.Name);
+        Assert.AreEqual("PrimaryId", queryField.Field.FieldName);
     }
 
     #endregion
@@ -142,7 +142,7 @@ public class InherittanceTest
         var field = Field.Parse<DerivedClass>(e => e.PrimaryId).FirstOrDefault();
 
         // Assert
-        Assert.AreEqual("PrimaryId", field?.Name);
+        Assert.AreEqual("PrimaryId", field?.FieldName);
     }
 
     #endregion
@@ -166,7 +166,7 @@ public class InherittanceTest
         var queryField = queryGroup.GetFields(true).First();
 
         // Assert
-        Assert.AreEqual("PrimaryId", queryField.Field.Name);
+        Assert.AreEqual("PrimaryId", queryField.Field.FieldName);
     }
 
     #endregion

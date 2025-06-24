@@ -80,7 +80,7 @@ public static partial class SqlConnectionExtension
             {
                 var options = primaryOrIdentityDbField.IsIdentity == true ?
                     Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")() : default;
-                var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.Name, primaryOrIdentityField.Name) };
+                var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.FieldName, primaryOrIdentityField.FieldName) };
 
                 // WriteToServer
                 WriteToServerInternal(connection,
@@ -202,8 +202,8 @@ public static partial class SqlConnectionExtension
             {
                 fields = fields
                     .Where(e =>
-                        mappings.Any(m => string.Equals(m.DestinationColumn, e.Name, StringComparison.OrdinalIgnoreCase)) == true ||
-                        qualifiers.Any(q => string.Equals(q.Name, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true ||
+                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
             }
             else
             {
@@ -212,13 +212,13 @@ public static partial class SqlConnectionExtension
                 {
                     fields = fields
                         .Where(e =>
-                            readerFields.Any(fieldName => string.Equals(fieldName, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                            readerFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
                 }
 
                 // Filter the fields (based on the data table)
                 mappings = fields?
                     .Select(e =>
-                        new BulkInsertMapItem(e.Name, e.Name));
+                        new BulkInsertMapItem(e.FieldName, e.FieldName));
             }
 
             // Throw an error if there are no fields
@@ -370,8 +370,8 @@ public static partial class SqlConnectionExtension
             {
                 fields = fields
                     .Where(e =>
-                        mappings.Any(m => string.Equals(m.DestinationColumn, e.Name, StringComparison.OrdinalIgnoreCase)) == true ||
-                        qualifiers.Any(q => string.Equals(q.Name, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true ||
+                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
             }
             else
             {
@@ -380,13 +380,13 @@ public static partial class SqlConnectionExtension
                 {
                     fields = fields
                         .Where(e =>
-                            tableFields.Any(fieldName => string.Equals(fieldName, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                            tableFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
                 }
 
                 // Filter the fields (based on the data table)
                 mappings = fields?
                     .Select(e =>
-                        new BulkInsertMapItem(e.Name, e.Name));
+                        new BulkInsertMapItem(e.FieldName, e.FieldName));
             }
 
             // Throw an error if there are no fields
@@ -537,7 +537,7 @@ public static partial class SqlConnectionExtension
             {
                 var options = primaryOrIdentityDbField.IsIdentity == true ?
                     Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")() : default;
-                var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.Name, primaryOrIdentityField.Name) };
+                var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.FieldName, primaryOrIdentityField.FieldName) };
 
                 // WriteToServer
                 await WriteToServerAsyncInternal(connection,
@@ -663,8 +663,8 @@ public static partial class SqlConnectionExtension
             {
                 fields = fields
                     .Where(e =>
-                        mappings.Any(m => string.Equals(m.DestinationColumn, e.Name, StringComparison.OrdinalIgnoreCase)) == true ||
-                        qualifiers.Any(q => string.Equals(q.Name, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true ||
+                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
             }
             else
             {
@@ -673,13 +673,13 @@ public static partial class SqlConnectionExtension
                 {
                     fields = fields
                         .Where(e =>
-                            readerFields.Any(fieldName => string.Equals(fieldName, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                            readerFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
                 }
 
                 // Filter the fields (based on the data table)
                 mappings = fields?
                     .Select(e =>
-                        new BulkInsertMapItem(e.Name, e.Name));
+                        new BulkInsertMapItem(e.FieldName, e.FieldName));
             }
 
             // Throw an error if there are no fields
@@ -834,8 +834,8 @@ public static partial class SqlConnectionExtension
             {
                 fields = fields
                     .Where(e =>
-                        mappings.Any(m => string.Equals(m.DestinationColumn, e.Name, StringComparison.OrdinalIgnoreCase)) == true ||
-                        qualifiers.Any(q => string.Equals(q.Name, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true ||
+                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
             }
             else
             {
@@ -844,13 +844,13 @@ public static partial class SqlConnectionExtension
                 {
                     fields = fields
                         .Where(e =>
-                            tableFields.Any(fieldName => string.Equals(fieldName, e.Name, StringComparison.OrdinalIgnoreCase)) == true);
+                            tableFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
                 }
 
                 // Filter the fields (based on the data table)
                 mappings = fields?
                     .Select(e =>
-                        new BulkInsertMapItem(e.Name, e.Name));
+                        new BulkInsertMapItem(e.FieldName, e.FieldName));
             }
 
             // Throw an error if there are no fields

@@ -379,23 +379,6 @@ public class BaseStatementBuilderCreateUpdateAllTest
             identityField: identifyField);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-    public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfThereAreNoQualifiers()
-    {
-        // Setup
-        var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
-        var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
-
-        // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
-            fields: fields,
-            qualifiers: null,
-            batchSize: 1,
-            primaryField: null,
-            identityField: null);
-    }
-
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfTheBatchSizeIsGreaterThan1AndTheMultipleStatementExecutionIsNotSupported()
     {

@@ -35,9 +35,9 @@ internal static class UpdateAllExecutionContextProvider
             ";",
             tableName,
             ";",
-            qualifiers?.Select(f => f.Name).Join(","),
+            qualifiers?.Select(f => f.FieldName).Join(","),
             ";",
-            fields?.Select(f => f.Name).Join(","),
+            fields?.Select(f => f.FieldName).Join(","),
             ";",
             batchSize.ToString(CultureInfo.InvariantCulture),
             ";",
@@ -83,7 +83,7 @@ internal static class UpdateAllExecutionContextProvider
 
         if (dbFields.Any(x => x.IsGenerated) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
 
         var request = new UpdateAllRequest(tableName,
@@ -154,7 +154,7 @@ internal static class UpdateAllExecutionContextProvider
 
         if (dbFields.Any(x => x.IsGenerated) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
 
         var request = new UpdateAllRequest(tableName,
@@ -212,7 +212,7 @@ internal static class UpdateAllExecutionContextProvider
 
         // Filter the actual properties for input fields
         inputFields = dbFields
-            .Where(dbField => fields.GetByName(dbField.Name) != null)
+            .Where(dbField => fields.GetByFieldName(dbField.FieldName) != null)
             .AsList();
 
         // Exclude the fields not on the actual entity
@@ -221,7 +221,7 @@ internal static class UpdateAllExecutionContextProvider
             var entityFields = Field.Parse(entities?.FirstOrDefault());
             inputFields = inputFields
                 .Where(field =>
-                    entityFields.FirstOrDefault(f => string.Equals(f.Name.AsUnquoted(true, dbSetting), field.Name.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
+                    entityFields.FirstOrDefault(f => string.Equals(f.FieldName.AsUnquoted(true, dbSetting), field.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
                 .AsList();
         }
 

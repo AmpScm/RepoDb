@@ -1071,13 +1071,13 @@ public static class CommandTextCache
             // Check if the qualifiers are present in the given fields
             var unmatchesQualifiers = qualifiers.Where(field =>
                 fields?.FirstOrDefault(f =>
-                    string.Equals(field.Name, f.Name, StringComparison.OrdinalIgnoreCase)) == null);
+                    string.Equals(field.FieldName, f.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
 
             // Throw an error we found any unmatches
             if (unmatchesQualifiers.Any() == true)
             {
-                throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.Name).Join(", ")}' are not " +
-                    $"present at the given fields '{fields.Select(field => field.Name).Join(", ")}'.");
+                throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
+                    $"present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
             }
         }
         else
@@ -1088,13 +1088,13 @@ public static class CommandTextCache
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
                 var isPresent = fields.FirstOrDefault(f =>
-                    string.Equals(f.Name, primaryField.Name, StringComparison.OrdinalIgnoreCase)) != null;
+                    string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
 
                 // Throw if not present
                 if (isPresent == false)
                 {
                     throw new InvalidQualifiersException($"There are no qualifier field objects found for '{request.Name}'. Ensure that the " +
-                        $"primary field is present at the given fields '{fields.Select(field => field.Name).Join(", ")}'.");
+                        $"primary field is present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
                 }
 
                 // The primary is present, use it as a default if there are no qualifiers given
@@ -1179,7 +1179,7 @@ public static class CommandTextCache
         var unmatchesOrderFields = dbFields?.IsEmpty() == false ?
             orderFields
                 .Where(of =>
-                    dbFields.GetByName(of.Name.AsUnquoted(true, dbSetting)) == null) : null;
+                    dbFields.GetByFieldName(of.Name.AsUnquoted(true, dbSetting)) == null) : null;
         if (unmatchesOrderFields?.Any() == true)
         {
             throw new MissingFieldsException($"The order fields '{unmatchesOrderFields.Select(of => of.Name).Join(", ")}' are not present from the actual table.");
@@ -1244,7 +1244,7 @@ public static class CommandTextCache
         return dbFields?.IsEmpty() == false ?
             fields
                 .Where(f =>
-                    dbFields.GetByName(f.Name.AsUnquoted(true, dbSetting)) != null) :
+                    dbFields.GetByFieldName(f.FieldName.AsUnquoted(true, dbSetting)) != null) :
             fields;
     }
 
@@ -1302,7 +1302,7 @@ public static class CommandTextCache
         {
             foreach (var p in primary)
             {
-                if (dbFields.GetByName(p.Name) is { } dbPrimary && !dbPrimary.IsPrimary)
+                if (dbFields.GetByFieldName(p.PropertyName) is { } dbPrimary && !dbPrimary.IsPrimary)
                 {
                     // Attribute-based primary key differs from the database primary key
 
@@ -1312,9 +1312,9 @@ public static class CommandTextCache
                         continue;
 
                     dbFieldListUpdated[ix] = new DbField(
-                        name: dbPrimary.Name,
+                        name: dbPrimary.FieldName,
                         isPrimary: true,
-                        isIdentity: dbPrimary.IsIdentity || (identity is { } && identity.Name == p.Name),
+                        isIdentity: dbPrimary.IsIdentity || (identity is { } && identity.PropertyName == p.PropertyName),
                         dbPrimary.IsNullable,
                         dbPrimary.Type,
                         dbPrimary.Size,
@@ -1322,16 +1322,16 @@ public static class CommandTextCache
                         dbPrimary.Scale,
                         dbPrimary.DatabaseType,
                         dbPrimary.HasDefaultValue,
-                        dbPrimary.IsGenerated || (identity is { } && identity.Name == p.Name),
+                        dbPrimary.IsGenerated || (identity is { } && identity.PropertyName == p.PropertyName),
                         dbPrimary.Provider);
                 }
             }
         }
 
-        if (identity is { } && identity.Name is { } identityName)
+        if (identity is { } && identity.PropertyName is { } identityName)
         {
-            if (dbFields.GetByName(identityName) is { } dbIdentity && !dbIdentity.IsIdentity
-                && !list.Any(x => x.Name == identityName && x.IsIdentity))
+            if (dbFields.GetByFieldName(identityName) is { } dbIdentity && !dbIdentity.IsIdentity
+                && !list.Any(x => x.FieldName == identityName && x.IsIdentity))
             {
                 // Attribute-based identity differs from what is in the database
                 // *and* not already fixed by the primary key loop above
@@ -1341,7 +1341,7 @@ public static class CommandTextCache
                     return list;
 
                 dbFieldListUpdated[ix] = new DbField(
-                    name: dbIdentity.Name,
+                    name: dbIdentity.FieldName,
                     isPrimary: dbIdentity.IsPrimary,
                     isIdentity: true,
                     dbIdentity.IsNullable,
@@ -1363,7 +1363,7 @@ public static class CommandTextCache
         {
             for (int i = 0; i < dbFieldListUpdated.Count; i++)
             {
-                if (dbFieldListUpdated[i] is { } move && move.Name == returnField.Name)
+                if (dbFieldListUpdated[i] is { } move && move.FieldName == returnField.FieldName)
                 {
                     if (i > 0)
                     {

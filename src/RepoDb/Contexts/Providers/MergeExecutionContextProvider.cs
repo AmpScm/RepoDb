@@ -32,11 +32,11 @@ internal static class MergeExecutionContextProvider
             ";",
             tableName,
             ";",
-            qualifiers?.Select(f => f.Name).Join(","),
+            qualifiers?.Select(f => f.FieldName).Join(","),
             ";",
-            fields.Select(f => f.Name).Join(","),
+            fields.Select(f => f.FieldName).Join(","),
             ";",
-            noUpdateFields?.Select(f => f.Name).Join(","),
+            noUpdateFields?.Select(f => f.FieldName).Join(","),
             ";",
             hints);
     }
@@ -77,7 +77,7 @@ internal static class MergeExecutionContextProvider
 
         if (dbFields.Any(x => x.IsGenerated) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
 
         var request = new MergeRequest(tableName,
@@ -143,7 +143,7 @@ internal static class MergeExecutionContextProvider
 
         if (dbFields.Any(x => x.IsGenerated) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
 
         var request = new MergeRequest(tableName,
@@ -193,7 +193,7 @@ internal static class MergeExecutionContextProvider
         var inputFields = dbFields
             .Where(dbField =>
                 fields.FirstOrDefault(field =>
-                    string.Equals(field.Name.AsUnquoted(true, dbSetting), dbField.Name, StringComparison.OrdinalIgnoreCase)) != null)
+                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
             .AsList();
 
         // Variables for the entity action

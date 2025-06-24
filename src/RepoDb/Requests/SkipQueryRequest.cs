@@ -74,7 +74,7 @@ internal sealed class SkipQueryRequest : BaseRequest
               transaction,
               statementBuilder)
     {
-        Fields = fields?.AsList();
+        Fields = fields?.AsFieldSet();
         Where = where;
         Skip = skip;
         RowsPerBatch = take;
@@ -85,7 +85,7 @@ internal sealed class SkipQueryRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public List<Field>? Fields { get; init; }
+    public FieldSet? Fields { get; init; }
 
     /// <summary>
     /// Gets the query expression used.
@@ -129,16 +129,8 @@ internal sealed class SkipQueryRequest : BaseRequest
                 Where,
                 Skip,
                 RowsPerBatch,
-                Hints);
-
-            // Add the fields
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
+                Hints,
+                Fields);
 
             // Add the order fields
             if (OrderBy != null)

@@ -906,7 +906,7 @@ public class ExecuteQueryBuilderTest
                 ClassMappedNameCache.Get<IdentityTable>(),
                 fields: fields,
                 noUpdateFields: null,
-                keyFields: dbFields.Where(df => (df.IsPrimary || df.IsIdentity)), qualifiers: fields.Where(f => dbFields.Any(df => (df.IsPrimary || df.IsIdentity) && df.Name == f.Name)));
+                keyFields: dbFields.Where(df => (df.IsPrimary || df.IsIdentity)), qualifiers: fields.Where(f => dbFields.Any(df => (df.IsPrimary || df.IsIdentity) && df.FieldName == f.FieldName)));
 
             // Act
             var affectedRow = connection.ExecuteNonQuery(sql, table);

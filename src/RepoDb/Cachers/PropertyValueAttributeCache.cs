@@ -51,7 +51,7 @@ public static class PropertyValueAttributeCache
     /// <returns>The list of <see cref="PropertyValueAttribute"/> object.</returns>
     public static IEnumerable<PropertyValueAttribute> Get<TEntity>(Field field)
         where TEntity : class =>
-        Get(TypeExtension.GetProperty<TEntity>(field.Name) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
+        Get(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
 
     /// <summary>
     /// Property Level: Gets the list of cached <see cref="PropertyValueAttribute"/> objects that is currently mapped to the <see cref="PropertyInfo"/> object.

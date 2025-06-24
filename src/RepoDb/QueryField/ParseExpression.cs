@@ -22,14 +22,14 @@ public partial class QueryField
         // Failing at some point - for base interfaces
         var property = properties
             .FirstOrDefault(p =>
-                string.Equals(p.GetMappedName(), field.Name, StringComparison.OrdinalIgnoreCase));
+                string.Equals(p.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase));
 
         // Matches to the actual class properties
         if (property == null)
         {
             property = properties
                 .FirstOrDefault(p =>
-                    string.Equals(p.PropertyInfo.Name, field.Name, StringComparison.OrdinalIgnoreCase));
+                    string.Equals(p.PropertyInfo.Name, field.FieldName, StringComparison.OrdinalIgnoreCase));
         }
 
         // Return the value
@@ -155,7 +155,7 @@ public partial class QueryField
         // Check
         if (property == null)
         {
-            throw new InvalidExpressionException($"Invalid expression '{expression}'. The property {field.Name} is not defined on a target type '{typeof(TEntity).FullName}'.");
+            throw new InvalidExpressionException($"Invalid expression '{expression}'. The property {field.FieldName} is not defined on a target type '{typeof(TEntity).FullName}'.");
         }
         else
         {
@@ -261,7 +261,7 @@ public partial class QueryField
         }
 
         // Return
-        return new QueryField(property.GetMappedName(), operation, value, null, false).AsEnumerable();
+        return new QueryField(property.FieldName, operation, value, null, false).AsEnumerable();
     }
 
     /*
@@ -327,7 +327,7 @@ public partial class QueryField
             if (expression.Object?.Type == StaticType.String)
             {
                 var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
-                return new QueryField(property.GetMappedName(), value);
+                return new QueryField(property.FieldName, value);
             }
         }
 
@@ -375,18 +375,18 @@ public partial class QueryField
             if (expression.Object?.Type == StaticType.String)
             {
                 var likeable = ConvertToLikeableValue("Contains", Converter.ToType<string>(expression.Arguments.First().GetValue()));
-                return ToLike(property.GetMappedName(), likeable, unaryNodeType);
+                return ToLike(property.FieldName, likeable, unaryNodeType);
             }
             else
             {
                 var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Object.GetValue());
-                return ToIn(property.GetMappedName(), enumerable!, unaryNodeType);
+                return ToIn(property.FieldName, enumerable!, unaryNodeType);
             }
         }
         else
         {
             var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-            return ToIn(property.GetMappedName(), enumerable!, unaryNodeType);
+            return ToIn(property.FieldName, enumerable!, unaryNodeType);
         }
     }
 
@@ -408,7 +408,7 @@ public partial class QueryField
         var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
 
         // Fields
-        return ToLike(property.GetMappedName(),
+        return ToLike(property.FieldName,
             ConvertToLikeableValue(expression.Method.Name, value), unaryNodeType);
     }
 
@@ -428,7 +428,7 @@ public partial class QueryField
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-        return ToQueryFields(property.GetMappedName(), enumerable!, unaryNodeType);
+        return ToQueryFields(property.FieldName, enumerable!, unaryNodeType);
     }
 
     /// <summary>
@@ -447,7 +447,7 @@ public partial class QueryField
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-        return ToQueryFields(property.GetMappedName(), enumerable!, unaryNodeType);
+        return ToQueryFields(property.FieldName, enumerable!, unaryNodeType);
     }
 
     #region GetProperty
@@ -528,8 +528,8 @@ public partial class QueryField
         var name = PropertyMappedNameCache.Get(propertyInfo);
 
         // Failing at some point - for base interfaces
-        return properties.GetByMappedName(name)
-            ?? properties.GetByName(name);
+        return properties.GetByFieldName(name)
+            ?? properties.GetByPropertyName(name);
     }
 
     #endregion

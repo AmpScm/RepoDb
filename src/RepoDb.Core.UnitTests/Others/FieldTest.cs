@@ -35,7 +35,7 @@ public partial class FieldTest
         var field = new Field("FieldName");
 
         // Act
-        var equal = Equals("FieldName", field.Name);
+        var equal = Equals("FieldName", field.FieldName);
 
         // Assert
         Assert.IsTrue(equal);
@@ -52,7 +52,7 @@ public partial class FieldTest
 
         // Assert
         Assert.AreEqual(3, parsed.Count());
-        Assert.IsTrue(parsed.All(field => fields.Contains(field.Name)));
+        Assert.IsTrue(parsed.All(field => fields.Contains(field.FieldName)));
     }
 
     [TestMethod]

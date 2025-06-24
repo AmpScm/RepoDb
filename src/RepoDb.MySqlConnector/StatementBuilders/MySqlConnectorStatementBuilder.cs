@@ -267,10 +267,10 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 else
                 {
                     builder
-                        .WriteText(kf.Name.AsParameter(DbSetting));
+                        .WriteText(kf.FieldName.AsParameter(DbSetting));
                 }
 
-                builder.As(kf.Name, DbSetting);
+                builder.As(kf.FieldName, DbSetting);
             }
             builder
                 .End(DbSetting);
@@ -315,7 +315,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
 
         // Insertable fields
         var insertableFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is not { } x || !(x.IsGenerated || x.IsIdentity));
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is not { } x || !(x.IsGenerated || x.IsIdentity));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -383,7 +383,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                     else
                     {
                         builder
-                            .WriteText(kf.Name.AsParameter(index, DbSetting));
+                            .WriteText(kf.FieldName.AsParameter(index, DbSetting));
                     }
                 }
 
@@ -495,8 +495,8 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         }
 
         var updateFields = fields
-            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .ToList();
+            .Where(f => noUpdateFields?.GetByFieldName(f.FieldName) is null && qualifiers.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+            .AsFieldSet();
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -525,7 +525,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, updateFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && fields.GetByName(x.Name) is null));
+            IdentityFieldsAndParametersFrom(builder, fields, updateFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && fields.GetByFieldName(x.FieldName) is null));
         }
         builder
             .End();
@@ -543,7 +543,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 else
                     builder.Comma();
 
-                if (kf.IsIdentity && fields.GetByName(kf.Name) is null)
+                if (kf.IsIdentity && fields.GetByFieldName(kf.FieldName) is null)
                 {
                     builder
                         .WriteText("LAST_INSERT_ID()");
@@ -551,10 +551,10 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 else
                 {
                     builder
-                        .WriteText(kf.Name.AsParameter(DbSetting));
+                        .WriteText(kf.FieldName.AsParameter(DbSetting));
                 }
 
-                builder.As(kf.Name, DbSetting);
+                builder.As(kf.FieldName, DbSetting);
             }
             builder
                 .End(DbSetting);
@@ -598,8 +598,8 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         var updateFields = fields
-            .Where(f => noUpdateFields?.GetByName(f.Name) is null && qualifiers?.GetByName(f.Name) is null && keyFields?.GetByName(f.Name) is not { IsIdentity: true })
-            .ToList();
+            .Where(f => noUpdateFields?.GetByFieldName(f.FieldName) is null && qualifiers?.GetByFieldName(f.FieldName) is null && keyFields?.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+            .AsFieldSet();
 
         // Iterate the indexes
         for (var index = 0; index < batchSize; index++)
@@ -642,16 +642,16 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                         builder
                             .WriteText("COALESCE")
                             .OpenParen()
-                            .WriteText(kf.Name.AsParameter(index, DbSetting))
+                            .WriteText(kf.FieldName.AsParameter(index, DbSetting))
                             .Comma()
                             .WriteText("LAST_INSERT_ID()")
                             .CloseParen();
                     }
                     else
                     {
-                        builder.WriteText(kf.Name.AsParameter(index, DbSetting));
+                        builder.WriteText(kf.FieldName.AsParameter(index, DbSetting));
                     }
-                    builder.As(kf.Name, DbSetting);
+                    builder.As(kf.FieldName, DbSetting);
                 }
                 builder.End();
             }
@@ -663,7 +663,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
 
     private void IdentityFieldsAndParametersFrom(QueryBuilder builder, IEnumerable<Field> fields, IEnumerable<Field> updateFields, int index, DbField? identityField)
     {
-        if (identityField is null || fields.GetByName(identityField.Name) is null)
+        if (identityField is null || fields.GetByFieldName(identityField.FieldName) is null)
         {
             builder.FieldsAndParametersFrom(updateFields, index, DbSetting);
         }
@@ -674,10 +674,10 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
 
             builder.FieldFrom(id, DbSetting);
             builder.WriteText("= LAST_INSERT_ID(");
-            builder.WriteText(id.Name.AsParameter(index, DbSetting));
+            builder.WriteText(id.FieldName.AsParameter(index, DbSetting));
             builder.CloseParen();
 
-            var filteredFields = updateFields.Where(x => !string.Equals(x.Name, id.Name, StringComparison.OrdinalIgnoreCase));
+            var filteredFields = updateFields.Where(x => !string.Equals(x.FieldName, id.FieldName, StringComparison.OrdinalIgnoreCase));
             if (filteredFields.Any())
             {
                 builder.Comma();

@@ -43,10 +43,10 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
             if (dbType != null)
             {
                 var dbTypeName = StringNameResolver.Resolve(dbType.Value).ToUpper().AsQuoted(dbSetting);
-                return string.Concat("CONVERT(", dbTypeName, ", ", field.Name.AsField(dbSetting), ")");
+                return string.Concat("CONVERT(", dbTypeName, ", ", field.FieldName.AsField(dbSetting), ")");
             }
         }
-        return field?.Name?.AsField(dbSetting);
+        return field?.FieldName?.AsField(dbSetting);
     }
 
     #endregion

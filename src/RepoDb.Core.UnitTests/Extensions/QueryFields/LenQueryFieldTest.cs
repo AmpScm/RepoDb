@@ -15,7 +15,7 @@ public class LenQueryFieldTest
         var functionalQueryField = new LenQueryField("FieldName", Operation.NotEqual, 5);
 
         // Assert
-        Assert.AreEqual("FieldName", functionalQueryField.Field.Name);
+        Assert.AreEqual("FieldName", functionalQueryField.Field.FieldName);
         Assert.AreEqual(Operation.NotEqual, functionalQueryField.Operation);
         Assert.AreEqual(5, functionalQueryField.Parameter.Value);
         Assert.AreEqual("LEN({0})", functionalQueryField.Format);

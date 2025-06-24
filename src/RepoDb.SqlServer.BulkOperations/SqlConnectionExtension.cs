@@ -40,13 +40,13 @@ public static partial class SqlConnectionExtension
                 var value = Converter.DbNullToNull(reader.GetFieldValue<object>(0));
                 var index = reader.GetFieldValue<int>(1);
                 var dictionary = (IDictionary<string, object>)list[index < 0 ? result : index];
-                dictionary[identityField.Name] = value;
+                dictionary[identityField.FieldName] = value;
                 result++;
             }
         }
         else
         {
-            var func = Compiler.GetPropertySetterFunc<TEntity>(identityField.Name);
+            var func = Compiler.GetPropertySetterFunc<TEntity>(identityField.FieldName);
             if (func != null)
             {
                 while (reader.Read())
@@ -88,13 +88,13 @@ public static partial class SqlConnectionExtension
                 var value = Converter.DbNullToNull(await reader.GetFieldValueAsync<object>(0, cancellationToken));
                 var index = await reader.GetFieldValueAsync<int>(1, cancellationToken);
                 var dictionary = (IDictionary<string, object>)list[(index < 0 ? result : index)];
-                dictionary[identityDbField.Name] = value;
+                dictionary[identityDbField.FieldName] = value;
                 result++;
             }
         }
         else
         {
-            var func = Compiler.GetPropertySetterFunc<TEntity>(identityDbField.Name);
+            var func = Compiler.GetPropertySetterFunc<TEntity>(identityDbField.FieldName);
             while (await reader.ReadAsync(cancellationToken))
             {
                 var value = Converter.DbNullToNull(await reader.GetFieldValueAsync<object>(0, cancellationToken));
@@ -291,7 +291,7 @@ public static partial class SqlConnectionExtension
     {
         foreach (var field in fields)
         {
-            yield return new BulkInsertMapItem(field.Name, field.Name);
+            yield return new BulkInsertMapItem(field.FieldName, field.FieldName);
         }
     }
 
@@ -515,7 +515,7 @@ public static partial class SqlConnectionExtension
 
         // Variables needed
         var clusteredIndexFields = qualifiers
-            .Select(f => $"{f.Name.AsQuoted(dbSetting)} ASC")
+            .Select(f => $"{f.FieldName.AsQuoted(dbSetting)} ASC")
             .Join(", ");
         var builder = new QueryBuilder();
 
@@ -624,7 +624,7 @@ public static partial class SqlConnectionExtension
 
         // Insertable fields
         var insertableFields = fields
-            .Where(field => forceIdentityColumn == true || string.Equals(field.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase) == false);
+            .Where(field => forceIdentityColumn == true || string.Equals(field.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase) == false);
 
         // Compose the statement
         builder.Clear();
@@ -690,7 +690,7 @@ public static partial class SqlConnectionExtension
         if (isReturnIdentity == true && identityField != null)
         {
             builder
-                .WriteText(string.Concat("OUTPUT INSERTED.", identityField.Name.AsField(dbSetting)))
+                .WriteText(string.Concat("OUTPUT INSERTED.", identityField.FieldName.AsField(dbSetting)))
                     .As("Result", dbSetting)
                 .WriteText(", S.[__RepoDb_OrderColumn]")
                     .As("OrderColumn", dbSetting);
@@ -753,14 +753,14 @@ public static partial class SqlConnectionExtension
 
         // Insertable fields
         var insertableFields = fields
-            .Where(field => forceIdentityColumn == true || string.Equals(field.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase) == false);
+            .Where(field => forceIdentityColumn == true || string.Equals(field.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase) == false);
 
         // Updatable fields
         var updateableFields = fields
             .Where(field => field != identityField && field != primaryField)
             .Where(field =>
                 qualifiers.Any(
-                    q => string.Equals(q.Name, field.Name, StringComparison.OrdinalIgnoreCase)) == false);
+                    q => string.Equals(q.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase)) == false);
 
         // Compose the statement
         builder.Clear();
@@ -846,7 +846,7 @@ public static partial class SqlConnectionExtension
         if (isReturnIdentity == true && identityField != null)
         {
             builder
-                .WriteText(string.Concat("OUTPUT INSERTED.", identityField.Name.AsField(dbSetting)))
+                .WriteText(string.Concat("OUTPUT INSERTED.", identityField.FieldName.AsField(dbSetting)))
                     .As("Result", dbSetting)
                 .WriteText(", S.[__RepoDb_OrderColumn]")
                     .As("OrderColumn", dbSetting);
@@ -908,7 +908,7 @@ public static partial class SqlConnectionExtension
             .Where(field => field != identityField && field != primaryField)
             .Where(field =>
                 qualifiers.Any(
-                    q => string.Equals(q.Name, field.Name, StringComparison.OrdinalIgnoreCase)) == false);
+                    q => string.Equals(q.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase)) == false);
 
         // Compose the statement
         builder
@@ -948,7 +948,7 @@ public static partial class SqlConnectionExtension
         var table = new DataTable();
         var column = table
             .Columns
-            .Add(field.Name, field.Type);
+            .Add(field.FieldName, field.Type);
 
         // Add the values
         foreach (var value in values)

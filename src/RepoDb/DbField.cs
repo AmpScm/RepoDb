@@ -158,12 +158,12 @@ public sealed class DbField : Field, IEquatable<DbField>
     /// </summary>
     /// <returns>The string that represents the instance of this <see cref="DbField"/> object.</returns>
     public override string ToString() =>
-        string.Concat(Name, ", ", IsPrimary.ToString(), " (", HashCode.ToString(), ")");
+        string.Concat(FieldName, ", ", IsPrimary.ToString(), " (", HashCode.ToString(), ")");
 
     private string DebuggerDisplay
         => String.Join(" ",
             new string?[] {
-                $@"""{Name}""",
+                $@"""{FieldName}""",
                 IsPrimary ? "primary" : null,
                 IsIdentity ? "identity" : null,
                 Type?.Name is { } name ? $"type={name}" : null,
@@ -186,7 +186,7 @@ public sealed class DbField : Field, IEquatable<DbField>
         if (HashCode is not { } hashCode)
         {
             HashCode = hashCode = System.HashCode.Combine(
-                Name,
+                FieldName,
                 IsPrimary,
                 IsIdentity,
                 IsNullable,
@@ -222,7 +222,7 @@ public sealed class DbField : Field, IEquatable<DbField>
     public bool Equals(DbField? other)
     {
         return other is not null
-            && other.Name == Name
+            && other.FieldName == FieldName
             && other.IsPrimary == IsPrimary
             && other.IsIdentity == IsIdentity
             && other.IsNullable == IsNullable
@@ -268,12 +268,12 @@ public sealed class DbField : Field, IEquatable<DbField>
     {
         public bool Equals(DbField? x, DbField? y)
         {
-            return StringComparer.OrdinalIgnoreCase.Equals(x?.Name, y?.Name);
+            return StringComparer.OrdinalIgnoreCase.Equals(x?.FieldName, y?.FieldName);
         }
 
         public int GetHashCode([DisallowNull] DbField obj)
         {
-            return StringComparer.OrdinalIgnoreCase.GetHashCode(obj.Name);
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(obj.FieldName);
         }
     }
 }

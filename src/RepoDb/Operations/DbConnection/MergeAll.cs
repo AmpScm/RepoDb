@@ -1321,7 +1321,7 @@ public static partial class DbConnectionExtension
 
         // Validate the batch size
         int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers).Select(x => x.Name).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
+            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers).Select(x => x.FieldName).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
@@ -1546,7 +1546,7 @@ public static partial class DbConnectionExtension
 
         // Validate the batch size
         int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers).Select(x => x.Name).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
+            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers).Select(x => x.FieldName).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
@@ -1785,7 +1785,7 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Iterate the entities
-        var immutableFields = fields.AsList(); // Fix for the IDictionary<string, object> object
+        var immutableFields = EnumerableExtension.AsList(fields); // Fix for the IDictionary<string, object> object
         foreach (var entity in entities.AsList())
         {
             // Call the upsert
@@ -1867,7 +1867,7 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Iterate the entities
-        var immutableFields = fields.AsList(); // Fix for the IDictionary<string, object> object
+        var immutableFields = EnumerableExtension.AsList(fields); // Fix for the IDictionary<string, object> object
         foreach (var entity in entities.AsList())
         {
             // Call the upsert

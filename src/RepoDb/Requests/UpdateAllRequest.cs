@@ -64,8 +64,8 @@ internal sealed class UpdateAllRequest : BaseRequest
             transaction,
             statementBuilder)
     {
-        Fields = fields.AsList();
-        Qualifiers = qualifiers?.AsList();
+        Fields = fields.AsFieldSet();
+        Qualifiers = qualifiers?.AsFieldSet();
         BatchSize = batchSize;
         Hints = hints;
     }
@@ -73,12 +73,12 @@ internal sealed class UpdateAllRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public List<Field> Fields { get; init; }
+    public FieldSet Fields { get; init; }
 
     /// <summary>
     /// Gets the qualifiers fields.
     /// </summary>
-    public List<Field>? Qualifiers { get; init; }
+    public FieldSet? Qualifiers { get; init; }
 
     /// <summary>
     /// Gets the size batch of the update operation.
@@ -105,25 +105,9 @@ internal sealed class UpdateAllRequest : BaseRequest
                 typeof(UpdateAllRequest),
                 Name,
                 BatchSize,
-                Hints);
-
-            // Get the fields
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Qualifiers != null)
-            {
-                foreach (var field in Qualifiers)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
+                Hints,
+                Fields,
+                Qualifiers);
 
             HashCode = hashCode;
         }

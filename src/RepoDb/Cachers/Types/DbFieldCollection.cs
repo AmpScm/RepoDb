@@ -11,18 +11,18 @@ namespace RepoDb;
 /// A class the holds the collection of column definitions of the table.
 /// </summary>
 [DebuggerDisplay($"{{{nameof(DebuggerDisplay)},nq}}")]
-public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
+public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable<DbFieldCollection>
 #if NET
     , IReadOnlySet<DbField>
 #endif
 {
     readonly HashSet<DbField> _fields;
-    private readonly Lazy<FieldSet> lazyFields;
+    private FieldSet? _asFieldset;
     private readonly Lazy<DbField?> lazyIdentity;
     private readonly Lazy<DbFieldCollection?> lazyPrimaryFields;
-    private readonly Lazy<Dictionary<string, DbField>> lazyMapByName;
+    private Dictionary<string, DbField>? _nameMap;
     private readonly Lazy<DbField?> lazyPrimary;
-
+    int? _hashCode;
 
     public int Count => _fields.Count;
 
@@ -40,8 +40,6 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
         lazyPrimaryFields = new(GetPrimaryDbFields);
         lazyPrimary = new(GetPrimaryDbField);
         lazyIdentity = new(GetIdentityDbField);
-        lazyMapByName = new(GetDbFieldsMappedByName);
-        lazyFields = new(GetDbFieldsAsFields);
     }
 
     [Obsolete]
@@ -73,10 +71,10 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
     public DbFieldCollection GetItems() => this;
 
     /// <summary>
-    /// Get the list of <see cref="DbField" /> objects converted into an <see cref="IReadOnlyList{T}" /> of <see cref="Field" /> objects.
+    /// Get the list of <see cref="DbField" /> objects converted into an <see cref="FieldSet" /> of <see cref="Field" /> objects.
     /// </summary>
     /// <returns></returns>
-    public FieldSet AsFields() => lazyFields.Value;
+    public FieldSet AsFields() => _asFieldset ??= _fields.AsFieldSet();
 
     /// <summary>
     /// Gets a value indicating whether the current column definitions of the table is empty.
@@ -89,12 +87,24 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
     /// </summary>
     /// <param name="name">The name of the mapping that is equivalent to the column definition of the table.</param>
     /// <returns>A column definition of table.</returns>
-    public DbField? GetByName(string name)
+    public DbField? GetByFieldName(string name)
     {
-        lazyMapByName.Value.TryGetValue(name, out var dbField);
+        if (_nameMap is null)
+        {
+            // If the collection is large, we will create a map for faster access
+            if (_fields.Count > 10)
+                _nameMap ??= _fields.ToDictionary(df => df.FieldName, df => df, StringComparer.OrdinalIgnoreCase);
+            else
+                return _fields.AsEnumerable().GetByFieldName(name);
+        }
 
+        _nameMap.TryGetValue(name, out var dbField);
         return dbField;
     }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public DbField? GetByName(string name) => GetByFieldName(name);
+
 
     /// <summary>
     /// Gets column definition of the table based on the unquotes name of the database field.
@@ -103,10 +113,7 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
     /// <returns>A column definition of table.</returns>
     [Obsolete("We assume that DbField instances are normalized, as we get them from the database")]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public DbField? GetByUnquotedName(string name) => GetByName(name);
-
-    private Dictionary<string, DbField> GetDbFieldsMappedByName() =>
-        this.ToDictionary(df => df.Name, df => df, StringComparer.OrdinalIgnoreCase);
+    public DbField? GetByUnquotedName(string name) => GetByFieldName(name);
 
     private DbField? GetPrimaryDbField() => this.OneOrDefault(df => df.IsPrimary);
 
@@ -114,8 +121,6 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
     private DbFieldCollection? GetPrimaryDbFields() => this.Where(x => x.IsPrimary) is { } p && p.Any() ? new DbFieldCollection(p) : null;
 
     private DbField? GetIdentityDbField() => this.FirstOrDefault(df => df.IsIdentity);
-
-    private FieldSet GetDbFieldsAsFields() => new FieldSet(_fields);
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     public FieldSet GetAsFields() => AsFields();
@@ -174,5 +179,24 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>
         return GetEnumerator();
     }
 
-    private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.Name));
+    public override int GetHashCode()
+    {
+        return _hashCode ??= HashCode.Combine(Count, _fields.Aggregate(0, (current, field) => current ^ field.GetHashCode()));
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is DbFieldCollection fc && Equals(fc);
+    }
+
+    public bool Equals(DbFieldCollection? other)
+    {
+        if (other is null)
+            return false;
+
+        return Count == other.Count &&
+            SetEquals(other);
+    }
+
+    private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.FieldName));
 }

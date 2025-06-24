@@ -463,9 +463,9 @@ public static class DbCommandExtension
         {
             var entityClassProperty = (entityType == paramClassProperty.DeclaringType) ?
                 paramClassProperty :
-                entityClassProperties.GetByMappedName(paramClassProperty.GetMappedName());
+                entityClassProperties.GetByFieldName(paramClassProperty.FieldName);
             var name = paramClassProperty
-                .GetMappedName()
+                .FieldName
                 .AsUnquoted(command.Connection!.GetDbSetting());
             var dbField = GetDbField(name, dbFields);
             var value = paramClassProperty.PropertyInfo.GetValue(param);
@@ -511,8 +511,8 @@ public static class DbCommandExtension
                 if (kvp.Value is CommandParameter commandParameter)
                 {
                     value = commandParameter.Value;
-                    dbField ??= GetDbField(commandParameter.Field.Name, dbFields);
-                    classProperty = PropertyCache.Get(commandParameter.MappedToType, commandParameter.Field.Name, true);
+                    dbField ??= GetDbField(commandParameter.Field.FieldName, dbFields);
+                    classProperty = PropertyCache.Get(commandParameter.MappedToType, commandParameter.Field.FieldName, true);
                 }
                 var parameter = CreateParameterIf(kvp.Key, value) ??
                     CreateParameter(command,
@@ -575,19 +575,19 @@ public static class DbCommandExtension
 
         // Filter the query fields
         var filteredQueryFields = queryFields
-            .Where(qf => propertiesToSkip?.Contains(qf.Field.Name) != true);
+            .Where(qf => propertiesToSkip?.Contains(qf.Field.FieldName) != true);
 
         // Iterate the filtered query fields
         foreach (var queryField in filteredQueryFields)
         {
             if (queryField.Operation is Operation.In or Operation.NotIn)
             {
-                var dbField = GetDbField(queryField.Field.Name, dbFields);
+                var dbField = GetDbField(queryField.Field.FieldName, dbFields);
                 CreateParametersForInOperation(command, queryField, dbField);
             }
             else if (queryField.Operation is Operation.Between or Operation.NotBetween)
             {
-                var dbField = GetDbField(queryField.Field.Name, dbFields);
+                var dbField = GetDbField(queryField.Field.FieldName, dbFields);
                 CreateParametersForBetweenOperation(command, queryField, dbField);
             }
             else if (queryField.Operation is Operation.IsNotNull or Operation.IsNull)
@@ -620,7 +620,7 @@ public static class DbCommandExtension
             return;
         }
 
-        var fieldName = queryField.Field.Name;
+        var fieldName = queryField.Field.FieldName;
 
         // Skip
         if (propertiesToSkip?.Contains(fieldName) == true)
@@ -893,7 +893,7 @@ public static class DbCommandExtension
             fieldNameSpan = fieldNameSpan.Slice(0, index);
         }
 
-        return dbFields.GetByName(fieldNameSpan.ToString());
+        return dbFields.GetByFieldName(fieldNameSpan.ToString());
     }
 
     /// <summary>

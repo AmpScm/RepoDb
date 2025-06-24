@@ -15,7 +15,7 @@ public class RightQueryFieldTest
         var functionalQueryField = new RightQueryField("FieldName", Operation.NotEqual, "Value");
 
         // Assert
-        Assert.AreEqual("FieldName", functionalQueryField.Field.Name);
+        Assert.AreEqual("FieldName", functionalQueryField.Field.FieldName);
         Assert.AreEqual(Operation.NotEqual, functionalQueryField.Operation);
         Assert.AreEqual("Value", functionalQueryField.Parameter.Value);
         Assert.AreEqual("RIGHT({0}, 5)", functionalQueryField.Format);

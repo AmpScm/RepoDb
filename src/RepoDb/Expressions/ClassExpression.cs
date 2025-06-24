@@ -26,7 +26,7 @@ public static partial class ClassExpression
         where TEntity : class
     {
         var property = ExpressionExtension.GetProperty(expression) ?? throw new PropertyNotFoundException(nameof(expression), "Property not found");
-        var classProperty = PropertyCache.Get<TEntity>().GetByName(property.Name) ?? throw new PropertyNotFoundException(nameof(expression), "Property not found on class"); ;
+        var classProperty = PropertyCache.Get<TEntity>().GetByPropertyName(property.Name) ?? throw new PropertyNotFoundException(nameof(expression), "Property not found on class"); ;
         return GetEntitiesPropertyValues<TEntity, TResult>(entities, classProperty);
     }
 
@@ -42,7 +42,7 @@ public static partial class ClassExpression
         Field field)
         where TEntity : class
     {
-        var classProperty = PropertyCache.Get<TEntity>().GetByName(field.Name) ?? throw new PropertyNotFoundException(nameof(field), "Property not found");
+        var classProperty = PropertyCache.Get<TEntity>().GetByPropertyName(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found");
         return GetEntitiesPropertyValues<TEntity, TResult>(entities, classProperty);
     }
 
@@ -58,7 +58,7 @@ public static partial class ClassExpression
         string propertyName)
         where TEntity : class
     {
-        var classProperty = PropertyCache.Get<TEntity>().GetByName(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), "Property not found");
+        var classProperty = PropertyCache.Get<TEntity>().GetByPropertyName(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), "Property not found");
         return GetEntitiesPropertyValues<TEntity, TResult>(entities, classProperty);
     }
 
@@ -194,7 +194,7 @@ public static partial class ClassExpression
             Expression.New(StaticType.PropertyValueList),
             properties.Select(property =>
             {
-                var name = Expression.Constant(property.GetMappedName());
+                var name = Expression.Constant(property.FieldName);
                 var value = Expression.Convert(Expression.Property(obj, property.PropertyInfo), StaticType.Object);
                 var propertyValue = Expression.New(constructor,
                     name,

@@ -101,7 +101,7 @@ public static class PrimaryMapper
         ObjectExtension.ThrowIfNull(field, "Field");
 
         // Add to the mapping
-        Add<TEntity>(DataEntityExtension.GetClassPropertyOrThrow<TEntity>(field.Name), force);
+        Add<TEntity>(DataEntityExtension.GetClassPropertyOrThrow<TEntity>(field.FieldName), force);
     }
 
     /// <summary>

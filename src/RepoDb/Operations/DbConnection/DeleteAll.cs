@@ -888,7 +888,7 @@ public static partial class DbConnectionExtension
                 continue;
 
             var where = new QueryGroup(
-                pkeys.Select(key => new QueryGroup(new QueryField(key.Name, Operation.In, keyValues.AsList(), null, false))),
+                pkeys.Select(key => new QueryGroup(new QueryField(key.FieldName, Operation.In, keyValues.AsList(), null, false))),
                 Conjunction.And);
             deletedRows += DeleteInternal(connection: (DbConnection)connection,
                 tableName: tableName,
@@ -1063,7 +1063,7 @@ public static partial class DbConnectionExtension
         foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
         {
             var where = new QueryGroup(
-                pkeys.Select(key => new QueryGroup(new QueryField(key.Name, Operation.In, keyValues.AsList(), null, false))),
+                pkeys.Select(key => new QueryGroup(new QueryField(key.FieldName, Operation.In, keyValues.AsList(), null, false))),
                 Conjunction.And);
 
             deletedRows += await DeleteAsyncInternal(connection: (DbConnection)connection,

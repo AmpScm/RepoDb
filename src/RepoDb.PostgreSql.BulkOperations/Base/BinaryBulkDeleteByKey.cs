@@ -51,7 +51,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 mappings = new[]
                 {
-                    new NpgsqlBulkInsertMapItem(primaryKey.Name, primaryKey.Name)
+                    new NpgsqlBulkInsertMapItem(primaryKey.FieldName, primaryKey.FieldName)
                 },
 
             // binaryImport
@@ -134,7 +134,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 mappings = new[]
                 {
-                    new NpgsqlBulkInsertMapItem(primaryKey.Name, primaryKey.Name)
+                    new NpgsqlBulkInsertMapItem(primaryKey.FieldName, primaryKey.FieldName)
                 },
 
             // binaryImport

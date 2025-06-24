@@ -75,7 +75,7 @@ internal sealed class QueryMultipleRequest : BaseRequest
               statementBuilder)
     {
         Index = index;
-        Fields = fields?.AsList();
+        Fields = fields?.AsFieldSet();
         Where = where;
         OrderBy = orderBy?.AsList();
         Top = top;
@@ -90,7 +90,7 @@ internal sealed class QueryMultipleRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public List<Field>? Fields { get; init; }
+    public FieldSet? Fields { get; init; }
 
     /// <summary>
     /// Gets the query expression used.
@@ -129,17 +129,8 @@ internal sealed class QueryMultipleRequest : BaseRequest
                 Index,
                 Where,
                 Top,
-                Hints);
-
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
+                Hints,
+                Fields);
 
             // Add the order fields
             if (OrderBy != null)

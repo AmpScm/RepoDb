@@ -59,7 +59,7 @@ internal class QueryAllRequest : BaseRequest
               transaction,
               statementBuilder)
     {
-        Fields = fields.AsList();
+        Fields = fields.AsFieldSet();
         OrderBy = orderBy?.AsList();
         Hints = hints;
     }
@@ -67,7 +67,7 @@ internal class QueryAllRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public List<Field> Fields { get; init; }
+    public FieldSet Fields { get; init; }
 
     /// <summary>
     /// Gets the list of the order fields.
@@ -93,16 +93,8 @@ internal class QueryAllRequest : BaseRequest
             hashCode = System.HashCode.Combine(
                 typeof(QueryAllRequest),
                 Name,
-                Hints);
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
+                Hints,
+                Fields);
 
             // Add the order fields
             if (OrderBy != null)

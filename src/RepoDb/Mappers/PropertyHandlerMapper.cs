@@ -331,10 +331,10 @@ public static class PropertyHandlerMapper
         ObjectExtension.ThrowIfNull(field, nameof(field));
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(field.Name);
+        var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
         if (property == null)
         {
-            throw new PropertyNotFoundException(nameof(field), $"Property '{field.Name}' is not found at type '{typeof(TEntity).FullName}'.");
+            throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
         }
 
         // Add to the mapping
@@ -468,7 +468,7 @@ public static class PropertyHandlerMapper
     /// <returns>The mapped property handler object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Field field)
         where TEntity : class =>
-        Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.Name) ?? throw new PropertyNotFoundException(nameof(field), $"{field.Name} not found"));
+        Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), $"{field.FieldName} not found"));
 
     /// <summary>
     /// Property Level: Gets the mapped property handler on a specific <see cref="PropertyInfo"/> object.
@@ -555,10 +555,10 @@ public static class PropertyHandlerMapper
         ObjectExtension.ThrowIfNull(field, nameof(field));
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(field.Name);
+        var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
         if (property == null)
         {
-            throw new PropertyNotFoundException(nameof(field), $"Property '{field.Name}' is not found at type '{typeof(TEntity).FullName}'.");
+            throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
         }
 
         // Add to the mapping

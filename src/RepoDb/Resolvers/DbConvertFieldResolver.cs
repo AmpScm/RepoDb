@@ -50,10 +50,10 @@ public class DbConvertFieldResolver : IResolver<Field, IDbSetting, string>
             if (dbType is { } value)
             {
                 var dbTypeName = StringNameResolver.Resolve(value)?.ToUpper();
-                return string.Concat("CAST(", field.Name.AsField(dbSetting), " AS ", dbTypeName?.AsQuoted(dbSetting), ")");
+                return string.Concat("CAST(", field.FieldName.AsField(dbSetting), " AS ", dbTypeName?.AsQuoted(dbSetting), ")");
             }
         }
-        return field?.Name?.AsQuoted(true, true, dbSetting);
+        return field?.FieldName?.AsQuoted(true, true, dbSetting);
     }
 
     #endregion

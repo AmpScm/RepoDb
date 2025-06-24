@@ -33,7 +33,7 @@ internal static class InsertAllExecutionContextProvider
             ";",
             tableName,
             ";",
-            fields?.Select(f => f.Name).Join(","),
+            fields?.Select(f => f.FieldName).Join(","),
             ";",
             batchSize.ToString(CultureInfo.InvariantCulture),
             ";",
@@ -76,7 +76,7 @@ internal static class InsertAllExecutionContextProvider
 
         if (dbFields.Any(x => x.IsReadOnly) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsReadOnly != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
         }
 
         // Create a different kind of requests
@@ -158,7 +158,7 @@ internal static class InsertAllExecutionContextProvider
 
         if (dbFields.Any(x => x.IsReadOnly) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsReadOnly != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
         }
 
         // Create a different kind of requests
@@ -229,7 +229,7 @@ internal static class InsertAllExecutionContextProvider
                 dbField.IsIdentity == false)
             .Where(dbField =>
                 fields.FirstOrDefault(field =>
-                    string.Equals(field.Name.AsUnquoted(true, dbSetting), dbField.Name, StringComparison.OrdinalIgnoreCase)) != null)
+                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
             .AsList();
 
         // Variables for the context

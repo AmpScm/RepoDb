@@ -36,7 +36,7 @@ public class ParseTest
         Assert.AreEqual(4, queryFields.Count());
         properties.ForEach(p =>
         {
-            var queryField = queryFields.FirstOrDefault(qf => qf.Field.Name == p.Name);
+            var queryField = queryFields.FirstOrDefault(qf => qf.Field.FieldName == p.Name);
             Assert.IsNotNull(queryField);
             Assert.AreEqual(p.PropertyType, queryField.Field.Type);
         });
@@ -56,7 +56,7 @@ public class ParseTest
         var queryField = queryFields.First();
 
         // Assert
-        Assert.AreEqual("PrimaryId", queryField.Field.Name);
+        Assert.AreEqual("PrimaryId", queryField.Field.FieldName);
         Assert.AreEqual(typeof(int), queryField.Field.Type);
     }
 
@@ -97,7 +97,7 @@ public class ParseTest
         Assert.AreEqual(4, fields.Count());
         properties.ForEach(p =>
         {
-            var field = fields.FirstOrDefault(f => f.Name == p.Name);
+            var field = fields.FirstOrDefault(f => f.FieldName == p.Name);
             Assert.IsNotNull(field);
             Assert.AreEqual(p.PropertyType, field.Type);
         });
@@ -115,7 +115,7 @@ public class ParseTest
         Assert.AreEqual(4, fields.Count());
         properties.ForEach(p =>
         {
-            var field = fields.FirstOrDefault(f => f.Name == p.Name);
+            var field = fields.FirstOrDefault(f => f.FieldName == p.Name);
             Assert.IsNotNull(field);
             Assert.AreEqual(p.PropertyType, field.Type);
         });
@@ -128,7 +128,7 @@ public class ParseTest
         var field = Field.Parse<DerivedClass>(e => e.PrimaryId)?.FirstOrDefault();
 
         // Assert
-        Assert.AreEqual("PrimaryId", field?.Name);
+        Assert.AreEqual("PrimaryId", field?.FieldName);
         Assert.AreEqual(typeof(int), field?.Type);
     }
 

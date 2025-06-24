@@ -60,7 +60,7 @@ internal sealed class UpdateRequest : BaseRequest
               statementBuilder)
     {
         Where = where;
-        Fields = fields.AsList();
+        Fields = fields.AsFieldSet();
         Hints = hints;
     }
 
@@ -72,7 +72,7 @@ internal sealed class UpdateRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public List<Field> Fields { get; init; }
+    public FieldSet Fields { get; init; }
 
     /// <summary>
     /// Gets the hints for the table.

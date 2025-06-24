@@ -281,8 +281,8 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<Field> fields,
         IDbSetting dbSetting)
     {
-        var indexName = $"{tableName}_{fields.Select(field => field.Name).Join("")}_IDX".AsQuoted(true, dbSetting);
-        var columns = fields.Select(field => field.Name.AsQuoted(true, dbSetting)).Join(", ");
+        var indexName = $"{tableName}_{fields.Select(field => field.FieldName).Join("")}_IDX".AsQuoted(true, dbSetting);
+        var columns = fields.Select(field => field.FieldName.AsQuoted(true, dbSetting)).Join(", ");
 
         return $"CREATE INDEX IF NOT EXISTS {indexName} " +
             $"ON {tableName.AsQuoted(true, dbSetting)} ({columns}); ";

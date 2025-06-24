@@ -44,7 +44,7 @@ public class DbHelperTests
                 while (reader.Read())
                 {
                     var name = reader.GetString(1);
-                    var field = fields.FirstOrDefault(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
+                    var field = fields.FirstOrDefault(f => string.Equals(f.FieldName, name, StringComparison.OrdinalIgnoreCase));
 
                     // Assert
                     Assert.IsNotNull(field);
@@ -73,7 +73,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 
@@ -92,7 +92,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 
@@ -120,7 +120,7 @@ public class DbHelperTests
                 while (reader.Read())
                 {
                     var name = reader.GetString(1);
-                    var field = fields.FirstOrDefault(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
+                    var field = fields.FirstOrDefault(f => string.Equals(f.FieldName, name, StringComparison.OrdinalIgnoreCase));
 
                     // Assert
                     Assert.IsNotNull(field);
@@ -149,7 +149,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 
@@ -168,7 +168,7 @@ public class DbHelperTests
 
             // Assert
             Assert.IsNotNull(primary);
-            Assert.AreEqual("Id", primary.Name);
+            Assert.AreEqual("Id", primary.FieldName);
         }
     }
 
@@ -209,8 +209,8 @@ public class DbHelperTests
 #if NET
             foreach (var i in v1Fields.Zip(v2Fields, v3Fields))
             {
-                Assert.AreEqual(i.First.Name, i.Second.Name);
-                Assert.AreEqual(i.First.Name, i.Third.Name);
+                Assert.AreEqual(i.First.FieldName, i.Second.FieldName);
+                Assert.AreEqual(i.First.FieldName, i.Third.FieldName);
 
                 Assert.AreEqual(i.First.IsPrimary, i.Second.IsPrimary);
                 Assert.AreEqual(i.First.IsPrimary, i.Third.IsPrimary);
@@ -263,8 +263,8 @@ public class DbHelperTests
 #if NET
             foreach (var i in v1Fields.Zip(v2Fields, v3Fields))
             {
-                Assert.AreEqual(i.First.Name, i.Second.Name);
-                Assert.AreEqual(i.First.Name, i.Third.Name);
+                Assert.AreEqual(i.First.FieldName, i.Second.FieldName);
+                Assert.AreEqual(i.First.FieldName, i.Third.FieldName);
 
                 Assert.AreEqual(i.First.IsPrimary, i.Second.IsPrimary);
                 Assert.AreEqual(i.First.IsPrimary, i.Third.IsPrimary);

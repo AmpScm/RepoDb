@@ -183,15 +183,15 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             if (!keyField.IsPrimary || keyField.IsGenerated || keyField.IsIdentity || keyField.IsNullable)
                 continue;
 
-            if (fields.GetByName(keyField.Name) is null)
+            if (fields.GetByFieldName(keyField.FieldName) is null)
             {
-                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.Name}' must be present in the field list.");
+                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.FieldName}' must be present in the field list.");
             }
         }
 
         // Insertable fields
         var insertableFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is not { } x || !(x.IsGenerated || x.IsIdentity));
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is not { } x || !(x.IsGenerated || x.IsIdentity));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -255,15 +255,15 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             if (!keyField.IsPrimary || keyField.IsGenerated || keyField.IsIdentity || keyField.IsNullable)
                 continue;
 
-            if (fields.GetByName(keyField.Name) is null)
+            if (fields.GetByFieldName(keyField.FieldName) is null)
             {
-                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.Name}' must be present in the field list.");
+                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.FieldName}' must be present in the field list.");
             }
         }
 
         // Insertable fields
         var insertableFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is not { } x || !(x.IsGenerated || x.IsIdentity));
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is not { } x || !(x.IsGenerated || x.IsIdentity));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -365,8 +365,8 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers and identity field from the fields to update
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .AsList();
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+);
 
         // Build the query
         builder
@@ -471,8 +471,8 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers from the fields
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .AsList();
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+);
 
         // Iterate the indexes
         for (var index = 0; index < batchSize; index++)

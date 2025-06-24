@@ -101,9 +101,9 @@ internal class MergeAllRequest : BaseRequest
             statementBuilder)
     {
         Type = type;
-        Fields = fields.AsList();
-        noUpdateFields = noUpdateFields?.AsList();
-        Qualifiers = qualifiers.AsList();
+        Fields = fields.AsFieldSet();
+        noUpdateFields = noUpdateFields?.AsFieldSet();
+        Qualifiers = qualifiers.AsFieldSet();
         BatchSize = batchSize;
         Hints = hints;
     }
@@ -111,17 +111,17 @@ internal class MergeAllRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public List<Field> Fields { get; init; }
+    public FieldSet Fields { get; init; }
 
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public IEnumerable<Field>? NoUpdateFields { get; init; }
+    public FieldSet? NoUpdateFields { get; init; }
 
     /// <summary>
     /// Gets the qualifier <see cref="Field"/> objects.
     /// </summary>
-    public IEnumerable<Field> Qualifiers { get; init; }
+    public FieldSet Qualifiers { get; init; }
 
     /// <summary>
     /// Gets the size batch of the update operation.
@@ -144,41 +144,14 @@ internal class MergeAllRequest : BaseRequest
         if (this.HashCode is not { } hashCode)
         {
             // Get first the entity hash code
-            hashCode = System.HashCode.Combine(
+            HashCode = hashCode = System.HashCode.Combine(
                 typeof(MergeAllRequest),
                 Name,
                 BatchSize,
                 Hints,
-                Fields.Count(),
-                NoUpdateFields?.Count() ?? 0);
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
-
-            if (NoUpdateFields != null)
-            {
-                foreach (var field in NoUpdateFields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Qualifiers != null) // Much faster than Qualifiers?.<Methods|Properties>
-            {
-                foreach (var field in Qualifiers)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
-
-            HashCode = hashCode;
+                Fields,
+                Qualifiers,
+                NoUpdateFields);
         }
 
         return hashCode;

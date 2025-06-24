@@ -59,7 +59,7 @@ public static class QueryFieldExtension
     internal static string AsField(this QueryField queryField,
         string? functionFormat,
         IDbSetting dbSetting) =>
-        queryField.Field.Name.AsField(functionFormat, dbSetting);
+        queryField.Field.FieldName.AsField(functionFormat, dbSetting);
 
     /// <summary>
     ///

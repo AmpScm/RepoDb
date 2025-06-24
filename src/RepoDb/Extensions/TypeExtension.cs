@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
 using RepoDb.Exceptions;
 
@@ -137,7 +138,7 @@ public static class TypeExtension
     /// <returns>A list of <see cref="ClassProperty"/> objects.</returns>
     public static IEnumerable<ClassProperty> GetClassProperties(this Type type)
     {
-        foreach (var property in TypeCache.Get(type).GetProperties().Distinct(PropertyNameComparer.Instance))
+        foreach (var property in TypeCache.Get(type).GetProperties().Distinct(PropertyNameComparer.Instance).Where(x => x.GetCustomAttribute<IgnoreAttribute>() is null))
         {
             yield return new ClassProperty(type, property);
         }

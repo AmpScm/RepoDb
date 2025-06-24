@@ -53,7 +53,7 @@ public static class PropertyCache
         return Get(entityType)?
             .FirstOrDefault(p =>
                 string.Equals(p.PropertyInfo.Name, propertyName, StringComparison.OrdinalIgnoreCase) ||
-                (includeMappings && string.Equals(p.GetMappedName(), propertyName, StringComparison.OrdinalIgnoreCase)));
+                (includeMappings && string.Equals(p.FieldName, propertyName, StringComparison.OrdinalIgnoreCase)));
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public static class PropertyCache
         ObjectExtension.ThrowIfNull(field, nameof(field));
 
         // Return the value
-        return Get(entityType, field.Name, includeMappings);
+        return Get(entityType, field.FieldName, includeMappings);
     }
 
     /// <summary>

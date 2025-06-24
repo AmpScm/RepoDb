@@ -704,7 +704,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
                 {
                     dbFields ??= tableName is { } ? DbFieldCache.Get(connection, tableName, transaction) : null;
 
-                    if (dbFields?.GetByName(qf.Field.Name)?.IsNullable == false)
+                    if (dbFields?.GetByFieldName(qf.Field.FieldName)?.IsNullable == false)
                     {
                         bool isIsNull = qf.Operation == Operation.IsNull;
 

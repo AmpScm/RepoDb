@@ -362,7 +362,7 @@ public class IStatementBuilderForDbConnectionTest
                 It.IsAny<int>(),
                 It.IsAny<IEnumerable<OrderField>>(),
                 It.IsAny<QueryGroup>(),
-                It.IsAny<string>()), Times.Exactly(1));
+                It.IsAny<string>()), Times.Exactly(0));
     }
 
     #endregion
@@ -3594,7 +3594,7 @@ public class IStatementBuilderForDbConnectionTest
                 It.IsAny<int>(),
                 It.IsAny<IEnumerable<OrderField>>(),
                 It.IsAny<QueryGroup>(),
-                It.IsAny<string>()), Times.Exactly(1));
+                It.IsAny<string>()), Times.Exactly(0));
     }
 
     #endregion

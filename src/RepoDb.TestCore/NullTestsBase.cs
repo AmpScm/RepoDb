@@ -310,7 +310,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
 
         var fields = await DbFieldCache.GetAsync(sql, nameof(WithComputed), transaction: null);
-        Assert.AreEqual(true, fields.First(x => x.Name == "Computed").IsGenerated);
+        Assert.AreEqual(true, fields.First(x => x.FieldName == "Computed").IsGenerated);
 
         await sql.InsertAsync(new WithComputed() { ID = 1, Writable = "a" });
 
@@ -447,12 +447,12 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var fd = await sql.GetDbHelper().GetFieldsAsync(sql, nameof(FieldLengthTable));
 
-        var id1 = fd.First(x => x.Name == "ID");
-        var id2 = fd.First(x => x.Name == "ID2");
-        var val3 = fd.First(x => x.Name == "VAL3");
-        Assert.AreEqual("ID", id1?.Name);
-        Assert.AreEqual("ID2", id2?.Name);
-        Assert.AreEqual("VAL3", val3?.Name);
+        var id1 = fd.First(x => x.FieldName == "ID");
+        var id2 = fd.First(x => x.FieldName == "ID2");
+        var val3 = fd.First(x => x.FieldName == "VAL3");
+        Assert.AreEqual("ID", id1?.FieldName);
+        Assert.AreEqual("ID2", id2?.FieldName);
+        Assert.AreEqual("VAL3", val3?.FieldName);
         Assert.AreEqual(typeof(string), id1?.Type);
         Assert.AreEqual(typeof(string), id2?.Type);
         Assert.AreEqual(typeof(string), val3?.Type);
@@ -529,12 +529,12 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var fd = await sql.GetDbHelper().GetFieldsAsync(sql, nameof(MorePrimaryKeyTable));
 
-        var id1 = fd.First(x => x.Name == "ID");
-        var id2 = fd.First(x => x.Name == "ID2");
-        var val3 = fd.First(x => x.Name == "Value");
-        Assert.AreEqual("ID", id1?.Name);
-        Assert.AreEqual("ID2", id2?.Name);
-        Assert.AreEqual("Value", val3?.Name);
+        var id1 = fd.First(x => x.FieldName == "ID");
+        var id2 = fd.First(x => x.FieldName == "ID2");
+        var val3 = fd.First(x => x.FieldName == "Value");
+        Assert.AreEqual("ID", id1?.FieldName);
+        Assert.AreEqual("ID2", id2?.FieldName);
+        Assert.AreEqual("Value", val3?.FieldName);
 
         Assert.AreEqual(VarCharName, id1?.DatabaseType);
         //Assert.AreEqual("INT", id2?.DatabaseType); // Or 'int' or 'integer', or ...

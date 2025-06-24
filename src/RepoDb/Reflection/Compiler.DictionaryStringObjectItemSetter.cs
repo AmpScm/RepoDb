@@ -45,7 +45,7 @@ partial class Compiler
         })!;
         var itemAssignment = Expression.Call(ConvertExpressionToTypeExpression(dictionaryParameter, entityType),
             itemIndexMethod,
-            Expression.Constant(field.Name),
+            Expression.Constant(field.FieldName),
             ConvertExpressionToTypeExpression(valueExpression, StaticType.Object));
 
         // Return function

@@ -34,7 +34,7 @@ public static partial class NpgsqlConnectionExtension
         var matchedProperties = properties?
             .Where(property =>
             {
-                var dbField = dbFields?.GetByName(property.GetMappedName().AsUnquoted(true, dbSetting));
+                var dbField = dbFields?.GetByFieldName(property.GetMappedName().AsUnquoted(true, dbSetting));
 
                 return (dbField != null && dbField.IsPrimary == false && dbField.IsIdentity == false) ||
                        (includePrimary && dbField?.IsPrimary == true) ||
@@ -111,7 +111,7 @@ public static partial class NpgsqlConnectionExtension
         IDbSetting dbSetting)
     {
         // Get
-        var dbField = dbFields?.GetByName(name.AsUnquoted(true, dbSetting));
+        var dbField = dbFields?.GetByFieldName(name.AsUnquoted(true, dbSetting));
 
         // Check
         if (dbField == null)
@@ -313,7 +313,7 @@ public static partial class NpgsqlConnectionExtension
     /// <returns></returns>
     private static IEnumerable<ExpandoObject> GetExpandoObjectData<TData>(IEnumerable<TData> data,
         Field field) =>
-        GetExpandoObjectData<TData>(data, field.Name);
+        GetExpandoObjectData<TData>(data, field.FieldName);
 
     /// <summary>
     /// 
@@ -410,7 +410,7 @@ public static partial class NpgsqlConnectionExtension
             return;
         }
 
-        var func = Compiler.GetPropertySetterFunc<TEntity>(identityField.Name);
+        var func = Compiler.GetPropertySetterFunc<TEntity>(identityField.FieldName);
         if (func == null)
         {
             return;
@@ -454,7 +454,7 @@ public static partial class NpgsqlConnectionExtension
         foreach (var result in identityResults)
         {
             var entity = entityList[result.Index == bulkInsertIndex ? index : result.Index];
-            entity[identityField.Name.AsUnquoted(true, dbSetting)] = result.Identity;
+            entity[identityField.FieldName.AsUnquoted(true, dbSetting)] = result.Identity;
             index++;
         }
     }
@@ -480,7 +480,7 @@ public static partial class NpgsqlConnectionExtension
         var identityColumn = GetDataTableIdentityColumn(table, identityField, dbSetting);
         if (identityColumn == null)
         {
-            identityColumn = table.Columns.Add(identityField.Name, identityField.Type ?? typeof(object));
+            identityColumn = table.Columns.Add(identityField.FieldName, identityField.Type ?? typeof(object));
         }
 
         var identityList = identityResults.ToList();
@@ -539,7 +539,7 @@ public static partial class NpgsqlConnectionExtension
                .Get<TEntity>()
                .FirstOrDefault(p =>
                    string.Equals(p.GetMappedName().AsUnquoted(true, dbSetting),
-                       identityDbField.Name, StringComparison.OrdinalIgnoreCase));
+                       identityDbField.FieldName, StringComparison.OrdinalIgnoreCase));
         }
 
         return property;
@@ -564,7 +564,7 @@ public static partial class NpgsqlConnectionExtension
         foreach (DataColumn column in table.Columns)
         {
             if (string.Equals(column.ColumnName.AsUnquoted(true, dbSetting),
-                identityField.Name.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase))
+                identityField.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase))
             {
                 return column;
             }

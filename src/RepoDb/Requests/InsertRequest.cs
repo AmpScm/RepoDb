@@ -80,14 +80,14 @@ internal sealed class InsertRequest : BaseRequest
             statementBuilder)
     {
         Type = type;
-        Fields = fields.AsList();
+        Fields = fields.AsFieldSet();
         Hints = hints;
     }
 
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public IEnumerable<Field> Fields { get; init; }
+    public FieldSet Fields { get; init; }
 
     /// <summary>
     /// Gets the hints for the table.
@@ -105,21 +105,11 @@ internal sealed class InsertRequest : BaseRequest
         if (HashCode is not { } hashCode)
         {
             // Get first the entity hash code
-            hashCode = System.HashCode.Combine(
+            HashCode = hashCode = System.HashCode.Combine(
                 typeof(InsertRequest),
                 Name,
-                Hints);
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
-
-            HashCode = hashCode;
+                Hints,
+                Fields);
         }
 
         return hashCode;

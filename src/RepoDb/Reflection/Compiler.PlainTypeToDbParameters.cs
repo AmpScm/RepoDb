@@ -28,15 +28,15 @@ partial class Compiler
         // Iterate
         foreach (var paramProperty in PropertyCache.Get(paramType))
         {
-            var mappedParamPropertyName = paramProperty.GetMappedName();
+            var mappedParamPropertyName = paramProperty.FieldName;
 
             // Ensure it matches to atleast one param
             var entityProperty = PropertyCache.Get(entityType)?.FirstOrDefault(e =>
-                string.Equals(e.GetMappedName(), mappedParamPropertyName, StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(e.PropertyInfo.Name, paramProperty.PropertyInfo.Name, StringComparison.OrdinalIgnoreCase));
+                string.Equals(e.PropertyName, paramProperty.PropertyInfo.Name, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(e.FieldName, mappedParamPropertyName, StringComparison.OrdinalIgnoreCase));
 
             // Variables
-            var dbField = dbFields?.GetByName(mappedParamPropertyName);
+            var dbField = dbFields?.GetByFieldName(mappedParamPropertyName);
             var targetProperty = (entityProperty ?? paramProperty);
             var parameterName = mappedParamPropertyName; // There is a purpose of why it is not 'targetProperty'
             var valueExpression = (Expression)Expression.Property(entityExpression, paramProperty.PropertyInfo);

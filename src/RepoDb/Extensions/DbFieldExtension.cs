@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace RepoDb.Extensions;
+﻿namespace RepoDb.Extensions;
 
 /// <summary>
 /// Contains the extension methods for <see cref="Field"/> object.
@@ -30,13 +28,10 @@ public static class DbFieldExtension
     /// <typeparam name="TItem"></typeparam>
     /// <param name="source"></param>
     /// <returns></returns>
-#if NET
-    [return: NotNullIfNotNull(nameof(source))]
-#endif
     public static TItem? OneOrDefault<TItem>(this IEnumerable<TItem> source)
     {
         if (source is IReadOnlyCollection<TItem> col && col.Count == 1)
-            return source.FirstOrDefault()!;
+            return col.First();
         else
             return DoOne(source)!;
     }
@@ -63,9 +58,9 @@ public static class DbFieldExtension
         return item;
     }
 
-    public static DbField? GetByName(this IEnumerable<DbField> dbFields, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+    public static DbField? GetByFieldName(this IEnumerable<DbField> dbFields, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
     {
-        return dbFields.FirstOrDefault(dbField => string.Equals(dbField.Name, name, stringComparison));
+        return dbFields.FirstOrDefault(dbField => string.Equals(dbField.FieldName, name, stringComparison));
     }
 }
 

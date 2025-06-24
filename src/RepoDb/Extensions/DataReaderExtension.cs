@@ -23,7 +23,7 @@ public static class DataReaderExtension
         var dictionary = new Dictionary<int, ClassProperty>();
         for (var i = 0; i < reader.FieldCount; i++)
         {
-            var property = properties.GetByMappedName(reader.GetName(i));
+            var property = properties.GetByFieldName(reader.GetName(i));
             if (property != null)
             {
                 dictionary.Add(i, property);

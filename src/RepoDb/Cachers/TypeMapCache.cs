@@ -82,7 +82,7 @@ public static class TypeMapCache
     /// <returns>The mapped <see cref="DbType"/> object of the property.</returns>
     public static DbType? Get<TEntity>(Field field)
         where TEntity : class =>
-        Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.Name) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
+        Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
 
     /// <summary>
     /// Property Level: Gets the cached <see cref="DbType"/> object that is being mapped on a specific <see cref="PropertyInfo"/> object.

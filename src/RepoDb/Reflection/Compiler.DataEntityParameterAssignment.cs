@@ -32,7 +32,7 @@ partial class Compiler
     {
         var parameterAssignmentExpressions = new List<Expression>();
         var dbParameterExpression = Expression.Variable(StaticType.DbParameter,
-            string.Concat("parameter", dbField.Name.AsAlphaNumeric()));
+            string.Concat("parameter", dbField.FieldName.AsAlphaNumeric()));
 
 
         // Variable

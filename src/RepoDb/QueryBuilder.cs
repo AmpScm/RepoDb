@@ -189,7 +189,7 @@ public sealed class QueryBuilder
             else
                 Comma();
 
-            WriteQuoted(f.Name, dbSetting);
+            WriteQuoted(f.FieldName, dbSetting);
             WriteQuoted(f.DatabaseType, dbSetting);
             if (f.Size is { } size && f.Type == StaticType.String)
             {
@@ -222,7 +222,7 @@ public sealed class QueryBuilder
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
         var name = convertResolver == null
-            ? field.Name.AsField(dbSetting)
+            ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
 
         return Append("AVG (")
@@ -251,7 +251,7 @@ public sealed class QueryBuilder
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
         var name = convertResolver == null
-            ? field.Name.AsField(dbSetting)
+            ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
 
         return Append("MIN (")
@@ -280,7 +280,7 @@ public sealed class QueryBuilder
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
         var name = convertResolver == null
-            ? field.Name.AsField(dbSetting)
+            ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
 
         return Append("MAX (")
@@ -309,7 +309,7 @@ public sealed class QueryBuilder
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
         var name = convertResolver == null
-            ? field.Name.AsField(dbSetting)
+            ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
 
         return Append("SUM (")
@@ -326,7 +326,7 @@ public sealed class QueryBuilder
     public QueryBuilder Count(Field? field,
         IDbSetting dbSetting)
     {
-        var name = field != null ? field.Name.AsField(dbSetting) : "*";
+        var name = field != null ? field.FieldName.AsField(dbSetting) : "*";
 
         return Append("COUNT (")
             .Append(name, false)
@@ -342,7 +342,7 @@ public sealed class QueryBuilder
     public QueryBuilder CountBig(Field field,
         IDbSetting dbSetting)
     {
-        var name = field != null ? field.Name.AsField(dbSetting) : "*";
+        var name = field != null ? field.FieldName.AsField(dbSetting) : "*";
 
         return Append("COUNT_BIG (")
             .Append(name, false)
@@ -365,7 +365,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder FieldFrom(Field field,
-        IDbSetting? dbSetting) => Append(field?.Name.AsField(dbSetting));
+        IDbSetting? dbSetting) => Append(field?.FieldName.AsField(dbSetting));
 
     /// <summary>
     /// Appends a stringified fields to the SQL Query Statement.
@@ -384,7 +384,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder FieldsFrom(IEnumerable<Field>? fields, IDbSetting dbSetting) =>
-        AppendJoin(fields?.Select(f => f.Name).AsFields(dbSetting));
+        AppendJoin(fields?.Select(f => f.FieldName).AsFields(dbSetting));
 
     /// <summary>
     /// Appends a stringified fields and parameters to the SQL Query Statement.
@@ -405,7 +405,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder FieldsAndParametersFrom(IEnumerable<Field> fields, int index, IDbSetting dbSetting) =>
-        AppendJoin(fields?.Select(field => field.Name.AsFieldAndParameter(index, true, dbSetting)));
+        AppendJoin(fields?.Select(field => field.FieldName.AsFieldAndParameter(index, true, dbSetting)));
 
     /// <summary>
     /// Appends a stringified fields and parameters to the SQL Query Statement with aliases.
@@ -420,7 +420,7 @@ public sealed class QueryBuilder
         IDbSetting dbSetting)
         where TEntity : class
     {
-        var fields = PropertyCache.Get<TEntity>()?.Select(property => property.GetMappedName());
+        var fields = PropertyCache.Get<TEntity>()?.Select(property => property.FieldName);
         return AppendJoin(fields?.AsFieldsAndAliasFields(leftAlias, rightAlias, dbSetting));
     }
 
@@ -433,7 +433,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder FieldsAndAliasFieldsFrom(IEnumerable<Field> fields, string leftAlias, string rightAlias, IDbSetting dbSetting) =>
-        AppendJoin(fields?.Select(field => field.Name.AsFieldAndAliasField(leftAlias, rightAlias, dbSetting)));
+        AppendJoin(fields?.Select(field => field.FieldName.AsFieldAndAliasField(leftAlias, rightAlias, dbSetting)));
 
     /// <summary>
     /// Appends a stringified fields to the SQL Query Statement with aliases.
@@ -446,7 +446,7 @@ public sealed class QueryBuilder
         IDbSetting dbSetting)
         where TEntity : class
     {
-        var fields = PropertyCache.Get<TEntity>()?.Select(property => property.GetMappedName());
+        var fields = PropertyCache.Get<TEntity>()?.Select(property => property.FieldName);
         return AppendJoin(fields?.AsAliasFields(alias, dbSetting));
     }
 
@@ -458,7 +458,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder AsAliasFieldsFrom(IEnumerable<Field> fields, string alias, IDbSetting dbSetting) =>
-        AppendJoin(fields?.Select(field => field.Name.AsAliasField(alias, dbSetting)));
+        AppendJoin(fields?.Select(field => field.FieldName.AsAliasField(alias, dbSetting)));
 
     /// <summary>
     /// Appends a word FROM to the SQL Query Statement.
@@ -478,7 +478,7 @@ public sealed class QueryBuilder
         if (fields.IsNullOrEmpty()) return this;
 
         return Append("GROUP BY")
-            .AppendJoin(fields.Select(field => field.Name.AsQuoted(true, dbSetting)));
+            .AppendJoin(fields.Select(field => field.FieldName.AsQuoted(true, dbSetting)));
     }
 
     /// <summary>
@@ -493,7 +493,7 @@ public sealed class QueryBuilder
         IDbSetting dbSetting)
     {
         return Append("HAVING COUNT(")
-            .Append(queryField.Field.Name, false)
+            .Append(queryField.Field.FieldName, false)
             .Append(')')
             .Append(queryField.Operation.GetText())
             .Append(',')
@@ -667,7 +667,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder ParametersFrom(IEnumerable<Field> fields, int index, IDbSetting dbSetting) =>
-        AppendJoin(fields?.Select(field => field.Name.AsParameter(index, true, dbSetting)));
+        AppendJoin(fields?.Select(field => field.FieldName.AsParameter(index, true, dbSetting)));
 
     /// <summary>
     /// Append the stringified parameter as fields to the SQL Query Statement.
@@ -695,7 +695,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder ParametersAsFieldsFrom(IEnumerable<Field> fields, int index, IDbSetting dbSetting) =>
-        AppendJoin(fields?.Select(field => field.Name.AsParameterAsField(index, false, dbSetting)));
+        AppendJoin(fields?.Select(field => field.FieldName.AsParameterAsField(index, false, dbSetting)));
 
     /// <summary>
     /// Appends a word SELECT to the SQL Query Statement.
@@ -905,7 +905,7 @@ public sealed class QueryBuilder
         if (fields.IsNullOrEmpty()) return this;
 
         return Append("WHERE (")
-            .AppendJoin(fields.Select(f => f.Name.AsFieldAndParameter(index, true, dbSetting)), " AND ", false)
+            .AppendJoin(fields.Select(f => f.FieldName.AsFieldAndParameter(index, true, dbSetting)), " AND ", false)
             .Append(')');
     }
 
@@ -1027,7 +1027,7 @@ public sealed class QueryBuilder
         if (field is null) return this;
 
         return Append("MAX(")
-            .Append(field.Name, false)
+            .Append(field.FieldName, false)
             .Append(')');
     }
 
@@ -1041,7 +1041,7 @@ public sealed class QueryBuilder
         if (field is null) return this;
 
         return Append("MIN(")
-            .Append(field.Name, false)
+            .Append(field.FieldName, false)
             .Append(')');
     }
 
@@ -1073,7 +1073,7 @@ public sealed class QueryBuilder
         if (field is null) return this;
 
         return Append("AVG(")
-            .Append(field.Name, false)
+            .Append(field.FieldName, false)
             .Append(')');
     }
 
@@ -1112,7 +1112,7 @@ public sealed class QueryBuilder
         if (fields.IsNullOrEmpty()) return this;
 
         var fieldNames = fields
-            .Select(f => f.Name.AsQuoted(dbSetting));
+            .Select(f => f.FieldName.AsQuoted(dbSetting));
 
         return Append("ON CONFLICT (")
             .AppendJoin(fieldNames, spaceBefore: false)

@@ -36,11 +36,11 @@ internal static class MergeAllExecutionContextProvider
             ";",
             tableName,
             ";",
-            qualifiers?.Select(f => f.Name).Join(","),
+            qualifiers?.Select(f => f.FieldName).Join(","),
             ";",
-            fields.Select(f => f.Name).Join(","),
+            fields.Select(f => f.FieldName).Join(","),
             ";",
-            noUpdateFields?.Select(f => f.Name).Join(","),
+            noUpdateFields?.Select(f => f.FieldName).Join(","),
             ";",
             batchSize.ToString(CultureInfo.InvariantCulture),
             ";",
@@ -89,7 +89,7 @@ internal static class MergeAllExecutionContextProvider
 
         if (dbFields.Any(x => x.IsGenerated) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
 
         // Create a different kind of requests
@@ -181,7 +181,7 @@ internal static class MergeAllExecutionContextProvider
         // On Merge we do want to have the identity key in the fields
         if (dbFields.Any(x => x.IsGenerated) == true)
         {
-            fields = fields.Where(f => dbFields.GetByName(f.Name)?.IsGenerated != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
 
         // Create a different kind of requests
@@ -266,7 +266,7 @@ internal static class MergeAllExecutionContextProvider
         inputFields = dbFields
             .Where(dbField =>
                 fields.FirstOrDefault(field =>
-                    string.Equals(field.Name.AsUnquoted(true, dbSetting), dbField.Name, StringComparison.OrdinalIgnoreCase)) != null)
+                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
             .AsList();
 
         // Exclude the fields not on the actual entity
@@ -276,7 +276,7 @@ internal static class MergeAllExecutionContextProvider
             inputFields = inputFields
                 .Where(field =>
                     entityFields.FirstOrDefault(f =>
-                        string.Equals(f.Name.AsUnquoted(true, dbSetting), field.Name.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
+                        string.Equals(f.FieldName.AsUnquoted(true, dbSetting), field.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
                 .AsList();
         }
 

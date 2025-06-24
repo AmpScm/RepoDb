@@ -29,9 +29,14 @@ public static class FieldExtension
         string rightAlias,
         bool considerNulls,
         IDbSetting dbSetting) =>
-        field.Name.AsJoinQualifier(leftAlias, rightAlias, considerNulls, dbSetting);
+        field.FieldName.AsJoinQualifier(leftAlias, rightAlias, considerNulls, dbSetting);
 
-    public static Field? GetByName(this IEnumerable<Field> source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
-        => source.FirstOrDefault(p => string.Equals(p.Name, name, stringComparison));
+    public static Field? GetByFieldName(this IEnumerable<Field> source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        => source.FirstOrDefault(p => string.Equals(p.FieldName, name, stringComparison));
+
+    public static FieldSet AsFieldSet(this IEnumerable<Field> fields)
+    {
+        return fields as FieldSet ?? new FieldSet(fields);
+    }
 }
 

@@ -15,7 +15,7 @@ public class FunctionalQueryFieldTest
         var functionalQueryField = new FunctionalQueryField("FieldName", Operation.NotEqual, "Value", null, "FUNC({0})");
 
         // Assert
-        Assert.AreEqual("FieldName", functionalQueryField.Field.Name);
+        Assert.AreEqual("FieldName", functionalQueryField.Field.FieldName);
         Assert.AreEqual(Operation.NotEqual, functionalQueryField.Operation);
         Assert.AreEqual("Value", functionalQueryField.Parameter.Value);
         Assert.AreEqual("FUNC({0})", functionalQueryField.Format);

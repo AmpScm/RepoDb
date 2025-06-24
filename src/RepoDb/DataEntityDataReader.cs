@@ -109,7 +109,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         Enumerator = entities.GetEnumerator();
         Entities = entities;
         Properties = GetClassProperties().AsList();
-        Fields = GetFields(Entities?.FirstOrDefault() as IDictionary<string, object>).AsList();
+        Fields = EnumerableExtension.AsList(GetFields(Entities?.FirstOrDefault() as IDictionary<string, object>));
         fieldCount = isDictionaryStringObject ? Fields.Count : Properties.Count;
     }
 
@@ -455,7 +455,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         {
             return BaseStatementBuilder.RepoDbOrderColumn;
         }
-        return Properties[i].GetMappedName();
+        return Properties[i].FieldName;
     }
 
     /// <summary>
@@ -470,7 +470,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         {
             return BaseStatementBuilder.RepoDbOrderColumn;
         }
-        return Fields[i].Name;
+        return Fields[i].FieldName;
     }
 
     /// <summary>
@@ -495,7 +495,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         }
         else
         {
-            var property = Properties.GetByName(name) ?? Properties.GetByMappedName(name);
+            var property = Properties.GetByPropertyName(name) ?? Properties.GetByFieldName(name);
             return Properties.IndexOf(property);
         }
     }
@@ -516,7 +516,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         {
             for (int i = 0; i < Fields.Count; i++)
             {
-                if (string.Equals(Fields[i].Name, name, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(Fields[i].FieldName, name, StringComparison.OrdinalIgnoreCase))
                 {
                     return i;
                 }
@@ -587,7 +587,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         else
         {
             var dictionary = Enumerator.Current as IDictionary<string, object>;
-            return dictionary?[Fields[i].Name];
+            return dictionary?[Fields[i].FieldName];
         }
     }
 

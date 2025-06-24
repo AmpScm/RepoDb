@@ -25,8 +25,8 @@ public static class ClassPropertyExtension
     /// <param name="name">The mapped name to match against the properties in the collection.</param>
     /// <param name="stringComparison">Specifies how to compare the mapped name with the property names, allowing for case sensitivity options.</param>
     /// <returns>Returns the first matching ClassProperty or null if no match is found.</returns>
-    public static ClassProperty? GetByMappedName(this IEnumerable<ClassProperty>? source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
-        => source?.FirstOrDefault(p => string.Equals(p.GetMappedName(), name, stringComparison));
+    public static ClassProperty? GetByFieldName(this IEnumerable<ClassProperty>? source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        => source?.FirstOrDefault(p => string.Equals(p.FieldName, name, stringComparison));
 
 
     /// <summary>
@@ -36,6 +36,6 @@ public static class ClassPropertyExtension
     /// <param name="name">The mapped name to match against the properties in the collection.</param>
     /// <param name="stringComparison">Specifies how to compare the mapped name with the property names, allowing for case sensitivity options.</param>
     /// <returns>Returns the first matching ClassProperty or null if no match is found.</returns>
-    public static ClassProperty? GetByName(this IEnumerable<ClassProperty>? source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
-        => source?.FirstOrDefault(p => string.Equals(p.Name, name, stringComparison));
+    public static ClassProperty? GetByPropertyName(this IEnumerable<ClassProperty>? source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        => source?.FirstOrDefault(p => string.Equals(p.PropertyName, name, stringComparison));
 }

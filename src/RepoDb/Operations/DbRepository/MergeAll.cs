@@ -205,7 +205,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     /// <param name="transaction">The transaction to be used.</param>
     /// <returns>The number of affected rows during the merge process.</returns>
     public int MergeAll<TEntity>(IEnumerable<TEntity> entities,
-        IEnumerable<Field> qualifiers,
+        IEnumerable<Field>? qualifiers,
         int batchSize = 0,
         IEnumerable<Field>? fields = null,
         string? hints = null,

@@ -52,34 +52,34 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
 
-        var fieldList = fields.ToList();
+        var fieldList = fields.AsFieldSet();
         if (fieldList.Count == 0)
             throw new InvalidOperationException("No fields to merge.");
 
-        var qualifierList = qualifiers?.ToList() ?? new List<Field>();
+        var qualifierList = (qualifiers ?? []).AsFieldSet();
 
         // Ensure qualifiers exist
         if (qualifierList.Count == 0)
             throw new InvalidOperationException("Qualifiers must be specified for MERGE operation in Oracle.");
 
         // Create SELECT :param AS Col1, :param AS Col2 ...
-        var sourceColumns = string.Join(", ", fieldList.Select(f => $"{f.Name.AsParameter(true, DbSetting)} AS {f.Name.AsQuoted(DbSetting)}"));
+        var sourceColumns = string.Join(", ", fieldList.Select(f => $"{f.FieldName.AsParameter(true, DbSetting)} AS {f.FieldName.AsQuoted(DbSetting)}"));
 
         // ON condition
         var onConditions = string.Join(" AND ", qualifierList.Select(q =>
-            $"T.{q.Name.AsQuoted(DbSetting)} = S.{q.Name.AsQuoted(DbSetting)}"));
+            $"T.{q.FieldName.AsQuoted(DbSetting)} = S.{q.FieldName.AsQuoted(DbSetting)}"));
 
         // UPDATE SET T.ColX = S.ColX (exclude qualifiers and identity fields)
         var updateFields = fieldList
-            .Where(f => qualifierList.GetByName(f.Name) is null &&
-                        noUpdateFields?.GetByName(f.Name) is null &&
-                        keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .ToList();
+            .Where(f => qualifierList.GetByFieldName(f.FieldName) is null &&
+                        noUpdateFields?.GetByFieldName(f.FieldName) is null &&
+                        keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+            .AsFieldSet();
 
         // INSERT clause
         var insertColumns = fieldList
-            .Where(f => keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .ToList();
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+            .AsFieldSet();
 
         var builder = new QueryBuilder();
         builder
@@ -108,7 +108,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
                 .Then()
                 .Update()
                 .Set()
-                .WriteText(string.Join(", ", updateFields.Select(f => $"T.{f.Name.AsQuoted(DbSetting)} = S.{f.Name.AsQuoted(DbSetting)}")));
+                .WriteText(string.Join(", ", updateFields.Select(f => $"T.{f.FieldName.AsQuoted(DbSetting)} = S.{f.FieldName.AsQuoted(DbSetting)}")));
         }
 
         if (insertColumns.Any())
@@ -120,11 +120,11 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
                 .Then()
                 .Insert()
                 .OpenParen()
-                .WriteText(string.Join(", ", insertColumns.Select(f => f.Name.AsQuoted(DbSetting))))
+                .WriteText(string.Join(", ", insertColumns.Select(f => f.FieldName.AsQuoted(DbSetting))))
                 .CloseParen()
                 .Values()
                 .OpenParen()
-                .WriteText(string.Join(", ", insertColumns.Select(f => $"S.{f.Name.AsQuoted(DbSetting)}")))
+                .WriteText(string.Join(", ", insertColumns.Select(f => $"S.{f.FieldName.AsQuoted(DbSetting)}")))
                 .CloseParen();
         }
 
@@ -198,15 +198,15 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         // Primary Key
         if (primaryField != null &&
             primaryField.HasDefaultValue == false &&
-            !string.Equals(primaryField.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase))
+            !string.Equals(primaryField.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase))
         {
             var isPresent = fields
                 .FirstOrDefault(f =>
-                    string.Equals(f.Name, primaryField.Name, StringComparison.OrdinalIgnoreCase)) != null;
+                    string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
 
             if (isPresent == false)
             {
-                throw new PrimaryFieldNotFoundException($"As the primary field '{primaryField.Name}' is not an identity nor has a default value, it must be present on the insert operation.");
+                throw new PrimaryFieldNotFoundException($"As the primary field '{primaryField.FieldName}' is not an identity nor has a default value, it must be present on the insert operation.");
             }
         }
 

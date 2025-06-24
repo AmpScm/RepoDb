@@ -375,7 +375,7 @@ internal sealed partial class Compiler
                 Name = name,
                 Ordinal = ordinal,
                 Type = reader.GetFieldType(ordinal) ?? StaticType.Object,
-                DbField = dbFields?.GetByName(name.AsUnquoted(true, dbSetting))
+                DbField = dbFields?.GetByFieldName(name.AsUnquoted(true, dbSetting))
             });
     }
 
@@ -1525,7 +1525,7 @@ internal sealed partial class Compiler
             //.Where(property => property.PropertyInfo.CanWrite)
             .Where(property =>
                 readerFieldsName?.FirstOrDefault(field =>
-                    string.Equals(field.AsUnquoted(true, dbSetting), property.GetMappedName().AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
+                    string.Equals(field.AsUnquoted(true, dbSetting), property.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
             .AsList();
 
         // ParameterInfos
@@ -1593,9 +1593,9 @@ internal sealed partial class Compiler
         // Iterate each properties
         foreach (var p in classProperties)
         {
-            var mappedName = p.ParameterInfoMappedClassProperty?.GetMappedName().AsUnquoted(true, dbSetting) ??
+            var mappedName = p.ParameterInfoMappedClassProperty?.FieldName.AsUnquoted(true, dbSetting) ??
                 p.ParameterInfo?.Name?.AsUnquoted(true, dbSetting) ??
-                p.ClassProperty?.GetMappedName().AsUnquoted(true, dbSetting);
+                p.ClassProperty?.FieldName.AsUnquoted(true, dbSetting);
 
             // Skip if not found
             if (mappedName is null || !readerFieldsName.Contains(mappedName.ToLowerInvariant()))
@@ -1798,7 +1798,7 @@ internal sealed partial class Compiler
         catch (Exception ex)
         {
             throw new InvalidOperationException($"Compiler.Entity/Object.Property: Failed to automatically convert the value expression for " +
-                $"property '{classProperty.GetMappedName()} ({classProperty.PropertyInfo.PropertyType.FullName})'. {classProperty}", ex);
+                $"property '{classProperty.FieldName} ({classProperty.PropertyInfo.PropertyType.FullName})'. {classProperty}", ex);
         }
 
         // Property Handler
@@ -1858,7 +1858,7 @@ internal sealed partial class Compiler
         DbField dbField)
     {
         var methodInfo = StaticType.IDictionaryStringObject.GetMethod("get_Item", new[] { StaticType.String })!;
-        var expression = (Expression)Expression.Call(dictionaryInstanceExpression, methodInfo, Expression.Constant(dbField.Name));
+        var expression = (Expression)Expression.Call(dictionaryInstanceExpression, methodInfo, Expression.Constant(dbField.FieldName));
 
         // Property Handler
         expression = ConvertExpressionToPropertyHandlerSetExpression(expression,
@@ -1911,7 +1911,7 @@ internal sealed partial class Compiler
         return Expression.TryCatch(
             Expression.Block(setValueCall, Expression.Empty()), Expression.Catch(ex,
             Expression.Call(exceptionHelperMethod,
-                Expression.Constant(classProperty?.Name ?? dbField?.Name),
+                Expression.Constant(classProperty?.PropertyName ?? dbField?.FieldName),
                 expression,
                 ex)));
     }
@@ -2015,7 +2015,7 @@ internal sealed partial class Compiler
         int entityIndex,
         IDbSetting dbSetting)
     {
-        var parameterName = dbField.Name.AsAlphaNumeric();
+        var parameterName = dbField.FieldName.AsAlphaNumeric();
         parameterName = entityIndex > 0 ? string.Concat(dbSetting.ParameterPrefix, parameterName, "_", entityIndex.ToString(CultureInfo.InvariantCulture)) :
             string.Concat(dbSetting.ParameterPrefix, parameterName);
         return GetDbParameterNameAssignmentExpression(dbParameterExpression, parameterName);
@@ -2223,7 +2223,7 @@ internal sealed partial class Compiler
         ParameterExpression? propertyVariableExpression = null;
         Expression? propertyInstanceExpression = null;
         ClassProperty? classProperty = null;
-        var propertyName = fieldDirection.DbField.Name;
+        var propertyName = fieldDirection.DbField.FieldName;
 
         // Set the proper assignments (property)
         if (TypeCache.Get(entityExpression.Type).IsClassType() == false)
@@ -2242,7 +2242,7 @@ internal sealed partial class Compiler
         {
             var entityProperties = PropertyCache.Get(entityExpression.Type);
             classProperty = entityProperties.FirstOrDefault(property =>
-                string.Equals(property.GetMappedName().AsUnquoted(true, dbSetting),
+                string.Equals(property.FieldName.AsUnquoted(true, dbSetting),
                     propertyName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase));
 
             if (classProperty != null)

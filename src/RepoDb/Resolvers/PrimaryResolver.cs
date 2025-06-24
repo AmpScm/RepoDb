@@ -35,19 +35,19 @@ public class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IRes
         }
 
         // Id Property
-        if (properties.GetByName("id") is { } idProperty)
+        if (properties.GetByPropertyName("id") is { } idProperty)
         {
             return [idProperty];
         }
 
         // Type.Name + Id
-        if (properties.GetByName(entityType.Name + "Id") is { } nameIdProperty)
+        if (properties.GetByPropertyName(entityType.Name + "Id") is { } nameIdProperty)
         {
             return [nameIdProperty];
         }
 
         // Mapping.Name + Id
-        if (ClassMappedNameCache.Get(entityType, false) is { } name && properties.GetByName(name + "Id") is { } mapIdProperty)
+        if (ClassMappedNameCache.Get(entityType, false) is { } name && properties.GetByPropertyName(name + "Id") is { } mapIdProperty)
         {
             return [mapIdProperty];
         }

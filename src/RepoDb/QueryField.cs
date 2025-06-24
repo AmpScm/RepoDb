@@ -91,7 +91,7 @@ public partial class QueryField : IEquatable<QueryField>
     {
         Field = field;
         Operation = operation;
-        Parameter = new Parameter(field.Name, value, dbType, prependUnderscore);
+        Parameter = new Parameter(field.FieldName, value, dbType, prependUnderscore);
     }
 
     #endregion
@@ -186,7 +186,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// Returns the name of the <see cref="Field"/> object current in used.
     /// </summary>
     public string? GetName() =>
-        Field?.Name;
+        Field?.FieldName;
 
     /// <summary>
     /// Returns the value of the <see cref="Parameter"/> object currently in used. However, if this instance of object has already been used as a database parameter
@@ -280,7 +280,7 @@ public partial class QueryField : IEquatable<QueryField>
         // The string representation affects the collision
         // var objA = QueryGroup.Parse<EntityClass>(c => c.Id == 1 && c.Value != 1);
         // var objB = QueryGroup.Parse<EntityClass>(c => c.Id != 1 && c.Value == 1);
-        hashCode = HashCode.Combine(hashCode, Field.Name, Operation.GetText());
+        hashCode = HashCode.Combine(hashCode, Field.FieldName, Operation.GetText());
 
         // Set and return the hashcode
         return this.hashCode ??= hashCode;
@@ -312,7 +312,7 @@ public partial class QueryField : IEquatable<QueryField>
             && other.Parameter == Parameter
             && (Operation is Operation.Equal or Operation.NotEqual ? (other.Parameter.Value == null) == (Parameter.Value == null) : true)
             && (Operation is Operation.In or Operation.NotIn ? (other.Parameter.Value as IEnumerable<object>)?.Count() == (Parameter.Value as IEnumerable<object>)?.Count() : true)
-            && other.Field?.Name == Field?.Name
+            && other.Field?.FieldName == Field?.FieldName
             && other.Operation.GetText() == Operation.GetText();
     }
 

@@ -164,7 +164,7 @@ public static class DataEntityExtension
     /// <param name="type"></param>
     /// <param name="propertyName"></param>
     /// <returns></returns>
-    internal static PropertyInfo GetPropertyOrThrow(Type type,
+    private static PropertyInfo GetPropertyOrThrow(Type type,
         string propertyName)
     {
         var property = TypeExtension.GetProperty(type, propertyName);

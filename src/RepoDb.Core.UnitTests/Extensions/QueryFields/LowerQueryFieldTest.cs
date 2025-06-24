@@ -15,7 +15,7 @@ public class LowerQueryFieldTest
         var functionalQueryField = new LowerQueryField("FieldName", Operation.NotEqual, "Value");
 
         // Assert
-        Assert.AreEqual("FieldName", functionalQueryField.Field.Name);
+        Assert.AreEqual("FieldName", functionalQueryField.Field.FieldName);
         Assert.AreEqual(Operation.NotEqual, functionalQueryField.Operation);
         Assert.AreEqual("Value", functionalQueryField.Parameter.Value);
         Assert.AreEqual("LOWER({0})", functionalQueryField.Format);

@@ -179,15 +179,15 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             if (!keyField.IsPrimary || keyField.IsGenerated || keyField.IsIdentity || keyField.IsNullable)
                 continue;
 
-            if (fields.GetByName(keyField.Name) is null)
+            if (fields.GetByFieldName(keyField.FieldName) is null)
             {
-                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.Name}' must be present in the field list.");
+                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.FieldName}' must be present in the field list.");
             }
         }
 
         // Insertable fields
         var insertableFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is not { } x || !(x.IsGenerated || x.IsIdentity));
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is not { } x || !(x.IsGenerated || x.IsIdentity));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -259,22 +259,22 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         // Primary Key
         if (primaryField != null &&
             primaryField.HasDefaultValue == false &&
-            !string.Equals(primaryField.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase))
+            !string.Equals(primaryField.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase))
         {
             var isPresent = fields
                 .FirstOrDefault(f =>
-                    string.Equals(f.Name, primaryField.Name, StringComparison.OrdinalIgnoreCase)) != null;
+                    string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
 
             if (isPresent == false)
             {
-                throw new PrimaryFieldNotFoundException($"As the primary field '{primaryField.Name}' is not an identity nor has a default value, it must be present on the insert operation.");
+                throw new PrimaryFieldNotFoundException($"As the primary field '{primaryField.FieldName}' is not an identity nor has a default value, it must be present on the insert operation.");
             }
         }
 
         // Insertable fields
         var insertableFields = fields
             .Where(f =>
-                !string.Equals(f.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase));
+                !string.Equals(f.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -373,8 +373,8 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers from the fields
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .AsList();
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+);
 
         // Build the query
         builder
@@ -486,8 +486,8 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
 
         // Remove the qualifiers from the fields
 
-        var updatableFields = fields.Where(f => qualifiers.GetByName(f.Name) is null && noUpdateFields?.GetByName(f.Name) is null && keyFields.GetByName(f.Name) is not { IsIdentity: true })
-            .AsList();
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
+);
 
         // Iterate the indexes
         for (var index = 0; index < batchSize; index++)
@@ -728,7 +728,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         }
 
         var updateFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is null && qualifiers.GetByName(f.Name) is null)
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is null && qualifiers.GetByFieldName(f.FieldName) is null)
             .ToArray();
 
         if (!updateFields.Any())
@@ -746,7 +746,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
 
         // SET field1 = S.field1, ...
         builder.AppendJoin(updateFields.Select(f =>
-            $"{f.Name.AsField(DbSetting)} = S.{f.Name.AsField(DbSetting)}"), ", ");
+            $"{f.FieldName.AsField(DbSetting)} = S.{f.FieldName.AsField(DbSetting)}"), ", ");
 
         // FROM (VALUES (...), (...)) AS S(field1, field2, ...)
         builder.From()
@@ -774,7 +774,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         // WHERE T.qualifier = S.qualifier AND ...
         builder
             .Where()
-            .AppendJoin(qualifiers.Select(q => $"T.{q.Name.AsField(DbSetting)} = S.{q.Name.AsField(DbSetting)}"), " AND ")
+            .AppendJoin(qualifiers.Select(q => $"T.{q.FieldName.AsField(DbSetting)} = S.{q.FieldName.AsField(DbSetting)}"), " AND ")
             .End(DbSetting);
 
         return builder.ToString();

@@ -69,7 +69,7 @@ internal sealed class QueryRequest : BaseRequest
               transaction,
               statementBuilder)
     {
-        Fields = fields?.AsList();
+        Fields = fields?.AsFieldSet();
         Where = where;
         OrderBy = orderBy?.AsList();
         Top = top;
@@ -79,7 +79,7 @@ internal sealed class QueryRequest : BaseRequest
     /// <summary>
     /// Gets the list of the target fields.
     /// </summary>
-    public List<Field>? Fields { get; init; }
+    public FieldSet? Fields { get; init; }
 
     /// <summary>
     /// Gets the query expression used.
@@ -117,16 +117,8 @@ internal sealed class QueryRequest : BaseRequest
                 Name,
                 Where,
                 Top,
-                Hints);
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
+                Hints,
+                Fields);
 
             // Add the order fields
             if (OrderBy != null)

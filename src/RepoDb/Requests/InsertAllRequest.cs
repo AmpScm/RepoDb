@@ -88,7 +88,7 @@ internal sealed class InsertAllRequest : BaseRequest
               statementBuilder)
     {
         Type = type;
-        Fields = fields.AsList();
+        Fields = fields.AsFieldSet();
         BatchSize = batchSize;
         Hints = hints;
     }
@@ -96,7 +96,7 @@ internal sealed class InsertAllRequest : BaseRequest
     /// <summary>
     /// Gets the target fields.
     /// </summary>
-    public List<Field> Fields { get; init; }
+    public FieldSet Fields { get; init; }
 
     /// <summary>
     /// Gets the size batch of the insertion.
@@ -118,22 +118,12 @@ internal sealed class InsertAllRequest : BaseRequest
     {
         if (HashCode is not { } hashCode)
         {
-            hashCode = System.HashCode.Combine(
+            HashCode = hashCode = System.HashCode.Combine(
                 typeof(InsertAllRequest),
                 Name,
                 BatchSize,
-                Hints);
-
-            // Get the qualifier <see cref="Field"/> objects
-            if (Fields != null)
-            {
-                foreach (var field in Fields)
-                {
-                    hashCode = System.HashCode.Combine(hashCode, field);
-                }
-            }
-
-            HashCode = hashCode;
+                Hints,
+                Fields);
         }
 
         return hashCode;

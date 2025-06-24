@@ -229,7 +229,7 @@ public static class TypeMapper
         ObjectExtension.ThrowIfNull(field, "Field");
 
         // Add to the mapping
-        Add<TEntity>(DataEntityExtension.GetPropertyOrThrow<TEntity>(field.Name), dbType, force);
+        Add<TEntity>(DataEntityExtension.GetPropertyOrThrow<TEntity>(field.FieldName), dbType, force);
     }
 
     /// <summary>
@@ -325,7 +325,7 @@ public static class TypeMapper
     /// <returns>The mapped <see cref="DbType"/> object of the property.</returns>
     public static DbType? Get<TEntity>(Field field)
         where TEntity : class =>
-        Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.Name));
+        Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
 
     /// <summary>
     /// Property Level: Get the existing mapped <see cref="DbType"/> object of the <see cref="PropertyInfo"/> object.
@@ -382,7 +382,7 @@ public static class TypeMapper
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     public static void Remove<TEntity>(Field field)
         where TEntity : class =>
-        Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.Name));
+        Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
 
     /// <summary>
     /// Property Level: Remove the existing mapped <see cref="DbType"/> from the <see cref="PropertyInfo"/> object.

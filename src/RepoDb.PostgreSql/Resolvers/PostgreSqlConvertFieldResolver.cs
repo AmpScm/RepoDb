@@ -43,10 +43,10 @@ public class PostgreSqlConvertFieldResolver : DbConvertFieldResolver
             if (dbType != null)
             {
                 var dbTypeName = StringNameResolver.Resolve(dbType.Value).ToUpper();
-                return string.Concat("CAST(", field.Name.AsField(dbSetting), " AS ", dbTypeName, ")");
+                return string.Concat("CAST(", field.FieldName.AsField(dbSetting), " AS ", dbTypeName, ")");
             }
         }
-        return field?.Name?.AsQuoted(true, true, dbSetting);
+        return field?.FieldName?.AsQuoted(true, true, dbSetting);
     }
 
     #endregion

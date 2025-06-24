@@ -70,7 +70,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         }
         else
         {
-            field = new Field(field.Name, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
+            field = new Field(field.FieldName, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
         }
 
         // Initialize the builder
@@ -114,7 +114,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         }
         else
         {
-            field = new(field.Name, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
+            field = new(field.FieldName, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
         }
 
         // Initialize the builder
@@ -322,15 +322,15 @@ public abstract class BaseStatementBuilder : IStatementBuilder
             if (!keyField.IsPrimary || keyField.IsGenerated || keyField.IsIdentity || keyField.IsNullable)
                 continue;
 
-            if (fields.GetByName(keyField.Name) is null)
+            if (fields.GetByFieldName(keyField.FieldName) is null)
             {
-                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.Name}' must be present in the field list.");
+                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.FieldName}' must be present in the field list.");
             }
         }
 
         // Insertable fields
         var insertableFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is not { } x || !(x.IsGenerated || x.IsIdentity));
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is not { } x || !(x.IsGenerated || x.IsIdentity));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -385,15 +385,15 @@ public abstract class BaseStatementBuilder : IStatementBuilder
             if (!keyField.IsPrimary || keyField.IsGenerated || keyField.IsIdentity || keyField.IsNullable)
                 continue;
 
-            if (fields.GetByName(keyField.Name) is null)
+            if (fields.GetByFieldName(keyField.FieldName) is null)
             {
-                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.Name}' must be present in the field list.");
+                throw new PrimaryFieldNotFoundException($"Primary field '{keyField.FieldName}' must be present in the field list.");
             }
         }
 
         // Insertable fields
         var insertableFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is not { } x || !(x.IsGenerated || x.IsIdentity));
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is not { } x || !(x.IsGenerated || x.IsIdentity));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -822,8 +822,8 @@ public abstract class BaseStatementBuilder : IStatementBuilder
 
         // Gets the updatable fields
         var updatableFields = fields
-            .Where(f => !string.Equals(f.Name, primaryField?.Name, StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(f.Name, identityField?.Name, StringComparison.OrdinalIgnoreCase));
+            .Where(f => !string.Equals(f.FieldName, primaryField?.FieldName, StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(f.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase));
 
         // Check if there are updatable fields
         if (updatableFields.Any() != true)
@@ -886,7 +886,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
 
         // Gets the updatable fields
         var updateFields = fields
-            .Where(f => keyFields.GetByName(f.Name) is null && qualifiers?.GetByName(f.Name) is null);
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is null && qualifiers?.GetByFieldName(f.FieldName) is null);
 
         // Check if there are updatable fields
         if (updateFields.Any() != true)
