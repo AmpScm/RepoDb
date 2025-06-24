@@ -70,24 +70,6 @@ public class ClassExpressionTest
         }
     }
 
-    [TestMethod]
-    public void TestClassExpressionGetEntitiesPropertyValuesViaField()
-    {
-        // Setup
-        var entities = GetEntities(10).AsList();
-
-        // Act
-        var propertyValues = ClassExpression.GetEntitiesPropertyValues<ClassExpressionTestClass, string>(entities, new Field("Property1"));
-
-        // Assert
-        Assert.AreEqual(entities.Count(), propertyValues.Count());
-        for (var i = 0; i < entities.Count(); i++)
-        {
-            var entity = entities.ElementAt(i);
-            Assert.AreEqual(entity.Property1, propertyValues.ElementAt(i));
-        }
-    }
-
     #endregion
 
     #region GetPropertiesAndValues

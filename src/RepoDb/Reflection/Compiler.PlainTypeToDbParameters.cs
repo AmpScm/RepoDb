@@ -26,20 +26,16 @@ partial class Compiler
         var callExpressions = new List<Expression>();
 
         // Iterate
-        foreach (var paramProperty in PropertyCache.Get(paramType))
+        foreach (var prop in PropertyCache.Get(paramType))
         {
-            var mappedParamPropertyName = paramProperty.FieldName;
-
             // Ensure it matches to atleast one param
-            var entityProperty = PropertyCache.Get(entityType)?.FirstOrDefault(e =>
-                string.Equals(e.PropertyName, paramProperty.PropertyInfo.Name, StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(e.FieldName, mappedParamPropertyName, StringComparison.OrdinalIgnoreCase));
+            var entityProperty = PropertyCache.Get(entityType) is { } p
+                ? (p.GetByPropertyName(prop.PropertyName) ?? p.GetByFieldName(prop.FieldName)) : null;
 
             // Variables
-            var dbField = dbFields?.GetByFieldName(mappedParamPropertyName);
-            var targetProperty = (entityProperty ?? paramProperty);
-            var parameterName = mappedParamPropertyName; // There is a purpose of why it is not 'targetProperty'
-            var valueExpression = (Expression)Expression.Property(entityExpression, paramProperty.PropertyInfo);
+            var dbField = dbFields?.GetByFieldName(prop.FieldName);
+            var targetProperty = (entityProperty ?? prop);
+            var valueExpression = (Expression)Expression.Property(entityExpression, prop.PropertyInfo);
 
             // Add the value itself
             if (StaticType.IDbDataParameter.IsAssignableFrom(targetProperty.PropertyInfo.PropertyType))
@@ -49,7 +45,7 @@ partial class Compiler
                 #region DbParameter
 
                 // Set the name
-                var setNameExpression = GetDbParameterNameAssignmentExpression(valueExpression, parameterName);
+                var setNameExpression = GetDbParameterNameAssignmentExpression(valueExpression, prop.PropertyName);
                 callExpressions.AddIfNotNull(setNameExpression);
 
                 // DbCommand.Parameters.Add
@@ -64,13 +60,13 @@ partial class Compiler
 
                 var propertyType = targetProperty.PropertyInfo.PropertyType;
                 var underlyingType = TypeCache.Get(propertyType).GetUnderlyingType();
-                var valueType = GetPropertyHandlerSetMethodReturnType(paramProperty, underlyingType) ?? underlyingType;
-                var dbParameterExpression = Expression.Variable(StaticType.DbParameter, $"var{parameterName}");
+                var valueType = GetPropertyHandlerSetMethodReturnType(prop, underlyingType) ?? underlyingType;
+                var dbParameterExpression = Expression.Variable(StaticType.DbParameter, $"var{prop.PropertyName}");
                 var parameterCallExpressions = new List<Expression>();
 
                 // Create
                 var createParameterExpression =
-                    CreateDbParameterExpression(dbCommandExpression, parameterName, valueExpression);
+                    CreateDbParameterExpression(dbCommandExpression, prop.PropertyName, valueExpression);
                 parameterCallExpressions.Add(
                     Expression.Assign(dbParameterExpression,
                         ConvertExpressionToTypeExpression(createParameterExpression, StaticType.DbParameter)));
@@ -88,7 +84,7 @@ partial class Compiler
 
                     if (!IsPostgreSqlUserDefined(dbField))
                     {
-                        dbType = paramProperty.GetDbType() ??
+                        dbType = prop.GetDbType() ??
                             valueType.GetDbType() ??
                             (dbField != null ? new ClientTypeToDbTypeResolver().Resolve(dbField.Type) : null) ??
                             (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType;
@@ -115,7 +111,7 @@ partial class Compiler
 
                 // PropertyHandler
                 InvokePropertyHandlerViaExpression(
-                    dbParameterExpression, paramProperty, ref valueType, ref valueExpression);
+                    dbParameterExpression, prop, ref valueType, ref valueExpression);
 
                 // Value
                 var setValueExpression = GetDbParameterValueAssignmentExpression(dbParameterExpression,

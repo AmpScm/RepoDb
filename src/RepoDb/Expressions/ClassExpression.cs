@@ -31,22 +31,6 @@ public static partial class ClassExpression
     }
 
     /// <summary>
-    /// Gets the values of the property of the data entities (via <see cref="Field"/> object).
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the data entities.</typeparam>
-    /// <typeparam name="TResult">The result type of the extracted property.</typeparam>
-    /// <param name="entities">The list of the data entities.</param>
-    /// <param name="field">The name of the target property defined as <see cref="Field"/>.</param>
-    /// <returns>The values of the property of the data entities.</returns>
-    public static IEnumerable<TResult> GetEntitiesPropertyValues<TEntity, TResult>(IEnumerable<TEntity> entities,
-        Field field)
-        where TEntity : class
-    {
-        var classProperty = PropertyCache.Get<TEntity>().GetByPropertyName(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found");
-        return GetEntitiesPropertyValues<TEntity, TResult>(entities, classProperty);
-    }
-
-    /// <summary>
     /// Gets the values of the property of the data entities (via property name).
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entities.</typeparam>
