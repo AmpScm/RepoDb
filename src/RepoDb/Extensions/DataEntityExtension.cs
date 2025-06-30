@@ -191,17 +191,11 @@ public static class DataEntityExtension
     /// <param name="type"></param>
     /// <param name="propertyName"></param>
     /// <returns></returns>
-    internal static ClassProperty GetClassPropertyOrThrow(Type type,
+    private static ClassProperty GetClassPropertyOrThrow(Type type,
         string propertyName)
     {
-        var property = PropertyCache
+        return PropertyCache
             .Get(type)?
-            .FirstOrDefault(
-                p => string.Equals(p.PropertyInfo.Name, propertyName, StringComparison.OrdinalIgnoreCase));
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(propertyName), $"The class property '{propertyName}' is not found from type '{type.FullName}'.");
-        }
-        return property;
+            .GetByPropertyName(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), $"The class property '{propertyName}' is not found from type '{type.FullName}'.");
     }
 }

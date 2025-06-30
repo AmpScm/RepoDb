@@ -26,11 +26,10 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// </summary>
     /// <param name="parentType">The declaring type (avoiding the interface collision).</param>
     /// <param name="property">The wrapped property.</param>
-    public ClassProperty(Type parentType,
-        PropertyInfo property)
+    public ClassProperty(Type parentType, PropertyInfo property)
     {
-        DeclaringType = parentType;
-        PropertyInfo = property;
+        DeclaringType = parentType ?? throw new ArgumentNullException(nameof(parentType));
+        PropertyInfo = property ?? throw new ArgumentNullException(nameof(property));
 
         typeMapAttribute = new(() => PropertyInfo.GetCustomAttribute<TypeMapAttribute>(), true);
         propertyHandlerAttribute = new(() => PropertyInfo.GetCustomAttribute<PropertyHandlerAttribute>(), true);
