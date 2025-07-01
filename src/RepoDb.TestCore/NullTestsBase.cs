@@ -101,6 +101,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         sql.Insert(new EnumNullTestData(), trace: new DiagnosticsTracer(), transaction: t);
 
+
+        var toDel = new int[] { 1, 2 };
+        sql.Delete<CommonNullTestData>(x => toDel.Contains(x.NrNull.Value), trace: new DiagnosticsTracer());
+
         await t.RollbackAsync();
     }
 

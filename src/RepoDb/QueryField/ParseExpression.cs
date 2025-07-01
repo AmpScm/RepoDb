@@ -383,11 +383,13 @@ public partial class QueryField
                 return ToIn(property.FieldName, enumerable!, unaryNodeType);
             }
         }
-        else
+        else if (property is { })
         {
             var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
             return ToIn(property.FieldName, enumerable!, unaryNodeType);
         }
+        else
+            return null;
     }
 
     /// <summary>
@@ -504,9 +506,16 @@ public partial class QueryField
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    internal static ClassProperty GetProperty<TEntity>(MemberExpression expression)
-        where TEntity : class =>
-        GetProperty<TEntity>(expression.Member.ToPropertyInfo());
+    internal static ClassProperty? GetProperty<TEntity>(MemberExpression expression)
+        where TEntity : class
+    {
+        var member = expression.Member;
+
+        if (member.DeclaringType is { } dt && dt.IsGenericType && dt.GetGenericTypeDefinition() == StaticType.Nullable && expression.Expression is { })
+            return GetProperty<TEntity>(expression.Expression);
+
+        return GetProperty<TEntity>(expression.Member.ToPropertyInfo());
+    }
 
     /// <summary>
     ///
