@@ -62,9 +62,11 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.Split(chunkSize))
+            foreach (var group in entities.ChunkOptimally(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
+
+                where.Fix(connection, transaction, tableName);
 
                 deleted += DeleteInternal(
                     connection: (DbConnection)connection,
@@ -201,13 +203,16 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.Split(chunkSize))
+            foreach (var group in entities.ChunkOptimally(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
 
+                string tableName = GetMappedName(entities);
+                where.Fix(connection, transaction, tableName);
+
                 deleted += DeleteInternal(
                     connection: (DbConnection)connection,
-                    tableName: GetMappedName(entities),
+                    tableName: tableName,
                     where: where,
                     hints: hints,
                     commandTimeout: commandTimeout,
@@ -415,9 +420,11 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.Split(chunkSize))
+            foreach (var group in entities.ChunkOptimally(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
+
+                where.Fix(connection, transaction, tableName);
 
                 deleted += await DeleteAsyncInternal(
                     connection: (DbConnection)connection,
@@ -570,9 +577,11 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.Split(chunkSize))
+            foreach (var group in entities.ChunkOptimally(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
+
+                where.Fix(connection, transaction, tableName);
 
                 deleted += await DeleteAsyncInternal(
                     connection: (DbConnection)connection,
@@ -882,7 +891,7 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Call the underlying method
-        foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
+        foreach (var keyValues in keys.ChunkOptimally(parameterBatchCount) ?? [])
         {
             if (!keyValues.Any())
                 continue;
@@ -890,6 +899,9 @@ public static partial class DbConnectionExtension
             var where = new QueryGroup(
                 pkeys.Select(key => new QueryGroup(new QueryField(key.FieldName, Operation.In, keyValues.AsList(), null, false))),
                 Conjunction.And);
+
+            where.Fix(connection, transaction, tableName);
+
             deletedRows += DeleteInternal(connection: (DbConnection)connection,
                 tableName: tableName,
                 where: where,
@@ -1060,11 +1072,13 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Call the underlying method
-        foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
+        foreach (var keyValues in keys.ChunkOptimally(parameterBatchCount) ?? [])
         {
             var where = new QueryGroup(
                 pkeys.Select(key => new QueryGroup(new QueryField(key.FieldName, Operation.In, keyValues.AsList(), null, false))),
                 Conjunction.And);
+
+            where.Fix(connection, transaction, tableName);
 
             deletedRows += await DeleteAsyncInternal(connection: (DbConnection)connection,
                 tableName: tableName,

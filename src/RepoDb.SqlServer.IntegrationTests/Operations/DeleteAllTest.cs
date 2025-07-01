@@ -69,7 +69,7 @@ public class DeleteAllTest
         using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
         {
             // Act
-            var result = connection.DeleteAll<CompleteTable>(primaryKeys);
+            var result = connection.DeleteAll<CompleteTable>(primaryKeys, trace: new DiagnosticsTracer());
 
             // Assert
             Assert.AreEqual(tables.Count(), result);
@@ -89,6 +89,38 @@ public class DeleteAllTest
 
             // Assert
             Assert.AreEqual(5, result);
+        }
+    }
+
+    [TestMethod]
+    public void TestSqlServerConnectionDeleteAllValues10()
+    {
+        // Setup
+        var tables = Database.CreateCompleteTables(15);
+
+        using (var connection = new SqlConnection(Database.ConnectionString))
+        {
+            // Act
+            var result = connection.DeleteAll<CompleteTable>(tables.Take(10), trace: new DiagnosticsTracer());
+
+            // Assert
+            Assert.AreEqual(10, result);
+        }
+    }
+
+    [TestMethod]
+    public void TestSqlServerConnectionDeleteAllValues20()
+    {
+        // Setup
+        var tables = Database.CreateCompleteTables(30);
+
+        using (var connection = new SqlConnection(Database.ConnectionString))
+        {
+            // Act
+            var result = connection.DeleteAll<CompleteTable>(tables.Take(20), trace: new DiagnosticsTracer());
+
+            // Assert
+            Assert.AreEqual(20, result);
         }
     }
 
@@ -152,7 +184,7 @@ public class DeleteAllTest
         using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
         {
             // Act
-            var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+            var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, trace: new DiagnosticsTracer());
 
             // Assert
             Assert.AreEqual(tables.Count(), result);
