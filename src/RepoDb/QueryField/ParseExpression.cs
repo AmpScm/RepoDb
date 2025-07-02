@@ -58,16 +58,16 @@ public partial class QueryField
     /// <summary>
     ///
     /// </summary>
-    /// <param name="fieldName"></param>
+    /// <param name="field"></param>
     /// <param name="enumerable"></param>
     /// <param name="unaryNodeType"></param>
     /// <returns></returns>
-    private static QueryField ToIn(string fieldName,
+    private static QueryField ToIn(Field field,
         System.Collections.IEnumerable enumerable,
         ExpressionType? unaryNodeType = null)
     {
         var operation = unaryNodeType == ExpressionType.Not ? Operation.NotIn : Operation.In;
-        return new QueryField(fieldName, operation, enumerable.AsTypedSet(), null, false);
+        return new QueryField(field, operation, enumerable.AsTypedSet(), null, false);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public partial class QueryField
     /// <param name="enumerable"></param>
     /// <param name="unaryNodeType"></param>
     /// <returns></returns>
-    private static IEnumerable<QueryField> ToQueryFields(string fieldName,
+    private static IEnumerable<QueryField> ToQueryFields(Field field,
         System.Collections.IEnumerable enumerable,
         ExpressionType? unaryNodeType = null)
     {
@@ -85,7 +85,7 @@ public partial class QueryField
             Operation.NotEqual : Operation.Equal;
         foreach (var item in enumerable)
         {
-            yield return new QueryField(fieldName, operation, item, null, false);
+            yield return new QueryField(field, operation, item, null, false);
         }
     }
 
@@ -96,12 +96,12 @@ public partial class QueryField
     /// <param name="value"></param>
     /// <param name="unaryNodeType"></param>
     /// <returns></returns>
-    private static QueryField ToLike(string fieldName,
+    private static QueryField ToLike(Field field,
         object? value,
         ExpressionType? unaryNodeType = null)
     {
         var operation = unaryNodeType == ExpressionType.Not ? Operation.NotLike : Operation.Like;
-        return new QueryField(fieldName, operation, value, null, false);
+        return new QueryField(field, operation, value, null, false);
     }
 
     /// <summary>
@@ -374,24 +374,27 @@ public partial class QueryField
         // Property
         var property = GetProperty<TEntity>(expression);
 
+        if (property is null)
+            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+
         // Value
         if (expression.Object != null)
         {
             if (expression.Object?.Type == StaticType.String)
             {
                 var likeable = ConvertToLikeableValue("Contains", Converter.ToType<string>(expression.Arguments.First().GetValue()));
-                return ToLike(property.FieldName, likeable, unaryNodeType);
+                return ToLike(property.AsField(), likeable, unaryNodeType);
             }
             else
             {
                 var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Object.GetValue());
-                return ToIn(property.FieldName, enumerable!, unaryNodeType);
+                return ToIn(property.AsField(), enumerable!, unaryNodeType);
             }
         }
         else if (property is { })
         {
             var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-            return ToIn(property.FieldName, enumerable!, unaryNodeType);
+            return ToIn(property.AsField(), enumerable!, unaryNodeType);
         }
         else
             return null;
@@ -415,7 +418,7 @@ public partial class QueryField
         var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
 
         // Fields
-        return ToLike(property.FieldName,
+        return ToLike(property.AsField(),
             ConvertToLikeableValue(expression.Method.Name, value), unaryNodeType);
     }
 
@@ -435,7 +438,7 @@ public partial class QueryField
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-        return ToQueryFields(property.FieldName, enumerable!, unaryNodeType);
+        return ToQueryFields(property.AsField(), enumerable!, unaryNodeType);
     }
 
     /// <summary>
@@ -454,7 +457,7 @@ public partial class QueryField
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
-        return ToQueryFields(property.FieldName, enumerable!, unaryNodeType);
+        return ToQueryFields(property.AsField(), enumerable!, unaryNodeType);
     }
 
     #region GetProperty
