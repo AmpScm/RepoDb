@@ -103,7 +103,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
 
         var toDel = new int[] { 1, 2 };
-        sql.Delete<CommonNullTestData>(x => toDel.Contains(x.NrNull.Value), trace: new DiagnosticsTracer());
+        sql.Delete<CommonNullTestData>(x => toDel.Contains(x.NrNull.Value), transaction: t, trace: new DiagnosticsTracer());
 
         await t.RollbackAsync();
     }
