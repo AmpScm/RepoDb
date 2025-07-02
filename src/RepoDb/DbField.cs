@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace RepoDb;
 
@@ -158,7 +159,7 @@ public sealed class DbField : Field, IEquatable<DbField>
     /// </summary>
     /// <returns>The string that represents the instance of this <see cref="DbField"/> object.</returns>
     public override string ToString() =>
-        string.Concat(FieldName, ", ", IsPrimary.ToString(), " (", HashCode.ToString(), ")");
+        string.Concat(FieldName, ", ", IsPrimary.ToString(), " (", GetHashCode().ToString(CultureInfo.InvariantCulture), ")");
 
     private string DebuggerDisplay
         => String.Join(" ",

@@ -30,7 +30,7 @@ public class TypeMapPropertyLevelResolver : IResolver<PropertyInfo, DbType?>
         }
 
         // Property Level
-        dbType ??= TypeMapper.Get(propertyInfo.DeclaringType, propertyInfo);
+        dbType ??= TypeMapper.Get(propertyInfo.DeclaringType!, propertyInfo);
 
         // Return the value
         return dbType;

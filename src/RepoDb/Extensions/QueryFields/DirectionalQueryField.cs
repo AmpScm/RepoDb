@@ -9,7 +9,7 @@ namespace RepoDb;
 /// </summary>
 public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryField>
 {
-    private int? hashCode = null;
+    private int? hashCode;
 
     #region Constructors
 

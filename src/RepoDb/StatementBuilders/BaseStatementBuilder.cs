@@ -1021,7 +1021,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// </summary>
     /// <param name="tableName"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    protected void GuardTableName(string tableName)
+    protected static void GuardTableName(string tableName)
     {
         if (string.IsNullOrWhiteSpace(tableName))
         {
@@ -1034,7 +1034,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// </summary>
     /// <param name="field"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    protected void GuardPrimary(DbField? field)
+    protected static void GuardPrimary(DbField? field)
     {
         if (field?.IsPrimary == false)
         {
@@ -1047,7 +1047,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// </summary>
     /// <param name="field"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    protected void GuardIdentity(DbField? field)
+    protected static void GuardIdentity(DbField? field)
     {
         if (field?.IsIdentity == false)
         {
@@ -1086,7 +1086,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// </summary>
     /// <param name="primaryDbField"></param>
     /// <param name="identityDbField"></param>
-    protected DbField? GetReturnKeyColumnAsDbField(DbField? primaryDbField,
+    protected static DbField? GetReturnKeyColumnAsDbField(DbField? primaryDbField,
         DbField? identityDbField)
     {
         switch (GlobalConfiguration.Options.KeyColumnReturnBehavior)

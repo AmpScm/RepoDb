@@ -8,7 +8,7 @@ namespace RepoDb;
 /// </summary>
 public sealed class Parameter : IEquatable<Parameter>
 {
-    private int? hashCode = null;
+    private int? hashCode;
 
     #region Constructors
 

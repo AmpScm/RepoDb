@@ -9,7 +9,7 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
 {
     #region Privates
 
-    private int? hashCode = null;
+    private int? hashCode;
 
     #endregion
 

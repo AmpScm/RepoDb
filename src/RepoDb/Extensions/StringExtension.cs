@@ -83,7 +83,7 @@ public static partial class StringExtension
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>True if the value is open-quoted.</returns>
     public static bool IsOpenQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting) =>
-        dbSetting != null ? value.StartsWith(dbSetting.OpeningQuote) : false;
+        dbSetting != null ? value.StartsWith(dbSetting.OpeningQuote, StringComparison.Ordinal) : false;
 
     /// <summary>
     /// Check whether the string value is close-quoted.
@@ -92,7 +92,7 @@ public static partial class StringExtension
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>True if the value is close-quoted.</returns>
     public static bool IsCloseQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting) =>
-        dbSetting != null ? value.EndsWith(dbSetting.ClosingQuote) : false;
+        dbSetting != null ? value.EndsWith(dbSetting.ClosingQuote, StringComparison.Ordinal) : false;
 
     /// <summary>
     /// Unquotes a string.
@@ -341,7 +341,7 @@ public static partial class StringExtension
         IDbSetting? dbSetting,
         string? suffix = null)
     {
-        Debug.Assert(!value.Contains("@"));
+        Debug.Assert(!value.Contains('@'));
         var parameterPrefix = dbSetting?.ParameterPrefix ?? "@";
         quote = quote && dbSetting?.QuoteParameterNames == true;
 

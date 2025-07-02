@@ -34,7 +34,7 @@ public class PropertyHandlerAttribute : Attribute
     ///
     /// </summary>
     /// <param name="handlerType"></param>
-    private void Validate(Type handlerType)
+    private static void Validate(Type handlerType)
     {
         if (handlerType.IsInterfacedTo(StaticType.IPropertyHandler) != true)
         {

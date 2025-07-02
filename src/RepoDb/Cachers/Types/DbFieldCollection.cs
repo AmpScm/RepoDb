@@ -42,7 +42,7 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
         lazyIdentity = new(GetIdentityDbField);
     }
 
-    [Obsolete]
+    [Obsolete("settings are unused")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public DbFieldCollection(IEnumerable<DbField> dbFields, IDbSetting dbSetting)
         : this(dbFields)

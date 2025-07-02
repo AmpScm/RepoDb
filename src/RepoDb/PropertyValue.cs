@@ -28,7 +28,7 @@ public sealed record PropertyValue
     /// <summary>
     /// Gets or sets the value of the property.
     /// </summary>
-    public object Value { get; init; }
+    public object? Value { get; init; }
 
     /// <summary>
     /// Gets the actual property object.

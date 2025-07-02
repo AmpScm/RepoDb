@@ -353,19 +353,10 @@ public sealed class QueryBuilder
     /// Appends a stringified fields to the SQL Query Statement.
     /// </summary>
     /// <param name="field">The list of fields to be stringified.</param>
-    /// <returns>The current instance.</returns>
-    [Obsolete]
-    public QueryBuilder FieldFrom(Field field) =>
-        FieldFrom(field, null);
-
-    /// <summary>
-    /// Appends a stringified fields to the SQL Query Statement.
-    /// </summary>
-    /// <param name="field">The list of fields to be stringified.</param>
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder FieldFrom(Field field,
-        IDbSetting? dbSetting) => Append(field?.FieldName.AsField(dbSetting));
+        IDbSetting dbSetting) => Append(field?.FieldName.AsField(dbSetting));
 
     /// <summary>
     /// Appends a stringified fields to the SQL Query Statement.

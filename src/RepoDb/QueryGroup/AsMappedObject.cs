@@ -285,11 +285,15 @@ public partial class QueryGroup
     ///
     /// </summary>
     /// <param name="value"></param>
-    private static IList<T> GetValueList<T>(T value)
+    private static List<T> GetValueList<T>(T value)
     {
         var list = new List<T>();
 
-        if (value is IEnumerable enumerable)
+        if (value is IEnumerable<T> enumerableT)
+        {
+            list.AddRange(enumerableT);
+        }
+        else if (value is IEnumerable enumerable)
         {
             var items = enumerable
                 .WithType<T>()

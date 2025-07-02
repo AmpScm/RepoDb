@@ -171,7 +171,7 @@ public static class QueryFieldExtension
                     }
                     sb.Append($"{queryField.Parameter.Name}{(index > 0 ? index.ToString(CultureInfo.InvariantCulture) : "")}_In_{valueIndex.ToString(CultureInfo.InvariantCulture)}".AsParameter(dbSetting));
                 }
-                sb.Append(")");
+                sb.Append(')');
                 return sb.ToString();
             }
         }

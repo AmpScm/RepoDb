@@ -321,6 +321,9 @@ public partial class QueryField
         // Property
         var property = GetProperty<TEntity>(expression);
 
+        if (property is null)
+            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+
         // Value
         if (expression?.Object != null)
         {
@@ -347,6 +350,9 @@ public partial class QueryField
     {
         // Property
         var property = expression.Arguments.First().ToMember().Member;
+
+        if (property is null)
+            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
         var value = Converter.ToType<string>(expression.Arguments.ElementAt(1).GetValue());
@@ -391,13 +397,11 @@ public partial class QueryField
                 return ToIn(property.AsField(), enumerable!, unaryNodeType);
             }
         }
-        else if (property is { })
+        else
         {
             var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
             return ToIn(property.AsField(), enumerable!, unaryNodeType);
         }
-        else
-            return null;
     }
 
     /// <summary>
@@ -413,6 +417,9 @@ public partial class QueryField
     {
         // Property
         var property = GetProperty<TEntity>(expression);
+
+        if (property is null)
+            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Values
         var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
@@ -436,6 +443,9 @@ public partial class QueryField
         // Property
         var property = GetProperty<TEntity>(expression);
 
+        if (property is null)
+            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
         return ToQueryFields(property.AsField(), enumerable!, unaryNodeType);
@@ -454,6 +464,9 @@ public partial class QueryField
     {
         // Property
         var property = GetProperty<TEntity>(expression);
+
+        if (property is null)
+            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());

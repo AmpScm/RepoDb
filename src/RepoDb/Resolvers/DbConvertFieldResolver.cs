@@ -49,7 +49,7 @@ public class DbConvertFieldResolver : IResolver<Field, IDbSetting, string>
             var dbType = DbTypeResolver.Resolve(field.Type);
             if (dbType is { } value)
             {
-                var dbTypeName = StringNameResolver.Resolve(value)?.ToUpper();
+                var dbTypeName = StringNameResolver.Resolve(value)?.ToUpperInvariant();
                 return string.Concat("CAST(", field.FieldName.AsField(dbSetting), " AS ", dbTypeName?.AsQuoted(dbSetting), ")");
             }
         }

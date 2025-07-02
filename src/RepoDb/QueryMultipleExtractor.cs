@@ -16,13 +16,13 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
      *       we are not passing the values to the DataReader.ToEnumerable() method.
      */
 
-    private readonly DbConnection? _connection = null;
-    private readonly DbDataReader? _reader = null;
-    private readonly bool _isDisposeConnection = false;
-    private readonly object? _param = null;
-    private readonly string? _cacheKey = null;
+    private readonly DbConnection? _connection;
+    private readonly DbDataReader? _reader;
+    private readonly bool _isDisposeConnection;
+    private readonly object? _param;
+    private readonly string? _cacheKey;
     private readonly int _cacheItemExpiration;
-    private readonly ICache? _cache = null;
+    private readonly ICache? _cache;
     private readonly List<object> _items = [];
 
     /// <summary>

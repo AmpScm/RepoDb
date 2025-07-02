@@ -15,13 +15,13 @@ public class DataEntityDataReader<TEntity> : DbDataReader
 {
     #region Fields
 
-    private readonly string? tableName = null;
-    private readonly int fieldCount = 0;
-    private bool isClosed = false;
-    private bool isDisposed = false;
+    private readonly string? tableName;
+    private readonly int fieldCount; // 0
+    private bool isClosed; // false
+    private bool isDisposed; // false
     private int position = -1;
     private int recordsAffected = -1;
-    private readonly bool isDictionaryStringObject = false;
+    private readonly bool isDictionaryStringObject; // false
 
     #endregion
 
@@ -159,12 +159,12 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets the properties of data entity object.
     /// </summary>
-    private IList<ClassProperty> Properties { get; }
+    private List<ClassProperty> Properties { get; }
 
     /// <summary>
     /// Gets the fields of the dictionary.
     /// </summary>
-    private IReadOnlyList<Field> Fields { get; }
+    private List<Field> Fields { get; }
 
     /// <summary>
     /// Gets a value that indicates whether the ordering column is defined.
@@ -552,14 +552,14 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
     public override object GetValue(int ordinal) =>
-        isDictionaryStringObject ? GetValueForDictionaryStringObject(ordinal) : GetValueForEntities(ordinal);
+        (isDictionaryStringObject ? GetValueForDictionaryStringObject(ordinal) : GetValueForEntities(ordinal)) ?? DBNull.Value;
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
-    public object GetValueForEntities(int i)
+    public object? GetValueForEntities(int i)
     {
         ThrowExceptionIfNotAvailable();
         if (i == Properties.Count)
@@ -577,7 +577,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
-    public object GetValueForDictionaryStringObject(int i)
+    public object? GetValueForDictionaryStringObject(int i)
     {
         ThrowExceptionIfNotAvailable();
         if (i == Fields.Count)
@@ -596,13 +596,18 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// </summary>
     /// <param name="values">The array variable on which to populate the data.</param>
     /// <returns></returns>
-    public override int GetValues(object[] values)
+    public override int GetValues(object?[] values)
     {
-        ThrowExceptionIfNotAvailable();
+#if NET
+        ArgumentNullException.ThrowIfNull(values);
+#else
         if (values == null)
         {
             throw new ArgumentNullException(nameof(values));
         }
+#endif
+        ThrowExceptionIfNotAvailable();
+
         if (values.Length != FieldCount)
         {
             throw new ArgumentOutOfRangeException($"The length of the array must be equals to the number of fields of the data entity (it should be {FieldCount}).");
@@ -681,7 +686,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// </summary>
     /// <param name="dictionary"></param>
     /// <returns></returns>
-    private IEnumerable<Field> GetFields(IDictionary<string, object> dictionary)
+    private static IEnumerable<Field> GetFields(IDictionary<string, object> dictionary)
     {
         if (dictionary != null)
         {

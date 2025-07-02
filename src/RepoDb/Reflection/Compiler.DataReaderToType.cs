@@ -88,8 +88,8 @@ partial class Compiler
         var readerFields = GetDataReaderFields(reader, dbFields, dbSetting);
         var memberBindings = GetMemberBindingsForDataEntity<TResult>(readerParameterExpression,
             readerFields, dbSetting, reader.GetType());
-        var memberAssignments = memberBindings?.Where(item => item.MemberAssignment != null).Select(item => item.MemberAssignment);
-        var arguments = memberBindings?.Where(item => item.Argument != null).Select(item => item.Argument);
+        var memberAssignments = memberBindings?.Where(item => item.MemberAssignment != null).Select(item => item.MemberAssignment!);
+        var arguments = memberBindings?.Where(item => item.Argument != null).Select(item => item.Argument!);
         var typeOfResult = typeof(TResult);
 
         // Throw an error if there are no bindings
@@ -114,7 +114,7 @@ partial class Compiler
             // Throw the detailed message
             if (unmatches?.Any() == true)
             {
-                var unmatchesNames = unmatches.Select(e => e.Name).Join(",");
+                var unmatchesNames = unmatches.Select(e => e.Name!).Join(",");
                 throw new MissingMemberException($"The following ctor arguments ('{unmatchesNames}') for type '{typeOfResult.FullName}' are not matching from any of the resultset fields returned by the data reader object.");
             }
         }

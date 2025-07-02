@@ -277,7 +277,7 @@ public static class CommandTextCache
                 request.Fields,
                 request.Transaction,
                 cancellationToken).ConfigureAwait(false);
-            var keyFields = await GetKeyFieldsAsync(request).ConfigureAwait(false);
+            var keyFields = await GetKeyFieldsAsync(request, cancellationToken).ConfigureAwait(false);
             commandText = GetInsertTextInternal(request, fields, keyFields);
             cache.TryAdd(request, commandText);
         }
@@ -443,7 +443,7 @@ public static class CommandTextCache
                 cancellationToken).ConfigureAwait(false);
 
             var noUpdateFields = request.Fields is { } ?
-                await GetTargetFieldsAsync(request.Connection, request.Name, request.NoUpdateFields, request.Transaction).ConfigureAwait(false)
+                await GetTargetFieldsAsync(request.Connection, request.Name, request.NoUpdateFields, request.Transaction, cancellationToken).ConfigureAwait(false)
                 : null;
 
             var keyFields = await GetKeyFieldsAsync(request, cancellationToken).ConfigureAwait(false);

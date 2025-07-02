@@ -22,7 +22,7 @@ public record GlobalConfigurationOptions
     /// <summary>
     /// Gets or sets the default value of the batch operation size. The value defines on this property mainly affects the batch size of the InsertAll, MergeAll and UpdateAll operations.
     /// </summary>
-    public int DefaultBatchOperationSize { get; init; } = 0;
+    public int DefaultBatchOperationSize { get; init; } // = 0;
 
     /// <summary>
     /// Gets of sets the default value of the cache expiration in minutes.
@@ -43,7 +43,7 @@ public record GlobalConfigurationOptions
     /// <summary>
     /// Prefer <see cref="DateOnly" /> and <see cref="TimeOnly"/> support over the legacy handing using <see cref="TimeSpan"/> and <see cref="DateTime"/>
     /// </summary>
-    public bool DateOnlyAndTimeOnly { get; init; } = false;
+    public bool DateOnlyAndTimeOnly { get; init; }
 #endif
 
     /// <summary>

@@ -17,7 +17,7 @@ namespace RepoDb.Extensions.QueryFields;
 /// </example>
 public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
 {
-    private int? hashCode = null;
+    private int? hashCode;
 
     #region Constructors
 

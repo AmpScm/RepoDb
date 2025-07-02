@@ -102,7 +102,7 @@ public static class ClassHandlerMapper
     public static TClassHandler? Get<TClassHandler>(Type type)
     {
         // Check the presence
-        ObjectExtension.ThrowIfNull(type, "type");
+        ObjectExtension.ThrowIfNull(type, nameof(type));
 
         // get the value
         maps.TryGetValue(GenerateHashCode(type), out var value);
@@ -136,7 +136,7 @@ public static class ClassHandlerMapper
     public static void Remove(Type type)
     {
         // Check the presence
-        ObjectExtension.ThrowIfNull(type, "type");
+        ObjectExtension.ThrowIfNull(type, nameof(type));
 
         // Variables for cache
         var key = GenerateHashCode(type);
@@ -175,7 +175,7 @@ public static class ClassHandlerMapper
     /// <param name="type"></param>
     private static void Guard(Type type)
     {
-        ObjectExtension.ThrowIfNull(type, "type");
+        ObjectExtension.ThrowIfNull(type, nameof(type));
         if (type.IsInterfacedTo(StaticType.IClassHandler) == false)
         {
             throw new InvalidTypeException($"The type '{type.FullName}' must implement the '{StaticType.IClassHandler.FullName}' interface.");

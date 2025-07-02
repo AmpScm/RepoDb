@@ -49,6 +49,7 @@ public class ClassHandlerAttribute : Attribute
 /// <summary>
 /// An attribute that is used to define a handler for the property transformation.
 /// </summary>
+[AttributeUsage(AttributeTargets.Class)]
 public class ClassHandlerAttribute<T> : Attribute
 {
     /// <summary>

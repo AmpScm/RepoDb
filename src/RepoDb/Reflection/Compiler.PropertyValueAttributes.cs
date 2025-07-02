@@ -34,7 +34,7 @@ partial class Compiler
         var attributes = classProperty?.GetPropertyValueAttributes();
         if (attributes?.Any() != true)
         {
-            return default;
+            return [];
         }
 
         var expressions = new List<Expression>();

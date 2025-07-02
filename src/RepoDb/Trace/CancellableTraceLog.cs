@@ -78,7 +78,7 @@ public class CancellableTraceLog : TraceLog
         $"StartTime (Ticks): {StartTime.Ticks}\n" +
         $"Parameters: {(Parameters?.Any() == true ? string.Join(", ", Parameters.Select(param => $"({param.ParameterName}={ParamValueToString(param.Value)})")) : "No Parameters")}";
 
-    private string? ParamValueToString(object? value)
+    private static string? ParamValueToString(object? value)
     {
         if (value is null or DBNull)
             return "DBNull";

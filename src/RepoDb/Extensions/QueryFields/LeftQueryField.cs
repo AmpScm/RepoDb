@@ -8,7 +8,7 @@ namespace RepoDb.Extensions.QueryFields;
 /// </summary>
 public sealed class LeftQueryField : FunctionalQueryField
 {
-    private int? hashCode = null;
+    private int? hashCode;
 
     #region Constructors
 

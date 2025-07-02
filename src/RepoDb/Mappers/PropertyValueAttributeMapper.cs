@@ -429,7 +429,7 @@ public static class PropertyValueAttributeMapper
     /// <param name="attributes">The list of <see cref="PropertyValueAttribute"/> object.</param>
     /// <remarks>The default behavior will be affected if the settings are not handled properly by the user (i.e.: setting the type <see cref="string"/> name attribute to something would affect all the objects properties with type <see cref="string"/>).</remarks>
     public static void Add<TType>(IEnumerable<PropertyValueAttribute> attributes) =>
-        Add(typeof(TType), attributes, false);
+        Add<TType>(attributes, false);
 
     /// <summary>
     /// Type Level: Adds a mapping between a .NET CLR type and a list of <see cref="PropertyValueAttribute"/> object.

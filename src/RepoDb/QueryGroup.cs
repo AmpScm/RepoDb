@@ -12,8 +12,8 @@ namespace RepoDb;
 /// </summary>
 public partial class QueryGroup : IEquatable<QueryGroup>
 {
-    private bool isFixed = false;
-    private int? hashCode = null;
+    private bool isFixed;
+    private int? hashCode;
     private List<QueryField>? traversedQueryFields;
 
     #region Constructors
@@ -604,7 +604,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// Fix the query fields names.
     /// </summary>
     /// <param name="fields"></param>
-    private void FixQueryFields(IEnumerable<QueryField> fields)
+    private static void FixQueryFields(IEnumerable<QueryField> fields)
     {
         var firstList = fields
             .OrderBy(queryField => queryField.Parameter.Name, StringComparer.OrdinalIgnoreCase)

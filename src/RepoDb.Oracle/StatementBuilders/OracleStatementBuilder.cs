@@ -166,7 +166,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
             // Oracle requires RETURNING <column> INTO :outParam
             builder
                 .Returning()
-                .FieldFrom(identityField.AsField(), DbSetting)
+                .FieldFrom(identityField, DbSetting)
                 .Into()
                 .WriteText(":RepoDb_Result");
         }

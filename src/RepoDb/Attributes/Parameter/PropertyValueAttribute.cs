@@ -10,7 +10,7 @@ namespace RepoDb.Attributes.Parameter;
 [AttributeUsage(AttributeTargets.Property)]
 public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribute>
 {
-    private int? hashCode = null;
+    private int? hashCode;
 
     #region Constructors
 
@@ -136,7 +136,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     ///
     /// </summary>
     /// <param name="parameterType"></param>
-    private void ValidateParameterType(Type parameterType)
+    private static void ValidateParameterType(Type parameterType)
     {
         if (StaticType.IDbDataParameter.IsAssignableFrom(parameterType) == false)
         {

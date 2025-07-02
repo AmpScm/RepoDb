@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Runtime.CompilerServices;
 
+#pragma warning disable CA1018 // SpecifyAttributeUsage
 #if !NET
 namespace System.Runtime.CompilerServices
 {

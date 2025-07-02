@@ -81,7 +81,7 @@ public static class Converter
                             return (T)parsedValue;
 
                         if (mode == Enumerations.InvalidEnumValueHandling.ThrowError)
-                            throw new ArgumentOutOfRangeException("value", sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
+                            throw new ArgumentOutOfRangeException(nameof(value), sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
 
                         return default!;
                     }
@@ -96,14 +96,14 @@ public static class Converter
                             return (T)r;
 
                         if (mode == Enumerations.InvalidEnumValueHandling.ThrowError)
-                            throw new ArgumentOutOfRangeException("value", sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
+                            throw new ArgumentOutOfRangeException(nameof(value), sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
 
                         return default!;
                     }
 #endif
 
                     if (mode == Enumerations.InvalidEnumValueHandling.ThrowError)
-                        throw new ArgumentOutOfRangeException("value", sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
+                        throw new ArgumentOutOfRangeException(nameof(value), sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
 
 
                     return default!;
@@ -113,7 +113,7 @@ public static class Converter
                     var underlyingType = Enum.GetUnderlyingType(type);
 
                     if (underlyingType != type.GetType())
-                        value = Convert.ChangeType(value, underlyingType);
+                        value = Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture);
 
                     return (T)Enum.ToObject(type, value);
                 }
@@ -124,14 +124,14 @@ public static class Converter
                     var underlyingType = Enum.GetUnderlyingType(type);
 
                     if (underlyingType != type.GetType())
-                        value = Convert.ChangeType(value, underlyingType);
+                        value = Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture);
 
                     return (T)Enum.ToObject(type, value);
                 }
                 else
                 {
                     if (GlobalConfiguration.Options.EnumHandling == Enumerations.InvalidEnumValueHandling.ThrowError)
-                        throw new ArgumentOutOfRangeException("value", value, $"The value '{value}' is not defined in the enum '{type.FullName}'.");
+                        throw new ArgumentOutOfRangeException(nameof(value), value, $"The value '{value}' is not defined in the enum '{type.FullName}'.");
 
                     return default!;
                 }

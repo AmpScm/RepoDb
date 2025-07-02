@@ -46,7 +46,7 @@ public class MemoryCache : ICache
         {
             if (_cache.TryAdd(item.Key, item) == false && throwException == true)
             {
-                throw new Exception($"Fail to add an item into the cache for the key {item.Key}.");
+                throw new InvalidOperationException($"Fail to add an item into the cache for the key {item.Key}.");
             }
         }
         else
