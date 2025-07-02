@@ -602,30 +602,33 @@ public class QueryTest
         Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int)), "INT TVP defined");
         Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int?)), "INT? TVP defined");
 
-        var values = Enumerable.Range(0, 100).Concat([table.Id]);
+        foreach (var n in new int[] { 15, 100 })
+        {
+            var values = Enumerable.Range(0, n).Concat([table.Id]);
 
-        var items = connection.ExecuteQuery<CompleteTable>(
-            "SELECT * FROM [dbo].[CompleteTable] WHERE Id IN (@Ids)",
-            new
-            {
-                Ids = values
-            }, trace: new DiagnosticsTracer());
-
-
-        Assert.AreEqual(1, items.Count());
-
-
-        var strvalues = Enumerable.Range(0, 100).Select(x => x.ToString(CultureInfo.InvariantCulture)).Concat([table.ColumnVarChar]);
-
-        items = connection.ExecuteQuery<CompleteTable>(
-            "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnVarChar IN (@StrIds)",
-            new
-            {
-                StrIds = strvalues
-            }, trace: new DiagnosticsTracer());
+            var items = connection.ExecuteQuery<CompleteTable>(
+                "SELECT * FROM [dbo].[CompleteTable] WHERE Id IN (@Ids)",
+                new
+                {
+                    Ids = values
+                }, trace: new DiagnosticsTracer());
 
 
-        Assert.AreEqual(1, items.Count());
+            Assert.AreEqual(1, items.Count());
+
+
+            var strvalues = Enumerable.Range(0, n).Select(x => x.ToString(CultureInfo.InvariantCulture)).Concat([table.ColumnVarChar]);
+
+            items = connection.ExecuteQuery<CompleteTable>(
+                "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnVarChar IN (@StrIds)",
+                new
+                {
+                    StrIds = strvalues
+                }, trace: new DiagnosticsTracer());
+
+
+            Assert.AreEqual(1, items.Count());
+        }
     }
 
     [TestMethod]
@@ -674,28 +677,32 @@ public class QueryTest
         var table = Database.CreateCompleteTables(1).First();
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
 
-        var values = Enumerable.Range(0, 100).Concat([table.Id]);
 
-        var items = await connection.ExecuteQueryAsync<CompleteTable>(
-            "SELECT * FROM [dbo].[CompleteTable] WHERE Id IN (@Ids)",
-            new
-            {
-                Ids = values
-            }, trace: new DiagnosticsTracer());
+        foreach (var n in new int[] { 15, 100 })
+        {
+            var values = Enumerable.Range(0, n).Concat([table.Id]);
 
-        Assert.AreEqual(1, items.Count());
+            var items = await connection.ExecuteQueryAsync<CompleteTable>(
+                "SELECT * FROM [dbo].[CompleteTable] WHERE Id IN (@Ids)",
+                new
+                {
+                    Ids = values
+                }, trace: new DiagnosticsTracer());
 
-        var strvalues = Enumerable.Range(0, 100).Select(x => x.ToString(CultureInfo.InvariantCulture)).Concat([table.ColumnVarChar]);
+            Assert.AreEqual(1, items.Count());
 
-        items = await connection.ExecuteQueryAsync<CompleteTable>(
-            "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnVarChar IN (@StrIds)",
-            new
-            {
-                StrIds = strvalues
-            }, trace: new DiagnosticsTracer());
+            var strvalues = Enumerable.Range(0, n).Select(x => x.ToString(CultureInfo.InvariantCulture)).Concat([table.ColumnVarChar]);
+
+            items = await connection.ExecuteQueryAsync<CompleteTable>(
+                "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnVarChar IN (@StrIds)",
+                new
+                {
+                    StrIds = strvalues
+                }, trace: new DiagnosticsTracer());
 
 
-        Assert.AreEqual(1, items.Count());
+            Assert.AreEqual(1, items.Count());
+        }
     }
 
     [TestMethod]

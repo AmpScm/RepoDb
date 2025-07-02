@@ -1870,7 +1870,7 @@ public static partial class DbConnectionExtension
         IDbTransaction? transaction,
         string parameterName,
         IEnumerable values,
-        IDbSetting? dbSetting)
+        IDbSetting dbSetting)
     {
         if (!commandText.Contains(parameterName, StringComparison.OrdinalIgnoreCase))
         {
@@ -1884,10 +1884,20 @@ public static partial class DbConnectionExtension
         {
             return Regex.Replace(commandText, Regex.Escape(parameter) + "\\b", string.Concat("(SELECT ", parameter, " WHERE 1 = 0)"));
         }
-        else if (items.Count > 5 && connection.GetDbSetting().UseArrayParameterTreshold < items.Count
+        else if (items.Count > dbSetting.UseArrayParameterTreshold
             && connection.GetDbHelper().CreateTableParameterText(connection, transaction, null, parameter, items) is { } txt)
         {
             return Regex.Replace(commandText, Regex.Escape(parameter) + "\\b", txt);
+        }
+        else if (items.Count > dbSetting.UseInValuesTreshold)
+        {
+            // Get the variables needed
+            var parameters = items.WithType<object>().Select((_, index) =>
+                $"({string.Concat(parameterName, index.ToString(CultureInfo.InvariantCulture)).AsParameter(dbSetting)})");
+
+            // Replace the target parameter when used as parameter. (Not as prefix of longer parameter)
+            var resultSql = "SELECT v FROM (VALUES " + parameters.Join(", ") + ") AS t(v) WHERE t.v IS NOT NULL)";
+            return Regex.Replace(commandText, Regex.Escape(parameter) + "\\b", resultSql);
         }
         else
         {
