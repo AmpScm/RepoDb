@@ -1896,7 +1896,7 @@ public static partial class DbConnectionExtension
                 $"({string.Concat(parameterName, index.ToString(CultureInfo.InvariantCulture)).AsParameter(dbSetting)})");
 
             // Replace the target parameter when used as parameter. (Not as prefix of longer parameter)
-            var resultSql = "SELECT v FROM (VALUES " + parameters.Join(", ") + ") AS t(v) WHERE t.v IS NOT NULL)";
+            var resultSql = "SELECT v FROM (VALUES " + parameters.Join(", ") + ") AS t(v) WHERE t.v IS NOT NULL";
             return Regex.Replace(commandText, Regex.Escape(parameter) + "\\b", resultSql);
         }
         else

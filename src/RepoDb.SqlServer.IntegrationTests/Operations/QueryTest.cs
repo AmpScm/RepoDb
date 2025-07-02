@@ -602,7 +602,7 @@ public class QueryTest
         Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int)), "INT TVP defined");
         Assert.IsTrue(info.ParameterTypeMap.ContainsKey(typeof(int?)), "INT? TVP defined");
 
-        foreach (var n in new int[] { 15, 100 })
+        foreach (var n in new int[] { 12, 100 })
         {
             var values = Enumerable.Range(0, n).Concat([table.Id]);
 
@@ -678,7 +678,7 @@ public class QueryTest
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
 
 
-        foreach (var n in new int[] { 15, 100 })
+        foreach (var n in new int[] { 12, 100 })
         {
             var values = Enumerable.Range(0, n).Concat([table.Id]);
 
