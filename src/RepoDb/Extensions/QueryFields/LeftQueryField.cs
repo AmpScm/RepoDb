@@ -18,7 +18,7 @@ public sealed class LeftQueryField : FunctionalQueryField
     /// <param name="fieldName">The name of the field for the query expression.</param>
     /// <param name="value">The value to be used for the query expression.</param>
     public LeftQueryField(string fieldName,
-        object value)
+        object? value)
         : this(fieldName, Operation.Equal, value, null)
     { }
 
@@ -29,7 +29,7 @@ public sealed class LeftQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public LeftQueryField(string fieldName,
-        object value,
+        object? value,
         DbType? dbType)
         : this(fieldName, Operation.Equal, value, dbType, 0)
     { }
@@ -42,7 +42,7 @@ public sealed class LeftQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     public LeftQueryField(string fieldName,
         Operation operation,
-        object value)
+        object? value)
         : this(fieldName, operation, value, null, 0)
     { }
 
@@ -55,7 +55,7 @@ public sealed class LeftQueryField : FunctionalQueryField
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public LeftQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         DbType? dbType)
         : this(fieldName, operation, value, dbType, 0)
     { }
@@ -70,7 +70,7 @@ public sealed class LeftQueryField : FunctionalQueryField
     /// <param name="charCount">The number of characters from the left to be evaluated.</param>
     private LeftQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         DbType? dbType,
         int charCount = 0)
         : base(fieldName, operation, value, dbType, $"LEFT({{0}}, {(charCount > 0 ? charCount : (value?.ToString().Length ?? 0))})")

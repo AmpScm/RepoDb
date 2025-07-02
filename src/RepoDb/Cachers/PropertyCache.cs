@@ -43,7 +43,7 @@ public static class PropertyCache
     /// <param name="propertyName">The name of the property.</param>
     /// <param name="includeMappings">True to evaluate the existing mappings.</param>
     /// <returns>The instance of cached <see cref="ClassProperty"/> object.</returns>
-    public static ClassProperty? Get(Type? entityType,
+    public static ClassProperty? Get(Type entityType,
         string propertyName,
         bool includeMappings = false)
     {
@@ -93,7 +93,7 @@ public static class PropertyCache
     /// <param name="propertyInfo">The instance of the <see cref="PropertyInfo"/> object.</param>
     /// <param name="includeMappings">True to evaluate the existing mappings.</param>
     /// <returns>The instance of cached <see cref="ClassProperty"/> object.</returns>
-    internal static ClassProperty? Get(Type? entityType,
+    internal static ClassProperty? Get(Type entityType,
         PropertyInfo propertyInfo,
         bool includeMappings = false)
     {

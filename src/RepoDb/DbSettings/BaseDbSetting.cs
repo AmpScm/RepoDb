@@ -92,6 +92,8 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     /// <inheritdoc />
     public int? UseInValuesTreshold { get; protected init; }
 
+    public int MaxArrayParameterValueCount { get; protected init; } = ushort.MaxValue;
+
     #endregion
 
     #region Equality and comparers

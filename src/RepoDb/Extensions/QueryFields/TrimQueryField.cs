@@ -16,7 +16,7 @@ public sealed class TrimQueryField : FunctionalQueryField
     /// <param name="fieldName">The name of the field for the query expression.</param>
     /// <param name="value">The value to be used for the query expression.</param>
     public TrimQueryField(string fieldName,
-        object value)
+        object? value)
         : this(fieldName, Operation.Equal, value, null)
     { }
 
@@ -27,7 +27,7 @@ public sealed class TrimQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public TrimQueryField(string fieldName,
-        object value,
+        object? value,
         DbType? dbType)
         : this(fieldName, Operation.Equal, value, dbType)
     { }
@@ -40,7 +40,7 @@ public sealed class TrimQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     public TrimQueryField(string fieldName,
         Operation operation,
-        object value)
+        object? value)
         : base(fieldName, operation, value, null, "TRIM({0})")
     { }
 
@@ -53,7 +53,7 @@ public sealed class TrimQueryField : FunctionalQueryField
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public TrimQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         DbType? dbType)
         : base(fieldName, operation, value, dbType, "TRIM({0})")
     { }

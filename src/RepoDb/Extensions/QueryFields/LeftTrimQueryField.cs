@@ -1,5 +1,5 @@
-﻿using RepoDb.Enumerations;
-using System.Data;
+﻿using System.Data;
+using RepoDb.Enumerations;
 
 namespace RepoDb.Extensions.QueryFields;
 
@@ -16,7 +16,7 @@ public sealed class LeftTrimQueryField : FunctionalQueryField
     /// <param name="fieldName">The name of the field for the query expression.</param>
     /// <param name="value">The value to be used for the query expression.</param>
     public LeftTrimQueryField(string fieldName,
-        object value)
+        object? value)
         : this(fieldName, Operation.Equal, value, null)
     { }
 
@@ -27,7 +27,7 @@ public sealed class LeftTrimQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public LeftTrimQueryField(string fieldName,
-        object value,
+        object? value,
         DbType? dbType)
         : this(fieldName, Operation.Equal, value, dbType)
     { }
@@ -40,7 +40,7 @@ public sealed class LeftTrimQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     public LeftTrimQueryField(string fieldName,
         Operation operation,
-        object value)
+        object? value)
         : this(fieldName, operation, value, null)
     { }
 
@@ -53,7 +53,7 @@ public sealed class LeftTrimQueryField : FunctionalQueryField
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public LeftTrimQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         DbType? dbType)
         : base(fieldName, operation, value, dbType, "LTRIM({0})")
     { }

@@ -229,7 +229,14 @@ public static class EnumerableExtension
         return collection;
     }
 
-    public static Type GetElementType(this IEnumerable enumerable)
+    /// <summary>
+    /// Gets the element type of the <see cref="IEnumerable"/> instance.
+    /// </summary>
+    /// <param name="enumerable"></param>
+    /// <param name="checkObject">If true, checks actual values to determine type when resolved type is object</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public static Type GetElementType(this IEnumerable enumerable, bool checkObject = true)
     {
         if (enumerable is null)
         {
@@ -237,7 +244,7 @@ public static class EnumerableExtension
         }
         var elementType = enumerable.GetEnumerableElementType();
 
-        if (elementType is null)
+        if (elementType is null || (checkObject && elementType == StaticType.Object))
         {
             Type? p = null;
             foreach (var v in enumerable)
@@ -250,8 +257,11 @@ public static class EnumerableExtension
 
                 p ??= vt;
 
-                while (p?.IsAssignableFrom(vt) == true)
-                    p = p.BaseType;
+                if (p != vt)
+                {
+                    while (p?.IsAssignableFrom(vt) != true)
+                        p = p.BaseType;
+                }
 
                 if (p is null || p == StaticType.Object)
                     break;

@@ -80,7 +80,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="value">The value to be used for the query expression.</param>
     /// <param name="direction">The direction to be used for the parameter object.</param>
     public DirectionalQueryField(string fieldName,
-        object value,
+        object? value,
         ParameterDirection? direction)
         : this(fieldName,
               Operation.Equal,
@@ -99,7 +99,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="direction">The direction to be used for the parameter object.</param>
     /// <param name="size">The sizeof the parameter value.</param>
     public DirectionalQueryField(string fieldName,
-        object value,
+        object? value,
         ParameterDirection? direction,
         int? size)
         : this(fieldName,
@@ -120,7 +120,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="size">The sizeof the parameter value.</param>
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public DirectionalQueryField(string fieldName,
-        object value,
+        object? value,
         ParameterDirection? direction,
         int? size,
         DbType? dbType)
@@ -160,7 +160,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="direction">The direction to be used for the parameter object.</param>
     public DirectionalQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         ParameterDirection? direction)
         : this(fieldName,
               operation,
@@ -181,7 +181,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="size">The sizeof the parameter value.</param>
     public DirectionalQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         ParameterDirection? direction,
         int? size)
         : this(fieldName,
@@ -204,7 +204,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public DirectionalQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         ParameterDirection? direction,
         int? size,
         DbType? dbType)

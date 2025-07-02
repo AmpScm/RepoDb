@@ -12,7 +12,7 @@ public sealed record PropertyValue
     /// <param name="value">The value of the property.</param>
     /// <param name="property">The actual property object.</param>
     public PropertyValue(string name,
-        object value,
+        object? value,
         ClassProperty property)
     {
         Name = name;

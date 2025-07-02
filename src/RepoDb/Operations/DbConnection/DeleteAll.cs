@@ -62,7 +62,7 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.ChunkOptimally(chunkSize))
+            foreach (var group in entities.Split(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
 
@@ -203,7 +203,7 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.ChunkOptimally(chunkSize))
+            foreach (var group in entities.Split(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
 
@@ -420,7 +420,7 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.ChunkOptimally(chunkSize))
+            foreach (var group in entities.Split(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
 
@@ -577,7 +577,7 @@ public static partial class DbConnectionExtension
             transaction ??= myTransaction;
             int deleted = 0;
 
-            foreach (var group in entities.ChunkOptimally(chunkSize))
+            foreach (var group in entities.Split(chunkSize))
             {
                 var where = new QueryGroup(group.Select(entity => ToQueryGroup(key, entity)), Conjunction.Or);
 
@@ -880,7 +880,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
     {
-        var pkeys = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction);
+        var keyField = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction).Single();
         var dbSetting = connection.GetDbSetting();
         var count = keys.Count();
         var deletedRows = 0;
@@ -890,15 +890,19 @@ public static partial class DbConnectionExtension
         using var myTransaction = transaction is null && count > parameterBatchCount ? connection.EnsureOpen().BeginTransaction() : null;
         transaction ??= myTransaction;
 
+        if (count > dbSetting.UseArrayParameterTreshold
+            && connection.GetDbHelper().CanCreateTableParameter(connection, transaction, null, keys))
+        {
+            parameterBatchCount = connection.GetDbSetting().MaxArrayParameterValueCount;
+        }
+
         // Call the underlying method
-        foreach (var keyValues in keys.ChunkOptimally(parameterBatchCount) ?? [])
+        foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
         {
             if (!keyValues.Any())
                 continue;
 
-            var where = new QueryGroup(
-                pkeys.Select(key => new QueryGroup(new QueryField(key.FieldName, Operation.In, keyValues.AsList(), null, false))),
-                Conjunction.And);
+            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues, null, false));
 
             where.Fix(connection, transaction, tableName);
 
@@ -1061,7 +1065,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        var pkeys = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+        var keyField = (await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false)).Single();
         var dbSetting = connection.GetDbSetting();
         var count = keys.Count();
         var deletedRows = 0;
@@ -1071,12 +1075,16 @@ public static partial class DbConnectionExtension
         using var myTransaction = transaction is null && count > parameterBatchCount ? await connection.BeginTransactionAsync(cancellationToken) : null;
         transaction ??= myTransaction;
 
-        // Call the underlying method
-        foreach (var keyValues in keys.ChunkOptimally(parameterBatchCount) ?? [])
+        if (count > dbSetting.UseArrayParameterTreshold
+            && connection.GetDbHelper().CanCreateTableParameter(connection, transaction, null, keys))
         {
-            var where = new QueryGroup(
-                pkeys.Select(key => new QueryGroup(new QueryField(key.FieldName, Operation.In, keyValues.AsList(), null, false))),
-                Conjunction.And);
+            parameterBatchCount = connection.GetDbSetting().MaxArrayParameterValueCount;
+        }
+
+        // Call the underlying method
+        foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
+        {
+            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues.AsList(), null, false));
 
             where.Fix(connection, transaction, tableName);
 

@@ -861,7 +861,7 @@ internal sealed partial class Compiler
 #if NET
     [DoesNotReturn]
 #endif
-    private static TEnum ThrowInvalidEnumValue<TEnum>(object value)
+    private static TEnum ThrowInvalidEnumValue<TEnum>(object? value)
         where TEnum : struct, Enum
     {
         throw new ArgumentOutOfRangeException("value", value, $"Invalid value for {typeof(TEnum).Name}");
@@ -2049,7 +2049,7 @@ internal sealed partial class Compiler
     /// <param name="value"></param>
     /// <returns></returns>
     private static MethodCallExpression GetDbParameterValueAssignmentExpression(Expression dbParameterExpression,
-        object value) =>
+        object? value) =>
         GetDbParameterValueAssignmentExpression(dbParameterExpression, Expression.Constant(value));
 
     /// <summary>

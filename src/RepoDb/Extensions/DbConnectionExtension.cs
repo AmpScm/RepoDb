@@ -976,7 +976,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return new QueryGroup(new QueryField(dbField.FieldName, what));
+            return new QueryGroup(new QueryField(dbField, what));
         }
     }
 
@@ -1010,7 +1010,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return new QueryGroup(new QueryField(field.FieldName, what));
+            return new QueryGroup(new QueryField(field, what));
         }
     }
 
@@ -1093,7 +1093,7 @@ public static partial class DbConnectionExtension
             }
             else
             {
-                return new QueryGroup(new QueryField(dbField.FieldName, entity));
+                return new QueryGroup(new QueryField(dbField, entity));
             }
         }
         throw new KeyFieldNotFoundException($"No primary key and identity key found.");
@@ -1128,7 +1128,7 @@ public static partial class DbConnectionExtension
         {
             throw new MissingFieldsException(new[] { field.FieldName });
         }
-        return ToQueryGroup(new QueryField(field.FieldName, value));
+        return ToQueryGroup(new QueryField(field, value));
     }
 
     /// <summary>
@@ -1267,7 +1267,7 @@ public static partial class DbConnectionExtension
         {
             if (properties.GetByFieldName(field.FieldName) is { } property)
             {
-                queryFields.Add(new QueryField(field.FieldName, property.PropertyInfo.GetValue(entity)));
+                queryFields.Add(new QueryField(field, property.PropertyInfo.GetValue(entity)));
             }
         }
         return new QueryGroup(queryFields);
@@ -1293,7 +1293,7 @@ public static partial class DbConnectionExtension
         {
             if (dictionary.TryGetValue(field.FieldName, out var value))
             {
-                queryFields.Add(new QueryField(field.FieldName, value));
+                queryFields.Add(new QueryField(field, value));
             }
         }
 

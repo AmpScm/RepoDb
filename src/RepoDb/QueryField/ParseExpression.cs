@@ -97,7 +97,7 @@ public partial class QueryField
     /// <param name="unaryNodeType"></param>
     /// <returns></returns>
     private static QueryField ToLike(string fieldName,
-        object value,
+        object? value,
         ExpressionType? unaryNodeType = null)
     {
         var operation = unaryNodeType == ExpressionType.Not ? Operation.NotLike : Operation.Like;
@@ -220,7 +220,7 @@ public partial class QueryField
     /// <param name="value"></param>
     /// <returns></returns>
     private static object? ToEnumValue(Type enumType,
-        object value) =>
+        object? value) =>
         (value != null ?
             ToEnumValue(enumType, Enum.GetName(enumType, value)) : null) ?? value;
 
@@ -327,7 +327,7 @@ public partial class QueryField
             if (expression.Object?.Type == StaticType.String)
             {
                 var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
-                return new QueryField(property.FieldName, value);
+                return new QueryField(property.AsField(), value);
             }
         }
 
@@ -352,6 +352,11 @@ public partial class QueryField
         var value = Converter.ToType<string>(expression.Arguments.ElementAt(1).GetValue());
 
         // Return
+        if (property is PropertyInfo pi
+            && PropertyCache.Get(pi.DeclaringType!, pi, true) is { } mappedProperty)
+        {
+            return new QueryField(mappedProperty.AsField(), value);
+        }
         return new QueryField(property.GetMappedName(), value);
     }
 

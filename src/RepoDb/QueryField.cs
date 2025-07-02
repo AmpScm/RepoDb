@@ -36,6 +36,16 @@ public partial class QueryField : IEquatable<QueryField>
     /// <summary>
     /// Creates a new instance of <see cref="QueryField"/> object.
     /// </summary>
+    /// <param name="field">The field for the query expression.</param>
+    /// <param name="value">The value to be used for the query expression.</param>
+    public QueryField(Field field,
+        object? value)
+        : this(field, Operation.Equal, value, null, false)
+    { }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="QueryField"/> object.
+    /// </summary>
     /// <param name="fieldName">The name of the field for the query expression.</param>
     /// <param name="operation">The operation to be used for the query expression.</param>
     /// <param name="value">The value to be used for the query expression.</param>

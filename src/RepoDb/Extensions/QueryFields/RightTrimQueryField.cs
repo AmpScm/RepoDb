@@ -16,7 +16,7 @@ public sealed class RightTrimQueryField : FunctionalQueryField
     /// <param name="fieldName">The name of the field for the query expression.</param>
     /// <param name="value">The value to be used for the query expression.</param>
     public RightTrimQueryField(string fieldName,
-        object value)
+        object? value)
         : this(fieldName, Operation.Equal, value, null)
     { }
 
@@ -27,7 +27,7 @@ public sealed class RightTrimQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public RightTrimQueryField(string fieldName,
-        object value,
+        object? value,
         DbType? dbType)
         : this(fieldName, Operation.Equal, value, dbType)
     { }
@@ -40,7 +40,7 @@ public sealed class RightTrimQueryField : FunctionalQueryField
     /// <param name="value">The value to be used for the query expression.</param>
     public RightTrimQueryField(string fieldName,
         Operation operation,
-        object value)
+        object? value)
         : this(fieldName, operation, value, null)
     { }
 
@@ -53,7 +53,7 @@ public sealed class RightTrimQueryField : FunctionalQueryField
     /// <param name="dbType">The database type to be used for the query expression.</param>
     public RightTrimQueryField(string fieldName,
         Operation operation,
-        object value,
+        object? value,
         DbType? dbType)
         : base(fieldName, operation, value, dbType, "RTRIM({0})")
     { }
