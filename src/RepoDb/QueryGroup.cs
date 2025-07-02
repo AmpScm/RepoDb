@@ -735,7 +735,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
                         qf.TableParameterMode =
                             dbSetting.UseArrayParameterTreshold < cnt
                             && (dbh ??= connection?.GetDbHelper()) is { } h
-                            && h.CanCreateTableParameter(connection!, transaction, qf.Parameter.DbType, e!);
+                            && h.CanCreateTableParameter(connection!, transaction, qf.Field.Type, e!);
                     }
                 }
             }

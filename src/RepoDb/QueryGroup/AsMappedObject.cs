@@ -249,7 +249,7 @@ public partial class QueryGroup
                     connection.GetDbHelper().CreateTableParameter(
                         connection,
                         transaction,
-                        queryField.Parameter.DbType,
+                        queryField.Field.Type,
                         (IEnumerable)queryField.Parameter.Value!,
                         queryField.Parameter.Name));
         }

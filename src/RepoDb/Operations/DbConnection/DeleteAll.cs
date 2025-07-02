@@ -891,7 +891,7 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         if (count > dbSetting.UseArrayParameterTreshold
-            && connection.GetDbHelper().CanCreateTableParameter(connection, transaction, null, keys))
+            && connection.GetDbHelper().CanCreateTableParameter(connection, transaction, keyField.Type, keys))
         {
             parameterBatchCount = connection.GetDbSetting().MaxArrayParameterValueCount;
         }
@@ -1076,7 +1076,7 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         if (count > dbSetting.UseArrayParameterTreshold
-            && connection.GetDbHelper().CanCreateTableParameter(connection, transaction, null, keys))
+            && connection.GetDbHelper().CanCreateTableParameter(connection, transaction, keyField.Type, keys))
         {
             parameterBatchCount = connection.GetDbSetting().MaxArrayParameterValueCount;
         }

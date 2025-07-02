@@ -365,12 +365,12 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         };
     }
 
-    public override DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName)
+    public override DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? type, IEnumerable values, string parameterName)
     {
         var info = DbRuntimeSettingCache.Get(connection, transaction);
 
         if (info?.ParameterTypeMap is { } pm
-            && values.GetElementType() is { } elementType
+            && (type ?? values.GetElementType()) is { } elementType
             && pm.TryGetValue(elementType, out var mapping))
         {
             var dt = new DataTable();
@@ -396,21 +396,21 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         return null;
     }
 
-    public override bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values)
+    public override bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values)
     {
         var info = DbRuntimeSettingCache.Get(connection, transaction);
 
         return info?.ParameterTypeMap is { } pm
-            && values.GetElementType() is { } elementType
+            && (fieldType ?? values.GetElementType()) is { } elementType
             && pm.TryGetValue(elementType, out _);
     }
 
-    public override string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
+    public override string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, string parameterName, IEnumerable values)
     {
         var info = DbRuntimeSettingCache.Get(connection, transaction);
 
         if (info?.ParameterTypeMap is { } pm
-            && values.GetElementType() is { } elementType
+            && (fieldType ?? values.GetElementType()) is { } elementType
             && pm.TryGetValue(elementType, out _))
         {
             return $"SELECT * FROM {parameterName}";

@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Globalization;
+using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Extensions;
 using RepoDb.SqlServer.IntegrationTests.Models;
@@ -612,6 +613,19 @@ public class QueryTest
 
 
         Assert.AreEqual(1, items.Count());
+
+
+        var strvalues = Enumerable.Range(0, 100).Select(x => x.ToString(CultureInfo.InvariantCulture)).Concat([table.ColumnVarChar]);
+
+        items = connection.ExecuteQuery<CompleteTable>(
+            "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnVarChar IN (@StrIds)",
+            new
+            {
+                StrIds = strvalues
+            }, trace: new DiagnosticsTracer());
+
+
+        Assert.AreEqual(1, items.Count());
     }
 
     [TestMethod]
@@ -668,6 +682,18 @@ public class QueryTest
             {
                 Ids = values
             }, trace: new DiagnosticsTracer());
+
+        Assert.AreEqual(1, items.Count());
+
+        var strvalues = Enumerable.Range(0, 100).Select(x => x.ToString(CultureInfo.InvariantCulture)).Concat([table.ColumnVarChar]);
+
+        items = await connection.ExecuteQueryAsync<CompleteTable>(
+            "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnVarChar IN (@StrIds)",
+            new
+            {
+                StrIds = strvalues
+            }, trace: new DiagnosticsTracer());
+
 
         Assert.AreEqual(1, items.Count());
     }

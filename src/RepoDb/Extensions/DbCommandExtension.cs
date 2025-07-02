@@ -155,7 +155,7 @@ public static class DbCommandExtension
                 command.CreateParameter(commandArrayParameter.ParameterName, null, dbType));
         }
         else if (values.Count > 5 && dbSetting.UseArrayParameterTreshold < values.Count
-            && command.Connection?.GetDbHelper().CreateTableParameter(connection, transaction, dbType,
+            && command.Connection?.GetDbHelper().CreateTableParameter(connection, transaction, null,
             values, commandArrayParameter.ParameterName) is { } tableParameter)
         {
             command.Parameters.Add(tableParameter);

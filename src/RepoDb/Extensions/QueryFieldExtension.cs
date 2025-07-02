@@ -138,7 +138,7 @@ public static class QueryFieldExtension
         {
             int count = QueryField.RoundUpInLength(enumerable.Count);
 
-            if (count > dbSetting.UseInValuesTreshold)
+            if (count >= dbSetting.UseInValuesTreshold)
             {
                 StringBuilder sb = new();
 

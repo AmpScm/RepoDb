@@ -1885,7 +1885,7 @@ public static partial class DbConnectionExtension
             return Regex.Replace(commandText, Regex.Escape(parameter) + "\\b", string.Concat("(SELECT ", parameter, " WHERE 1 = 0)"));
         }
         else if (items.Count > 5 && connection.GetDbSetting().UseArrayParameterTreshold < items.Count
-            && connection.GetDbHelper().CreateTableParameterText(connection, transaction, parameter, items) is { } txt)
+            && connection.GetDbHelper().CreateTableParameterText(connection, transaction, null, parameter, items) is { } txt)
         {
             return Regex.Replace(commandText, Regex.Escape(parameter) + "\\b", txt);
         }

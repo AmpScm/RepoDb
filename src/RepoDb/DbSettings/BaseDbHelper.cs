@@ -8,32 +8,36 @@ public abstract class BaseDbHelper : IDbHelper
 {
     protected BaseDbHelper(IResolver<string, Type> dbResolver)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(dbResolver);
+#else
         if (dbResolver is null)
             throw new ArgumentNullException(nameof(dbResolver));
+#endif
 
         DbTypeResolver = dbResolver;
     }
 
     public IResolver<string, Type> DbTypeResolver { get; protected init; }
 
-    public virtual DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName)
+    public virtual DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName)
     {
         return null;
     }
 
-    public ValueTask<DbParameter?> CreateTableParameterAsync(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values, string parameterName, CancellationToken cancellationToken = default)
+    public ValueTask<DbParameter?> CreateTableParameterAsync(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName, CancellationToken cancellationToken = default)
     {
-        return new(CreateTableParameter(connection, transaction, dbType, values, parameterName));
+        return new(CreateTableParameter(connection, transaction, fieldType, values, parameterName));
     }
 
-    public virtual string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, string parameterName, IEnumerable values)
+    public virtual string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, string parameterName, IEnumerable values)
     {
         return null;
     }
 
-    public virtual bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, DbType? dbType, IEnumerable values)
+    public virtual bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values)
     {
-        return CreateTableParameter(connection, transaction, dbType, values, "Q") is not null;
+        return CreateTableParameter(connection, transaction, fieldType, values, "Q") is not null;
     }
 
     /// <inheritdoc />
