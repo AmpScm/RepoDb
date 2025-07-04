@@ -374,7 +374,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             && pm.TryGetValue(elementType, out var mapping))
         {
             var dt = new DataTable();
-            dt.Columns.Add(mapping.ColumnName, elementType);
+            dt.Columns.Add(mapping.ColumnName, elementType.GetUnderlyingType());
 
             foreach (var v in values.AsTypedSet(mapping.RequiresDistinct))
             {

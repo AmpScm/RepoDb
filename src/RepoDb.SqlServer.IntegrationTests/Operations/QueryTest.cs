@@ -628,6 +628,32 @@ public class QueryTest
 
 
             Assert.AreEqual(1, items.Count());
+
+
+            var longValues = Enumerable.Range(0, n).Select(x => (long)x).Concat([table.ColumnBigInt]);
+
+            items = connection.ExecuteQuery<CompleteTable>(
+                "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnBigInt IN (@longIds)",
+                new
+                {
+                    longIds = longValues
+                }, trace: new DiagnosticsTracer());
+
+
+            Assert.AreEqual(1, items.Count());
+
+
+            var longNullValues = Enumerable.Range(0, n).Select(x => (long)x).Concat([table.ColumnBigInt]).Select(x => (long?)x).Append(null);
+
+            items = connection.ExecuteQuery<CompleteTable>(
+                "SELECT * FROM [dbo].[CompleteTable] WHERE ColumnBigInt IN (@longNullIds)",
+                new
+                {
+                    longNullIds = longNullValues
+                }, trace: new DiagnosticsTracer());
+
+
+            Assert.AreEqual(1, items.Count());
         }
     }
 

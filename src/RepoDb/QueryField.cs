@@ -14,7 +14,7 @@ public partial class QueryField : IEquatable<QueryField>
 {
     private const int HASHCODE_ISNULL = 128;
     private const int HASHCODE_ISNOTNULL = 256;
-    private int? hashCode = null;
+    private int? hashCode;
 
     // For boolean handling
     internal bool CanSkip { get; init; }
