@@ -2207,36 +2207,34 @@ internal sealed partial class Compiler
         ParameterExpression? propertyVariableExpression = null;
         Expression? propertyInstanceExpression = null;
         ClassProperty? classProperty = null;
-        var propertyName = fieldDirection.DbField.FieldName;
+        var fieldName = fieldDirection.DbField.FieldName;
 
         // Set the proper assignments (property)
         if (TypeCache.Get(entityExpression.Type).IsClassType() == false)
         {
             var typeGetPropertyMethod = GetMethodInfo<Type>(t => t.GetProperty("", BindingFlags.Instance));
             var objectGetTypeMethod = GetMethodInfo<object>(x => x.GetType());
-            propertyVariableExpression = Expression.Variable(StaticType.PropertyInfo, string.Concat("propertyVariable", propertyName));
+            propertyVariableExpression = Expression.Variable(StaticType.PropertyInfo, string.Concat("propertyVariable", fieldName));
             propertyInstanceExpression = Expression.Call(Expression.Call(entityExpression, objectGetTypeMethod),
                 typeGetPropertyMethod, new[]
                 {
-                    Expression.Constant(propertyName),
+                    Expression.Constant(fieldName),
                     Expression.Constant(BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase)
                 });
         }
         else
         {
             var entityProperties = PropertyCache.Get(entityExpression.Type);
-            classProperty = entityProperties.FirstOrDefault(property =>
-                string.Equals(property.FieldName.AsUnquoted(true, dbSetting),
-                    propertyName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase));
+            classProperty = entityProperties.GetByFieldName(fieldName);
 
             if (classProperty != null)
             {
-                propertyVariableExpression = Expression.Variable(classProperty.PropertyInfo.PropertyType, string.Concat("propertyVariable", propertyName));
+                propertyVariableExpression = Expression.Variable(classProperty.PropertyInfo.PropertyType, string.Concat("propertyVariable", fieldName));
                 propertyInstanceExpression = Expression.Property(entityExpression, classProperty.PropertyInfo);
             }
             else
             {
-                throw new PropertyNotFoundException(nameof(entityExpression), $"The property '{propertyName}' is not found from type '{entityExpression.Type}'. The current operation could not proceed.");
+                throw new PropertyNotFoundException(nameof(entityExpression), $"The property '{fieldName}' is not found from type '{entityExpression.Type}'. The current operation could not proceed.");
             }
         }
 
