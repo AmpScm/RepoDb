@@ -1,7 +1,7 @@
-﻿using RepoDb.Attributes.Parameter;
-using RepoDb.Interfaces;
-using System.Data;
+﻿using System.Data;
 using System.Linq.Expressions;
+using RepoDb.Attributes.Parameter;
+using RepoDb.Interfaces;
 
 namespace RepoDb;
 
@@ -397,7 +397,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <typeparam name="TClassHandler">The type of the <see cref="IClassHandler{TEntity}"/>.</typeparam>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>()
-        where TClassHandler : new() =>
+         where TClassHandler : notnull, new() =>
         ClassHandler(new TClassHandler());
 
     /// <summary>
@@ -408,7 +408,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(bool force)
-        where TClassHandler : new() =>
+         where TClassHandler : notnull, new() =>
         ClassHandler(new TClassHandler(), force);
 
     /// <summary>
@@ -417,7 +417,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <typeparam name="TClassHandler">The type of the <see cref="IClassHandler{TEntity}"/>.</typeparam>
     /// <param name="classHandler">The instance of the <see cref="IClassHandler{TEntity}"/>.</param>
     /// <returns>The current instance.</returns>
-    public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(TClassHandler classHandler) =>
+    public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(TClassHandler classHandler) where TClassHandler : notnull, new() =>
         ClassHandler(classHandler, false);
 
     /// <summary>
@@ -428,7 +428,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(TClassHandler classHandler,
-        bool force)
+        bool force) where TClassHandler : notnull, new()
     {
         ClassHandlerMapper.Add<TEntity, TClassHandler>(classHandler, force);
         return this;
