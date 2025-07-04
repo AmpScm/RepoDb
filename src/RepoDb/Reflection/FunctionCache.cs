@@ -457,10 +457,13 @@ internal static class FunctionCache
             Type? entityType,
             DbFieldCollection? dbFields = null)
         {
+#if NET
+            ArgumentNullException.ThrowIfNull(paramType);
+#else
             if (paramType == null)
-            {
-                return null;
-            }
+                throw new ArgumentNullException(nameof(paramType));
+#endif
+
             var key = HashCode.Combine(paramType, entityType);
             return cache.GetOrAdd(key, (_) =>
                 paramType.IsPlainType()
