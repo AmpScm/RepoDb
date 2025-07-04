@@ -541,7 +541,7 @@ internal static class Compiler
     /// <param name="tableName"></param>
     /// <returns></returns>
     private static int GetHashCode(Type entityType,
-        string tableName) =>
+        string? tableName) =>
         (tableName ?? ClassMappedNameCache.Get(entityType)).GetHashCode();
 
     /// <summary>
@@ -572,7 +572,7 @@ internal static class Compiler
         {
             foreach (var mapping in mappings)
             {
-                hashCode += HashCode.Combine(hashCode, mapping.GetHashCode());
+                hashCode = HashCode.Combine(hashCode, mapping);
             }
         }
 
@@ -726,10 +726,10 @@ internal static class Compiler
         public static Func<TEntity, object[], TResult> GetFunc(string methodName,
             Type[] types)
         {
-            var key = HashCode.Combine(methodName.GetHashCode());
+            var key = methodName.GetHashCode();
             for (int i = 0; i < types.Length; i++)
             {
-                key = HashCode.Combine(key, types[i].GetHashCode());
+                key = HashCode.Combine(key, types[i]);
             }
             if (cache.TryGetValue(key, out var func) == false)
             {
@@ -794,10 +794,10 @@ internal static class Compiler
         public static Action<TEntity, object[]> GetFunc(string methodName,
             Type[] types)
         {
-            var key = HashCode.Combine(methodName.GetHashCode());
+            var key = methodName.GetHashCode();
             for (int i = 0; i < types.Length; i++)
             {
-                key = HashCode.Combine(key, types[i].GetHashCode());
+                key = HashCode.Combine(key, types[i]);
             }
             if (cache.TryGetValue(key, out var func) == false)
             {

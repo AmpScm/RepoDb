@@ -16,7 +16,7 @@ partial class Compiler
     /// <param name="dbFields"></param>
     /// <returns></returns>
     public static Action<DbCommand, object> GetPlainTypeToDbParametersCompiledFunction(Type paramType,
-        Type entityType,
+        Type? entityType,
         DbFieldCollection? dbFields = null)
     {
         var dbCommandExpression = Expression.Parameter(StaticType.DbCommand, "command");

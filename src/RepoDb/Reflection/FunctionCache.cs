@@ -18,7 +18,7 @@ internal static class FunctionCache
     /// </summary>
     /// <param name="reader"></param>
     /// <returns></returns>
-    private static long GetReaderFieldsHashCode(DbDataReader reader)
+    private static int GetReaderFieldsHashCode(DbDataReader reader)
     {
         int hashCode = reader?.FieldCount ?? 0;
 
@@ -57,7 +57,7 @@ internal static class FunctionCache
     /// <typeparam name="TResult"></typeparam>
     private static class DataReaderToTypeCache<TResult>
     {
-        private static readonly ConcurrentDictionary<long, Func<DbDataReader, TResult>> cache = new();
+        private static readonly ConcurrentDictionary<int, Func<DbDataReader, TResult>> cache = new();
 
         /// <summary>
         ///
@@ -78,8 +78,8 @@ internal static class FunctionCache
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        private static long GetKey(DbDataReader reader) =>
-            HashCode.Combine(GetReaderFieldsHashCode(reader), typeof(TResult).GetHashCode());
+        private static int GetKey(DbDataReader reader) =>
+            HashCode.Combine(GetReaderFieldsHashCode(reader), typeof(TResult));
     }
 
     #endregion
@@ -106,7 +106,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataReaderToExpandoObjectCache
     {
-        private static readonly ConcurrentDictionary<long, Func<DbDataReader, dynamic>> cache = new();
+        private static readonly ConcurrentDictionary<int, Func<DbDataReader, dynamic>> cache = new();
 
         /// <summary>
         ///
@@ -128,7 +128,7 @@ internal static class FunctionCache
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        private static long GetKey(DbDataReader reader) =>
+        private static int GetKey(DbDataReader reader) =>
             GetReaderFieldsHashCode(reader);
     }
 
@@ -168,7 +168,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataEntityDbParameterSetterCache
     {
-        private static readonly ConcurrentDictionary<long, Action<DbCommand, object?>> _cache = new();
+        private static readonly ConcurrentDictionary<int, Action<DbCommand, object?>> _cache = new();
 
         /// <summary>
         ///
@@ -204,12 +204,12 @@ internal static class FunctionCache
         /// <param name="inputFields"></param>
         /// <param name="outputFields"></param>
         /// <returns></returns>
-        private static long GetKey(Type entityType,
+        private static int GetKey(Type entityType,
             string cacheKey,
             IEnumerable<DbField>? inputFields,
             IEnumerable<DbField>? outputFields)
         {
-            var key = HashCode.Combine(entityType.GetHashCode(), cacheKey);
+            var key = HashCode.Combine(entityType, cacheKey);
             if (inputFields != null)
             {
                 foreach (var field in inputFields)
@@ -261,7 +261,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataEntityListDbParameterSetterCache
     {
-        private static readonly ConcurrentDictionary<long, Action<DbCommand, IList<object?>>> cache = new();
+        private static readonly ConcurrentDictionary<int, Action<DbCommand, IList<object?>>> cache = new();
 
         /// <summary>
         ///
@@ -299,7 +299,7 @@ internal static class FunctionCache
                         dbHelper));
         }
 
-        private static long GetKey(Type entityType,
+        private static int GetKey(Type entityType,
             string cacheKey,
             IEnumerable<DbField>? inputFields,
             IEnumerable<DbField>? outputFields,
@@ -356,7 +356,7 @@ internal static class FunctionCache
     private static class DbCommandToPropertyCache<TEntity>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<long, Action<TEntity, DbCommand>> cache = new();
+        private static readonly ConcurrentDictionary<int, Action<TEntity, DbCommand>> cache = new();
 
         /// <summary>
         ///
@@ -371,7 +371,7 @@ internal static class FunctionCache
             int index,
             IDbSetting? dbSetting = null)
         {
-            var key = HashCode.Combine((long)typeof(TEntity).GetHashCode(), field.GetHashCode(), parameterName.GetHashCode(), index.GetHashCode());
+            var key = HashCode.Combine(typeof(TEntity), field, parameterName, index);
             return cache.GetOrAdd(key, (_) => FunctionFactory.CompileDbCommandToProperty<TEntity>(field, parameterName, index, dbSetting));
         }
     }
@@ -399,7 +399,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataEntityPropertySetterCache
     {
-        private static readonly ConcurrentDictionary<long, Action<object, object?>> cache = new();
+        private static readonly ConcurrentDictionary<int, Action<object, object?>> cache = new();
 
         /// <summary>
         ///
@@ -410,7 +410,7 @@ internal static class FunctionCache
         internal static Action<object, object?> Get(Type type,
             Field field)
         {
-            var key = HashCode.Combine(type.GetHashCode(), field.GetHashCode());
+            var key = HashCode.Combine(type, field);
             return cache.GetOrAdd(key, (_) =>
                 TypeCache.Get(type).IsDictionaryStringObject()
                 ? FunctionFactory.CompileDictionaryStringObjectItemSetter(type, field)
@@ -432,7 +432,7 @@ internal static class FunctionCache
     /// <param name="entityType"></param>
     /// <param name="dbFields"></param>
     /// <returns></returns>
-    internal static Action<DbCommand, object> GetPlainTypeToDbParametersCompiledFunction(Type paramType,
+    internal static Action<DbCommand, object>? GetPlainTypeToDbParametersCompiledFunction(Type paramType,
         Type? entityType,
         DbFieldCollection? dbFields = null) =>
         PlainTypeToDbParametersCompiledFunctionCache.Get(paramType, entityType, dbFields);
@@ -444,7 +444,7 @@ internal static class FunctionCache
     /// </summary>
     private static class PlainTypeToDbParametersCompiledFunctionCache
     {
-        private static readonly ConcurrentDictionary<long, Action<DbCommand, object>> cache = new();
+        private static readonly ConcurrentDictionary<int, Action<DbCommand, object>?> cache = new();
 
         /// <summary>
         ///
@@ -453,7 +453,7 @@ internal static class FunctionCache
         /// <param name="entityType"></param>
         /// <param name="dbFields"></param>
         /// <returns></returns>
-        internal static Action<DbCommand, object> Get(Type paramType,
+        internal static Action<DbCommand, object>? Get(Type paramType,
             Type? entityType,
             DbFieldCollection? dbFields = null)
         {
@@ -461,7 +461,7 @@ internal static class FunctionCache
             {
                 return null;
             }
-            var key = HashCode.Combine(paramType.GetHashCode(), (entityType?.GetHashCode() ?? 0));
+            var key = HashCode.Combine(paramType, entityType);
             return cache.GetOrAdd(key, (_) =>
                 paramType.IsPlainType()
                 ? FunctionFactory.GetPlainTypeToDbParametersCompiledFunction(paramType, entityType, dbFields)

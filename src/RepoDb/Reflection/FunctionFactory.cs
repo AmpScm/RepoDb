@@ -178,7 +178,7 @@ internal static class FunctionFactory
     /// <param name="dbFields"></param>
     /// <returns></returns>
     public static Action<DbCommand, object> GetPlainTypeToDbParametersCompiledFunction(Type paramType,
-        Type entityType,
+        Type? entityType,
         DbFieldCollection? dbFields = null) =>
         Compiler.GetPlainTypeToDbParametersCompiledFunction(paramType, entityType, dbFields);
 

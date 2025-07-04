@@ -606,7 +606,7 @@ public static partial class NpgsqlConnectionExtension
 
         foreach (var item in enumerable)
         {
-            hashCode = HashCode.Combine(hashCode, item.GetHashCode());
+            hashCode = HashCode.Combine(hashCode, item);
         }
 
         return hashCode;

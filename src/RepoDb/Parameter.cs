@@ -162,7 +162,7 @@ public sealed class Parameter : IEquatable<Parameter>
         // DbType
         if (DbType.HasValue)
         {
-            hashCode = HashCode.Combine(hashCode, DbType.Value.GetHashCode());
+            hashCode = HashCode.Combine(hashCode, DbType.Value);
         }
 
         // Set and return the hashcode

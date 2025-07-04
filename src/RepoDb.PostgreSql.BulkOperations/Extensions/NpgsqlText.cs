@@ -30,12 +30,12 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
-        var key = HashCode.Combine("BinaryBulkInsert".GetHashCode(),
-            sourceTableName.GetHashCode(),
-            destinationTableName.GetHashCode(),
+        var key = HashCode.Combine("BinaryBulkInsert",
+            sourceTableName,
+            destinationTableName,
             EnumerableGetHashCode(fields),
-            identityField.GetHashCode(),
-            identityBehavior.GetHashCode());
+            identityField,
+            identityBehavior);
 
         // Get from cache
         var commandText = LocalCommandTextCache.Get(key);
@@ -130,15 +130,17 @@ public static partial class NpgsqlConnectionExtension
         BulkImportMergeCommandType mergeCommandType,
         IDbSetting dbSetting)
     {
-        var key = HashCode.Combine("BinaryBulkMerge".GetHashCode(),
-            HashCode.Combine(sourceTableName.GetHashCode(),
-                destinationTableName.GetHashCode(),
+        var key = HashCode.Combine(
+            "BinaryBulkMerge",
+            HashCode.Combine(
+                sourceTableName,
+                destinationTableName,
                 EnumerableGetHashCode(fields),
                 EnumerableGetHashCode(qualifiers),
-                primaryField.GetHashCode(),
-                identityField?.GetHashCode() ?? 0,
-                identityBehavior.GetHashCode(),
-                mergeCommandType.GetHashCode()));
+                primaryField,
+                identityField,
+                identityBehavior,
+                mergeCommandType));
 
         // Get from cache
         var commandText = LocalCommandTextCache.Get(key);
@@ -918,14 +920,14 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
-        var key = HashCode.Combine("BinaryBulkUpdate".GetHashCode(),
-            sourceTableName.GetHashCode(),
-            destinationTableName.GetHashCode(),
+        var key = HashCode.Combine("BinaryBulkUpdate",
+            sourceTableName,
+            destinationTableName,
             EnumerableGetHashCode(fields),
             EnumerableGetHashCode(qualifiers),
-            primaryField.GetHashCode(),
-            identityField.GetHashCode(),
-            identityBehavior.GetHashCode());
+            primaryField,
+            identityField,
+            identityBehavior);
 
         // Get from cache
         var commandText = LocalCommandTextCache.Get(key);
@@ -1011,14 +1013,14 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
-        var key = HashCode.Combine("BinaryBulkDelete".GetHashCode(),
-            sourceTableName.GetHashCode(),
-            destinationTableName.GetHashCode(),
+        var key = HashCode.Combine("BinaryBulkDelete",
+            sourceTableName,
+            destinationTableName,
             EnumerableGetHashCode(fields),
             EnumerableGetHashCode(qualifiers),
-            primaryField.GetHashCode(),
-            identityField.GetHashCode(),
-            identityBehavior.GetHashCode());
+            primaryField,
+            identityField,
+            identityBehavior);
 
         // Get from cache
         var commandText = LocalCommandTextCache.Get(key);
@@ -1090,10 +1092,10 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         Field primaryField,
         IDbSetting dbSetting)
     {
-        var key = HashCode.Combine("BinaryBulkDeleteByKey".GetHashCode(),
-            sourceTableName.GetHashCode(),
-            destinationTableName.GetHashCode(),
-            primaryField.GetHashCode());
+        var key = HashCode.Combine("BinaryBulkDeleteByKey",
+            sourceTableName,
+            destinationTableName,
+            primaryField);
 
         // Get from cache
         var commandText = LocalCommandTextCache.Get(key);
