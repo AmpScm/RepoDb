@@ -93,11 +93,10 @@ internal static class FunctionCache
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     /// <returns></returns>
     internal static Func<DbDataReader, dynamic> GetDataReaderToExpandoObjectCompileFunction(DbDataReader reader,
-        DbFieldCollection? dbFields = null,
-        IDbSetting? dbSetting = null) =>
+        DbFieldCollection? dbFields = null) =>
         DataReaderToExpandoObjectCache.Get(reader, dbFields);
 
     #region DataReaderToExpandoObjectCache

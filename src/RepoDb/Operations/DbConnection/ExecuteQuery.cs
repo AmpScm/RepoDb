@@ -136,7 +136,7 @@ public static partial class DbConnectionExtension
         // Execute
         using (var reader = command.ExecuteReader())
         {
-            result = DataReader.ToEnumerable(reader, dbFields, connection.GetDbSetting()).AsList();
+            result = DataReader.ToEnumerable(reader, dbFields).AsList();
 
             // After Execution
             Tracer
@@ -295,7 +295,7 @@ public static partial class DbConnectionExtension
 #endif
         using (var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false))
         {
-            result = await DataReader.ToEnumerableAsync(reader, dbFields, connection.GetDbSetting(), cancellationToken)
+            result = await DataReader.ToEnumerableAsync(reader, dbFields, cancellationToken)
                 .ToListAsync(cancellationToken).ConfigureAwait(false);
 
             // After Execution

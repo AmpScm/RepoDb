@@ -70,17 +70,15 @@ public static class DataReader
     /// </summary>
     /// <param name="reader">The <see cref="DbDataReader"/> to be converted.</param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
-    /// <param name="dbSetting">The instance of <see cref="IDbSetting"/> object to be used.</param>
+    /// 
     /// <returns>An array of dynamic objects.</returns>
     public static IEnumerable<dynamic> ToEnumerable(DbDataReader reader,
-        DbFieldCollection? dbFields = null,
-        IDbSetting? dbSetting = null)
+        DbFieldCollection? dbFields = null)
     {
         if (reader?.IsClosed == false && reader.HasRows)
         {
             var func = FunctionCache.GetDataReaderToExpandoObjectCompileFunction(reader,
-                dbFields,
-                dbSetting);
+                dbFields);
             while (reader.Read())
             {
                 yield return func(reader);
@@ -97,19 +95,17 @@ public static class DataReader
     /// </summary>
     /// <param name="reader">The <see cref="DbDataReader"/> to be converted.</param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
-    /// <param name="dbSetting">The instance of <see cref="IDbSetting"/> object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
+    /// 
     /// <returns>An array of dynamic objects.</returns>
     public static async IAsyncEnumerable<dynamic> ToEnumerableAsync(DbDataReader reader,
         DbFieldCollection? dbFields = null,
-        IDbSetting? dbSetting = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         if (reader?.IsClosed != false || !reader.HasRows) yield break;
 
         var func = FunctionCache.GetDataReaderToExpandoObjectCompileFunction(reader,
-            dbFields,
-            dbSetting);
+            dbFields);
 
         while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
         {
