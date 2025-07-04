@@ -177,7 +177,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     {
         if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
         {
-            result = DataReader.ToEnumerable<TEntity>(_reader, dbSetting: _connection?.GetDbSetting()).AsList();
+            result = DataReader.ToEnumerable<TEntity>(_reader).AsList();
             AddToCache(result);
         }
 
@@ -200,7 +200,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
         if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
         {
             result = await DataReader
-                .ToEnumerableAsync<TEntity>(_reader, dbSetting: _connection?.GetDbSetting(), cancellationToken: cancellationToken)
+                .ToEnumerableAsync<TEntity>(_reader, cancellationToken: cancellationToken)
                 .ToListAsync(CancellationToken).ConfigureAwait(false);
             AddToCache(result);
         }

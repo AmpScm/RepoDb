@@ -43,12 +43,11 @@ internal static class FunctionCache
     /// <typeparam name="TResult"></typeparam>
     /// <param name="reader"></param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
-    /// <param name="dbSetting">The instance of <see cref="IDbSetting"/> object to be used.</param>
+    /// 
     /// <returns></returns>
     internal static Func<DbDataReader, TResult> GetDataReaderToTypeCompiledFunction<TResult>(DbDataReader reader,
-        DbFieldCollection? dbFields = null,
-        IDbSetting? dbSetting = null) =>
-        DataReaderToTypeCache<TResult>.Get(reader, dbFields, dbSetting);
+        DbFieldCollection? dbFields = null) =>
+        DataReaderToTypeCache<TResult>.Get(reader, dbFields);
 
     #region DataReaderToTypeCache
 
@@ -65,14 +64,13 @@ internal static class FunctionCache
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
-        /// <param name="dbSetting">The instance of <see cref="IDbSetting"/> object to be used.</param>
+        /// 
         /// <returns></returns>
         internal static Func<DbDataReader, TResult> Get(DbDataReader reader,
-            DbFieldCollection? dbFields = null,
-            IDbSetting? dbSetting = null)
+            DbFieldCollection? dbFields = null)
         {
             var key = GetKey(reader);
-            return cache.GetOrAdd(key, valueFactory: l => FunctionFactory.CompileDataReaderToType<TResult>(reader, dbFields, dbSetting));
+            return cache.GetOrAdd(key, valueFactory: l => FunctionFactory.CompileDataReaderToType<TResult>(reader, dbFields));
         }
 
         /// <summary>
@@ -100,7 +98,7 @@ internal static class FunctionCache
     internal static Func<DbDataReader, dynamic> GetDataReaderToExpandoObjectCompileFunction(DbDataReader reader,
         DbFieldCollection? dbFields = null,
         IDbSetting? dbSetting = null) =>
-        DataReaderToExpandoObjectCache.Get(reader, dbFields, dbSetting);
+        DataReaderToExpandoObjectCache.Get(reader, dbFields);
 
     #region DataReaderToExpandoObjectCache
 
@@ -116,15 +114,14 @@ internal static class FunctionCache
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dbFields"></param>
-        /// <param name="dbSetting"></param>
+        /// 
         /// <returns></returns>
         internal static Func<DbDataReader, dynamic> Get(DbDataReader reader,
-            DbFieldCollection? dbFields = null,
-            IDbSetting? dbSetting = null)
+            DbFieldCollection? dbFields = null)
         {
             var key = GetKey(reader);
 
-            return cache.GetOrAdd(key, (_) => FunctionFactory.CompileDataReaderToExpandoObject(reader, dbFields, dbSetting));
+            return cache.GetOrAdd(key, (_) => FunctionFactory.CompileDataReaderToExpandoObject(reader, dbFields));
         }
 
         /// <summary>

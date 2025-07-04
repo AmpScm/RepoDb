@@ -17,12 +17,11 @@ internal static class FunctionFactory
     /// <typeparam name="TResult"></typeparam>
     /// <param name="reader"></param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
-    /// <param name="dbSetting">The instance of <see cref="IDbSetting"/> object to be used.</param>
+    /// 
     /// <returns></returns>
     public static Func<DbDataReader, TResult> CompileDataReaderToType<TResult>(DbDataReader reader,
-        DbFieldCollection? dbFields,
-        IDbSetting? dbSetting) =>
-        Compiler.CompileDataReaderToType<TResult>(reader, dbFields, dbSetting);
+        DbFieldCollection? dbFields) =>
+        Compiler.CompileDataReaderToType<TResult>(reader, dbFields);
 
     #endregion
 
@@ -33,12 +32,11 @@ internal static class FunctionFactory
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     /// <returns></returns>
     public static Func<DbDataReader, ExpandoObject> CompileDataReaderToExpandoObject(DbDataReader reader,
-        DbFieldCollection? dbFields,
-        IDbSetting? dbSetting) =>
-        Compiler.CompileDataReaderToExpandoObject(reader, dbFields, dbSetting);
+        DbFieldCollection? dbFields) =>
+        Compiler.CompileDataReaderToExpandoObject(reader, dbFields);
 
     #endregion
 

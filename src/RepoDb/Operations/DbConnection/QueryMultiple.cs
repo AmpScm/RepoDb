@@ -30955,7 +30955,7 @@ public static partial class DbConnectionExtension
         if (items == null)
         {
             var dbFields = DbFieldCache.Get(connection, ClassMappedNameCache.Get<T>(), transaction, true);
-            items = DataReader.ToEnumerable<T>(reader, dbFields, dbSetting).AsList();
+            items = DataReader.ToEnumerable<T>(reader, dbFields).AsList();
         }
 
         if (cache != null && !string.IsNullOrEmpty(cacheKey))
@@ -31063,7 +31063,7 @@ public static partial class DbConnectionExtension
         if (items == null)
         {
             var dbFields = await DbFieldCache.GetAsync(connection, ClassMappedNameCache.Get<T>(), transaction, true, cancellationToken).ConfigureAwait(false);
-            items = await DataReader.ToEnumerableAsync<T>(reader, dbFields, dbSetting, cancellationToken).ToListAsync(cancellationToken).ConfigureAwait(false);
+            items = await DataReader.ToEnumerableAsync<T>(reader, dbFields, cancellationToken).ToListAsync(cancellationToken).ConfigureAwait(false);
         }
 
         if (cache != null && !string.IsNullOrEmpty(cacheKey))

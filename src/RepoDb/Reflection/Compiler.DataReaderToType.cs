@@ -1,7 +1,6 @@
 using System.Data.Common;
 using System.Linq.Expressions;
 using RepoDb.Extensions;
-using RepoDb.Interfaces;
 
 namespace RepoDb.Reflection;
 
@@ -13,28 +12,26 @@ partial class Compiler
     /// <typeparam name="TResult"></typeparam>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
-    /// <param name="dbSetting"></param>
     /// <returns></returns>
     public static Func<DbDataReader, TResult> CompileDataReaderToType<TResult>(DbDataReader reader,
-        DbFieldCollection? dbFields,
-        IDbSetting? dbSetting)
+        DbFieldCollection? dbFields)
     {
         var typeOfResult = typeof(TResult);
 
         // EntityModel/Class
         if (TypeCache.Get(typeOfResult).IsTuple())
         {
-            return CompileDataReaderToTuple<TResult>(reader, dbFields, dbSetting);
+            return CompileDataReaderToTuple<TResult>(reader, dbFields);
         }
         else if (TypeCache.Get(typeOfResult).IsClassType())
         {
-            return CompileDataReaderToDataEntity<TResult>(reader, dbFields, dbSetting);
+            return CompileDataReaderToDataEntity<TResult>(reader, dbFields);
         }
 
         // .NET CLR Type
         else
         {
-            return CompileDataReaderToTargetType<TResult>(reader, dbSetting);
+            return CompileDataReaderToTargetType<TResult>(reader);
         }
 
         // Throw an exception
@@ -48,8 +45,7 @@ partial class Compiler
     /// <param name="reader"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static Func<DbDataReader, TResult> CompileDataReaderToTargetType<TResult>(DbDataReader reader,
-        IDbSetting? dbSetting)
+    private static Func<DbDataReader, TResult> CompileDataReaderToTargetType<TResult>(DbDataReader reader)
     {
         var typeOfResult = typeof(TResult);
 
@@ -61,7 +57,7 @@ partial class Compiler
 
         // Variables
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
-        var readerField = GetDataReaderFields(reader, dbSetting).First();
+        var readerField = GetDataReaderFields(reader, null).First();
         var classPropertyParameterInfo = new ClassPropertyParameterInfo { TargetType = typeOfResult };
         var expression = GetClassPropertyParameterInfoValueExpression(readerParameterExpression,
             classPropertyParameterInfo, readerField, reader.GetType());
@@ -78,16 +74,13 @@ partial class Compiler
     /// <typeparam name="TResult"></typeparam>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
-    /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static Func<DbDataReader, TResult> CompileDataReaderToDataEntity<TResult>(DbDataReader reader,
-        DbFieldCollection? dbFields,
-        IDbSetting? dbSetting)
+        DbFieldCollection? dbFields)
     {
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
-        var readerFields = GetDataReaderFields(reader, dbFields, dbSetting);
-        var memberBindings = GetMemberBindingsForDataEntity<TResult>(readerParameterExpression,
-            readerFields, dbSetting, reader.GetType());
+        var readerFields = GetDataReaderFields(reader, dbFields);
+        var memberBindings = GetMemberBindingsForDataEntity<TResult>(readerParameterExpression, readerFields, reader.GetType());
         var memberAssignments = memberBindings?.Where(item => item.MemberAssignment != null).Select(item => item.MemberAssignment!);
         var arguments = memberBindings?.Where(item => item.Argument != null).Select(item => item.Argument!);
         var typeOfResult = typeof(TResult);
@@ -150,14 +143,12 @@ partial class Compiler
     /// <typeparam name="TResult"></typeparam>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
-    /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static Func<DbDataReader, TResult> CompileDataReaderToTuple<TResult>(DbDataReader reader,
-        DbFieldCollection? dbFields,
-        IDbSetting? dbSetting)
+        DbFieldCollection? dbFields)
     {
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
-        var readerFields = GetDataReaderFields(reader, dbFields, dbSetting);
+        var readerFields = GetDataReaderFields(reader, dbFields);
         var typeOfResult = typeof(TResult);
         var constructorInfo = typeOfResult.GetConstructorWithMostArguments()!;
         var parameters = constructorInfo.GetParameters();

@@ -351,22 +351,11 @@ internal sealed partial class Compiler
     ///
     /// </summary>
     /// <param name="reader"></param>
-    /// <param name="dbSetting"></param>
-    /// <returns></returns>
-    private static IEnumerable<DataReaderField> GetDataReaderFields(DbDataReader reader,
-        IDbSetting? dbSetting) =>
-        GetDataReaderFields(reader, null, dbSetting);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="reader"></param>
     /// <param name="dbFields"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     /// <returns></returns>
     private static IEnumerable<DataReaderField> GetDataReaderFields(DbDataReader reader,
-        DbFieldCollection? dbFields,
-        IDbSetting? dbSetting)
+        DbFieldCollection? dbFields)
     {
         return Enumerable.Range(0, reader.FieldCount)
             .Select(reader.GetName)
@@ -375,7 +364,7 @@ internal sealed partial class Compiler
                 Name = name,
                 Ordinal = ordinal,
                 Type = reader.GetFieldType(ordinal) ?? StaticType.Object,
-                DbField = dbFields?.GetByFieldName(name.AsUnquoted(true, dbSetting))
+                DbField = dbFields?.GetByFieldName(name)
             });
     }
 
@@ -1507,8 +1496,7 @@ internal sealed partial class Compiler
     /// <param name="readerFieldsName"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static IEnumerable<ClassPropertyParameterInfo> GetClassPropertyParameterInfos<TResult>(IEnumerable<string> readerFieldsName,
-        IDbSetting dbSetting)
+    private static IEnumerable<ClassPropertyParameterInfo> GetClassPropertyParameterInfos<TResult>(IEnumerable<string> readerFieldsName)
     {
         var typeOfResult = typeof(TResult);
         var list = new List<ClassPropertyParameterInfo>();
@@ -1523,7 +1511,7 @@ internal sealed partial class Compiler
             //.Where(property => property.PropertyInfo.CanWrite)
             .Where(property =>
                 readerFieldsName?.FirstOrDefault(field =>
-                    string.Equals(field.AsUnquoted(true, dbSetting), property.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
+                    string.Equals(field, property.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
             .AsList();
 
         // ParameterInfos
@@ -1568,16 +1556,14 @@ internal sealed partial class Compiler
     /// <typeparam name="TResult">The target entity type.</typeparam>
     /// <param name="readerParameterExpression">The data reader parameter.</param>
     /// <param name="readerFields">The list of fields to be bound from the data reader.</param>
-    /// <param name="dbSetting">The database setting that is being used.</param>
     /// <returns>The enumerable list of <see cref="MemberBinding"/> objects.</returns>
     private static IEnumerable<MemberBinding>? GetMemberBindingsForDataEntity<TResult>(ParameterExpression readerParameterExpression,
         IEnumerable<DataReaderField> readerFields,
-        IDbSetting dbSetting,
         Type readerType)
     {
         // Variables needed
         var readerFieldsName = readerFields.Select(f => f.Name.ToLowerInvariant()).AsList();
-        var classProperties = GetClassPropertyParameterInfos<TResult>(readerFieldsName, dbSetting);
+        var classProperties = GetClassPropertyParameterInfos<TResult>(readerFieldsName);
 
         // Check the presence
         if (classProperties?.Any() != true)
@@ -1591,9 +1577,9 @@ internal sealed partial class Compiler
         // Iterate each properties
         foreach (var p in classProperties)
         {
-            var mappedName = p.ParameterInfoMappedClassProperty?.FieldName.AsUnquoted(true, dbSetting) ??
-                p.ParameterInfo?.Name?.AsUnquoted(true, dbSetting) ??
-                p.ClassProperty?.FieldName.AsUnquoted(true, dbSetting);
+            var mappedName = p.ParameterInfoMappedClassProperty?.FieldName ??
+                p.ParameterInfo?.Name ??
+                p.ClassProperty?.FieldName;
 
             // Skip if not found
             if (mappedName is null || !readerFieldsName.Contains(mappedName.ToLowerInvariant()))
@@ -1695,7 +1681,7 @@ internal sealed partial class Compiler
         var addMethod = StaticType.IDictionaryStringObject.GetMethod("Add", new[] { StaticType.String, StaticType.Object })!;
 
         // Iterate each properties
-        for (var ordinal = 0; ordinal < readerFields?.Count; ordinal++)
+        for (var ordinal = 0; ordinal < readerFields.Count; ordinal++)
         {
             var readerField = readerFields[ordinal];
             var readerGetValueMethod = GetDbReaderGetValueOrDefaultMethod(readerField, readerType);
