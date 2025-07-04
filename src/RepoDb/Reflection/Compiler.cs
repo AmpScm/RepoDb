@@ -815,12 +815,11 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     /// <param name="fromType"></param>
     /// <param name="toEnumType"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     /// <returns></returns>
     private static Expression ConvertExpressionToEnumExpression(Expression expression,
         Type fromType,
-        Type toEnumType,
-        IDbSetting dbSetting) =>
+        Type toEnumType) =>
         (fromType == StaticType.String) ?
             ConvertExpressionToEnumExpressionForString(expression, toEnumType) :
                 ConvertExpressionToEnumExpressionForNonString(expression, toEnumType);
@@ -1328,11 +1327,11 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static Expression GetClassPropertyParameterInfoValueExpression(ParameterExpression readerParameterExpression,
         ClassPropertyParameterInfo classPropertyParameterInfo,
-        DataReaderField readerField, IDbSetting dbSetting, Type readerType)
+        DataReaderField readerField, Type readerType)
     {
         // False expression
         var falseExpression = GetClassPropertyParameterInfoIsDbNullFalseValueExpression(readerParameterExpression,
-            classPropertyParameterInfo, readerField, dbSetting, readerType);
+            classPropertyParameterInfo, readerField, readerType);
 
         // Skip if possible
         if (readerField.DbField?.IsNullable == false)
@@ -1413,7 +1412,6 @@ internal sealed partial class Compiler
     private static Expression GetClassPropertyParameterInfoIsDbNullFalseValueExpression(ParameterExpression readerParameterExpression,
         ClassPropertyParameterInfo classPropertyParameterInfo,
         DataReaderField readerField,
-        IDbSetting dbSetting,
         Type readerType)
     {
         var parameterType = GetPropertyHandlerGetParameter(classPropertyParameterInfo)?.ParameterType;
@@ -1441,7 +1439,7 @@ internal sealed partial class Compiler
             {
                 try
                 {
-                    valueExpression = ConvertExpressionToEnumExpression(valueExpression, readerField.Type, targetTypeUnderlyingType, dbSetting);
+                    valueExpression = ConvertExpressionToEnumExpression(valueExpression, readerField.Type, targetTypeUnderlyingType);
                 }
                 catch (Exception ex)
                 {
@@ -1606,7 +1604,7 @@ internal sealed partial class Compiler
             // Get the value expression
             var readerField = readerFields.First(f => string.Equals(f.Name, mappedName, StringComparison.OrdinalIgnoreCase));
             var expression = GetClassPropertyParameterInfoValueExpression(readerParameterExpression,
-                p, readerField, dbSetting, readerType);
+                p, readerField, readerType);
 
             try
             {

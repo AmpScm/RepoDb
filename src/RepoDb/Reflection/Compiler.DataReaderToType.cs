@@ -64,7 +64,7 @@ partial class Compiler
         var readerField = GetDataReaderFields(reader, dbSetting).First();
         var classPropertyParameterInfo = new ClassPropertyParameterInfo { TargetType = typeOfResult };
         var expression = GetClassPropertyParameterInfoValueExpression(readerParameterExpression,
-            classPropertyParameterInfo, readerField, dbSetting, reader.GetType());
+            classPropertyParameterInfo, readerField, reader.GetType());
 
         // Return
         return Expression
@@ -176,7 +176,7 @@ partial class Compiler
                 ParameterInfo = a.p,
             };
             var expression = GetClassPropertyParameterInfoValueExpression(readerParameterExpression,
-                classPropertyParameterInfo, a.f, dbSetting, a.p.ParameterType);
+                classPropertyParameterInfo, a.f, a.p.ParameterType);
             arguments.Add(expression);
         }
 

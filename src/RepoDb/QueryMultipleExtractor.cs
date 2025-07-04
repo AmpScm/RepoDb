@@ -157,10 +157,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
         if (_cacheKey != null)
         {
             var cachedItem = _cache?.Get<object[]>(_cacheKey, false);
-            if (cachedItem != null)
-            {
-                cachedItem.Update(_items.AsArray(), _cacheItemExpiration, false);
-            }
+            cachedItem?.Update(_items.AsArray(), _cacheItemExpiration, false);
         }
     }
 
