@@ -22,7 +22,7 @@ partial class Compiler
         IDbHelper? dbHelper)
     {
         var typeOfListEntity = typeof(IList<>).MakeGenericType(StaticType.Object);
-        var getItemMethod = typeOfListEntity.GetMethod("get_Item", new[] { StaticType.Int32 })!;
+        var getItemMethod = typeOfListEntity.GetMethod("get_Item", [StaticType.Int32])!;
         var dbCommandExpression = Expression.Parameter(StaticType.DbCommand, "command");
         var entitiesParameterExpression = Expression.Parameter(typeOfListEntity, "entities");
         var dbParameterCollectionExpression = Expression.Property(dbCommandExpression,

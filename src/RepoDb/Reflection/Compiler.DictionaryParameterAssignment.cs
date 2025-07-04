@@ -17,7 +17,7 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDictionaryStringObjectParameterAssignmentExpression(ParameterExpression dbCommandExpression,
+    private static BlockExpression GetDictionaryStringObjectParameterAssignmentExpression(ParameterExpression dbCommandExpression,
         int entityIndex,
         Expression dictionaryInstanceExpression,
         DbField dbField,
@@ -86,6 +86,6 @@ partial class Compiler
         parameterAssignmentExpressions.AddIfNotNull(dbParametersAddExpression);
 
         // Add to body
-        return Expression.Block(new[] { dbParameterExpression }, parameterAssignmentExpressions);
+        return Expression.Block([dbParameterExpression], parameterAssignmentExpressions);
     }
 }

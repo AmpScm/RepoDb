@@ -136,7 +136,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
             }
         }
 
-        value = default(T);
+        value = default;
 
         return false;
     }

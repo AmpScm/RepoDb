@@ -22,7 +22,6 @@ partial class Compiler
         var dbCommandExpression = Expression.Parameter(StaticType.DbCommand, "command");
         var entityParameterExpression = Expression.Parameter(StaticType.Object, "entity");
         var entityExpression = ConvertExpressionToTypeExpression(entityParameterExpression, paramType);
-        var methodInfo = GetDbCommandCreateParameterMethod();
         var callExpressions = new List<Expression>();
 
         // Iterate
@@ -74,7 +73,7 @@ partial class Compiler
                 // Convert
 
                 // DbType
-                DbType? dbType = null;
+                DbType? dbType;
                 if (valueType.IsEnum)
                 {
                     /*
@@ -141,7 +140,7 @@ partial class Compiler
                 parameterCallExpressions.Add(addExpression);
 
                 // Add the parameter block
-                callExpressions.Add(Expression.Block(new[] { dbParameterExpression }, parameterCallExpressions));
+                callExpressions.Add(Expression.Block([dbParameterExpression], parameterCallExpressions));
 
                 #endregion
             }
@@ -166,13 +165,13 @@ partial class Compiler
     {
         var methodInfo = GetDbCommandCreateParameterMethod();
 
-        return Expression.Call(methodInfo, new Expression[]
-        {
+        return Expression.Call(methodInfo,
+        [
             dbCommandExpression,
             Expression.Constant(parameterName),
             ConvertExpressionToTypeExpression(valueExpression, StaticType.Object),
             Expression.Default(StaticType.DbTypeNullable),
-        });
+        ]);
     }
 
     /// <summary>

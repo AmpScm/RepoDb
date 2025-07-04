@@ -779,8 +779,8 @@ public static class DbCommandExtension
         {
             var propertyHandlerSetMethod = Reflection.Compiler.GetPropertyHandlerInterfaceOrHandlerType(propertyHandler)?.GetMethod(nameof(IPropertyHandler<object, object>.Set))!;
             value = propertyHandlerSetMethod
-                .Invoke(propertyHandler, new[] { value,
-                    PropertyHandlerSetOptions.Create(parameter, classProperty!) });
+                .Invoke(propertyHandler, [ value,
+                    PropertyHandlerSetOptions.Create(parameter, classProperty!) ]);
             valueType = TypeCache.Get(propertyHandlerSetMethod.ReturnType).GetUnderlyingType();
         }
     }

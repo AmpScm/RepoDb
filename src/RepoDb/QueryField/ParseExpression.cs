@@ -181,12 +181,12 @@ public partial class QueryField
             {
                 // X = @Y OR X IS NULL
 
-                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNull, value, null, false) }, Conjunction.Or);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null, false)], Conjunction.Or);
             }
             else if (operation is Operation.NotEqual && !Equals(value, coalesceValue))
             {
                 // X <> @Y OR X IS NULL
-                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNull, value, null, false) }, Conjunction.Or);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null, false)], Conjunction.Or);
             }
             else
                 throw new InvalidExpressionException($"Invalid expression '??' can only be applied in an Equals or NotEquals .");
@@ -196,7 +196,7 @@ public partial class QueryField
             if (value == null)
                 check = new QueryField(field, Operation.IsNull, value, null, false);
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
-                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNotNull, value, null, false) { CanSkip = true } }, Conjunction.And);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNotNull, value, null, false) { CanSkip = true }], Conjunction.And);
         }
         else if (operation == Operation.NotEqual)
         {
@@ -205,7 +205,7 @@ public partial class QueryField
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
             {
                 // X != @Y OR X is NULL
-                return new QueryGroup(new[] { check, new QueryField(field, Operation.IsNull, value, null, false) { CanSkip = true } }, Conjunction.Or);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null, false) { CanSkip = true }], Conjunction.Or);
             }
         }
 
@@ -319,10 +319,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Property
-        var property = GetProperty<TEntity>(expression);
-
-        if (property is null)
-            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
         if (expression?.Object != null)
@@ -349,10 +346,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Property
-        var property = expression.Arguments.First().ToMember().Member;
-
-        if (property is null)
-            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+        var property = expression.Arguments.First().ToMember().Member ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
         var value = Converter.ToType<string>(expression.Arguments.ElementAt(1).GetValue());
@@ -378,10 +372,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Property
-        var property = GetProperty<TEntity>(expression);
-
-        if (property is null)
-            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
         if (expression.Object != null)
@@ -416,10 +407,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Property
-        var property = GetProperty<TEntity>(expression);
-
-        if (property is null)
-            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Values
         var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
@@ -441,10 +429,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Property
-        var property = GetProperty<TEntity>(expression);
-
-        if (property is null)
-            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
@@ -463,10 +448,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Property
-        var property = GetProperty<TEntity>(expression);
-
-        if (property is null)
-            throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());

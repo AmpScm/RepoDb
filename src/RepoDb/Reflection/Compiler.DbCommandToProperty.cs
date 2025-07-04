@@ -32,7 +32,7 @@ partial class Compiler
         var dbCommandParametersProperty = StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters));
 
         // Variables for DbParameterCollection
-        var dbParameterCollectionIndexerMethod = StaticType.DbParameterCollection.GetMethod("get_Item", new[] { StaticType.String });
+        var dbParameterCollectionIndexerMethod = StaticType.DbParameterCollection.GetMethod("get_Item", [StaticType.String]);
 
         // Variables for DbParameter
         var dbParameterValueProperty = StaticType.DbParameter.GetProperty(nameof(DbParameter.Value));

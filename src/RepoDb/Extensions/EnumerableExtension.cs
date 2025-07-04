@@ -23,7 +23,7 @@ public static class EnumerableExtension
         var count = value.Count();
         if (sizePerSplit <= 0 || count <= sizePerSplit)
         {
-            return new[] { value.ToArray() };
+            return [value.ToArray()];
         }
 #if !NET
         else

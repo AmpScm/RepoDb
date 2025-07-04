@@ -48,7 +48,7 @@ public static class PropertyValueAttributeMapper
         PropertyValueAttribute attribute,
         bool force)
         where TEntity : class =>
-        Add(expression, new[] { attribute }, force);
+        Add(expression, [attribute], force);
 
     /// <summary>
     /// Property Level: Adds a mapping between a class property and a list of <see cref="PropertyValueAttribute"/> object (via expression).
@@ -96,7 +96,7 @@ public static class PropertyValueAttributeMapper
         PropertyValueAttribute attribute,
         bool force)
         where TEntity : class =>
-        Add<TEntity>(propertyName, new[] { attribute }, force);
+        Add<TEntity>(propertyName, [attribute], force);
 
     /// <summary>
     /// Property Level: Adds a mapping between a class property and a list of <see cref="PropertyValueAttribute"/> object (via property name).
@@ -150,7 +150,7 @@ public static class PropertyValueAttributeMapper
         PropertyValueAttribute attribute,
         bool force)
         where TEntity : class =>
-        Add<TEntity>(field, new[] { attribute }, force);
+        Add<TEntity>(field, [attribute], force);
 
     /// <summary>
     /// Property Level: Adds a mapping between a class property and a list of <see cref="PropertyValueAttribute"/> object (via <see cref="Field"/> object).
@@ -200,7 +200,7 @@ public static class PropertyValueAttributeMapper
     public static void Add(PropertyInfo propertyInfo,
         PropertyValueAttribute attribute,
         bool force) =>
-        Add(propertyInfo, new[] { attribute }, force);
+        Add(propertyInfo, [attribute], force);
 
     /// <summary>
     /// Property Level: Adds a mapping between a <see cref="PropertyInfo"/> object and a list of <see cref="PropertyValueAttribute"/> object.
@@ -244,7 +244,7 @@ public static class PropertyValueAttributeMapper
         PropertyInfo propertyInfo,
         PropertyValueAttribute attribute,
         bool force) =>
-        Add(entityType, propertyInfo, new[] { attribute }, force);
+        Add(entityType, propertyInfo, [attribute], force);
 
     /// <summary>
     /// Property Level: Adds a mapping between a <see cref="PropertyInfo"/> object and a list of <see cref="PropertyValueAttribute"/> object.

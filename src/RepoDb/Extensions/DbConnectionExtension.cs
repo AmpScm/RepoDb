@@ -1133,7 +1133,7 @@ public static partial class DbConnectionExtension
     {
         if (!dictionary.TryGetValue(field.FieldName, out var value))
         {
-            throw new MissingFieldsException(new[] { field.FieldName });
+            throw new MissingFieldsException([field.FieldName]);
         }
         return ToQueryGroup(new QueryField(field, value));
     }

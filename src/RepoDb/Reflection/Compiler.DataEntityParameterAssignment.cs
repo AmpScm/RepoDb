@@ -103,6 +103,6 @@ partial class Compiler
         parameterAssignmentExpressions.AddIfNotNull(dbParametersAddExpression);
 
         // Return the value
-        return Expression.Block(new[] { dbParameterExpression }, parameterAssignmentExpressions);
+        return Expression.Block([dbParameterExpression], parameterAssignmentExpressions);
     }
 }

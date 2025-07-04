@@ -53,7 +53,7 @@ partial class Compiler
         // Get the converter
         var toTypeMethod = StaticType
             .Converter
-            .GetMethod("ToType", new[] { StaticType.Object })!
+            .GetMethod("ToType", [StaticType.Object])!
             .MakeGenericMethod(TypeCache.Get(targetType).GetUnderlyingType());
 
         // Conversion (if needed)

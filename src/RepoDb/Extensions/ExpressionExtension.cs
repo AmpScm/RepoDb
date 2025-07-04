@@ -437,7 +437,7 @@ public static class ExpressionExtension
         var list = Activator.CreateInstance(expression.Type);
         foreach (var item in expression.Initializers)
         {
-            item.AddMethod.Invoke(list, new[] { item.Arguments.FirstOrDefault()?.GetValue() });
+            item.AddMethod.Invoke(list, [item.Arguments.FirstOrDefault()?.GetValue()]);
         }
         return list!;
     }

@@ -26,7 +26,7 @@ partial class Compiler
             // Get the converter
             var toTypeMethod = StaticType
                 .Converter
-                .GetMethod("ToType", new[] { StaticType.Object })!
+                .GetMethod("ToType", [StaticType.Object])!
                 .MakeGenericMethod(TypeCache.Get(field.Type)?.GetUnderlyingType());
 
             // Conversion (if needed)
@@ -38,11 +38,11 @@ partial class Compiler
 
         // Assign the value into DataEntity.Property
         var dictionaryParameter = Expression.Parameter(StaticType.Object, "entity");
-        var itemIndexMethod = StaticType.IDictionaryStringObject.GetMethod("set_Item", new[]
-        {
+        var itemIndexMethod = StaticType.IDictionaryStringObject.GetMethod("set_Item",
+        [
             StaticType.String,
             StaticType.Object
-        })!;
+        ])!;
         var itemAssignment = Expression.Call(ConvertExpressionToTypeExpression(dictionaryParameter, entityType),
             itemIndexMethod,
             Expression.Constant(field.FieldName),

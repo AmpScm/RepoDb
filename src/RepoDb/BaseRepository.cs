@@ -291,7 +291,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
         }
         finally
         {
-            GC.SuppressFinalize();
+            GC.SuppressFinalize(this);
         }
     }
 

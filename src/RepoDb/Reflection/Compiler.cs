@@ -151,7 +151,7 @@ internal sealed partial class Compiler
     {
         if (fields?.Any() != true)
         {
-            return Enumerable.Empty<FieldDirection>();
+            return [];
         }
         return fields.Select((value, index) => new FieldDirection
         {
@@ -170,7 +170,7 @@ internal sealed partial class Compiler
     {
         if (fields?.Any() != true)
         {
-            return Enumerable.Empty<FieldDirection>();
+            return [];
         }
         return fields.Select((value, index) => new FieldDirection
         {
@@ -189,7 +189,7 @@ internal sealed partial class Compiler
     private static MethodInfo? GetSystemConvertToTypeMethod(Type fromType,
         Type toType) =>
         StaticType.Convert.GetMethod(string.Concat("To", TypeCache.Get(toType).GetUnderlyingType().Name),
-            new[] { TypeCache.Get(fromType).GetUnderlyingType() })!;
+            [TypeCache.Get(fromType).GetUnderlyingType()])!;
 
     /// <summary>
     ///
@@ -198,7 +198,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static MethodInfo? GetSystemConvertChangeTypeMethod(Type conversionType) =>
         StaticType.Convert.GetMethod(nameof(Convert.ChangeType),
-            new[] { StaticType.Object, TypeCache.Get(conversionType).GetUnderlyingType() });
+            [StaticType.Object, TypeCache.Get(conversionType).GetUnderlyingType()]);
 
     /// <summary>
     ///
@@ -408,7 +408,7 @@ internal sealed partial class Compiler
     /// <param name="targetType"></param>
     /// <returns></returns>
     private static MethodInfo? GetDbReaderGetValueMethod(Type targetType, Type? readerType) =>
-        readerType?.GetMethod(string.Concat("Get", targetType?.Name), new[] { StaticType.Int32 })
+        readerType?.GetMethod(string.Concat("Get", targetType?.Name), [StaticType.Int32])
         ?? StaticType.DbDataReader.GetMethod(string.Concat("Get", targetType?.Name));
 
     /// <summary>
@@ -425,7 +425,7 @@ internal sealed partial class Compiler
     /// <param name="targetType"></param>
     /// <returns></returns>
     private static MethodInfo GetDbReaderGetValueOrDefaultMethod(Type targetType, Type readerType) =>
-        GetDbReaderGetValueMethod(targetType, readerType) ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default(int)));
+        GetDbReaderGetValueMethod(targetType, readerType) ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default));
 
     private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : struct, Enum
     {
@@ -486,7 +486,7 @@ internal sealed partial class Compiler
 
         var conditional = Expression.Condition(hasValue, value, throwCall);
 
-        return Expression.Block(new[] { temp }, assign, conditional);
+        return Expression.Block([temp], assign, conditional);
     }
 
     private static Expression ConvertExpressionToNullableGetValueOrDefaultExpression(Func<Expression, Expression> converter, Expression expression)
@@ -511,7 +511,7 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     /// <returns></returns>
     private static Expression ConvertExpressionToStringToGuid(Expression expression) =>
-        Expression.New(StaticType.Guid.GetConstructor(new[] { StaticType.String })!, ConvertExpressionToNullableValue(expression));
+        Expression.New(StaticType.Guid.GetConstructor([StaticType.String])!, ConvertExpressionToNullableValue(expression));
 
     /// <summary>
     ///
@@ -519,7 +519,7 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     /// <returns></returns>
     private static Expression ConvertExpressionToTimeSpanToDateTime(Expression expression) =>
-        Expression.New(StaticType.DateTime.GetConstructor(new[] { StaticType.Int64 })!,
+        Expression.New(StaticType.DateTime.GetConstructor([StaticType.Int64])!,
             ConvertExpressionToNullableValue(ConvertExpressionToTimeSpanTicksExpression(expression)));
 
     /// <summary>
@@ -581,7 +581,7 @@ internal sealed partial class Compiler
         {
             if (underlyingToType == StaticType.String)
             {
-                result = Expression.Call(result, nameof(ToString), Array.Empty<Type>());
+                result = Expression.Call(result, nameof(ToString), []);
             }
             else if (underlyingToType.IsPrimitive &&
                 (underlyingToType) == StaticType.Int16
@@ -637,11 +637,11 @@ internal sealed partial class Compiler
         }
         else if (GetSystemConvertChangeTypeMethod(underlyingToType) is { } systemChangeType)
         {
-            result = Expression.Call(systemChangeType, new Expression[]
-            {
+            result = Expression.Call(systemChangeType,
+            [
                 ConvertExpressionToTypeExpression(result, StaticType.Object),
                 Expression.Constant(TypeCache.Get(underlyingToType).GetUnderlyingType())
-            });
+            ]);
         }
         else if (underlyingFromType == StaticType.String)
         {
@@ -880,8 +880,8 @@ internal sealed partial class Compiler
                 GlobalConfiguration.Options.EnumHandling switch
                 {
                     InvalidEnumValueHandling.UseDefault => Expression.Default(toEnumType),
-                    InvalidEnumValueHandling.ThrowError => Expression.Throw(Expression.New(typeof(InvalidEnumArgumentException).GetConstructor(new[] { StaticType.String, StaticType.Int32, StaticType.Type })!,
-                                                                new Expression[] { Expression.Constant("value"), Expression.Convert(expression, StaticType.Int32), Expression.Constant(toEnumType) }),
+                    InvalidEnumValueHandling.ThrowError => Expression.Throw(Expression.New(typeof(InvalidEnumArgumentException).GetConstructor([StaticType.String, StaticType.Int32, StaticType.Type])!,
+                                                                [Expression.Constant("value"), Expression.Convert(expression, StaticType.Int32), Expression.Constant(toEnumType)]),
                         toEnumType
                     ),
                     _ => throw new InvalidEnumArgumentException("EnumHandling set to invalid value")
@@ -1023,7 +1023,7 @@ internal sealed partial class Compiler
         if (targetNullableType.IsValueType && (underlyingType == null || underlyingType != targetNullableType))
         {
             var nullableType = StaticType.Nullable.MakeGenericType(targetNullableType);
-            var constructor = nullableType.GetConstructor(new[] { targetNullableType })!;
+            var constructor = nullableType.GetConstructor([targetNullableType])!;
             expression = TypeCache.Get(expression.Type).IsNullable() ? expression :
                 Expression.New(constructor, ConvertExpressionToTypeExpression(expression, targetNullableType));
         }
@@ -1127,11 +1127,11 @@ internal sealed partial class Compiler
         var getParameter = GetPropertyHandlerGetParameter(getMethod)!;
 
         // Call the PropertyHandler.Get
-        expression = Expression.Call(Expression.Constant(handlerInstance), getMethod, new[]
-        {
+        expression = Expression.Call(Expression.Constant(handlerInstance), getMethod,
+        [
             ConvertExpressionToTypeExpression(expression, getParameter.ParameterType),
             CreatePropertyHandlerGetOptionsExpression(readerExpression, classPropertyParameterInfo.ClassProperty)
-        });
+        ]);
 
         // Convert to the return type
         return ConvertExpressionToTypeExpression(expression, getMethod.ReturnType);
@@ -1219,11 +1219,10 @@ internal sealed partial class Compiler
         var valueExpression = ConvertExpressionToTypeExpression(expression, setParameter.ParameterType);
         expression = Expression.Call(Expression.Constant(handlerInstance),
             setMethod,
-            new[]
-            {
+            [
                 valueExpression,
                 CreatePropertyHandlerSetOptionsExpression(parameterExpression,classProperty)
-            });
+            ]);
 
         // Align
         return (ConvertExpressionToTypeExpression(expression, setMethod.ReturnType), setMethod.ReturnType);
@@ -1678,7 +1677,7 @@ internal sealed partial class Compiler
     {
         // Initialize variables
         var elementInits = new List<ElementInit>();
-        var addMethod = StaticType.IDictionaryStringObject.GetMethod("Add", new[] { StaticType.String, StaticType.Object })!;
+        var addMethod = StaticType.IDictionaryStringObject.GetMethod("Add", [StaticType.String, StaticType.Object])!;
 
         // Iterate each properties
         for (var ordinal = 0; ordinal < readerFields.Count; ordinal++)
@@ -1841,7 +1840,7 @@ internal sealed partial class Compiler
     private static Expression GetDictionaryStringObjectPropertyValueExpression(Expression dictionaryInstanceExpression,
         DbField dbField)
     {
-        var methodInfo = StaticType.IDictionaryStringObject.GetMethod("get_Item", new[] { StaticType.String })!;
+        var methodInfo = StaticType.IDictionaryStringObject.GetMethod("get_Item", [StaticType.String])!;
         var expression = (Expression)Expression.Call(dictionaryInstanceExpression, methodInfo, Expression.Constant(dbField.FieldName));
 
         // Property Handler
@@ -2216,11 +2215,11 @@ internal sealed partial class Compiler
             var objectGetTypeMethod = GetMethodInfo<object>(x => x.GetType());
             propertyVariableExpression = Expression.Variable(StaticType.PropertyInfo, string.Concat("propertyVariable", fieldName));
             propertyInstanceExpression = Expression.Call(Expression.Call(entityExpression, objectGetTypeMethod),
-                typeGetPropertyMethod, new[]
-                {
+                typeGetPropertyMethod,
+                [
                     Expression.Constant(fieldName),
                     Expression.Constant(BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase)
-                });
+                ]);
         }
         else
         {
@@ -2283,7 +2282,7 @@ internal sealed partial class Compiler
         Type typeOfListEntity,
         int entityIndex)
     {
-        var listIndexerMethod = typeOfListEntity.GetMethod("get_Item", new[] { StaticType.Int32 })!;
+        var listIndexerMethod = typeOfListEntity.GetMethod("get_Item", [StaticType.Int32])!;
         return Expression.Call(entitiesParameterExpression, listIndexerMethod,
             Expression.Constant(entityIndex));
     }

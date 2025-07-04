@@ -142,7 +142,7 @@ public partial class QueryGroup
             if (rightQueryGroup is null)
                 throw new NotSupportedException($"Expression {expression.Right} is currently not supported");
 
-            return new QueryGroup(new[] { leftQueryGroup, rightQueryGroup }, GetConjunction(expression));
+            return new QueryGroup([leftQueryGroup, rightQueryGroup], GetConjunction(expression));
         }
 
         // Return

@@ -168,13 +168,13 @@ public static partial class ClassExpression
     {
         // Expressions
         var obj = Expression.Parameter(typeof(TEntity), "obj");
-        var addMethod = StaticType.PropertyValueList.GetMethod(nameof(List<PropertyValue>.Add), new[] { StaticType.PropertyValue })!;
-        var constructor = StaticType.PropertyValue.GetConstructor(new[]
-        {
+        var addMethod = StaticType.PropertyValueList.GetMethod(nameof(List<PropertyValue>.Add), [StaticType.PropertyValue])!;
+        var constructor = StaticType.PropertyValue.GetConstructor(
+        [
                 StaticType.String,
                 StaticType.Object,
                 StaticType.ClassProperty
-            })!;
+            ])!;
 
         // Set the body
         var properties = PropertyCache.Get<TEntity>();
