@@ -899,7 +899,7 @@ public static partial class DbConnectionExtension
         // Call the underlying method
         foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
         {
-            if (!keyValues.Any())
+            if (keyValues.Length == 0)
                 continue;
 
             var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues, null, false));

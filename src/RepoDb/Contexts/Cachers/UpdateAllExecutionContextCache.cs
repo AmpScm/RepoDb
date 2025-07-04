@@ -30,7 +30,7 @@ internal static class UpdateAllExecutionContextCache
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    internal static UpdateAllExecutionContext Get(string key)
+    internal static UpdateAllExecutionContext? Get(string key)
     {
         if (cache.TryGetValue(key, out var result))
         {

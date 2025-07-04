@@ -59,7 +59,7 @@ internal sealed class TraceResult
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    private static IEnumerable<IDbDataParameter> GetParameters(DbCommand command)
+    private static List<IDbDataParameter> GetParameters(DbCommand command)
     {
         var list = new List<IDbDataParameter>();
 

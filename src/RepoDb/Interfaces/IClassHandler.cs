@@ -2,6 +2,8 @@
 
 namespace RepoDb.Interfaces;
 
+#pragma warning disable CA1716 // Identifiers should not match keywords
+
 /// <summary>
 /// An interface that is used to mark a class to be a class handler.
 /// </summary>

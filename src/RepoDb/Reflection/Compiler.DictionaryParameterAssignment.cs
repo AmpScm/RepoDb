@@ -17,7 +17,7 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    private static Expression GetDictionaryStringObjectParameterAssignmentExpression(ParameterExpression dbCommandExpression,
+    private static MethodCallExpression GetDictionaryStringObjectParameterAssignmentExpression(ParameterExpression dbCommandExpression,
         int entityIndex,
         Expression dictionaryInstanceExpression,
         DbField dbField,

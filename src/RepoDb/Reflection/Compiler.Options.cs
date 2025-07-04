@@ -13,7 +13,7 @@ partial class Compiler
     /// </summary>
     /// <param name="readerExpression"></param>
     /// <returns></returns>
-    private static Expression CreateClassHandlerGetOptionsExpression(Expression readerExpression)
+    private static MethodCallExpression CreateClassHandlerGetOptionsExpression(Expression readerExpression)
     {
         // Get the 'Create' method
         var method = GetMethodInfo(() => ClassHandlerGetOptions.Create(null!));
@@ -30,7 +30,7 @@ partial class Compiler
     /// </summary>
     /// <param name="commandExpression"></param>
     /// <returns></returns>
-    private static Expression CreateClassHandlerSetOptionsExpression(Expression commandExpression)
+    private static MethodCallExpression CreateClassHandlerSetOptionsExpression(Expression commandExpression)
     {
         // Get the 'Create' method
         var method = GetMethodInfo(() => ClassHandlerSetOptions.Create(null!));
@@ -52,7 +52,7 @@ partial class Compiler
     /// <param name="readerExpression"></param>
     /// <param name="classProperty"></param>
     /// <returns></returns>
-    private static Expression CreatePropertyHandlerGetOptionsExpression(Expression readerExpression,
+    private static MethodCallExpression CreatePropertyHandlerGetOptionsExpression(Expression readerExpression,
         ClassProperty? classProperty) =>
         CreatePropertyHandlerGetOptionsExpression(readerExpression,
             classProperty == null ? null : Expression.Constant(classProperty));
@@ -63,7 +63,7 @@ partial class Compiler
     /// <param name="readerExpression"></param>
     /// <param name="classPropertyExpression"></param>
     /// <returns></returns>
-    private static Expression CreatePropertyHandlerGetOptionsExpression(Expression readerExpression,
+    private static MethodCallExpression CreatePropertyHandlerGetOptionsExpression(Expression readerExpression,
         Expression? classPropertyExpression)
     {
         // Get the 'Create' method
@@ -84,7 +84,7 @@ partial class Compiler
     /// <param name="parameterExpression"></param>
     /// <param name="classProperty"></param>
     /// <returns></returns>
-    private static Expression CreatePropertyHandlerSetOptionsExpression(Expression? parameterExpression,
+    private static MethodCallExpression CreatePropertyHandlerSetOptionsExpression(Expression? parameterExpression,
         ClassProperty? classProperty) =>
         CreatePropertyHandlerSetOptionsExpression(parameterExpression,
             classProperty == null ? null : Expression.Constant(classProperty));
@@ -95,7 +95,7 @@ partial class Compiler
     /// <param name="parameterExpression"></param>
     /// <param name="classPropertyExpression"></param>
     /// <returns></returns>
-    private static Expression CreatePropertyHandlerSetOptionsExpression(Expression? parameterExpression,
+    private static MethodCallExpression CreatePropertyHandlerSetOptionsExpression(Expression? parameterExpression,
         Expression? classPropertyExpression)
     {
         // Get the 'Create' method

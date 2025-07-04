@@ -207,7 +207,7 @@ public static partial class NpgsqlConnectionExtension
         IDbSetting dbSetting)
     {
         // Qualifiers
-        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField, destinationTableName);
+        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
         ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
 
@@ -352,7 +352,7 @@ public static partial class NpgsqlConnectionExtension
         IDbSetting dbSetting)
     {
         // Qualifiers
-        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField, destinationTableName);
+        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
         ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
 
@@ -423,7 +423,7 @@ public static partial class NpgsqlConnectionExtension
         IDbSetting dbSetting)
     {
         // Qualifiers
-        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField, destinationTableName);
+        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
         ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
 
@@ -937,7 +937,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         }
 
         // Qualifiers
-        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField, destinationTableName);
+        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
         ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
 
@@ -1030,7 +1030,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         }
 
         // Qualifiers
-        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField, destinationTableName);
+        qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
         ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
 
@@ -1105,7 +1105,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         }
 
         // Qualifiers
-        var qualifiers = EnsurePrimaryAsQualifier(null, primaryField, destinationTableName);
+        var qualifiers = EnsurePrimaryAsQualifier(null, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
 
         // Build the query
@@ -1270,11 +1270,10 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// </summary>
     /// <param name="qualifiers"></param>
     /// <param name="primaryField"></param>
-    /// <param name="destinationTableName"></param>
+    /// 
     /// <returns></returns>
     private static IEnumerable<Field> EnsurePrimaryAsQualifier(IEnumerable<Field> qualifiers,
-        Field primaryField,
-        string destinationTableName)
+        Field primaryField)
     {
         if (qualifiers?.Any() != true && primaryField != null)
         {

@@ -1471,7 +1471,7 @@ public static partial class DbConnectionExtension
                                 var value = Converter.DbNullToNull(reader.GetValue(0));
                                 if (value != null)
                                 {
-                                    positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1)) ? reader.FieldCount - 1 : -1;
+                                    positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
 
                                     var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
                                     context.KeyPropertySetterFunc.Invoke(batchItems[index], value);

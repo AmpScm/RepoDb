@@ -527,7 +527,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    private static Expression ConvertExpressionToTimeSpanTicksExpression(Expression expression) =>
+    private static MemberExpression ConvertExpressionToTimeSpanTicksExpression(Expression expression) =>
         Expression.Property(expression, GetPropertyInfo<TimeSpan>(x => x.Ticks));
 
     /// <summary>
@@ -819,7 +819,7 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     /// <param name="toEnumType"></param>
     /// <returns></returns>
-    private static Expression ConvertExpressionToEnumExpressionForString(Expression expression, Type toEnumType)
+    private static BinaryExpression ConvertExpressionToEnumExpressionForString(Expression expression, Type toEnumType)
     {
         var options = GlobalConfiguration.Options.EnumHandling;
         var parseMethod = (
@@ -852,7 +852,7 @@ internal sealed partial class Compiler
     private static TEnum ThrowInvalidEnumValue<TEnum>(object? value)
         where TEnum : struct, Enum
     {
-        throw new ArgumentOutOfRangeException("value", value, $"Invalid value for {typeof(TEnum).Name}");
+        throw new ArgumentOutOfRangeException(nameof(value), value, $"Invalid value for {typeof(TEnum).Name}");
     }
 
     /// <summary>
@@ -996,7 +996,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    private static Expression ConvertExpressionToDbNullExpression(Expression expression)
+    private static ConditionalExpression ConvertExpressionToDbNullExpression(Expression expression)
     {
         var valueIsNullExpression = Expression.Equal(expression, Expression.Constant(null));
         var dbNullValueExpresion = ConvertExpressionToTypeExpression(Expression.Constant(DBNull.Value), StaticType.Object);
@@ -1279,7 +1279,7 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     /// <param name="enumType"></param>
     /// <returns></returns>
-    private static Expression GetEnumIsDefinedExpression(Expression expression,
+    private static MethodCallExpression GetEnumIsDefinedExpression(Expression expression,
         Type enumType)
     {
         var parameters = new Expression[]
@@ -1296,7 +1296,7 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     /// <param name="enumType"></param>
     /// <returns></returns>
-    private static Expression GetEnumGetNameExpression(Expression expression,
+    private static MethodCallExpression GetEnumGetNameExpression(Expression expression,
         Type enumType)
     {
         var parameters = new Expression[]
@@ -1496,7 +1496,7 @@ internal sealed partial class Compiler
     /// <param name="readerFieldsName"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static IEnumerable<ClassPropertyParameterInfo> GetClassPropertyParameterInfos<TResult>(IEnumerable<string> readerFieldsName)
+    private static List<ClassPropertyParameterInfo> GetClassPropertyParameterInfos<TResult>(IEnumerable<string> readerFieldsName)
     {
         var typeOfResult = typeof(TResult);
         var list = new List<ClassPropertyParameterInfo>();
@@ -1557,7 +1557,7 @@ internal sealed partial class Compiler
     /// <param name="readerParameterExpression">The data reader parameter.</param>
     /// <param name="readerFields">The list of fields to be bound from the data reader.</param>
     /// <returns>The enumerable list of <see cref="MemberBinding"/> objects.</returns>
-    private static IEnumerable<MemberBinding>? GetMemberBindingsForDataEntity<TResult>(ParameterExpression readerParameterExpression,
+    private static List<MemberBinding>? GetMemberBindingsForDataEntity<TResult>(ParameterExpression readerParameterExpression,
         IEnumerable<DataReaderField> readerFields,
         Type readerType)
     {
@@ -1566,7 +1566,7 @@ internal sealed partial class Compiler
         var classProperties = GetClassPropertyParameterInfos<TResult>(readerFieldsName);
 
         // Check the presence
-        if (classProperties?.Any() != true)
+        if (classProperties?.Count is not > 0)
         {
             return null;
         }
@@ -1625,7 +1625,7 @@ internal sealed partial class Compiler
     /// <param name="readerParameterExpression"></param>
     /// <param name="ordinal"></param>
     /// <returns></returns>
-    private static Expression GetDbNullExpression(ParameterExpression readerParameterExpression,
+    private static MethodCallExpression GetDbNullExpression(ParameterExpression readerParameterExpression,
         int ordinal) =>
         GetDbNullExpression(readerParameterExpression, Expression.Constant(ordinal));
 
@@ -1635,7 +1635,7 @@ internal sealed partial class Compiler
     /// <param name="readerParameterExpression"></param>
     /// <param name="ordinalExpression"></param>
     /// <returns></returns>
-    private static Expression GetDbNullExpression(ParameterExpression readerParameterExpression,
+    private static MethodCallExpression GetDbNullExpression(ParameterExpression readerParameterExpression,
         ConstantExpression ordinalExpression) =>
         Expression.Call(readerParameterExpression, GetMethodInfo<DbDataReader>(x => x.IsDBNull(0)), ordinalExpression);
 
@@ -1672,8 +1672,8 @@ internal sealed partial class Compiler
     /// <param name="readerParameterExpression">The data reader parameter.</param>
     /// <param name="readerFields">The list of fields to be bound from the data reader.</param>
     /// <returns>The enumerable list of child elements initializations.</returns>
-    private static IEnumerable<ElementInit> GetMemberBindingsForDictionary(ParameterExpression readerParameterExpression,
-        IList<DataReaderField> readerFields,
+    private static List<ElementInit> GetMemberBindingsForDictionary(ParameterExpression readerParameterExpression,
+        List<DataReaderField> readerFields,
         Type readerType)
     {
         // Initialize variables
@@ -1861,7 +1861,7 @@ internal sealed partial class Compiler
     /// <param name="classProperty"></param>
     /// <param name="dbField"></param>
     /// <returns></returns>
-    private static Expression GetDataEntityDbParameterValueAssignmentExpression(ParameterExpression dbParameterExpression,
+    private static TryExpression GetDataEntityDbParameterValueAssignmentExpression(ParameterExpression dbParameterExpression,
         Expression entityExpression,
         ParameterExpression propertyExpression,
         ClassProperty? classProperty,
@@ -1919,7 +1919,7 @@ internal sealed partial class Compiler
     /// <param name="dbField"></param>
     ///
     /// <returns></returns>
-    private static Expression GetDictionaryStringObjectDbParameterValueAssignmentExpression(ParameterExpression dbParameterExpression,
+    private static BinaryExpression GetDictionaryStringObjectDbParameterValueAssignmentExpression(ParameterExpression dbParameterExpression,
         Expression dictionaryInstanceExpression,
         DbField dbField)
     {
@@ -2179,7 +2179,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="dbParameterCollectionExpression"></param>
     /// <returns></returns>
-    private static Expression GetDbParameterCollectionClearMethodExpression(MemberExpression dbParameterCollectionExpression)
+    private static MethodCallExpression GetDbParameterCollectionClearMethodExpression(MemberExpression dbParameterCollectionExpression)
     {
         var dbParameterCollectionClearMethod = GetMethodInfo<DbParameterCollection>(x => x.Clear());
         return Expression.Call(dbParameterCollectionExpression, dbParameterCollectionClearMethod);
@@ -2195,7 +2195,7 @@ internal sealed partial class Compiler
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    private static Expression GetPropertyFieldExpression(ParameterExpression dbCommandExpression,
+    private static BlockExpression GetPropertyFieldExpression(ParameterExpression dbCommandExpression,
         Expression entityExpression,
         FieldDirection fieldDirection,
         int entityIndex,
@@ -2266,7 +2266,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="dbCommandExpression"></param>
     /// <returns></returns>
-    private static Expression GetDbCommandParametersClearExpression(ParameterExpression dbCommandExpression)
+    private static MethodCallExpression GetDbCommandParametersClearExpression(ParameterExpression dbCommandExpression)
     {
         var dbParameterCollection = Expression.Property(dbCommandExpression, GetPropertyInfo<DbCommand>(c => c.Parameters));
         return GetDbParameterCollectionClearMethodExpression(dbParameterCollection);
@@ -2294,7 +2294,7 @@ internal sealed partial class Compiler
     /// <param name="resultType"></param>
     /// <param name="expression"></param>
     /// <returns></returns>
-    private static Expression ThrowIfNullAfterClassHandlerExpression(Type resultType,
+    private static ConditionalExpression ThrowIfNullAfterClassHandlerExpression(Type resultType,
         Expression expression)
     {
         var isNullExpression = Expression.Equal(Expression.Constant(null), expression);
@@ -2313,7 +2313,7 @@ internal sealed partial class Compiler
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    private static Expression GetIndexDbParameterSetterExpression(Type entityType,
+    private static BlockExpression GetIndexDbParameterSetterExpression(Type entityType,
         ParameterExpression dbCommandExpression,
         Expression entitiesParameterExpression,
         IEnumerable<FieldDirection> fieldDirections,

@@ -5,7 +5,9 @@ namespace RepoDb.Interfaces;
 /// <summary>
 /// An interface that is used to mark a class to be a caching class object.
 /// </summary>
+#pragma warning disable CA1010 // Generic interface should also be implemented
 public interface ICache : IEnumerable
+#pragma warning restore CA1010 // Generic interface should also be implemented
 {
     #region Sync
 

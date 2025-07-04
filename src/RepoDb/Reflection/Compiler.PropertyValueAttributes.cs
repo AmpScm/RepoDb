@@ -16,7 +16,7 @@ partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="classProperty"></param>
     /// <returns></returns>
-    private static IEnumerable<Expression> GetPropertyValueAttributeAssignmentExpressions(
+    private static List<Expression> GetPropertyValueAttributeAssignmentExpressions(
         ParameterExpression dbParameterExpression,
         ClassProperty classProperty) =>
         GetParameterPropertyValueSetterAttributesAssignmentExpressions((Expression)dbParameterExpression, classProperty);
@@ -27,7 +27,7 @@ partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="classProperty"></param>
     /// <returns></returns>
-    private static IEnumerable<Expression> GetParameterPropertyValueSetterAttributesAssignmentExpressions(
+    private static List<Expression> GetParameterPropertyValueSetterAttributesAssignmentExpressions(
         Expression dbParameterExpression,
         ClassProperty classProperty)
     {
@@ -63,7 +63,7 @@ partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="attribute"></param>
     /// <returns></returns>
-    private static Expression GetPropertyValueAttributesAssignmentExpression(
+    private static MethodCallExpression GetPropertyValueAttributesAssignmentExpression(
         ParameterExpression dbParameterExpression,
         PropertyValueAttribute attribute) =>
         GetPropertyValueAttributesAssignmentExpression((Expression)dbParameterExpression, attribute);
@@ -74,14 +74,18 @@ partial class Compiler
     /// <param name="parameterExpression"></param>
     /// <param name="attribute"></param>
     /// <returns></returns>
-    private static Expression GetPropertyValueAttributesAssignmentExpression(
+    private static MethodCallExpression GetPropertyValueAttributesAssignmentExpression(
         Expression parameterExpression,
         PropertyValueAttribute attribute)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(attribute);
+#else
         if (attribute == null)
         {
-            return null;
+            throw new ArgumentNullException(nameof(attribute));
         }
+#endif
 
         // The problem to this is because of the possibilities of multiple attributes configured for
         // DB multiple providers within a single entity and if the parameterExpression is not really

@@ -83,10 +83,14 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         IDbTransaction? transaction,
         bool hasOrderingColumn)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#else
         if (entities == null)
         {
             throw new ArgumentNullException(nameof(entities));
         }
+#endif
 
         // Fields
         this.tableName = tableName ?? ClassMappedNameCache.Get<TEntity>();
@@ -109,7 +113,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         Enumerator = entities.GetEnumerator();
         Entities = entities;
         Properties = GetClassProperties().AsList();
-        Fields = EnumerableExtension.AsList(GetFields(Entities?.FirstOrDefault() as IDictionary<string, object>));
+        Fields = EnumerableExtension.AsList(GetFields(Entities.FirstOrDefault() as IDictionary<string, object>));
         fieldCount = isDictionaryStringObject ? Fields.Count : Properties.Count;
     }
 
@@ -399,7 +403,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override Guid GetGuid(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Guid.Parse(GetValue(ordinal)?.ToString());
+        return Guid.Parse(GetValue(ordinal)?.ToString()!);
     }
 
     /// <summary>
@@ -496,7 +500,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         else
         {
             var property = Properties.GetByPropertyName(name) ?? Properties.GetByFieldName(name);
-            return Properties.IndexOf(property);
+            return property is { } ? Properties.IndexOf(property) : -1;
         }
     }
 

@@ -23,7 +23,7 @@ partial class Compiler
             readerFields.AsList(), reader.GetType());
 
         // Throw an error if there are no matching at least one
-        if (memberBindings.Any() != true)
+        if (memberBindings.Count <= 0)
         {
             throw new InvalidOperationException($"There are no member bindings found from the ResultSet of the data reader.");
         }

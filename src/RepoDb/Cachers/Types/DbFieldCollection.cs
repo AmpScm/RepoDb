@@ -125,7 +125,7 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     [EditorBrowsable(EditorBrowsableState.Never)]
     public FieldSet GetAsFields() => AsFields();
 
-    internal DbField? GetKeyColumnReturn(KeyColumnReturnBehavior keyColumnReturnBehavior) => GlobalConfiguration.Options.KeyColumnReturnBehavior switch
+    internal DbField? GetKeyColumnReturn(KeyColumnReturnBehavior keyColumnReturnBehavior) => keyColumnReturnBehavior switch
     {
         KeyColumnReturnBehavior.Primary => GetPrimaryFields()?.FirstOrDefault(),
         KeyColumnReturnBehavior.Identity => GetIdentity(),

@@ -439,11 +439,14 @@ public static partial class DbConnectionExtension
     /// <returns>An instance of the mapped <see cref="IStatementBuilder"/> object.</returns>
     public static IStatementBuilder GetStatementBuilder(this IDbConnection connection)
     {
-        // Check the connection
+#if NET
+        ArgumentNullException.ThrowIfNull(connection);
+#else
         if (connection == null)
         {
             throw new ArgumentNullException(nameof(connection));
         }
+#endif
 
         // Get the setting
         var statementBuilder = StatementBuilderMapper.Get(connection);
@@ -460,11 +463,15 @@ public static partial class DbConnectionExtension
 
     internal static DbRuntimeSetting GetDbRuntimeSetting(this IDbConnection connection, IDbTransaction? transaction)
     {
-        // Check the connection
+#if NET
+        ArgumentNullException.ThrowIfNull(connection);
+#else
         if (connection == null)
         {
             throw new ArgumentNullException(nameof(connection));
         }
+#endif
+
         // Get the runtime setting
         var runtimeSetting = DbRuntimeSettingCache.Get(connection, transaction);
         // Check the presence
@@ -490,7 +497,7 @@ public static partial class DbConnectionExtension
         throw new MissingMappingException($"There is no database {property} mapping found for '{connectionType.FullName}'. Make sure to install the correct extension library and call the bootstrapper method. You can also visit the library's installation page (https://repodb.net/tutorial/installation).");
     }
 
-    #endregion
+#endregion
 
     #region Helper Methods
 
@@ -1214,10 +1221,15 @@ public static partial class DbConnectionExtension
     internal static void ThrowIfNullOrEmpty<TEntity>(IEnumerable<TEntity> entities)
         where TEntity : class
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#else
         if (entities == null)
         {
             throw new ArgumentNullException(nameof(entities));
         }
+#endif
+
         if (entities.Any() == false)
         {
             throw new EmptyException(nameof(entities), "The entities must not be empty.");
@@ -1985,5 +1997,5 @@ public static partial class DbConnectionExtension
         where TEntity : class =>
         entity?.GetType() ?? typeof(TEntity);
 
-    #endregion
+#endregion
 }

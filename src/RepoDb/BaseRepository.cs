@@ -241,12 +241,12 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <summary>
     /// Gets the trace object that is being used by this repository.
     /// </summary>
-    public ITrace Trace => DbRepository.Trace;
+    public ITrace? Trace => DbRepository.Trace;
 
     /// <summary>
     /// Gets the statement builder object that is being used by this repository.
     /// </summary>
-    public IStatementBuilder StatementBuilder => DbRepository.StatementBuilder;
+    public IStatementBuilder? StatementBuilder => DbRepository.StatementBuilder;
 
     /// <summary>
     /// Gets the database connection persistency used by this repository. The default value is <see cref="ConnectionPersistency.PerCall"/>.
@@ -283,8 +283,17 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// property is equals to <see cref="ConnectionPersistency.PerCall"/>. This method only manages the connection persistency for the repositories where the value
     /// of the <see cref="ConnectionPersistency"/> property is equals to <see cref="ConnectionPersistency.Instance"/>.
     /// </summary>
-    public void Dispose() =>
-        DbRepository.Dispose();
+    public void Dispose()
+    {
+        try
+        {
+            DbRepository.Dispose();
+        }
+        finally
+        {
+            GC.SuppressFinalize();
+        }
+    }
 
     #endregion
 

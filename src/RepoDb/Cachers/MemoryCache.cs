@@ -8,7 +8,9 @@ namespace RepoDb;
 /// <summary>
 /// A class object that is used for caching the resultsets of the query operations. This is the default cache object used by the <see cref="DbRepository{TDbConnection}"/> and <see cref="BaseRepository{T, TDbConnection}"/> repository objects.
 /// </summary>
+#pragma warning disable CA1010 // Generic interface should also be implemented
 public class MemoryCache : ICache
+#pragma warning restore CA1010 // Generic interface should also be implemented
 {
     private readonly ConcurrentDictionary<string, IExpirable> _cache = new();
 

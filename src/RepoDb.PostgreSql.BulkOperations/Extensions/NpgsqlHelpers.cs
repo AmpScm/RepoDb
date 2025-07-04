@@ -121,7 +121,7 @@ public static partial class NpgsqlConnectionExtension
 
         // Primary
         if ((dbField.IsPrimary && includePrimary) || // Primary
-            (dbField.IsIdentity && includePrimary) || // Identity
+            (dbField.IsIdentity && includeIdentity) || // Identity
             (dbField.IsPrimary == false && dbField.IsIdentity == false)) // Others
         {
             return dbField;

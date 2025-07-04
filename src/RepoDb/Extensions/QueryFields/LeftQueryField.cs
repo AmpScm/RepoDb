@@ -73,7 +73,7 @@ public sealed class LeftQueryField : FunctionalQueryField
         object? value,
         DbType? dbType,
         int charCount = 0)
-        : base(fieldName, operation, value, dbType, $"LEFT({{0}}, {(charCount > 0 ? charCount : (value?.ToString().Length ?? 0))})")
+        : base(fieldName, operation, value, dbType, $"LEFT({{0}}, {(charCount > 0 ? charCount : (value?.ToString()?.Length ?? 0))})")
     {
         CharCount = charCount;
     }

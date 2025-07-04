@@ -20,7 +20,7 @@ partial class Compiler
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    private static Expression GetDataEntityParameterAssignmentExpression(ParameterExpression dbCommandExpression,
+    private static BlockExpression GetDataEntityParameterAssignmentExpression(ParameterExpression dbCommandExpression,
         int entityIndex,
         Expression entityExpression,
         ParameterExpression propertyExpression,

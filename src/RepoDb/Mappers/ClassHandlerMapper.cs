@@ -32,7 +32,7 @@ public static class ClassHandlerMapper
     /// <typeparam name="TClassHandler">The type of the handler.</typeparam>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TType, TClassHandler>(bool force = false)
-        where TClassHandler : new() =>
+        where TClassHandler : notnull, new() =>
         Add(typeof(TType), new TClassHandler(), force);
 
     /// <summary>
@@ -43,7 +43,7 @@ public static class ClassHandlerMapper
     /// <param name="classHandler">The instance of the class handler. The type must implement the <see cref="IClassHandler{TEntity}"/> interface.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TType, TClassHandler>(TClassHandler classHandler,
-        bool force = false) =>
+        bool force = false) where TClassHandler : notnull, new() =>
         Add(typeof(TType), classHandler, force);
 
     /// <summary>
@@ -57,7 +57,24 @@ public static class ClassHandlerMapper
         bool force = false)
     {
         // Guard
-        Guard(classHandler?.GetType());
+#if NET
+        ArgumentNullException.ThrowIfNull(type);
+        ArgumentNullException.ThrowIfNull(classHandler);
+#else
+        if (type is null)
+        {
+            throw new ArgumentNullException(nameof(type));
+        }
+        if (classHandler is null)
+        {
+            throw new ArgumentNullException(nameof(classHandler));
+        }
+#endif
+
+        if (classHandler.GetType()?.IsInterfacedTo(StaticType.IClassHandler) != true)
+        {
+            throw new InvalidTypeException($"The type '{type.FullName}' must implement the '{StaticType.IClassHandler.FullName}' interface.");
+        }
 
         // Variables for cache
         var key = GenerateHashCode(type);
@@ -168,19 +185,6 @@ public static class ClassHandlerMapper
     /// <returns>The generated hashcode.</returns>
     private static int GenerateHashCode(Type type) =>
         TypeExtension.GenerateHashCode(type);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="type"></param>
-    private static void Guard(Type type)
-    {
-        ObjectExtension.ThrowIfNull(type, nameof(type));
-        if (type.IsInterfacedTo(StaticType.IClassHandler) == false)
-        {
-            throw new InvalidTypeException($"The type '{type.FullName}' must implement the '{StaticType.IClassHandler.FullName}' interface.");
-        }
-    }
 
     #endregion
 

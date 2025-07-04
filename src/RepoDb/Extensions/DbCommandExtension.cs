@@ -118,7 +118,7 @@ public static class DbCommandExtension
         IDbTransaction? transaction,
         CommandArrayParametersText commandArrayParametersText)
     {
-        if (commandArrayParametersText?.CommandArrayParameters?.Any() != true)
+        if (commandArrayParametersText?.CommandArrayParameters?.Count is not > 0)
         {
             return;
         }
