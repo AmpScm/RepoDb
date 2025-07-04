@@ -846,13 +846,12 @@ public abstract class BaseStatementBuilder : IStatementBuilder
 
         // Gets the updatable fields
         var updatableFields = fields
-            .Where(f => !string.Equals(f.FieldName, primaryField?.FieldName, StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(f.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase));
+            .Where(f => keyFields.GetByFieldName(f.FieldName) is null);
 
         // Check if there are updatable fields
         if (updatableFields.Any() != true)
         {
-            throw new EmptyException(nameof(updatableFields), "The list of updatable fields cannot be null or empty.");
+            throw new InvalidOperationException("The list of updatable fields cannot be null or empty.");
         }
 
         // Initialize the builder

@@ -1182,7 +1182,7 @@ internal sealed partial class Compiler
     private static Expression ConvertExpressionToPropertyHandlerSetExpression(Expression expression,
         Expression? parameterExpression,
         ClassProperty? classProperty,
-        Type targetType) =>
+        Type? targetType) =>
         ConvertExpressionToPropertyHandlerSetExpressionTuple(expression, parameterExpression, classProperty, targetType).convertedExpression;
 
     /// <summary>
@@ -1196,7 +1196,7 @@ internal sealed partial class Compiler
     private static (Expression convertedExpression, Type? handlerSetReturnType) ConvertExpressionToPropertyHandlerSetExpressionTuple(Expression expression,
         Expression? parameterExpression,
         ClassProperty? classProperty,
-        Type targetType)
+        Type? targetType)
     {
         var handlerInstance = classProperty?.GetPropertyHandler() ??
             PropertyHandlerCache.Get<object>(targetType);
@@ -1213,7 +1213,7 @@ internal sealed partial class Compiler
 
         // Nullable
         expression = ConvertExpressionToNullableExpression(expression,
-            TypeCache.Get(setParameter.ParameterType).GetUnderlyingType() ?? targetType);
+            TypeCache.Get(setParameter.ParameterType).GetUnderlyingType());
 
         // Call
         var valueExpression = ConvertExpressionToTypeExpression(expression, setParameter.ParameterType);

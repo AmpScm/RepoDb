@@ -691,7 +691,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// </summary>
     /// <param name="dictionary"></param>
     /// <returns></returns>
-    private static IEnumerable<Field> GetFields(IDictionary<string, object> dictionary)
+    private static IEnumerable<Field> GetFields(IDictionary<string, object>? dictionary)
     {
         if (dictionary != null)
         {

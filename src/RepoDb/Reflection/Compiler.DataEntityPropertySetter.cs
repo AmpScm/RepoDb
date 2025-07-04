@@ -16,7 +16,7 @@ partial class Compiler
         Field field)
     {
         // Get the entity property
-        var property = PropertyCache.Get(entityType)?.GetByFieldName(field.FieldName)?.PropertyInfo;
+        var property = PropertyCache.Get(entityType).GetByFieldName(field.FieldName)?.PropertyInfo;
 
         // Return the function
         return CompileDataEntityPropertySetter(entityType,
@@ -32,7 +32,7 @@ partial class Compiler
     /// <param name="targetType"></param>
     /// <returns></returns>
     private static Action<object, object?> CompileDataEntityPropertySetter(Type entityType,
-        PropertyInfo property,
+        PropertyInfo? property,
         Type targetType)
     {
         // Check the property first
@@ -64,7 +64,7 @@ partial class Compiler
         {
             var classProperty = PropertyCache.Get(entityType, property, true);
             valueExpression = ConvertExpressionToPropertyHandlerSetExpression(valueExpression,
-                null, classProperty, targetType ?? classProperty.PropertyInfo.PropertyType);
+                null, classProperty, targetType);
         }
 
         // Assign the value into DataEntity.Property

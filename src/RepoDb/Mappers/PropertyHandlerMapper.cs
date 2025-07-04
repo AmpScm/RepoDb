@@ -247,7 +247,7 @@ public static class PropertyHandlerMapper
         bool force)
         where TEntity : class
         where TPropertyHandler : new() =>
-        Add<TEntity, TPropertyHandler>(propertyName, new TPropertyHandler(), false);
+        Add<TEntity, TPropertyHandler>(propertyName, new TPropertyHandler(), force);
 
     /// <summary>
     /// Property Level: Adds a property handler mapping into a data entity type property (via property name).
@@ -266,11 +266,7 @@ public static class PropertyHandlerMapper
         ObjectExtension.ThrowIfNull(propertyName, nameof(propertyName));
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(propertyName);
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(propertyName), $"Property '{propertyName}' is not found at type '{typeof(TEntity).FullName}'.");
-        }
+        var property = TypeExtension.GetProperty<TEntity>(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), $"Property '{propertyName}' is not found at type '{typeof(TEntity).FullName}'.");
 
         // Add to the mapping
         Add<TEntity, TPropertyHandler>(property, propertyHandler, force);
@@ -312,7 +308,7 @@ public static class PropertyHandlerMapper
         bool force)
         where TEntity : class
         where TPropertyHandler : new() =>
-        Add<TEntity, TPropertyHandler>(field, new TPropertyHandler(), false);
+        Add<TEntity, TPropertyHandler>(field, new TPropertyHandler(), force);
 
     /// <summary>
     /// Property Level: Adds a property handler mapping into a data entity type property (via <see cref="Field"/> object).
@@ -331,11 +327,7 @@ public static class PropertyHandlerMapper
         ObjectExtension.ThrowIfNull(field, nameof(field));
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
-        }
+        var property = TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
 
         // Add to the mapping
         Add<TEntity, TPropertyHandler>(property, propertyHandler, force);
@@ -533,11 +525,7 @@ public static class PropertyHandlerMapper
         ObjectExtension.ThrowIfNull(propertyName, nameof(propertyName));
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(propertyName);
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(propertyName), $"Property '{propertyName}' is not found at type '{typeof(TEntity).FullName}'.");
-        }
+        var property = TypeExtension.GetProperty<TEntity>(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), $"Property '{propertyName}' is not found at type '{typeof(TEntity).FullName}'.");
 
         // Add to the mapping
         Remove<TEntity>(property);
@@ -555,11 +543,7 @@ public static class PropertyHandlerMapper
         ObjectExtension.ThrowIfNull(field, nameof(field));
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
-        }
+        var property = TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
 
         // Add to the mapping
         Remove<TEntity>(property);

@@ -100,10 +100,9 @@ partial class Compiler
                 }
                 else
                 {
-                    var targetType = TypeCache.Get(dbField?.Type).GetUnderlyingType() ?? valueType;
                     dbType = targetProperty.GetDbType() ??
-                        targetType?.GetDbType() ??
-                        new ClientTypeToDbTypeResolver().Resolve(targetType);
+                        valueType.GetDbType() ??
+                        new ClientTypeToDbTypeResolver().Resolve(valueType);
                 }
                 var setDbTypeExpression = GetDbParameterDbTypeAssignmentExpression(dbParameterExpression, dbType);
                 parameterCallExpressions.AddIfNotNull(setDbTypeExpression);

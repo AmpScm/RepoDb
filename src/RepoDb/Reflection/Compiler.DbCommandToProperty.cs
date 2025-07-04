@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Globalization;
 using System.Linq.Expressions;
+using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
@@ -39,7 +40,7 @@ partial class Compiler
 
         // Get the entity property
         var propertyName = field.FieldName.AsUnquoted(true, dbSetting).AsAlphaNumeric();
-        var property = (typeOfEntity.GetProperty(propertyName) ?? PropertyCache.Get(typeOfEntity)?.GetByFieldName(propertyName)?.PropertyInfo)?.SetMethod;
+        var property = (typeOfEntity.GetProperty(propertyName) ?? PropertyCache.Get(typeOfEntity).GetByFieldName(propertyName)?.PropertyInfo)?.SetMethod ?? throw new PropertyNotFoundException(propertyName, $"Property {propertyName} not found");
 
         // Get the command parameter
         var name = parameterName ?? propertyName;
@@ -50,7 +51,7 @@ partial class Compiler
         // Assign the Parameter.Value into DataEntity.Property
         var value = Expression.Property(parameter, dbParameterValueProperty);
         var propertyAssignment = Expression.Call(entityParameterExpression, property,
-            Expression.Convert(value, TypeCache.Get(field.Type)?.GetUnderlyingType()));
+            Expression.Convert(value, TypeCache.Get(field.Type).GetUnderlyingType()));
 
         // Return function
         return Expression.Lambda<Action<TEntity, DbCommand>>(

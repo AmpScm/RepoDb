@@ -56,18 +56,7 @@ public partial class QueryGroup
 #endif
 
         // Parse the expression base on type
-        var parsed = Parse<TEntity>(expression.Body);
-
-        /*
-         * In order to NOT trigger the 'Equality' comparision (via overriden GetHashCode()), do not use the '=='
-         * when comparing to NULLs, instead, use the ReferenceEquals method.
-         */
-
-        // Throw an unsupported exception if not parsed
-        if (parsed is null)
-        {
-            throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
-        }
+        var parsed = Parse<TEntity>(expression.Body) ?? throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
 
         // Return the parsed values
         return parsed.Fix(connection, transaction, tableName ?? ClassMappedNameCache.Get<TEntity>());
@@ -124,10 +113,7 @@ public partial class QueryGroup
         }
 
         // Variables
-        var leftQueryGroup = Parse<TEntity>(expression.Left);
-
-        if (leftQueryGroup is null)
-            throw new NotSupportedException($"Expression {expression.Left} is currently not supported");
+        var leftQueryGroup = Parse<TEntity>(expression.Left) ?? throw new NotSupportedException($"Expression {expression.Left} is currently not supported");
 
         // IsNot
         if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual
@@ -141,10 +127,7 @@ public partial class QueryGroup
         }
         else
         {
-            var rightQueryGroup = Parse<TEntity>(expression.Right);
-            if (rightQueryGroup is null)
-                throw new NotSupportedException($"Expression {expression.Right} is currently not supported");
-
+            var rightQueryGroup = Parse<TEntity>(expression.Right) ?? throw new NotSupportedException($"Expression {expression.Right} is currently not supported");
             return new QueryGroup([leftQueryGroup, rightQueryGroup], GetConjunction(expression));
         }
 

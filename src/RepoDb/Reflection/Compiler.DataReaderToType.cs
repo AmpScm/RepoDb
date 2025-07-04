@@ -82,7 +82,7 @@ partial class Compiler
         var readerFields = GetDataReaderFields(reader, dbFields);
         var memberBindings = GetMemberBindingsForDataEntity<TResult>(readerParameterExpression, readerFields, reader.GetType());
         var memberAssignments = memberBindings.Where(item => item.MemberAssignment != null).Select(item => item.MemberAssignment!);
-        var arguments = memberBindings?.Where(item => item.Argument != null).Select(item => item.Argument!);
+        var arguments = memberBindings.Where(item => item.Argument != null).Select(item => item.Argument!);
         var typeOfResult = typeof(TResult);
 
         // Throw an error if there are no bindings

@@ -20,20 +20,9 @@ public partial class QueryField
         var properties = PropertyCache.Get<TEntity>();
 
         // Failing at some point - for base interfaces
-        var property = properties
-            .FirstOrDefault(p =>
-                string.Equals(p.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase));
-
-        // Matches to the actual class properties
-        if (property == null)
-        {
-            property = properties
-                .FirstOrDefault(p =>
-                    string.Equals(p.PropertyInfo.Name, field.FieldName, StringComparison.OrdinalIgnoreCase));
-        }
-
-        // Return the value
-        return property;
+        return
+            properties.GetByFieldName(field.FieldName)
+            ?? properties.GetByPropertyName(field.FieldName);
     }
 
     /// <summary>
