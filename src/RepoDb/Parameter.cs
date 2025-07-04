@@ -154,10 +154,8 @@ public sealed class Parameter : IEquatable<Parameter>
             return this.hashCode.Value;
         }
 
-        var hashCode = 0;
-
         // OriginalName
-        hashCode = OriginalName.GetHashCode();
+        var hashCode = OriginalName.GetHashCode();
 
         // DbType
         if (DbType.HasValue)

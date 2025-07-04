@@ -9,7 +9,7 @@ public partial class QueryGroup
     /// </summary>
     /// <param name="obj">The instance of the object to be parsed.</param>
     /// <returns>An instance of the <see cref="QueryGroup"/> with parsed properties and values.</returns>
-    public static QueryGroup Parse<T>(T obj) =>
+    public static QueryGroup? Parse<T>(T obj) =>
         Parse(obj, true);
 
     /// <summary>
@@ -18,14 +18,18 @@ public partial class QueryGroup
     /// <param name="obj">The instance of the object to be parsed.</param>
     /// <param name="throwException">If true, an exception will be thrown if the type of 'obj' argument cannot be parsed.</param>
     /// <returns>An instance of the <see cref="QueryGroup"/> with parsed properties and values.</returns>
-    public static QueryGroup Parse<T>(T obj,
+    public static QueryGroup? Parse<T>(T obj,
         bool throwException = true)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(obj);
+#else
         // Check for value
         if (obj is null)
         {
             throw new ArgumentNullException(nameof(obj));
         }
+#endif
 
         // Type of the object
         var type = TypeCache.Get(obj.GetType()).GetUnderlyingType();

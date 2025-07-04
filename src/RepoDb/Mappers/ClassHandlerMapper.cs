@@ -43,7 +43,7 @@ public static class ClassHandlerMapper
     /// <param name="classHandler">The instance of the class handler. The type must implement the <see cref="IClassHandler{TEntity}"/> interface.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TType, TClassHandler>(TClassHandler classHandler,
-        bool force = false) where TClassHandler : notnull, new() =>
+        bool force = false) where TClassHandler : notnull =>
         Add(typeof(TType), classHandler, force);
 
     /// <summary>

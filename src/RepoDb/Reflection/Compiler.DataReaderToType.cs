@@ -81,7 +81,7 @@ partial class Compiler
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
         var readerFields = GetDataReaderFields(reader, dbFields);
         var memberBindings = GetMemberBindingsForDataEntity<TResult>(readerParameterExpression, readerFields, reader.GetType());
-        var memberAssignments = memberBindings?.Where(item => item.MemberAssignment != null).Select(item => item.MemberAssignment!);
+        var memberAssignments = memberBindings.Where(item => item.MemberAssignment != null).Select(item => item.MemberAssignment!);
         var arguments = memberBindings?.Where(item => item.Argument != null).Select(item => item.Argument!);
         var typeOfResult = typeof(TResult);
 

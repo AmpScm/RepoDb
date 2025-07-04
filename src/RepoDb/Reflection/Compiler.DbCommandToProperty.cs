@@ -29,13 +29,13 @@ partial class Compiler
         var dbCommandParameterExpression = Expression.Parameter(StaticType.DbCommand, "command");
 
         // Variables for DbCommand
-        var dbCommandParametersProperty = StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters));
+        var dbCommandParametersProperty = StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters))!;
 
         // Variables for DbParameterCollection
-        var dbParameterCollectionIndexerMethod = StaticType.DbParameterCollection.GetMethod("get_Item", [StaticType.String]);
+        var dbParameterCollectionIndexerMethod = StaticType.DbParameterCollection.GetMethod("get_Item", [StaticType.String])!;
 
         // Variables for DbParameter
-        var dbParameterValueProperty = StaticType.DbParameter.GetProperty(nameof(DbParameter.Value));
+        var dbParameterValueProperty = StaticType.DbParameter.GetProperty(nameof(DbParameter.Value))!;
 
         // Get the entity property
         var propertyName = field.FieldName.AsUnquoted(true, dbSetting).AsAlphaNumeric();

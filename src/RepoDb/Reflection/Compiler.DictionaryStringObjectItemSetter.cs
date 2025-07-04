@@ -13,8 +13,12 @@ partial class Compiler
     public static Action<object, object?> CompileDictionaryStringObjectItemSetter(Type entityType,
         Field field)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(field);
+#else
         if (field is null)
             throw new ArgumentNullException(nameof(field));
+#endif
 
         // Variables for type
         var valueParameter = Expression.Parameter(StaticType.Object, "value");
@@ -27,7 +31,7 @@ partial class Compiler
             var toTypeMethod = StaticType
                 .Converter
                 .GetMethod("ToType", [StaticType.Object])!
-                .MakeGenericMethod(TypeCache.Get(field.Type)?.GetUnderlyingType());
+                .MakeGenericMethod(TypeCache.Get(field.Type).GetUnderlyingType());
 
             // Conversion (if needed)
             valueExpression = ConvertExpressionToTypeExpression(Expression.Call(toTypeMethod, valueParameter), targetType);

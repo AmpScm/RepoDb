@@ -9,6 +9,7 @@ namespace RepoDb.Interfaces;
 /// <typeparam name="TResult">Usually refers to the type of the data entity type property. The input type for the setter; the output type for the getter.</typeparam>
 public interface IPropertyHandler<TInput, TResult>
 {
+#pragma warning disable CA1716 // Identifiers should not match keywords
     /// <summary>
     /// The method that is being invoked when the outbound transformation is triggered (i.e.: BatchQuery, ExecuteQuery and Query).
     /// </summary>

@@ -1765,7 +1765,6 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Variables needed
-        var type = GetEntityType(entities);
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
         qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
@@ -1848,7 +1847,6 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Variables needed
-        var type = GetEntityType(entities);
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
         qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();

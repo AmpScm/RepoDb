@@ -554,7 +554,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     /// <param name="transaction">The transaction to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A first occurrence value (first column of first row) of the execution.</returns>
-    public Task<TResult> ExecuteScalarAsync<TResult>(string commandText,
+    public Task<TResult?> ExecuteScalarAsync<TResult>(string commandText,
         object? param = null,
         CommandType commandType = default,
         string? cacheKey = null,

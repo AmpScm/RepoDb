@@ -244,7 +244,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Property
-        var property = GetProperty<TEntity>(expression);
+        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Operation
         var operation = unaryNodeType == ExpressionType.Not ? Operation.NotEqual : Operation.Equal;
@@ -377,9 +377,9 @@ public partial class QueryField
         // Value
         if (expression.Object != null)
         {
-            if (expression.Object?.Type == StaticType.String)
+            if (expression.Object.Type == StaticType.String)
             {
-                var likeable = ConvertToLikeableValue("Contains", Converter.ToType<string>(expression.Arguments.First().GetValue()));
+                var likeable = ConvertToLikeableValue("Contains", Converter.ToType<string>(expression.Arguments.First().GetValue() ?? ""));
                 return ToLike(property.AsField(), likeable, unaryNodeType);
             }
             else
@@ -414,7 +414,7 @@ public partial class QueryField
 
         // Fields
         return ToLike(property.AsField(),
-            ConvertToLikeableValue(expression.Method.Name, value), unaryNodeType);
+            ConvertToLikeableValue(expression.Method.Name, value ?? ""), unaryNodeType);
     }
 
     /// <summary>
@@ -500,9 +500,9 @@ public partial class QueryField
     /// <returns></returns>
     internal static ClassProperty? GetProperty<TEntity>(MethodCallExpression expression)
         where TEntity : class =>
-        expression?.Object?.Type == StaticType.String ?
+        expression.Object?.Type == StaticType.String ?
         GetProperty<TEntity>(expression.Object.ToMember()) :
-        GetProperty<TEntity>(expression.Arguments.LastOrDefault());
+        GetProperty<TEntity>(expression.Arguments.Last());
 
     /// <summary>
     ///

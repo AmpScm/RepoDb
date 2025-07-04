@@ -6,8 +6,9 @@ namespace RepoDb.Interfaces;
 /// An interface that is used to mark a class to be a caching class object.
 /// </summary>
 #pragma warning disable CA1010 // Generic interface should also be implemented
+#pragma warning disable CA1710 // Identifiers should have correct suffix
+#pragma warning disable CA1716 // Identifiers should not match keywords
 public interface ICache : IEnumerable
-#pragma warning restore CA1010 // Generic interface should also be implemented
 {
     #region Sync
 
@@ -52,6 +53,7 @@ public interface ICache : IEnumerable
     /// <param name="key">The key of the cache object to be retrieved.</param>
     /// <returns>A cached item object from the cache collection based on the given key.</returns>
     /// <param name="throwException">Throws an exception if the item is not found.</param>
+
     CacheItem<T>? Get<T>(string key,
         bool throwException = true);
 

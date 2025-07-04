@@ -177,7 +177,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     {
         if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
         {
-            result = DataReader.ToEnumerable<TEntity>(_reader).AsList();
+            result = DataReader.ToEnumerable<TEntity>(_reader!).AsList();
             AddToCache(result);
         }
 
@@ -200,7 +200,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
         if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
         {
             result = await DataReader
-                .ToEnumerableAsync<TEntity>(_reader, cancellationToken: cancellationToken)
+                .ToEnumerableAsync<TEntity>(_reader!, cancellationToken: cancellationToken)
                 .ToListAsync(CancellationToken).ConfigureAwait(false);
             AddToCache(result);
         }
@@ -229,7 +229,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     {
         if (TryGetCacheItem<IEnumerable<dynamic>>(out var result) == false)
         {
-            result = DataReader.ToEnumerable(_reader).AsList();
+            result = DataReader.ToEnumerable(_reader!).AsList();
             AddToCache(result);
         }
 
@@ -250,7 +250,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     {
         if (TryGetCacheItem<IEnumerable<dynamic>>(out var result) == false)
         {
-            result = await DataReader.ToEnumerableAsync(_reader, cancellationToken: CancellationToken)
+            result = await DataReader.ToEnumerableAsync(_reader!, cancellationToken: CancellationToken)
                 .ToListAsync(CancellationToken).ConfigureAwait(false);
             AddToCache(result);
         }
@@ -305,7 +305,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     {
         if (TryGetCacheItem<TResult>(out var result) == false)
         {
-            if (await _reader.ReadAsync(CancellationToken).ConfigureAwait(false))
+            if (await _reader!.ReadAsync(CancellationToken).ConfigureAwait(false))
             {
                 result = Converter.ToType<TResult>(_reader[0]);
                 AddToCache(result);

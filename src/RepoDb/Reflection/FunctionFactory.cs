@@ -52,8 +52,8 @@ internal static class FunctionFactory
     /// <param name="dbHelper"></param>
     /// <returns></returns>
     public static Action<DbCommand, object?> CompileDataEntityDbParameterSetter(Type entityType,
-        IEnumerable<DbField> inputFields,
-        IEnumerable<DbField> outputFields,
+        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField>? outputFields,
         IDbSetting dbSetting,
         IDbHelper dbHelper) =>
         Compiler.CompileDataEntityDbParameterSetter(entityType, inputFields, outputFields, dbSetting, dbHelper);
@@ -114,7 +114,7 @@ internal static class FunctionFactory
     public static Action<DbCommand, IList<object?>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
         IEnumerable<DbField> inputFields,
         int batchSize,
-        IDbSetting? dbSetting,
+        IDbSetting dbSetting,
         IDbHelper? dbHelper) =>
         Compiler.CompileDictionaryStringObjectListDbParameterSetter(entityType, inputFields, batchSize, dbSetting, dbHelper);
 

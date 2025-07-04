@@ -245,10 +245,14 @@ public static class EnumerableExtension
     /// <exception cref="ArgumentNullException"></exception>
     public static Type GetElementType(this IEnumerable enumerable, bool checkObject = true)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(enumerable);
+#else
         if (enumerable is null)
         {
             throw new ArgumentNullException(nameof(enumerable));
         }
+#endif
         var elementType = enumerable.GetEnumerableElementType();
 
         if (elementType is null || (checkObject && elementType == StaticType.Object))
@@ -266,8 +270,8 @@ public static class EnumerableExtension
 
                 if (p != vt)
                 {
-                    while (p?.IsAssignableFrom(vt) != true)
-                        p = p.BaseType;
+                    while (p.IsAssignableFrom(vt) == false)
+                        p = p.BaseType!;
                 }
 
                 if (p is null || p == StaticType.Object)

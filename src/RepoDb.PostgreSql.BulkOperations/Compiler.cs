@@ -159,7 +159,7 @@ internal static class Compiler
 
             // Check
             Action<NpgsqlBinaryImporter, TEntity> func;
-            if (expressions.Any())
+            if (expressions.Count > 0)
             {
                 func = Expression
                     .Lambda<Action<NpgsqlBinaryImporter, TEntity>>(Expression.Block(expressions), importerParameterExpression, entityParameterExpression)
@@ -328,7 +328,7 @@ internal static class Compiler
 
             // Check
             Func<NpgsqlBinaryImporter, TEntity, CancellationToken, Task> func;
-            if (expressions.Any())
+            if (expressions.Count > 0)
             {
                 func = Expression
                     .Lambda<Func<NpgsqlBinaryImporter, TEntity, CancellationToken, Task>>(Expression.Block(expressions),
@@ -490,7 +490,7 @@ internal static class Compiler
     /// <param name="propertyExpression"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private static Expression ConvertEnumExpressionToString(Expression propertyExpression) =>
+    private static MethodCallExpression ConvertEnumExpressionToString(Expression propertyExpression) =>
         Expression.Call(GetConvertToTypeMethod(typeof(string)),
             Expression.Convert(propertyExpression, typeof(object)));
 

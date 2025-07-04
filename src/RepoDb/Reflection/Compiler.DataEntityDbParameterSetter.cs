@@ -16,15 +16,15 @@ partial class Compiler
     /// <param name="dbHelper"></param>
     /// <returns></returns>
     public static Action<DbCommand, object?> CompileDataEntityDbParameterSetter(Type entityType,
-        IEnumerable<DbField> inputFields,
-        IEnumerable<DbField> outputFields,
+        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField>? outputFields,
         IDbSetting dbSetting,
         IDbHelper dbHelper)
     {
         var dbCommandExpression = Expression.Parameter(StaticType.DbCommand, "command");
         var entityParameterExpression = Expression.Parameter(StaticType.Object, "entityParameter");
         var dbParameterCollectionExpression = Expression.Property(dbCommandExpression,
-            StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters)));
+            StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters))!);
         var entityVariableExpression = Expression.Variable(StaticType.Object, "entityVariable");
         var entityExpressions = new List<Expression>();
         var entityVariableExpressions = new List<ParameterExpression>();

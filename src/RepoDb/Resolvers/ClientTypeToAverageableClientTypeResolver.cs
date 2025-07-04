@@ -14,10 +14,14 @@ public class ClientTypeToAverageableClientTypeResolver : IResolver<Type, Type?>
     /// <returns>The averageable .NET CLR type.</returns>
     public Type? Resolve(Type type)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(type);
+#else
         if (type == null)
         {
             throw new ArgumentNullException(nameof(type));
         }
+#endif
 
         // Get the type
         type = TypeCache.Get(type).GetUnderlyingType();

@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Globalization;
 using System.Text;
 
 namespace RepoDb;
@@ -115,7 +116,11 @@ public class CancellableTraceLog : TraceLog
                     first = false;
                 else
                     sb.Append(", ");
-                sb.Append($"{column.ColumnName}={ParamValueToString(row[column])}");
+                sb.Append(
+#if NET
+                    CultureInfo.InvariantCulture,
+#endif
+                    $"{column.ColumnName}={ParamValueToString(row[column])}");
             }
             sb.Append(']');
             return sb.ToString();

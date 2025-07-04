@@ -30,7 +30,7 @@ internal static class MergeAllExecutionContextCache
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    internal static MergeAllExecutionContext Get(string key)
+    internal static MergeAllExecutionContext? Get(string key)
     {
         if (cache.TryGetValue(key, out var result))
         {

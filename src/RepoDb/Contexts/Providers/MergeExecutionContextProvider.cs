@@ -216,7 +216,7 @@ internal static class MergeExecutionContextProvider
             ParametersSetterFunc = FunctionCache
                 .GetDataEntityDbParameterSetterCompiledFunction(entityType,
                     string.Concat(entityType.FullName, ".", tableName, ".Merge"),
-                    inputFields?.AsList(),
+                    inputFields,
                     null,
                     dbSetting,
                     dbHelper),

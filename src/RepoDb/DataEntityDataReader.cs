@@ -10,6 +10,7 @@ namespace RepoDb;
 /// A data reader object that is used to manipulate the enumerable list of data entity objects.
 /// </summary>
 /// <typeparam name="TEntity">The type of the data entity</typeparam>
+#pragma warning disable CA1010 // Generic interface should also be implemented
 public class DataEntityDataReader<TEntity> : DbDataReader
     where TEntity : class
 {
@@ -680,7 +681,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     {
         if (isDictionaryStringObject)
         {
-            return Enumerable.Empty<ClassProperty>();
+            return [];
         }
         return PropertyCache.Get(EntityType);
     }

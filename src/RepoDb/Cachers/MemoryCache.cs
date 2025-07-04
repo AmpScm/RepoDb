@@ -10,7 +10,6 @@ namespace RepoDb;
 /// </summary>
 #pragma warning disable CA1010 // Generic interface should also be implemented
 public class MemoryCache : ICache
-#pragma warning restore CA1010 // Generic interface should also be implemented
 {
     private readonly ConcurrentDictionary<string, IExpirable> _cache = new();
 

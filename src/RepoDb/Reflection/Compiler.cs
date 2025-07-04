@@ -539,10 +539,10 @@ internal sealed partial class Compiler
         Expression.Property(expression, GetPropertyInfo<DateTime>(d => d.TimeOfDay));
 #if NET
     private static Expression ConvertExpressionToDateOnlyToDateTime(Expression expression) =>
-        Expression.Call(expression, GetMethodInfo<DateOnly>((x) => x.ToDateTime(default(TimeOnly))), Expression.Constant(default(TimeOnly)));
+        Expression.Call(expression, GetMethodInfo<DateOnly>((x) => x.ToDateTime(default)), Expression.Constant(default(TimeOnly)));
 
     private static Expression ConvertExpressionToDateTimeToDateOnly(Expression expression) =>
-        Expression.Call(null, GetMethodInfo(() => DateOnly.FromDateTime(default(DateTime))), expression);
+        Expression.Call(null, GetMethodInfo(() => DateOnly.FromDateTime(default)), expression);
 
     private static Expression ConvertExpressionToTimeSpanToTimeOnly(Expression expression) =>
         Expression.Call(null, GetMethodInfo(() => TimeOnly.FromTimeSpan(default)), expression);
@@ -916,7 +916,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static Expression ConvertEnumExpressionToTypeExpressionForString(Expression expression)
     {
-        var method = GetMethodInfo(() => Convert.ToString((object?)null));
+        var method = GetMethodInfo(() => Convert.ToString((object?)null, CultureInfo.InvariantCulture));
 
         // Variables
         Expression? isNullExpression = null;
@@ -934,7 +934,7 @@ internal sealed partial class Compiler
         }
 
         // False
-        var methodCallExpression = Expression.Call(method, ConvertExpressionToTypeExpression(expression, StaticType.Object));
+        var methodCallExpression = Expression.Call(method, ConvertExpressionToTypeExpression(expression, StaticType.Object), Expression.Constant(CultureInfo.InvariantCulture));
         falseExpression = ConvertExpressionToTypeExpression(methodCallExpression, StaticType.String);
 
         // Call and return
@@ -1113,7 +1113,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static Expression ConvertExpressionToPropertyHandlerGetExpression(Expression expression,
         Expression readerExpression,
-        object handlerInstance,
+        object? handlerInstance,
         ClassPropertyParameterInfo classPropertyParameterInfo)
     {
         // Return if null
@@ -1556,7 +1556,7 @@ internal sealed partial class Compiler
     /// <param name="readerParameterExpression">The data reader parameter.</param>
     /// <param name="readerFields">The list of fields to be bound from the data reader.</param>
     /// <returns>The enumerable list of <see cref="MemberBinding"/> objects.</returns>
-    private static List<MemberBinding>? GetMemberBindingsForDataEntity<TResult>(ParameterExpression readerParameterExpression,
+    private static List<MemberBinding> GetMemberBindingsForDataEntity<TResult>(ParameterExpression readerParameterExpression,
         IEnumerable<DataReaderField> readerFields,
         Type readerType)
     {
@@ -1567,7 +1567,7 @@ internal sealed partial class Compiler
         // Check the presence
         if (classProperties?.Count is not > 0)
         {
-            return null;
+            return [];
         }
 
         // Variables needed
@@ -2199,7 +2199,7 @@ internal sealed partial class Compiler
         FieldDirection fieldDirection,
         int entityIndex,
         IDbSetting dbSetting,
-        IDbHelper dbHelper)
+        IDbHelper? dbHelper)
     {
         var propertyListExpression = new List<Expression>();
         var propertyVariableListExpression = new List<ParameterExpression>();
@@ -2317,7 +2317,7 @@ internal sealed partial class Compiler
         Expression entitiesParameterExpression,
         IEnumerable<FieldDirection> fieldDirections,
         int entityIndex,
-        IDbSetting? dbSetting,
+        IDbSetting dbSetting,
         IDbHelper? dbHelper)
     {
         // Get the current instance

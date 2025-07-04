@@ -18,7 +18,7 @@ partial class Compiler
     /// <returns></returns>
     private static List<Expression> GetPropertyValueAttributeAssignmentExpressions(
         ParameterExpression dbParameterExpression,
-        ClassProperty classProperty) =>
+        ClassProperty? classProperty) =>
         GetParameterPropertyValueSetterAttributesAssignmentExpressions((Expression)dbParameterExpression, classProperty);
 
     /// <summary>
@@ -29,7 +29,7 @@ partial class Compiler
     /// <returns></returns>
     private static List<Expression> GetParameterPropertyValueSetterAttributesAssignmentExpressions(
         Expression dbParameterExpression,
-        ClassProperty classProperty)
+        ClassProperty? classProperty)
     {
         var attributes = classProperty?.GetPropertyValueAttributes();
         if (attributes?.Any() != true)
@@ -106,7 +106,7 @@ partial class Compiler
     private static MethodInfo GetPropertyValueAttributeSetValueMethod() =>
 
         StaticType.PropertyValueAttribute.GetMethod(nameof(PropertyValueAttribute.SetValue),
-            BindingFlags.Instance | BindingFlags.NonPublic);
+            BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     #endregion
 }

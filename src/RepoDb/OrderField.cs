@@ -144,10 +144,14 @@ public class OrderField : IEquatable<OrderField>
     /// <returns>An enumerable of <see cref="OrderField"/> object that holds the ordering values for every field.</returns>
     public static IEnumerable<OrderField> Parse(object obj)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(obj);
+#else
         if (obj is null)
         {
             throw new ArgumentNullException(nameof(obj));
         }
+#endif
 
         var properties = TypeCache.Get(obj.GetType()).GetProperties();
         var list = new List<OrderField>(properties.Length);

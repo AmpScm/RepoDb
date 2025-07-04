@@ -632,10 +632,14 @@ public static class PropertyHandlerMapper
 #endif
         Type? type)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(type);
+#else
         if (type == null)
         {
             throw new ArgumentNullException(nameof(type));
         }
+#endif
     }
 
     /// <summary>

@@ -12,7 +12,7 @@ public static class ListExtension
     /// <param name="list">The instance of the list.</param>
     /// <param name="item">The item to be evaulated and added.</param>
     public static void AddIfNotNull<T>(this IList<T> list,
-        T item)
+        T? item)
     {
         if (item != null)
         {
@@ -27,7 +27,7 @@ public static class ListExtension
     /// <param name="list">The instance of the list.</param>
     /// <param name="items">The items to be evaulated and added.</param>
     public static void AddRangeIfNotNullOrNotEmpty<T>(this List<T> list,
-        IEnumerable<T> items)
+        IEnumerable<T>? items)
     {
         if (items?.Any() == true)
         {

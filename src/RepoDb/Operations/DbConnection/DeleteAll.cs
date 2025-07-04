@@ -592,7 +592,8 @@ public static partial class DbConnectionExtension
                     traceKey: traceKey,
                     transaction: transaction,
                     trace: trace,
-                    statementBuilder: statementBuilder);
+                    statementBuilder: statementBuilder,
+                    cancellationToken: cancellationToken);
             }
 
             if (myTransaction is { })

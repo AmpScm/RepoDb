@@ -462,10 +462,14 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         GuardHints(hints);
 
         // Check the field
+#if NET
+        ArgumentNullException.ThrowIfNull(field);
+#else
         if (field == null)
         {
             throw new ArgumentNullException(nameof(field));
         }
+#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -501,11 +505,15 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         // Validate the hints
         GuardHints(hints);
 
+#if NET
+        ArgumentNullException.ThrowIfNull(field);
+#else
         // Check the field
         if (field == null)
         {
             throw new ArgumentNullException(nameof(field));
         }
+#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -542,10 +550,14 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         GuardHints(hints);
 
         // Check the field
+#if NET
+        ArgumentNullException.ThrowIfNull(field);
+#else
         if (field == null)
         {
             throw new ArgumentNullException(nameof(field));
         }
+#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -581,11 +593,15 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         // Validate the hints
         GuardHints(hints);
 
+#if NET
+        ArgumentNullException.ThrowIfNull(field);
+#else
         // Check the field
         if (field == null)
         {
             throw new ArgumentNullException(nameof(field));
         }
+#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -705,11 +721,15 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         // Validate the hints
         GuardHints(hints);
 
+#if NET
+        ArgumentNullException.ThrowIfNull(field);
+#else
         // Check the field
         if (field == null)
         {
             throw new ArgumentNullException(nameof(field));
         }
+#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -745,11 +765,15 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         // Validate the hints
         GuardHints(hints);
 
+#if NET
+        ArgumentNullException.ThrowIfNull(field);
+#else
         // Check the field
         if (field == null)
         {
             throw new ArgumentNullException(nameof(field));
         }
+#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();

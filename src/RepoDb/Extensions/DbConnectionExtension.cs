@@ -362,11 +362,15 @@ public static partial class DbConnectionExtension
     /// <returns>An instance of the mapped <see cref="IDbSetting"/> object.</returns>
     public static IDbSetting GetDbSetting(this IDbConnection connection)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(connection);
+#else
         // Check the connection
         if (connection == null)
         {
             throw new ArgumentNullException(nameof(connection));
         }
+#endif
 
         // Get the setting
         var setting = DbSettingMapper.Get(connection);
@@ -388,11 +392,15 @@ public static partial class DbConnectionExtension
     /// <returns>An instance of the mapped <see cref="IDbHelper"/> object.</returns>
     public static IDbHelper GetDbHelper(this IDbConnection connection)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(connection);
+#else
         // Check the connection
         if (connection == null)
         {
             throw new ArgumentNullException(nameof(connection));
         }
+#endif
 
         // Get the setting
         var helper = DbHelperMapper.Get(connection);
@@ -1391,7 +1399,7 @@ public static partial class DbConnectionExtension
 
         // Get the variables needed
         var parameters = values.Select((_, index) =>
-            string.Concat(parameterName, index.ToString()).AsParameter(dbSetting));
+            string.Concat(parameterName, index.ToString(CultureInfo.InvariantCulture)).AsParameter(dbSetting));
 
         // Replace the target parameter when used as parameter. (Not as prefix of longer parameter)
         return Regex.Replace(commandText, Regex.Escape(parameterName.AsParameter(dbSetting)) + "\\b", parameters.Join(", "));

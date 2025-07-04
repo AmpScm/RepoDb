@@ -200,7 +200,7 @@ internal static class UpdateExecutionContextProvider
             InputFields = inputFields,
             ParametersSetterFunc = FunctionCache.GetDataEntityDbParameterSetterCompiledFunction(entityType,
                 string.Concat(entityType.FullName, ".", tableName, ".Update"),
-                inputFields?.AsList(),
+                inputFields,
                 null,
                 dbSetting,
                 dbHelper)

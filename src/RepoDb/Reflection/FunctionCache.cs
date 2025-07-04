@@ -150,10 +150,10 @@ internal static class FunctionCache
     /// <returns></returns>
     internal static Action<DbCommand, object?> GetDataEntityDbParameterSetterCompiledFunction(Type entityType,
         string cacheKey,
-        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField> inputFields,
         IEnumerable<DbField>? outputFields,
-        IDbSetting? dbSetting = null,
-        IDbHelper? dbHelper = null) =>
+        IDbSetting dbSetting,
+        IDbHelper dbHelper) =>
         DataEntityDbParameterSetterCache.Get(entityType,
             cacheKey,
             inputFields,
@@ -182,10 +182,10 @@ internal static class FunctionCache
         /// <returns></returns>
         internal static Action<DbCommand, object?> Get(Type entityType,
             string cacheKey,
-            IEnumerable<DbField>? inputFields,
+            IEnumerable<DbField> inputFields,
             IEnumerable<DbField>? outputFields,
-            IDbSetting? dbSetting,
-            IDbHelper? dbHelper)
+            IDbSetting dbSetting,
+            IDbHelper dbHelper)
         {
             var key = GetKey(entityType, cacheKey, inputFields, outputFields);
 
@@ -247,10 +247,10 @@ internal static class FunctionCache
     /// <returns></returns>
     internal static Action<DbCommand, IList<object?>> GetDataEntityListDbParameterSetterCompiledFunction(Type entityType,
         string cacheKey,
-        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField> inputFields,
         IEnumerable<DbField>? outputFields,
         int batchSize,
-        IDbSetting? dbSetting = null,
+        IDbSetting dbSetting,
         IDbHelper? dbHelper = null) =>
         DataEntityListDbParameterSetterCache.Get(entityType, cacheKey, inputFields, outputFields, batchSize, dbSetting, dbHelper);
 
@@ -279,7 +279,7 @@ internal static class FunctionCache
             IEnumerable<DbField> inputFields,
             IEnumerable<DbField>? outputFields,
             int batchSize,
-            IDbSetting? dbSetting,
+            IDbSetting dbSetting,
             IDbHelper? dbHelper = null)
         {
             var key = GetKey(entityType, cacheKey, inputFields, outputFields, batchSize);

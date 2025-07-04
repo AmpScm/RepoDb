@@ -13,7 +13,7 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     static readonly HashSet<Field> EmptyFields = new();
     int? _hashCode;
 
-    public FieldSet()
+    private FieldSet()
     {
         _fields = EmptyFields;
     }
@@ -22,10 +22,15 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     {
 #if NET
         ArgumentNullException.ThrowIfNull(fields);
+#else
+        if (fields is null)
+            throw new ArgumentNullException(nameof(fields));
 #endif
         // Copy inner hashset to avoid using unneeded intermediates
         _fields = new HashSet<Field>(fields is FieldSet fs ? fs._fields : fields, Field.CompareByName);
     }
+
+    public static readonly FieldSet Empty = new();
 
     public int Count => _fields.Count;
 

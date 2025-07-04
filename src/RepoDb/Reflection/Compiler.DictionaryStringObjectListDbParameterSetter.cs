@@ -16,7 +16,7 @@ partial class Compiler
     /// <param name="dbHelper"></param>
     /// <returns></returns>
     internal static Action<DbCommand, IList<object?>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
-        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField> inputFields,
         int batchSize,
         IDbSetting dbSetting,
         IDbHelper? dbHelper)

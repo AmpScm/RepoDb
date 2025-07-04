@@ -167,11 +167,8 @@ public static class DataEntityExtension
     private static PropertyInfo GetPropertyOrThrow(Type type,
         string propertyName)
     {
-        var property = TypeExtension.GetProperty(type, propertyName);
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(propertyName), $"The property '{propertyName}' is not found from type '{type.FullName}'.");
-        }
+        var property = TypeExtension.GetProperty(type, propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), $"The property '{propertyName}' is not found from type '{type.FullName}'.");
+
         return property;
     }
 
@@ -181,7 +178,7 @@ public static class DataEntityExtension
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="propertyName"></param>
     /// <returns></returns>
-    internal static ClassProperty GetClassPropertyOrThrow<TEntity>(string propertyName)
+    internal static ClassProperty GetClassPropertyOrThrow<TEntity>(string? propertyName)
         where TEntity : class =>
         GetClassPropertyOrThrow(typeof(TEntity), propertyName);
 
@@ -192,7 +189,7 @@ public static class DataEntityExtension
     /// <param name="propertyName"></param>
     /// <returns></returns>
     private static ClassProperty GetClassPropertyOrThrow(Type type,
-        string propertyName)
+        string? propertyName)
     {
         return PropertyCache
             .Get(type)?

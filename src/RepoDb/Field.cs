@@ -127,7 +127,7 @@ public class Field : IEquatable<Field>
     public static FieldSet Parse(object? obj) =>
         obj switch
         {
-            null => new FieldSet(),
+            null => FieldSet.Empty,
             _ when (TypeCache.Get(obj.GetType()).IsDictionaryStringObject() == true) => ParseDictionaryStringObject((IDictionary<string, object>)obj),
             _ => Parse(obj.GetType())
         };
@@ -280,7 +280,7 @@ public class Field : IEquatable<Field>
                 .Select(classProperty => classProperty.PropertyInfo);
             return (classProperties ?? properties).Select(property => property.AsField());
         }
-        return Enumerable.Empty<Field>();
+        return [];
     }
 
     #endregion

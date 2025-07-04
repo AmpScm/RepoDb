@@ -28,7 +28,7 @@ partial class Compiler
         ClassProperty? classProperty,
         ParameterDirection direction,
         IDbSetting dbSetting,
-        IDbHelper dbHelper)
+        IDbHelper? dbHelper)
     {
         var parameterAssignmentExpressions = new List<Expression>();
         var dbParameterExpression = Expression.Variable(StaticType.DbParameter,
