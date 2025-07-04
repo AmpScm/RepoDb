@@ -851,7 +851,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         // Check if there are updatable fields
         if (updatableFields.Any() != true)
         {
-            throw new InvalidOperationException("The list of updatable fields cannot be null or empty.");
+            throw new EmptyException("The list of updatable fields cannot be null or empty.");
         }
 
         // Initialize the builder

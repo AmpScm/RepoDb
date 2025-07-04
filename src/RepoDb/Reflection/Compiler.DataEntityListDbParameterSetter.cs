@@ -20,7 +20,7 @@ partial class Compiler
         IEnumerable<DbField>? inputFields,
         IEnumerable<DbField>? outputFields,
         int batchSize,
-        IDbSetting? dbSetting,
+        IDbSetting dbSetting,
         IDbHelper? dbHelper)
     {
         var typeOfListEntity = typeof(IList<>).MakeGenericType(StaticType.Object);

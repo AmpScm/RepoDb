@@ -76,7 +76,7 @@ internal static class FunctionFactory
         IEnumerable<DbField> inputFields,
         IEnumerable<DbField>? outputFields,
         int batchSize,
-        IDbSetting? dbSetting,
+        IDbSetting dbSetting,
         IDbHelper? dbHelper) =>
         Compiler.CompileDataEntityListDbParameterSetter(entityType, inputFields, outputFields, batchSize, dbSetting, dbHelper);
 
