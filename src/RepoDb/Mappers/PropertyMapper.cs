@@ -183,7 +183,7 @@ public static class PropertyMapper
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The mapped name of the property.</returns>
-    public static string Get<TEntity>(Expression<Func<TEntity, object?>> expression)
+    public static string? Get<TEntity>(Expression<Func<TEntity, object?>> expression)
         where TEntity : class =>
         Get<TEntity>(ExpressionExtension.GetProperty(expression));
 
@@ -193,7 +193,7 @@ public static class PropertyMapper
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="propertyName">The name of the property.</param>
     /// <returns>The mapped name of the property.</returns>
-    public static string Get<TEntity>(string propertyName)
+    public static string? Get<TEntity>(string propertyName)
         where TEntity : class =>
         Get<TEntity>(TypeExtension.GetProperty<TEntity>(propertyName));
 
@@ -203,7 +203,7 @@ public static class PropertyMapper
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     /// <returns>The mapped name of the property.</returns>
-    public static string Get<TEntity>(Field field)
+    public static string? Get<TEntity>(Field field)
         where TEntity : class =>
         Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName));
 
@@ -214,7 +214,7 @@ public static class PropertyMapper
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped name of the property.</returns>
-    internal static string Get<TEntity>(PropertyInfo propertyInfo)
+    internal static string? Get<TEntity>(PropertyInfo propertyInfo)
         where TEntity : class =>
         Get(typeof(TEntity), propertyInfo);
 
@@ -223,7 +223,7 @@ public static class PropertyMapper
     /// </summary>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped name of the property.</returns>
-    internal static string Get(PropertyInfo propertyInfo) =>
+    internal static string? Get(PropertyInfo propertyInfo) =>
         Get(propertyInfo.DeclaringType!, propertyInfo);
 
     /// <summary>
@@ -232,7 +232,7 @@ public static class PropertyMapper
     /// <param name="entityType">The target .NET CLR type.</param>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped name of the property.</returns>
-    internal static string Get(Type entityType,
+    internal static string? Get(Type entityType,
         PropertyInfo propertyInfo)
     {
         // Validate

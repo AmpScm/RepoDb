@@ -209,20 +209,17 @@ public partial class QueryField
     /// <param name="value"></param>
     /// <returns></returns>
     private static object? ToEnumValue(Type enumType,
-        object? value) =>
-        (value != null ?
+        object? value)
+    {
+        return (value != null ?
             ToEnumValue(enumType, Enum.GetName(enumType, value)) : null) ?? value;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="enumType"></param>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    private static object? ToEnumValue(Type enumType,
-        string name) =>
-        !string.IsNullOrEmpty(name) && Enum.IsDefined(enumType, name) ?
-            Enum.Parse(enumType, name) : null;
+        static object? ToEnumValue(Type enumType, string? name)
+        {
+            return !string.IsNullOrEmpty(name) && Enum.IsDefined(enumType, name) ?
+                Enum.Parse(enumType, name) : null;
+        }
+    }
 
     /*
      * Member
@@ -311,17 +308,15 @@ public partial class QueryField
         var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
 
         // Value
-        if (expression?.Object != null)
+        if (expression?.Object?.Type == StaticType.String)
         {
-            if (expression.Object?.Type == StaticType.String)
-            {
-                var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
-                return new QueryField(property.AsField(), value);
-            }
+            var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
+            return new QueryField(property.AsField(), value);
         }
-
-        // Return
-        return null;
+        else
+        {
+            throw new InvalidOperationException($"Can't parse '{expression}' to query");
+        }
     }
 
     /// <summary>

@@ -18,10 +18,16 @@ partial class Compiler
         // Get the entity property
         var property = PropertyCache.Get(entityType).GetByFieldName(field.FieldName)?.PropertyInfo;
 
+        if (property == null)
+        {
+            // If the property is not found, then return a no-op function
+            return (_, _) => { };
+        }
+
         // Return the function
         return CompileDataEntityPropertySetter(entityType,
             property,
-            property?.PropertyType ?? field.Type);
+            property.PropertyType);
     }
 
     /// <summary>
@@ -32,15 +38,9 @@ partial class Compiler
     /// <param name="targetType"></param>
     /// <returns></returns>
     private static Action<object, object?> CompileDataEntityPropertySetter(Type entityType,
-        PropertyInfo? property,
+        PropertyInfo property,
         Type targetType)
     {
-        // Check the property first
-        if (property == null)
-        {
-            return (_, _) => { };
-        }
-
         // Make sure we can write
         if (property.CanWrite == false)
         {

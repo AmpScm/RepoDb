@@ -1,7 +1,7 @@
-﻿using RepoDb.Attributes;
+﻿using System.Collections.Concurrent;
+using RepoDb.Attributes;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
-using System.Collections.Concurrent;
 
 namespace RepoDb;
 
@@ -94,7 +94,7 @@ public static class ClassMapper
     /// </summary>
     /// <typeparam name="TEntity">The target type.</typeparam>
     /// <returns>The mapped name of the class.</returns>
-    public static string Get<TEntity>()
+    public static string? Get<TEntity>()
         where TEntity : class =>
         Get(typeof(TEntity));
 
@@ -103,7 +103,7 @@ public static class ClassMapper
     /// </summary>
     /// <param name="type">The target type.</param>
     /// <returns>The mapped name of the class.</returns>
-    public static string Get(Type type)
+    public static string? Get(Type type)
     {
         var key = type.GetHashCode();
 

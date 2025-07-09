@@ -1,8 +1,8 @@
-﻿using RepoDb.Attributes;
+﻿using System.Collections.Concurrent;
+using System.Linq.Expressions;
+using RepoDb.Attributes;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
-using System.Collections.Concurrent;
-using System.Linq.Expressions;
 
 namespace RepoDb;
 
@@ -159,7 +159,7 @@ public static class IdentityMapper
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <returns>An instance of the mapped <see cref="ClassProperty"/> object.</returns>
-    public static ClassProperty Get<TEntity>()
+    public static ClassProperty? Get<TEntity>()
         where TEntity : class =>
         Get(typeof(TEntity));
 
@@ -168,7 +168,7 @@ public static class IdentityMapper
     /// </summary>
     /// <param name="type">The target type.</param>
     /// <returns>An instance of the mapped <see cref="ClassProperty"/> object.</returns>
-    public static ClassProperty Get(Type type)
+    public static ClassProperty? Get(Type type)
     {
         // Validate
         ObjectExtension.ThrowIfNull(type, "Type");
