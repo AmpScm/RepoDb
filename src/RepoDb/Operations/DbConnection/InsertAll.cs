@@ -790,6 +790,7 @@ public static partial class DbConnectionExtension
 
                         // Set the command properties
                         command.CommandText = context.CommandText;
+                        doPrepare = dbSetting.IsPreparable;
                     }
 
                     // Set the values
