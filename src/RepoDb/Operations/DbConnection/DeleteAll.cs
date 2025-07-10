@@ -394,6 +394,15 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#endif
+        entities = entities.AsList();
+        if (entities.Any() != true)
+        {
+            return default;
+        }
+
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction, GetEntityType(entities), cancellationToken).ConfigureAwait(false);
         if (key.OneOrDefault() is { } one)
         {
@@ -550,6 +559,15 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#endif
+        entities = entities.AsList();
+        if (entities.Any() != true)
+        {
+            return default;
+        }
+
         string tableName = GetMappedName(entities);
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(GetEntityType(entities), connection, transaction, cancellationToken).ConfigureAwait(false);
         if (key.OneOrDefault() is { } one)
@@ -881,6 +899,15 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(keys);
+#endif
+        keys = keys.AsList();
+        if (keys.Any() != true)
+        {
+            return default;
+        }
+
         var keyField = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction).Single();
         var dbSetting = connection.GetDbSetting();
         var count = keys.Count();
@@ -1066,6 +1093,15 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
+#if NET
+        ArgumentNullException.ThrowIfNull(keys);
+#endif
+        keys = keys.AsList();
+        if (keys.Any() != true)
+        {
+            return default;
+        }
+
         var keyField = (await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false)).Single();
         var dbSetting = connection.GetDbSetting();
         var count = keys.Count();
