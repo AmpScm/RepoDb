@@ -1203,8 +1203,8 @@ public static class CommandTextCache
         {
             return [];
         }
-        var dbFields = DbFieldCache.Get(connection, tableName, transaction);
-        return GetTargetFieldsInternal(fields, dbFields, connection.GetDbSetting());
+        var dbFields = DbFieldCache.Get(connection, tableName, transaction, enableValidation: true);
+        return fields.Where(f => dbFields.GetByFieldName(f.FieldName) is { });
     }
 
     /// <summary>
@@ -1226,26 +1226,8 @@ public static class CommandTextCache
         {
             return [];
         }
-        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
-        return GetTargetFieldsInternal(fields, dbFields, connection.GetDbSetting());
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="fields"></param>
-    /// <param name="dbFields"></param>
-    /// <param name="dbSetting"></param>
-    /// <returns></returns>
-    private static IEnumerable<Field> GetTargetFieldsInternal(IEnumerable<Field> fields,
-        DbFieldCollection dbFields,
-        IDbSetting dbSetting)
-    {
-        return dbFields?.IsEmpty() == false ?
-            fields
-                .Where(f =>
-                    dbFields.GetByFieldName(f.FieldName.AsUnquoted(true, dbSetting)) != null) :
-            fields;
+        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, enableValidation: true, cancellationToken).ConfigureAwait(false);
+        return fields.Where(f => dbFields.GetByFieldName(f.FieldName) is { });
     }
 
     /// <summary>
