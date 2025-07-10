@@ -440,8 +440,10 @@ public static partial class DbConnectionExtension
         // Variables needed
         var dbSetting = connection.GetDbSetting();
 
+        entities = entities.AsList(); // Ensure the entities are enumerated as a list for performance
+
         // Guard the parameters
-        if (entities?.Any() != true)
+        if (entities.Any() != true)
         {
             return default;
         }
@@ -682,8 +684,10 @@ public static partial class DbConnectionExtension
         // Variables needed
         var dbSetting = connection.GetDbSetting();
 
+        entities = entities.AsList(); // Ensure the entities are enumerated as a list for performance
+
         // Guard the parameters
-        if (entities?.Any() != true)
+        if (entities.Any() != true)
         {
             return default;
         }

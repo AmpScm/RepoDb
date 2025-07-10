@@ -43,8 +43,11 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null)
         where TEntity : class
     {
-        // Validate
-        if (entities?.Any() != true)
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#endif
+        entities = entities.AsList();
+        if (entities.Any() != true)
         {
             return default;
         }
@@ -595,8 +598,11 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        // Validate
-        if (entities?.Any() != true)
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#endif
+        entities = entities.AsList();
+        if (entities.Any() != true)
         {
             return default;
         }

@@ -1185,14 +1185,16 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
-        // Variables needed
-        var dbSetting = connection.GetDbSetting();
-
-        // Guard the parameters
-        if (entities?.Any() != true)
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#endif
+        entities = entities.AsList();
+        if (entities.Any() != true)
         {
             return default;
         }
+
+        var dbSetting = connection.GetDbSetting();
 
         // Validate the batch size
         int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
@@ -1360,14 +1362,16 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        // Variables needed
-        var dbSetting = connection.GetDbSetting();
-
-        // Guard the parameters
-        if (entities?.Any() != true)
+#if NET
+        ArgumentNullException.ThrowIfNull(entities);
+#endif
+        entities = entities.AsList();
+        if (entities.Any() != true)
         {
             return default;
         }
+
+        var dbSetting = connection.GetDbSetting();
 
         // Validate the batch size
         int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
