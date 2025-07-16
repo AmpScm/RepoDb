@@ -31,6 +31,7 @@ internal static class MemberInfoExtension
         {
             FieldInfo fieldInfo => fieldInfo.GetValue(obj),
             PropertyInfo propertyInfo => propertyInfo.GetValue(obj),
+            MethodInfo methodInfo when methodInfo.DeclaringType.IsSpan() && methodInfo.Name == "op_Implicit" => parameters?[0],
             MethodInfo methodInfo => methodInfo.Invoke(obj, parameters),
             _ => null
         };

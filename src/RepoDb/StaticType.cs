@@ -379,4 +379,8 @@ internal static class StaticType
     /// Gets a type of the <see cref="sbyte"/> .NET CLR type.
     /// </summary>
     public static Type SByte => typeof(sbyte);
+
+    internal static Type ReadOnlySpan => typeof(ReadOnlySpan<>);
+
+    internal static Type Span => typeof(Span<>);
 }

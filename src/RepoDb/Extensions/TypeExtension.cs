@@ -47,6 +47,12 @@ public static class TypeExtension
     public static bool IsObjectType(this Type type) =>
         type == StaticType.Object;
 
+    internal static bool IsSpan(this Type type) => type.IsValueType
+#if NET
+        && type.IsByRefLike
+#endif
+        && type.IsGenericType && type.GetGenericTypeDefinition() is { } d && (d == StaticType.ReadOnlySpan || d == StaticType.Span);
+
     /// <summary>
     /// Checks whether the current type is a class.
     /// </summary>
