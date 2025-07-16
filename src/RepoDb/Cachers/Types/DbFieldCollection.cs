@@ -33,9 +33,8 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     public DbFieldCollection(IEnumerable<DbField> dbFields)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(dbFields);
-#endif
+
         _fields = new(dbFields is DbFieldCollection fc ? fc._fields : dbFields, DbField.CompareByName);
         lazyPrimaryFields = new(GetPrimaryDbFields);
         lazyPrimary = new(GetPrimaryDbField);

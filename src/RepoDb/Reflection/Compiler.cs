@@ -846,9 +846,7 @@ internal sealed partial class Compiler
         return Expression.Coalesce(parseCall, fallbackExpression);
     }
 
-#if NET
     [DoesNotReturn]
-#endif
     private static TEnum ThrowInvalidEnumValue<TEnum>(object? value)
         where TEnum : struct, Enum
     {
@@ -1899,9 +1897,7 @@ internal sealed partial class Compiler
                 ex)));
     }
 
-#if NET
     [DoesNotReturn]
-#endif
     private static void ThrowParameterAssignmentException(string fieldName, object? value, ArgumentException ex)
     {
         if (ex is ArgumentOutOfRangeException)

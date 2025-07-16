@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 #pragma warning disable CA1018 // SpecifyAttributeUsage
@@ -8,10 +9,11 @@ namespace System.Runtime.CompilerServices
 {
 
     // Required to allow init properties in netstandard
-    internal sealed class IsExternalInit : Attribute
+    internal static class IsExternalInit
     {
     }
 
+    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Field | System.AttributeTargets.Property | System.AttributeTargets.Struct, AllowMultiple=false, Inherited=false)]
     internal sealed class RequiredMemberAttribute : Attribute
     {
         public RequiredMemberAttribute()
@@ -19,6 +21,7 @@ namespace System.Runtime.CompilerServices
         }
     }
 
+    [System.AttributeUsage(System.AttributeTargets.All, AllowMultiple=true, Inherited=false)]
     internal sealed class CompilerFeatureRequiredAttribute : Attribute
     {
         public CompilerFeatureRequiredAttribute(string featureName)
@@ -29,7 +32,15 @@ namespace System.Runtime.CompilerServices
         public string FeatureName { get; }
     }
 
-
+    [System.AttributeUsage(System.AttributeTargets.Parameter, AllowMultiple=false, Inherited=false)]
+    internal sealed class CallerArgumentExpressionAttribute : Attribute
+    {
+        public CallerArgumentExpressionAttribute(string parameterName)
+        {
+            ParameterName = parameterName ?? throw new ArgumentNullException(nameof(parameterName));
+        }
+        public string ParameterName { get; }
+    }
 }
 
 namespace System
@@ -70,6 +81,10 @@ namespace System
 
 namespace System.Diagnostics.CodeAnalysis
 {
+    [System.AttributeUsage(System.AttributeTargets.Field | System.AttributeTargets.Parameter | System.AttributeTargets.Property | System.AttributeTargets.ReturnValue, Inherited=false)]
+    internal sealed class NotNullAttribute : Attribute
+    {
+    }
     [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
     internal sealed class NotNullWhenAttribute : Attribute
     {
@@ -131,6 +146,46 @@ namespace RepoDb
 {
     internal static class NetCompatExtensions
     {
+#if !NET
+        extension(ArgumentNullException)
+        {
+            public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+            {
+                if (argument is null)
+                {
+                    throw new ArgumentNullException(paramName);
+                }
+            }
+
+            public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+            {
+                if (string.IsNullOrWhiteSpace(argument))
+                {
+                    throw new ArgumentNullException(paramName, "Argument cannot be null or whitespace.");
+                }
+            }
+
+            public static void ThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+            {
+                if (string.IsNullOrEmpty(argument))
+                {
+                    throw new ArgumentNullException(paramName, "Argument cannot be null or empty.");
+                }
+            }
+        }
+
+        extension(ArgumentOutOfRangeException)
+        {
+            public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression("value")] string? paramName = null) where T : IComparable<T>
+            {
+                if (value.CompareTo(other) < 0)
+                {
+                    throw new ArgumentOutOfRangeException(paramName, $"Value must be greater than or equal to {other}.");
+                }
+            }
+        }
+#endif
+
         /// <summary>
         ///
         /// </summary>
@@ -206,14 +261,7 @@ namespace RepoDb
             this IAsyncEnumerable<TSource> source,
             CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(source);
-#else
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-#endif
 
             return Impl(source.WithCancellation(cancellationToken));
 

@@ -55,8 +55,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -120,8 +119,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -157,8 +155,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     public override string CreateCountAll(string tableName,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -198,8 +195,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -273,8 +269,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Validate the multiple statement execution
@@ -417,8 +412,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         IEnumerable<Field>? qualifiers, string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
@@ -594,8 +588,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
@@ -810,8 +803,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -892,7 +884,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             return base.CreateUpdateAll(tableName, fields, qualifiers, batchSize, keyFields, hints);
         }
 
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);

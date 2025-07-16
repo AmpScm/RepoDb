@@ -85,7 +85,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         string? hints = null)
     {
         // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -193,8 +193,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -300,8 +299,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Validate the multiple statement execution
@@ -472,8 +470,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         IEnumerable<Field>? qualifiers, string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
@@ -585,8 +582,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -756,8 +752,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         int top = 0,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -813,8 +808,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);

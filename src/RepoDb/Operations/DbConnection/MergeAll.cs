@@ -1310,9 +1310,8 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
-#if NET
         ArgumentNullException.ThrowIfNull(entities);
-#endif
+
         entities = entities.AsList();
         if (entities.Any() != true)
         {
@@ -1538,9 +1537,8 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-#if NET
         ArgumentNullException.ThrowIfNull(entities);
-#endif
+
         entities = entities.AsList();
         if (entities.Any() != true)
         {

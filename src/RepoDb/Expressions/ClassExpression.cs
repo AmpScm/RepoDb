@@ -100,15 +100,7 @@ public static partial class ClassExpression
         /// <param name="property"></param>
         private static void Guard(ClassProperty property)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(property);
-#else
-            // Check the presence
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-#endif
 
             // Check the type (polymorphism)
             if (!property.DeclaringType.IsAssignableFrom(typeof(TEntity)))

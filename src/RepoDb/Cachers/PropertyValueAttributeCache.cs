@@ -71,8 +71,8 @@ public static class PropertyValueAttributeCache
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(entityType, nameof(entityType));
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(entityType, nameof(entityType));
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
@@ -101,7 +101,7 @@ public static class PropertyValueAttributeCache
     public static IEnumerable<PropertyValueAttribute> Get(Type type)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type, "Type");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);

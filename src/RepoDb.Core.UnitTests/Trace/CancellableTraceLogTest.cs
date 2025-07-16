@@ -123,10 +123,7 @@ public class CancellableTraceLogTest
 
         private void ValidateResultTraceLog<TResult>(ResultTraceLog<TResult> log)
         {
-            if (log == null)
-            {
-                throw new ArgumentNullException(nameof(log));
-            }
+            ArgumentNullException.ThrowIfNull(log);
             if (string.IsNullOrEmpty(log.Key))
             {
                 throw new InvalidOperationException(nameof(log.Key));
@@ -147,10 +144,7 @@ public class CancellableTraceLogTest
 
         private void ValidateCancellableTraceLog(CancellableTraceLog log)
         {
-            if (log == null)
-            {
-                throw new ArgumentNullException(nameof(log));
-            }
+            ArgumentNullException.ThrowIfNull(log);
             if (log.SessionId == 0)
             {
                 throw new InvalidOperationException(nameof(log.SessionId));

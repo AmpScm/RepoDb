@@ -14,10 +14,8 @@ public class MySqlDbTypeNameToClientTypeResolver : IResolver<string, Type>
     /// <returns>The equivalent .NET CLR type.</returns>
     public virtual Type Resolve(string dbTypeName)
     {
-        if (dbTypeName == null)
-        {
-            throw new ArgumentNullException("The DB Type name must not be null.");
-        }
+        ArgumentNullException.ThrowIfNull(dbTypeName);
+
         /*
         Id (System.Int64)
         ColumnVarchar (System.String)

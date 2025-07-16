@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using RepoDb.Attributes;
 using RepoDb.Exceptions;
-using RepoDb.Extensions;
 
 namespace RepoDb;
 
@@ -61,8 +60,7 @@ public static class ClassMapper
         string name,
         bool force)
     {
-        // Validate
-        StringExtension.ThrowIfNullOrWhiteSpace(name, "name");
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
 
         // Variables
         var key = type.GetHashCode();

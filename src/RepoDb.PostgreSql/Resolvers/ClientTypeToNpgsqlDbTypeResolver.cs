@@ -15,10 +15,7 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
     /// <returns>The equivalent <see cref="NpgsqlDbType"/>.</returns>
     public virtual NpgsqlDbType? Resolve(Type type)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException("The type must not be null.");
-        }
+        ArgumentNullException.ThrowIfNull(type);
 
         if (type == typeof(NpgsqlBox))
         {

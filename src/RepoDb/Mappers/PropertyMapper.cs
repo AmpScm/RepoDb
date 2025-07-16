@@ -72,7 +72,7 @@ public static class PropertyMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(propertyName, nameof(propertyName));
+        ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 
         // Get the property
         var property = TypeExtension.GetProperty<TEntity>(propertyName);
@@ -109,7 +109,7 @@ public static class PropertyMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(field, nameof(field));
+        ArgumentNullException.ThrowIfNull(field, nameof(field));
 
         // Get the property
         var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
@@ -146,8 +146,8 @@ public static class PropertyMapper
         where TEntity : class
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
-        ValidateTargetColumnName(columnName);
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(columnName);
 
         // Variables
         var key = GenerateHashCode(typeof(TEntity), propertyInfo);
@@ -236,7 +236,7 @@ public static class PropertyMapper
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);
@@ -288,7 +288,7 @@ public static class PropertyMapper
         where TEntity : class
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
         // Variables
         var key = GenerateHashCode(typeof(TEntity), propertyInfo);
@@ -320,18 +320,6 @@ public static class PropertyMapper
     private static int GenerateHashCode(Type entityType,
         PropertyInfo propertyInfo) =>
         TypeExtension.GenerateHashCode(entityType, propertyInfo);
-
-    /// <summary>
-    /// Validates the value of the target column name.
-    /// </summary>
-    /// <param name="columnName">The column name to be validated.</param>
-    private static void ValidateTargetColumnName(string columnName)
-    {
-        if (string.IsNullOrWhiteSpace(columnName))
-        {
-            throw new ArgumentNullException(nameof(columnName));
-        }
-    }
 
     #endregion
 }

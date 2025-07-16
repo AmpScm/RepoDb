@@ -79,7 +79,7 @@ public static class PropertyMappedNameCache
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);

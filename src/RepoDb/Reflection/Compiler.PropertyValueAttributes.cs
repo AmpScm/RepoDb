@@ -78,14 +78,7 @@ partial class Compiler
         Expression parameterExpression,
         PropertyValueAttribute attribute)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(attribute);
-#else
-        if (attribute == null)
-        {
-            throw new ArgumentNullException(nameof(attribute));
-        }
-#endif
 
         // The problem to this is because of the possibilities of multiple attributes configured for
         // DB multiple providers within a single entity and if the parameterExpression is not really

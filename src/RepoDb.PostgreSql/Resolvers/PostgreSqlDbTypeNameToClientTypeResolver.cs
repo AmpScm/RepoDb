@@ -14,10 +14,7 @@ public class PostgreSqlDbTypeNameToClientTypeResolver : IResolver<string, Type>
     /// <returns>The equivalent .NET CLR type.</returns>
     public virtual Type Resolve(string dbTypeName)
     {
-        if (dbTypeName == null)
-        {
-            throw new ArgumentNullException("The DB Type name must not be null.");
-        }
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
 
         /*
         "bigint" => typeof(Int64),

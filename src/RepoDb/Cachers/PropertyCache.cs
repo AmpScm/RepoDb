@@ -47,7 +47,7 @@ public static class PropertyCache
         string propertyName,
         bool includeMappings = false)
     {
-        ObjectExtension.ThrowIfNull(propertyName, nameof(propertyName));
+        ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 
         // Return the value
         return Get(entityType)?
@@ -80,7 +80,7 @@ public static class PropertyCache
         bool includeMappings = false)
     {
         // Validate the presence
-        ObjectExtension.ThrowIfNull(field, nameof(field));
+        ArgumentNullException.ThrowIfNull(field, nameof(field));
 
         // Return the value
         return Get(entityType, field.FieldName, includeMappings);
@@ -98,7 +98,7 @@ public static class PropertyCache
         bool includeMappings = false)
     {
         // Validate the presence
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
         // Return the value
         return Get(entityType, propertyInfo.Name, includeMappings);

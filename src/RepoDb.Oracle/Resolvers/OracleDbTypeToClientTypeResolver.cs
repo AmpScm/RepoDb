@@ -21,8 +21,7 @@ public sealed partial class OracleDbTypeToClientTypeResolver : IResolver<string,
     /// <inheritdoc/>
     public Type Resolve(string dbTypeName)
     {
-        if (dbTypeName == null)
-            throw new ArgumentNullException(nameof(dbTypeName), "The DB Type name must not be null.");
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
 
         return dbTypeName.ToLowerInvariant() switch
         {

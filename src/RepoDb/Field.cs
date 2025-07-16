@@ -31,11 +31,7 @@ public class Field : IEquatable<Field>
     public Field(string name,
         Type? type)
     {
-        // Name is required
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ArgumentNullException(name);
-        }
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
 
         // Set the name
         FieldName = name;
@@ -83,14 +79,7 @@ public class Field : IEquatable<Field>
     /// <returns>An enumerable of <see cref="Field"/> object.</returns>
     public static FieldSet From(string name)
     {
-#if NET
         ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
-#else
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ArgumentNullException(nameof(name), "The field name must not be null or empty.");
-        }
-#endif
 
         return new([new Field(name)]);
     }
@@ -102,14 +91,7 @@ public class Field : IEquatable<Field>
     /// <returns>An enumerable of <see cref="Field"/> object.</returns>
     public static FieldSet From(params string[] fields)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(fields);
-#else
-        if (fields == null)
-        {
-            throw new ArgumentNullException(nameof(fields), "The list of fields must not be null.");
-        }
-#endif
 
         if (fields.Any(field => string.IsNullOrWhiteSpace(field)))
         {
@@ -152,9 +134,7 @@ public class Field : IEquatable<Field>
     /// <returns>An enumerable of <see cref="Field"/> objects.</returns>
     public static FieldSet Parse(Type type)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(type);
-#endif
 
         return new FieldSet(TypeCache.Get(type).GetProperties().Select(PropertyInfoExtension.AsField));
     }
@@ -166,9 +146,7 @@ public class Field : IEquatable<Field>
     /// <returns></returns>
     private static FieldSet ParseDictionaryStringObject(IDictionary<string, object> obj)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(obj);
-#endif
 
         return new(obj.Select(kvp => new Field(kvp.Key, (kvp.Value?.GetType() ?? StaticType.Object))));
     }

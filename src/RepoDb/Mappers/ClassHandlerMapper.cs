@@ -56,20 +56,8 @@ public static class ClassHandlerMapper
         object classHandler,
         bool force = false)
     {
-        // Guard
-#if NET
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(classHandler);
-#else
-        if (type is null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-        if (classHandler is null)
-        {
-            throw new ArgumentNullException(nameof(classHandler));
-        }
-#endif
 
         if (classHandler.GetType()?.IsInterfacedTo(StaticType.IClassHandler) != true)
         {
@@ -119,7 +107,7 @@ public static class ClassHandlerMapper
     public static TClassHandler? Get<TClassHandler>(Type type)
     {
         // Check the presence
-        ObjectExtension.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type, nameof(type));
 
         // get the value
         maps.TryGetValue(GenerateHashCode(type), out var value);
@@ -153,7 +141,7 @@ public static class ClassHandlerMapper
     public static void Remove(Type type)
     {
         // Check the presence
-        ObjectExtension.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type, nameof(type));
 
         // Variables for cache
         var key = GenerateHashCode(type);

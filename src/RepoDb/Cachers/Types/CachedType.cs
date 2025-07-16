@@ -23,12 +23,7 @@ public class CachedType
     /// <param name="type">The target type.</param>
     public CachedType(Type type)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(type);
-#else
-        if (type is null)
-            throw new ArgumentNullException(nameof(type));
-#endif
 
         lazyGetUnderlyingType = new(() => type.GetUnderlyingType());
         lazyGetProperties = new(type.GetProperties);

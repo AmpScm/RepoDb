@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Reflection;
-using RepoDb.Extensions;
 
 namespace RepoDb.Attributes.Parameter;
 
@@ -99,7 +98,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="parameter"></param>
     internal void SetValue(IDbDataParameter parameter)
     {
-        ObjectExtension.ThrowIfNull(parameter, "Parameter");
+        ArgumentNullException.ThrowIfNull(parameter);
 
         if (ParameterType.IsAssignableFrom(parameter.GetType()))
         {
@@ -126,9 +125,9 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     private void Validate(Type parameterType,
         string propertyName)
     {
-        ObjectExtension.ThrowIfNull(parameterType, "ParameterType");
+        ArgumentNullException.ThrowIfNull(parameterType, "ParameterType");
         ValidateParameterType(parameterType);
-        ObjectExtension.ThrowIfNull(propertyName, "PropertyName");
+        ArgumentNullException.ThrowIfNull(propertyName, "PropertyName");
         EnsurePropertyInfo(parameterType, propertyName);
     }
 

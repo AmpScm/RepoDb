@@ -14,10 +14,8 @@ public class SqLiteDbTypeNameToClientTypeResolver : IResolver<string, Type>
     /// <returns>The equivalent .NET CLR type.</returns>
     public Type Resolve(string dbTypeName)
     {
-        if (dbTypeName == null)
-        {
-            throw new ArgumentNullException("The DB Type name must not be null.");
-        }
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
+
         return dbTypeName.ToLowerInvariant() switch
         {
             "bigint" or "integer" => typeof(long),

@@ -41,7 +41,7 @@ public static class TypeMapCache
     public static DbType? Get(Type type)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type, nameof(type));
 
         // Variables
         var key = GenerateHashCode(type);
@@ -104,7 +104,7 @@ public static class TypeMapCache
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);

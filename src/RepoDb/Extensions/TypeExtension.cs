@@ -18,9 +18,7 @@ public static class TypeExtension
     /// </summary>
     /// <param name="type">The target type.</param>
     /// <returns>The instance of the <see cref="DbType"/> object.</returns>
-#if NET
     [return: NotNullIfNotNull(nameof(type))]
-#endif
     public static IEnumerable<PropertyValueAttribute>? GetPropertyValueAttributes(this Type type) =>
         type != null ? PropertyValueAttributeMapper.Get(TypeCache.Get(type).GetUnderlyingType()) : null;
 
@@ -149,9 +147,7 @@ public static class TypeExtension
     /// </summary>
     /// <param name="type">The current type to check.</param>
     /// <returns>The underlying type or the current type.</returns>
-#if NET
     [return: NotNullIfNotNull(nameof(type))]
-#endif
     public static Type? GetUnderlyingType(this Type? type) =>
         type != null ? (Nullable.GetUnderlyingType(type) ?? type) : null;
 

@@ -101,17 +101,8 @@ public static class EnumerableExtension
         this IEnumerable<T> source,
         int maxChunkSize = 2000)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(source);
         ArgumentOutOfRangeException.ThrowIfLessThan(maxChunkSize, 1);
-#else
-        if (source is null)
-            throw new ArgumentNullException(nameof(source));
-        else if (maxChunkSize < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(maxChunkSize));
-        }
-#endif
 
         var array = source as T[] ?? source.ToArray();
 
@@ -245,14 +236,7 @@ public static class EnumerableExtension
     /// <exception cref="ArgumentNullException"></exception>
     public static Type GetElementType(this IEnumerable enumerable, bool checkObject = true)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(enumerable);
-#else
-        if (enumerable is null)
-        {
-            throw new ArgumentNullException(nameof(enumerable));
-        }
-#endif
         var elementType = enumerable.GetEnumerableElementType();
 
         if (elementType is null || (checkObject && elementType == StaticType.Object))
@@ -285,14 +269,7 @@ public static class EnumerableExtension
 
     internal static Type? GetEnumerableElementType(this IEnumerable enumerable)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(enumerable);
-#else
-        if (enumerable is null)
-        {
-            throw new ArgumentNullException(nameof(enumerable));
-        }
-#endif
 
         var enumerableType = enumerable.GetType();
         if (enumerableType.IsArray)

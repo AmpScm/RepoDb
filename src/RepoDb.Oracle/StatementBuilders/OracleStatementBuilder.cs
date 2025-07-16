@@ -44,10 +44,8 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
                                    IEnumerable<DbField> keyFields,
                                    IEnumerable<Field>? qualifiers, string? hints = null)
     {
-        if (tableName == null)
-            throw new ArgumentNullException(nameof(tableName));
-        if (fields == null)
-            throw new ArgumentNullException(nameof(fields));
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(fields);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
@@ -176,8 +174,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
 
     public override string CreateInsertAll(string tableName, IEnumerable<Field>? fields, int batchSize, IEnumerable<DbField> keyFields, string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
@@ -221,8 +218,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         int top = 0,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -257,8 +253,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
 
     public override string CreateExists(string tableName, QueryGroup? where = null, string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);

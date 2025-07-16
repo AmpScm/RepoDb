@@ -21,15 +21,7 @@ public partial class QueryGroup
     public static QueryGroup? Parse<T>(T obj,
         bool throwException = true)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(obj);
-#else
-        // Check for value
-        if (obj is null)
-        {
-            throw new ArgumentNullException(nameof(obj));
-        }
-#endif
 
         // Type of the object
         var type = TypeCache.Get(obj.GetType()).GetUnderlyingType();

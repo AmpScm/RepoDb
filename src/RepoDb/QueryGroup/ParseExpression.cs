@@ -46,14 +46,7 @@ public partial class QueryGroup
     public static QueryGroup Parse<TEntity>(Expression<Func<TEntity, bool>> expression, IDbConnection? connection = null, IDbTransaction? transaction = null, string? tableName = null)
         where TEntity : class
     {
-#if NET
         ArgumentNullException.ThrowIfNull(expression);
-#else
-        if (expression == null)
-        {
-            throw new ArgumentNullException(nameof(expression));
-        }
-#endif
 
         // Parse the expression base on type
         var parsed = Parse<TEntity>(expression.Body) ?? throw new NotSupportedException($"Expression '{expression}' is currently not supported.");

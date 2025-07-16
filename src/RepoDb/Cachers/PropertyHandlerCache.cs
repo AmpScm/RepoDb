@@ -43,7 +43,7 @@ public static class PropertyHandlerCache
     public static TPropertyHandler? Get<TPropertyHandler>(Type type)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type, nameof(type));
 
         // Variables
         var key = GenerateHashCode(type);
@@ -113,7 +113,7 @@ public static class PropertyHandlerCache
     internal static TPropertyHandler? Get<TPropertyHandler>(Type entityType, PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);

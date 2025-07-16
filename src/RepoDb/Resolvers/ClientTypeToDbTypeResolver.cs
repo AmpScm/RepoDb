@@ -20,14 +20,8 @@ public class ClientTypeToDbTypeResolver : IResolver<Type, DbType?>
     /// <returns>The equivalent <see cref="DbType"/> Type.</returns>
     public DbType? Resolve(Type type)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(type);
-#else
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-#endif
+
         if (type.IsEnum)
         {
             return null; // TODO: Maybe use GlobalSettings to return string/int ?

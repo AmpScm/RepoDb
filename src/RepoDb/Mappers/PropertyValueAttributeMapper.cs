@@ -122,7 +122,7 @@ public static class PropertyValueAttributeMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(propertyName, "PropertyName");
+        ArgumentNullException.ThrowIfNull(propertyName, "PropertyName");
 
         // Add to the mapping
         Add(DataEntityExtension.GetPropertyOrThrow<TEntity>(propertyName), attributes, force);
@@ -176,7 +176,7 @@ public static class PropertyValueAttributeMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(field, "Field");
+        ArgumentNullException.ThrowIfNull(field, "Field");
 
         // Add to the mapping
         Add(DataEntityExtension.GetPropertyOrThrow<TEntity>(field.FieldName), attributes, force);
@@ -270,8 +270,8 @@ public static class PropertyValueAttributeMapper
         bool force)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, "PropertyInfo");
-        ObjectExtension.ThrowIfNull(attributes, "Attributes");
+        ArgumentNullException.ThrowIfNull(propertyInfo, "PropertyInfo");
+        ArgumentNullException.ThrowIfNull(attributes, "Attributes");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
@@ -346,7 +346,7 @@ public static class PropertyValueAttributeMapper
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, "PropertyInfo");
+        ArgumentNullException.ThrowIfNull(propertyInfo, "PropertyInfo");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
@@ -405,7 +405,7 @@ public static class PropertyValueAttributeMapper
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, "PropertyInfo");
+        ArgumentNullException.ThrowIfNull(propertyInfo, "PropertyInfo");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
@@ -465,7 +465,7 @@ public static class PropertyValueAttributeMapper
         bool force)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(attributes, "Attributes");
+        ArgumentNullException.ThrowIfNull(attributes, "Attributes");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
@@ -508,7 +508,7 @@ public static class PropertyValueAttributeMapper
     public static IEnumerable<PropertyValueAttribute> Get(Type type)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type, "Type");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);

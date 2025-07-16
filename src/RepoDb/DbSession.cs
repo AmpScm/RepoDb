@@ -9,24 +9,16 @@ public readonly struct DbSession : IAsyncDisposable, IDisposable
 
     public DbSession(DbConnection connection, bool ownsConnection = false)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(connection);
-#else
-        if (connection is null)
-            throw new ArgumentNullException(nameof(connection));
-#endif
+
         _value = connection;
         _owns = ownsConnection;
     }
 
     public DbSession(DbTransaction transaction, bool ownsTransaction = false)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(transaction);
-#else
-        if (transaction is null)
-            throw new ArgumentNullException(nameof(transaction));
-#endif
+
         _value = transaction;
         _owns = ownsTransaction;
     }

@@ -84,14 +84,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         IDbTransaction? transaction,
         bool hasOrderingColumn)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(entities);
-#else
-        if (entities == null)
-        {
-            throw new ArgumentNullException(nameof(entities));
-        }
-#endif
 
         // Fields
         this.tableName = tableName ?? ClassMappedNameCache.Get<TEntity>();
@@ -603,14 +596,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <returns></returns>
     public override int GetValues(object?[] values)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(values);
-#else
-        if (values == null)
-        {
-            throw new ArgumentNullException(nameof(values));
-        }
-#endif
         ThrowExceptionIfNotAvailable();
 
         if (values.Length != FieldCount)

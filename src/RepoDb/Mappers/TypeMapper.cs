@@ -62,7 +62,7 @@ public static class TypeMapper
         bool force)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type, "Type");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
@@ -105,7 +105,7 @@ public static class TypeMapper
     public static DbType? Get(Type type)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type, "Type");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
@@ -196,7 +196,7 @@ public static class TypeMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(propertyName, "PropertyName");
+        ArgumentNullException.ThrowIfNull(propertyName, "PropertyName");
 
         // Add to the mapping
         Add<TEntity>(DataEntityExtension.GetPropertyOrThrow<TEntity>(propertyName), dbType, force);
@@ -226,7 +226,7 @@ public static class TypeMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(field, "Field");
+        ArgumentNullException.ThrowIfNull(field, "Field");
 
         // Add to the mapping
         Add<TEntity>(DataEntityExtension.GetPropertyOrThrow<TEntity>(field.FieldName), dbType, force);
@@ -269,8 +269,8 @@ public static class TypeMapper
         bool force)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, "PropertyInfo");
-        ObjectExtension.ThrowIfNull(dbType, "DbType");
+        ArgumentNullException.ThrowIfNull(propertyInfo, "PropertyInfo");
+        ArgumentNullException.ThrowIfNull(dbType, "DbType");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
@@ -337,7 +337,7 @@ public static class TypeMapper
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, "PropertyInfo");
+        ArgumentNullException.ThrowIfNull(propertyInfo, "PropertyInfo");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
@@ -393,7 +393,7 @@ public static class TypeMapper
         PropertyInfo propertyInfo)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(propertyInfo, "PropertyInfo");
+        ArgumentNullException.ThrowIfNull(propertyInfo, "PropertyInfo");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);

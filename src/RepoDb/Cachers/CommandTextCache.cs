@@ -1103,7 +1103,7 @@ public static class CommandTextCache
             else
             {
                 // Throw exception, qualifiers are not defined
-                throw new ArgumentNullException($"There are no qualifier field objects found for '{request.Name}'.");
+                throw new ArgumentException($"There are no qualifier field objects found for '{request.Name}'.");
             }
         }
 

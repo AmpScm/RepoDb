@@ -183,8 +183,8 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null)
     {
-        if (reader is null)
-            throw new ArgumentNullException(nameof(reader));
+        ArgumentNullException.ThrowIfNull(reader);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         return BulkMergeInternal(connection: connection,
             tableName: tableName,
@@ -280,8 +280,8 @@ public static partial class SqlConnectionExtension
         bool usePhysicalPseudoTempTable = false,
         SqlTransaction? transaction = null)
     {
-        if (dataTable is null)
-            throw new ArgumentNullException(nameof(dataTable));
+        ArgumentNullException.ThrowIfNull(dataTable);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         return BulkMergeInternal(connection: connection,
             tableName: tableName,

@@ -22,7 +22,8 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
         IResolver<Type, Type?>? averageableClientTypeResolver = null)
     {
-        DbSetting = dbSetting ?? throw new ArgumentNullException(nameof(dbSetting));
+        ArgumentNullException.ThrowIfNull(dbSetting);
+        DbSetting = dbSetting;
         ConvertFieldResolver = convertFieldResolver;
         AverageableClientTypeResolver = averageableClientTypeResolver;
     }
@@ -57,21 +58,14 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
         GuardHints(hints);
 
         // Check the field
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-        else
-        {
-            field = new Field(field.FieldName, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
-        }
+        field = new Field(field.FieldName, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -101,21 +95,14 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
         GuardHints(hints);
 
         // Check the field
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-        else
-        {
-            field = new(field.FieldName, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
-        }
+        field = new(field.FieldName, AverageableClientTypeResolver?.Resolve(field.Type ?? DbSetting.AverageableType));
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -144,8 +131,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -177,8 +163,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string tableName,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -210,8 +195,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -241,8 +225,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string tableName,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -272,8 +255,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -307,8 +289,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -366,8 +347,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Validate the multiple statement execution
@@ -455,21 +435,13 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
 
         // Check the field
-#if NET
         ArgumentNullException.ThrowIfNull(field);
-#else
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -499,21 +471,11 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
         GuardHints(hints);
-
-#if NET
-        ArgumentNullException.ThrowIfNull(field);
-#else
-        // Check the field
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -543,21 +505,11 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
         GuardHints(hints);
-
-        // Check the field
-#if NET
-        ArgumentNullException.ThrowIfNull(field);
-#else
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -587,21 +539,11 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
         GuardHints(hints);
-
-#if NET
-        ArgumentNullException.ThrowIfNull(field);
-#else
-        // Check the field
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -633,8 +575,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         int top = 0,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -675,8 +616,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null)
     {
-        // Guard the target table
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -715,21 +655,11 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
         GuardHints(hints);
-
-#if NET
-        ArgumentNullException.ThrowIfNull(field);
-#else
-        // Check the field
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -759,21 +689,11 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
         GuardHints(hints);
-
-#if NET
-        ArgumentNullException.ThrowIfNull(field);
-#else
-        // Check the field
-        if (field == null)
-        {
-            throw new ArgumentNullException(nameof(field));
-        }
-#endif
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -803,8 +723,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// <returns>A sql statement for truncate operation.</returns>
     public virtual string CreateTruncate(string tableName)
     {
-        // Guard the target table
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -832,13 +751,9 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
-        // Gets the updatable fields
-        GuardTableName(tableName);
-        GuardHints(hints);
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
         GuardPrimary(primaryField);
@@ -895,7 +810,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string? hints = null)
     {
         // Ensure with guards
-        GuardTableName(tableName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Validate the multiple statement execution
@@ -1038,19 +953,6 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     #endregion
 
     #region Helpers
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="tableName"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    protected static void GuardTableName(string tableName)
-    {
-        if (string.IsNullOrWhiteSpace(tableName))
-        {
-            throw new ArgumentNullException(nameof(tableName));
-        }
-    }
 
     /// <summary>
     ///

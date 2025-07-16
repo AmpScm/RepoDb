@@ -12,9 +12,7 @@ public static class ClassPropertyExtension
     /// </summary>
     /// <param name="properties">The current instance of <see cref="ClassProperty"/>.</param>
     /// <returns>A list of <see cref="string"/> objects.</returns>
-#if NET
     [return: NotNullIfNotNull(nameof(properties))]
-#endif
     public static FieldSet? AsFields(this IEnumerable<ClassProperty>? properties)
         => properties is { } pp ? new FieldSet(pp.Select(p => p.AsField())) : null;
 

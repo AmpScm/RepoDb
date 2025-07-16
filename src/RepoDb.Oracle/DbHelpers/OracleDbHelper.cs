@@ -15,7 +15,8 @@ public sealed class OracleDbHelper : BaseDbHelper
     public OracleDbHelper(IDbSetting dbSetting)
         : base(new OracleDbTypeToClientTypeResolver())
     {
-        DbSetting = dbSetting ?? throw new ArgumentNullException(nameof(dbSetting));
+        ArgumentNullException.ThrowIfNull(dbSetting);
+        DbSetting = dbSetting;
     }
 
     public IDbSetting DbSetting { get; }

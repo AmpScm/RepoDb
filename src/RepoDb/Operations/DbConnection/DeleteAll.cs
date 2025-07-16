@@ -394,9 +394,8 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-#if NET
         ArgumentNullException.ThrowIfNull(entities);
-#endif
+
         entities = entities.AsList();
         if (entities.Any() != true)
         {
@@ -559,9 +558,8 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-#if NET
         ArgumentNullException.ThrowIfNull(entities);
-#endif
+
         entities = entities.AsList();
         if (entities.Any() != true)
         {
@@ -899,9 +897,8 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(keys);
-#endif
+
         keys = keys.AsList();
         if (keys.Any() != true)
         {
@@ -1093,9 +1090,8 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(keys);
-#endif
+
         keys = keys.AsList();
         if (keys.Any() != true)
         {

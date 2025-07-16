@@ -24,6 +24,7 @@
     <!--TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
     <EnableMSTestRunner>true</EnableMSTestRunner-->
     <TestTargetFrameworks>net9.0;net8.0;net48</TestTargetFrameworks>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Reduce tests while running inside VS -->

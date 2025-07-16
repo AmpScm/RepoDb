@@ -8,12 +8,7 @@ public abstract class BaseDbHelper : IDbHelper
 {
     protected BaseDbHelper(IResolver<string, Type> dbResolver)
     {
-#if NET
         ArgumentNullException.ThrowIfNull(dbResolver);
-#else
-        if (dbResolver is null)
-            throw new ArgumentNullException(nameof(dbResolver));
-#endif
 
         DbTypeResolver = dbResolver;
     }

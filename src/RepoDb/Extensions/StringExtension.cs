@@ -492,16 +492,4 @@ public static partial class StringExtension
     /// <returns></returns>
     internal static IEnumerable<string> AsFieldsAndAliasFields(this IEnumerable<string> values, string leftAlias, string rightAlias, IDbSetting dbSetting) =>
         values.Select(value => value.AsFieldAndAliasField(leftAlias, rightAlias, dbSetting));
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="argument"></param>
-    internal static void ThrowIfNullOrWhiteSpace(string value,
-        string argument)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentNullException(argument);
-    }
 }

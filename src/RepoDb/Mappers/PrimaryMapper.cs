@@ -43,7 +43,7 @@ public static class PrimaryMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(expression, "Expression");
+        ArgumentNullException.ThrowIfNull(expression, "Expression");
 
         // Get the property
         var property = ExpressionExtension.GetProperty(expression);
@@ -72,7 +72,7 @@ public static class PrimaryMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(propertyName, "PropertyName");
+        ArgumentNullException.ThrowIfNull(propertyName, "PropertyName");
 
         // Add to the mapping
         Add<TEntity>(DataEntityExtension.GetClassPropertyOrThrow<TEntity>(propertyName), force);
@@ -98,7 +98,7 @@ public static class PrimaryMapper
         where TEntity : class
     {
         // Validates
-        ObjectExtension.ThrowIfNull(field, "Field");
+        ArgumentNullException.ThrowIfNull(field, "Field");
 
         // Add to the mapping
         Add<TEntity>(DataEntityExtension.GetClassPropertyOrThrow<TEntity>(field.FieldName), force);
@@ -126,8 +126,8 @@ public static class PrimaryMapper
         bool force)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, "Type");
-        ObjectExtension.ThrowIfNull(classProperty, "ClassProperty");
+        ArgumentNullException.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(classProperty, "ClassProperty");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
@@ -171,7 +171,7 @@ public static class PrimaryMapper
     public static ClassProperty? Get(Type type)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type, "Type");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
@@ -202,7 +202,7 @@ public static class PrimaryMapper
     public static void Remove(Type type)
     {
         // Validate
-        ObjectExtension.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type, "Type");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
