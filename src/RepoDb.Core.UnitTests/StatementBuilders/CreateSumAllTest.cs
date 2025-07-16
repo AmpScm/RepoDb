@@ -108,7 +108,7 @@ public class BaseStatementBuilderCreateSumAllTest
             hints: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateSumAllIfTheTableIsEmpty()
     {
         // Setup
@@ -117,12 +117,13 @@ public class BaseStatementBuilderCreateSumAllTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateSumAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateSumAll(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateSumAllIfTheTableIsWhitespace()
     {
         // Setup
@@ -131,12 +132,13 @@ public class BaseStatementBuilderCreateSumAllTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateSumAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateSumAll(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateSumAllIfTheFieldIsNull()
     {
         // Setup
@@ -144,9 +146,10 @@ public class BaseStatementBuilderCreateSumAllTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateSumAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateSumAll(tableName: tableName,
             field: null,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]

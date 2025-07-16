@@ -305,7 +305,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
             identityField: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfTheTableIsEmpty()
     {
         // Setup
@@ -315,15 +315,16 @@ public class BaseStatementBuilderCreateUpdateAllTest
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateUpdateAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfTheTableIsWhitespace()
     {
         // Setup
@@ -333,12 +334,13 @@ public class BaseStatementBuilderCreateUpdateAllTest
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateUpdateAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod, ExpectedException(typeof(InvalidOperationException))]

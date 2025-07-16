@@ -106,18 +106,20 @@ public partial class ClassMapperTest
      * Empty/Null
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnClassMapperThatIsEmpty()
     {
         // Setup
-        ClassMapper.Add<ClassMapperTestWithMapAttributeClass>("");
+        Assert.Throws<ArgumentException>(
+            () => ClassMapper.Add<ClassMapperTestWithMapAttributeClass>(""));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnClassMapperThatIsEmptySpaces()
     {
         // Setup
-        ClassMapper.Add<ClassMapperTestWithMapAttributeClass>("  ");
+        Assert.Throws<ArgumentException>(
+            () => ClassMapper.Add<ClassMapperTestWithMapAttributeClass>("  "));
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]

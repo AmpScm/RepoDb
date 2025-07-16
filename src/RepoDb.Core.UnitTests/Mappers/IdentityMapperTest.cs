@@ -365,11 +365,12 @@ public partial class IdentityMapperTest
         IdentityMapper.Add<IdentityMapperTestClass>(propertyName: "");
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaFieldThatIsEmpty()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(field: new Field(""));
+        Assert.Throws<ArgumentException>(
+            () => IdentityMapper.Add<IdentityMapperTestClass>(field: new Field("")));
     }
 
     /*
@@ -383,11 +384,12 @@ public partial class IdentityMapperTest
         IdentityMapper.Add<IdentityMapperTestClass>(propertyName: "  ");
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaFieldThatIsEmptySpaces()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(field: new Field("  "));
+        Assert.Throws<ArgumentException>(
+            () => IdentityMapper.Add<IdentityMapperTestClass>(field: new Field("  ")));
     }
 
     /*

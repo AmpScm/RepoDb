@@ -140,7 +140,7 @@ public class BaseStatementBuilderCreateCountTest
             hints: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateCountIfTheTableIsEmpty()
     {
         // Setup
@@ -148,11 +148,12 @@ public class BaseStatementBuilderCreateCountTest
         var tableName = "";
 
         // Act
-        statementBuilder.CreateCount(tableName: tableName,
-            hints: null);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateCount(tableName: tableName,
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateCountIfTheTableIsWhitespace()
     {
         // Setup
@@ -160,8 +161,9 @@ public class BaseStatementBuilderCreateCountTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateCount(tableName: tableName,
-            hints: null);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateCount(tableName: tableName,
+            hints: null));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]

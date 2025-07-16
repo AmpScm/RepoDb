@@ -74,7 +74,7 @@ public class BaseStatementBuilderCreateTruncateTest
         statementBuilder.CreateTruncate(tableName: tableName);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateTruncateIfTheTableIsEmpty()
     {
         // Setup
@@ -82,10 +82,11 @@ public class BaseStatementBuilderCreateTruncateTest
         var tableName = "";
 
         // Act
-        statementBuilder.CreateTruncate(tableName: tableName);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateTruncate(tableName: tableName));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateTruncateIfTheTableIsWhitespace()
     {
         // Setup
@@ -93,6 +94,7 @@ public class BaseStatementBuilderCreateTruncateTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateTruncate(tableName: tableName);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateTruncate(tableName: tableName));
     }
 }

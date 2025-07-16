@@ -229,7 +229,7 @@ public class BaseStatementBuilderCreateInsertTest
             identityField: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertIfTheTableIsEmpty()
     {
         // Setup
@@ -237,13 +237,14 @@ public class BaseStatementBuilderCreateInsertTest
         var tableName = "";
 
         // Act
-        statementBuilder.CreateInsert(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateInsert(tableName: tableName,
             fields: null,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertIfTheTableIsWhitespace()
     {
         // Setup
@@ -251,10 +252,11 @@ public class BaseStatementBuilderCreateInsertTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateInsert(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateInsert(tableName: tableName,
             fields: null,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod, ExpectedException(typeof(InvalidOperationException))]

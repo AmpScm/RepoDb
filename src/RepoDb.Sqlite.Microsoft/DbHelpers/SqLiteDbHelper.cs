@@ -54,6 +54,9 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     {
         var dbType = SplitDbType(reader.IsDBNull(2) ? null : reader.GetString(2), out var size);
 
+        if (dbType?.Length == 0)
+            dbType = null;
+
         return new DbField(reader.GetString(1),
             !reader.IsDBNull(5) && reader.GetBoolean(5),
             string.Equals(reader.GetString(1), identityFieldName, StringComparison.OrdinalIgnoreCase),

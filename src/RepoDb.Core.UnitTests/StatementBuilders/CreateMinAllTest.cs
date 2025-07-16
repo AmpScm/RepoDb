@@ -108,7 +108,7 @@ public class BaseStatementBuilderCreateMinAllTest
             hints: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMinAllIfTheTableIsEmpty()
     {
         // Setup
@@ -117,12 +117,13 @@ public class BaseStatementBuilderCreateMinAllTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMinAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMinAll(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMinAllIfTheTableIsWhitespace()
     {
         // Setup
@@ -131,12 +132,13 @@ public class BaseStatementBuilderCreateMinAllTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMinAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMinAll(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMinAllIfTheFieldIsNull()
     {
         // Setup
@@ -144,9 +146,10 @@ public class BaseStatementBuilderCreateMinAllTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateMinAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMinAll(tableName: tableName,
             field: null,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]

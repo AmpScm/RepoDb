@@ -281,50 +281,56 @@ public partial class PropertyMapperTest
      * Empty ColumnName
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyMapperViaPropertyNameWithEmptyTargetColumnName()
     {
         // Setup
-        PropertyMapper.Add<PropertyMapperTestClass>("ColumnString", "");
+        Assert.Throws<ArgumentException>(
+            () => PropertyMapper.Add<PropertyMapperTestClass>("ColumnString", ""));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyMapperViaFieldWithEmptyTargetColumnName()
     {
         // Setup
-        PropertyMapper.Add<PropertyMapperTestClass>(new Field("ColumnString"), "");
+        Assert.Throws<ArgumentException>(
+            () => PropertyMapper.Add<PropertyMapperTestClass>(new Field("ColumnString"), ""));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyMapperViaExpressionWithEmptyTargetColumnName()
     {
         // Setup
-        PropertyMapper.Add<PropertyMapperTestClass>(e => e.ColumnString, "");
+        Assert.Throws<ArgumentException>(
+            () => PropertyMapper.Add<PropertyMapperTestClass>(e => e.ColumnString, ""));
     }
 
     /*
      * Empty-spaces ColumnName
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyMapperViaPropertyNameWithEmptySpacesTargetColumnName()
     {
         // Setup
-        PropertyMapper.Add<PropertyMapperTestClass>("ColumnString", "  ");
+        Assert.Throws<ArgumentException>(
+            () => PropertyMapper.Add<PropertyMapperTestClass>("ColumnString", "  "));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyMapperViaFieldWithEmptySpacesTargetColumnName()
     {
         // Setup
-        PropertyMapper.Add<PropertyMapperTestClass>(new Field("ColumnString"), "  ");
+        Assert.Throws<ArgumentException>(
+            () => PropertyMapper.Add<PropertyMapperTestClass>(new Field("ColumnString"), "  "));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyMapperViaExpressionWithEmptySpacesTargetColumnName()
     {
         // Setup
-        PropertyMapper.Add<PropertyMapperTestClass>(e => e.ColumnString, "  ");
+        Assert.Throws<ArgumentException>(
+            () => PropertyMapper.Add<PropertyMapperTestClass>(e => e.ColumnString, "  "));
     }
 
     #endregion

@@ -365,11 +365,12 @@ public partial class PrimaryMapperTest
         PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: "");
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaFieldThatIsEmpty()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(field: new Field(""));
+        Assert.Throws<ArgumentException>(
+            () => PrimaryMapper.Add<PrimaryMapperTestClass>(field: new Field("")));
     }
 
     /*
@@ -383,11 +384,12 @@ public partial class PrimaryMapperTest
         PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: "  ");
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaFieldThatIsEmptySpaces()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(field: new Field("  "));
+        Assert.Throws<ArgumentException>(
+            () => PrimaryMapper.Add<PrimaryMapperTestClass>(field: new Field("  ")));
     }
 
     /*

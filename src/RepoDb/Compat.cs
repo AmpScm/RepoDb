@@ -147,13 +147,16 @@ namespace RepoDb
     internal static class NetCompatExtensions
     {
 #if !NET
+        [DoesNotReturn]
+        static void Throw<TException>(TException value) where TException : Exception => throw value;
+
         extension(ArgumentNullException)
         {
             public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
             {
                 if (argument is null)
                 {
-                    throw new ArgumentNullException(paramName);
+                    Throw(new ArgumentNullException(paramName));
                 }
             }
 
@@ -161,7 +164,7 @@ namespace RepoDb
             {
                 if (string.IsNullOrWhiteSpace(argument))
                 {
-                    throw new ArgumentNullException(paramName, "Argument cannot be null or whitespace.");
+                    Throw(new ArgumentNullException(paramName, "Argument cannot be null or whitespace."));
                 }
             }
 
@@ -169,7 +172,7 @@ namespace RepoDb
             {
                 if (string.IsNullOrEmpty(argument))
                 {
-                    throw new ArgumentNullException(paramName, "Argument cannot be null or empty.");
+                    Throw(new ArgumentNullException(paramName, "Argument cannot be null or empty."));
                 }
             }
         }
@@ -180,7 +183,7 @@ namespace RepoDb
             {
                 if (value.CompareTo(other) < 0)
                 {
-                    throw new ArgumentOutOfRangeException(paramName, $"Value must be greater than or equal to {other}.");
+                    Throw(new ArgumentOutOfRangeException(paramName, $"Value must be greater than or equal to {other}."));
                 }
             }
         }

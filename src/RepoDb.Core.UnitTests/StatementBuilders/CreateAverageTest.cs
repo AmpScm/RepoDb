@@ -211,7 +211,7 @@ public class BaseStatementBuilderCreateAverageTest
             hints: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateAverageIfTheTableIsEmpty()
     {
         // Setup
@@ -220,12 +220,13 @@ public class BaseStatementBuilderCreateAverageTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateAverage(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateAverage(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateAverageIfTheTableIsWhitespace()
     {
         // Setup
@@ -234,12 +235,13 @@ public class BaseStatementBuilderCreateAverageTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateAverage(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateAverage(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateAverageIfTheFieldIsNull()
     {
         // Setup
@@ -247,9 +249,10 @@ public class BaseStatementBuilderCreateAverageTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateAverage(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateAverage(tableName: tableName,
             field: null,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]

@@ -225,7 +225,7 @@ public class StatementBuilderTest
             where: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateBatchQueryIfTheTableIsEmpty()
     {
         // Setup
@@ -234,15 +234,16 @@ public class StatementBuilderTest
         var fields = Field.From(new[] { "Field1", "Field2" });
 
         // Act/Assert
-        statementBuilder.CreateBatchQuery(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateBatchQuery(tableName: tableName,
             fields: fields,
             page: 0,
             rowsPerBatch: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateBatchQueryIfTheTableIsWhitespace()
     {
         // Setup
@@ -251,12 +252,13 @@ public class StatementBuilderTest
         var fields = Field.From(new[] { "Field1", "Field2" });
 
         // Act/Assert
-        statementBuilder.CreateBatchQuery(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateBatchQuery(tableName: tableName,
             fields: fields,
             page: 0,
             rowsPerBatch: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
     [TestMethod, ExpectedException(typeof(MissingFieldsException))]
@@ -1511,7 +1513,7 @@ public class StatementBuilderTest
             identityField: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfTheTableIsEmpty()
     {
         // Setup
@@ -1521,15 +1523,16 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfTheTableIsWhitespace()
     {
         // Setup
@@ -1539,12 +1542,13 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod, ExpectedException(typeof(InvalidOperationException))]
@@ -2048,7 +2052,7 @@ public class StatementBuilderTest
             identityField: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfTheTableIsEmpty()
     {
         // Setup
@@ -2058,14 +2062,15 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfTheTableIsWhitespace()
     {
         // Setup
@@ -2075,11 +2080,12 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod, ExpectedException(typeof(InvalidOperationException))]
@@ -2353,7 +2359,7 @@ public class StatementBuilderTest
             where: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateSkipQueryIfTheTableIsEmpty()
     {
         // Setup
@@ -2362,15 +2368,16 @@ public class StatementBuilderTest
         var fields = Field.From(new[] { "Field1", "Field2" });
 
         // Act/Assert
-        statementBuilder.CreateSkipQuery(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateSkipQuery(tableName: tableName,
             fields: fields,
             skip: 0,
             take: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateSkipQueryIfTheTableIsWhitespace()
     {
         // Setup
@@ -2379,12 +2386,13 @@ public class StatementBuilderTest
         var fields = Field.From(new[] { "Field1", "Field2" });
 
         // Act/Assert
-        statementBuilder.CreateSkipQuery(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateSkipQuery(tableName: tableName,
             fields: fields,
             skip: 0,
             take: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
     [TestMethod, ExpectedException(typeof(MissingFieldsException))]

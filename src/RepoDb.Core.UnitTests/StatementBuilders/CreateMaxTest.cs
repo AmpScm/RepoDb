@@ -154,7 +154,7 @@ public class BaseStatementBuilderCreateMaxTest
             hints: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMaxIfTheTableIsEmpty()
     {
         // Setup
@@ -163,12 +163,13 @@ public class BaseStatementBuilderCreateMaxTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMax(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMax(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMaxIfTheTableIsWhitespace()
     {
         // Setup
@@ -177,12 +178,13 @@ public class BaseStatementBuilderCreateMaxTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMax(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMax(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMaxIfTheFieldIsNull()
     {
         // Setup
@@ -190,9 +192,10 @@ public class BaseStatementBuilderCreateMaxTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateMax(tableName: tableName,
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateMax(tableName: tableName,
             field: null,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]

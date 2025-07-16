@@ -209,7 +209,7 @@ public class BaseStatementBuilderCreateQueryTest
             fields: fields);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateQueryIfTheTableIsEmpty()
     {
         // Setup
@@ -218,11 +218,12 @@ public class BaseStatementBuilderCreateQueryTest
         var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
 
         // Act
-        statementBuilder.CreateQuery(tableName: tableName,
-            fields: fields);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateQuery(tableName: tableName,
+            fields: fields));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateQueryIfTheTableIsWhitespace()
     {
         // Setup
@@ -231,8 +232,9 @@ public class BaseStatementBuilderCreateQueryTest
         var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
 
         // Act
-        statementBuilder.CreateQuery(tableName: tableName,
-            fields: fields);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateQuery(tableName: tableName,
+            fields: fields));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]

@@ -111,7 +111,7 @@ public class BaseStatementBuilderCreateDeleteTest
         statementBuilder.CreateDelete(tableName: tableName);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateDeleteIfTheTableIsEmpty()
     {
         // Setup
@@ -119,10 +119,11 @@ public class BaseStatementBuilderCreateDeleteTest
         var tableName = "";
 
         // Act
-        statementBuilder.CreateDelete(tableName: tableName);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateDelete(tableName: tableName));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateDeleteIfTheTableIsWhitespace()
     {
         // Setup
@@ -130,6 +131,7 @@ public class BaseStatementBuilderCreateDeleteTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateDelete(tableName: tableName);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateDelete(tableName: tableName));
     }
 }

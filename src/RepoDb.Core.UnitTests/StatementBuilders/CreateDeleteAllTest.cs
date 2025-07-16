@@ -90,7 +90,7 @@ public class BaseStatementBuilderCreateDeleteAllTest
         statementBuilder.CreateDeleteAll(tableName: tableName);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateDeleteAllIfTheTableIsEmpty()
     {
         // Setup
@@ -98,10 +98,11 @@ public class BaseStatementBuilderCreateDeleteAllTest
         var tableName = "";
 
         // Act
-        statementBuilder.CreateDeleteAll(tableName: tableName);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateDeleteAll(tableName: tableName));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateDeleteAllIfTheTableIsWhitespace()
     {
         // Setup
@@ -109,6 +110,7 @@ public class BaseStatementBuilderCreateDeleteAllTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateDeleteAll(tableName: tableName);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateDeleteAll(tableName: tableName));
     }
 }

@@ -90,18 +90,20 @@ public partial class ClassMapperTableAttributeTest
      * Empty/Null
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnClassMapperViaTableThatIsEmpty()
     {
         // Setup
-        ClassMapper.Add<ClassMapperTableAttributeTestClass>("");
+        Assert.Throws<ArgumentException>(
+            () => ClassMapper.Add<ClassMapperTableAttributeTestClass>(""));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnClassMapperViaTableThatIsEmptySpaces()
     {
         // Setup
-        ClassMapper.Add<ClassMapperTableAttributeTestClass>("  ");
+        Assert.Throws<ArgumentException>(
+            () => ClassMapper.Add<ClassMapperTableAttributeTestClass>("  "));
     }
 
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]

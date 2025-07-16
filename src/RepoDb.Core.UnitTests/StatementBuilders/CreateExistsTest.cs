@@ -140,7 +140,7 @@ public class BaseStatementBuilderCreateExistsTest
             hints: null);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateExistsIfTheTableIsEmpty()
     {
         // Setup
@@ -148,11 +148,12 @@ public class BaseStatementBuilderCreateExistsTest
         var tableName = "";
 
         // Act
-        statementBuilder.CreateExists(tableName: tableName,
-            hints: null);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateExists(tableName: tableName,
+            hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateExistsIfTheTableIsWhitespace()
     {
         // Setup
@@ -160,8 +161,9 @@ public class BaseStatementBuilderCreateExistsTest
         var tableName = " ";
 
         // Act
-        statementBuilder.CreateExists(tableName: tableName,
-            hints: null);
+        Assert.Throws<ArgumentException>(
+        () => statementBuilder.CreateExists(tableName: tableName,
+            hints: null));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]

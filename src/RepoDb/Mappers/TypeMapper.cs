@@ -270,7 +270,6 @@ public static class TypeMapper
     {
         // Validate
         ArgumentNullException.ThrowIfNull(propertyInfo, "PropertyInfo");
-        ArgumentNullException.ThrowIfNull(dbType, "DbType");
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
