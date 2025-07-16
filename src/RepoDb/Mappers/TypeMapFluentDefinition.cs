@@ -26,7 +26,7 @@ public class TypeMapFluentDefinition<TType>
     /// </summary>
     /// <param name="dbType">The <see cref="System.Data.DbType"/> object where to map the .NET CLR type.</param>
     /// <returns>The current instance.</returns>
-    public TypeMapFluentDefinition<TType> DbType(DbType? dbType) =>
+    public TypeMapFluentDefinition<TType> DbType(DbType dbType) =>
         DbType(dbType, false);
 
     /// <summary>
@@ -35,7 +35,7 @@ public class TypeMapFluentDefinition<TType>
     /// <param name="dbType">The <see cref="System.Data.DbType"/> object where to map the .NET CLR type.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
-    public TypeMapFluentDefinition<TType> DbType(DbType? dbType,
+    public TypeMapFluentDefinition<TType> DbType(DbType dbType,
         bool force)
     {
         TypeMapper.Add<TType>(dbType, force);

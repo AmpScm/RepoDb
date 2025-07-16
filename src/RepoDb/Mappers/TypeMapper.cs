@@ -14,7 +14,7 @@ public static class TypeMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, DbType?> maps = new();
+    private static readonly ConcurrentDictionary<int, DbType> maps = new();
 
     #endregion
 
@@ -29,7 +29,7 @@ public static class TypeMapper
     /// </summary>
     /// <typeparam name="TType">The target type.</typeparam>
     /// <param name="dbType">The <see cref="DbType"/> object to map.</param>
-    public static void Add<TType>(DbType? dbType) =>
+    public static void Add<TType>(DbType dbType) =>
         Add(typeof(TType), dbType);
 
     /// <summary>
@@ -38,7 +38,7 @@ public static class TypeMapper
     /// <typeparam name="TType">The target type.</typeparam>
     /// <param name="dbType">The <see cref="DbType"/> object to map.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
-    public static void Add<TType>(DbType? dbType,
+    public static void Add<TType>(DbType dbType,
         bool force) =>
         Add(typeof(TType), dbType, force);
 
@@ -48,7 +48,7 @@ public static class TypeMapper
     /// <param name="type">The target type.</param>
     /// <param name="dbType">The <see cref="DbType"/> object to map.</param>
     public static void Add(Type type,
-        DbType? dbType) =>
+        DbType dbType) =>
         Add(type, dbType, false);
 
     /// <summary>
@@ -58,7 +58,7 @@ public static class TypeMapper
     /// <param name="dbType">The <see cref="DbType"/> object to map.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add(Type type,
-        DbType? dbType,
+        DbType dbType,
         bool force)
     {
         // Validate
@@ -110,11 +110,10 @@ public static class TypeMapper
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
 
-        // Try get the value
-        maps.TryGetValue(key, out var value);
+        if (maps.TryGetValue(key, out var value))
+            return value;
 
-        // Return the value
-        return value;
+        return null;
     }
 
     /*
@@ -125,19 +124,19 @@ public static class TypeMapper
     /// Type Level: Remove the existing mapped <see cref="DbType"/> object from the .NET CLR type.
     /// </summary>
     /// <typeparam name="TType">The .NET CLR type where the mapping is to be removed.</typeparam>
-    public static void Remove<TType>() =>
+    public static bool Remove<TType>() =>
         Remove(typeof(TType));
 
     /// <summary>
     /// Type Level: Remove the existing mapped <see cref="DbType"/> object from the .NET CLR type.
     /// </summary>
     /// <param name="type">The .NET CLR type where the mapping is to be removed.</param>
-    public static void Remove(Type type)
+    public static bool Remove(Type type)
     {
         var key = type.GetHashCode();
 
         // Try get the value
-        maps.TryRemove(key, out var _);
+        return maps.TryRemove(key, out var _);
     }
 
     #endregion
@@ -155,7 +154,7 @@ public static class TypeMapper
     /// <param name="expression">The property expression.</param>
     /// <param name="dbType">The target database type.</param>
     public static void Add<TEntity>(Expression<Func<TEntity, object?>> expression,
-        DbType? dbType)
+        DbType dbType)
         where TEntity : class =>
         Add(expression ?? throw new ArgumentNullException(nameof(expression)), dbType, false);
 
@@ -167,7 +166,7 @@ public static class TypeMapper
     /// <param name="dbType">The target database type.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TEntity>(Expression<Func<TEntity, object?>> expression,
-        DbType? dbType,
+        DbType dbType,
         bool force)
         where TEntity : class =>
         Add<TEntity>(ExpressionExtension.GetProperty(expression), dbType, force);
@@ -179,7 +178,7 @@ public static class TypeMapper
     /// <param name="propertyName">The name of the class property to be mapped.</param>
     /// <param name="dbType">The target database type.</param>
     public static void Add<TEntity>(string propertyName,
-        DbType? dbType)
+        DbType dbType)
         where TEntity : class =>
         Add<TEntity>(propertyName, dbType, false);
 
@@ -191,7 +190,7 @@ public static class TypeMapper
     /// <param name="dbType">The name of the class property to be mapped.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TEntity>(string propertyName,
-        DbType? dbType,
+        DbType dbType,
         bool force)
         where TEntity : class
     {
@@ -209,7 +208,7 @@ public static class TypeMapper
     /// <param name="field">The instance of <see cref="Field"/> object to be mapped.</param>
     /// <param name="dbType">The target database type.</param>
     public static void Add<TEntity>(Field field,
-        DbType? dbType)
+        DbType dbType)
         where TEntity : class =>
         Add<TEntity>(field, dbType, false);
 
@@ -221,7 +220,7 @@ public static class TypeMapper
     /// <param name="dbType">The target database type.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TEntity>(Field field,
-        DbType? dbType,
+        DbType dbType,
         bool force)
         where TEntity : class
     {
@@ -239,7 +238,7 @@ public static class TypeMapper
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/> to be mapped.</param>
     /// <param name="dbType">The target database type.</param>
     internal static void Add<TEntity>(PropertyInfo propertyInfo,
-        DbType? dbType)
+        DbType dbType)
         where TEntity : class =>
         Add<TEntity>(propertyInfo, dbType, false);
 
@@ -251,7 +250,7 @@ public static class TypeMapper
     /// <param name="dbType">The target database type.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     internal static void Add<TEntity>(PropertyInfo propertyInfo,
-        DbType? dbType,
+        DbType dbType,
         bool force)
         where TEntity : class =>
         Add(typeof(TEntity), propertyInfo, dbType, force);
@@ -265,7 +264,7 @@ public static class TypeMapper
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     internal static void Add(Type entityType,
         PropertyInfo propertyInfo,
-        DbType? dbType,
+        DbType dbType,
         bool force)
     {
         // Validate

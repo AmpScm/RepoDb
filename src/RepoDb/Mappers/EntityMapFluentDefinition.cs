@@ -309,7 +309,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="dbType">The target database type.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> DbType(Expression<Func<TEntity, object?>> expression,
-        DbType? dbType) =>
+        DbType dbType) =>
         DbType(expression, dbType, false);
 
     /// <summary>
@@ -320,7 +320,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> DbType(Expression<Func<TEntity, object?>> expression,
-        DbType? dbType,
+        DbType dbType,
         bool force)
     {
         TypeMapper.Add(expression, dbType, force);
@@ -338,7 +338,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="dbType">The target database type.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> DbType(string propertyName,
-        DbType? dbType) =>
+        DbType dbType) =>
         DbType(propertyName, dbType, false);
 
     /// <summary>
@@ -349,7 +349,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> DbType(string propertyName,
-        DbType? dbType,
+        DbType dbType,
         bool force)
     {
         TypeMapper.Add<TEntity>(propertyName, dbType, force);
@@ -367,7 +367,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="dbType">The target database type.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> DbType(Field field,
-        DbType? dbType) =>
+        DbType dbType) =>
         DbType(field, dbType, false);
 
 
@@ -379,7 +379,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> DbType(Field field,
-        DbType? dbType,
+        DbType dbType,
         bool force)
     {
         TypeMapper.Add<TEntity>(field, dbType, force);

@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Exceptions;
-using System.Data;
 
 namespace RepoDb.UnitTests.Mappers;
 
@@ -279,13 +279,6 @@ public partial class TypeMapperTest
         TypeMapper.Add<TypeMapperTestClass>((Field)null, DbType.AnsiStringFixedLength);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-    public void ThrowExceptionOnTypeMapperViaExpressionThatIsNull()
-    {
-        // Setup
-        TypeMapper.Add<TypeMapperTestClass>(expression: null, dbType: null);
-    }
-
     /*
      * Missing Properties
      */
@@ -302,31 +295,6 @@ public partial class TypeMapperTest
     {
         // Setup
         TypeMapper.Add<TypeMapperTestClass>(new Field("Whatever"), DbType.AnsiStringFixedLength);
-    }
-
-    /*
-     * Null ColumnName
-     */
-
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-    public void ThrowExceptionOnTypeMapperViaPropertyNameWithNullTargetColumnName()
-    {
-        // Setup
-        TypeMapper.Add<TypeMapperTestClass>("ColumnString", null);
-    }
-
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-    public void ThrowExceptionOnTypeMapperViaFieldWithNullTargetColumnName()
-    {
-        // Setup
-        TypeMapper.Add<TypeMapperTestClass>(new Field("ColumnString"), null);
-    }
-
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-    public void ThrowExceptionOnTypeMapperViaExpressionWithNullTargetColumnName()
-    {
-        // Setup
-        TypeMapper.Add<TypeMapperTestClass>(e => e.ColumnString, null);
     }
 
     #endregion
