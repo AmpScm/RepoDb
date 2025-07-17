@@ -155,7 +155,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region UpsertAsyncInternalBase<TEntity>
+    #region UpsertInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Upserts a data entity or dynamic object into an existing data in the database in an .
@@ -175,7 +175,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The value of the identity field if present, otherwise, the value of the primary field.</returns>
-    internal static async ValueTask<TResult> UpsertAsyncInternalBase<TEntity, TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> UpsertInternalBaseAsync<TEntity, TResult>(this IDbConnection connection,
         string tableName,
         TEntity entity,
         IEnumerable<Field>? qualifiers = null,

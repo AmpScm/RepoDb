@@ -381,7 +381,7 @@ public static partial class DbConnectionExtension
         ICache? cache = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        await ExecuteQueryMultipleAsyncInternal(connection,
+        await ExecuteQueryMultipleInternalAsync(connection,
             commandText,
             param,
             commandType,
@@ -660,7 +660,7 @@ public static partial class DbConnectionExtension
     /// <param name="isDisposeConnection"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async ValueTask<QueryMultipleExtractor> ExecuteQueryMultipleAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<QueryMultipleExtractor> ExecuteQueryMultipleInternalAsync(this IDbConnection connection,
         string commandText,
         object? param = null,
         CommandType commandType = default,
@@ -680,7 +680,7 @@ public static partial class DbConnectionExtension
         if (cacheKey == null || cache?.Contains(cacheKey) != true)
         {
             // Call
-            reader = await ExecuteReaderAsyncInternal(connection: connection,
+            reader = await ExecuteReaderInternalAsync(connection: connection,
                 commandText: commandText,
                 param: param,
                 commandType: commandType,

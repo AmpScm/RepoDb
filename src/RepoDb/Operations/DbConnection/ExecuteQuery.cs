@@ -198,7 +198,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteQueryAsyncInternal(connection: connection,
+        return await ExecuteQueryInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -232,7 +232,7 @@ public static partial class DbConnectionExtension
     /// <param name="tableName"></param>
     /// <param name="skipCommandArrayParametersCheck"></param>
     /// <returns></returns>
-    internal static async ValueTask<IEnumerable<dynamic>> ExecuteQueryAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<dynamic>> ExecuteQueryInternalAsync(this IDbConnection connection,
         string commandText,
         object? param = null,
         CommandType commandType = default,
@@ -658,7 +658,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteQueryAsyncInternal<TResult>(connection: connection,
+        return await ExecuteQueryInternalAsync<TResult>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -693,7 +693,7 @@ public static partial class DbConnectionExtension
     /// <param name="tableName"></param>
     /// <param name="skipCommandArrayParametersCheck"></param>
     /// <returns></returns>
-    internal static async ValueTask<IEnumerable<TResult>> ExecuteQueryAsyncInternal<TResult>(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<TResult>> ExecuteQueryInternalAsync<TResult>(this IDbConnection connection,
         string commandText,
         object? param = null,
         CommandType commandType = default,
@@ -803,7 +803,7 @@ public static partial class DbConnectionExtension
         }
 
         // Call
-        var result = (await ExecuteQueryAsyncInternal(connection: connection,
+        var result = (await ExecuteQueryInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

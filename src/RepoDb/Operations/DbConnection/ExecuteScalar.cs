@@ -97,7 +97,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteScalarAsyncInternal<object>(connection: connection,
+        return await ExecuteScalarInternalAsync<object>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -294,7 +294,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteScalarAsyncInternal<TResult>(connection: connection,
+        return await ExecuteScalarInternalAsync<TResult>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -331,7 +331,7 @@ public static partial class DbConnectionExtension
     /// <param name="cacheItemExpiration"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async ValueTask<TResult?> ExecuteScalarAsyncInternal<TResult>(
+    internal static async ValueTask<TResult?> ExecuteScalarInternalAsync<TResult>(
         this IDbConnection connection,
         string commandText,
         object? param,

@@ -663,7 +663,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection,
+        return await BatchQueryInternalAsync<TEntity>(connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -714,7 +714,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -765,7 +765,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -816,7 +816,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -867,7 +867,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -918,7 +918,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -965,7 +965,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection,
+        return await BatchQueryInternalAsync<TEntity>(connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1014,7 +1014,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1063,7 +1063,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1112,7 +1112,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1161,7 +1161,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1210,7 +1210,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BatchQueryAsyncInternal<TEntity>(connection: connection,
+        return await BatchQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1245,7 +1245,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    internal static async ValueTask<IEnumerable<TEntity>> BatchQueryAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<TEntity>> BatchQueryInternalAsync<TEntity>(this IDbConnection connection,
         string tableName,
         int page,
         int rowsPerBatch,
@@ -1266,7 +1266,7 @@ public static partial class DbConnectionExtension
             (await DbFieldCache.GetAsync(connection, tableName, transaction, true, cancellationToken).ConfigureAwait(false)).AsFields();
 
         // Return
-        return await BatchQueryAsyncInternalBase<TEntity>(connection: connection,
+        return await BatchQueryInternalBaseAsync<TEntity>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1549,7 +1549,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await BatchQueryAsyncInternal<dynamic>(connection,
+        return await BatchQueryInternalAsync<dynamic>(connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1598,7 +1598,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await BatchQueryAsyncInternal<dynamic>(connection: connection,
+        return await BatchQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1647,7 +1647,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await BatchQueryAsyncInternal<dynamic>(connection: connection,
+        return await BatchQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1696,7 +1696,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await BatchQueryAsyncInternal<dynamic>(connection: connection,
+        return await BatchQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1745,7 +1745,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await BatchQueryAsyncInternal<dynamic>(connection: connection,
+        return await BatchQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             page: page,
             rowsPerBatch: rowsPerBatch,
@@ -1836,7 +1836,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region BatchQueryAsyncInternalBase<TEntity>
+    #region BatchQueryInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Query the rows from the database by batch in an asynchronous way.
@@ -1857,7 +1857,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    internal static async ValueTask<IEnumerable<TEntity>> BatchQueryAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<TEntity>> BatchQueryInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         int page,
         int rowsPerBatch,
@@ -1891,7 +1891,7 @@ public static partial class DbConnectionExtension
         var commandText = await CommandTextCache.GetBatchQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
 
         // Actual Execution
-        var result = await ExecuteQueryAsyncInternal<TEntity>(connection: connection,
+        var result = await ExecuteQueryInternalAsync<TEntity>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

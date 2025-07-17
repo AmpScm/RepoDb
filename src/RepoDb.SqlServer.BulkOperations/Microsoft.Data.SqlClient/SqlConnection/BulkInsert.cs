@@ -286,7 +286,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkInsertAsyncInternal(connection: connection,
+        return BulkInsertInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             entities: entities,
             mappings: mappings,
@@ -331,7 +331,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkInsertAsyncInternal(connection: connection,
+        return BulkInsertInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             mappings: mappings,
@@ -368,7 +368,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await BulkInsertAsyncInternal(connection: connection,
+        return await BulkInsertInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             reader: reader,
             mappings: mappings,
@@ -408,7 +408,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkInsertAsyncInternal(connection: connection,
+        return BulkInsertInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             entities: entities,
             mappings: mappings,
@@ -453,7 +453,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkInsertAsyncInternal(connection: connection,
+        return BulkInsertInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             mappings: mappings,
@@ -494,7 +494,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkInsertAsyncInternal(connection: connection,
+        return BulkInsertInternalAsync(connection: connection,
             tableName: tableName,
             reader: reader,
             mappings: mappings,
@@ -536,7 +536,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkInsertAsyncInternal(connection: connection,
+        return BulkInsertInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             dataTable: dataTable,
             rowState: rowState,
@@ -582,7 +582,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkInsertAsyncInternal(connection: connection,
+        return BulkInsertInternalAsync(connection: connection,
             tableName: tableName,
             dataTable: dataTable,
             rowState: rowState,
@@ -733,7 +733,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static Task<int> BulkInsertAsyncInternal<TEntity>(SqlConnection connection,
+    internal static Task<int> BulkInsertInternalAsync<TEntity>(SqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<BulkInsertMapItem>? mappings = null,
@@ -747,7 +747,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
         where TEntity : class =>
-        BulkInsertAsyncInternalBase(connection,
+        BulkInsertInternalBaseAsync(connection,
             tableName,
             entities,
             mappings,
@@ -774,7 +774,7 @@ public static partial class SqlConnectionExtension
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static Task<int> BulkInsertAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkInsertInternalAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<BulkInsertMapItem>? mappings = null,
@@ -783,7 +783,7 @@ public static partial class SqlConnectionExtension
         int batchSize = 0,
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default) =>
-        BulkInsertAsyncInternalBase(connection,
+        BulkInsertInternalBaseAsync(connection,
             tableName,
             reader,
             mappings,
@@ -811,7 +811,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected by the execution.</returns>
-    internal static Task<int> BulkInsertAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkInsertInternalAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         DataRowState? rowState = null,
@@ -825,7 +825,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkInsertAsyncInternalBase(connection,
+        BulkInsertInternalBaseAsync(connection,
             tableName,
             dataTable,
             rowState,
@@ -858,7 +858,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkInsertAsyncInternal<TEntity>(SqlConnection connection,
+    internal static async Task<int> BulkInsertInternalAsync<TEntity>(SqlConnection connection,
         string tableName,
         IAsyncEnumerable<TEntity> entities,
         IEnumerable<BulkInsertMapItem>? mappings = null,
@@ -875,7 +875,7 @@ public static partial class SqlConnectionExtension
     {
         var loadedEntities = await entities.ToListAsync(cancellationToken);
 
-        return await BulkInsertAsyncInternalBase(connection,
+        return await BulkInsertInternalBaseAsync(connection,
             tableName,
             loadedEntities,
             mappings,

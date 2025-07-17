@@ -407,7 +407,7 @@ public static partial class DbConnectionExtension
         {
             var keys = ExtractPropertyValues(entities, one).AsList();
 
-            return await DeleteAllAsyncInternal(connection: (DbConnection)connection,
+            return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             keys: keys,
             hints: hints,
@@ -434,7 +434,7 @@ public static partial class DbConnectionExtension
 
                 where.Fix(connection, transaction, tableName);
 
-                deleted += await DeleteAsyncInternal(
+                deleted += await DeleteInternalAsync(
                     connection: (DbConnection)connection,
                     tableName: tableName,
                     where: where,
@@ -482,7 +482,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await DeleteAllAsyncInternal(connection: (DbConnection)connection,
+        return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             keys: keys.WithType<object>(),
             hints: hints,
@@ -521,7 +521,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await DeleteAllAsyncInternal(connection: (DbConnection)connection,
+        return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             keys: keys,
             hints: hints,
@@ -572,7 +572,7 @@ public static partial class DbConnectionExtension
         {
             var keys = ExtractPropertyValues(entities, one).AsList();
 
-            return await DeleteAllAsyncInternal(connection: (DbConnection)connection,
+            return await DeleteAllInternalAsync(connection: (DbConnection)connection,
                 tableName: tableName,
                 keys: keys.WithType<object>(),
                 hints: hints,
@@ -599,7 +599,7 @@ public static partial class DbConnectionExtension
 
                 where.Fix(connection, transaction, tableName);
 
-                deleted += await DeleteAsyncInternal(
+                deleted += await DeleteInternalAsync(
                     connection: (DbConnection)connection,
                     tableName: tableName,
                     where: where,
@@ -645,7 +645,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await DeleteAllAsyncInternal(
+        return await DeleteAllInternalAsync(
             connection: (DbConnection)connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             keys: keys.WithType<object>(),
@@ -683,7 +683,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await DeleteAllAsyncInternal(connection: (DbConnection)connection,
+        return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             keys: keys,
             hints: hints,
@@ -718,7 +718,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await DeleteAllAsyncInternal<TEntity>(connection: (DbConnection)connection,
+        return await DeleteAllInternalAsync<TEntity>(connection: (DbConnection)connection,
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -741,7 +741,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows that has been deleted from the table.</returns>
-    internal static ValueTask<int> DeleteAllAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static ValueTask<int> DeleteAllInternalAsync<TEntity>(this IDbConnection connection,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.DeleteAll,
@@ -759,7 +759,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Return the result
-        return DeleteAllAsyncInternalBase(connection: (DbConnection)connection,
+        return DeleteAllInternalBaseAsync(connection: (DbConnection)connection,
             request: request,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -979,7 +979,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteAllAsyncInternal(connection: (DbConnection)connection,
+        return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             keys: keys,
             hints: hints,
@@ -1014,7 +1014,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteAllAsyncInternal(connection: (DbConnection)connection,
+        return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             hints: hints,
             commandTimeout: commandTimeout,
@@ -1038,7 +1038,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows that has been deleted from the table.</returns>
-    internal static ValueTask<int> DeleteAllAsyncInternal(this IDbConnection connection,
+    internal static ValueTask<int> DeleteAllInternalAsync(this IDbConnection connection,
         string tableName,
         string? hints = null,
         int commandTimeout = 0,
@@ -1056,7 +1056,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Return the result
-        return DeleteAllAsyncInternalBase(connection: (DbConnection)connection,
+        return DeleteAllInternalBaseAsync(connection: (DbConnection)connection,
             request: request,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1079,7 +1079,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows that has been deleted from the table.</returns>
-    internal static async ValueTask<int> DeleteAllAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<int> DeleteAllInternalAsync(this IDbConnection connection,
         string tableName,
         IEnumerable<object> keys,
         string? hints = null,
@@ -1121,7 +1121,7 @@ public static partial class DbConnectionExtension
 
             where.Fix(connection, transaction, tableName);
 
-            deletedRows += await DeleteAsyncInternal(connection: (DbConnection)connection,
+            deletedRows += await DeleteInternalAsync(connection: (DbConnection)connection,
                 tableName: tableName,
                 where: where,
                 hints: hints,
@@ -1197,7 +1197,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows that has been deleted from the table.</returns>
-    internal static async ValueTask<int> DeleteAllAsyncInternalBase(this IDbConnection connection,
+    internal static async ValueTask<int> DeleteAllInternalBaseAsync(this IDbConnection connection,
         DeleteAllRequest request,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.DeleteAll,
@@ -1210,7 +1210,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetDeleteAllText(request);
 
         // Actual Execution
-        var result = await ExecuteNonQueryAsyncInternal(connection: (DbConnection)connection,
+        var result = await ExecuteNonQueryInternalAsync(connection: (DbConnection)connection,
             commandText: commandText,
             param: null,
             commandType: commandType,

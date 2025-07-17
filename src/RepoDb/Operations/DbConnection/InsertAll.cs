@@ -193,7 +193,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await InsertAllAsyncInternal(connection: connection,
+        return await InsertAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             batchSize: batchSize,
@@ -236,7 +236,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await InsertAllAsyncInternal(connection: connection,
+        return await InsertAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             batchSize: batchSize,
@@ -267,7 +267,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of inserted rows in the table.</returns>
-    internal static ValueTask<int> InsertAllAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static ValueTask<int> InsertAllInternalAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         int batchSize = 0,
@@ -283,7 +283,7 @@ public static partial class DbConnectionExtension
     {
         if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
         {
-            return InsertAllAsyncInternalBase(connection: connection,
+            return InsertAllInternalBaseAsync(connection: connection,
                 tableName: tableName,
                 entities: entities.WithType<IDictionary<string, object>>(),
                 batchSize: batchSize,
@@ -298,7 +298,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return InsertAllAsyncInternalBase(connection: connection,
+            return InsertAllInternalBaseAsync(connection: connection,
                 tableName: tableName,
                 entities: entities,
                 batchSize: batchSize,
@@ -390,7 +390,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await InsertAllAsyncInternal(connection: connection,
+        return await InsertAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             batchSize: batchSize,
@@ -648,7 +648,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region InsertAllAsyncInternalBase<TEntity>
+    #region InsertAllInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Insert multiple rows in the table in an asynchronous way.
@@ -667,7 +667,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of inserted rows in the table.</returns>
-    internal static async ValueTask<int> InsertAllAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<int> InsertAllInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         int batchSize,

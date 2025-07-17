@@ -131,7 +131,7 @@ public static class DbFieldCache
         IDbTransaction? transaction,
         bool enableValidation,
         CancellationToken cancellationToken = default) =>
-        await GetAsyncInternal(connection, tableName, transaction, enableValidation, cancellationToken);
+        await GetInternalAsync(connection, tableName, transaction, enableValidation, cancellationToken);
 
     /// <summary>
     /// Gets the cached field definitions of the entity in an asynchronous way.
@@ -143,7 +143,7 @@ public static class DbFieldCache
     /// <param name="enableValidation">Enables the validation after retrieving the database fields.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The cached field definitions of the entity.</returns>
-    internal static async ValueTask<DbFieldCollection> GetAsyncInternal<TDbConnection>(TDbConnection connection,
+    internal static async ValueTask<DbFieldCollection> GetInternalAsync<TDbConnection>(TDbConnection connection,
         string tableName,
         IDbTransaction? transaction,
         bool enableValidation,

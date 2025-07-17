@@ -525,7 +525,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: null,
@@ -574,7 +574,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifier.AsEnumerable(),
@@ -624,7 +624,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifiers,
@@ -674,7 +674,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: Field.Parse(qualifiers),
@@ -719,7 +719,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: null,
@@ -766,7 +766,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: qualifier.AsEnumerable(),
@@ -814,7 +814,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: qualifiers,
@@ -861,7 +861,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: Field.Parse(qualifiers),
@@ -895,7 +895,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the merge process.</returns>
-    internal static async ValueTask<int> MergeAllAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<int> MergeAllInternalAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<Field>? qualifiers,
@@ -926,7 +926,7 @@ public static partial class DbConnectionExtension
         {
             if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
             {
-                return await MergeAllAsyncInternalBase(connection: connection,
+                return await MergeAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
                     entities: entities.WithType<IDictionary<string, object>>(),
                     qualifiers: qualifiers,
@@ -943,7 +943,7 @@ public static partial class DbConnectionExtension
             }
             else
             {
-                return await MergeAllAsyncInternalBase(connection: connection,
+                return await MergeAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
                     entities: entities,
                     qualifiers: qualifiers,
@@ -963,7 +963,7 @@ public static partial class DbConnectionExtension
         {
             if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
             {
-                return await UpsertAllAsyncInternalBase(connection: connection,
+                return await UpsertAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
                     entities: entities.WithType<IDictionary<string, object>>(),
                     qualifiers: qualifiers,
@@ -978,7 +978,7 @@ public static partial class DbConnectionExtension
             }
             else
             {
-                return await UpsertAllAsyncInternalBase(connection: connection,
+                return await UpsertAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
                     entities: entities,
                     qualifiers: qualifiers,
@@ -1163,7 +1163,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: null,
@@ -1210,7 +1210,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifier?.AsEnumerable(),
@@ -1258,7 +1258,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await MergeAllAsyncInternal(connection: connection,
+        return await MergeAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifiers,
@@ -1501,7 +1501,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region MergeAllAsyncInternalBase<TEntity>
+    #region MergeAllInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Merges the multiple data entity or dynamic objects into the database in an asynchronous way.
@@ -1521,7 +1521,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the merge process.</returns>
-    internal static async ValueTask<int> MergeAllAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<int> MergeAllInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<Field> qualifiers,
@@ -1835,7 +1835,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the merge process.</returns>
-    internal static async ValueTask<int> UpsertAllAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<int> UpsertAllInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<Field>? qualifiers,
@@ -1872,7 +1872,7 @@ public static partial class DbConnectionExtension
         foreach (var entity in entities.AsList())
         {
             // Call the upsert
-            var upsertResult = await connection.UpsertAsyncInternalBase<TEntity, object>(tableName,
+            var upsertResult = await connection.UpsertInternalBaseAsync<TEntity, object>(tableName,
                 entity,
                 qualifiers,
                 immutableFields,

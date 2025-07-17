@@ -466,7 +466,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: null,
@@ -514,7 +514,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifier?.AsEnumerable(),
@@ -562,7 +562,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifiers,
@@ -610,7 +610,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: Field.Parse(qualifiers),
@@ -654,7 +654,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: null,
@@ -700,7 +700,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: qualifier?.AsEnumerable(),
@@ -746,7 +746,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: qualifiers,
@@ -792,7 +792,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: GetMappedName(entities),
             entities: entities,
             qualifiers: Field.Parse(qualifiers),
@@ -825,7 +825,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the update process.</returns>
-    internal static async ValueTask<int> UpdateAllAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<int> UpdateAllInternalAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<Field>? qualifiers,
@@ -847,7 +847,7 @@ public static partial class DbConnectionExtension
         }
         if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
         {
-            return await UpdateAllAsyncInternalBase(connection: connection,
+            return await UpdateAllInternalBaseAsync(connection: connection,
                 tableName: tableName,
                 entities: entities.WithType<IDictionary<string, object>>(),
                 batchSize: batchSize,
@@ -863,7 +863,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return await UpdateAllAsyncInternalBase(connection: connection,
+            return await UpdateAllInternalBaseAsync(connection: connection,
                 tableName: tableName,
                 entities: entities,
                 batchSize: batchSize,
@@ -1043,7 +1043,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: null,
@@ -1089,7 +1089,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifier?.AsEnumerable(),
@@ -1135,7 +1135,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAllAsyncInternal(connection: connection,
+        return await UpdateAllInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: qualifiers,
@@ -1327,7 +1327,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region UpdateAllAsyncInternalBase<TEntity>
+    #region UpdateAllInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Update the existing rows in the table in an asynchronous way.
@@ -1347,7 +1347,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the update process.</returns>
-    internal static async ValueTask<int> UpdateAllAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<int> UpdateAllInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<Field>? qualifiers,

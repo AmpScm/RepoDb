@@ -335,7 +335,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkMergeAsyncInternal(connection: connection,
+        return BulkMergeInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             entities: entities,
             qualifiers: ParseExpression(qualifiers),
@@ -386,7 +386,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkMergeAsyncInternal(connection: connection,
+        return BulkMergeInternalAsync(connection: connection,
             tableName: tableName,
             entities: entities,
             qualifiers: ParseExpression(qualifiers),
@@ -433,7 +433,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkMergeAsyncInternal(connection: connection,
+        return BulkMergeInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             reader: reader,
             qualifiers: ParseExpression(qualifiers),
@@ -483,7 +483,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkMergeAsyncInternal(connection: connection,
+        return BulkMergeInternalAsync(connection: connection,
             tableName: tableName,
             reader: reader,
             qualifiers: qualifiers,
@@ -533,7 +533,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkMergeAsyncInternal(connection: connection,
+        return BulkMergeInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             dataTable: dataTable,
             qualifiers: qualifiers,
@@ -584,7 +584,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkMergeAsyncInternal(connection: connection,
+        return BulkMergeInternalAsync(connection: connection,
             tableName: tableName,
             dataTable: dataTable,
             qualifiers: qualifiers,
@@ -762,7 +762,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static Task<int> BulkMergeAsyncInternal<TEntity>(SqlConnection connection,
+    internal static Task<int> BulkMergeInternalAsync<TEntity>(SqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<Field>? qualifiers = null,
@@ -777,7 +777,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
         where TEntity : class =>
-        BulkMergeAsyncInternalBase(connection,
+        BulkMergeInternalBaseAsync(connection,
             tableName,
             entities,
             qualifiers,
@@ -809,7 +809,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected by the execution.</returns>
-    internal static Task<int> BulkMergeAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkMergeInternalAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<Field>? qualifiers = null,
@@ -822,7 +822,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkMergeAsyncInternalBase(connection,
+        BulkMergeInternalBaseAsync(connection,
             tableName,
             reader,
             qualifiers,
@@ -855,7 +855,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected by the execution.</returns>
-    internal static Task<int> BulkMergeAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkMergeInternalAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         IEnumerable<Field>? qualifiers = null,
@@ -870,7 +870,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkMergeAsyncInternalBase(connection,
+        BulkMergeInternalBaseAsync(connection,
             tableName,
             dataTable,
             qualifiers,

@@ -363,7 +363,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkUpdateAsyncInternalBase(SqlConnection connection,
+    internal static async Task<int> BulkUpdateInternalBaseAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<Field>? qualifiers = null,
@@ -465,7 +465,7 @@ public static partial class SqlConnectionExtension
             //}
 
             // WriteToServer
-            await WriteToServerAsyncInternal(connection,
+            await WriteToServerInternalAsync(connection,
                 tempTableName,
                 reader,
                 mappings,
@@ -530,7 +530,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkUpdateAsyncInternalBase(SqlConnection connection,
+    internal static async Task<int> BulkUpdateInternalBaseAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         IEnumerable<Field>? qualifiers = null,
@@ -633,7 +633,7 @@ public static partial class SqlConnectionExtension
             //}
 
             // WriteToServer
-            await WriteToServerAsyncInternal(connection,
+            await WriteToServerInternalAsync(connection,
                 tempTableName,
                 dataTable,
                 rowState,

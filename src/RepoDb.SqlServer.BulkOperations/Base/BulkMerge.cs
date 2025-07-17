@@ -582,7 +582,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async Task<int> BulkMergeAsyncInternalBase<TEntity>(SqlConnection connection,
+    private static async Task<int> BulkMergeInternalBaseAsync<TEntity>(SqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<Field>? qualifiers = null,
@@ -693,7 +693,7 @@ public static partial class SqlConnectionExtension
             //}
 
             // WriteToServer
-            await WriteToServerAsyncInternal(connection,
+            await WriteToServerInternalAsync(connection,
                 tempTableName ?? tableName,
                 entities,
                 mappings,
@@ -772,7 +772,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async Task<int> BulkMergeAsyncInternalBase(SqlConnection connection,
+    private static async Task<int> BulkMergeInternalBaseAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<Field>? qualifiers = null,
@@ -876,7 +876,7 @@ public static partial class SqlConnectionExtension
             //}
 
             // WriteToServer
-            await WriteToServerAsyncInternal(connection,
+            await WriteToServerInternalAsync(connection,
                 tempTableName,
                 reader,
                 mappings,
@@ -944,7 +944,7 @@ public static partial class SqlConnectionExtension
     /// <param name="cancellationToken"></param>
     /// <param name="trace"></param>
     /// <returns></returns>
-    private static async Task<int> BulkMergeAsyncInternalBase(SqlConnection connection,
+    private static async Task<int> BulkMergeInternalBaseAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         IEnumerable<Field>? qualifiers = null,
@@ -1040,7 +1040,7 @@ public static partial class SqlConnectionExtension
             await connection.ExecuteNonQueryAsync(sql, transaction: transaction, trace: trace, cancellationToken: cancellationToken);
 
             // WriteToServer
-            await WriteToServerAsyncInternal(connection,
+            await WriteToServerInternalAsync(connection,
                 tempTableName,
                 dataTable,
                 rowState,

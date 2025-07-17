@@ -482,7 +482,7 @@ public static partial class SqlConnectionExtension
     /// <param name="cancellationToken"></param>
     /// <param name="trace"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkDeleteAsyncInternalBase(SqlConnection connection,
+    internal static async Task<int> BulkDeleteInternalBaseAsync(SqlConnection connection,
         string tableName,
         IEnumerable<object> primaryKeys,
         string? hints = null,
@@ -540,7 +540,7 @@ public static partial class SqlConnectionExtension
                 var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.FieldName, primaryOrIdentityField.FieldName) };
 
                 // WriteToServer
-                await WriteToServerAsyncInternal(connection,
+                await WriteToServerInternalAsync(connection,
                    tempTableName,
                    dataTable,
                    null,
@@ -604,7 +604,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkDeleteAsyncInternalBase(SqlConnection connection,
+    internal static async Task<int> BulkDeleteInternalBaseAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<Field>? qualifiers = null,
@@ -712,7 +712,7 @@ public static partial class SqlConnectionExtension
             }
 
             // WriteToServer
-            await WriteToServerAsyncInternal(connection,
+            await WriteToServerInternalAsync(connection,
                tempTableName,
                reader,
                mappings,
@@ -774,7 +774,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkDeleteAsyncInternalBase(SqlConnection connection,
+    internal static async Task<int> BulkDeleteInternalBaseAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         IEnumerable<Field>? qualifiers = null,
@@ -883,7 +883,7 @@ public static partial class SqlConnectionExtension
             }
 
             // WriteToServer
-            await WriteToServerAsyncInternal(connection,
+            await WriteToServerInternalAsync(connection,
                tempTableName,
                dataTable,
                rowState,

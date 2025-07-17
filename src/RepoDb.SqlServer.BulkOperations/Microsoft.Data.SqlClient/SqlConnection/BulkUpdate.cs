@@ -310,7 +310,7 @@ public static partial class SqlConnectionExtension
     {
         using var reader = new DataEntityDataReader<TEntity>(entities);
 
-        return await BulkUpdateAsyncInternal(connection: connection,
+        return await BulkUpdateInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             reader: reader,
             qualifiers: ParseExpression(qualifiers),
@@ -357,7 +357,7 @@ public static partial class SqlConnectionExtension
     {
         using var reader = new DataEntityDataReader<TEntity>(entities);
 
-        return await BulkUpdateAsyncInternal(connection: connection,
+        return await BulkUpdateInternalAsync(connection: connection,
             tableName: tableName,
             reader: reader,
             qualifiers: ParseExpression(qualifiers),
@@ -400,7 +400,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkUpdateAsyncInternal(connection: connection,
+        return BulkUpdateInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             reader: reader,
             qualifiers: ParseExpression(qualifiers),
@@ -447,7 +447,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkUpdateAsyncInternal(connection: connection,
+        return BulkUpdateInternalAsync(connection: connection,
             tableName: tableName,
             reader: reader,
             qualifiers: qualifiers,
@@ -492,7 +492,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkUpdateAsyncInternal(connection: connection,
+        return BulkUpdateInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             dataTable: dataTable,
             qualifiers: qualifiers,
@@ -538,7 +538,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkUpdateAsyncInternal(connection: connection,
+        return BulkUpdateInternalAsync(connection: connection,
             tableName: tableName,
             dataTable: dataTable,
             qualifiers: qualifiers,
@@ -657,7 +657,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected by the execution.</returns>
-    internal static Task<int> BulkUpdateAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkUpdateInternalAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<Field>? qualifiers = null,
@@ -670,7 +670,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkUpdateAsyncInternalBase(connection,
+        BulkUpdateInternalBaseAsync(connection,
             tableName,
             reader,
             qualifiers,
@@ -702,7 +702,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected by the execution.</returns>
-    internal static Task<int> BulkUpdateAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkUpdateInternalAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         IEnumerable<Field>? qualifiers = null,
@@ -716,7 +716,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkUpdateAsyncInternalBase(connection,
+        BulkUpdateInternalBaseAsync(connection,
             tableName,
             dataTable,
             qualifiers,

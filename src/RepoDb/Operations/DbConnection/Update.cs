@@ -685,7 +685,7 @@ public static partial class DbConnectionExtension
     {
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction,
             GetEntityType(entity), cancellationToken).ConfigureAwait(false);
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(key, entity),
@@ -732,7 +732,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
         where TWhat : notnull
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
@@ -777,7 +777,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
@@ -822,7 +822,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: connection.ToQueryGroup(where, transaction),
@@ -867,7 +867,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: where != null ? new QueryGroup(where.AsEnumerable()) : null,
@@ -912,7 +912,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
@@ -957,7 +957,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: where,
@@ -999,7 +999,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(GetEntityType(entity), connection, transaction, cancellationToken).ConfigureAwait(false);
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: GetMappedName(entity),
             entity: entity,
             where: ToQueryGroup(key, entity),
@@ -1044,7 +1044,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
         where TWhat : notnull
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: GetMappedName(entity),
             entity: entity,
             where: await WhatToQueryGroupAsync(GetEntityType(entity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
@@ -1087,7 +1087,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: GetMappedName(entity),
             entity: entity,
             where: await WhatToQueryGroupAsync(GetEntityType(entity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
@@ -1130,7 +1130,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: GetMappedName(entity),
             entity: entity,
             where: connection.ToQueryGroup(where, transaction),
@@ -1173,7 +1173,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: GetMappedName(entity),
             entity: entity,
             where: ToQueryGroup(where),
@@ -1216,7 +1216,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: GetMappedName(entity),
             entity: entity,
             where: ToQueryGroup(where),
@@ -1259,7 +1259,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: GetMappedName(entity),
             entity: entity,
             where: where,
@@ -1290,7 +1290,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the update process.</returns>
-    internal static ValueTask<int> UpdateAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static ValueTask<int> UpdateInternalAsync<TEntity>(this IDbConnection connection,
         string tableName,
         TEntity entity,
         QueryGroup? where,
@@ -1306,7 +1306,7 @@ public static partial class DbConnectionExtension
     {
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject() == true)
         {
-            return UpdateAsyncInternalBase(connection: connection,
+            return UpdateInternalBaseAsync(connection: connection,
                 tableName: tableName,
                 entity: (IDictionary<string, object>)entity,
                 where: where,
@@ -1321,7 +1321,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return UpdateAsyncInternalBase(connection: connection,
+            return UpdateInternalBaseAsync(connection: connection,
                 tableName: tableName,
                 entity: entity,
                 where: where,
@@ -1572,7 +1572,7 @@ public static partial class DbConnectionExtension
     {
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction,
             entity.GetType(), cancellationToken).ConfigureAwait(false);
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(key, entity),
@@ -1615,7 +1615,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
@@ -1658,7 +1658,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
@@ -1701,7 +1701,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
@@ -1744,7 +1744,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAsyncInternal(connection: connection,
+        return await UpdateInternalAsync(connection: connection,
             tableName: tableName,
             entity: entity,
             where: where,
@@ -1841,7 +1841,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region UpdateAsyncInternalBase<TEntity>
+    #region UpdateInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Updates an existing row in the table.
@@ -1860,7 +1860,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of affected rows during the update process.</returns>
-    internal static async ValueTask<int> UpdateAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<int> UpdateInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         TEntity entity,
         QueryGroup? where,

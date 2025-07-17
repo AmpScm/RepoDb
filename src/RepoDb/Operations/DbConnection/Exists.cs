@@ -320,7 +320,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await ExistsAsyncInternal<TEntity>(connection: connection,
+        return await ExistsInternalAsync<TEntity>(connection: connection,
             where: await WhatToQueryGroupAsync(typeof(TEntity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -357,7 +357,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(GetEntityType(entity), connection, transaction, cancellationToken);
-        return await ExistsAsyncInternal<TEntity>(connection: connection,
+        return await ExistsInternalAsync<TEntity>(connection: connection,
             where: ToQueryGroup(key, entity),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -395,7 +395,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
         where TWhat : notnull
     {
-        return await ExistsAsyncInternal<TEntity>(connection: connection,
+        return await ExistsInternalAsync<TEntity>(connection: connection,
             where: await WhatToQueryGroupAsync(typeof(TEntity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -431,7 +431,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await ExistsAsyncInternal<TEntity>(connection: connection,
+        return await ExistsInternalAsync<TEntity>(connection: connection,
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -467,7 +467,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await ExistsAsyncInternal<TEntity>(connection: connection,
+        return await ExistsInternalAsync<TEntity>(connection: connection,
             where: ToQueryGroup(where),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -503,7 +503,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await ExistsAsyncInternal<TEntity>(connection: connection,
+        return await ExistsInternalAsync<TEntity>(connection: connection,
             where: ToQueryGroup(where),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -539,7 +539,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await ExistsAsyncInternal<TEntity>(connection: connection,
+        return await ExistsInternalAsync<TEntity>(connection: connection,
             where: where,
             hints: hints,
             commandTimeout: commandTimeout,
@@ -564,7 +564,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A boolean value that indicates whether the rows are existing in the table.</returns>
-    internal static async ValueTask<bool> ExistsAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<bool> ExistsInternalAsync<TEntity>(this IDbConnection connection,
         QueryGroup? where,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Exists,
@@ -587,7 +587,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
-        return await ExistsAsyncInternalBase(connection: connection,
+        return await ExistsInternalBaseAsync(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -848,7 +848,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TWhat : notnull
     {
-        return await ExistsAsyncInternal(connection: connection,
+        return await ExistsInternalAsync(connection: connection,
             tableName: tableName,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
             hints: hints,
@@ -885,7 +885,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExistsAsyncInternal(connection: connection,
+        return await ExistsInternalAsync(connection: connection,
             tableName: tableName,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
             hints: hints,
@@ -922,7 +922,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExistsAsyncInternal(connection: connection,
+        return await ExistsInternalAsync(connection: connection,
             tableName: tableName,
             where: ToQueryGroup(where),
             hints: hints,
@@ -959,7 +959,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExistsAsyncInternal(connection: connection,
+        return await ExistsInternalAsync(connection: connection,
             tableName: tableName,
             where: ToQueryGroup(where),
             hints: hints,
@@ -996,7 +996,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExistsAsyncInternal(connection: connection,
+        return await ExistsInternalAsync(connection: connection,
             tableName: tableName,
             where: where,
             hints: hints,
@@ -1022,7 +1022,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A boolean value that indicates whether the rows are existing in the table.</returns>
-    internal static async ValueTask<bool> ExistsAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<bool> ExistsInternalAsync(this IDbConnection connection,
         string tableName,
         QueryGroup? where,
         string? hints = null,
@@ -1045,7 +1045,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return await ExistsAsyncInternalBase(connection: connection,
+        return await ExistsInternalBaseAsync(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -1114,7 +1114,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A boolean value that indicates whether the rows are existing in the table.</returns>
-    internal static async ValueTask<bool> ExistsAsyncInternalBase(this IDbConnection connection,
+    internal static async ValueTask<bool> ExistsInternalBaseAsync(this IDbConnection connection,
         ExistsRequest request,
         object? param,
         int commandTimeout = 0,
@@ -1128,7 +1128,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetExistsText(request);
 
         // Actual Execution
-        var result = await ExecuteScalarAsyncInternal<bool>(connection: connection,
+        var result = await ExecuteScalarInternalAsync<bool>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

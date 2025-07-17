@@ -4503,7 +4503,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             where2: await WhatToQueryGroupAsync(typeof(T2), connection, what2, transaction, cancellationToken).ConfigureAwait(false),
             fields1: fields1,
@@ -4577,7 +4577,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             where1: connection.ToQueryGroup(where1, transaction),
             where2: connection.ToQueryGroup(where2, transaction),
             fields1: fields1,
@@ -4651,7 +4651,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             fields1: fields1,
@@ -4725,7 +4725,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             fields1: fields1,
@@ -4799,7 +4799,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             where1: where1,
             where2: where2,
             fields1: fields1,
@@ -4849,7 +4849,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
-    internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleAsyncInternal<T1, T2>(this IDbConnection connection,
+    internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleInternalAsync<T1, T2>(this IDbConnection connection,
         QueryGroup? where1,
         QueryGroup? where2,
         IEnumerable<Field>? fields1 = null,
@@ -4873,7 +4873,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return QueryMultipleInternalAsync<T1, T2>(connection: connection,
             tableName1: ClassMappedNameCache.Get<T1>(),
             where1: where1,
             tableName2: ClassMappedNameCache.Get<T2>(),
@@ -4967,7 +4967,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             where2: await WhatToQueryGroupAsync(typeof(T2), connection, what2, transaction, cancellationToken).ConfigureAwait(false),
             where3: await WhatToQueryGroupAsync(typeof(T3), connection, what3, transaction, cancellationToken).ConfigureAwait(false),
@@ -5061,7 +5061,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             where1: connection.ToQueryGroup(where1, transaction),
             where2: connection.ToQueryGroup(where2, transaction),
             where3: connection.ToQueryGroup(where3, transaction),
@@ -5155,7 +5155,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -5249,7 +5249,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -5343,7 +5343,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             where1: where1,
             where2: where2,
             where3: where3,
@@ -5406,7 +5406,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
-    internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleAsyncInternal<T1, T2, T3>(this IDbConnection connection,
+    internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleInternalAsync<T1, T2, T3>(this IDbConnection connection,
         QueryGroup? where1,
         QueryGroup? where2,
         QueryGroup? where3,
@@ -5437,7 +5437,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             tableName1: ClassMappedNameCache.Get<T1>(),
             where1: where1,
             tableName2: ClassMappedNameCache.Get<T2>(),
@@ -5553,7 +5553,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             where2: await WhatToQueryGroupAsync(typeof(T2), connection, what2, transaction, cancellationToken).ConfigureAwait(false),
             where3: await WhatToQueryGroupAsync(typeof(T3), connection, what3, transaction, cancellationToken).ConfigureAwait(false),
@@ -5668,7 +5668,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             where1: connection.ToQueryGroup(where1, transaction),
             where2: connection.ToQueryGroup(where2, transaction),
             where3: connection.ToQueryGroup(where3, transaction),
@@ -5783,7 +5783,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -5898,7 +5898,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -6013,7 +6013,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             where1: where1,
             where2: where2,
             where3: where3,
@@ -6090,7 +6090,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 4 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4>(this IDbConnection connection,
         QueryGroup? where1,
         QueryGroup? where2,
         QueryGroup? where3,
@@ -6128,7 +6128,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             tableName1: ClassMappedNameCache.Get<T1>(),
             where1: where1,
             tableName2: ClassMappedNameCache.Get<T2>(),
@@ -6265,7 +6265,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             where2: await WhatToQueryGroupAsync(typeof(T2), connection, what2, transaction, cancellationToken).ConfigureAwait(false),
             where3: await WhatToQueryGroupAsync(typeof(T3), connection, what3, transaction, cancellationToken).ConfigureAwait(false),
@@ -6400,7 +6400,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             where1: connection.ToQueryGroup(where1, transaction),
             where2: connection.ToQueryGroup(where2, transaction),
             where3: connection.ToQueryGroup(where3, transaction),
@@ -6535,7 +6535,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -6670,7 +6670,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -6805,7 +6805,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -6895,7 +6895,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 5 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(this IDbConnection connection,
         QueryGroup? where1,
         QueryGroup? where2,
         QueryGroup? where3,
@@ -6940,7 +6940,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             tableName1: ClassMappedNameCache.Get<T1>(),
             where1: where1,
             tableName2: ClassMappedNameCache.Get<T2>(),
@@ -7098,7 +7098,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             where2: await WhatToQueryGroupAsync(typeof(T2), connection, what2, transaction, cancellationToken).ConfigureAwait(false),
             where3: await WhatToQueryGroupAsync(typeof(T3), connection, what3, transaction, cancellationToken).ConfigureAwait(false),
@@ -7253,7 +7253,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             where1: connection.ToQueryGroup(where1, transaction),
             where2: connection.ToQueryGroup(where2, transaction),
             where3: connection.ToQueryGroup(where3, transaction),
@@ -7408,7 +7408,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -7563,7 +7563,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -7718,7 +7718,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             where1: where1,
             where2: where2,
             where3: where3,
@@ -7821,7 +7821,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 6 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
         QueryGroup? where1,
         QueryGroup? where2,
         QueryGroup? where3,
@@ -7873,7 +7873,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             tableName1: ClassMappedNameCache.Get<T1>(),
             where1: where1,
             tableName2: ClassMappedNameCache.Get<T2>(),
@@ -8052,7 +8052,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             where2: await WhatToQueryGroupAsync(typeof(T2), connection, what2, transaction, cancellationToken).ConfigureAwait(false),
             where3: await WhatToQueryGroupAsync(typeof(T3), connection, what3, transaction, cancellationToken).ConfigureAwait(false),
@@ -8227,7 +8227,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             where1: connection.ToQueryGroup(where1, transaction),
             where2: connection.ToQueryGroup(where2, transaction),
             where3: connection.ToQueryGroup(where3, transaction),
@@ -8402,7 +8402,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -8577,7 +8577,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             where1: ToQueryGroup(where1),
             where2: ToQueryGroup(where2),
             where3: ToQueryGroup(where3),
@@ -8752,7 +8752,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             where1: where1,
             where2: where2,
             where3: where3,
@@ -8868,7 +8868,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 7 enumerable target data entity types.</returns>
     internal static ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
         QueryGroup? where1,
         QueryGroup? where2,
         QueryGroup? where3,
@@ -8927,7 +8927,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             tableName1: ClassMappedNameCache.Get<T1>(),
             where1: where1,
             tableName2: ClassMappedNameCache.Get<T2>(),
@@ -19821,7 +19821,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             tableName1: tableName1,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             tableName2: tableName2,
@@ -19901,7 +19901,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             tableName1: tableName1,
             where1: connection.ToQueryGroup(where1, transaction),
             tableName2: tableName2,
@@ -19981,7 +19981,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -20061,7 +20061,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -20141,7 +20141,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2>(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -20195,7 +20195,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
-    internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleAsyncInternal<T1, T2>(this IDbConnection connection,
+    internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>>> QueryMultipleInternalAsync<T1, T2>(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -20228,13 +20228,13 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal<T1>(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync<T1>(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal<T2>(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync<T2>(cacheKey2,
             cache,
             where2,
             queryGroups,
@@ -20295,7 +20295,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -20319,7 +20319,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -20331,7 +20331,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -20429,7 +20429,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             tableName1: tableName1,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             tableName2: tableName2,
@@ -20532,7 +20532,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             tableName1: tableName1,
             where1: connection.ToQueryGroup(where1, transaction),
             tableName2: tableName2,
@@ -20635,7 +20635,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -20738,7 +20738,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -20841,7 +20841,7 @@ public static partial class DbConnectionExtension
         where T2 : class
         where T3 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3>(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -20910,7 +20910,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
-    internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleAsyncInternal<T1, T2, T3>(this IDbConnection connection,
+    internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>> QueryMultipleInternalAsync<T1, T2, T3>(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -20951,19 +20951,19 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal<T1>(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync<T1>(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal<T2>(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync<T2>(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal<T3>(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync<T3>(cacheKey3,
             cache,
             where3,
             queryGroups,
@@ -21042,7 +21042,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -21066,7 +21066,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -21078,7 +21078,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -21090,7 +21090,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -21205,7 +21205,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             tableName1: tableName1,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             tableName2: tableName2,
@@ -21332,7 +21332,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             tableName1: tableName1,
             where1: connection.ToQueryGroup(where1, transaction),
             tableName2: tableName2,
@@ -21459,7 +21459,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -21586,7 +21586,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -21713,7 +21713,7 @@ public static partial class DbConnectionExtension
         where T3 : class
         where T4 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4>(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -21798,7 +21798,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 4 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4>(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -21847,25 +21847,25 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal<T1>(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync<T1>(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal<T2>(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync<T2>(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal<T3>(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync<T3>(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal<T4>(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync<T4>(cacheKey4,
             cache,
             where4,
             queryGroups,
@@ -21962,7 +21962,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -21986,7 +21986,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -21998,7 +21998,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -22010,7 +22010,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -22022,7 +22022,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -22153,7 +22153,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             tableName1: tableName1,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             tableName2: tableName2,
@@ -22303,7 +22303,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             tableName1: tableName1,
             where1: connection.ToQueryGroup(where1, transaction),
             tableName2: tableName2,
@@ -22453,7 +22453,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -22603,7 +22603,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -22753,7 +22753,7 @@ public static partial class DbConnectionExtension
         where T4 : class
         where T5 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -22853,7 +22853,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 5 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4, T5>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4, T5>(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -22910,31 +22910,31 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal<T1>(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync<T1>(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal<T2>(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync<T2>(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal<T3>(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync<T3>(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal<T4>(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync<T4>(cacheKey4,
             cache,
             where4,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item5 = await QueryMultipleAsyncInternal<T5>(cacheKey5,
+        var item5 = await QueryMultipleInternalAsync<T5>(cacheKey5,
             cache,
             where5,
             queryGroups,
@@ -23049,7 +23049,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -23073,7 +23073,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -23085,7 +23085,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -23097,7 +23097,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -23109,7 +23109,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -23121,7 +23121,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T5
-            item5 = await QueryMultipleAsyncInternal(connection,
+            item5 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item5,
                 cacheKey5,
@@ -23268,7 +23268,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             tableName1: tableName1,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             tableName2: tableName2,
@@ -23441,7 +23441,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             tableName1: tableName1,
             where1: connection.ToQueryGroup(where1, transaction),
             tableName2: tableName2,
@@ -23614,7 +23614,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -23787,7 +23787,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -23960,7 +23960,7 @@ public static partial class DbConnectionExtension
         where T5 : class
         where T6 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -24075,7 +24075,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 6 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6>(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -24140,37 +24140,37 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal<T1>(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync<T1>(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal<T2>(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync<T2>(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal<T3>(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync<T3>(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal<T4>(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync<T4>(cacheKey4,
             cache,
             where4,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item5 = await QueryMultipleAsyncInternal<T5>(cacheKey5,
+        var item5 = await QueryMultipleInternalAsync<T5>(cacheKey5,
             cache,
             where5,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item6 = await QueryMultipleAsyncInternal<T6>(cacheKey6,
+        var item6 = await QueryMultipleInternalAsync<T6>(cacheKey6,
             cache,
             where6,
             queryGroups,
@@ -24303,7 +24303,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -24327,7 +24327,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -24339,7 +24339,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -24351,7 +24351,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -24363,7 +24363,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -24375,7 +24375,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T5
-            item5 = await QueryMultipleAsyncInternal(connection,
+            item5 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item5,
                 cacheKey5,
@@ -24387,7 +24387,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T6
-            item6 = await QueryMultipleAsyncInternal(connection,
+            item6 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item6,
                 cacheKey6,
@@ -24550,7 +24550,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             tableName1: tableName1,
             where1: await WhatToQueryGroupAsync(typeof(T1), connection, what1, transaction, cancellationToken).ConfigureAwait(false),
             tableName2: tableName2,
@@ -24746,7 +24746,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             tableName1: tableName1,
             where1: connection.ToQueryGroup(where1, transaction),
             tableName2: tableName2,
@@ -24942,7 +24942,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -25138,7 +25138,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -25334,7 +25334,7 @@ public static partial class DbConnectionExtension
         where T6 : class
         where T7 : class
     {
-        return await QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
+        return await QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -25464,7 +25464,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 7 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>>>
-        QueryMultipleAsyncInternal<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
+        QueryMultipleInternalAsync<T1, T2, T3, T4, T5, T6, T7>(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -25537,43 +25537,43 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal<T1>(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync<T1>(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal<T2>(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync<T2>(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal<T3>(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync<T3>(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal<T4>(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync<T4>(cacheKey4,
             cache,
             where4,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item5 = await QueryMultipleAsyncInternal<T5>(cacheKey5,
+        var item5 = await QueryMultipleInternalAsync<T5>(cacheKey5,
             cache,
             where5,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item6 = await QueryMultipleAsyncInternal<T6>(cacheKey6,
+        var item6 = await QueryMultipleInternalAsync<T6>(cacheKey6,
             cache,
             where6,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item7 = await QueryMultipleAsyncInternal<T7>(cacheKey7,
+        var item7 = await QueryMultipleInternalAsync<T7>(cacheKey7,
             cache,
             where7,
             queryGroups,
@@ -25724,7 +25724,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -25748,7 +25748,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -25760,7 +25760,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -25772,7 +25772,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -25784,7 +25784,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -25796,7 +25796,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T5
-            item5 = await QueryMultipleAsyncInternal(connection,
+            item5 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item5,
                 cacheKey5,
@@ -25808,7 +25808,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T6
-            item6 = await QueryMultipleAsyncInternal(connection,
+            item6 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item6,
                 cacheKey6,
@@ -25820,7 +25820,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T7
-            item7 = await QueryMultipleAsyncInternal(connection,
+            item7 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item7,
                 cacheKey7,
@@ -25902,7 +25902,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: WhatToQueryGroup(what1),
             tableName2: tableName2,
@@ -25978,7 +25978,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -26054,7 +26054,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -26130,7 +26130,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -26182,7 +26182,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 2 enumerable target data entity types.</returns>
-    internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleInternalAsync(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -26213,13 +26213,13 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync(cacheKey2,
             cache,
             where2,
             queryGroups,
@@ -26282,7 +26282,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -26306,7 +26306,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -26318,7 +26318,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -26410,7 +26410,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: WhatToQueryGroup(what1),
             tableName2: tableName2,
@@ -26507,7 +26507,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -26604,7 +26604,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -26701,7 +26701,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -26767,7 +26767,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 3 enumerable target data entity types.</returns>
-    internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>> QueryMultipleInternalAsync(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -26805,19 +26805,19 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync(cacheKey3,
             cache,
             where3,
             queryGroups,
@@ -26899,7 +26899,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -26923,7 +26923,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -26935,7 +26935,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -26947,7 +26947,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -27054,7 +27054,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: WhatToQueryGroup(what1),
             tableName2: tableName2,
@@ -27173,7 +27173,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -27292,7 +27292,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -27411,7 +27411,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -27492,7 +27492,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 4 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
-        QueryMultipleAsyncInternal(this IDbConnection connection,
+        QueryMultipleInternalAsync(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -27537,25 +27537,25 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync(cacheKey4,
             cache,
             where4,
             queryGroups,
@@ -27656,7 +27656,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -27680,7 +27680,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -27692,7 +27692,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -27704,7 +27704,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -27716,7 +27716,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -27837,7 +27837,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: WhatToQueryGroup(what1),
             tableName2: tableName2,
@@ -27977,7 +27977,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -28117,7 +28117,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -28257,7 +28257,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -28352,7 +28352,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 5 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
-        QueryMultipleAsyncInternal(this IDbConnection connection,
+        QueryMultipleInternalAsync(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -28404,31 +28404,31 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync(cacheKey4,
             cache,
             where4,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item5 = await QueryMultipleAsyncInternal(cacheKey5,
+        var item5 = await QueryMultipleInternalAsync(cacheKey5,
             cache,
             where5,
             queryGroups,
@@ -28548,7 +28548,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -28572,7 +28572,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -28584,7 +28584,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -28596,7 +28596,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -28608,7 +28608,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -28620,7 +28620,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T5
-            item5 = await QueryMultipleAsyncInternal(connection,
+            item5 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item5,
                 cacheKey5,
@@ -28755,7 +28755,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: WhatToQueryGroup(what1),
             tableName2: tableName2,
@@ -28916,7 +28916,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -29077,7 +29077,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -29238,7 +29238,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -29347,7 +29347,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 6 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
-        QueryMultipleAsyncInternal(this IDbConnection connection,
+        QueryMultipleInternalAsync(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -29406,37 +29406,37 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync(cacheKey4,
             cache,
             where4,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item5 = await QueryMultipleAsyncInternal(cacheKey5,
+        var item5 = await QueryMultipleInternalAsync(cacheKey5,
             cache,
             where5,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item6 = await QueryMultipleAsyncInternal(cacheKey6,
+        var item6 = await QueryMultipleInternalAsync(cacheKey6,
             cache,
             where6,
             queryGroups,
@@ -29575,7 +29575,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -29599,7 +29599,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -29611,7 +29611,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -29623,7 +29623,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -29635,7 +29635,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -29647,7 +29647,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T5
-            item5 = await QueryMultipleAsyncInternal(connection,
+            item5 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item5,
                 cacheKey5,
@@ -29659,7 +29659,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T6
-            item6 = await QueryMultipleAsyncInternal(connection,
+            item6 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item6,
                 cacheKey6,
@@ -29808,7 +29808,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: WhatToQueryGroup(what1),
             tableName2: tableName2,
@@ -29990,7 +29990,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -30172,7 +30172,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: ToQueryGroup(where1),
             tableName2: tableName2,
@@ -30354,7 +30354,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryMultipleAsyncInternal(connection: connection,
+        return await QueryMultipleInternalAsync(connection: connection,
             tableName1: tableName1,
             where1: where1,
             tableName2: tableName2,
@@ -30477,7 +30477,7 @@ public static partial class DbConnectionExtension
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A tuple of 7 enumerable target data entity types.</returns>
     internal static async ValueTask<Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>>>
-        QueryMultipleAsyncInternal(this IDbConnection connection,
+        QueryMultipleInternalAsync(this IDbConnection connection,
         string tableName1,
         QueryGroup? where1,
         string tableName2,
@@ -30543,43 +30543,43 @@ public static partial class DbConnectionExtension
         var commandTexts = new List<string>();
 
         // Items
-        var item1 = await QueryMultipleAsyncInternal(cacheKey1,
+        var item1 = await QueryMultipleInternalAsync(cacheKey1,
             cache,
             where1,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item2 = await QueryMultipleAsyncInternal(cacheKey2,
+        var item2 = await QueryMultipleInternalAsync(cacheKey2,
             cache,
             where2,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item3 = await QueryMultipleAsyncInternal(cacheKey3,
+        var item3 = await QueryMultipleInternalAsync(cacheKey3,
             cache,
             where3,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item4 = await QueryMultipleAsyncInternal(cacheKey4,
+        var item4 = await QueryMultipleInternalAsync(cacheKey4,
             cache,
             where4,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item5 = await QueryMultipleAsyncInternal(cacheKey5,
+        var item5 = await QueryMultipleInternalAsync(cacheKey5,
             cache,
             where5,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item6 = await QueryMultipleAsyncInternal(cacheKey6,
+        var item6 = await QueryMultipleInternalAsync(cacheKey6,
             cache,
             where6,
             queryGroups,
             cancellationToken).ConfigureAwait(false);
 
-        var item7 = await QueryMultipleAsyncInternal(cacheKey7,
+        var item7 = await QueryMultipleInternalAsync(cacheKey7,
             cache,
             where7,
             queryGroups,
@@ -30737,7 +30737,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderAsyncInternal(connection: connection,
+        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -30761,7 +30761,7 @@ public static partial class DbConnectionExtension
             var dbSetting = connection.GetDbSetting();
 
             // T1
-            item1 = await QueryMultipleAsyncInternal(connection,
+            item1 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item1,
                 cacheKey1,
@@ -30773,7 +30773,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T2
-            item2 = await QueryMultipleAsyncInternal(connection,
+            item2 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item2,
                 cacheKey2,
@@ -30785,7 +30785,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T3
-            item3 = await QueryMultipleAsyncInternal(connection,
+            item3 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item3,
                 cacheKey3,
@@ -30797,7 +30797,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T4
-            item4 = await QueryMultipleAsyncInternal(connection,
+            item4 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item4,
                 cacheKey4,
@@ -30809,7 +30809,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T5
-            item5 = await QueryMultipleAsyncInternal(connection,
+            item5 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item5,
                 cacheKey5,
@@ -30821,7 +30821,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T6
-            item6 = await QueryMultipleAsyncInternal(connection,
+            item6 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item6,
                 cacheKey6,
@@ -30833,7 +30833,7 @@ public static partial class DbConnectionExtension
                 cancellationToken).ConfigureAwait(false);
 
             // T7
-            item7 = await QueryMultipleAsyncInternal(connection,
+            item7 = await QueryMultipleInternalAsync(connection,
                 reader,
                 item7,
                 cacheKey7,
@@ -30976,7 +30976,7 @@ public static partial class DbConnectionExtension
     /// <param name="queryGroups"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<IEnumerable<T>?> QueryMultipleAsyncInternal<T>(
+    private static async ValueTask<IEnumerable<T>?> QueryMultipleInternalAsync<T>(
         string? cacheKey,
         ICache? cache,
         QueryGroup? where,
@@ -31008,7 +31008,7 @@ public static partial class DbConnectionExtension
     /// <param name="queryGroups"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<IEnumerable<dynamic>?> QueryMultipleAsyncInternal(string? cacheKey,
+    private static async ValueTask<IEnumerable<dynamic>?> QueryMultipleInternalAsync(string? cacheKey,
         ICache? cache,
         QueryGroup? where,
         List<QueryGroup?> queryGroups,
@@ -31044,7 +31044,7 @@ public static partial class DbConnectionExtension
     /// <param name="forwardToNextResult"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<IEnumerable<T>> QueryMultipleAsyncInternal<T>(IDbConnection connection,
+    private static async ValueTask<IEnumerable<T>> QueryMultipleInternalAsync<T>(IDbConnection connection,
         DbDataReader reader,
         IEnumerable<T>? items,
         string? cacheKey = null,

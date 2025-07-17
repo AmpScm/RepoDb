@@ -870,7 +870,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -909,7 +909,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: field,
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -948,7 +948,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -987,7 +987,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1026,7 +1026,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: field,
             where: where,
             hints: hints,
@@ -1065,7 +1065,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1104,7 +1104,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -1143,7 +1143,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1182,7 +1182,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1221,7 +1221,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity>(connection: connection,
+        return await SumInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
             hints: hints,
@@ -1248,7 +1248,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static async ValueTask<object> SumAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<object> SumInternalAsync<TEntity>(this IDbConnection connection,
         Field field,
         QueryGroup? where = null,
         int commandTimeout = 0,
@@ -1273,7 +1273,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
-        return await SumAsyncInternalBase<object>(
+        return await SumInternalBaseAsync<object>(
             connection: connection,
             request: request,
             param: param,
@@ -1312,7 +1312,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1352,7 +1352,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -1392,7 +1392,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1432,7 +1432,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1472,7 +1472,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: where,
             hints: hints,
@@ -1512,7 +1512,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1552,7 +1552,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -1592,7 +1592,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1632,7 +1632,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1672,7 +1672,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
             hints: hints,
@@ -1700,7 +1700,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static async ValueTask<TResult> SumAsyncInternal<TEntity, TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> SumInternalAsync<TEntity, TResult>(this IDbConnection connection,
         Field field,
         QueryGroup? where = null,
         int commandTimeout = 0,
@@ -1725,7 +1725,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
-        return await SumAsyncInternalBase<TResult>(connection: connection,
+        return await SumInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2165,7 +2165,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal(connection: connection,
+        return await SumInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2205,7 +2205,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal(connection: connection,
+        return await SumInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2245,7 +2245,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal(connection: connection,
+        return await SumInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2285,7 +2285,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal(connection: connection,
+        return await SumInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: where,
@@ -2313,7 +2313,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static async ValueTask<object> SumAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<object> SumInternalAsync(this IDbConnection connection,
         string tableName,
         Field field,
         QueryGroup? where = null,
@@ -2338,7 +2338,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return await SumAsyncInternalBase<object>(connection: connection,
+        return await SumInternalBaseAsync<object>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2376,7 +2376,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal<TResult>(connection: connection,
+        return await SumInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2417,7 +2417,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal<TResult>(connection: connection,
+        return await SumInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2458,7 +2458,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal<TResult>(connection: connection,
+        return await SumInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2499,7 +2499,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAsyncInternal<TResult>(connection: connection,
+        return await SumInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: where,
@@ -2528,7 +2528,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static ValueTask<TResult> SumAsyncInternal<TResult>(this IDbConnection connection,
+    internal static ValueTask<TResult> SumInternalAsync<TResult>(this IDbConnection connection,
         string tableName,
         Field field,
         QueryGroup? where = null,
@@ -2553,7 +2553,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
 
         // Return the result
-        return SumAsyncInternalBase<TResult>(connection: connection,
+        return SumInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2622,7 +2622,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static async ValueTask<TResult> SumAsyncInternalBase<TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> SumInternalBaseAsync<TResult>(this IDbConnection connection,
         SumRequest request,
         object? param,
         int commandTimeout = 0,
@@ -2636,7 +2636,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetSumText(request);
 
         // Actual Execution
-        var result = await ExecuteScalarAsyncInternal<TResult>(connection: connection,
+        var result = await ExecuteScalarInternalAsync<TResult>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

@@ -754,7 +754,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             fields: fields,
             where: await WhatToQueryGroupAsync(typeof(TEntity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
@@ -813,7 +813,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
         where TWhat : notnull
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             fields: fields,
             where: await WhatToQueryGroupAsync(typeof(TEntity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
@@ -870,7 +870,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             fields: fields,
             where: connection.ToQueryGroup(where, transaction, tableName),
@@ -927,7 +927,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             fields: fields,
             where: ToQueryGroup(where),
@@ -984,7 +984,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             fields: fields,
             where: ToQueryGroup(where),
@@ -1041,7 +1041,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             fields: fields,
             where: where,
@@ -1096,7 +1096,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             where: await WhatToQueryGroupAsync(typeof(TEntity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
             fields: fields,
@@ -1153,7 +1153,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
         where TWhat : notnull
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             where: await WhatToQueryGroupAsync(typeof(TEntity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
             fields: fields,
@@ -1208,7 +1208,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             where: ToQueryGroup(where),
             fields: fields,
@@ -1263,7 +1263,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             where: ToQueryGroup(where),
             fields: fields,
@@ -1318,7 +1318,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             where: connection.ToQueryGroup(where, transaction),
             fields: fields,
@@ -1373,7 +1373,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await QueryAsyncInternal<TEntity>(connection: connection,
+        return await QueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             where: where,
             fields: fields,
@@ -1412,7 +1412,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    internal static async ValueTask<IEnumerable<TEntity>> QueryAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<TEntity>> QueryInternalAsync<TEntity>(this IDbConnection connection,
         string tableName,
         QueryGroup? where,
         IEnumerable<Field>? fields = null,
@@ -1435,7 +1435,7 @@ public static partial class DbConnectionExtension
             (await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false))?.AsFields();
 
         // Return
-        return await QueryAsyncInternalBase<TEntity>(connection: connection,
+        return await QueryInternalBaseAsync<TEntity>(connection: connection,
             tableName: tableName,
             fields: fields,
             where: where,
@@ -1814,7 +1814,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TWhat : notnull
     {
-        return await QueryAsyncInternal(connection: connection,
+        return await QueryInternalAsync(connection: connection,
             tableName: tableName,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
             fields: fields,
@@ -1869,7 +1869,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryAsyncInternal(connection: connection,
+        return await QueryInternalAsync(connection: connection,
             tableName: tableName,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
             fields: fields,
@@ -1924,7 +1924,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryAsyncInternal(connection: connection,
+        return await QueryInternalAsync(connection: connection,
             tableName: tableName,
             where: ToQueryGroup(where),
             fields: fields,
@@ -1979,7 +1979,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryAsyncInternal(connection: connection,
+        return await QueryInternalAsync(connection: connection,
             tableName: tableName,
             where: ToQueryGroup(where),
             fields: fields,
@@ -2034,7 +2034,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await QueryAsyncInternal(connection: connection,
+        return await QueryInternalAsync(connection: connection,
             tableName: tableName,
             where: where,
             fields: fields,
@@ -2072,7 +2072,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of dynamic objects.</returns>
-    internal static ValueTask<IEnumerable<dynamic>> QueryAsyncInternal(this IDbConnection connection,
+    internal static ValueTask<IEnumerable<dynamic>> QueryInternalAsync(this IDbConnection connection,
         string tableName,
         QueryGroup? where,
         IEnumerable<Field>? fields = null,
@@ -2089,7 +2089,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return QueryAsyncInternal<dynamic>(connection: connection,
+        return QueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             where: where,
             fields: fields,
@@ -2202,7 +2202,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region QueryAsyncInternalBase<TEntity>
+    #region QueryInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Query the existing rows from the table based on a given expression in an asynchronous way.
@@ -2225,7 +2225,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    internal static async ValueTask<IEnumerable<TEntity>> QueryAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<TEntity>> QueryInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         QueryGroup? where,
         IEnumerable<Field>? fields = null,
@@ -2271,7 +2271,7 @@ public static partial class DbConnectionExtension
         var commandText = await CommandTextCache.GetQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
 
         // Actual Execution
-        var result = await ExecuteQueryAsyncInternal<TEntity>(connection: connection,
+        var result = await ExecuteQueryInternalAsync<TEntity>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

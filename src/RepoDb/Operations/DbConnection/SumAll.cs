@@ -218,7 +218,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAllAsyncInternal<TEntity, object>(connection: connection,
+        return await SumAllInternalAsync<TEntity, object>(connection: connection,
             field: field,
             hints: hints,
             commandTimeout: commandTimeout,
@@ -254,7 +254,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAllAsyncInternal<TEntity, object>(connection: connection,
+        return await SumAllInternalAsync<TEntity, object>(connection: connection,
             field: Field.Parse(field).First(),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -291,7 +291,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAllAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumAllInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             hints: hints,
             commandTimeout: commandTimeout,
@@ -328,7 +328,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SumAllAsyncInternal<TEntity, TResult>(connection: connection,
+        return await SumAllInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -354,7 +354,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static ValueTask<TResult> SumAllAsyncInternal<TEntity, TResult>(this IDbConnection connection,
+    internal static ValueTask<TResult> SumAllInternalAsync<TEntity, TResult>(this IDbConnection connection,
         Field field,
         string? hints = null,
         int commandTimeout = 0,
@@ -375,7 +375,7 @@ public static partial class DbConnectionExtension
         object? param = null;
 
         // Return the result
-        return SumAllAsyncInternalBase<TResult>(connection: connection,
+        return SumAllInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -529,7 +529,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAllAsyncInternal<object>(connection: connection,
+        return await SumAllInternalAsync<object>(connection: connection,
             tableName: tableName,
             field: field,
             hints: hints,
@@ -567,7 +567,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SumAllAsyncInternal<TResult>(connection: connection,
+        return await SumAllInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             hints: hints,
@@ -594,7 +594,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static ValueTask<TResult> SumAllAsyncInternal<TResult>(this IDbConnection connection,
+    internal static ValueTask<TResult> SumAllInternalAsync<TResult>(this IDbConnection connection,
         string tableName,
         Field field,
         string? hints = null,
@@ -614,7 +614,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Return the result
-        return SumAllAsyncInternalBase<TResult>(connection: connection,
+        return SumAllInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: null,
             commandTimeout: commandTimeout,
@@ -685,7 +685,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static async ValueTask<TResult> SumAllAsyncInternalBase<TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> SumAllInternalBaseAsync<TResult>(this IDbConnection connection,
         SumAllRequest request,
         object? param,
         int commandTimeout = 0,
@@ -699,7 +699,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetSumAllText(request);
 
         // Actual Execution
-        var result = await ExecuteScalarAsyncInternal<TResult>(connection: connection,
+        var result = await ExecuteScalarInternalAsync<TResult>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

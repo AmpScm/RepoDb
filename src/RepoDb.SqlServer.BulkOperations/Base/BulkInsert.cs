@@ -431,7 +431,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async Task<int> BulkInsertAsyncInternalBase<TEntity>(SqlConnection connection,
+    private static async Task<int> BulkInsertInternalBaseAsync<TEntity>(SqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<BulkInsertMapItem>? mappings = null,
@@ -513,7 +513,7 @@ public static partial class SqlConnectionExtension
                 cancellationToken);
 
             // WriteToServer
-            result = await WriteToServerAsyncInternal(connection,
+            result = await WriteToServerInternalAsync(connection,
                 tempTableName ?? tableName,
                 entities,
                 mappings,
@@ -577,7 +577,7 @@ public static partial class SqlConnectionExtension
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkInsertAsyncInternalBase(SqlConnection connection,
+    internal static async Task<int> BulkInsertInternalBaseAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<BulkInsertMapItem>? mappings = null,
@@ -640,7 +640,7 @@ public static partial class SqlConnectionExtension
             }
 
             // WriteToServer
-            result = await WriteToServerAsyncInternal(connection,
+            result = await WriteToServerInternalAsync(connection,
                 tableName,
                 reader,
                 mappings,
@@ -684,7 +684,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async Task<int> BulkInsertAsyncInternalBase(SqlConnection connection,
+    internal static async Task<int> BulkInsertInternalBaseAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         DataRowState? rowState = null,
@@ -764,7 +764,7 @@ public static partial class SqlConnectionExtension
                 cancellationToken);
 
             // WriteToServer
-            result = await WriteToServerAsyncInternal(connection,
+            result = await WriteToServerInternalAsync(connection,
                 tempTableName ?? tableName,
                 dataTable,
                 rowState,

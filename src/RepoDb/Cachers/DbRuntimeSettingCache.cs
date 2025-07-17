@@ -72,7 +72,7 @@ public static class DbRuntimeSettingCache
     public static ValueTask<DbRuntimeSetting> GetAsync(IDbConnection connection,
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default) =>
-        GetAsyncInternal(connection, transaction, cancellationToken);
+        GetInternalAsync(connection, transaction, cancellationToken);
 
     /// <summary>
     /// Gets the cached field definitions of the entity in an asynchronous way.
@@ -84,7 +84,7 @@ public static class DbRuntimeSettingCache
     /// <param name="enableValidation">Enables the validation after retrieving the database fields.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The cached field definitions of the entity.</returns>
-    internal static async ValueTask<DbRuntimeSetting> GetAsyncInternal(IDbConnection connection,
+    internal static async ValueTask<DbRuntimeSetting> GetInternalAsync(IDbConnection connection,
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default)
     {

@@ -255,7 +255,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await CountAsyncInternal<TEntity>(connection: connection,
+        return await CountInternalAsync<TEntity>(connection: connection,
             where: ToQueryGroup(where),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -291,7 +291,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await CountAsyncInternal<TEntity>(connection: connection,
+        return await CountInternalAsync<TEntity>(connection: connection,
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -327,7 +327,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await CountAsyncInternal<TEntity>(connection: connection,
+        return await CountInternalAsync<TEntity>(connection: connection,
             where: ToQueryGroup(where),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -363,7 +363,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await CountAsyncInternal<TEntity>(connection: connection,
+        return await CountInternalAsync<TEntity>(connection: connection,
             where: ToQueryGroup(where),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -399,7 +399,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await CountAsyncInternal<TEntity>(connection: connection,
+        return await CountInternalAsync<TEntity>(connection: connection,
             where: where,
             hints: hints,
             commandTimeout: commandTimeout,
@@ -424,7 +424,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An integer value that holds the number of rows from the table.</returns>
-    internal static async ValueTask<long> CountAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<long> CountInternalAsync<TEntity>(this IDbConnection connection,
         QueryGroup? where,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Count,
@@ -451,7 +451,7 @@ public static partial class DbConnectionExtension
         }
 
         // Return the result
-        return CountAsyncInternalBase(connection: connection,
+        return CountInternalBaseAsync(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -674,7 +674,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await CountAsyncInternal(connection: connection,
+        return await CountInternalAsync(connection: connection,
             tableName: tableName,
             where: ToQueryGroup(where),
             hints: hints,
@@ -711,7 +711,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await CountAsyncInternal(connection: connection,
+        return await CountInternalAsync(connection: connection,
             tableName: tableName,
             where: ToQueryGroup(where),
             hints: hints,
@@ -748,7 +748,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await CountAsyncInternal(connection: connection,
+        return await CountInternalAsync(connection: connection,
             tableName: tableName,
             where: ToQueryGroup(where),
             hints: hints,
@@ -785,7 +785,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await CountAsyncInternal(connection: connection,
+        return await CountInternalAsync(connection: connection,
             tableName: tableName,
             where: where,
             hints: hints,
@@ -811,7 +811,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An integer value that holds the number of rows from the table.</returns>
-    internal static async ValueTask<long> CountAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<long> CountInternalAsync(this IDbConnection connection,
         string tableName,
         QueryGroup? where = null,
         string? hints = null,
@@ -834,7 +834,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return await CountAsyncInternalBase(connection: connection,
+        return await CountInternalBaseAsync(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -903,7 +903,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An integer value that holds the number of rows from the table.</returns>
-    internal static async ValueTask<long> CountAsyncInternalBase(this IDbConnection connection,
+    internal static async ValueTask<long> CountInternalBaseAsync(this IDbConnection connection,
         CountRequest request,
         object? param,
         int commandTimeout = 0,
@@ -917,7 +917,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetCountText(request);
 
         // Actual Execution
-        var result = await ExecuteScalarAsyncInternal<long>(connection: connection,
+        var result = await ExecuteScalarInternalAsync<long>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

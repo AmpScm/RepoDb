@@ -270,7 +270,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteNonQueryAsyncInternal(connection: (DbConnection)connection,
+        return await ExecuteNonQueryInternalAsync(connection: (DbConnection)connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -300,7 +300,7 @@ public static partial class DbConnectionExtension
     /// <param name="skipCommandArrayParametersCheck"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async ValueTask<int> ExecuteNonQueryAsyncInternal(this DbConnection connection,
+    internal static async ValueTask<int> ExecuteNonQueryInternalAsync(this DbConnection connection,
         string commandText,
         object? param,
         CommandType commandType,

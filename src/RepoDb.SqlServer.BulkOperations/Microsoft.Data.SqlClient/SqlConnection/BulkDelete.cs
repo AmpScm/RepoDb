@@ -363,7 +363,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkDeleteAsyncInternal(connection: connection,
+        return BulkDeleteInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             primaryKeys: primaryKeys,
             hints: hints,
@@ -405,7 +405,7 @@ public static partial class SqlConnectionExtension
     {
         using var reader = new DataEntityDataReader<TEntity>(entities);
 
-        return await BulkDeleteAsyncInternal(connection: connection,
+        return await BulkDeleteInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             reader: reader,
             qualifiers: ParseExpression(qualifiers),
@@ -452,7 +452,7 @@ public static partial class SqlConnectionExtension
     {
         using var reader = new DataEntityDataReader<TEntity>(entities);
 
-        return await BulkDeleteAsyncInternal(connection: connection,
+        return await BulkDeleteInternalAsync(connection: connection,
             tableName: tableName,
             reader: reader,
             qualifiers: ParseExpression(qualifiers),
@@ -495,7 +495,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkDeleteAsyncInternal(connection: connection,
+        return BulkDeleteInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             reader: reader,
             qualifiers: ParseExpression(qualifiers),
@@ -540,7 +540,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return BulkDeleteAsyncInternal(connection: connection,
+        return BulkDeleteInternalAsync(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
             dataTable: dataTable,
             qualifiers: ParseExpression(qualifiers),
@@ -582,7 +582,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkDeleteAsyncInternal(connection: connection,
+        return BulkDeleteInternalAsync(connection: connection,
             tableName: tableName,
             primaryKeys: primaryKeys,
             hints: hints,
@@ -622,7 +622,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkDeleteAsyncInternal(connection: connection,
+        return BulkDeleteInternalAsync(connection: connection,
             tableName: tableName,
             reader: reader,
             qualifiers: qualifiers,
@@ -667,7 +667,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        return BulkDeleteAsyncInternal(connection: connection,
+        return BulkDeleteInternalAsync(connection: connection,
             tableName: tableName,
             dataTable: dataTable,
             qualifiers: qualifiers,
@@ -812,7 +812,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static Task<int> BulkDeleteAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkDeleteInternalAsync(SqlConnection connection,
         string tableName,
         IEnumerable<object> primaryKeys,
         string? hints = null,
@@ -822,7 +822,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkDeleteAsyncInternalBase(connection,
+        BulkDeleteInternalBaseAsync(connection,
             tableName,
             primaryKeys,
             hints,
@@ -850,7 +850,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static Task<int> BulkDeleteAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkDeleteInternalAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<Field>? qualifiers = null,
@@ -863,7 +863,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkDeleteAsyncInternalBase(connection,
+        BulkDeleteInternalBaseAsync(connection,
             tableName,
             reader,
             qualifiers,
@@ -895,7 +895,7 @@ public static partial class SqlConnectionExtension
     /// <param name="trace"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static Task<int> BulkDeleteAsyncInternal(SqlConnection connection,
+    internal static Task<int> BulkDeleteInternalAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         IEnumerable<Field>? qualifiers = null,
@@ -909,7 +909,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null,
         CancellationToken cancellationToken = default) =>
-        BulkDeleteAsyncInternalBase(connection,
+        BulkDeleteInternalBaseAsync(connection,
             tableName,
             dataTable,
             qualifiers,

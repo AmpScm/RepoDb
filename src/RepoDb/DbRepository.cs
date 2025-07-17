@@ -937,7 +937,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
          */
 
         // Call the method
-        return await connection.ExecuteQueryMultipleAsyncInternal(commandText: commandText,
+        return await connection.ExecuteQueryMultipleInternalAsync(commandText: commandText,
             param: param,
             commandType: commandType,
             cacheKey: cacheKey,

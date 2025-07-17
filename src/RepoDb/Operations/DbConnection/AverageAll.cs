@@ -218,7 +218,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAllAsyncInternal<TEntity, object>(connection: connection,
+        return await AverageAllInternalAsync<TEntity, object>(connection: connection,
             field: field,
             hints: hints,
             commandTimeout: commandTimeout,
@@ -254,7 +254,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAllAsyncInternal<TEntity, object>(connection: connection,
+        return await AverageAllInternalAsync<TEntity, object>(connection: connection,
             field: Field.Parse(field).First(),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -291,7 +291,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAllAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageAllInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             hints: hints,
             commandTimeout: commandTimeout,
@@ -328,7 +328,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAllAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageAllInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             hints: hints,
             commandTimeout: commandTimeout,
@@ -354,7 +354,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static ValueTask<TResult> AverageAllAsyncInternal<TEntity, TResult>(this IDbConnection connection,
+    internal static ValueTask<TResult> AverageAllInternalAsync<TEntity, TResult>(this IDbConnection connection,
         Field field,
         string? hints = null,
         int commandTimeout = 0,
@@ -375,7 +375,7 @@ public static partial class DbConnectionExtension
         object? param = null;
 
         // Return the result
-        return AverageAllAsyncInternalBase<TResult>(connection: connection,
+        return AverageAllInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -529,7 +529,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAllAsyncInternal<object>(connection: connection,
+        return await AverageAllInternalAsync<object>(connection: connection,
             tableName: tableName,
             field: field,
             hints: hints,
@@ -567,7 +567,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAllAsyncInternal<TResult>(connection: connection,
+        return await AverageAllInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             hints: hints,
@@ -594,7 +594,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static ValueTask<TResult> AverageAllAsyncInternal<TResult>(this IDbConnection connection,
+    internal static ValueTask<TResult> AverageAllInternalAsync<TResult>(this IDbConnection connection,
         string tableName,
         Field field,
         string? hints = null,
@@ -614,7 +614,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Return the result
-        return AverageAllAsyncInternalBase<TResult>(connection: connection,
+        return AverageAllInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: null,
             commandTimeout: commandTimeout,
@@ -685,7 +685,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static async ValueTask<TResult> AverageAllAsyncInternalBase<TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> AverageAllInternalBaseAsync<TResult>(this IDbConnection connection,
         AverageAllRequest request,
         object? param,
         int commandTimeout = 0,
@@ -699,7 +699,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetAverageAllText(request);
 
         // Actual Execution
-        var result = await ExecuteScalarAsyncInternal<TResult>(connection: connection,
+        var result = await ExecuteScalarInternalAsync<TResult>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

@@ -878,7 +878,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -917,7 +917,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: field,
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -956,7 +956,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -995,7 +995,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1034,7 +1034,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: field,
             where: where,
             hints: hints,
@@ -1073,7 +1073,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1112,7 +1112,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -1151,7 +1151,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1190,7 +1190,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1229,7 +1229,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity>(connection: connection,
+        return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
             hints: hints,
@@ -1256,7 +1256,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static async ValueTask<object> AverageAsyncInternal<TEntity>(
+    internal static async ValueTask<object> AverageInternalAsync<TEntity>(
         this IDbConnection connection,
         Field field,
         QueryGroup? where = null,
@@ -1282,7 +1282,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
-        return await AverageAsyncInternalBase<object>(connection: connection,
+        return await AverageInternalBaseAsync<object>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -1320,7 +1320,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1360,7 +1360,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -1400,7 +1400,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1440,7 +1440,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: ToQueryGroup(where),
             hints: hints,
@@ -1480,7 +1480,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: field,
             where: where,
             hints: hints,
@@ -1520,7 +1520,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1560,7 +1560,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
             hints: hints,
@@ -1600,7 +1600,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1640,7 +1640,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
             hints: hints,
@@ -1680,7 +1680,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await AverageAsyncInternal<TEntity, TResult>(connection: connection,
+        return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
             hints: hints,
@@ -1708,7 +1708,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static async ValueTask<TResult> AverageAsyncInternal<TEntity, TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> AverageInternalAsync<TEntity, TResult>(this IDbConnection connection,
         Field field,
         QueryGroup? where = null,
         int commandTimeout = 0,
@@ -1733,7 +1733,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
 
         // Return the result
-        return await AverageAsyncInternalBase<TResult>(connection: connection,
+        return await AverageInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2173,7 +2173,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal(connection: connection,
+        return await AverageInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2213,7 +2213,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal(connection: connection,
+        return await AverageInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2253,7 +2253,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal(connection: connection,
+        return await AverageInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2293,7 +2293,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal(connection: connection,
+        return await AverageInternalAsync(connection: connection,
             tableName: tableName,
             field: field,
             where: where,
@@ -2321,7 +2321,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static async ValueTask<object> AverageAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<object> AverageInternalAsync(this IDbConnection connection,
         string tableName,
         Field field,
         QueryGroup? where = null,
@@ -2346,7 +2346,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return AverageAsyncInternalBase<object>(connection: connection,
+        return AverageInternalBaseAsync<object>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2384,7 +2384,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal<TResult>(connection: connection,
+        return await AverageInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2425,7 +2425,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal<TResult>(connection: connection,
+        return await AverageInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2466,7 +2466,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal<TResult>(connection: connection,
+        return await AverageInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: ToQueryGroup(where),
@@ -2507,7 +2507,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await AverageAsyncInternal<TResult>(connection: connection,
+        return await AverageInternalAsync<TResult>(connection: connection,
             tableName: tableName,
             field: field,
             where: where,
@@ -2536,7 +2536,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static async ValueTask<TResult> AverageAsyncInternal<TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> AverageInternalAsync<TResult>(this IDbConnection connection,
         string tableName,
         Field field,
         QueryGroup? where = null,
@@ -2561,7 +2561,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return await AverageAsyncInternalBase<TResult>(connection: connection,
+        return await AverageInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2630,7 +2630,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The average value of the target field.</returns>
-    internal static async ValueTask<TResult> AverageAsyncInternalBase<TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> AverageInternalBaseAsync<TResult>(this IDbConnection connection,
         AverageRequest request,
         object? param,
         int commandTimeout = 0,
@@ -2644,7 +2644,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetAverageText(request);
 
         // Actual Execution
-        var result = await ExecuteScalarAsyncInternal<TResult>(connection: connection,
+        var result = await ExecuteScalarInternalAsync<TResult>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

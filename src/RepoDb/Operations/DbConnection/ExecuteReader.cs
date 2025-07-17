@@ -161,7 +161,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        return await ExecuteReaderAsyncInternal(connection: connection,
+        return await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -192,7 +192,7 @@ public static partial class DbConnectionExtension
     /// <param name="beforeExecutionCallbackAsync"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    internal static async ValueTask<DbDataReader> ExecuteReaderAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<DbDataReader> ExecuteReaderInternalAsync(this IDbConnection connection,
         string commandText,
         object? param,
         CommandType commandType,

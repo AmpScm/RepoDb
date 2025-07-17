@@ -266,7 +266,7 @@ public static partial class SqlConnectionExtension
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async Task<int> WriteToServerAsyncInternal<TEntity>(SqlConnection connection,
+    private static async Task<int> WriteToServerInternalAsync<TEntity>(SqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
         IEnumerable<BulkInsertMapItem>? mappings = null,
@@ -350,7 +350,7 @@ public static partial class SqlConnectionExtension
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async Task<int> WriteToServerAsyncInternal(SqlConnection connection,
+    private static async Task<int> WriteToServerInternalAsync(SqlConnection connection,
         string tableName,
         DbDataReader reader,
         IEnumerable<BulkInsertMapItem>? mappings = null,
@@ -420,7 +420,7 @@ public static partial class SqlConnectionExtension
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async Task<int> WriteToServerAsyncInternal(SqlConnection connection,
+    private static async Task<int> WriteToServerInternalAsync(SqlConnection connection,
         string tableName,
         DataTable dataTable,
         DataRowState? rowState = null,

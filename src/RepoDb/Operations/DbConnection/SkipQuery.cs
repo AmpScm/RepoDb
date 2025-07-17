@@ -663,7 +663,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection,
+        return await SkipQueryInternalAsync<TEntity>(connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -714,7 +714,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -765,7 +765,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -816,7 +816,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -867,7 +867,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -918,7 +918,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -965,7 +965,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection,
+        return await SkipQueryInternalAsync<TEntity>(connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1014,7 +1014,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1063,7 +1063,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1112,7 +1112,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1161,7 +1161,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1210,7 +1210,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await SkipQueryAsyncInternal<TEntity>(connection: connection,
+        return await SkipQueryInternalAsync<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1245,7 +1245,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    internal static async ValueTask<IEnumerable<TEntity>> SkipQueryAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<TEntity>> SkipQueryInternalAsync<TEntity>(this IDbConnection connection,
         string tableName,
         int skip,
         int rowsPerBatch,
@@ -1266,7 +1266,7 @@ public static partial class DbConnectionExtension
             (await DbFieldCache.GetAsync(connection, tableName, transaction, true, cancellationToken).ConfigureAwait(false)).AsFields();
 
         // Return
-        return await SkipQueryAsyncInternalBase<TEntity>(connection: connection,
+        return await SkipQueryInternalBaseAsync<TEntity>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1549,7 +1549,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SkipQueryAsyncInternal<dynamic>(connection,
+        return await SkipQueryInternalAsync<dynamic>(connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1598,7 +1598,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SkipQueryAsyncInternal<dynamic>(connection: connection,
+        return await SkipQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1647,7 +1647,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SkipQueryAsyncInternal<dynamic>(connection: connection,
+        return await SkipQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1696,7 +1696,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SkipQueryAsyncInternal<dynamic>(connection: connection,
+        return await SkipQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1745,7 +1745,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await SkipQueryAsyncInternal<dynamic>(connection: connection,
+        return await SkipQueryInternalAsync<dynamic>(connection: connection,
             tableName: tableName,
             skip: skip,
             rowsPerBatch: rowsPerBatch,
@@ -1837,7 +1837,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region SkipQueryAsyncInternalBase<TEntity>
+    #region SkipQueryInternalBaseAsync<TEntity>
 
     /// <summary>
     /// Query the rows from the database by batch in an asynchronous way.
@@ -1858,7 +1858,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An enumerable list of data entity objects.</returns>
-    internal static async ValueTask<IEnumerable<TEntity>> SkipQueryAsyncInternalBase<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<IEnumerable<TEntity>> SkipQueryInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         int skip,
         int rowsPerBatch,
@@ -1894,7 +1894,7 @@ public static partial class DbConnectionExtension
 
 
         // Actual Execution
-        var result = await ExecuteQueryAsyncInternal<TEntity>(connection: connection,
+        var result = await ExecuteQueryInternalAsync<TEntity>(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,

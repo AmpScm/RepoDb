@@ -98,7 +98,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        return await TruncateAsyncInternal<TEntity>(connection: (DbConnection)connection,
+        return await TruncateInternalAsync<TEntity>(connection: (DbConnection)connection,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -119,7 +119,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected.</returns>
-    internal static ValueTask<int> TruncateAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static ValueTask<int> TruncateInternalAsync<TEntity>(this IDbConnection connection,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Truncate,
         IDbTransaction? transaction = null,
@@ -135,7 +135,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Return the result
-        return TruncateAsyncInternalBase(connection: (DbConnection)connection,
+        return TruncateInternalBaseAsync(connection: (DbConnection)connection,
             request: request,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -235,7 +235,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        return await TruncateAsyncInternal(connection: (DbConnection)connection,
+        return await TruncateInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -257,7 +257,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected.</returns>
-    internal static ValueTask<int> TruncateAsyncInternal(this IDbConnection connection,
+    internal static ValueTask<int> TruncateInternalAsync(this IDbConnection connection,
         string tableName,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Truncate,
@@ -273,7 +273,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Return the result
-        return TruncateAsyncInternalBase(connection: (DbConnection)connection,
+        return TruncateInternalBaseAsync(connection: (DbConnection)connection,
             request: request,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -339,7 +339,7 @@ public static partial class DbConnectionExtension
     /// <param name="trace">The trace object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The number of rows affected.</returns>
-    internal static async ValueTask<int> TruncateAsyncInternalBase(this IDbConnection connection,
+    internal static async ValueTask<int> TruncateInternalBaseAsync(this IDbConnection connection,
         TruncateRequest request,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Truncate,
@@ -352,7 +352,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetTruncateText(request);
 
         // Actual Execution
-        var result = await ExecuteNonQueryAsyncInternal(connection: (DbConnection)connection,
+        var result = await ExecuteNonQueryInternalAsync(connection: (DbConnection)connection,
             commandText: commandText,
             param: null,
             commandType: commandType,
