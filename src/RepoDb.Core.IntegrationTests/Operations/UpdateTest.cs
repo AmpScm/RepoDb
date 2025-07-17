@@ -31,29 +31,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -62,30 +60,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -94,28 +90,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -124,29 +118,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -155,29 +147,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                table.Id);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            table.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -186,29 +176,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                new { table.Id });
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            new { table.Id });
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -217,29 +205,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                c => c.Id == table.Id);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            c => c.Id == table.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -248,29 +234,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -279,32 +263,30 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Setup
-            var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
+        // Setup
+        var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                field);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            field);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            field.Reset();
-            var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
+        // Act
+        field.Reset();
+        var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -318,30 +300,28 @@ public class UpdateTest
             new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                fields);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            fields);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            fields.ResetAll();
-            var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
+        // Act
+        fields.ResetAll();
+        var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -350,38 +330,36 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
-            var queryGroup = new QueryGroup(fields);
+        var queryGroup = new QueryGroup(fields);
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                queryGroup);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            queryGroup.Reset();
-            var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
+        // Act
+        queryGroup.Reset();
+        var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -390,29 +368,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update<IdentityTable>(table,
-                hints: SqlServerTableHints.TabLock);
+        // Act
+        var affectedRows = connection.Update<IdentityTable>(table,
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     #endregion
@@ -425,30 +401,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity,
-                entity.Id);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity,
+            entity.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -457,30 +431,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity,
-                new { entity.Id });
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity,
+            new { entity.Id });
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -489,30 +461,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity,
-                c => c.Id == entity.Id);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity,
+            c => c.Id == entity.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -521,32 +491,30 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Setup
-            var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
+        // Setup
+        var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, field);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, field);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            field.Reset();
-            var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
+        // Act
+        field.Reset();
+        var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -555,37 +523,35 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, fields);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, fields);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            fields.ResetAll();
-            var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
+        // Act
+        fields.ResetAll();
+        var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -594,38 +560,36 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
-            var queryGroup = new QueryGroup(fields);
+        var queryGroup = new QueryGroup(fields);
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, queryGroup);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            queryGroup.Reset();
-            var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
+        // Act
+        queryGroup.Reset();
+        var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     #endregion
@@ -638,29 +602,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -669,30 +631,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -701,28 +661,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -731,29 +689,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -762,29 +718,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                table.Id);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            table.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -793,29 +747,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                new { table.Id });
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            new { table.Id });
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -824,29 +776,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                c => c.Id == table.Id);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            c => c.Id == table.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
     [TestMethod]
     public async Task TestSqlConnectionUpdateAsyncViaExpressionNonPrimaryKey()
@@ -854,29 +804,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -885,32 +833,30 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Setup
-            var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
+        // Setup
+        var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                field);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            field);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            field.Reset();
-            var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
+        // Act
+        field.Reset();
+        var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -919,37 +865,35 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                fields);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            fields);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            fields.ResetAll();
-            var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
+        // Act
+        fields.ResetAll();
+        var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -958,38 +902,36 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
-            var queryGroup = new QueryGroup(fields);
+        var queryGroup = new QueryGroup(fields);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                queryGroup);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            queryGroup.Reset();
-            var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
+        // Act
+        queryGroup.Reset();
+        var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -998,29 +940,27 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-                hints: SqlServerTableHints.TabLock);
+        // Act
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     #endregion
@@ -1033,30 +973,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-                entity.Id);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+            entity.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1065,30 +1003,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-                new { entity.Id });
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+            new { entity.Id });
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1097,30 +1033,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-                c => c.Id == entity.Id);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+            c => c.Id == entity.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1129,33 +1063,31 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Setup
-            var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
+        // Setup
+        var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-                field);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+            field);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            field.Reset();
-            var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
+        // Act
+        field.Reset();
+        var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1164,38 +1096,36 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-                fields);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+            fields);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            fields.ResetAll();
-            var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
+        // Act
+        fields.ResetAll();
+        var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1204,39 +1134,37 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
-            var queryGroup = new QueryGroup(fields);
+        var queryGroup = new QueryGroup(fields);
 
-            // Act
-            var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-            var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-                queryGroup);
+        // Act
+        var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
+        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            queryGroup.Reset();
-            var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
+        // Act
+        queryGroup.Reset();
+        var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     #endregion
@@ -1249,35 +1177,33 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data);
 
-            // Act
-            var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
-
-            // Assert
-            Assert.AreEqual(result.ColumnBit, data.ColumnBit);
-            Assert.AreEqual(result.ColumnInt, data.ColumnInt);
-            Assert.AreEqual(result.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(result.ColumnBit, data.ColumnBit);
+        Assert.AreEqual(result.ColumnInt, data.ColumnInt);
+        Assert.AreEqual(result.ColumnDecimal, data.ColumnDecimal);
     }
 
     [TestMethod]
@@ -1286,37 +1212,35 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
-
-            // Assert
-            var entity = (dynamic)data;
-            Assert.AreEqual(result.ColumnBit, entity.ColumnBit);
-            Assert.AreEqual(result.ColumnInt, entity.ColumnInt);
-            Assert.AreEqual(result.ColumnDecimal, entity.ColumnDecimal);
-        }
+        // Assert
+        var entity = (dynamic)data;
+        Assert.AreEqual(result.ColumnBit, entity.ColumnBit);
+        Assert.AreEqual(result.ColumnInt, entity.ColumnInt);
+        Assert.AreEqual(result.ColumnDecimal, entity.ColumnDecimal);
     }
 
     [TestMethod]
@@ -1325,28 +1249,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
-            data["Id"] = table.Id;
+        // Setup
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        data["Id"] = table.Id;
 
-            // Act
-            var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
+        // Act
+        var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Assert
-            Helper.AssertMembersEquality(result, data);
-        }
+        // Assert
+        Helper.AssertMembersEquality(result, data);
     }
 
     [TestMethod]
@@ -1355,32 +1277,30 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
-            data["Id"] = table.Id;
+        // Setup
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        data["Id"] = table.Id;
 
-            // Act
-            var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Act
+        var affectedRows = connection.Update<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Assert
-            var entity = (dynamic)data;
-            Assert.AreEqual(result.ColumnBit, entity.ColumnBit);
-            Assert.AreEqual(result.ColumnInt, entity.ColumnInt);
-            Assert.AreEqual(result.ColumnDecimal, entity.ColumnDecimal);
-        }
+        // Assert
+        var entity = (dynamic)data;
+        Assert.AreEqual(result.ColumnBit, entity.ColumnBit);
+        Assert.AreEqual(result.ColumnInt, entity.ColumnInt);
+        Assert.AreEqual(result.ColumnDecimal, entity.ColumnDecimal);
     }
 
     [TestMethod]
@@ -1389,27 +1309,25 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data);
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -1418,28 +1336,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -1448,28 +1364,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            table.Id);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                table.Id);
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -1478,24 +1392,22 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
-                table,
-                table.Id);
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
+            table,
+            table.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -1504,30 +1416,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                new { table.Id });
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            new { table.Id });
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1536,33 +1446,31 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Setup
-            var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
+        // Setup
+        var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                field);
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            field);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            field.Reset();
-            var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
+        // Act
+        field.Reset();
+        var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1571,38 +1479,36 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields);
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            fields.ResetAll();
-            var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
+        // Act
+        fields.ResetAll();
+        var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1611,39 +1517,37 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
-            var queryGroup = new QueryGroup(fields);
+        var queryGroup = new QueryGroup(fields);
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                queryGroup);
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            queryGroup.Reset();
-            var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
+        // Act
+        queryGroup.Reset();
+        var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1652,25 +1556,23 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateDynamicNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), (object)table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), (object)table);
 
-            // Act
-            var updateResult = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
-                (object)table);
+        // Act
+        var updateResult = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
+            (object)table);
 
-            // Assert
-            Assert.AreEqual(1, updateResult);
+        // Assert
+        Assert.AreEqual(1, updateResult);
 
-            // Act
-            var queryResult = connection.Query(ClassMappedNameCache.Get<NonIdentityTable>(),
-                (Guid)table.Id).First();
+        // Act
+        var queryResult = connection.Query(ClassMappedNameCache.Get<NonIdentityTable>(),
+            (Guid)table.Id).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1679,25 +1581,23 @@ public class UpdateTest
         // Setup
         var table = new { Id = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), table);
 
-            // Act
-            var updateResult = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
-                table);
+        // Act
+        var updateResult = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, updateResult);
+        // Assert
+        Assert.AreEqual(1, updateResult);
 
-            // Act
-            var queryResult = connection.Query(ClassMappedNameCache.Get<NonIdentityTable>(),
-                table.Id).First();
+        // Act
+        var queryResult = connection.Query(ClassMappedNameCache.Get<NonIdentityTable>(),
+            table.Id).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -1706,57 +1606,51 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            hints: SqlServerTableHints.TabLock);
 
-            // Act
-            var affectedRows = connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                hints: SqlServerTableHints.TabLock);
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionUpdateIfThereIsNoKeyField()
     {
         // Setup
         var data = Helper.CreateNonKeyedTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Update<NonKeyedTable>(data);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.Update<NonKeyedTable>(data));
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionUpdateViaTableNameIfThereIsNoKeyField()
     {
         // Setup
         var data = Helper.CreateDynamicNonKeyedTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(), (object)data);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(), (object)data));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionUpdateViaTableNameIfTheFieldsAreNotFound()
     {
         // Setup
@@ -1766,11 +1660,9 @@ public class UpdateTest
             AnyField = 1
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(), data);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<EmptyException>(() => connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(), data));
     }
 
     #endregion
@@ -1783,35 +1675,33 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
-
-            // Assert
-            Assert.AreEqual(result.ColumnBit, data.ColumnBit);
-            Assert.AreEqual(result.ColumnInt, data.ColumnInt);
-            Assert.AreEqual(result.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(result.ColumnBit, data.ColumnBit);
+        Assert.AreEqual(result.ColumnInt, data.ColumnInt);
+        Assert.AreEqual(result.ColumnDecimal, data.ColumnDecimal);
     }
 
     [TestMethod]
@@ -1820,37 +1710,35 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
-
-            // Assert
-            var entity = (dynamic)data;
-            Assert.AreEqual(result.ColumnBit, data.ColumnBit);
-            Assert.AreEqual(result.ColumnInt, data.ColumnInt);
-            Assert.AreEqual(result.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        var entity = (dynamic)data;
+        Assert.AreEqual(result.ColumnBit, data.ColumnBit);
+        Assert.AreEqual(result.ColumnInt, data.ColumnInt);
+        Assert.AreEqual(result.ColumnDecimal, data.ColumnDecimal);
     }
 
     [TestMethod]
@@ -1859,28 +1747,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
-            data["Id"] = table.Id;
+        // Setup
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        data["Id"] = table.Id;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
+        // Act
+        var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Assert
-            Helper.AssertMembersEquality(result, data);
-        }
+        // Assert
+        Helper.AssertMembersEquality(result, data);
     }
 
     [TestMethod]
@@ -1889,32 +1775,30 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
-            data["Id"] = table.Id;
+        // Setup
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        data["Id"] = table.Id;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+        // Act
+        var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Setup
-            var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
+        // Setup
+        var result = connection.Query<NonIdentityTable>(table.Id).FirstOrDefault();
 
-            // Assert
-            var entity = (dynamic)data;
-            Assert.AreEqual(result.ColumnBit, entity.ColumnBit);
-            Assert.AreEqual(result.ColumnInt, entity.ColumnInt);
-            Assert.AreEqual(result.ColumnDecimal, entity.ColumnDecimal);
-        }
+        // Assert
+        var entity = (dynamic)data;
+        Assert.AreEqual(result.ColumnBit, entity.ColumnBit);
+        Assert.AreEqual(result.ColumnInt, entity.ColumnInt);
+        Assert.AreEqual(result.ColumnDecimal, entity.ColumnDecimal);
     }
 
     [TestMethod]
@@ -1923,27 +1807,25 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -1952,28 +1834,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -1982,28 +1862,26 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            table.Id);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                table.Id);
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -2012,24 +1890,22 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            table,
-            table.Id);
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+        table,
+        table.Id);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
     [TestMethod]
@@ -2038,30 +1914,28 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnInt = table.ColumnInt * 100;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnInt = table.ColumnInt * 100;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                new { table.Id });
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            new { table.Id });
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTable>(table.Id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -2070,33 +1944,31 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            table.ColumnBit = false;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
+        // Setup
+        table.ColumnBit = false;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
 
-            // Setup
-            var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
+        // Setup
+        var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                field);
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            field);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            field.Reset();
-            var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
+        // Act
+        field.Reset();
+        var queryResult = connection.Query<IdentityTable>(field)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -2105,38 +1977,36 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields);
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            fields.ResetAll();
-            var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
+        // Act
+        fields.ResetAll();
+        var queryResult = connection.Query<IdentityTable>(fields)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -2145,39 +2015,37 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        table.ColumnFloat = table.ColumnFloat * 100;
+        table.ColumnDateTime2 = DateTime.UtcNow;
+        table.ColumnDecimal = table.ColumnDecimal * 100;
+
+        // Setup
+        var fields = new[]
         {
-            // Act
-            connection.Insert(table);
-
-            // Setup
-            table.ColumnFloat = table.ColumnFloat * 100;
-            table.ColumnDateTime2 = DateTime.UtcNow;
-            table.ColumnDecimal = table.ColumnDecimal * 100;
-
-            // Setup
-            var fields = new[]
-            {
                 new QueryField(nameof(IdentityTable.ColumnBit), table.ColumnBit),
                 new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
             };
-            var queryGroup = new QueryGroup(fields);
+        var queryGroup = new QueryGroup(fields);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                queryGroup);
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, affectedRows);
+        // Assert
+        Assert.AreEqual(1, affectedRows);
 
-            // Act
-            queryGroup.Reset();
-            var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
+        // Act
+        queryGroup.Reset();
+        var queryResult = connection.Query<IdentityTable>(queryGroup)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -2186,25 +2054,23 @@ public class UpdateTest
         // Setup
         var table = new { Id = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), table);
 
-            // Act
-            var updateResult = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                table);
+        // Act
+        var updateResult = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, updateResult);
+        // Assert
+        Assert.AreEqual(1, updateResult);
 
-            // Act
-            var queryResult = connection.Query(ClassMappedNameCache.Get<NonIdentityTable>(),
-                table.Id).First();
+        // Act
+        var queryResult = connection.Query(ClassMappedNameCache.Get<NonIdentityTable>(),
+            table.Id).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -2213,58 +2079,52 @@ public class UpdateTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
+
+        // Setup
+        var data = new
         {
-            // Act
-            connection.Insert(table);
+            table.Id,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        };
 
-            // Setup
-            var data = new
-            {
-                table.Id,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            };
+        // Act
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data,
+            hints: SqlServerTableHints.TabLock);
 
-            // Act
-            var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data,
-                hints: SqlServerTableHints.TabLock);
-
-            // Assert
-            Assert.AreEqual(1, affectedRows);
-        }
+        // Assert
+        Assert.AreEqual(1, affectedRows);
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionUpdateAsyncViaTableNameIfThereIsNoKeyField()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        var data = new
         {
-            var data = new
-            {
-                ColumnInt = 1,
-                ColumnDecimal = 2
-            };
-            await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
-        }
+            ColumnInt = 1,
+            ColumnDecimal = 2
+        };
+        await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionUpdateAsyncViaTableNameIfTheFieldsAreNotFound()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        var data = new
         {
-            var data = new
-            {
-                Id = 1,
-                AnyField = 1
-            };
-            await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                data);
-        }
+            Id = 1,
+            AnyField = 1
+        };
+        await Assert.ThrowsExactlyAsync<EmptyException>(async () => await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            data));
     }
 
     #endregion

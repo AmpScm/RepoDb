@@ -30,21 +30,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -53,23 +51,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -78,20 +74,18 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<IdentityTable, long>(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<IdentityTable, long>(table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -100,67 +94,61 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<IdentityTable>(table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<IdentityTable>(table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
     public void TestSqlConnectionInsertForIdentityTable()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var item = Helper.CreateIdentityTable();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var item = Helper.CreateIdentityTable();
 
-            // Act
-            var id = connection.Insert<IdentityTable, long>(item);
+        // Act
+        var id = connection.Insert<IdentityTable, long>(item);
 
-            // Assert
-            Assert.IsTrue(item.Id > 0);
+        // Assert
+        Assert.IsTrue(item.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(item, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(item, result);
     }
 
     [TestMethod]
     public void TestSqlConnectionInsertForNonIdentityTable()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var item = Helper.CreateNonIdentityTable();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var item = Helper.CreateNonIdentityTable();
 
-            // Act
-            connection.Insert<NonIdentityTable, Guid>(item);
+        // Act
+        connection.Insert<NonIdentityTable, Guid>(item);
 
-            // Assert
-            Assert.AreNotEqual(Guid.Empty, item.Id);
+        // Assert
+        Assert.AreNotEqual(Guid.Empty, item.Id);
 
-            // Act
-            var result = connection.QueryAll<NonIdentityTable>();
+        // Act
+        var result = connection.QueryAll<NonIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(item, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(item, result);
     }
 
     [TestMethod]
@@ -169,21 +157,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<IdentityTable, long>(table,
-                hints: SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<IdentityTable, long>(table,
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     #endregion
@@ -196,20 +182,18 @@ public class InsertTest
         // Setup
         var table = Helper.CreateWithExtraFieldsIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<WithExtraFieldsIdentityTable, long>(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<WithExtraFieldsIdentityTable, long>(table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     #endregion
@@ -222,21 +206,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -245,23 +227,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -270,20 +250,18 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<IdentityTable, long>(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<IdentityTable, long>(table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -292,22 +270,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<IdentityTable>(table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<IdentityTable>(table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -316,20 +292,18 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<IdentityTable, long>(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<IdentityTable, long>(table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = (await connection.QueryAsync<IdentityTable>(id)).FirstOrDefault();
+        // Act
+        var result = (await connection.QueryAsync<IdentityTable>(id)).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -338,21 +312,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<NonIdentityTable, Guid>(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<NonIdentityTable, Guid>(table);
 
-            // Assert
-            Assert.AreNotEqual(Guid.Empty, table.Id);
+        // Assert
+        Assert.AreNotEqual(Guid.Empty, table.Id);
 
-            // Act
-            var result = connection.QueryAll<NonIdentityTable>();
+        // Act
+        var result = connection.QueryAll<NonIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -361,21 +333,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<IdentityTable, long>(table,
-                hints: SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<IdentityTable, long>(table,
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     #endregion
@@ -388,20 +358,18 @@ public class InsertTest
         // Setup
         var table = Helper.CreateWithExtraFieldsIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<WithExtraFieldsIdentityTable, long>(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<WithExtraFieldsIdentityTable, long>(table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     #endregion
@@ -414,21 +382,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -437,23 +403,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -462,22 +426,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertMembersEquality(result, (dynamic)table);
-        }
+        // Assert
+        Helper.AssertMembersEquality(result, (dynamic)table);
     }
 
     [TestMethod]
@@ -486,25 +448,23 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            var entity = (dynamic)table;
-            Assert.AreEqual(entity.RowGuid, result.RowGuid);
-            Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        var entity = (dynamic)table;
+        Assert.AreEqual(entity.RowGuid, result.RowGuid);
+        Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -513,21 +473,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -536,23 +494,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -561,22 +517,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(result, table);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(result, table);
     }
 
     [TestMethod]
@@ -585,25 +539,23 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            var entity = (dynamic)table;
-            Assert.AreEqual(entity.RowGuid, result.RowGuid);
-            Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        var entity = (dynamic)table;
+        Assert.AreEqual(entity.RowGuid, result.RowGuid);
+        Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -612,21 +564,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -635,23 +585,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -660,21 +608,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -683,21 +629,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            table);
 
-            // Assert
-            Assert.AreNotEqual(Guid.Empty, id);
+        // Assert
+        Assert.AreNotEqual(Guid.Empty, id);
 
-            // Act
-            var result = connection.Query<NonIdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<NonIdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -706,21 +650,19 @@ public class InsertTest
         // Setup
         var table = new { RowGuid = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>())?.FirstOrDefault();
+        // Act
+        var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>())?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -729,22 +671,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                hints: SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     #endregion
@@ -757,21 +697,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -780,23 +718,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -805,22 +741,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertMembersEquality(result, (dynamic)table);
-        }
+        // Assert
+        Helper.AssertMembersEquality(result, (dynamic)table);
     }
 
     [TestMethod]
@@ -829,25 +763,23 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            var entity = (dynamic)table;
-            Assert.AreEqual(entity.RowGuid, result.RowGuid);
-            Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        var entity = (dynamic)table;
+        Assert.AreEqual(entity.RowGuid, result.RowGuid);
+        Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -856,21 +788,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -879,23 +809,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object)table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object)table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -904,22 +832,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(result, table);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(result, table);
     }
 
     [TestMethod]
@@ -928,25 +854,23 @@ public class InsertTest
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
-            Assert.IsTrue(((dynamic)table).Id == id);
+        // Assert
+        Assert.IsTrue(id > 0);
+        Assert.IsTrue(((dynamic)table).Id == id);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            var entity = (dynamic)table;
-            Assert.AreEqual(entity.RowGuid, result.RowGuid);
-            Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        var entity = (dynamic)table;
+        Assert.AreEqual(entity.RowGuid, result.RowGuid);
+        Assert.AreEqual(entity.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -955,21 +879,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -978,23 +900,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(table.RowGuid, result.RowGuid);
-            Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(table.RowGuid, result.RowGuid);
+        Assert.AreEqual(table.ColumnNVarChar, result.ColumnNVarChar);
     }
 
     [TestMethod]
@@ -1003,21 +923,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -1026,21 +944,19 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            table);
 
-            // Assert
-            Assert.AreNotEqual(Guid.Empty, table.Id);
+        // Assert
+        Assert.AreNotEqual(Guid.Empty, table.Id);
 
-            // Act
-            var result = connection.Query<NonIdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<NonIdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -1049,21 +965,19 @@ public class InsertTest
         // Setup
         var table = new { RowGuid = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-                table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
+            table);
 
-            // Assert
-            Assert.IsTrue(id > 0);
+        // Assert
+        Assert.IsTrue(id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -1072,22 +986,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = await connection.InsertAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                table,
-                hints: SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = await connection.InsertAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            table,
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.IsTrue(table.Id > 0);
+        // Assert
+        Assert.IsTrue(table.Id > 0);
 
-            // Act
-            var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
+        // Act
+        var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     #endregion

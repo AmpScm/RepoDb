@@ -35,23 +35,21 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object?)null);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object?)null);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     [TestMethod]
@@ -60,18 +58,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                e => e.ColumnDecimal == tables.Last().ColumnDecimal).FirstOrDefault();
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            e => e.ColumnDecimal == tables.Last().ColumnDecimal).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -80,18 +76,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                new { tables.Last().Id }).FirstOrDefault();
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            new { tables.Last().Id }).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -100,18 +94,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                (new QueryField("Id", tables.Last().Id)).AsEnumerable()).FirstOrDefault();
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            (new QueryField("Id", tables.Last().Id)).AsEnumerable()).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -120,31 +112,29 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var queryFields = new[]
-            {
+        // Setup
+        var queryFields = new[]
+        {
                 new QueryField("Id", tables.First().Id),
                 new QueryField("Id", tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
+        var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                queryGroup);
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item =>
+        {
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -157,23 +147,21 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            (object?)null);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                (object?)null);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     [TestMethod]
@@ -182,18 +170,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                e => e.ColumnDecimal == tables.Last().ColumnDecimal)).FirstOrDefault();
+        // Act
+        var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            e => e.ColumnDecimal == tables.Last().ColumnDecimal)).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -202,18 +188,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                new { tables.Last().Id })).FirstOrDefault();
+        // Act
+        var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            new { tables.Last().Id })).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -222,18 +206,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                (new QueryField("Id", tables.Last().Id)).AsEnumerable())).FirstOrDefault();
+        // Act
+        var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            (new QueryField("Id", tables.Last().Id)).AsEnumerable())).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -242,31 +224,29 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var queryFields = new[]
-            {
+        // Setup
+        var queryFields = new[]
+        {
                 new QueryField("Id", tables.First().Id),
                 new QueryField("Id", tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
+        var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
 
-            // Act
-            var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                queryGroup);
+        // Act
+        var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item =>
+        {
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -283,23 +263,21 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            (object?)null);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                (object?)null);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     [TestMethod]
@@ -308,18 +286,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                e => e.ColumnDecimal == tables.Last().ColumnDecimal).FirstOrDefault();
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            e => e.ColumnDecimal == tables.Last().ColumnDecimal).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -328,18 +304,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                new { tables.Last().Id }).FirstOrDefault();
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            new { tables.Last().Id }).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -348,18 +322,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                (new QueryField("Id", tables.Last().Id)).AsEnumerable()).FirstOrDefault();
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            (new QueryField("Id", tables.Last().Id)).AsEnumerable()).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -368,31 +340,29 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var queryFields = new[]
-            {
+        // Setup
+        var queryFields = new[]
+        {
                 new QueryField("Id", tables.First().Id),
                 new QueryField("Id", tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
+        var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
 
-            // Act
-            var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                queryGroup);
+        // Act
+        var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item =>
+        {
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -405,23 +375,21 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            (object?)null);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                (object?)null);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     [TestMethod]
@@ -430,18 +398,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                e => e.ColumnDecimal == tables.Last().ColumnDecimal)).FirstOrDefault();
+        // Act
+        var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            e => e.ColumnDecimal == tables.Last().ColumnDecimal)).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -450,18 +416,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                new { tables.Last().Id })).FirstOrDefault();
+        // Act
+        var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            new { tables.Last().Id })).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -470,18 +434,16 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                (new QueryField("Id", tables.Last().Id)).AsEnumerable())).FirstOrDefault();
+        // Act
+        var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            (new QueryField("Id", tables.Last().Id)).AsEnumerable())).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.Last(), result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.Last(), result);
     }
 
     [TestMethod]
@@ -490,31 +452,29 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var queryFields = new[]
-            {
+        // Setup
+        var queryFields = new[]
+        {
                 new QueryField("Id", tables.First().Id),
                 new QueryField("Id", tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
+        var queryGroup = new QueryGroup(queryFields, Conjunction.Or);
 
-            // Act
-            var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                queryGroup);
+        // Act
+        var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item =>
+        {
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -535,22 +495,20 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -563,22 +521,20 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -595,22 +551,20 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -623,22 +577,20 @@ public class SharedQueryTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.ColumnInt == item.ColumnInt);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.ColumnInt == item.ColumnInt);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion

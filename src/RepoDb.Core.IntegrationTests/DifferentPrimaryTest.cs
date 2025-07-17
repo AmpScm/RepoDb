@@ -29,17 +29,15 @@ public class DifferentPrimaryTest
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var insertResult = connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var insertResult = connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
-            // Assert
-            Assert.AreEqual(entity.Id, insertResult);
-            Assert.IsTrue(insertResult > 0);
-            Assert.IsTrue(entity.Id > 0);
-            Assert.AreEqual(1, connection.CountAll<IdentityTableWithDifferentPrimary>());
-        }
+        // Assert
+        Assert.AreEqual(entity.Id, insertResult);
+        Assert.IsTrue(insertResult > 0);
+        Assert.IsTrue(entity.Id > 0);
+        Assert.AreEqual(1, connection.CountAll<IdentityTableWithDifferentPrimary>());
     }
 
     #endregion
@@ -52,24 +50,22 @@ public class DifferentPrimaryTest
         // Setup
         var entities = Helper.CreateIdentityTableWithDifferentPrimaries(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var insertAllResult = connection.InsertAll<IdentityTableWithDifferentPrimary>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var insertAllResult = connection.InsertAll<IdentityTableWithDifferentPrimary>(entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, insertAllResult);
-            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTableWithDifferentPrimary>());
+        // Assert
+        Assert.AreEqual(entities.Count, insertAllResult);
+        Assert.AreEqual(entities.Count, connection.CountAll<IdentityTableWithDifferentPrimary>());
 
-            // Act
-            var queryResult = connection.QueryAll<IdentityTableWithDifferentPrimary>();
+        // Act
+        var queryResult = connection.QueryAll<IdentityTableWithDifferentPrimary>();
 
-            // Assert
-            Assert.AreEqual(entities.Count, queryResult.Count());
-            entities.ForEach(entity =>
-                Helper.AssertPropertiesEquality(entity,
-                    queryResult.ElementAt(entities.IndexOf(entity))));
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, queryResult.Count());
+        entities.ForEach(entity =>
+            Helper.AssertPropertiesEquality(entity,
+                queryResult.ElementAt(entities.IndexOf(entity))));
     }
 
     #endregion
@@ -82,18 +78,16 @@ public class DifferentPrimaryTest
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<IdentityTableWithDifferentPrimary>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTableWithDifferentPrimary>(entity);
 
-            // Act
-            var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity);
+        // Act
+        var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity);
 
-            // Assert
-            Assert.IsTrue(deleteResult > 0);
-            Assert.AreEqual(0, connection.CountAll<IdentityTableWithDifferentPrimary>());
-        }
+        // Assert
+        Assert.IsTrue(deleteResult > 0);
+        Assert.AreEqual(0, connection.CountAll<IdentityTableWithDifferentPrimary>());
     }
 
     [TestMethod]
@@ -102,18 +96,16 @@ public class DifferentPrimaryTest
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<IdentityTableWithDifferentPrimary>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTableWithDifferentPrimary>(entity);
 
-            // Act
-            var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity.RowGuid);
+        // Act
+        var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity.RowGuid);
 
-            // Assert
-            Assert.IsTrue(deleteResult > 0);
-            Assert.AreEqual(0, connection.CountAll<IdentityTableWithDifferentPrimary>());
-        }
+        // Assert
+        Assert.IsTrue(deleteResult > 0);
+        Assert.AreEqual(0, connection.CountAll<IdentityTableWithDifferentPrimary>());
     }
 
     #endregion
@@ -126,18 +118,16 @@ public class DifferentPrimaryTest
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
-            // Act
-            var queryResult = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(queryResult);
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Assert.IsNotNull(queryResult);
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion
@@ -150,28 +140,26 @@ public class DifferentPrimaryTest
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
-            // Setup
-            entity.ColumnBit = false;
-            entity.ColumnDateTime2 = DateTime.UtcNow;
+        // Setup
+        entity.ColumnBit = false;
+        entity.ColumnDateTime2 = DateTime.UtcNow;
 
-            // Act
-            var updateResult = connection.Update<IdentityTableWithDifferentPrimary>(entity);
+        // Act
+        var updateResult = connection.Update<IdentityTableWithDifferentPrimary>(entity);
 
-            // Assert
-            Assert.IsTrue(updateResult > 0);
+        // Assert
+        Assert.IsTrue(updateResult > 0);
 
-            // Act
-            var data = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();
+        // Act
+        var data = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Helper.AssertPropertiesEquality(entity, data);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Helper.AssertPropertiesEquality(entity, data);
     }
 
     [TestMethod]
@@ -180,28 +168,26 @@ public class DifferentPrimaryTest
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
-            // Setup
-            entity.ColumnBit = false;
-            entity.ColumnDateTime2 = DateTime.UtcNow;
+        // Setup
+        entity.ColumnBit = false;
+        entity.ColumnDateTime2 = DateTime.UtcNow;
 
-            // Act
-            var updateResult = connection.Update<IdentityTableWithDifferentPrimary>(entity, entity.RowGuid);
+        // Act
+        var updateResult = connection.Update<IdentityTableWithDifferentPrimary>(entity, entity.RowGuid);
 
-            // Assert
-            Assert.IsTrue(updateResult > 0);
+        // Assert
+        Assert.IsTrue(updateResult > 0);
 
-            // Act
-            var data = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();
+        // Act
+        var data = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Helper.AssertPropertiesEquality(entity, data);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Helper.AssertPropertiesEquality(entity, data);
     }
 
     #endregion
@@ -214,33 +200,31 @@ public class DifferentPrimaryTest
         // Setup
         var entities = Helper.CreateIdentityTableWithDifferentPrimaries(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTableWithDifferentPrimary>(entities);
+
+        // Setup
+        entities.ForEach(entity =>
         {
-            // Act
-            connection.InsertAll<IdentityTableWithDifferentPrimary>(entities);
+            entity.ColumnBit = false;
+            entity.ColumnDateTime2 = DateTime.UtcNow;
+        });
 
-            // Setup
-            entities.ForEach(entity =>
-            {
-                entity.ColumnBit = false;
-                entity.ColumnDateTime2 = DateTime.UtcNow;
-            });
+        // Act
+        var updateAllResult = connection.UpdateAll<IdentityTableWithDifferentPrimary>(entities);
 
-            // Act
-            var updateAllResult = connection.UpdateAll<IdentityTableWithDifferentPrimary>(entities);
+        // Assert
+        Assert.AreEqual(entities.Count, updateAllResult);
 
-            // Assert
-            Assert.AreEqual(entities.Count, updateAllResult);
+        // Act
+        var queryResult = connection.QueryAll<IdentityTableWithDifferentPrimary>();
 
-            // Act
-            var queryResult = connection.QueryAll<IdentityTableWithDifferentPrimary>();
-
-            // Assert
-            Assert.AreEqual(entities.Count, queryResult.Count());
-            entities.ForEach(entity =>
-                Helper.AssertPropertiesEquality(entity,
-                    queryResult.ElementAt(entities.IndexOf(entity))));
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, queryResult.Count());
+        entities.ForEach(entity =>
+            Helper.AssertPropertiesEquality(entity,
+                queryResult.ElementAt(entities.IndexOf(entity))));
     }
 
     #endregion

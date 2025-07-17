@@ -29,18 +29,16 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<InheritedIdentityTable>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<InheritedIdentityTable>(entity);
 
-            // Act
-            var deleteResult = connection.Delete<InheritedIdentityTable>(entity);
+        // Act
+        var deleteResult = connection.Delete<InheritedIdentityTable>(entity);
 
-            // Assert
-            Assert.IsTrue(deleteResult > 0);
-            Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
-        }
+        // Assert
+        Assert.IsTrue(deleteResult > 0);
+        Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 
     [TestMethod]
@@ -49,18 +47,16 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<InheritedIdentityTable>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<InheritedIdentityTable>(entity);
 
-            // Act
-            var deleteResult = connection.Delete<InheritedIdentityTable>(entity.Id);
+        // Act
+        var deleteResult = connection.Delete<InheritedIdentityTable>(entity.Id);
 
-            // Assert
-            Assert.IsTrue(deleteResult > 0);
-            Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
-        }
+        // Assert
+        Assert.IsTrue(deleteResult > 0);
+        Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 
     #endregion
@@ -73,18 +69,16 @@ public class InheritedTest
         // Setup
         var entities = Helper.CreateInheritedIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<InheritedIdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<InheritedIdentityTable>(entities);
 
-            // Act
-            var deleteResult = connection.DeleteAll<InheritedIdentityTable>(entities);
+        // Act
+        var deleteResult = connection.DeleteAll<InheritedIdentityTable>(entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count(), deleteResult);
-            Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(entities.Count(), deleteResult);
+        Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 
     [TestMethod]
@@ -93,19 +87,17 @@ public class InheritedTest
         // Setup
         var entities = Helper.CreateInheritedIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<InheritedIdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<InheritedIdentityTable>(entities);
 
-            // Act
-            var deleteResult = connection.DeleteAll<InheritedIdentityTable>(
-                ClassExpression.GetEntitiesPropertyValues<InheritedIdentityTable, object>(entities, "Id"));
+        // Act
+        var deleteResult = connection.DeleteAll<InheritedIdentityTable>(
+            ClassExpression.GetEntitiesPropertyValues<InheritedIdentityTable, object>(entities, "Id"));
 
-            // Assert
-            Assert.AreEqual(entities.Count(), deleteResult);
-            Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(entities.Count(), deleteResult);
+        Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 
     #endregion
@@ -118,21 +110,19 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var insertResult = connection.Insert<InheritedIdentityTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var insertResult = connection.Insert<InheritedIdentityTable, long>(entity);
 
-            // Assert
-            Assert.IsTrue(insertResult > 0);
-            Assert.AreEqual(entity.Id, insertResult);
+        // Assert
+        Assert.IsTrue(insertResult > 0);
+        Assert.AreEqual(entity.Id, insertResult);
 
-            // Act
-            var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion
@@ -145,23 +135,21 @@ public class InheritedTest
         // Setup
         var entities = Helper.CreateInheritedIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var insertAllResult = connection.InsertAll<InheritedIdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var insertAllResult = connection.InsertAll<InheritedIdentityTable>(entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, insertAllResult);
-            Assert.AreEqual(entities.Count, connection.CountAll<InheritedIdentityTable>());
+        // Assert
+        Assert.AreEqual(entities.Count, insertAllResult);
+        Assert.AreEqual(entities.Count, connection.CountAll<InheritedIdentityTable>());
 
-            // Act
-            var queryResult = connection.QueryAll<InheritedIdentityTable>();
+        // Act
+        var queryResult = connection.QueryAll<InheritedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(entities.Count, queryResult.Count());
-            entities.ForEach(entity =>
-                Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, queryResult.Count());
+        entities.ForEach(entity =>
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
     }
 
     #endregion
@@ -174,21 +162,19 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var mergeResult = connection.Merge<InheritedIdentityTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeResult = connection.Merge<InheritedIdentityTable, long>(entity);
 
-            // Assert
-            Assert.IsTrue(mergeResult > 0);
-            Assert.AreEqual(entity.Id, mergeResult);
+        // Assert
+        Assert.IsTrue(mergeResult > 0);
+        Assert.AreEqual(entity.Id, mergeResult);
 
-            // Act
-            var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     [TestMethod]
@@ -197,33 +183,31 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var insertResult = connection.Merge<InheritedIdentityTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var insertResult = connection.Merge<InheritedIdentityTable, long>(entity);
 
-            // Assert
-            Assert.IsTrue(insertResult > 0);
-            Assert.AreEqual(entity.Id, insertResult);
-            Assert.AreEqual(1, connection.CountAll<InheritedIdentityTable>());
+        // Assert
+        Assert.IsTrue(insertResult > 0);
+        Assert.AreEqual(entity.Id, insertResult);
+        Assert.AreEqual(1, connection.CountAll<InheritedIdentityTable>());
 
-            // Setup
-            entity.ColumnBit = false;
-            entity.ColumnDateTime2 = DateTime.UtcNow;
+        // Setup
+        entity.ColumnBit = false;
+        entity.ColumnDateTime2 = DateTime.UtcNow;
 
-            // Act
-            var mergeResult = connection.Merge<InheritedIdentityTable, long>(entity);
+        // Act
+        var mergeResult = connection.Merge<InheritedIdentityTable, long>(entity);
 
-            // Assert
-            Assert.IsTrue(mergeResult > 0);
-            Assert.AreEqual(entity.Id, mergeResult);
+        // Assert
+        Assert.IsTrue(mergeResult > 0);
+        Assert.AreEqual(entity.Id, mergeResult);
 
-            // Act
-            var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion
@@ -236,22 +220,20 @@ public class InheritedTest
         // Setup
         var entities = Helper.CreateInheritedIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var mergeAllRequest = connection.MergeAll<InheritedIdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllRequest = connection.MergeAll<InheritedIdentityTable>(entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, mergeAllRequest);
+        // Assert
+        Assert.AreEqual(entities.Count, mergeAllRequest);
 
-            // Act
-            var queryResult = connection.QueryAll<InheritedIdentityTable>();
+        // Act
+        var queryResult = connection.QueryAll<InheritedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(entities.Count, queryResult.Count());
-            entities.ForEach(entity =>
-                Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, queryResult.Count());
+        entities.ForEach(entity =>
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
     }
 
     [TestMethod]
@@ -260,32 +242,30 @@ public class InheritedTest
         // Setup
         var entities = Helper.CreateInheritedIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var insertAllResult = connection.InsertAll<InheritedIdentityTable>(entities);
+
+        // Setup
+        entities.ForEach(entity =>
         {
-            // Act
-            var insertAllResult = connection.InsertAll<InheritedIdentityTable>(entities);
+            entity.ColumnBit = false;
+            entity.ColumnDateTime2 = DateTime.UtcNow;
+        });
 
-            // Setup
-            entities.ForEach(entity =>
-            {
-                entity.ColumnBit = false;
-                entity.ColumnDateTime2 = DateTime.UtcNow;
-            });
+        // Act
+        var mergeAllResult = connection.MergeAll<InheritedIdentityTable>(entities);
 
-            // Act
-            var mergeAllResult = connection.MergeAll<InheritedIdentityTable>(entities);
+        // Assert
+        Assert.AreEqual(entities.Count, mergeAllResult);
 
-            // Assert
-            Assert.AreEqual(entities.Count, mergeAllResult);
+        // Act
+        var queryResult = connection.QueryAll<InheritedIdentityTable>();
 
-            // Act
-            var queryResult = connection.QueryAll<InheritedIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(entities.Count, queryResult.Count());
-            entities.ForEach(entity =>
-                Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, queryResult.Count());
+        entities.ForEach(entity =>
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
     }
 
     #endregion
@@ -298,18 +278,16 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<InheritedIdentityTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<InheritedIdentityTable, long>(entity);
 
-            // Act
-            var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(queryResult);
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Assert.IsNotNull(queryResult);
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion
@@ -322,28 +300,26 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<InheritedIdentityTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<InheritedIdentityTable, long>(entity);
 
-            // Setup
-            entity.ColumnBit = false;
-            entity.ColumnDateTime2 = DateTime.UtcNow;
+        // Setup
+        entity.ColumnBit = false;
+        entity.ColumnDateTime2 = DateTime.UtcNow;
 
-            // Act
-            var updateResult = connection.Update<InheritedIdentityTable>(entity);
+        // Act
+        var updateResult = connection.Update<InheritedIdentityTable>(entity);
 
-            // Assert
-            Assert.IsTrue(updateResult > 0);
+        // Assert
+        Assert.IsTrue(updateResult > 0);
 
-            // Act
-            var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(queryResult);
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Assert.IsNotNull(queryResult);
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     [TestMethod]
@@ -352,28 +328,26 @@ public class InheritedTest
         // Setup
         var entity = Helper.CreateInheritedIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert<InheritedIdentityTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<InheritedIdentityTable, long>(entity);
 
-            // Setup
-            entity.ColumnBit = false;
-            entity.ColumnDateTime2 = DateTime.UtcNow;
+        // Setup
+        entity.ColumnBit = false;
+        entity.ColumnDateTime2 = DateTime.UtcNow;
 
-            // Act
-            var updateResult = connection.Update<InheritedIdentityTable>(entity, entity.Id);
+        // Act
+        var updateResult = connection.Update<InheritedIdentityTable>(entity, entity.Id);
 
-            // Assert
-            Assert.IsTrue(updateResult > 0);
+        // Assert
+        Assert.IsTrue(updateResult > 0);
 
-            // Act
-            var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
+        // Act
+        var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(queryResult);
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Assert.IsNotNull(queryResult);
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion
@@ -386,32 +360,30 @@ public class InheritedTest
         // Setup
         var entities = Helper.CreateInheritedIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<InheritedIdentityTable>(entities);
+
+        // Setup
+        entities.ForEach(entity =>
         {
-            // Act
-            connection.InsertAll<InheritedIdentityTable>(entities);
+            entity.ColumnBit = false;
+            entity.ColumnDateTime2 = DateTime.UtcNow;
+        });
 
-            // Setup
-            entities.ForEach(entity =>
-            {
-                entity.ColumnBit = false;
-                entity.ColumnDateTime2 = DateTime.UtcNow;
-            });
+        // Act
+        var updateAllResult = connection.UpdateAll<InheritedIdentityTable>(entities);
 
-            // Act
-            var updateAllResult = connection.UpdateAll<InheritedIdentityTable>(entities);
+        // Assert
+        Assert.AreEqual(entities.Count, updateAllResult);
 
-            // Assert
-            Assert.AreEqual(entities.Count, updateAllResult);
+        // Act
+        var queryResult = connection.QueryAll<InheritedIdentityTable>();
 
-            // Act
-            var queryResult = connection.QueryAll<InheritedIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(entities.Count, queryResult.Count());
-            entities.ForEach(entity =>
-                Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, queryResult.Count());
+        entities.ForEach(entity =>
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
     }
 
     #endregion

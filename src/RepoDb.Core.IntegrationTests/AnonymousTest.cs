@@ -56,17 +56,15 @@ public class AnonymousTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<TAnonymous>("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = connection.ExecuteQuery<TAnonymous>("SELECT * FROM [sc].[IdentityTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
     }
 
     #endregion
@@ -83,17 +81,15 @@ public class AnonymousTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<TAnonymous>("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = await connection.ExecuteQueryAsync<TAnonymous>("SELECT * FROM [sc].[IdentityTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
     }
 
     #endregion
@@ -114,18 +110,16 @@ public class AnonymousTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
 
-            // Act
-            var result = connection.Query<TAnonymous>("[sc].[IdentityTable]",
-                what: (object?)null);
+        // Act
+        var result = connection.Query<TAnonymous>("[sc].[IdentityTable]",
+            what: (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
     }
 
     #endregion
@@ -136,24 +130,22 @@ public class AnonymousTest
     public async Task TestQueryAsyncForAnonymous() =>
         await TestQueryAsyncForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private async Task TestQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private static async Task TestQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
 
-            // Act
-            var result = await connection.QueryAsync<TAnonymous>("[sc].[IdentityTable]",
-                what: (object?)null);
+        // Act
+        var result = await connection.QueryAsync<TAnonymous>("[sc].[IdentityTable]",
+            what: (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
     }
 
     #endregion
@@ -168,23 +160,21 @@ public class AnonymousTest
     public void TestQueryAllForAnonymous() =>
         TestQueryAllForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private void TestQueryAllForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private static void TestQueryAllForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
 
-            // Act
-            var result = connection.QueryAll<TAnonymous>("[sc].[IdentityTable]");
+        // Act
+        var result = connection.QueryAll<TAnonymous>("[sc].[IdentityTable]");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
     }
 
     #endregion
@@ -195,23 +185,21 @@ public class AnonymousTest
     public async Task TestQueryAllAsyncForAnonymous() =>
         await TestQueryAllAsyncForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private async Task TestQueryAllAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private static async Task TestQueryAllAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
 
-            // Act
-            var result = await connection.QueryAllAsync<TAnonymous>("[sc].[IdentityTable]");
+        // Act
+        var result = await connection.QueryAllAsync<TAnonymous>("[sc].[IdentityTable]");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
     }
 
     #endregion

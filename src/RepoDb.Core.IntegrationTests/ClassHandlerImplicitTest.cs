@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RepoDb.Enumerations;
 using RepoDb.Extensions;
+using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
 using RepoDb.Interfaces;
-using Microsoft.Data.SqlClient;
-using RepoDb.IntegrationTests.Models;
-using RepoDb.Enumerations;
 using RepoDb.Options;
 
 namespace RepoDb.IntegrationTests;
@@ -76,7 +76,7 @@ public class ClassHandlerImplicitTest
 
     #region Helpers
 
-    private IEnumerable<ClassHandlerIdentityTable> CreateClassHandlerIdentityTables(int count)
+    private static IEnumerable<ClassHandlerIdentityTable> CreateClassHandlerIdentityTables(int count)
     {
         var random = new Random();
         for (var i = 0; i < count; i++)
@@ -107,30 +107,28 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
+
+        // Act
+        var result = connection.BatchQuery<ClassHandlerIdentityTable>(page: 0,
+            rowsPerBatch: 10,
+            orderBy: OrderField.Parse(new { Id = Order.Ascending }),
+            where: (object?)null);
+
+        // Assert
+        Assert.AreEqual(tables.Count, handler.GetMethodCallCount);
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
-
-            // Act
-            var result = connection.BatchQuery<ClassHandlerIdentityTable>(page: 0,
-                rowsPerBatch: 10,
-                orderBy: OrderField.Parse(new { Id = Order.Ascending }),
-                where: (object?)null);
-
-            // Assert
-            Assert.AreEqual(tables.Count, handler.GetMethodCallCount);
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.Id == item.Id);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.Id == item.Id);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -143,27 +141,25 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
+
+        // Act
+        var result = connection.ExecuteQuery<ClassHandlerIdentityTable>("SELECT * FROM [sc].[IdentityTable];");
+
+        // Assert
+        Assert.AreEqual(tables.Count, handler.GetMethodCallCount);
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
-
-            // Act
-            var result = connection.ExecuteQuery<ClassHandlerIdentityTable>("SELECT * FROM [sc].[IdentityTable];");
-
-            // Assert
-            Assert.AreEqual(tables.Count, handler.GetMethodCallCount);
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.Id == item.Id);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.Id == item.Id);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -176,18 +172,16 @@ public class ClassHandlerImplicitTest
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            var id = connection.Merge(table);
+        // Act
+        var id = connection.Merge(table);
 
-            // Assert
-            Assert.AreEqual(1, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(1, handler.SetMethodCallCount);
     }
 
     [TestMethod]
@@ -196,18 +190,16 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            tables.ForEach(table => connection.Merge(table));
+        // Act
+        tables.ForEach(table => connection.Merge(table));
 
-            // Assert
-            Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
     }
 
     #endregion
@@ -220,18 +212,16 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            connection.MergeAll(tables);
+        // Act
+        connection.MergeAll(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
     }
 
     #endregion
@@ -244,18 +234,16 @@ public class ClassHandlerImplicitTest
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            var id = connection.Insert(table);
+        // Act
+        var id = connection.Insert(table);
 
-            // Assert
-            Assert.AreEqual(1, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(1, handler.SetMethodCallCount);
     }
 
     [TestMethod]
@@ -264,18 +252,16 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            tables.ForEach(table => connection.Insert(table));
+        // Act
+        tables.ForEach(table => connection.Insert(table));
 
-            // Assert
-            Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
     }
 
     #endregion
@@ -288,18 +274,16 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            connection.InsertAll(tables);
+        // Act
+        connection.InsertAll(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
     }
 
     #endregion
@@ -312,22 +296,20 @@ public class ClassHandlerImplicitTest
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert(table);
 
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            var result = connection.Query<ClassHandlerIdentityTable>(id).First();
+        // Act
+        var result = connection.Query<ClassHandlerIdentityTable>(id).First();
 
-            // Assert
-            Assert.AreEqual(1, handler.GetMethodCallCount);
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Assert.AreEqual(1, handler.GetMethodCallCount);
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     #endregion
@@ -340,27 +322,25 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
+
+        // Act
+        var result = connection.QueryAll<ClassHandlerIdentityTable>();
+
+        // Assert
+        Assert.AreEqual(tables.Count, handler.GetMethodCallCount);
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
-
-            // Act
-            var result = connection.QueryAll<ClassHandlerIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, handler.GetMethodCallCount);
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.First(t => t.Id == item.Id);
-                Helper.AssertPropertiesEquality(target, item);
-            });
-        }
+            var target = tables.First(t => t.Id == item.Id);
+            Helper.AssertPropertiesEquality(target, item);
+        });
     }
 
     #endregion
@@ -373,21 +353,19 @@ public class ClassHandlerImplicitTest
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.Insert(table);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert(table);
 
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            connection.Update(table);
+        // Act
+        connection.Update(table);
 
-            // Assert
-            Assert.AreEqual(1, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(1, handler.SetMethodCallCount);
     }
 
     [TestMethod]
@@ -396,21 +374,19 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            tables.ForEach(table => connection.Update(table));
+        // Act
+        tables.ForEach(table => connection.Update(table));
 
-            // Assert
-            Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
     }
 
     #endregion
@@ -423,21 +399,19 @@ public class ClassHandlerImplicitTest
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
-            handler.Reset();
+        // Setup
+        var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
+        handler.Reset();
 
-            // Act
-            connection.UpdateAll(tables);
+        // Act
+        connection.UpdateAll(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, handler.SetMethodCallCount);
     }
 
     #endregion

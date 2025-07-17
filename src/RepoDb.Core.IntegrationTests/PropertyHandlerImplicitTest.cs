@@ -396,21 +396,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForClasses(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
+        });
     }
 
     [TestMethod]
@@ -419,21 +417,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForClasses(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
+        });
     }
 
     [TestMethod]
@@ -442,21 +438,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForClasses(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Assert.IsNull(item.NVarCharAsClass.Value);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Assert.IsNull(item.NVarCharAsClass.Value);
+        });
     }
 
     [TestMethod]
@@ -465,21 +459,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForClasses(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Assert.IsNull(item.NVarCharAsClass.Value);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Assert.IsNull(item.NVarCharAsClass.Value);
+        });
     }
 
     #endregion
@@ -492,21 +484,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateImmutableEntityModelForClasses(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<ImmutableEntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<ImmutableEntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
+        });
     }
 
     [TestMethod]
@@ -515,21 +505,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateImmutableEntityModelForClasses(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<ImmutableEntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<ImmutableEntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e.NVarCharAsClass, item.NVarCharAsClass);
+        });
     }
 
     [TestMethod]
@@ -538,21 +526,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateImmutableEntityModelForClasses(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<ImmutableEntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<ImmutableEntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Assert.IsNull(item.NVarCharAsClass.Value);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Assert.IsNull(item.NVarCharAsClass.Value);
+        });
     }
 
     [TestMethod]
@@ -561,21 +547,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateImmutableEntityModelForClasses(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<ImmutableEntityModelForClass>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<ImmutableEntityModelForClass>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Assert.IsNull(item.NVarCharAsClass.Value);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Assert.IsNull(item.NVarCharAsClass.Value);
+        });
     }
 
     #endregion
@@ -588,21 +572,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForIntToStringType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForIntToStringType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -611,21 +593,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForIntToStringType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForIntToStringType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -634,21 +614,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForIntToStringType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForIntToStringType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -657,21 +635,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForIntToStringType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForIntToStringType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     #endregion
@@ -687,21 +663,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -713,21 +687,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -736,21 +708,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -759,21 +729,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForNumberPropertiesToLongType>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     #endregion
@@ -789,21 +757,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForDateTimeKind>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForDateTimeKind>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -815,21 +781,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForDateTimeKind>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForDateTimeKind>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -841,21 +805,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(models);
+
+        // Act
+        var result = connection.QueryAll<EntityModelForDateTimeKind>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            connection.InsertAll(models);
-
-            // Act
-            var result = connection.QueryAll<EntityModelForDateTimeKind>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     [TestMethod]
@@ -867,21 +829,19 @@ public class PropertyHandlerImplicitTest
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10, true).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        models.ForEach(e => connection.Insert(e));
+
+        // Act
+        var result = connection.QueryAll<EntityModelForDateTimeKind>();
+
+        // Assert
+        models.ForEach(e =>
         {
-            // Act
-            models.ForEach(e => connection.Insert(e));
-
-            // Act
-            var result = connection.QueryAll<EntityModelForDateTimeKind>();
-
-            // Assert
-            models.ForEach(e =>
-            {
-                var item = result.First(obj => obj.Id == e.Id);
-                Helper.AssertPropertiesEquality(e, item);
-            });
-        }
+            var item = result.First(obj => obj.Id == e.Id);
+            Helper.AssertPropertiesEquality(e, item);
+        });
     }
 
     #endregion

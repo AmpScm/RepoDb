@@ -42,27 +42,25 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<NumbersClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<NumbersClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
-            Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-            Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
-            Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
-            Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-            Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
-            Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
+        Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
+        Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
+        Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
+        Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
+        Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
+        Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
     }
 
     [TestMethod]
@@ -84,27 +82,25 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<NumbersClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<NumbersClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBigInt);
-            Assert.IsNull(data.ColumnBit);
-            Assert.IsNull(data.ColumnDecimal);
-            Assert.IsNull(data.ColumnFloat);
-            Assert.IsNull(data.ColumnInt);
-            Assert.IsNull(data.ColumnMoney);
-            Assert.IsNull(data.ColumnNumeric);
-            Assert.IsNull(data.ColumnReal);
-            Assert.IsNull(data.ColumnSmallInt);
-            Assert.IsNull(data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBigInt);
+        Assert.IsNull(data.ColumnBit);
+        Assert.IsNull(data.ColumnDecimal);
+        Assert.IsNull(data.ColumnFloat);
+        Assert.IsNull(data.ColumnInt);
+        Assert.IsNull(data.ColumnMoney);
+        Assert.IsNull(data.ColumnNumeric);
+        Assert.IsNull(data.ColumnReal);
+        Assert.IsNull(data.ColumnSmallInt);
+        Assert.IsNull(data.ColumnSmallMoney);
     }
 
     [TestMethod]
@@ -126,27 +122,25 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoneyMapped = 13456
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<NumbersMappedClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<NumbersMappedClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
-            Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
-            Assert.AreEqual(entity.ColumnDecimalMapped, data.ColumnDecimalMapped);
-            Assert.AreEqual(entity.ColumnFloatMapped, data.ColumnFloatMapped);
-            Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
-            Assert.AreEqual(entity.ColumnMoneyMapped, data.ColumnMoneyMapped);
-            Assert.AreEqual(entity.ColumnNumericMapped, data.ColumnNumericMapped);
-            Assert.AreEqual(entity.ColumnRealMapped, data.ColumnRealMapped);
-            Assert.AreEqual(entity.ColumnSmallIntMapped, data.ColumnSmallIntMapped);
-            Assert.AreEqual(entity.ColumnSmallMoneyMapped, data.ColumnSmallMoneyMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
+        Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
+        Assert.AreEqual(entity.ColumnDecimalMapped, data.ColumnDecimalMapped);
+        Assert.AreEqual(entity.ColumnFloatMapped, data.ColumnFloatMapped);
+        Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
+        Assert.AreEqual(entity.ColumnMoneyMapped, data.ColumnMoneyMapped);
+        Assert.AreEqual(entity.ColumnNumericMapped, data.ColumnNumericMapped);
+        Assert.AreEqual(entity.ColumnRealMapped, data.ColumnRealMapped);
+        Assert.AreEqual(entity.ColumnSmallIntMapped, data.ColumnSmallIntMapped);
+        Assert.AreEqual(entity.ColumnSmallMoneyMapped, data.ColumnSmallMoneyMapped);
     }
 
     [TestMethod]
@@ -168,27 +162,25 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoneyMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<NumbersMappedClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<NumbersMappedClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBigIntMapped);
-            Assert.IsNull(data.ColumnBitMapped);
-            Assert.IsNull(data.ColumnDecimalMapped);
-            Assert.IsNull(data.ColumnFloatMapped);
-            Assert.IsNull(data.ColumnIntMapped);
-            Assert.IsNull(data.ColumnMoneyMapped);
-            Assert.IsNull(data.ColumnNumericMapped);
-            Assert.IsNull(data.ColumnRealMapped);
-            Assert.IsNull(data.ColumnSmallIntMapped);
-            Assert.IsNull(data.ColumnSmallMoneyMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBigIntMapped);
+        Assert.IsNull(data.ColumnBitMapped);
+        Assert.IsNull(data.ColumnDecimalMapped);
+        Assert.IsNull(data.ColumnFloatMapped);
+        Assert.IsNull(data.ColumnIntMapped);
+        Assert.IsNull(data.ColumnMoneyMapped);
+        Assert.IsNull(data.ColumnNumericMapped);
+        Assert.IsNull(data.ColumnRealMapped);
+        Assert.IsNull(data.ColumnSmallIntMapped);
+        Assert.IsNull(data.ColumnSmallMoneyMapped);
     }
 
     [TestMethod]
@@ -210,29 +202,27 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<NumbersClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<NumbersClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
-            Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-            Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
-            Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
-            Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-            Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
-            Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
+        Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
+        Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
+        Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
+        Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
+        Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
+        Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
     }
 
     [TestMethod]
@@ -254,29 +244,27 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<NumbersClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<NumbersClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBigInt);
-            Assert.IsNull(data.ColumnBit);
-            Assert.IsNull(data.ColumnDecimal);
-            Assert.IsNull(data.ColumnFloat);
-            Assert.IsNull(data.ColumnInt);
-            Assert.IsNull(data.ColumnMoney);
-            Assert.IsNull(data.ColumnNumeric);
-            Assert.IsNull(data.ColumnReal);
-            Assert.IsNull(data.ColumnSmallInt);
-            Assert.IsNull(data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBigInt);
+        Assert.IsNull(data.ColumnBit);
+        Assert.IsNull(data.ColumnDecimal);
+        Assert.IsNull(data.ColumnFloat);
+        Assert.IsNull(data.ColumnInt);
+        Assert.IsNull(data.ColumnMoney);
+        Assert.IsNull(data.ColumnNumeric);
+        Assert.IsNull(data.ColumnReal);
+        Assert.IsNull(data.ColumnSmallInt);
+        Assert.IsNull(data.ColumnSmallMoney);
     }
 
     [TestMethod]
@@ -298,29 +286,27 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoneyMapped = 13456
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<NumbersMappedClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<NumbersMappedClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
-            Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
-            Assert.AreEqual(entity.ColumnDecimalMapped, data.ColumnDecimalMapped);
-            Assert.AreEqual(entity.ColumnFloatMapped, data.ColumnFloatMapped);
-            Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
-            Assert.AreEqual(entity.ColumnMoneyMapped, data.ColumnMoneyMapped);
-            Assert.AreEqual(entity.ColumnNumericMapped, data.ColumnNumericMapped);
-            Assert.AreEqual(entity.ColumnRealMapped, data.ColumnRealMapped);
-            Assert.AreEqual(entity.ColumnSmallIntMapped, data.ColumnSmallIntMapped);
-            Assert.AreEqual(entity.ColumnSmallMoneyMapped, data.ColumnSmallMoneyMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
+        Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
+        Assert.AreEqual(entity.ColumnDecimalMapped, data.ColumnDecimalMapped);
+        Assert.AreEqual(entity.ColumnFloatMapped, data.ColumnFloatMapped);
+        Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
+        Assert.AreEqual(entity.ColumnMoneyMapped, data.ColumnMoneyMapped);
+        Assert.AreEqual(entity.ColumnNumericMapped, data.ColumnNumericMapped);
+        Assert.AreEqual(entity.ColumnRealMapped, data.ColumnRealMapped);
+        Assert.AreEqual(entity.ColumnSmallIntMapped, data.ColumnSmallIntMapped);
+        Assert.AreEqual(entity.ColumnSmallMoneyMapped, data.ColumnSmallMoneyMapped);
     }
 
     [TestMethod]
@@ -342,29 +328,27 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoneyMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<NumbersMappedClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<NumbersMappedClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBigIntMapped);
-            Assert.IsNull(data.ColumnBitMapped);
-            Assert.IsNull(data.ColumnDecimalMapped);
-            Assert.IsNull(data.ColumnFloatMapped);
-            Assert.IsNull(data.ColumnIntMapped);
-            Assert.IsNull(data.ColumnMoneyMapped);
-            Assert.IsNull(data.ColumnNumericMapped);
-            Assert.IsNull(data.ColumnRealMapped);
-            Assert.IsNull(data.ColumnSmallIntMapped);
-            Assert.IsNull(data.ColumnSmallMoneyMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBigIntMapped);
+        Assert.IsNull(data.ColumnBitMapped);
+        Assert.IsNull(data.ColumnDecimalMapped);
+        Assert.IsNull(data.ColumnFloatMapped);
+        Assert.IsNull(data.ColumnIntMapped);
+        Assert.IsNull(data.ColumnMoneyMapped);
+        Assert.IsNull(data.ColumnNumericMapped);
+        Assert.IsNull(data.ColumnRealMapped);
+        Assert.IsNull(data.ColumnSmallIntMapped);
+        Assert.IsNull(data.ColumnSmallMoneyMapped);
     }
 
     #endregion
@@ -390,27 +374,25 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<NumbersClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<NumbersClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
-            Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-            Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
-            Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
-            Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-            Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
-            Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
+        Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
+        Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
+        Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
+        Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
+        Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
+        Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
     }
 
     [TestMethod]
@@ -432,27 +414,25 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = (decimal?)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<NumbersClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<NumbersClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBigInt);
-            Assert.IsNull(data.ColumnBit);
-            Assert.IsNull(data.ColumnDecimal);
-            Assert.IsNull(data.ColumnFloat);
-            Assert.IsNull(data.ColumnInt);
-            Assert.IsNull(data.ColumnMoney);
-            Assert.IsNull(data.ColumnNumeric);
-            Assert.IsNull(data.ColumnReal);
-            Assert.IsNull(data.ColumnSmallInt);
-            Assert.IsNull(data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBigInt);
+        Assert.IsNull(data.ColumnBit);
+        Assert.IsNull(data.ColumnDecimal);
+        Assert.IsNull(data.ColumnFloat);
+        Assert.IsNull(data.ColumnInt);
+        Assert.IsNull(data.ColumnMoney);
+        Assert.IsNull(data.ColumnNumeric);
+        Assert.IsNull(data.ColumnReal);
+        Assert.IsNull(data.ColumnSmallInt);
+        Assert.IsNull(data.ColumnSmallMoney);
     }
 
     [TestMethod]
@@ -474,29 +454,27 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<NumbersClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<NumbersClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
-            Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-            Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
-            Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
-            Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-            Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
-            Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
+        Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
+        Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
+        Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
+        Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
+        Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
+        Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
     }
 
     [TestMethod]
@@ -518,29 +496,27 @@ public class SqlConnectionNumbersTest
             ColumnSmallMoney = (decimal?)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<NumbersClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<NumbersClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<NumbersClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBigInt);
-            Assert.IsNull(data.ColumnBit);
-            Assert.IsNull(data.ColumnDecimal);
-            Assert.IsNull(data.ColumnFloat);
-            Assert.IsNull(data.ColumnInt);
-            Assert.IsNull(data.ColumnMoney);
-            Assert.IsNull(data.ColumnNumeric);
-            Assert.IsNull(data.ColumnReal);
-            Assert.IsNull(data.ColumnSmallInt);
-            Assert.IsNull(data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBigInt);
+        Assert.IsNull(data.ColumnBit);
+        Assert.IsNull(data.ColumnDecimal);
+        Assert.IsNull(data.ColumnFloat);
+        Assert.IsNull(data.ColumnInt);
+        Assert.IsNull(data.ColumnMoney);
+        Assert.IsNull(data.ColumnNumeric);
+        Assert.IsNull(data.ColumnReal);
+        Assert.IsNull(data.ColumnSmallInt);
+        Assert.IsNull(data.ColumnSmallMoney);
     }
 
     #endregion

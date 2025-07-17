@@ -37,23 +37,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -67,23 +65,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -97,23 +93,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -127,23 +121,21 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -154,23 +146,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -181,23 +171,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -208,23 +196,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     #endregion
@@ -239,23 +225,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -269,23 +253,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -299,23 +281,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -329,23 +309,21 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -356,23 +334,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -383,23 +359,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -410,23 +384,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     #endregion
@@ -441,18 +413,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -466,18 +436,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -491,18 +459,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -516,18 +482,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -538,18 +502,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -560,18 +522,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -582,18 +542,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion
@@ -608,18 +566,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -633,18 +589,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -658,18 +612,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -683,18 +635,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -705,18 +655,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -727,18 +675,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -749,18 +695,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion
@@ -775,27 +719,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -809,27 +749,23 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -843,27 +779,23 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -877,27 +809,23 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -908,27 +836,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -939,27 +863,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -970,27 +890,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     #endregion
@@ -1005,27 +921,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1039,27 +951,23 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1073,27 +981,23 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1107,27 +1011,23 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1138,27 +1038,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1169,27 +1065,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1200,27 +1092,23 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+        // Extract the reader
+        var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
-
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param))
-            {
-                // Extract the reader
-                var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
-
-                // Assert
-                Assert.AreEqual(values.Count(), result.Count());
-                result.AsList().ForEach(item =>
-                {
-                    Assert.IsTrue(values.Contains(item.ColumnInt));
-                    Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-                });
-            }
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     #endregion
@@ -1235,18 +1123,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1260,18 +1146,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                (object)param);
+        // Act
+        var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1285,18 +1169,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1310,18 +1192,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1332,18 +1212,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1354,18 +1232,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1376,18 +1252,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion
@@ -1402,18 +1276,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1427,18 +1299,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                (object)param);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1452,18 +1322,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1477,18 +1345,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1499,18 +1365,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1521,18 +1385,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -1543,18 +1405,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion
@@ -1573,23 +1433,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1603,23 +1461,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1633,23 +1489,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1663,23 +1517,21 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1690,23 +1542,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1717,23 +1567,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1744,23 +1592,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     #endregion
@@ -1775,23 +1621,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1805,23 +1649,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1835,23 +1677,21 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1865,23 +1705,21 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1892,23 +1730,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1919,23 +1755,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     [TestMethod]
@@ -1946,23 +1780,21 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+
+        // Act
+        var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
+
+        // Assert
+        Assert.AreEqual(values.Count(), result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
-
-            // Act
-            var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
-
-            // Assert
-            Assert.AreEqual(values.Count(), result.Count());
-            result.AsList().ForEach(item =>
-            {
-                Assert.IsTrue(values.Contains(item.ColumnInt));
-                Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
-            });
-        }
+            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
+        });
     }
 
     #endregion
@@ -1977,18 +1809,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2002,18 +1832,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
+        // Act
+        var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2027,18 +1855,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2052,18 +1878,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2074,18 +1898,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2096,18 +1918,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2118,18 +1938,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion
@@ -2144,18 +1962,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2169,18 +1985,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                (object)param);
+        // Act
+        var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2194,18 +2008,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2219,18 +2031,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2241,18 +2051,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2263,18 +2071,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2285,18 +2091,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-                param);
+        // Act
+        var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion
@@ -2311,18 +2115,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2336,18 +2138,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                (object)param);
+        // Act
+        var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2361,18 +2161,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2386,18 +2184,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2408,18 +2204,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2430,18 +2224,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2452,18 +2244,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion
@@ -2478,18 +2268,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2503,18 +2291,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Values = values;
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                (object)param);
+        // Act
+        var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            (object)param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2528,18 +2314,16 @@ public class ExecuteListParameterTest
         // Set the properties
         param.Add("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2553,18 +2337,16 @@ public class ExecuteListParameterTest
             {"Values", values }
         };
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2575,18 +2357,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2597,18 +2377,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     [TestMethod]
@@ -2619,18 +2397,16 @@ public class ExecuteListParameterTest
         var values = new List<int?> { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using (var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
+        // Act
+        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
 
-            // Act
-            var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-                param);
+        // Act
+        var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
+            param);
 
-            // Assert
-            Assert.AreEqual(values.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(values.Count(), result);
     }
 
     #endregion

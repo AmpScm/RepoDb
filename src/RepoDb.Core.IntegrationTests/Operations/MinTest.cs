@@ -30,18 +30,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = connection.Min<IdentityTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -50,18 +48,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable>(e => e.ColumnInt,
-                item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+        // Act
+        var result = connection.Min<IdentityTable>(e => e.ColumnInt,
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -70,18 +66,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable>(e => e.ColumnInt,
-                new { ColumnInt = 1 });
+        // Act
+        var result = connection.Min<IdentityTable>(e => e.ColumnInt,
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -91,18 +85,16 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable>(e => e.ColumnInt,
-                field);
+        // Act
+        var result = connection.Min<IdentityTable>(e => e.ColumnInt,
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -116,18 +108,16 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable>(e => e.ColumnInt,
-                fields);
+        // Act
+        var result = connection.Min<IdentityTable>(e => e.ColumnInt,
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -142,18 +132,16 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = connection.Min<IdentityTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -162,18 +150,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -182,18 +168,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
-                item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+        // Act
+        var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -202,18 +186,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
-                new { ColumnInt = 1 });
+        // Act
+        var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -223,18 +205,16 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
-                field);
+        // Act
+        var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -248,18 +228,16 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
-                fields);
+        // Act
+        var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -274,18 +252,16 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = connection.Min<IdentityTable, int?>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     #endregion
@@ -298,18 +274,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -318,18 +292,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
-                item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+        // Act
+        var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -338,18 +310,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
-                new { ColumnInt = 1 });
+        // Act
+        var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -359,18 +329,16 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
-                field);
+        // Act
+        var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -384,18 +352,16 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
-                fields);
+        // Act
+        var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -410,18 +376,16 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = await connection.MinAsync<IdentityTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -430,18 +394,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -450,18 +412,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
-                item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+        // Act
+        var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -470,18 +430,16 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
-                new { ColumnInt = 1 });
+        // Act
+        var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -491,18 +449,16 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
-                field);
+        // Act
+        var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -516,18 +472,16 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
-                fields);
+        // Act
+        var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -542,18 +496,16 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = await connection.MinAsync<IdentityTable, int?>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     #endregion
@@ -566,19 +518,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                (object?)null);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -587,19 +537,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                new { ColumnInt = 1 });
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -609,19 +557,17 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                field);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -635,19 +581,17 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                fields);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -662,19 +606,17 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                queryGroup);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -683,19 +625,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                (object?)null);
+        // Act
+        var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -704,19 +644,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                new { ColumnInt = 1 });
+        // Act
+        var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -726,19 +664,17 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                field);
+        // Act
+        var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -752,19 +688,17 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                fields);
+        // Act
+        var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -779,19 +713,17 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                queryGroup);
+        // Act
+        var result = connection.Min<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     #endregion
@@ -804,19 +736,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                (object?)null);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -825,19 +755,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                new { ColumnInt = 1 });
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -847,19 +775,17 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                field);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -873,19 +799,17 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                fields);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -900,19 +824,17 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                queryGroup);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -921,19 +843,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                (object?)null);
+        // Act
+        var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -942,19 +862,17 @@ public class MinTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                new { ColumnInt = 1 });
+        // Act
+        var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -964,19 +882,17 @@ public class MinTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                field);
+        // Act
+        var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            field);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -990,19 +906,17 @@ public class MinTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                fields);
+        // Act
+        var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            fields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -1017,19 +931,17 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                queryGroup);
+        // Act
+        var result = await connection.MinAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Min(t => t.ColumnInt), result);
     }
 
     #endregion

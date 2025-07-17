@@ -40,23 +40,21 @@ public class SqlConnectionDatesTest
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DatesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DatesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
-            Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
-            Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2);
-            Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
-            Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
-            Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
+        Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
+        Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2);
+        Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
+        Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
+        Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
     }
 
     [TestMethod]
@@ -74,23 +72,21 @@ public class SqlConnectionDatesTest
             ColumnTime = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DatesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DatesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnDate);
-            Assert.IsNull(data.ColumnDateTime);
-            Assert.IsNull(data.ColumnDateTime2);
-            Assert.IsNull(data.ColumnSmallDateTime);
-            Assert.IsNull(data.ColumnDateTimeOffset);
-            Assert.IsNull(data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnDate);
+        Assert.IsNull(data.ColumnDateTime);
+        Assert.IsNull(data.ColumnDateTime2);
+        Assert.IsNull(data.ColumnSmallDateTime);
+        Assert.IsNull(data.ColumnDateTimeOffset);
+        Assert.IsNull(data.ColumnTime);
     }
 
     [TestMethod]
@@ -110,23 +106,21 @@ public class SqlConnectionDatesTest
             ColumnTimeMapped = dateTime.TimeOfDay
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DatesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DatesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnDateMapped, data.ColumnDateMapped);
-            Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
-            Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped);
-            Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTimeMapped); // Always in a fraction of minutes, round (off/up)
-            Assert.AreEqual(entity.ColumnDateTimeOffsetMapped, data.ColumnDateTimeOffsetMapped);
-            Assert.AreEqual(entity.ColumnTimeMapped, data.ColumnTimeMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnDateMapped, data.ColumnDateMapped);
+        Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
+        Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped);
+        Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTimeMapped); // Always in a fraction of minutes, round (off/up)
+        Assert.AreEqual(entity.ColumnDateTimeOffsetMapped, data.ColumnDateTimeOffsetMapped);
+        Assert.AreEqual(entity.ColumnTimeMapped, data.ColumnTimeMapped);
     }
 
     [TestMethod]
@@ -144,23 +138,21 @@ public class SqlConnectionDatesTest
             ColumnTimeMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DatesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DatesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnDateMapped);
-            Assert.IsNull(data.ColumnDateTimeMapped);
-            Assert.IsNull(data.ColumnDateTime2Mapped);
-            Assert.IsNull(data.ColumnSmallDateTimeMapped);
-            Assert.IsNull(data.ColumnDateTimeOffsetMapped);
-            Assert.IsNull(data.ColumnTimeMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnDateMapped);
+        Assert.IsNull(data.ColumnDateTimeMapped);
+        Assert.IsNull(data.ColumnDateTime2Mapped);
+        Assert.IsNull(data.ColumnSmallDateTimeMapped);
+        Assert.IsNull(data.ColumnDateTimeOffsetMapped);
+        Assert.IsNull(data.ColumnTimeMapped);
     }
 
     [TestMethod]
@@ -180,24 +172,22 @@ public class SqlConnectionDatesTest
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<DatesClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<DatesClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
-            Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
-            Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2); Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
-            Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
-            Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
+        Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
+        Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2); Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
+        Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
+        Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
     }
 
     [TestMethod]
@@ -215,25 +205,23 @@ public class SqlConnectionDatesTest
             ColumnTime = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<DatesClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<DatesClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnDate);
-            Assert.IsNull(data.ColumnDateTime);
-            Assert.IsNull(data.ColumnDateTime2);
-            Assert.IsNull(data.ColumnSmallDateTime);
-            Assert.IsNull(data.ColumnDateTimeOffset);
-            Assert.IsNull(data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnDate);
+        Assert.IsNull(data.ColumnDateTime);
+        Assert.IsNull(data.ColumnDateTime2);
+        Assert.IsNull(data.ColumnSmallDateTime);
+        Assert.IsNull(data.ColumnDateTimeOffset);
+        Assert.IsNull(data.ColumnTime);
     }
 
     [TestMethod]
@@ -253,24 +241,22 @@ public class SqlConnectionDatesTest
             ColumnTimeMapped = dateTime.TimeOfDay
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<DatesMapClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<DatesMapClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnDateMapped, data.ColumnDateMapped);
-            Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
-            Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped); Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTimeMapped); // Always in a fraction of minutes, round (off/up)
-            Assert.AreEqual(entity.ColumnDateTimeOffsetMapped, data.ColumnDateTimeOffsetMapped);
-            Assert.AreEqual(entity.ColumnTimeMapped, data.ColumnTimeMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnDateMapped, data.ColumnDateMapped);
+        Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
+        Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped); Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTimeMapped); // Always in a fraction of minutes, round (off/up)
+        Assert.AreEqual(entity.ColumnDateTimeOffsetMapped, data.ColumnDateTimeOffsetMapped);
+        Assert.AreEqual(entity.ColumnTimeMapped, data.ColumnTimeMapped);
     }
 
     [TestMethod]
@@ -288,25 +274,23 @@ public class SqlConnectionDatesTest
             ColumnTimeMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<DatesMapClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<DatesMapClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnDateMapped);
-            Assert.IsNull(data.ColumnDateTimeMapped);
-            Assert.IsNull(data.ColumnDateTime2Mapped);
-            Assert.IsNull(data.ColumnSmallDateTimeMapped);
-            Assert.IsNull(data.ColumnDateTimeOffsetMapped);
-            Assert.IsNull(data.ColumnTimeMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnDateMapped);
+        Assert.IsNull(data.ColumnDateTimeMapped);
+        Assert.IsNull(data.ColumnDateTime2Mapped);
+        Assert.IsNull(data.ColumnSmallDateTimeMapped);
+        Assert.IsNull(data.ColumnDateTimeOffsetMapped);
+        Assert.IsNull(data.ColumnTimeMapped);
     }
 
     #endregion
@@ -330,23 +314,21 @@ public class SqlConnectionDatesTest
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<DatesClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<DatesClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
-            Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
-            Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2);
-            Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
-            Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
-            Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
+        Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
+        Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2);
+        Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
+        Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
+        Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
     }
 
     [TestMethod]
@@ -364,23 +346,21 @@ public class SqlConnectionDatesTest
             ColumnTime = (TimeSpan?)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<DatesClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<DatesClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnDate);
-            Assert.IsNull(data.ColumnDateTime);
-            Assert.IsNull(data.ColumnDateTime2);
-            Assert.IsNull(data.ColumnSmallDateTime);
-            Assert.IsNull(data.ColumnDateTimeOffset);
-            Assert.IsNull(data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnDate);
+        Assert.IsNull(data.ColumnDateTime);
+        Assert.IsNull(data.ColumnDateTime2);
+        Assert.IsNull(data.ColumnSmallDateTime);
+        Assert.IsNull(data.ColumnDateTimeOffset);
+        Assert.IsNull(data.ColumnTime);
     }
 
     [TestMethod]
@@ -400,25 +380,23 @@ public class SqlConnectionDatesTest
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<DatesClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<DatesClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
-            Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
-            Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2);
-            Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
-            Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
-            Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnDate, data.ColumnDate);
+        Assert.AreEqual(entity.ColumnDateTime, data.ColumnDateTime);
+        Assert.AreEqual(entity.ColumnDateTime2, data.ColumnDateTime2);
+        Assert.AreEqual(dateTime.AddSeconds(30), data.ColumnSmallDateTime); // Always in a fraction of minutes, round (off/up)
+        Assert.AreEqual(entity.ColumnDateTimeOffset, data.ColumnDateTimeOffset);
+        Assert.AreEqual(entity.ColumnTime, data.ColumnTime);
     }
 
     [TestMethod]
@@ -436,25 +414,23 @@ public class SqlConnectionDatesTest
             ColumnTime = (TimeSpan?)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<DatesClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<DatesClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<DatesClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnDate);
-            Assert.IsNull(data.ColumnDateTime);
-            Assert.IsNull(data.ColumnDateTime2);
-            Assert.IsNull(data.ColumnSmallDateTime);
-            Assert.IsNull(data.ColumnDateTimeOffset);
-            Assert.IsNull(data.ColumnTime);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnDate);
+        Assert.IsNull(data.ColumnDateTime);
+        Assert.IsNull(data.ColumnDateTime2);
+        Assert.IsNull(data.ColumnSmallDateTime);
+        Assert.IsNull(data.ColumnDateTimeOffset);
+        Assert.IsNull(data.ColumnTime);
     }
 
     #endregion

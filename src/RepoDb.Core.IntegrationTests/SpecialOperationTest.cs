@@ -31,21 +31,19 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.Id), Operation.Between, new[] { 4, 6 });
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.Id), Operation.Between, new[] { 4, 6 });
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(3, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(3, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -58,21 +56,19 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.Id), Operation.NotBetween, new[] { 4, 6 });
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.Id), Operation.NotBetween, new[] { 4, 6 });
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(7, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(7, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -89,18 +85,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => (new long[] { 4, 5 }).Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => (new long[] { 4, 5 }).Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(2, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -109,17 +103,15 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => (new long[] { }).Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => (new long[] { }).Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(0, queryResult.Count());
-        }
+        // Assert
+        Assert.AreEqual(0, queryResult.Count());
     }
 
     [TestMethod]
@@ -129,18 +121,16 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var values = new long[] { 4, 5 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(2, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -153,18 +143,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => (new List<long>() { 4, 5 }).Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => (new List<long>() { 4, 5 }).Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(2, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -173,17 +161,15 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => (new List<long>()).Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => (new List<long>()).Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(0, queryResult.Count());
-        }
+        // Assert
+        Assert.AreEqual(0, queryResult.Count());
     }
 
     [TestMethod]
@@ -193,18 +179,16 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var values = new List<long>() { 4, 5 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(2, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -217,18 +201,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.Contains("NVARCHAR2"));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.Contains("NVARCHAR2"));
 
-            // Assert
-            Assert.AreEqual(1, queryResult.Count());
-            Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult.Count());
+        Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
     }
 
     #endregion
@@ -241,18 +223,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.StartsWith("NVar"));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.StartsWith("NVar"));
 
-            // Assert
-            Assert.AreEqual(10, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(10, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -265,18 +245,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.EndsWith("CHAR1"));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.EndsWith("CHAR1"));
 
-            // Assert
-            Assert.AreEqual(1, queryResult.Count());
-            Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult.Count());
+        Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
     }
 
     #endregion
@@ -293,18 +271,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => (new long[] { 4, 5 }).Contains(item.Id) == false);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => (new long[] { 4, 5 }).Contains(item.Id) == false);
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -313,18 +289,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => !(new long[] { 4, 5 }).Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => !(new long[] { 4, 5 }).Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -334,18 +308,16 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var values = new long[] { 4, 5 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id) == false);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id) == false);
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -355,18 +327,16 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var values = new long[] { 4, 5 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => !values.Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => !values.Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -379,18 +349,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => (new List<long>() { 4, 5 }).Contains(item.Id) == false);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => (new List<long>() { 4, 5 }).Contains(item.Id) == false);
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -399,18 +367,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => !(new List<long>() { 4, 5 }).Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => !(new List<long>() { 4, 5 }).Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -420,18 +386,16 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var values = new List<long>() { 4, 5 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id) == false);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id) == false);
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -441,18 +405,16 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var values = new List<long>() { 4, 5 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => !values.Contains(item.Id));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => !values.Contains(item.Id));
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -465,18 +427,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.Contains("NVARCHAR2") == false);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.Contains("NVARCHAR2") == false);
 
-            // Assert
-            Assert.AreEqual(9, queryResult.Count());
-            Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(9, queryResult.Count());
+        Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
     }
 
     [TestMethod]
@@ -485,18 +445,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.Contains("NVARCHAR2"));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.Contains("NVARCHAR2"));
 
-            // Assert
-            Assert.AreEqual(9, queryResult.Count());
-            Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(9, queryResult.Count());
+        Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
     }
 
     #endregion
@@ -509,18 +467,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.StartsWith("NVar") == false);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.StartsWith("NVar") == false);
 
-            // Assert
-            Assert.AreEqual(0, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(0, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -529,18 +485,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.StartsWith("NVar"));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.StartsWith("NVar"));
 
-            // Assert
-            Assert.AreEqual(0, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(0, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -553,18 +507,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.EndsWith("CHAR1") == false);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.EndsWith("CHAR1") == false);
 
-            // Assert
-            Assert.AreEqual(9, queryResult.Count());
-            Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(9, queryResult.Count());
+        Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
     }
 
     [TestMethod]
@@ -573,18 +525,16 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.EndsWith("CHAR1"));
+        // Act
+        var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.EndsWith("CHAR1"));
 
-            // Assert
-            Assert.AreEqual(9, queryResult.Count());
-            Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(9, queryResult.Count());
+        Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == queryResult.First().Id), queryResult.First());
     }
 
     #endregion
@@ -601,21 +551,19 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.Id), Operation.In, new[] { 4, 7 });
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.Id), Operation.In, new[] { 4, 7 });
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(2, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -625,21 +573,19 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var value = new List<int> { 4, 7 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.Id), Operation.In, value);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.Id), Operation.In, value);
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(2, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -652,21 +598,19 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.Id), Operation.NotIn, new[] { 4, 7 });
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.Id), Operation.NotIn, new[] { 4, 7 });
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     [TestMethod]
@@ -676,21 +620,19 @@ public class SpecialOperationTest
         var entities = Helper.CreateIdentityTables(10);
         var value = new List<int> { 4, 7 };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.Id), Operation.NotIn, value);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.Id), Operation.NotIn, value);
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -703,21 +645,19 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.ColumnNVarChar), Operation.Like, "NVARCHAR1%"); // Matching: NVARCHAR1, NVARCHAR10
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.ColumnNVarChar), Operation.Like, "NVARCHAR1%"); // Matching: NVARCHAR1, NVARCHAR10
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(2, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion
@@ -730,21 +670,19 @@ public class SpecialOperationTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var field = new QueryField(nameof(IdentityTable.ColumnNVarChar), Operation.NotLike, "NVARCHAR1%"); // Not Matching: NVARCHAR1, NVARCHAR10
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var field = new QueryField(nameof(IdentityTable.ColumnNVarChar), Operation.NotLike, "NVARCHAR1%"); // Not Matching: NVARCHAR1, NVARCHAR10
 
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
 
-            // Act
-            var queryResult = connection.Query<IdentityTable>(field);
+        // Act
+        var queryResult = connection.Query<IdentityTable>(field);
 
-            // Assert
-            Assert.AreEqual(8, queryResult.Count());
-            queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(8, queryResult.Count());
+        queryResult.AsList().ForEach(item => Helper.AssertPropertiesEquality(entities.First(entity => entity.Id == item.Id), item));
     }
 
     #endregion

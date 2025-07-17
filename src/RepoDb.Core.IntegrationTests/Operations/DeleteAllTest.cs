@@ -29,19 +29,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.DeleteAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                tables);
+        // Act
+        var result = connection.DeleteAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -50,18 +48,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateNonMappedIdentityTable(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
 
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
+        // Act
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -70,20 +66,18 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = new object[] { tables.First().Id, tables.Last().Id };
-            var result = connection.DeleteAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                keys);
+        // Act
+        var keys = new object[] { tables.First().Id, tables.Last().Id };
+        var result = connection.DeleteAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            keys);
 
-            // Assert
-            Assert.AreEqual(2, result);
-            Assert.AreEqual(8, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(2, result);
+        Assert.AreEqual(8, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -92,20 +86,18 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = tables.Select(e => e.Id);
-            var result = connection.DeleteAll<IdentityTable, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                keys);
+        // Act
+        var keys = tables.Select(e => e.Id);
+        var result = connection.DeleteAll<IdentityTable, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            keys);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -114,18 +106,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.DeleteAll<IdentityTable>();
+        // Act
+        var result = connection.DeleteAll<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -134,18 +124,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.DeleteAll<IdentityTable>(hints: SqlServerTableHints.TabLock);
+        // Act
+        var result = connection.DeleteAll<IdentityTable>(hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -154,18 +142,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.DeleteAll<IdentityTable>(tables);
+        // Act
+        var result = connection.DeleteAll<IdentityTable>(tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -174,19 +160,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = new object[] { tables.First().Id, tables.Last().Id };
-            var result = connection.DeleteAll<IdentityTable>(keys);
+        // Act
+        var keys = new object[] { tables.First().Id, tables.Last().Id };
+        var result = connection.DeleteAll<IdentityTable>(keys);
 
-            // Assert
-            Assert.AreEqual(2, result);
-            Assert.AreEqual(8, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(2, result);
+        Assert.AreEqual(8, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -199,19 +183,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                tables);
+        // Act
+        var result = await connection.DeleteAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -220,20 +202,18 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = new object[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.DeleteAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                keys);
+        // Act
+        var keys = new object[] { tables.First().Id, tables.Last().Id };
+        var result = await connection.DeleteAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            keys);
 
-            // Assert
-            Assert.AreEqual(2, result);
-            Assert.AreEqual(8, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(2, result);
+        Assert.AreEqual(8, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -242,20 +222,18 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = tables.Select(e => e.Id);
-            var result = await connection.DeleteAllAsync<IdentityTable, long>(ClassMappedNameCache.Get<IdentityTable>(),
-                keys);
+        // Act
+        var keys = tables.Select(e => e.Id);
+        var result = await connection.DeleteAllAsync<IdentityTable, long>(ClassMappedNameCache.Get<IdentityTable>(),
+            keys);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -264,18 +242,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync<IdentityTable>();
+        // Act
+        var result = await connection.DeleteAllAsync<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -284,18 +260,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync<IdentityTable>(hints: SqlServerTableHints.TabLock);
+        // Act
+        var result = await connection.DeleteAllAsync<IdentityTable>(hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -304,18 +278,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync<IdentityTable>(tables);
+        // Act
+        var result = await connection.DeleteAllAsync<IdentityTable>(tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
 
@@ -325,18 +297,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateNonMappedIdentityTable(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(), tables);
+        // Act
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(), tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
 
@@ -346,19 +316,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = new object[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.DeleteAllAsync<IdentityTable>(keys);
+        // Act
+        var keys = new object[] { tables.First().Id, tables.Last().Id };
+        var result = await connection.DeleteAllAsync<IdentityTable>(keys);
 
-            // Assert
-            Assert.AreEqual(2, result);
-            Assert.AreEqual(8, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(2, result);
+        Assert.AreEqual(8, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -371,18 +339,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<IdentityTable>());
+        // Act
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<IdentityTable>());
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -391,19 +357,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<IdentityTable>(),
-                hints: SqlServerTableHints.TabLock);
+        // Act
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<IdentityTable>(),
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -412,19 +376,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables.Select(e => (object)e.Id));
+        // Act
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables.Select(e => (object)e.Id));
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<NonIdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<NonIdentityTable>());
     }
 
     [TestMethod]
@@ -433,20 +395,18 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = new object[] { tables.First().Id, tables.Last().Id };
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                keys);
+        // Act
+        var keys = new object[] { tables.First().Id, tables.Last().Id };
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            keys);
 
-            // Assert
-            Assert.AreEqual(2, result);
-            Assert.AreEqual(8, connection.CountAll<NonIdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(2, result);
+        Assert.AreEqual(8, connection.CountAll<NonIdentityTable>());
     }
 
     #endregion
@@ -459,18 +419,16 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>());
+        // Act
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>());
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -479,19 +437,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                hints: SqlServerTableHints.TabLock);
+        // Act
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            hints: SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -500,19 +456,17 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables.Select(e => (object)e.Id));
+        // Act
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables.Select(e => (object)e.Id));
 
-            // Assert
-            Assert.AreEqual(10, result);
-            Assert.AreEqual(0, connection.CountAll<NonIdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(10, result);
+        Assert.AreEqual(0, connection.CountAll<NonIdentityTable>());
     }
 
     [TestMethod]
@@ -521,20 +475,18 @@ public class DeleteAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var keys = new object[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                keys);
+        // Act
+        var keys = new object[] { tables.First().Id, tables.Last().Id };
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            keys);
 
-            // Assert
-            Assert.AreEqual(2, result);
-            Assert.AreEqual(8, connection.CountAll<NonIdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(2, result);
+        Assert.AreEqual(8, connection.CountAll<NonIdentityTable>());
     }
 
     #endregion

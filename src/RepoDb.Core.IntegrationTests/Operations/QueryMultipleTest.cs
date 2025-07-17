@@ -31,20 +31,18 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(2);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2);
+        // Act
+        var result = connection.QueryMultiple<IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
     }
 
     #endregion
@@ -57,22 +55,20 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(3);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3);
+        // Act
+        var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
     }
 
     #endregion
@@ -85,24 +81,22 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(4);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4);
+        // Act
+        var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
     }
 
     #endregion
@@ -115,26 +109,24 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5);
+        // Act
+        var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
     }
 
     #endregion
@@ -147,28 +139,26 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(6);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6);
+        // Act
+        var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
     }
 
     #endregion
@@ -181,30 +171,28 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(7);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6,
-                where7: item => item.ColumnInt == 7);
+        // Act
+        var result = connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6,
+            where7: item => item.ColumnInt == 7);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
     }
 
     #endregion
@@ -221,20 +209,18 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(2);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2);
+        // Act
+        var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
     }
 
     #endregion
@@ -247,22 +233,20 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(3);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3);
+        // Act
+        var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
     }
 
     #endregion
@@ -275,24 +259,22 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(4);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4);
+        // Act
+        var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
     }
 
     #endregion
@@ -305,26 +287,24 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5);
+        // Act
+        var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
     }
 
     #endregion
@@ -337,28 +317,26 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(6);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6);
+        // Act
+        var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
     }
 
     #endregion
@@ -371,30 +349,28 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(7);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6,
-                where7: item => item.ColumnInt == 7);
+        // Act
+        var result = connection.QueryMultiple<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6,
+            where7: item => item.ColumnInt == 7);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
     }
 
     #endregion
@@ -411,20 +387,18 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(2);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2);
+        // Act
+        var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
     }
 
     #endregion
@@ -437,22 +411,20 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(3);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3);
+        // Act
+        var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
     }
 
     #endregion
@@ -465,24 +437,22 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(4);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4);
+        // Act
+        var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
     }
 
     #endregion
@@ -495,26 +465,24 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5);
+        // Act
+        var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
     }
 
     #endregion
@@ -527,28 +495,26 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(6);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6);
+        // Act
+        var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
     }
 
     #endregion
@@ -561,30 +527,28 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(7);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6,
-                where7: item => item.ColumnInt == 7);
+        // Act
+        var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6,
+            where7: item => item.ColumnInt == 7);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
     }
 
     #endregion
@@ -601,20 +565,18 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(2);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2);
+        // Act
+        var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
     }
 
     #endregion
@@ -627,22 +589,20 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(3);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3);
+        // Act
+        var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
     }
 
     #endregion
@@ -655,24 +615,22 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(4);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4);
+        // Act
+        var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
     }
 
     #endregion
@@ -685,26 +643,24 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5);
+        // Act
+        var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
     }
 
     #endregion
@@ -717,28 +673,26 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(6);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6);
+        // Act
+        var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
     }
 
     #endregion
@@ -751,30 +705,28 @@ public class QueryMultipleTest
         // Setup
         var tables = Helper.CreateIdentityTables(7);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
-                where1: item => item.ColumnInt == 1,
-                where2: item => item.ColumnInt == 2,
-                where3: item => item.ColumnInt == 3,
-                where4: item => item.ColumnInt == 4,
-                where5: item => item.ColumnInt == 5,
-                where6: item => item.ColumnInt == 6,
-                where7: item => item.ColumnInt == 7);
+        // Act
+        var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
+            where1: item => item.ColumnInt == 1,
+            where2: item => item.ColumnInt == 2,
+            where3: item => item.ColumnInt == 3,
+            where4: item => item.ColumnInt == 4,
+            where5: item => item.ColumnInt == 5,
+            where6: item => item.ColumnInt == 6,
+            where7: item => item.ColumnInt == 7);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.Item2.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.Item3.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.Item4.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(4), result.Item5.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
     }
 
     #endregion

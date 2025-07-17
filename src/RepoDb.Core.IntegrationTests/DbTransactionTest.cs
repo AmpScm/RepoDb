@@ -37,15 +37,11 @@ public class SqlTransactionTest
     [TestMethod]
     public void TestDbTransactionForBatchQuery()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.BatchQuery<IdentityTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.BatchQuery<IdentityTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -55,15 +51,11 @@ public class SqlTransactionTest
     [TestMethod]
     public async Task TestDbTransactionForBatchQueryAsync()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.BatchQueryAsync<IdentityTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.BatchQueryAsync<IdentityTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -77,15 +69,11 @@ public class SqlTransactionTest
     [TestMethod]
     public void TestDbTransactionForCount()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Count<IdentityTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.Count<IdentityTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -95,15 +83,11 @@ public class SqlTransactionTest
     [TestMethod]
     public async Task TestDbTransactionForCountAsync()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.CountAsync<IdentityTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.CountAsync<IdentityTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -117,15 +101,11 @@ public class SqlTransactionTest
     [TestMethod]
     public void TestDbTransactionForCountAll()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.CountAll<IdentityTable>(transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.CountAll<IdentityTable>(transaction: transaction);
     }
 
     #endregion
@@ -135,15 +115,11 @@ public class SqlTransactionTest
     [TestMethod]
     public async Task TestDbTransactionForCountAllAsync()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.CountAllAsync<IdentityTable>(transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.CountAllAsync<IdentityTable>(transaction: transaction);
     }
 
     #endregion
@@ -160,24 +136,22 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<IdentityTable>(entity);
+            connection.Delete<IdentityTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Delete<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -186,24 +160,22 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<IdentityTable>(entity);
+            connection.Delete<IdentityTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Delete<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -216,24 +188,22 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<IdentityTable>(entity);
+            await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -242,24 +212,22 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<IdentityTable>(entity);
+            await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -276,24 +244,22 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<IdentityTable>(entities);
+            connection.DeleteAll<IdentityTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.DeleteAll<IdentityTable>(transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -302,24 +268,22 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<IdentityTable>(entities);
+            connection.DeleteAll<IdentityTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.DeleteAll<IdentityTable>(transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -332,24 +296,22 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<IdentityTable>(entities);
+            await connection.DeleteAllAsync<IdentityTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAllAsync<IdentityTable>(transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -358,24 +320,22 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<IdentityTable>(entities);
+            await connection.DeleteAllAsync<IdentityTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAllAsync<IdentityTable>(transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -392,21 +352,19 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Insert<IdentityTable>(entity, transaction: transaction);
+            // Act
+            connection.Insert<IdentityTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -415,21 +373,19 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Insert<IdentityTable>(entity, transaction: transaction);
+            // Act
+            connection.Insert<IdentityTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -442,21 +398,19 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAsync<IdentityTable>(entity, transaction: transaction);
+            // Act
+            await connection.InsertAsync<IdentityTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -465,21 +419,19 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAsync<IdentityTable>(entity, transaction: transaction);
+            // Act
+            await connection.InsertAsync<IdentityTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -496,21 +448,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.InsertAll<IdentityTable>(entities, transaction: transaction);
+            // Act
+            connection.InsertAll<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -519,21 +469,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.InsertAll<IdentityTable>(entities, transaction: transaction);
+            // Act
+            connection.InsertAll<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -546,21 +494,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction);
+            // Act
+            await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -569,21 +515,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction);
+            // Act
+            await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -600,21 +544,19 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Merge<IdentityTable>(entity, transaction: transaction);
+            // Act
+            connection.Merge<IdentityTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -623,21 +565,19 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Merge<IdentityTable>(entity, transaction: transaction);
+            // Act
+            connection.Merge<IdentityTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -650,20 +590,18 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var transaction = connection.EnsureOpen().BeginTransaction();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var transaction = connection.EnsureOpen().BeginTransaction();
 
-            // Act
-            await connection.MergeAsync<IdentityTable>(entity, transaction: transaction);
+        // Act
+        await connection.MergeAsync<IdentityTable>(entity, transaction: transaction);
 
-            // Act
-            transaction.Commit();
+        // Act
+        transaction.Commit();
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -672,20 +610,18 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            var transaction = connection.EnsureOpen().BeginTransaction();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        var transaction = connection.EnsureOpen().BeginTransaction();
 
-            // Act
-            await connection.MergeAsync<IdentityTable>(entity, transaction: transaction);
+        // Act
+        await connection.MergeAsync<IdentityTable>(entity, transaction: transaction);
 
-            // Act
-            transaction.Rollback();
+        // Act
+        transaction.Rollback();
 
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
-        }
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -702,21 +638,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.MergeAll<IdentityTable>(entities, transaction: transaction);
+            // Act
+            connection.MergeAll<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -725,21 +659,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.MergeAll<IdentityTable>(entities, transaction: transaction);
+            // Act
+            connection.MergeAll<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -752,21 +684,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction);
+            // Act
+            await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
     }
 
     [TestMethod]
@@ -775,21 +705,19 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction);
+            // Act
+            await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<IdentityTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -803,15 +731,11 @@ public class SqlTransactionTest
     [TestMethod]
     public void TestDbTransactionForQuery()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Query<IdentityTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.Query<IdentityTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -821,15 +745,11 @@ public class SqlTransactionTest
     [TestMethod]
     public async Task TestDbTransactionForQueryAsync()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryAsync<IdentityTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryAsync<IdentityTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -843,15 +763,11 @@ public class SqlTransactionTest
     [TestMethod]
     public void TestDbTransactionForQueryAll()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryAll<IdentityTable>(transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryAll<IdentityTable>(transaction: transaction);
     }
 
     #endregion
@@ -861,15 +777,11 @@ public class SqlTransactionTest
     [TestMethod]
     public async Task TestDbTransactionForQueryAllAsync()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryAllAsync<IdentityTable>(transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryAllAsync<IdentityTable>(transaction: transaction);
     }
 
     #endregion
@@ -883,112 +795,88 @@ public class SqlTransactionTest
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT2()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT3()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT4()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT5()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT6()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT7()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     #endregion
@@ -998,112 +886,88 @@ public class SqlTransactionTest
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT2()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT3()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT4()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT5()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT6()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT7()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     #endregion
@@ -1117,15 +981,11 @@ public class SqlTransactionTest
     [TestMethod]
     public void TestDbTransactionForTruncate()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Truncate<IdentityTable>(transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.Truncate<IdentityTable>(transaction: transaction);
     }
 
     #endregion
@@ -1135,15 +995,11 @@ public class SqlTransactionTest
     [TestMethod]
     public async Task TestDbTransactionForTruncateAsync()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.TruncateAsync<IdentityTable>(transaction: transaction);
-            }
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.TruncateAsync<IdentityTable>(transaction: transaction);
     }
 
     #endregion
@@ -1160,29 +1016,27 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<IdentityTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = false;
-
-                // Act
-                connection.Update<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entity.ColumnBit = false;
 
             // Act
-            var queryResult = connection.Query<IdentityTable>(entity.Id);
+            connection.Update<IdentityTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual(false, queryResult.First().ColumnBit);
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.Query<IdentityTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual(false, queryResult.First().ColumnBit);
     }
 
     [TestMethod]
@@ -1191,29 +1045,27 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<IdentityTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = false;
-
-                // Act
-                connection.Update<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entity.ColumnBit = false;
 
             // Act
-            var queryResult = connection.Query<IdentityTable>(entity.Id);
+            connection.Update<IdentityTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual(true, queryResult.First().ColumnBit);
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.Query<IdentityTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual(true, queryResult.First().ColumnBit);
     }
 
     #endregion
@@ -1226,29 +1078,27 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<IdentityTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = false;
-
-                // Act
-                await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entity.ColumnBit = false;
 
             // Act
-            var queryResult = connection.Query<IdentityTable>(entity.Id);
+            await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual(false, queryResult.First().ColumnBit);
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.Query<IdentityTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual(false, queryResult.First().ColumnBit);
     }
 
     [TestMethod]
@@ -1257,29 +1107,27 @@ public class SqlTransactionTest
         // Setup
         var entity = Helper.CreateIdentityTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.Insert<IdentityTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<IdentityTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = false;
-
-                // Act
-                await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entity.ColumnBit = false;
 
             // Act
-            var queryResult = connection.Query<IdentityTable>(entity.Id);
+            await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual(true, queryResult.First().ColumnBit);
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.Query<IdentityTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual(true, queryResult.First().ColumnBit);
     }
 
     #endregion
@@ -1296,29 +1144,27 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = false);
-
-                // Act
-                connection.UpdateAll<IdentityTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entities.ForEach(entity => entity.ColumnBit = false);
 
             // Act
-            var queryResult = connection.QueryAll<IdentityTable>();
+            connection.UpdateAll<IdentityTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     [TestMethod]
@@ -1327,29 +1173,27 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = false);
-
-                // Act
-                connection.UpdateAll<IdentityTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entities.ForEach(entity => entity.ColumnBit = false);
 
             // Act
-            var queryResult = connection.QueryAll<IdentityTable>();
+            connection.UpdateAll<IdentityTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     #endregion
@@ -1362,29 +1206,27 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = false);
-
-                // Act
-                await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entities.ForEach(entity => entity.ColumnBit = false);
 
             // Act
-            var queryResult = connection.QueryAll<IdentityTable>();
+            await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     [TestMethod]
@@ -1393,29 +1235,27 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<IdentityTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = false);
-
-                // Act
-                await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entities.ForEach(entity => entity.ColumnBit = false);
 
             // Act
-            var queryResult = connection.QueryAll<IdentityTable>();
+            await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     #endregion
@@ -1434,20 +1274,18 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var transaction = new TransactionScope())
+        using var transaction = new TransactionScope();
+        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-            {
-                // Act
-                connection.InsertAll<IdentityTable>(entities);
+            // Act
+            connection.InsertAll<IdentityTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     [TestMethod]
@@ -1456,20 +1294,18 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-            {
-                // Act
-                await connection.InsertAllAsync<IdentityTable>(entities);
+            // Act
+            await connection.InsertAllAsync<IdentityTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     #endregion
@@ -1482,20 +1318,18 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-            {
-                // Act
-                connection.MergeAll<IdentityTable>(entities);
+            // Act
+            connection.MergeAll<IdentityTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     [TestMethod]
@@ -1504,20 +1338,18 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-            {
-                // Act
-                await connection.MergeAllAsync<IdentityTable>(entities);
+            // Act
+            await connection.MergeAllAsync<IdentityTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     #endregion
@@ -1530,29 +1362,27 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-            {
-                // Act
-                connection.InsertAll<IdentityTable>(entities);
+            // Act
+            connection.InsertAll<IdentityTable>(entities);
 
-                // Prepare
-                entities.ForEach(entity => entity.ColumnBit = false);
+            // Prepare
+            entities.ForEach(entity => entity.ColumnBit = false);
 
-                // Act
-                connection.UpdateAll<IdentityTable>(entities);
+            // Act
+            connection.UpdateAll<IdentityTable>(entities);
 
-                // Act
-                var queryResult = connection.QueryAll<IdentityTable>();
+            // Act
+            var queryResult = connection.QueryAll<IdentityTable>();
 
-                // Assert
-                entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     [TestMethod]
@@ -1561,29 +1391,27 @@ public class SqlTransactionTest
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-            {
-                // Act
-                connection.InsertAll<IdentityTable>(entities);
+            // Act
+            connection.InsertAll<IdentityTable>(entities);
 
-                // Prepare
-                entities.ForEach(entity => entity.ColumnBit = false);
+            // Prepare
+            entities.ForEach(entity => entity.ColumnBit = false);
 
-                // Act
-                await connection.UpdateAllAsync<IdentityTable>(entities);
+            // Act
+            await connection.UpdateAllAsync<IdentityTable>(entities);
 
-                // Act
-                var queryResult = connection.QueryAll<IdentityTable>();
+            // Act
+            var queryResult = connection.QueryAll<IdentityTable>();
 
-                // Assert
-                entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     #endregion

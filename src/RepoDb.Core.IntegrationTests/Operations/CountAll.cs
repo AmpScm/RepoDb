@@ -29,17 +29,15 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.CountAll<IdentityTable>();
+        // Act
+        var result = connection.CountAll<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     [TestMethod]
@@ -48,17 +46,15 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.CountAll<IdentityTable>(hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = connection.CountAll<IdentityTable>(hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     #endregion
@@ -71,17 +67,15 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.CountAllAsync<IdentityTable>();
+        // Act
+        var result = await connection.CountAllAsync<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     [TestMethod]
@@ -90,17 +84,15 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.CountAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = await connection.CountAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     #endregion
@@ -113,17 +105,15 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<IdentityTable>());
+        // Act
+        var result = connection.CountAll(ClassMappedNameCache.Get<IdentityTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     [TestMethod]
@@ -132,18 +122,16 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<IdentityTable>(),
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = connection.CountAll(ClassMappedNameCache.Get<IdentityTable>(),
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     #endregion
@@ -156,17 +144,15 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<IdentityTable>());
+        // Act
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<IdentityTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     [TestMethod]
@@ -175,18 +161,16 @@ public class CountAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     #endregion

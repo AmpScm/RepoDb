@@ -95,22 +95,20 @@ public class TableValueParameterTest
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var tables = connection.ExecuteQuery<IdentityTable>("EXEC [sp_identity_table_type] @Table = @Table;",
-                new { Table = dataTable })?.AsList();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var tables = connection.ExecuteQuery<IdentityTable>("EXEC [sp_identity_table_type] @Table = @Table;",
+            new { Table = dataTable })?.AsList();
 
-            // Assert
-            Assert.AreEqual(dataTable.Rows.Count, tables.Count);
+        // Assert
+        Assert.AreEqual(dataTable.Rows.Count, tables.Count);
 
-            // Act
-            var queryResult = connection.QueryAll<IdentityTable>().AsList();
+        // Act
+        var queryResult = connection.QueryAll<IdentityTable>().AsList();
 
-            // Assert
-            Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
-            tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
+        tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
@@ -119,17 +117,14 @@ public class TableValueParameterTest
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("EXEC [sp_identity_table_type] @Table = @Table;",
-                new { Table = dataTable });
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var result = connection.ExecuteNonQuery("EXEC [sp_identity_table_type] @Table = @Table;",
+            new { Table = dataTable });
 
-            // Assert
-            Assert.AreEqual(dataTable.Rows.Count, result);
-            Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
-
-        }
+        // Assert
+        Assert.AreEqual(dataTable.Rows.Count, result);
+        Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
     }
 
     #endregion
@@ -142,22 +137,20 @@ public class TableValueParameterTest
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var tables = (await connection.ExecuteQueryAsync<IdentityTable>("EXEC [sp_identity_table_type] @Table = @Table;",
-                new { Table = dataTable }))?.AsList();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var tables = (await connection.ExecuteQueryAsync<IdentityTable>("EXEC [sp_identity_table_type] @Table = @Table;",
+            new { Table = dataTable }))?.AsList();
 
-            // Assert
-            Assert.AreEqual(dataTable.Rows.Count, tables.Count);
+        // Assert
+        Assert.AreEqual(dataTable.Rows.Count, tables.Count);
 
-            // Act
-            var queryResult = connection.QueryAll<IdentityTable>().AsList();
+        // Act
+        var queryResult = connection.QueryAll<IdentityTable>().AsList();
 
-            // Assert
-            Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
-            tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
+        tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
@@ -166,17 +159,14 @@ public class TableValueParameterTest
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("EXEC [sp_identity_table_type] @Table = @Table;",
-                new { Table = dataTable });
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("EXEC [sp_identity_table_type] @Table = @Table;",
+            new { Table = dataTable });
 
-            // Assert
-            Assert.AreEqual(dataTable.Rows.Count, result);
-            Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
-
-        }
+        // Assert
+        Assert.AreEqual(dataTable.Rows.Count, result);
+        Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
     }
 
     #endregion

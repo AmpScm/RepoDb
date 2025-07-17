@@ -24,62 +24,54 @@ public class BatchExecutionTest
     [TestMethod]
     public async Task TestBatchExecutionForInsertAll()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
         {
-            for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
-            {
-                var identityTables = Helper.CreateIdentityTables(i);
-                connection.InsertAll(identityTables);
-                await connection.InsertAllAsync(identityTables);
-                connection.UpdateAll(identityTables);
-                await connection.UpdateAllAsync(identityTables);
-                connection.MergeAll(identityTables);
-                await connection.MergeAllAsync(identityTables);
-            }
+            var identityTables = Helper.CreateIdentityTables(i);
+            connection.InsertAll(identityTables);
+            await connection.InsertAllAsync(identityTables);
+            connection.UpdateAll(identityTables);
+            await connection.UpdateAllAsync(identityTables);
+            connection.MergeAll(identityTables);
+            await connection.MergeAllAsync(identityTables);
         }
     }
 
     [TestMethod]
     public async Task TestBatchExecutionForUpdateAll()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        for (var i = (Constant.DefaultBatchOperationSize + 2); i > 0; i--)
         {
-            for (var i = (Constant.DefaultBatchOperationSize + 2); i > 0; i--)
-            {
-                var identityTables = Helper.CreateIdentityTables(i);
-                connection.InsertAll(identityTables);
-                connection.UpdateAll(identityTables);
-                await connection.UpdateAllAsync(identityTables);
-            }
+            var identityTables = Helper.CreateIdentityTables(i);
+            connection.InsertAll(identityTables);
+            connection.UpdateAll(identityTables);
+            await connection.UpdateAllAsync(identityTables);
         }
     }
 
     [TestMethod]
     public async Task TestBatchExecutionForMergeAllEmptyTable()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
         {
-            for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
-            {
-                var identityTables = Helper.CreateIdentityTables(i);
-                connection.MergeAll(identityTables);
-                await connection.MergeAllAsync(identityTables);
-            }
+            var identityTables = Helper.CreateIdentityTables(i);
+            connection.MergeAll(identityTables);
+            await connection.MergeAllAsync(identityTables);
         }
     }
 
     [TestMethod]
     public async Task TestBatchExecutionForMergeAllNonEmptyTable()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
         {
-            for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
-            {
-                var identityTables = Helper.CreateIdentityTables(i);
-                connection.InsertAll(identityTables);
-                connection.MergeAll(identityTables);
-                await connection.MergeAllAsync(identityTables);
-            }
+            var identityTables = Helper.CreateIdentityTables(i);
+            connection.InsertAll(identityTables);
+            connection.MergeAll(identityTables);
+            await connection.MergeAllAsync(identityTables);
         }
     }
 }

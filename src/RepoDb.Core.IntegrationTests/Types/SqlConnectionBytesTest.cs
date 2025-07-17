@@ -39,21 +39,19 @@ public class SqlConnectionBytesTest
             ColumnVarBinary = bytes
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BytesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BytesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinary.Take(entity.ColumnBinary.Length).ToArray()));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
-            Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinary.Take(entity.ColumnBinary.Length).ToArray()));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
+        Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
     }
 
     [TestMethod]
@@ -69,21 +67,19 @@ public class SqlConnectionBytesTest
             ColumnVarBinary = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BytesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BytesClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBinary);
-            Assert.IsNull(data.ColumnImage);
-            Assert.IsNull(data.ColumnTinyInt);
-            Assert.IsNull(data.ColumnVarBinary);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBinary);
+        Assert.IsNull(data.ColumnImage);
+        Assert.IsNull(data.ColumnTinyInt);
+        Assert.IsNull(data.ColumnVarBinary);
     }
 
     [TestMethod]
@@ -101,21 +97,19 @@ public class SqlConnectionBytesTest
             ColumnTinyIntMapped = 128
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BytesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BytesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinaryMapped.Take(entity.ColumnBinaryMapped.Length).ToArray()));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImageMapped));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinaryMapped));
-            Assert.AreEqual(entity.ColumnTinyIntMapped, data.ColumnTinyIntMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinaryMapped.Take(entity.ColumnBinaryMapped.Length).ToArray()));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImageMapped));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinaryMapped));
+        Assert.AreEqual(entity.ColumnTinyIntMapped, data.ColumnTinyIntMapped);
     }
 
     [TestMethod]
@@ -131,21 +125,19 @@ public class SqlConnectionBytesTest
             ColumnVarBinaryMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BytesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BytesMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBinaryMapped);
-            Assert.IsNull(data.ColumnImageMapped);
-            Assert.IsNull(data.ColumnTinyIntMapped);
-            Assert.IsNull(data.ColumnVarBinaryMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBinaryMapped);
+        Assert.IsNull(data.ColumnImageMapped);
+        Assert.IsNull(data.ColumnTinyIntMapped);
+        Assert.IsNull(data.ColumnVarBinaryMapped);
     }
 
     [TestMethod]
@@ -163,23 +155,21 @@ public class SqlConnectionBytesTest
             ColumnTinyInt = 128
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<BytesClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<BytesClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinary.Take(entity.ColumnBinary.Length).ToArray()));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
-            Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinary.Take(entity.ColumnBinary.Length).ToArray()));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
+        Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
     }
 
     [TestMethod]
@@ -195,23 +185,21 @@ public class SqlConnectionBytesTest
             ColumnVarBinary = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<BytesClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<BytesClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBinary);
-            Assert.IsNull(data.ColumnImage);
-            Assert.IsNull(data.ColumnTinyInt);
-            Assert.IsNull(data.ColumnVarBinary);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBinary);
+        Assert.IsNull(data.ColumnImage);
+        Assert.IsNull(data.ColumnTinyInt);
+        Assert.IsNull(data.ColumnVarBinary);
     }
 
     [TestMethod]
@@ -229,23 +217,21 @@ public class SqlConnectionBytesTest
             ColumnTinyIntMapped = 128
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<BytesMapClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<BytesMapClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinaryMapped.Take(entity.ColumnBinaryMapped.Length).ToArray()));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImageMapped));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinaryMapped));
-            Assert.AreEqual(entity.ColumnTinyIntMapped, data.ColumnTinyIntMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnBinaryMapped.Take(entity.ColumnBinaryMapped.Length).ToArray()));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImageMapped));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinaryMapped));
+        Assert.AreEqual(entity.ColumnTinyIntMapped, data.ColumnTinyIntMapped);
     }
 
     [TestMethod]
@@ -261,23 +247,21 @@ public class SqlConnectionBytesTest
             ColumnVarBinaryMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<BytesMapClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<BytesMapClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBinaryMapped);
-            Assert.IsNull(data.ColumnImageMapped);
-            Assert.IsNull(data.ColumnTinyIntMapped);
-            Assert.IsNull(data.ColumnVarBinaryMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBinaryMapped);
+        Assert.IsNull(data.ColumnImageMapped);
+        Assert.IsNull(data.ColumnTinyIntMapped);
+        Assert.IsNull(data.ColumnVarBinaryMapped);
     }
 
     #endregion
@@ -299,21 +283,19 @@ public class SqlConnectionBytesTest
             ColumnVarBinary = bytes
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<BytesClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<BytesClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(text, Encoding.UTF8.GetString(((byte[])data.ColumnBinary).Take(entity.ColumnBinary.Length).ToArray()));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
-            Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(text, Encoding.UTF8.GetString(((byte[])data.ColumnBinary).Take(entity.ColumnBinary.Length).ToArray()));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
+        Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
     }
 
     [TestMethod]
@@ -329,21 +311,19 @@ public class SqlConnectionBytesTest
             ColumnVarBinary = (byte[])null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<BytesClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<BytesClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBinary);
-            Assert.IsNull(data.ColumnImage);
-            Assert.IsNull(data.ColumnTinyInt);
-            Assert.IsNull(data.ColumnVarBinary);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBinary);
+        Assert.IsNull(data.ColumnImage);
+        Assert.IsNull(data.ColumnTinyInt);
+        Assert.IsNull(data.ColumnVarBinary);
     }
 
     [TestMethod]
@@ -361,23 +341,21 @@ public class SqlConnectionBytesTest
             ColumnTinyInt = 128
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<BytesClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<BytesClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(text, Encoding.UTF8.GetString(((byte[])data.ColumnBinary).Take(entity.ColumnBinary.Length).ToArray()));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
-            Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
-            Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(text, Encoding.UTF8.GetString(((byte[])data.ColumnBinary).Take(entity.ColumnBinary.Length).ToArray()));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnImage));
+        Assert.AreEqual(text, Encoding.UTF8.GetString(data.ColumnVarBinary));
+        Assert.AreEqual(entity.ColumnTinyInt, data.ColumnTinyInt);
     }
 
     [TestMethod]
@@ -393,23 +371,21 @@ public class SqlConnectionBytesTest
             ColumnVarBinary = (byte[])null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<BytesClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<BytesClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id });
-            var data =  queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<BytesClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnBinary);
-            Assert.IsNull(data.ColumnImage);
-            Assert.IsNull(data.ColumnTinyInt);
-            Assert.IsNull(data.ColumnVarBinary);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnBinary);
+        Assert.IsNull(data.ColumnImage);
+        Assert.IsNull(data.ColumnTinyInt);
+        Assert.IsNull(data.ColumnVarBinary);
     }
 
     #endregion

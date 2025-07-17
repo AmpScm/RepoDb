@@ -30,17 +30,15 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists<IdentityTable>((object?)null);
+        // Act
+        var result = connection.Exists<IdentityTable>((object?)null);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -49,17 +47,15 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8);
+        // Act
+        var result = connection.Exists<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -68,17 +64,15 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists<IdentityTable>(new { ColumnInt = 1 });
+        // Act
+        var result = connection.Exists<IdentityTable>(new { ColumnInt = 1 });
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -88,17 +82,15 @@ public class ExistsTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists<IdentityTable>(field);
+        // Act
+        var result = connection.Exists<IdentityTable>(field);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -112,17 +104,15 @@ public class ExistsTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists<IdentityTable>(fields);
+        // Act
+        var result = connection.Exists<IdentityTable>(fields);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -137,17 +127,15 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists<IdentityTable>(queryGroup);
+        // Act
+        var result = connection.Exists<IdentityTable>(queryGroup);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     #endregion
@@ -160,17 +148,15 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync<IdentityTable>((object?)null);
+        // Act
+        var result = await connection.ExistsAsync<IdentityTable>((object?)null);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -179,17 +165,15 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8);
+        // Act
+        var result = await connection.ExistsAsync<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -198,17 +182,15 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 });
+        // Act
+        var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 });
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -218,17 +200,15 @@ public class ExistsTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync<IdentityTable>(field);
+        // Act
+        var result = await connection.ExistsAsync<IdentityTable>(field);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -242,17 +222,15 @@ public class ExistsTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync<IdentityTable>(fields);
+        // Act
+        var result = await connection.ExistsAsync<IdentityTable>(fields);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -267,17 +245,15 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync<IdentityTable>(queryGroup);
+        // Act
+        var result = await connection.ExistsAsync<IdentityTable>(queryGroup);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     #endregion
@@ -290,18 +266,16 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
-                (object?)null);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
+            (object?)null);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -310,18 +284,16 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
-                new { ColumnInt = 1 });
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
+            new { ColumnInt = 1 });
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -331,18 +303,16 @@ public class ExistsTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
-                field);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
+            field);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -356,18 +326,16 @@ public class ExistsTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
-                fields);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
+            fields);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -382,18 +350,16 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
-                queryGroup);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<IdentityTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     #endregion
@@ -406,18 +372,16 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                (object?)null);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            (object?)null);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -426,17 +390,15 @@ public class ExistsTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 });
+        // Act
+        var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 });
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -446,18 +408,16 @@ public class ExistsTest
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                field);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            field);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -471,18 +431,16 @@ public class ExistsTest
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                fields);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            fields);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -497,18 +455,16 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(fields);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                queryGroup);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     #endregion

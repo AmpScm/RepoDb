@@ -51,23 +51,21 @@ public class ObjectNameCasingTest
             COLUMNNVARCHAR = Helper.GetAssemblyDescription()
         };
 
-        using (var repository = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = repository.Insert(entity);
+        using var repository = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = repository.Insert(entity);
 
-            // Act Query
-            var data = repository.Query<COMPLETETABLE>(e => e.SESSIONID == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = repository.Query<COMPLETETABLE>(e => e.SESSIONID == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.COLUMNBIGINT, data.COLUMNBIGINT);
-            Assert.AreEqual(entity.COLUMNBIT, data.COLUMNBIT);
-            Assert.AreEqual(entity.COLUMNDATETIME2, data.COLUMNDATETIME2);
-            Assert.AreEqual(entity.COLUMNDATETIME, data.COLUMNDATETIME);
-            Assert.AreEqual(entity.COLUMNINT, data.COLUMNINT);
-            Assert.AreEqual(entity.COLUMNNVARCHAR, data.COLUMNNVARCHAR);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.COLUMNBIGINT, data.COLUMNBIGINT);
+        Assert.AreEqual(entity.COLUMNBIT, data.COLUMNBIT);
+        Assert.AreEqual(entity.COLUMNDATETIME2, data.COLUMNDATETIME2);
+        Assert.AreEqual(entity.COLUMNDATETIME, data.COLUMNDATETIME);
+        Assert.AreEqual(entity.COLUMNINT, data.COLUMNINT);
+        Assert.AreEqual(entity.COLUMNNVARCHAR, data.COLUMNNVARCHAR);
     }
 
     [TestMethod]
@@ -85,23 +83,21 @@ public class ObjectNameCasingTest
             COLUMNNVARCHAR = Helper.GetAssemblyDescription()
         };
 
-        using (var repository = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = repository.InsertAll(new[] { entity });
+        using var repository = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = repository.InsertAll(new[] { entity });
 
-            // Act Query
-            var data = repository.Query<COMPLETETABLE>(e => e.SESSIONID == entity.SESSIONID).FirstOrDefault();
+        // Act Query
+        var data = repository.Query<COMPLETETABLE>(e => e.SESSIONID == entity.SESSIONID).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.COLUMNBIGINT, data.COLUMNBIGINT);
-            Assert.AreEqual(entity.COLUMNBIT, data.COLUMNBIT);
-            Assert.AreEqual(entity.COLUMNDATETIME2, data.COLUMNDATETIME2);
-            Assert.AreEqual(entity.COLUMNDATETIME, data.COLUMNDATETIME);
-            Assert.AreEqual(entity.COLUMNINT, data.COLUMNINT);
-            Assert.AreEqual(entity.COLUMNNVARCHAR, data.COLUMNNVARCHAR);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.COLUMNBIGINT, data.COLUMNBIGINT);
+        Assert.AreEqual(entity.COLUMNBIT, data.COLUMNBIT);
+        Assert.AreEqual(entity.COLUMNDATETIME2, data.COLUMNDATETIME2);
+        Assert.AreEqual(entity.COLUMNDATETIME, data.COLUMNDATETIME);
+        Assert.AreEqual(entity.COLUMNINT, data.COLUMNINT);
+        Assert.AreEqual(entity.COLUMNNVARCHAR, data.COLUMNNVARCHAR);
     }
 
     #endregion
@@ -142,23 +138,21 @@ public class ObjectNameCasingTest
             ColumnNVarCharMapped = Helper.GetAssemblyDescription()
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<MappedTableAndWithImproperCasingForClassAndFieldsClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<MappedTableAndWithImproperCasingForClassAndFieldsClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
-            Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
-            Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped);
-            Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
-            Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
-            Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
+        Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
+        Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped);
+        Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
+        Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
+        Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
     }
 
     [TestMethod]
@@ -176,23 +170,21 @@ public class ObjectNameCasingTest
             ColumnNVarCharMapped = Helper.GetAssemblyDescription()
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.InsertAll(new[] { entity });
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.InsertAll(new[] { entity });
 
-            // Act Query
-            var data = connection.Query<MappedTableAndWithImproperCasingForClassAndFieldsClass>(e => e.SessionId == entity.SessionId).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<MappedTableAndWithImproperCasingForClassAndFieldsClass>(e => e.SessionId == entity.SessionId).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
-            Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
-            Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped);
-            Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
-            Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
-            Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnBigIntMapped, data.ColumnBigIntMapped);
+        Assert.AreEqual(entity.ColumnBitMapped, data.ColumnBitMapped);
+        Assert.AreEqual(entity.ColumnDateTime2Mapped, data.ColumnDateTime2Mapped);
+        Assert.AreEqual(entity.ColumnDateTimeMapped, data.ColumnDateTimeMapped);
+        Assert.AreEqual(entity.ColumnIntMapped, data.ColumnIntMapped);
+        Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
     }
 
     #endregion
@@ -214,59 +206,57 @@ public class ObjectNameCasingTest
             COLUMNNVARCHAR = Helper.GetAssemblyDescription()
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert("COMPLETETABLE", entity);
+
+        // Act Query
+        var data = connection.Query("COMPLETETABLE", new { SessionId = (Guid)id }).FirstOrDefault();
+
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
+        Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
+        Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
+        Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
+        Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
+        Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
+
+        // Act Update
+        entity = new
         {
-            // Act Insert
-            var id = connection.Insert("COMPLETETABLE", entity);
+            SESSIONID = entity.SESSIONID,
+            COLUMNBIGINT = long.MinValue,
+            COLUMNBIT = true,
+            COLUMNDATETIME2 = DateTime.Parse("1970-01-02 1:25:00.44569"),
+            COLUMNDATETIME = DateTime.Parse("1970-01-02 10:30:30"),
+            COLUMNINT = int.MinValue,
+            COLUMNNVARCHAR = $"{Helper.GetAssemblyDescription()}-Updated"
+        };
 
-            // Act Query
-            var data = connection.Query("COMPLETETABLE", new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act
+        var rows = connection.Update("COMPLETETABLE", entity);
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
-            Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
-            Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
-            Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
-            Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
-            Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
+        // Act Query
+        data = connection.Query("COMPLETETABLE", new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Act Update
-            entity = new
-            {
-                SESSIONID = entity.SESSIONID,
-                COLUMNBIGINT = long.MinValue,
-                COLUMNBIT = true,
-                COLUMNDATETIME2 = DateTime.Parse("1970-01-02 1:25:00.44569"),
-                COLUMNDATETIME = DateTime.Parse("1970-01-02 10:30:30"),
-                COLUMNINT = int.MinValue,
-                COLUMNNVARCHAR = $"{Helper.GetAssemblyDescription()}-Updated"
-            };
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
+        Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
+        Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
+        Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
+        Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
+        Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
 
-            // Act
-            var rows = connection.Update("COMPLETETABLE", entity);
+        // Act Delete
+        rows = connection.Delete("COMPLETETABLE", entity.SESSIONID);
 
-            // Act Query
-            data = connection.Query("COMPLETETABLE", new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        data = connection.Query("COMPLETETABLE", new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
-            Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
-            Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
-            Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
-            Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
-            Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
-
-            // Act Delete
-            rows = connection.Delete("COMPLETETABLE", entity.SESSIONID);
-
-            // Act Query
-            data = connection.Query("COMPLETETABLE", new { SessionId = (Guid)id }).FirstOrDefault();
-
-            // Assert
-            Assert.IsNull(data);
-        }
+        // Assert
+        Assert.IsNull(data);
     }
 
     [TestMethod]
@@ -284,63 +274,61 @@ public class ObjectNameCasingTest
             COLUMNNVARCHAR = Helper.GetAssemblyDescription()
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.InsertAll("COMPLETETABLE",
+            new[] { entity },
+            fields: entity.GetType().GetProperties().AsFields());
+
+        // Act Query
+        var data = connection.Query("COMPLETETABLE", new { SessionId = entity.SESSIONID }).FirstOrDefault();
+
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
+        Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
+        Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
+        Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
+        Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
+        Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
+
+        // Act Update
+        entity = new
         {
-            // Act Insert
-            var id = connection.InsertAll("COMPLETETABLE",
-                new[] { entity },
-                fields: entity.GetType().GetProperties().AsFields());
+            SESSIONID = entity.SESSIONID,
+            COLUMNBIGINT = long.MinValue,
+            COLUMNBIT = true,
+            COLUMNDATETIME2 = DateTime.Parse("1970-01-02 1:25:00.44569"),
+            COLUMNDATETIME = DateTime.Parse("1970-01-02 10:30:30"),
+            COLUMNINT = int.MinValue,
+            COLUMNNVARCHAR = $"{Helper.GetAssemblyDescription()}-Updated"
+        };
 
-            // Act Query
-            var data = connection.Query("COMPLETETABLE", new { SessionId = entity.SESSIONID }).FirstOrDefault();
+        // Act
+        var rows = connection.UpdateAll("COMPLETETABLE",
+            new[] { entity },
+            fields: entity.GetType().GetProperties().AsFields());
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
-            Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
-            Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
-            Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
-            Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
-            Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
+        // Act Query
+        data = connection.Query("COMPLETETABLE", new { SessionId = entity.SESSIONID }).FirstOrDefault();
 
-            // Act Update
-            entity = new
-            {
-                SESSIONID = entity.SESSIONID,
-                COLUMNBIGINT = long.MinValue,
-                COLUMNBIT = true,
-                COLUMNDATETIME2 = DateTime.Parse("1970-01-02 1:25:00.44569"),
-                COLUMNDATETIME = DateTime.Parse("1970-01-02 10:30:30"),
-                COLUMNINT = int.MinValue,
-                COLUMNNVARCHAR = $"{Helper.GetAssemblyDescription()}-Updated"
-            };
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
+        Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
+        Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
+        Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
+        Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
+        Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
 
-            // Act
-            var rows = connection.UpdateAll("COMPLETETABLE",
-                new[] { entity },
-                fields: entity.GetType().GetProperties().AsFields());
+        // Act Delete
+        rows = connection.Delete("COMPLETETABLE", entity.SESSIONID);
 
-            // Act Query
-            data = connection.Query("COMPLETETABLE", new { SessionId = entity.SESSIONID }).FirstOrDefault();
+        // Act Query
+        data = connection.Query("COMPLETETABLE", new { SessionId = entity.SESSIONID }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.COLUMNBIGINT, data.ColumnBigInt);
-            Assert.AreEqual(entity.COLUMNBIT, data.ColumnBit);
-            Assert.AreEqual(entity.COLUMNDATETIME2, data.ColumnDateTime2);
-            Assert.AreEqual(entity.COLUMNDATETIME, data.ColumnDateTime);
-            Assert.AreEqual(entity.COLUMNINT, data.ColumnInt);
-            Assert.AreEqual(entity.COLUMNNVARCHAR, data.ColumnNVarChar);
-
-            // Act Delete
-            rows = connection.Delete("COMPLETETABLE", entity.SESSIONID);
-
-            // Act Query
-            data = connection.Query("COMPLETETABLE", new { SessionId = entity.SESSIONID }).FirstOrDefault();
-
-            // Assert
-            Assert.IsNull(data);
-        }
+        // Assert
+        Assert.IsNull(data);
     }
 
     #endregion

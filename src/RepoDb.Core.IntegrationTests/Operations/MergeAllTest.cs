@@ -30,26 +30,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -58,27 +56,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -87,25 +83,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -114,26 +108,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -142,26 +134,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
+            Field.From(nameof(IdentityTable.ColumnInt)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
-                Field.From(nameof(IdentityTable.ColumnInt)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -170,26 +160,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
+            Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
-                Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -198,28 +186,26 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -228,29 +214,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
+            Field.From(nameof(IdentityTable.ColumnInt)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
-                Field.From(nameof(IdentityTable.ColumnInt)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -259,29 +243,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
+            Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
-                Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -290,25 +272,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -317,26 +297,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -345,26 +323,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -373,28 +349,26 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<NonIdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<NonIdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -403,29 +377,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<NonIdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<NonIdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -434,29 +406,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<NonIdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<NonIdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -465,26 +435,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
+            hints: SqlServerTableHints.TabLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables,
-                hints: SqlServerTableHints.TabLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -497,25 +465,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -524,25 +490,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(19);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -551,25 +515,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -578,25 +540,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(99);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -609,26 +569,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -637,27 +595,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -666,25 +622,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -693,26 +647,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -721,26 +673,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
+            Field.From(nameof(IdentityTable.ColumnInt)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
-                Field.From(nameof(IdentityTable.ColumnInt)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -749,26 +699,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
+            Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
-                Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -777,28 +725,26 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -807,29 +753,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
+            Field.From(nameof(IdentityTable.ColumnInt)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
-                Field.From(nameof(IdentityTable.ColumnInt)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -838,29 +782,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<IdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
+            Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<IdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
-                Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -869,25 +811,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -896,26 +836,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -924,26 +862,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -952,28 +888,26 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<NonIdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<NonIdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -982,29 +916,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<NonIdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<NonIdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1013,29 +945,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll<NonIdentityTable>(tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll<NonIdentityTable>(tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1044,26 +974,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
+            hints: SqlServerTableHints.TabLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables,
-                hints: SqlServerTableHints.TabLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -1076,25 +1004,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1103,25 +1029,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(19);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1130,25 +1054,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1157,25 +1079,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(99);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -1188,26 +1108,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(entity, table);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -1216,27 +1134,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1245,28 +1161,26 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Helper.AssertMembersEquality(entity, table);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -1275,29 +1189,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Assert.AreEqual(current.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Assert.AreEqual(current.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1306,26 +1218,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1334,27 +1244,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1363,27 +1271,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1392,27 +1298,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1421,29 +1325,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1452,30 +1354,28 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1484,31 +1384,29 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Helper.AssertMembersEquality(entity, table);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -1517,32 +1415,30 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Helper.AssertMembersEquality(entity, table);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -1551,30 +1447,28 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1588,26 +1482,24 @@ public class MergeAllTest
             new {Id = Guid.NewGuid(),ColumnBit = true,ColumnInt = 3}
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1616,66 +1508,58 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            hints: SqlServerTableHints.TabLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                hints: SqlServerTableHints.TabLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionMergeAllIfTheKeyFieldIsNotPresent()
     {
         // Setup
         var tables = Helper.CreateDynamicNonKeyedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.MergeAll(ClassMappedNameCache.Get<NonKeyedTable>(), tables);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.MergeAll(ClassMappedNameCache.Get<NonKeyedTable>(), tables));
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionMergeAllIfThereIsNoKeyField()
     {
         // Setup
         var tables = Helper.CreateDynamicNonKeyedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.MergeAll(ClassMappedNameCache.Get<NonKeyedTable>(), tables);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.MergeAll(ClassMappedNameCache.Get<NonKeyedTable>(), tables));
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionMergeAllIfThereIsNoKeyFieldAtTheTable()
     {
         // Setup
         var tables = Helper.CreateDynamicNonKeyedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.MergeAll(ClassMappedNameCache.Get<NonKeyedTable>(), tables);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.MergeAll(ClassMappedNameCache.Get<NonKeyedTable>(), tables));
     }
 
     #endregion
@@ -1688,25 +1572,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1715,25 +1597,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(19);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1742,25 +1622,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1769,25 +1647,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(99);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = connection.MergeAll<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -1800,26 +1676,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1828,27 +1702,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1857,28 +1729,26 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Helper.AssertMembersEquality(entity, table);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -1887,29 +1757,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Assert.AreEqual(current.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Assert.AreEqual(current.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1918,26 +1786,24 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1946,27 +1812,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1975,27 +1839,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2004,27 +1866,25 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2033,29 +1893,27 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2064,30 +1922,28 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2096,31 +1952,29 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Helper.AssertMembersEquality(entity,table);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -2129,32 +1983,30 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateExpandoObjectNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(nameof(NonIdentityTable.Id)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+        tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(nameof(NonIdentityTable.Id)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-            tables.ForEach(table => Assert.IsNotNull(((dynamic)table).Id));
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(item => item.Id == current.Id);
-                Helper.AssertMembersEquality(entity, table);
-            });
-        }
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(item => item.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -2163,30 +2015,28 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
+
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(ClassMappedNameCache.Get<NonIdentityTable>(), tables);
-
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2200,26 +2050,24 @@ public class MergeAllTest
             new {Id = Guid.NewGuid(),ColumnBit = true,ColumnInt = 3}
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2228,66 +2076,58 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateDynamicNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            hints: SqlServerTableHints.TabLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                hints: SqlServerTableHints.TabLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionMergeAllAsyncIfTheKeyFieldIsNotPresent()
     {
         // Setup
         var tables = Helper.CreateNonKeyedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            await connection.MergeAllAsync(ClassMappedNameCache.Get<NonKeyedTable>(), tables);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.MergeAllAsync(ClassMappedNameCache.Get<NonKeyedTable>(), tables));
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionAsyncMergeAllIfThereIsNoKeyField()
     {
         // Setup
         var tables = Helper.CreateDynamicNonKeyedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            await connection.MergeAllAsync(ClassMappedNameCache.Get<NonKeyedTable>(), tables);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.MergeAllAsync(ClassMappedNameCache.Get<NonKeyedTable>(), tables));
     }
 
-    [TestMethod, ExpectedException(typeof(KeyFieldNotFoundException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionMergeAllAsyncIfThereIsNoKeyFieldAtTheTable()
     {
         // Setup
         var tables = Helper.CreateDynamicNonKeyedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            await connection.MergeAllAsync(ClassMappedNameCache.Get<NonKeyedTable>(), tables);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.MergeAllAsync(ClassMappedNameCache.Get<NonKeyedTable>(), tables));
     }
 
     #endregion
@@ -2300,25 +2140,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2327,25 +2165,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(19);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<IdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2354,25 +2190,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables, 1);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables, 1);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -2381,25 +2215,23 @@ public class MergeAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(99);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
+
+        // Assert
+        Assert.AreEqual(tables.Count, mergeAllResult);
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        tables.ForEach(table =>
         {
-            // Act
-            var mergeAllResult = await connection.MergeAllAsync<NonIdentityTable>(tables);
-
-            // Assert
-            Assert.AreEqual(tables.Count, mergeAllResult);
-            Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityTable>());
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(item => item.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+            var entity = queryAllResult.First(item => item.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion

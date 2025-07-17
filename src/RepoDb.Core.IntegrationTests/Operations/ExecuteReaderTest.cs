@@ -32,22 +32,18 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable];"))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(tables.Count, result.Count());
-                tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-            }
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -56,23 +52,19 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-                new { From = 3, To = 4 }))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
+            new { From = 3, To = 4 });
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(2, result.Count());
-                result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-            }
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -81,23 +73,19 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-                new { ColumnInt = new[] { 5, 6, 7 } }))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
+            new { ColumnInt = new[] { 5, 6, 7 } });
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(3, result.Count());
-                result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-            }
-        }
+        // Assert
+        Assert.AreEqual(3, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -106,22 +94,18 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = connection.ExecuteReader("SELECT TOP (@Top) * FROM [sc].[IdentityTable];", new { Top = 2 }))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = connection.ExecuteReader("SELECT TOP (@Top) * FROM [sc].[IdentityTable];", new { Top = 2 });
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(2, result.Count());
-                result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-            }
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -130,22 +114,18 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = connection.ExecuteReader("[dbo].[sp_get_identity_tables]", commandType: CommandType.StoredProcedure))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = connection.ExecuteReader("[dbo].[sp_get_identity_tables]", commandType: CommandType.StoredProcedure);
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(tables.Count, result.Count());
-                tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-            }
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -154,44 +134,36 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = connection.ExecuteReader("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = connection.ExecuteReader("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(1, result.Count());
-                Helper.AssertPropertiesEquality(tables.Last(), result.First());
-            }
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteReaderIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteReaderIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion
@@ -204,22 +176,18 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable];"))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(tables.Count, result.Count());
-                tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-            }
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -228,23 +196,19 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-                new { From = 3, To = 4 }))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
+            new { From = 3, To = 4 });
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(2, result.Count());
-                result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-            }
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -253,23 +217,19 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-                new { ColumnInt = new[] { 5, 6, 7 } }))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
+            new { ColumnInt = new[] { 5, 6, 7 } });
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(3, result.Count());
-                result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-            }
-        }
+        // Assert
+        Assert.AreEqual(3, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -278,22 +238,18 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("SELECT TOP (@Top) * FROM [sc].[IdentityTable];", new { Top = 2 }))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("SELECT TOP (@Top) * FROM [sc].[IdentityTable];", new { Top = 2 });
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(2, result.Count());
-                result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-            }
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -302,22 +258,18 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("[dbo].[sp_get_identity_tables]", commandType: CommandType.StoredProcedure))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("[dbo].[sp_get_identity_tables]", commandType: CommandType.StoredProcedure);
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(tables.Count, result.Count());
-                tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-            }
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -326,44 +278,36 @@ public class ExecuteReaderTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            using (var reader = await connection.ExecuteReaderAsync("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure))
-            {
-                // Act
-                var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
+        // Act
+        using var reader = await connection.ExecuteReaderAsync("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
+        // Act
+        var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
-                // Assert
-                Assert.AreEqual(1, result.Count());
-                Helper.AssertPropertiesEquality(tables.Last(), result.First());
-            }
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteReaderAsyncIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteReaderAsyncIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion

@@ -30,15 +30,13 @@ public class ObjectQuotationTest
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
-            var deleteResult = connection.Delete<UnorganizedTable>(last.Id);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var deleteResult = connection.Delete<UnorganizedTable>(last.Id);
 
-            // Assert
-            Assert.AreEqual(1, deleteResult);
-        }
+        // Assert
+        Assert.AreEqual(1, deleteResult);
     }
 
     [TestMethod]
@@ -48,15 +46,13 @@ public class ObjectQuotationTest
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
-            var deleteResult = connection.Delete<UnorganizedTable>(e => e.SessionId == last.SessionId);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var deleteResult = connection.Delete<UnorganizedTable>(e => e.SessionId == last.SessionId);
 
-            // Assert
-            Assert.AreEqual(1, deleteResult);
-        }
+        // Assert
+        Assert.AreEqual(1, deleteResult);
     }
 
     #endregion
@@ -69,16 +65,14 @@ public class ObjectQuotationTest
         // Setup
         var entity = Helper.CreateUnorganizedTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<UnorganizedTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<UnorganizedTable, long>(entity);
 
-            // Assert
-            Assert.IsNotNull(id);
-            Assert.IsTrue(id > 0);
-            Assert.AreEqual(1, connection.CountAll<UnorganizedTable>());
-        }
+        // Assert
+        Assert.IsNotNull(id);
+        Assert.IsTrue(id > 0);
+        Assert.AreEqual(1, connection.CountAll<UnorganizedTable>());
     }
 
     #endregion
@@ -91,15 +85,13 @@ public class ObjectQuotationTest
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, rowsInserted);
-            Assert.AreEqual(entities.Count, connection.CountAll<UnorganizedTable>());
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, rowsInserted);
+        Assert.AreEqual(entities.Count, connection.CountAll<UnorganizedTable>());
     }
 
     #endregion
@@ -112,28 +104,26 @@ public class ObjectQuotationTest
         // Setup
         var entity = Helper.CreateUnorganizedTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Merge<UnorganizedTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Merge<UnorganizedTable, long>(entity);
 
-            // Assert
-            Assert.IsNotNull(id);
-            Assert.IsTrue(id > 0);
-            Assert.AreEqual(1, connection.CountAll<UnorganizedTable>());
+        // Assert
+        Assert.IsNotNull(id);
+        Assert.IsTrue(id > 0);
+        Assert.AreEqual(1, connection.CountAll<UnorganizedTable>());
 
-            // Setup
-            entity.ColumnDateTime2 = DateTime.UtcNow;
-            entity.ColumnInt = 2;
-            entity.ColumnNVarChar = Guid.NewGuid().ToString();
+        // Setup
+        entity.ColumnDateTime2 = DateTime.UtcNow;
+        entity.ColumnInt = 2;
+        entity.ColumnNVarChar = Guid.NewGuid().ToString();
 
-            // Act
-            id = connection.Merge<UnorganizedTable, long>(entity);
-            var queryResult = connection.Query<UnorganizedTable>(id).First();
+        // Act
+        id = connection.Merge<UnorganizedTable, long>(entity);
+        var queryResult = connection.Query<UnorganizedTable>(id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion
@@ -146,35 +136,33 @@ public class ObjectQuotationTest
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsAffected = connection.MergeAll<UnorganizedTable>(entities);
+
+        // Assert
+        Assert.AreEqual(entities.Count, rowsAffected);
+        Assert.AreEqual(entities.Count, connection.CountAll<UnorganizedTable>());
+
+        // Setup
+        entities.ForEach(entity =>
         {
-            // Act
-            var rowsAffected = connection.MergeAll<UnorganizedTable>(entities);
+            entity.ColumnDateTime2 = DateTime.UtcNow;
+            entity.ColumnInt = 2;
+            entity.ColumnNVarChar = Guid.NewGuid().ToString();
+        });
 
-            // Assert
-            Assert.AreEqual(entities.Count, rowsAffected);
-            Assert.AreEqual(entities.Count, connection.CountAll<UnorganizedTable>());
+        // Act
+        rowsAffected = connection.MergeAll<UnorganizedTable>(entities);
 
-            // Setup
-            entities.ForEach(entity =>
-            {
-                entity.ColumnDateTime2 = DateTime.UtcNow;
-                entity.ColumnInt = 2;
-                entity.ColumnNVarChar = Guid.NewGuid().ToString();
-            });
+        // Assert
+        Assert.AreEqual(entities.Count, rowsAffected);
 
-            // Act
-            rowsAffected = connection.MergeAll<UnorganizedTable>(entities);
+        // Act
+        var queryAllResult = connection.QueryAll<UnorganizedTable>();
 
-            // Assert
-            Assert.AreEqual(entities.Count, rowsAffected);
-
-            // Act
-            var queryAllResult = connection.QueryAll<UnorganizedTable>();
-
-            // Assert
-            entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
-        }
+        // Assert
+        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
     }
 
     #endregion
@@ -188,16 +176,14 @@ public class ObjectQuotationTest
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
-            var queryResult = connection.Query<UnorganizedTable>(last.Id).FirstOrDefault();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var queryResult = connection.Query<UnorganizedTable>(last.Id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(queryResult);
-            Helper.AssertPropertiesEquality(last, queryResult);
-        }
+        // Assert
+        Assert.IsNotNull(queryResult);
+        Helper.AssertPropertiesEquality(last, queryResult);
     }
 
     [TestMethod]
@@ -207,16 +193,14 @@ public class ObjectQuotationTest
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
-            var queryResult = connection.Query<UnorganizedTable>(e => e.SessionId == last.SessionId).FirstOrDefault();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var queryResult = connection.Query<UnorganizedTable>(e => e.SessionId == last.SessionId).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(queryResult);
-            Helper.AssertPropertiesEquality(last, queryResult);
-        }
+        // Assert
+        Assert.IsNotNull(queryResult);
+        Helper.AssertPropertiesEquality(last, queryResult);
     }
 
     #endregion
@@ -229,16 +213,14 @@ public class ObjectQuotationTest
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
-            var queryAllResult = connection.QueryAll<UnorganizedTable>();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var queryAllResult = connection.QueryAll<UnorganizedTable>();
 
-            // Assert
-            Assert.AreEqual(entities.Count, queryAllResult.Count());
-            entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, queryAllResult.Count());
+        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
     }
 
     #endregion
@@ -251,24 +233,22 @@ public class ObjectQuotationTest
         // Setup
         var entity = Helper.CreateUnorganizedTable();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var id = connection.Insert<UnorganizedTable, long>(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var id = connection.Insert<UnorganizedTable, long>(entity);
 
-            // Setup
-            entity.ColumnDateTime2 = DateTime.UtcNow;
-            entity.ColumnInt = 2;
-            entity.ColumnNVarChar = Guid.NewGuid().ToString();
+        // Setup
+        entity.ColumnDateTime2 = DateTime.UtcNow;
+        entity.ColumnInt = 2;
+        entity.ColumnNVarChar = Guid.NewGuid().ToString();
 
-            // Act
-            var updateReuslt = connection.Update<UnorganizedTable>(entity);
-            var queryResult = connection.Query<UnorganizedTable>(id).First();
+        // Act
+        var updateReuslt = connection.Update<UnorganizedTable>(entity);
+        var queryResult = connection.Query<UnorganizedTable>(id).First();
 
-            // Assert
-            Assert.AreEqual(1, updateReuslt);
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Assert.AreEqual(1, updateReuslt);
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion
@@ -281,31 +261,29 @@ public class ObjectQuotationTest
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var rowsAffected = connection.InsertAll<UnorganizedTable>(entities);
+
+        // Setup
+        entities.ForEach(entity =>
         {
-            // Act
-            var rowsAffected = connection.InsertAll<UnorganizedTable>(entities);
+            entity.ColumnDateTime2 = DateTime.UtcNow;
+            entity.ColumnInt = 2;
+            entity.ColumnNVarChar = Guid.NewGuid().ToString();
+        });
 
-            // Setup
-            entities.ForEach(entity =>
-            {
-                entity.ColumnDateTime2 = DateTime.UtcNow;
-                entity.ColumnInt = 2;
-                entity.ColumnNVarChar = Guid.NewGuid().ToString();
-            });
+        // Act
+        rowsAffected = connection.UpdateAll<UnorganizedTable>(entities);
 
-            // Act
-            rowsAffected = connection.UpdateAll<UnorganizedTable>(entities);
+        // Assert
+        Assert.AreEqual(entities.Count, rowsAffected);
 
-            // Assert
-            Assert.AreEqual(entities.Count, rowsAffected);
+        // Act
+        var queryAllResult = connection.QueryAll<UnorganizedTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<UnorganizedTable>();
-
-            // Assert
-            entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
-        }
+        // Assert
+        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
     }
 
     #endregion

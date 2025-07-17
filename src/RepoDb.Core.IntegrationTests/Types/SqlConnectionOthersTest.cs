@@ -66,21 +66,19 @@ public class SqlConnectionOthersTest
             ColumnXml = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<OthersClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<OthersClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnHierarchyId);
-            Assert.IsNull(data.ColumnSqlVariant);
-            Assert.IsNull(data.ColumnUniqueIdentifier);
-            Assert.IsNull(data.ColumnXml);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnHierarchyId);
+        Assert.IsNull(data.ColumnSqlVariant);
+        Assert.IsNull(data.ColumnUniqueIdentifier);
+        Assert.IsNull(data.ColumnXml);
     }
 
     //[TestMethod]
@@ -126,21 +124,19 @@ public class SqlConnectionOthersTest
             ColumnXmlMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<OthersMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<OthersMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnHierarchyIdMapped);
-            Assert.IsNull(data.ColumnSqlVariantMapped);
-            Assert.IsNull(data.ColumnUniqueIdentifierMapped);
-            Assert.IsNull(data.ColumnXmlMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnHierarchyIdMapped);
+        Assert.IsNull(data.ColumnSqlVariantMapped);
+        Assert.IsNull(data.ColumnUniqueIdentifierMapped);
+        Assert.IsNull(data.ColumnXmlMapped);
     }
 
     //[TestMethod]
@@ -188,23 +184,21 @@ public class SqlConnectionOthersTest
             ColumnXml = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<OthersClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<OthersClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnHierarchyId);
-            Assert.IsNull(data.ColumnSqlVariant);
-            Assert.IsNull(data.ColumnUniqueIdentifier);
-            Assert.IsNull(data.ColumnXml);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnHierarchyId);
+        Assert.IsNull(data.ColumnSqlVariant);
+        Assert.IsNull(data.ColumnUniqueIdentifier);
+        Assert.IsNull(data.ColumnXml);
     }
 
     //[TestMethod]
@@ -252,23 +246,21 @@ public class SqlConnectionOthersTest
             ColumnXmlMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<OthersMapClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<OthersMapClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnHierarchyIdMapped);
-            Assert.IsNull(data.ColumnSqlVariantMapped);
-            Assert.IsNull(data.ColumnUniqueIdentifierMapped);
-            Assert.IsNull(data.ColumnXmlMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnHierarchyIdMapped);
+        Assert.IsNull(data.ColumnSqlVariantMapped);
+        Assert.IsNull(data.ColumnUniqueIdentifierMapped);
+        Assert.IsNull(data.ColumnXmlMapped);
     }
 
     #endregion
@@ -318,21 +310,19 @@ public class SqlConnectionOthersTest
             ColumnXml = (string)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<OthersClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<OthersClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<OthersClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<OthersClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnHierarchyId);
-            Assert.IsNull(data.ColumnSqlVariant);
-            Assert.IsNull(data.ColumnUniqueIdentifier);
-            Assert.IsNull(data.ColumnXml);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnHierarchyId);
+        Assert.IsNull(data.ColumnSqlVariant);
+        Assert.IsNull(data.ColumnUniqueIdentifier);
+        Assert.IsNull(data.ColumnXml);
     }
 
     //[TestMethod]
@@ -380,23 +370,21 @@ public class SqlConnectionOthersTest
             ColumnXml = (string)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<OthersClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<OthersClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<OthersClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<OthersClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnHierarchyId);
-            Assert.IsNull(data.ColumnSqlVariant);
-            Assert.IsNull(data.ColumnUniqueIdentifier);
-            Assert.IsNull(data.ColumnXml);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnHierarchyId);
+        Assert.IsNull(data.ColumnSqlVariant);
+        Assert.IsNull(data.ColumnUniqueIdentifier);
+        Assert.IsNull(data.ColumnXml);
     }
 
     #endregion

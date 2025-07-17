@@ -29,17 +29,15 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll<IdentityTable>(e => e.ColumnInt);
+        // Act
+        var result = connection.MaxAll<IdentityTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -48,18 +46,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll<IdentityTable>(e => e.ColumnInt,
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = connection.MaxAll<IdentityTable>(e => e.ColumnInt,
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -68,17 +64,15 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll<IdentityTable, int?>(e => e.ColumnInt);
+        // Act
+        var result = connection.MaxAll<IdentityTable, int?>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -87,18 +81,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll<IdentityTable, int?>(e => e.ColumnInt,
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = connection.MaxAll<IdentityTable, int?>(e => e.ColumnInt,
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     #endregion
@@ -111,17 +103,15 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync<IdentityTable>(e => e.ColumnInt);
+        // Act
+        var result = await connection.MaxAllAsync<IdentityTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -130,18 +120,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync<IdentityTable>(e => e.ColumnInt,
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = await connection.MaxAllAsync<IdentityTable>(e => e.ColumnInt,
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -150,17 +138,15 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync<IdentityTable, int?>(e => e.ColumnInt);
+        // Act
+        var result = await connection.MaxAllAsync<IdentityTable, int?>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -169,18 +155,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync<IdentityTable, int?>(e => e.ColumnInt,
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = await connection.MaxAllAsync<IdentityTable, int?>(e => e.ColumnInt,
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     #endregion
@@ -193,18 +177,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"));
+        // Act
+        var result = connection.MaxAll(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"));
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -213,19 +195,17 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = connection.MaxAll(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -234,18 +214,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"));
+        // Act
+        var result = connection.MaxAll<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"));
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -254,19 +232,17 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.MaxAll<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = connection.MaxAll<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     #endregion
@@ -279,18 +255,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"));
+        // Act
+        var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"));
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -299,19 +273,17 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -320,18 +292,16 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"));
+        // Act
+        var result = await connection.MaxAllAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"));
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     [TestMethod]
@@ -340,19 +310,17 @@ public class MaxAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.MaxAllAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-                new Field("ColumnInt"),
-                hints: SqlServerTableHints.NoLock);
+        // Act
+        var result = await connection.MaxAllAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
+            new Field("ColumnInt"),
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
 
     #endregion

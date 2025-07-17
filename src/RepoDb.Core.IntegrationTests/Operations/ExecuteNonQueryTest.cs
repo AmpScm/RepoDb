@@ -27,14 +27,12 @@ public class ExecuteNonQueryTest
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryWithNoAffectedTableRows()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;");
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var result = connection.ExecuteNonQuery("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;");
 
-            // Assert
-            Assert.AreEqual(-1, result);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
     }
 
     [TestMethod]
@@ -43,17 +41,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 10;");
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 10;");
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -62,18 +58,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt;",
-                new { ColumnInt = 10 });
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt;",
+            new { ColumnInt = 10 });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -82,18 +76,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
-                new { ColumnInt = 10, ColumnBit = true });
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
+            new { ColumnInt = 10, ColumnBit = true });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -102,17 +94,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable];");
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count, 10);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, 10);
     }
 
     [TestMethod]
@@ -121,17 +111,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;");
+        // Act
+        var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;");
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -140,18 +128,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt;",
-                new { ColumnInt = 10 });
+        // Act
+        var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt;",
+            new { ColumnInt = 10 });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -160,18 +146,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
-                new { ColumnInt = 10, ColumnBit = true });
+        // Act
+        var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
+            new { ColumnInt = 10, ColumnBit = true });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -180,17 +164,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100;");
+        // Act
+        var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100;");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     [TestMethod]
@@ -199,19 +181,17 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;" +
-                "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = 9;" +
-                "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 1;");
+        // Act
+        var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;" +
+            "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = 9;" +
+            "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 1;");
 
-            // Assert
-            Assert.AreEqual(3, result);
-        }
+        // Assert
+        Assert.AreEqual(3, result);
     }
 
     [TestMethod]
@@ -220,20 +200,18 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @Value1;" +
-                "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = @Value2;" +
-                "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @Value3;",
-                new { Value1 = 10, Value2 = 9, Value3 = 1 });
+        // Act
+        var result = connection.ExecuteNonQuery("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @Value1;" +
+            "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = @Value2;" +
+            "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @Value3;",
+            new { Value1 = 10, Value2 = 9, Value3 = 1 });
 
-            // Assert
-            Assert.AreEqual(3, result);
-        }
+        // Assert
+        Assert.AreEqual(3, result);
     }
 
     [TestMethod]
@@ -242,107 +220,95 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteNonQuery("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = connection.ExecuteNonQuery("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(-1, result);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryByExecutingAStoredProcedureWithMultipleParameters()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("[dbo].[sp_multiply]",
-                param: new { Value1 = 100, Value2 = 200 },
-                commandType: CommandType.StoredProcedure);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var result = connection.ExecuteNonQuery("[dbo].[sp_multiply]",
+            param: new { Value1 = 100, Value2 = 200 },
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(-1, result);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryByExecutingAStoredProcedureWithMultipleParametersAndWithOuputParameter()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var output = new DirectionalQueryField("Output", ParameterDirection.Output, 16, DbType.Int32);
+        var param = new[]
         {
-            // Setup
-            var output = new DirectionalQueryField("Output", ParameterDirection.Output, 16, DbType.Int32);
-            var param = new[]
-            {
                 new QueryField("Value1", 100),
                 new QueryField("Value2", 200),
                 output
             };
 
-            // Act
-            var result = connection.ExecuteNonQuery("[dbo].[sp_multiply_with_output]",
-                param: param,
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = connection.ExecuteNonQuery("[dbo].[sp_multiply_with_output]",
+            param: param,
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(-1, result);
-            Assert.AreEqual(20000, output.Parameter.Value);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
+        Assert.AreEqual(20000, output.Parameter.Value);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryByExecutingAStoredProcedureWithMultipleOutputParameters()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var userId = new DirectionalQueryField("UserId", null, ParameterDirection.Output, 16);
+        var serverName = new DirectionalQueryField("ServerName", null, ParameterDirection.Output, 256);
+        var dateTimeUtc = new DirectionalQueryField("DateTimeUtc", null, ParameterDirection.Output, 16, DbType.DateTime2);
+        var param = new[]
         {
-            // Setup
-            var userId = new DirectionalQueryField("UserId", null, ParameterDirection.Output, 16);
-            var serverName = new DirectionalQueryField("ServerName", null, ParameterDirection.Output, 256);
-            var dateTimeUtc = new DirectionalQueryField("DateTimeUtc", null, ParameterDirection.Output, 16, DbType.DateTime2);
-            var param = new[]
-            {
                 userId,
                 serverName,
                 dateTimeUtc
             };
 
-            // Act
-            var result = connection.ExecuteNonQuery("[dbo].[sp_get_server_info_with_output]",
-                param: param,
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = connection.ExecuteNonQuery("[dbo].[sp_get_server_info_with_output]",
+            param: param,
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(1000, userId.GetValue<int>());
-            Assert.AreEqual("ServerName", serverName.GetValue<string>());
-            Assert.AreEqual(DateTime.Parse("1970-01-01 23:59:59.999"), dateTimeUtc.GetValue<DateTime>());
-        }
+        // Assert
+        Assert.AreEqual(1000, userId.GetValue<int>());
+        Assert.AreEqual("ServerName", serverName.GetValue<string>());
+        Assert.AreEqual(DateTime.Parse("1970-01-01 23:59:59.999"), dateTimeUtc.GetValue<DateTime>());
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteNonQueryIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteNonQueryIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion
@@ -352,14 +318,12 @@ public class ExecuteNonQueryTest
     [TestMethod]
     public async Task TestSqlConnectionExecuteNonQueryAsyncWithNoAffectedTableRows()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;");
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;");
 
-            // Assert
-            Assert.AreEqual(-1, result);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
     }
 
     [TestMethod]
@@ -368,17 +332,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 10;");
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 10;");
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -387,18 +349,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt;",
-                new { ColumnInt = 10 });
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt;",
+            new { ColumnInt = 10 });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -407,18 +367,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
-                new { ColumnInt = 10, ColumnBit = true });
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
+            new { ColumnInt = 10, ColumnBit = true });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -427,17 +385,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable];");
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count, 10);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, 10);
     }
 
     [TestMethod]
@@ -446,17 +402,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;");
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;");
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -465,18 +419,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt;",
-                new { ColumnInt = 10 });
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt;",
+            new { ColumnInt = 10 });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -485,18 +437,16 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
-                new { ColumnInt = 10, ColumnBit = true });
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
+            new { ColumnInt = 10, ColumnBit = true });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -505,17 +455,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100;");
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100;");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result);
     }
 
     [TestMethod]
@@ -524,19 +472,17 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;" +
-                "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = 9;" +
-                "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 1;");
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;" +
+            "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = 9;" +
+            "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 1;");
 
-            // Assert
-            Assert.AreEqual(3, result);
-        }
+        // Assert
+        Assert.AreEqual(3, result);
     }
 
     [TestMethod]
@@ -545,20 +491,18 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @Value1;" +
-                "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = @Value2;" +
-                "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @Value3;",
-                new { Value1 = 10, Value2 = 9, Value3 = 1 });
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @Value1;" +
+            "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = @Value2;" +
+            "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @Value3;",
+            new { Value1 = 10, Value2 = 9, Value3 = 1 });
 
-            // Assert
-            Assert.AreEqual(3, result);
-        }
+        // Assert
+        Assert.AreEqual(3, result);
     }
 
     [TestMethod]
@@ -567,79 +511,69 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(-1, result);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
     }
 
     [TestMethod]
     public async Task TestSqlConnectionExecuteNonQueryAsyncByExecutingAStoredProcedureWithMultipleParameters()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_multiply]",
-                param: new { Value1 = 100, Value2 = 200 },
-                commandType: CommandType.StoredProcedure);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_multiply]",
+            param: new { Value1 = 100, Value2 = 200 },
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(-1, result);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
     }
 
     [TestMethod]
     public async Task TestSqlConnectionExecuteNonQueryAsyncByExecutingAStoredProcedureWithMultipleParametersAndWithOuputParameter()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var output = new DirectionalQueryField("Output", ParameterDirection.Output, 16, DbType.Int32);
+        var param = new[]
         {
-            // Setup
-            var output = new DirectionalQueryField("Output", ParameterDirection.Output, 16, DbType.Int32);
-            var param = new[]
-            {
                 new QueryField("Value1", 100),
                 new QueryField("Value2", 200),
                 output
             };
 
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_multiply_with_output]",
-                param: param,
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_multiply_with_output]",
+            param: param,
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(-1, result);
-            Assert.AreEqual(20000, output.Parameter.Value);
-        }
+        // Assert
+        Assert.AreEqual(-1, result);
+        Assert.AreEqual(20000, output.Parameter.Value);
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteNonQueryAsyncIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteNonQueryAsyncIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion

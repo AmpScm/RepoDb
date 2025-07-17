@@ -33,120 +33,102 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToString()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<string>("SELECT 'ABC' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT 'ABC' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual("ABC", data);
-        }
+        // Assert
+        Assert.AreEqual("ABC", data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToBigint()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<long>("SELECT '100' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<long>("SELECT '100' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(100, data);
-        }
+        // Assert
+        Assert.AreEqual(100, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToInt()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<int>("SELECT '100' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<int>("SELECT '100' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(100, data);
-        }
+        // Assert
+        Assert.AreEqual(100, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToDouble()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<double>("SELECT '100' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<double>("SELECT '100' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(100, data);
-        }
+        // Assert
+        Assert.AreEqual(100, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToGuid()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<Guid>("SELECT 'DE415ED3-24CB-4090-985B-0C76809578C8' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<Guid>("SELECT 'DE415ED3-24CB-4090-985B-0C76809578C8' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(Guid.Parse("DE415ED3-24CB-4090-985B-0C76809578C8"), data);
-        }
+        // Assert
+        Assert.AreEqual(Guid.Parse("DE415ED3-24CB-4090-985B-0C76809578C8"), data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToDateTime()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<DateTime>("SELECT '1970-01-01' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<DateTime>("SELECT '1970-01-01' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(DateTime.Parse("1970-01-01"), data);
-        }
+        // Assert
+        Assert.AreEqual(DateTime.Parse("1970-01-01"), data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToBit()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<bool>("SELECT 'true' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<bool>("SELECT 'true' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(true, data);
-        }
+        // Assert
+        Assert.AreEqual(true, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToDecimal()
     {
         using var _ = new CultureScope("EN-US");
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<decimal>("SELECT '100.05' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<decimal>("SELECT '100.05' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual((decimal)100.05, data);
-        }
+        // Assert
+        Assert.AreEqual((decimal)100.05, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToFloat()
     {
         using var _ = new CultureScope("EN-US");
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<float>("SELECT '100.05' AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<float>("SELECT '100.05' AS Value;").First();
 
-            // Assert
-            Assert.AreEqual((float)100.05, data);
-        }
+        // Assert
+        Assert.AreEqual((float)100.05, data);
     }
 
     #endregion
@@ -156,40 +138,34 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromIntToInt()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<int>("SELECT CONVERT(INT, 10) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<int>("SELECT CONVERT(INT, 10) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(10, data);
-        }
+        // Assert
+        Assert.AreEqual(10, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromIntToString()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<string>("SELECT CONVERT(INT, 10) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT CONVERT(INT, 10) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual("10", data);
-        }
+        // Assert
+        Assert.AreEqual("10", data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromIntToLong()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<long>("SELECT CONVERT(INT, 10) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<long>("SELECT CONVERT(INT, 10) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(10, data);
-        }
+        // Assert
+        Assert.AreEqual(10, data);
     }
 
     #endregion
@@ -199,40 +175,34 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromBigIntToLong()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<long>("SELECT CONVERT(BIGINT, 10) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<long>("SELECT CONVERT(BIGINT, 10) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual((long)10, data);
-        }
+        // Assert
+        Assert.AreEqual((long)10, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromBigIntToString()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<string>("SELECT CONVERT(BIGINT, 10) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT CONVERT(BIGINT, 10) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual("10", data);
-        }
+        // Assert
+        Assert.AreEqual("10", data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromBigIntToInt()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<int>("SELECT CONVERT(BIGINT, 10) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<int>("SELECT CONVERT(BIGINT, 10) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(10, data);
-        }
+        // Assert
+        Assert.AreEqual(10, data);
     }
 
     #endregion
@@ -242,41 +212,35 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromDecimalToDecimal()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<decimal>("SELECT CONVERT(DECIMAL(18,2), 100.05) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<decimal>("SELECT CONVERT(DECIMAL(18,2), 100.05) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual((decimal)100.05, data);
-        }
+        // Assert
+        Assert.AreEqual((decimal)100.05, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromDecimalToString()
     {
         using var _ = new CultureScope("EN-US");
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<string>("SELECT CONVERT(DECIMAL(18,2), 100.05) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT CONVERT(DECIMAL(18,2), 100.05) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual("100.05", data);
-        }
+        // Assert
+        Assert.AreEqual("100.05", data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromDecimalToFloat()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<float>("SELECT CONVERT(DECIMAL(18,2), 100.05) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<float>("SELECT CONVERT(DECIMAL(18,2), 100.05) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual((float)100.05, data);
-        }
+        // Assert
+        Assert.AreEqual((float)100.05, data);
     }
 
     #endregion
@@ -286,41 +250,35 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromRealToFloat()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<float>("SELECT CONVERT(REAL, 100.05) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<float>("SELECT CONVERT(REAL, 100.05) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual((float)100.05, data);
-        }
+        // Assert
+        Assert.AreEqual((float)100.05, data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromRealToString()
     {
         using var _ = new CultureScope("EN-US");
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<string>("SELECT CONVERT(REAL, 100.05) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT CONVERT(REAL, 100.05) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual("100.05", data);
-        }
+        // Assert
+        Assert.AreEqual("100.05", data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromRealToDecimal()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<decimal>("SELECT CONVERT(REAL, 100.05) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<decimal>("SELECT CONVERT(REAL, 100.05) AS Value;").First();
 
-            // Assert
-            Assert.AreEqual((decimal)100.05, data);
-        }
+        // Assert
+        Assert.AreEqual((decimal)100.05, data);
     }
 
     #endregion
@@ -330,30 +288,24 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromDateTimeToDateTime()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<DateTime>("SELECT CONVERT(DATETIME2(5), '1970-01-01') AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<DateTime>("SELECT CONVERT(DATETIME2(5), '1970-01-01') AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(DateTime.Parse("1970-01-01"), data);
-        }
+        // Assert
+        Assert.AreEqual(DateTime.Parse("1970-01-01"), data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromDateTimeToString()
     {
-        using (var cultureScope = new CultureScope("en-US"))
-        {
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-            {
-                // Act Query
-                var data = connection.ExecuteQuery<string>("SELECT CONVERT(DATETIME2(5), '1970-01-01') AS Value;").First();
+        using var cultureScope = new CultureScope("en-US");
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT CONVERT(DATETIME2(5), '1970-01-01') AS Value;").First();
 
-                // Assert
-                Assert.AreEqual("1970-01-01T00:00:00.0000000", data);
-            }
-        }
+        // Assert
+        Assert.AreEqual("1970-01-01T00:00:00.0000000", data);
     }
 
     #endregion
@@ -363,27 +315,23 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromUniqueIdentifierToGuid()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<Guid>("SELECT CONVERT(UNIQUEIDENTIFIER, 'DE415ED3-24CB-4090-985B-0C76809578C8') AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<Guid>("SELECT CONVERT(UNIQUEIDENTIFIER, 'DE415ED3-24CB-4090-985B-0C76809578C8') AS Value;").First();
 
-            // Assert
-            Assert.AreEqual(Guid.Parse("DE415ED3-24CB-4090-985B-0C76809578C8"), data);
-        }
+        // Assert
+        Assert.AreEqual(Guid.Parse("DE415ED3-24CB-4090-985B-0C76809578C8"), data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromUniqueIdentifierToString()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<string>("SELECT CONVERT(UNIQUEIDENTIFIER, 'DE415ED3-24CB-4090-985B-0C76809578C8') AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT CONVERT(UNIQUEIDENTIFIER, 'DE415ED3-24CB-4090-985B-0C76809578C8') AS Value;").First();
 
-            // Assert
-            Assert.IsTrue(string.Equals("DE415ED3-24CB-4090-985B-0C76809578C8", data, StringComparison.OrdinalIgnoreCase));
-        }
+        // Assert
+        Assert.IsTrue(string.Equals("DE415ED3-24CB-4090-985B-0C76809578C8", data, StringComparison.OrdinalIgnoreCase));
     }
 
     #endregion
@@ -393,27 +341,23 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromBitToBoolean()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<bool>("SELECT CONVERT(BIT, 1) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<bool>("SELECT CONVERT(BIT, 1) AS Value;").First();
 
-            // Assert
-            Assert.IsTrue(data);
-        }
+        // Assert
+        Assert.IsTrue(data);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromBitToString()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Query
-            var data = connection.ExecuteQuery<string>("SELECT CONVERT(BIT, 1) AS Value;").First();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Query
+        var data = connection.ExecuteQuery<string>("SELECT CONVERT(BIT, 1) AS Value;").First();
 
-            // Assert
-            Assert.IsTrue(string.Equals("true", data, StringComparison.OrdinalIgnoreCase));
-        }
+        // Assert
+        Assert.IsTrue(string.Equals("true", data, StringComparison.OrdinalIgnoreCase));
     }
 
     #endregion
@@ -693,27 +637,25 @@ public class TypeConversionsTest
             ColumnBigInt = 12345.ToString()
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
+        // Assert
+        Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
 
-            // Act Delete
-            var deletedRows = connection.Delete<StringToBigIntClass>(e => e.SessionId == (Guid)id);
+        // Act Delete
+        var deletedRows = connection.Delete<StringToBigIntClass>(e => e.SessionId == (Guid)id);
 
-            // Act Query
-            data = connection.Query<StringToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        data = connection.Query<StringToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(1, deletedRows);
-            Assert.IsNull(data);
-        }
+        // Assert
+        Assert.AreEqual(1, deletedRows);
+        Assert.IsNull(data);
     }
 
     #endregion
@@ -738,17 +680,15 @@ public class TypeConversionsTest
             ColumnBit = bool.TrueString
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
     }
 
     #endregion
@@ -774,17 +714,15 @@ public class TypeConversionsTest
             ColumnDecimal = "12345.55"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
     }
 
     #endregion
@@ -810,17 +748,15 @@ public class TypeConversionsTest
             ColumnFloat = "12345.55"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
     }
 
     #endregion
@@ -845,17 +781,15 @@ public class TypeConversionsTest
             ColumnInt = "12345"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
     }
 
     #endregion
@@ -881,17 +815,15 @@ public class TypeConversionsTest
             ColumnMoney = "12345.6789"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToMoneyClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToMoneyClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnMoney, data.ColumnMoney);
     }
 
     #endregion
@@ -917,17 +849,15 @@ public class TypeConversionsTest
             ColumnNumeric = "12345.67"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToNumericClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToNumericClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNumeric, data.ColumnNumeric);
     }
 
     #endregion
@@ -953,17 +883,15 @@ public class TypeConversionsTest
             ColumnReal = "12345.67"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
     }
 
     #endregion
@@ -988,17 +916,15 @@ public class TypeConversionsTest
             ColumnSmallInt = "12345"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
     }
 
     #endregion
@@ -1024,17 +950,15 @@ public class TypeConversionsTest
             ColumnSmallMoney = "12345.6700"
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToSmallMoneyClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToSmallMoneyClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnSmallMoney, data.ColumnSmallMoney);
     }
 
     #endregion
@@ -1052,27 +976,23 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToDate()
     {
-        using (var cultureScope = new CultureScope("en-US"))
+        using var cultureScope = new CultureScope("en-US");
+        // Setup
+        var entity = new StringToDateClass
         {
-            // Setup
-            var entity = new StringToDateClass
-            {
-                SessionId = Guid.NewGuid(),
-                ColumnDate = "1970-01-01"
-            };
+            SessionId = Guid.NewGuid(),
+            ColumnDate = "1970-01-01"
+        };
 
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-            {
-                // Act Insert
-                var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-                // Act Query
-                var data = connection.Query<StringToDateClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToDateClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-                // Assert
-                Assert.AreEqual("1970-01-01T00:00:00.0000000", data.ColumnDate);
-            }
-        }
+        // Assert
+        Assert.AreEqual("1970-01-01T00:00:00.0000000", data.ColumnDate);
     }
 
     #endregion
@@ -1090,27 +1010,23 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToDateTime()
     {
-        using (var cultureScope = new CultureScope("en-US"))
+        using var cultureScope = new CultureScope("en-US");
+        // Setup
+        var entity = new StringToDateTimeClass
         {
-            // Setup
-            var entity = new StringToDateTimeClass
-            {
-                SessionId = Guid.NewGuid(),
-                ColumnDateTime = "1970-01-01 11:30 AM"
-            };
+            SessionId = Guid.NewGuid(),
+            ColumnDateTime = "1970-01-01 11:30 AM"
+        };
 
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-            {
-                // Act Insert
-                var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-                // Act Query
-                var data = connection.Query<StringToDateTimeClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToDateTimeClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-                // Assert
-                Assert.AreEqual("1970-01-01T11:30:00.0000000", data.ColumnDateTime);
-            }
-        }
+        // Assert
+        Assert.AreEqual("1970-01-01T11:30:00.0000000", data.ColumnDateTime);
     }
 
     #endregion
@@ -1128,27 +1044,23 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToDateTime2()
     {
-        using (var cultureScope = new CultureScope("en-US"))
+        using var cultureScope = new CultureScope("en-US");
+        // Setup
+        var entity = new StringToDateTime2Class
         {
-            // Setup
-            var entity = new StringToDateTime2Class
-            {
-                SessionId = Guid.NewGuid(),
-                ColumnDateTime2 = "2019-03-03 15:22:10.0500000"
-            };
+            SessionId = Guid.NewGuid(),
+            ColumnDateTime2 = "2019-03-03 15:22:10.0500000"
+        };
 
-            using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-            {
-                // Act Insert
-                var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-                // Act Query
-                var data = connection.Query<StringToDateTime2Class>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToDateTime2Class>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-                // Assert
-                Assert.AreEqual("2019-03-03T15:22:10.0500000", data.ColumnDateTime2);
-            }
-        }
+        // Assert
+        Assert.AreEqual("2019-03-03T15:22:10.0500000", data.ColumnDateTime2);
     }
 
     #endregion
@@ -1173,17 +1085,15 @@ public class TypeConversionsTest
             ColumnUniqueIdentifier = Guid.NewGuid().ToString()
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringToUniqueIdentifierClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringToUniqueIdentifierClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnUniqueIdentifier, data.ColumnUniqueIdentifier);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnUniqueIdentifier, data.ColumnUniqueIdentifier);
     }
 
     #endregion
@@ -1208,17 +1118,15 @@ public class TypeConversionsTest
             ColumnNVarChar = Guid.NewGuid()
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<UniqueIdentifierToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<UniqueIdentifierToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -1243,17 +1151,15 @@ public class TypeConversionsTest
             ColumnNVarChar = true
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BitToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BitToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -1278,17 +1184,15 @@ public class TypeConversionsTest
             ColumnNVarChar = DateTime.UtcNow.Date
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DateTimeToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DateTimeToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -1313,17 +1217,15 @@ public class TypeConversionsTest
             ColumnNVarChar = int.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<IntToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<IntToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -1348,17 +1250,15 @@ public class TypeConversionsTest
             ColumnBigInt = int.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<IntToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<IntToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
     }
 
     #endregion
@@ -1383,17 +1283,15 @@ public class TypeConversionsTest
             ColumnSmallInt = (int)short.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<IntToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<IntToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
     }
 
     #endregion
@@ -1418,17 +1316,15 @@ public class TypeConversionsTest
             ColumnDecimal = int.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<IntToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<IntToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
     }
 
     #endregion
@@ -1453,17 +1349,15 @@ public class TypeConversionsTest
             ColumnFloat = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<IntToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<IntToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
     }
 
     #endregion
@@ -1488,17 +1382,15 @@ public class TypeConversionsTest
             ColumnReal = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<IntToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<IntToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
     }
 
     #endregion
@@ -1523,17 +1415,15 @@ public class TypeConversionsTest
             ColumnBit = 1
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<IntToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<IntToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
     }
 
     #endregion
@@ -1558,17 +1448,15 @@ public class TypeConversionsTest
             ColumnNVarChar = long.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BigIntToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BigIntToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -1593,17 +1481,15 @@ public class TypeConversionsTest
             ColumnInt = int.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BigIntToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BigIntToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
     }
 
     #endregion
@@ -1628,17 +1514,15 @@ public class TypeConversionsTest
             ColumnSmallInt = short.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BigIntToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BigIntToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnSmallInt, data.ColumnSmallInt);
     }
 
     #endregion
@@ -1663,17 +1547,15 @@ public class TypeConversionsTest
             ColumnDecimal = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BigIntToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BigIntToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
     }
 
     #endregion
@@ -1698,17 +1580,15 @@ public class TypeConversionsTest
             ColumnFloat = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BigIntToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BigIntToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
     }
 
     #endregion
@@ -1733,17 +1613,15 @@ public class TypeConversionsTest
             ColumnReal = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BigIntToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BigIntToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
     }
 
     #endregion
@@ -1768,17 +1646,15 @@ public class TypeConversionsTest
             ColumnBit = 1
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<BigIntToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<BigIntToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnBit, data.ColumnBit);
     }
 
     #endregion
@@ -1803,17 +1679,15 @@ public class TypeConversionsTest
             ColumnNVarChar = short.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<SmallIntToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<SmallIntToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -1838,17 +1712,15 @@ public class TypeConversionsTest
             ColumnInt = short.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<SmallIntToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<SmallIntToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnInt, data.ColumnInt);
     }
 
     #endregion
@@ -1873,17 +1745,15 @@ public class TypeConversionsTest
             ColumnBigInt = short.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<SmallIntToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<SmallIntToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnBigInt, data.ColumnBigInt);
     }
 
     #endregion
@@ -1908,17 +1778,15 @@ public class TypeConversionsTest
             ColumnDecimal = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<SmallIntToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<SmallIntToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
     }
 
     #endregion
@@ -1943,17 +1811,15 @@ public class TypeConversionsTest
             ColumnFloat = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<SmallIntToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<SmallIntToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
     }
 
     #endregion
@@ -1978,17 +1844,15 @@ public class TypeConversionsTest
             ColumnReal = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<SmallIntToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<SmallIntToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
     }
 
     #endregion
@@ -2013,17 +1877,15 @@ public class TypeConversionsTest
             ColumnBit = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<SmallIntToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<SmallIntToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual((short)1, data.ColumnBit);
-        }
+        // Assert
+        Assert.AreEqual((short)1, data.ColumnBit);
     }
 
     #endregion
@@ -2048,17 +1910,15 @@ public class TypeConversionsTest
             ColumnNVarChar = decimal.MaxValue
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DecimalToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DecimalToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -2083,17 +1943,15 @@ public class TypeConversionsTest
             ColumnInt = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DecimalToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DecimalToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12345, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(12345, data.ColumnInt);
     }
 
     #endregion
@@ -2118,17 +1976,15 @@ public class TypeConversionsTest
             ColumnBigInt = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DecimalToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DecimalToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12345, data.ColumnBigInt);
-        }
+        // Assert
+        Assert.AreEqual(12345, data.ColumnBigInt);
     }
 
     #endregion
@@ -2153,17 +2009,15 @@ public class TypeConversionsTest
             ColumnSmallInt = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DecimalToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DecimalToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12345, data.ColumnSmallInt);
-        }
+        // Assert
+        Assert.AreEqual(12345, data.ColumnSmallInt);
     }
 
     #endregion
@@ -2188,17 +2042,15 @@ public class TypeConversionsTest
             ColumnFloat = 12345.67M
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DecimalToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DecimalToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
     }
 
     #endregion
@@ -2223,17 +2075,15 @@ public class TypeConversionsTest
             ColumnReal = 12345.67M
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DecimalToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DecimalToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnReal, data.ColumnReal);
     }
 
     #endregion
@@ -2258,17 +2108,15 @@ public class TypeConversionsTest
             ColumnBit = 1
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DecimalToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DecimalToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(1, data.ColumnBit);
-        }
+        // Assert
+        Assert.AreEqual(1, data.ColumnBit);
     }
 
     #endregion
@@ -2293,17 +2141,15 @@ public class TypeConversionsTest
             ColumnNVarChar = 12345
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -2328,17 +2174,15 @@ public class TypeConversionsTest
             ColumnDecimal = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
     }
 
     #endregion
@@ -2363,17 +2207,15 @@ public class TypeConversionsTest
             ColumnBigInt = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12346, data.ColumnBigInt);
-        }
+        // Assert
+        Assert.AreEqual(12346, data.ColumnBigInt);
     }
 
     #endregion
@@ -2398,17 +2240,15 @@ public class TypeConversionsTest
             ColumnInt = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12346, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(12346, data.ColumnInt);
     }
 
     #endregion
@@ -2433,17 +2273,15 @@ public class TypeConversionsTest
             ColumnInt = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12346, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(12346, data.ColumnInt);
     }
 
     #endregion
@@ -2468,17 +2306,15 @@ public class TypeConversionsTest
             ColumnFloat = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
     }
 
     #endregion
@@ -2503,17 +2339,15 @@ public class TypeConversionsTest
             ColumnReal = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnReal, Math.Round(data.ColumnReal.Value, 2));
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnReal, Math.Round(data.ColumnReal.Value, 2));
     }
 
     #endregion
@@ -2538,17 +2372,15 @@ public class TypeConversionsTest
             ColumnBit = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<DoubleToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<DoubleToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(1, data.ColumnBit);
-        }
+        // Assert
+        Assert.AreEqual(1, data.ColumnBit);
     }
 
     #endregion
@@ -2573,17 +2405,15 @@ public class TypeConversionsTest
             ColumnNVarChar = 12345.7F
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToStringClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
     }
 
     #endregion
@@ -2608,17 +2438,15 @@ public class TypeConversionsTest
             ColumnDecimal = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToDecimalClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnDecimal, data.ColumnDecimal);
     }
 
     #endregion
@@ -2643,17 +2471,15 @@ public class TypeConversionsTest
             ColumnBigInt = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12346, data.ColumnBigInt);
-        }
+        // Assert
+        Assert.AreEqual(12346, data.ColumnBigInt);
     }
 
     #endregion
@@ -2678,17 +2504,15 @@ public class TypeConversionsTest
             ColumnInt = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12346, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(12346, data.ColumnInt);
     }
 
     #endregion
@@ -2713,17 +2537,15 @@ public class TypeConversionsTest
             ColumnInt = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(12346, data.ColumnInt);
-        }
+        // Assert
+        Assert.AreEqual(12346, data.ColumnInt);
     }
 
     #endregion
@@ -2748,17 +2570,15 @@ public class TypeConversionsTest
             ColumnFloat = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToFloatClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnFloat, data.ColumnFloat);
     }
 
     #endregion
@@ -2783,17 +2603,15 @@ public class TypeConversionsTest
             ColumnReal = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToRealClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(entity.ColumnReal, Math.Round(data.ColumnReal.Value, 2));
-        }
+        // Assert
+        Assert.AreEqual(entity.ColumnReal, Math.Round(data.ColumnReal.Value, 2));
     }
 
     #endregion
@@ -2818,17 +2636,15 @@ public class TypeConversionsTest
             ColumnBit = 12345.67
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen())
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<FloatToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<FloatToBitClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.AreEqual(1, data.ColumnBit);
-        }
+        // Assert
+        Assert.AreEqual(1, data.ColumnBit);
     }
 
     #endregion

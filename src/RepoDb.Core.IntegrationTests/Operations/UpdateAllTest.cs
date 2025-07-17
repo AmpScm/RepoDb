@@ -30,37 +30,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -69,38 +67,36 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -109,36 +105,34 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables);
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(tables);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -147,37 +141,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -186,36 +178,34 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables, 1);
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(tables, 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -224,37 +214,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -263,37 +251,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -302,37 +288,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+            hints: SqlServerTableHints.TabLock);
 
-            // Act
-            var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
-                hints: SqlServerTableHints.TabLock);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -345,37 +329,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -384,38 +366,36 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            tables,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                tables,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -424,36 +404,34 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(tables);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(tables);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -462,37 +440,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(tables,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(tables,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -501,36 +477,34 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables, 1);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables, 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -539,37 +513,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -578,37 +550,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -617,37 +587,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
+            table.ColumnBit = false;
+            table.ColumnInt = table.ColumnInt * 100;
+            table.ColumnDecimal = table.ColumnDecimal * 100;
+        });
 
-            // Setup
-            tables.ForEach(table =>
-            {
-                table.ColumnBit = false;
-                table.ColumnInt = table.ColumnInt * 100;
-                table.ColumnDecimal = table.ColumnDecimal * 100;
-            });
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
+            hints: SqlServerTableHints.TabLock);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
-                hints: SqlServerTableHints.TabLock);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            tables.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        tables.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -660,42 +628,40 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items);
 
-            // Act
-            var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -704,43 +670,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -749,37 +713,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
+        for (var i = 0; i < tables.Count; i++)
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Setup
-            var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
-            for (var i = 0; i < tables.Count; i++)
-            {
-                ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
-            }
-
-            // Act
-            var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items);
-
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(e => e.Id == current.Id);
-                Helper.AssertMembersEquality(entity, table);
-            });
+            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
         }
+
+        // Act
+        var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items);
+
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(e => e.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -788,40 +750,38 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
+        for (var i = 0; i < tables.Count; i++)
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Setup
-            var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
-            for (var i = 0; i < tables.Count; i++)
-            {
-                ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
-            }
-
-            // Act
-            var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(e => e.Id == current.Id);
-                Assert.AreEqual(entity.ColumnBit, current.ColumnBit);
-                Assert.AreEqual(entity.ColumnInt, current.ColumnInt);
-                Assert.AreEqual(entity.ColumnDecimal, current.ColumnDecimal);
-            });
+            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
         }
+
+        // Act
+        var affectedRows = connection.UpdateAll<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(e => e.Id == current.Id);
+            Assert.AreEqual(entity.ColumnBit, current.ColumnBit);
+            Assert.AreEqual(entity.ColumnInt, current.ColumnInt);
+            Assert.AreEqual(entity.ColumnDecimal, current.ColumnDecimal);
+        });
     }
 
     [TestMethod]
@@ -830,42 +790,40 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items);
 
-            // Act
-            var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -874,43 +832,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -919,43 +875,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            batchSize: 1);
 
-            // Act
-            var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                batchSize: 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -964,43 +918,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
 
-            // Act
-            var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1009,43 +961,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
 
-            // Act
-            var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1054,43 +1004,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            hints: SqlServerTableHints.TabLock);
 
-            // Act
-            var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                hints: SqlServerTableHints.TabLock);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion
@@ -1103,42 +1051,40 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1147,43 +1093,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1192,37 +1136,35 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
+        for (var i = 0; i < tables.Count; i++)
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Setup
-            var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
-            for (var i = 0; i < tables.Count; i++)
-            {
-                ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
-            }
-
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items);
-
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(e => e.Id == current.Id);
-                Helper.AssertMembersEquality(entity, table);
-            });
+            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
         }
+
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items);
+
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(e => e.Id == current.Id);
+            Helper.AssertMembersEquality(entity, table);
+        });
     }
 
     [TestMethod]
@@ -1231,40 +1173,38 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
+        for (var i = 0; i < tables.Count; i++)
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Setup
-            var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
-            for (var i = 0; i < tables.Count; i++)
-            {
-                ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
-            }
-
-            // Act
-            var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
-
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var current = (dynamic)table;
-                var entity = queryAllResult.First(e => e.Id == current.Id);
-                Assert.AreEqual(entity.ColumnBit, current.ColumnBit);
-                Assert.AreEqual(entity.ColumnInt, current.ColumnInt);
-                Assert.AreEqual(entity.ColumnDecimal, current.ColumnDecimal);
-            });
+            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
         }
+
+        // Act
+        var affectedRows = await connection.UpdateAllAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
+
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
+
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var current = (dynamic)table;
+            var entity = queryAllResult.First(e => e.Id == current.Id);
+            Assert.AreEqual(entity.ColumnBit, current.ColumnBit);
+            Assert.AreEqual(entity.ColumnInt, current.ColumnInt);
+            Assert.AreEqual(entity.ColumnDecimal, current.ColumnDecimal);
+        });
     }
 
     [TestMethod]
@@ -1273,42 +1213,40 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1317,43 +1255,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1362,43 +1298,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            batchSize: 1);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                batchSize: 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1407,43 +1341,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1452,43 +1384,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     [TestMethod]
@@ -1497,43 +1427,41 @@ public class UpdateAllTest
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Setup
+        var items = tables.Select(table => new
         {
-            // Act
-            connection.InsertAll(tables);
+            table.Id,
+            table.ColumnDateTime,
+            table.ColumnDateTime2,
+            table.ColumnFloat,
+            table.ColumnNVarChar,
+            ColumnBit = false,
+            ColumnInt = table.ColumnInt * 100,
+            ColumnDecimal = table.ColumnDecimal * 100
+        }).AsList();
 
-            // Setup
-            var items = tables.Select(table => new
-            {
-                table.Id,
-                table.ColumnDateTime,
-                table.ColumnDateTime2,
-                table.ColumnFloat,
-                table.ColumnNVarChar,
-                ColumnBit = false,
-                ColumnInt = table.ColumnInt * 100,
-                ColumnDecimal = table.ColumnDecimal * 100
-            }).AsList();
+        // Act
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
+            items,
+            hints: SqlServerTableHints.TabLock);
 
-            // Act
-            var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-                items,
-                hints: SqlServerTableHints.TabLock);
+        // Assert
+        Assert.AreEqual(tables.Count, affectedRows);
 
-            // Assert
-            Assert.AreEqual(tables.Count, affectedRows);
+        // Act
+        var queryAllResult = connection.QueryAll<NonIdentityTable>();
 
-            // Act
-            var queryAllResult = connection.QueryAll<NonIdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, queryAllResult.Count());
-            items.ForEach(table =>
-            {
-                var entity = queryAllResult.First(e => e.Id == table.Id);
-                Helper.AssertPropertiesEquality(table, entity);
-            });
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryAllResult.Count());
+        items.ForEach(table =>
+        {
+            var entity = queryAllResult.First(e => e.Id == table.Id);
+            Helper.AssertPropertiesEquality(table, entity);
+        });
     }
 
     #endregion

@@ -33,31 +33,29 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable];");
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -66,32 +64,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-                new { From = 3, To = 4 });
+        // Act
+        var result = connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
+            new { From = 3, To = 4 });
+
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -100,32 +96,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-                new { ColumnInt = new[] { 5, 6, 7 } });
+        // Act
+        var result = connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
+            new { ColumnInt = new[] { 5, 6, 7 } });
+
+        // Assert
+        Assert.AreEqual(3, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(3, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -134,32 +128,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
-                new { Top = 2 });
+        // Act
+        var result = connection.ExecuteQuery("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
+            new { Top = 2 });
+
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -168,32 +160,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("[dbo].[sp_get_identity_tables]",
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = connection.ExecuteQuery("[dbo].[sp_get_identity_tables]",
+            commandType: CommandType.StoredProcedure);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -202,33 +192,31 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = connection.ExecuteQuery("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
+
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(1, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -237,21 +225,19 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("[dbo].[sp_multiply]",
-                param: new { Value1 = 100, Value2 = 200 },
-                commandType: CommandType.StoredProcedure).FirstOrDefault();
+        // Act
+        var result = connection.ExecuteQuery("[dbo].[sp_multiply]",
+            param: new { Value1 = 100, Value2 = 200 },
+            commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-            // Assert
-            var kvp = result as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.AreEqual(20000, kvp.First().Value);
-        }
+        // Assert
+        var kvp = result as IDictionary<string, object>;
+        Assert.IsNotNull(result);
+        Assert.AreEqual(20000, kvp.First().Value);
     }
 
     [TestMethod]
@@ -267,44 +253,38 @@ public class ExecuteQueryTest
             output
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery("[dbo].[sp_multiply_with_output]",
-                param: param,
-                commandType: CommandType.StoredProcedure).FirstOrDefault();
+        // Act
+        var result = connection.ExecuteQuery("[dbo].[sp_multiply_with_output]",
+            param: param,
+            commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-            // Assert
-            var kvp = result as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.AreEqual(20000, kvp.First().Value);
+        // Assert
+        var kvp = result as IDictionary<string, object>;
+        Assert.IsNotNull(result);
+        Assert.AreEqual(20000, kvp.First().Value);
 
-            // Assert
-            Assert.AreEqual(20000, output.Parameter.Value);
-        }
+        // Assert
+        Assert.AreEqual(20000, output.Parameter.Value);
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryViaDynamicsIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryViaDynamicsIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion
@@ -317,31 +297,29 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable];");
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -350,32 +328,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-                new { From = 3, To = 4 });
+        // Act
+        var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
+            new { From = 3, To = 4 });
+
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -384,32 +360,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-                new { ColumnInt = new[] { 5, 6, 7 } });
+        // Act
+        var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
+            new { ColumnInt = new[] { 5, 6, 7 } });
+
+        // Assert
+        Assert.AreEqual(3, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(3, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -418,32 +392,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
-                new { Top = 2 });
+        // Act
+        var result = await connection.ExecuteQueryAsync("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
+            new { Top = 2 });
+
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -452,32 +424,30 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync("[dbo].[sp_get_identity_tables]",
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = await connection.ExecuteQueryAsync("[dbo].[sp_get_identity_tables]",
+            commandType: CommandType.StoredProcedure);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -486,33 +456,31 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = await connection.ExecuteQueryAsync("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
+
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        result.AsList().ForEach(kvpItem =>
+        {
+            var kvp = kvpItem as IDictionary<string, object>;
+            var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
-            Assert.AreEqual(1, result.Count());
-            result.AsList().ForEach(kvpItem =>
-            {
-                var kvp = kvpItem as IDictionary<string, object>;
-                var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
-
-                // Assert
-                Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
-                Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
-                Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
-                Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
-                Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
-                Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
-                Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
-            });
-        }
+            Assert.AreEqual(item.ColumnBit, kvp[nameof(IdentityTable.ColumnBit)]);
+            Assert.AreEqual(item.ColumnDateTime, kvp[nameof(IdentityTable.ColumnDateTime)]);
+            Assert.AreEqual(item.ColumnDateTime2, kvp[nameof(IdentityTable.ColumnDateTime2)]);
+            Assert.AreEqual(item.ColumnDecimal, kvp[nameof(IdentityTable.ColumnDecimal)]);
+            Assert.AreEqual(item.ColumnFloat, Convert.ToSingle(kvp[nameof(IdentityTable.ColumnFloat)]));
+            Assert.AreEqual(item.ColumnInt, kvp[nameof(IdentityTable.ColumnInt)]);
+            Assert.AreEqual(item.ColumnNVarChar, kvp[nameof(IdentityTable.ColumnNVarChar)]);
+        });
     }
 
     [TestMethod]
@@ -521,21 +489,19 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.ExecuteQueryAsync("[dbo].[sp_multiply]",
-                param: new { Value1 = 100, Value2 = 200 },
-                commandType: CommandType.StoredProcedure)).FirstOrDefault();
+        // Act
+        var result = (await connection.ExecuteQueryAsync("[dbo].[sp_multiply]",
+            param: new { Value1 = 100, Value2 = 200 },
+            commandType: CommandType.StoredProcedure)).FirstOrDefault();
 
-            // Assert
-            var kvp = result as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.AreEqual(20000, kvp.First().Value);
-        }
+        // Assert
+        var kvp = result as IDictionary<string, object>;
+        Assert.IsNotNull(result);
+        Assert.AreEqual(20000, kvp.First().Value);
     }
 
     [TestMethod]
@@ -551,44 +517,38 @@ public class ExecuteQueryTest
             output
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = (await connection.ExecuteQueryAsync("[dbo].[sp_multiply_with_output]",
-                param: param,
-                commandType: CommandType.StoredProcedure)).FirstOrDefault();
+        // Act
+        var result = (await connection.ExecuteQueryAsync("[dbo].[sp_multiply_with_output]",
+            param: param,
+            commandType: CommandType.StoredProcedure)).FirstOrDefault();
 
-            // Assert
-            var kvp = result as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.AreEqual(20000, kvp.First().Value);
+        // Assert
+        var kvp = result as IDictionary<string, object>;
+        Assert.IsNotNull(result);
+        Assert.AreEqual(20000, kvp.First().Value);
 
-            // Assert
-            Assert.AreEqual(20000, output.Parameter.Value);
-        }
+        // Assert
+        Assert.AreEqual(20000, output.Parameter.Value);
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncViaDynamicsIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncViaDynamicsIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion
@@ -601,18 +561,16 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -621,19 +579,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-                new { From = 3, To = 4 });
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
+            new { From = 3, To = 4 });
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -642,19 +598,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-                new { ColumnInt = new[] { 5, 6, 7 } });
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
+            new { ColumnInt = new[] { 5, 6, 7 } });
 
-            // Assert
-            Assert.AreEqual(3, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-        }
+        // Assert
+        Assert.AreEqual(3, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -663,19 +617,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
-                new { Top = 2 });
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
+            new { Top = 2 });
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -684,19 +636,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("[dbo].[sp_get_identity_tables]",
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("[dbo].[sp_get_identity_tables]",
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -705,20 +655,18 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(tables.Last(), result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
     [TestMethod]
@@ -727,24 +675,22 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.ExecuteQuery<LiteIdentityTable>("SELECT * FROM [sc].[IdentityTable];");
+
+        // Assert
+        Assert.AreEqual(10, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.ExecuteQuery<LiteIdentityTable>("SELECT * FROM [sc].[IdentityTable];");
-
-            // Assert
-            Assert.AreEqual(10, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.Where(t => t.Id == item.Id).First();
-                Assert.AreEqual(target.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(target.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(target.ColumnInt, item.ColumnInt);
-            });
-        }
+            var target = tables.Where(t => t.Id == item.Id).First();
+            Assert.AreEqual(target.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(target.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(target.ColumnInt, item.ColumnInt);
+        });
     }
 
     [TestMethod]
@@ -753,24 +699,22 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT Id, ColumnBit, ColumnDateTime, ColumnInt FROM [sc].[IdentityTable];");
+
+        // Assert
+        Assert.AreEqual(10, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT Id, ColumnBit, ColumnDateTime, ColumnInt FROM [sc].[IdentityTable];");
-
-            // Assert
-            Assert.AreEqual(10, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.Where(t => t.Id == item.Id).First();
-                Assert.AreEqual(target.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(target.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(target.ColumnInt, item.ColumnInt);
-            });
-        }
+            var target = tables.Where(t => t.Id == item.Id).First();
+            Assert.AreEqual(target.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(target.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(target.ColumnInt, item.ColumnInt);
+        });
     }
 
     [TestMethod]
@@ -785,18 +729,16 @@ public class ExecuteQueryTest
             { "ColumnInt", last.ColumnInt }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -811,18 +753,16 @@ public class ExecuteQueryTest
         param.Add("ColumnFloat", last.ColumnFloat);
         param.Add("ColumnInt", last.ColumnInt);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -837,18 +777,16 @@ public class ExecuteQueryTest
         param.ColumnFloat = last.ColumnFloat;
         param.ColumnInt = last.ColumnInt;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", (object)param);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", (object)param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -863,18 +801,16 @@ public class ExecuteQueryTest
             new QueryField("ColumnInt", last.ColumnInt)
         });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -889,18 +825,16 @@ public class ExecuteQueryTest
             new QueryField("ColumnInt", last.ColumnInt)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -911,31 +845,27 @@ public class ExecuteQueryTest
         var last = tables.Last();
         var param = new QueryField("ColumnFloat", last.ColumnFloat);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat;", param);
+        // Act
+        var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidParameterException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfTheParameterAreInvalidTypeDictionaryObject()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var param = new Dictionary<string, int>();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var param = new Dictionary<string, int>();
 
-            // Act
-            connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param);
-        }
+        // Act
+        Assert.ThrowsExactly<InvalidParameterException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param));
     }
 
     //[TestMethod, ExpectedException(typeof(InvalidOperationException))]
@@ -951,24 +881,20 @@ public class ExecuteQueryTest
     //    }
     //}
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion
@@ -981,18 +907,16 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable];");
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -1001,19 +925,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-                new { From = 3, To = 4 });
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
+            new { From = 3, To = 4 });
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -1022,19 +944,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-                new { ColumnInt = new[] { 5, 6, 7 } });
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
+            new { ColumnInt = new[] { 5, 6, 7 } });
 
-            // Assert
-            Assert.AreEqual(3, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-        }
+        // Assert
+        Assert.AreEqual(3, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -1043,19 +963,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
-                new { Top = 2 });
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
+            new { Top = 2 });
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
     [TestMethod]
@@ -1064,19 +982,17 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("[dbo].[sp_get_identity_tables]",
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("[dbo].[sp_get_identity_tables]",
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
     [TestMethod]
@@ -1085,20 +1001,18 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("[dbo].[sp_get_identity_table_by_id]",
-                param: new { tables.Last().Id },
-                commandType: CommandType.StoredProcedure);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("[dbo].[sp_get_identity_table_by_id]",
+            param: new { tables.Last().Id },
+            commandType: CommandType.StoredProcedure);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(tables.Last(), result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
     [TestMethod]
@@ -1107,24 +1021,22 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.ExecuteQueryAsync<LiteIdentityTable>("SELECT * FROM [sc].[IdentityTable];");
+
+        // Assert
+        Assert.AreEqual(10, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.ExecuteQueryAsync<LiteIdentityTable>("SELECT * FROM [sc].[IdentityTable];");
-
-            // Assert
-            Assert.AreEqual(10, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var target = tables.Where(t => t.Id == item.Id).First();
-                Assert.AreEqual(target.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(target.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(target.ColumnInt, item.ColumnInt);
-            });
-        }
+            var target = tables.Where(t => t.Id == item.Id).First();
+            Assert.AreEqual(target.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(target.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(target.ColumnInt, item.ColumnInt);
+        });
     }
 
     [TestMethod]
@@ -1139,18 +1051,16 @@ public class ExecuteQueryTest
             { "ColumnInt", last.ColumnInt }
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -1165,18 +1075,16 @@ public class ExecuteQueryTest
         param.Add("ColumnFloat", last.ColumnFloat);
         param.Add("ColumnInt", last.ColumnInt);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -1191,18 +1099,16 @@ public class ExecuteQueryTest
         param.ColumnFloat = last.ColumnFloat;
         param.ColumnInt = last.ColumnInt;
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", (object)param);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", (object)param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -1217,18 +1123,16 @@ public class ExecuteQueryTest
             new QueryField("ColumnInt", last.ColumnInt)
         });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -1243,18 +1147,16 @@ public class ExecuteQueryTest
             new QueryField("ColumnInt", last.ColumnInt)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
     [TestMethod]
@@ -1265,41 +1167,35 @@ public class ExecuteQueryTest
         var last = tables.Last();
         var param = new QueryField("ColumnFloat", last.ColumnFloat);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat;", param);
+        // Act
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat;", param);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(last, result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(last, result.First());
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidParameterException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfTheParameterAreInvalidTypeDictionaryObject()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Setup
-            var param = new Dictionary<string, int>();
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Setup
+        var param = new Dictionary<string, int>();
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param);
-        }
+        // Act
+        await Assert.ThrowsExactlyAsync<InvalidParameterException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param));
     }
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfTheParametersAreNotDefined()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     //[TestMethod, ExpectedException(typeof(AggregateException))]
@@ -1315,14 +1211,12 @@ public class ExecuteQueryTest
     //    }
     //}
 
-    [TestMethod, ExpectedException(typeof(SqlException))]
+    [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfThereAreSqlStatementProblems()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);");
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
 
     #endregion

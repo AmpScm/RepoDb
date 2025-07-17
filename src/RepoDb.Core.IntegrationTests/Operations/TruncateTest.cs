@@ -29,20 +29,18 @@ public class TruncateTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            connection.Truncate<IdentityTable>();
+        // Act
+        connection.Truncate<IdentityTable>();
 
-            // Act
-            var result = connection.CountAll<IdentityTable>();
+        // Act
+        var result = connection.CountAll<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, result);
-        }
+        // Assert
+        Assert.AreEqual(0, result);
     }
 
     #endregion
@@ -55,21 +53,19 @@ public class TruncateTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var task = connection.TruncateAsync<IdentityTable>();
-            await task;
+        // Act
+        var task = connection.TruncateAsync<IdentityTable>();
+        await task;
 
-            // Act
-            var result = connection.CountAll<IdentityTable>();
+        // Act
+        var result = connection.CountAll<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, result);
-        }
+        // Assert
+        Assert.AreEqual(0, result);
     }
 
     #endregion
@@ -82,20 +78,18 @@ public class TruncateTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            connection.Truncate(ClassMappedNameCache.Get<IdentityTable>());
+        // Act
+        connection.Truncate(ClassMappedNameCache.Get<IdentityTable>());
 
-            // Act
-            var result = connection.CountAll<IdentityTable>();
+        // Act
+        var result = connection.CountAll<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, result);
-        }
+        // Assert
+        Assert.AreEqual(0, result);
     }
 
     #endregion
@@ -108,21 +102,19 @@ public class TruncateTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var task = connection.TruncateAsync(ClassMappedNameCache.Get<IdentityTable>());
-            await task;
+        // Act
+        var task = connection.TruncateAsync(ClassMappedNameCache.Get<IdentityTable>());
+        await task;
 
-            // Act
-            var result = connection.CountAll<IdentityTable>();
+        // Act
+        var result = connection.CountAll<IdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, result);
-        }
+        // Assert
+        Assert.AreEqual(0, result);
     }
 
     #endregion

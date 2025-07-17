@@ -33,19 +33,17 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = connection.QueryAll<string>(ClassMappedNameCache.Get<IdentityTable>(),
-                fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+        // Act
+        var result = connection.QueryAll<string>(ClassMappedNameCache.Get<IdentityTable>(),
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            Assert.IsTrue(result.All(e => string.IsNullOrEmpty(e) == false));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        Assert.IsTrue(result.All(e => string.IsNullOrEmpty(e) == false));
     }
 
     [TestMethod]
@@ -54,21 +52,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -77,23 +73,21 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                var entity = result.FirstOrDefault(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = result.FirstOrDefault(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -102,21 +96,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -125,21 +117,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => ((dynamic)item).Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => ((dynamic)item).Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -148,21 +138,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => (long)item["Id"] == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => (long)item["Id"] == table.Id));
+        });
     }
 
     [TestMethod]
@@ -171,21 +159,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IdentityTable>();
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -194,22 +180,20 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IdentityTable>(fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IdentityTable>(fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                var entity = result.FirstOrDefault(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = result.FirstOrDefault(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -219,21 +203,19 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IdentityTable>(orderBy: orderBy);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IdentityTable>(orderBy: orderBy);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -242,21 +224,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IdentityTable>(hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IdentityTable>(hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -266,35 +246,31 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<IdentityTable>(orderBy: orderBy,
+            hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<IdentityTable>(orderBy: orderBy,
-                hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionQueryAllWithInvalidOrderFields()
     {
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = connection.QueryAll<IdentityTable>(orderBy: orderBy.AsEnumerable());
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<MissingFieldsException>(() => connection.QueryAll<IdentityTable>(orderBy: orderBy.AsEnumerable()));
     }
 
     #endregion
@@ -307,21 +283,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<WithExtraFieldsIdentityTable>();
+
+        // Assert
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<WithExtraFieldsIdentityTable>();
-
-            // Assert
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Helper.AssertPropertiesEquality(entity, item);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Helper.AssertPropertiesEquality(entity, item);
+        });
     }
 
     #endregion
@@ -334,19 +308,17 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var result = await connection.QueryAllAsync<string>(ClassMappedNameCache.Get<IdentityTable>(),
-                fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+        // Act
+        var result = await connection.QueryAllAsync<string>(ClassMappedNameCache.Get<IdentityTable>(),
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            Assert.IsTrue(result.All(e => string.IsNullOrEmpty(e) == false));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        Assert.IsTrue(result.All(e => string.IsNullOrEmpty(e) == false));
     }
 
     [TestMethod]
@@ -355,21 +327,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -378,23 +348,21 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                var entity = result.FirstOrDefault(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = result.FirstOrDefault(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -403,21 +371,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IdentityTable>();
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>();
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -426,21 +392,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -449,21 +413,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => ((dynamic)item).Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => ((dynamic)item).Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -472,21 +434,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => (long)item["Id"] == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => (long)item["Id"] == table.Id));
+        });
     }
 
     [TestMethod]
@@ -495,22 +455,20 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IdentityTable>(fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                var entity = result.FirstOrDefault(item => item.Id == table.Id);
-                Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
-            });
-        }
+            var entity = result.FirstOrDefault(item => item.Id == table.Id);
+            Assert.AreEqual(table.ColumnNVarChar, entity.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -520,21 +478,19 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -543,21 +499,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
     [TestMethod]
@@ -567,35 +521,31 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy,
+            hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy,
-                hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-            {
-                Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
-            });
-        }
+            Helper.AssertPropertiesEquality(table, result.FirstOrDefault(item => item.Id == table.Id));
+        });
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionQueryAllAsyncWithInvalidOrderFields()
     {
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy.AsEnumerable());
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy.AsEnumerable()));
     }
 
     #endregion
@@ -608,21 +558,19 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<WithExtraFieldsIdentityTable>();
+
+        // Assert
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<WithExtraFieldsIdentityTable>();
-
-            // Assert
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Helper.AssertPropertiesEquality(entity, item);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Helper.AssertPropertiesEquality(entity, item);
+        });
     }
 
     #endregion
@@ -635,29 +583,27 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -666,23 +612,21 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
+            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
-                Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -691,23 +635,21 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
+            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
-                Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -716,29 +658,27 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -748,30 +688,28 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
+            orderBy: orderBy);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
-                orderBy: orderBy);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -780,30 +718,28 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
+            hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
-                hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -813,45 +749,41 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
+            orderBy: orderBy,
+            hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
-                orderBy: orderBy,
-                hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlConnectionQueryAllViaTableNameWithInvalidOrderFields()
     {
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = connection.QueryAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                orderBy: orderBy.AsEnumerable());
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<MissingFieldsException>(() => connection.QueryAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            orderBy: orderBy.AsEnumerable()));
     }
 
     #endregion
@@ -864,29 +796,27 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -895,23 +825,21 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
+            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
-                Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -920,23 +848,21 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -945,29 +871,27 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>());
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>());
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -977,30 +901,28 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            orderBy: orderBy);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                orderBy: orderBy);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1009,30 +931,28 @@ public class QueryAllTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
     [TestMethod]
@@ -1042,45 +962,41 @@ public class QueryAllTest
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = OrderField.Parse(new { Id = Order.Ascending });
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
+
+        // Act
+        var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
+            orderBy: orderBy,
+            hints: SqlServerTableHints.NoLock);
+
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        result.AsList().ForEach(item =>
         {
-            // Act
-            connection.InsertAll(tables);
-
-            // Act
-            var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-                orderBy: orderBy,
-                hints: SqlServerTableHints.NoLock);
-
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            result.AsList().ForEach(item =>
-            {
-                var entity = tables.First(t => t.Id == item.Id);
-                Assert.AreEqual(entity.Id, item.Id);
-                Assert.AreEqual(entity.RowGuid, item.RowGuid);
-                Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
-                Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
-                Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
-                Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
-                Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
-                Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
-            });
-        }
+            var entity = tables.First(t => t.Id == item.Id);
+            Assert.AreEqual(entity.Id, item.Id);
+            Assert.AreEqual(entity.RowGuid, item.RowGuid);
+            Assert.AreEqual(entity.ColumnBit, item.ColumnBit);
+            Assert.AreEqual(entity.ColumnDateTime, item.ColumnDateTime);
+            Assert.AreEqual(entity.ColumnDateTime2, item.ColumnDateTime2);
+            Assert.AreEqual(entity.ColumnDecimal, item.ColumnDecimal);
+            Assert.AreEqual(entity.ColumnFloat, item.ColumnFloat);
+            Assert.AreEqual(entity.ColumnNVarChar, item.ColumnNVarChar);
+        });
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionQueryAllAsyncViaTableNameWithInvalidOrderFields()
     {
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-                orderBy: orderBy.AsEnumerable());
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+            orderBy: orderBy.AsEnumerable()));
     }
 
     #endregion

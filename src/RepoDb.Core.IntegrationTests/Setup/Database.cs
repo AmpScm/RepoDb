@@ -94,16 +94,14 @@ public static class Database
     /// </summary>
     public static void Cleanup()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb))
-        {
-            connection.Truncate("[dbo].[CompleteTable]");
-            connection.Truncate("[sc].[IdentityTable]");
-            connection.Truncate("[dbo].[NonIdentityTable]");
-            connection.Truncate("[dbo].[Unorganized Table]");
-            connection.Truncate("[dbo].[Dotted.Table]");
-            connection.Truncate("[dbo].[PropertyHandler]");
-            connection.Truncate("[dbo].[NonKeyedTable]");
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb);
+        connection.Truncate("[dbo].[CompleteTable]");
+        connection.Truncate("[sc].[IdentityTable]");
+        connection.Truncate("[dbo].[NonIdentityTable]");
+        connection.Truncate("[dbo].[Unorganized Table]");
+        connection.Truncate("[dbo].[Dotted.Table]");
+        connection.Truncate("[dbo].[PropertyHandler]");
+        connection.Truncate("[dbo].[NonKeyedTable]");
     }
 
     #endregion
@@ -115,13 +113,11 @@ public static class Database
     /// </summary>
     private static void CreateScSchema()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[schemas] WHERE name = 'sc';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[schemas] WHERE name = 'sc';");
-            if (exists == null)
-            {
-                connection.ExecuteNonQuery("CREATE SCHEMA [sc];");
-            }
+            connection.ExecuteNonQuery("CREATE SCHEMA [sc];");
         }
     }
 
@@ -134,12 +130,11 @@ public static class Database
     /// </summary>
     private static void CreateIdentityTableType()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[types] WHERE name = 'IdentityTableType';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[types] WHERE name = 'IdentityTableType';");
-            if (exists == null)
-            {
-                connection.ExecuteNonQuery(@"CREATE TYPE IdentityTableType AS TABLE
+            connection.ExecuteNonQuery(@"CREATE TYPE IdentityTableType AS TABLE
                         (
                             [Id] BIGINT NOT NULL,
                             [RowGuid] UNIQUEIDENTIFIER NOT NULL,
@@ -151,7 +146,6 @@ public static class Database
                             [ColumnInt] INT NULL,
                             [ColumnNVarChar] NVARCHAR(MAX) NULL
                         );");
-            }
         }
     }
 
@@ -179,10 +173,8 @@ public static class Database
                         [ColumnNVarChar] NVARCHAR(MAX) NULL,
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     /// <summary>
@@ -208,10 +200,8 @@ public static class Database
                         )
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     /// <summary>
@@ -230,10 +220,8 @@ public static class Database
                         [Column.DateTime] DATETIME2(7) NULL
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     /// <summary>
@@ -252,10 +240,8 @@ public static class Database
                         [Column.DateTime] DATETIME2(7) NULL
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     /// <summary>
@@ -308,10 +294,8 @@ public static class Database
                     ) ON [PRIMARY];
                     ALTER TABLE [dbo].[CompleteTable] ADD CONSTRAINT [DF_CompleteTable_SessionId] DEFAULT (NEWID()) FOR [SessionId];
                 END";
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     /// <summary>
@@ -341,10 +325,8 @@ public static class Database
                         )
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     /// <summary>
@@ -361,10 +343,8 @@ public static class Database
                         [ColumnNVarChar] NVARCHAR(MAX) NULL,
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     #endregion
@@ -376,18 +356,16 @@ public static class Database
     /// </summary>
     private static void CreateGetIdentityTablesStoredProcedure()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_identity_tables';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_identity_tables';");
-            if (exists == null)
-            {
-                var commandText = @"CREATE PROCEDURE [dbo].[sp_get_identity_tables]
+            var commandText = @"CREATE PROCEDURE [dbo].[sp_get_identity_tables]
                         AS
                         BEGIN
                             SELECT * FROM [sc].[IdentityTable];
                         END";
-                connection.ExecuteNonQuery(commandText);
-            }
+            connection.ExecuteNonQuery(commandText);
         }
     }
 
@@ -396,12 +374,11 @@ public static class Database
     /// </summary>
     private static void CreateGetIdentityTableByIdStoredProcedure()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_identity_table_by_id';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_identity_table_by_id';");
-            if (exists == null)
-            {
-                var commandText = @"CREATE PROCEDURE [dbo].[sp_get_identity_table_by_id]
+            var commandText = @"CREATE PROCEDURE [dbo].[sp_get_identity_table_by_id]
                         (
                             @Id INT
                         )
@@ -409,8 +386,7 @@ public static class Database
                         BEGIN
                             SELECT * FROM [sc].[IdentityTable] WHERE Id = @Id;
                         END";
-                connection.ExecuteNonQuery(commandText);
-            }
+            connection.ExecuteNonQuery(commandText);
         }
     }
 
@@ -419,18 +395,16 @@ public static class Database
     /// </summary>
     private static void CreateGetDatabaseDateTimeStoredProcedure()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_database_date_time';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_database_date_time';");
-            if (exists == null)
-            {
-                var commandText = @"CREATE PROCEDURE [dbo].[sp_get_database_date_time]
+            var commandText = @"CREATE PROCEDURE [dbo].[sp_get_database_date_time]
                         AS
                         BEGIN
                             SELECT GETUTCDATE() AS [Value];
                         END";
-                connection.ExecuteNonQuery(commandText);
-            }
+            connection.ExecuteNonQuery(commandText);
         }
     }
 
@@ -439,12 +413,11 @@ public static class Database
     /// </summary>
     private static void CreateMultiplyStoredProcedure()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_multiply';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_multiply';");
-            if (exists == null)
-            {
-                var commandText = @"CREATE PROCEDURE [dbo].[sp_multiply]
+            var commandText = @"CREATE PROCEDURE [dbo].[sp_multiply]
                         (
                             @Value1 INT,
                             @Value2 INT
@@ -453,8 +426,7 @@ public static class Database
                         BEGIN
                             SELECT @Value1 * @Value2 AS [Value];
                         END";
-                connection.ExecuteNonQuery(commandText);
-            }
+            connection.ExecuteNonQuery(commandText);
         }
     }
 
@@ -463,12 +435,11 @@ public static class Database
     /// </summary>
     private static void CreateMultiplyWithOutputStoredProcedure()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_multiply_with_output';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_multiply_with_output';");
-            if (exists == null)
-            {
-                var commandText = @"CREATE PROCEDURE [dbo].[sp_multiply_with_output]
+            var commandText = @"CREATE PROCEDURE [dbo].[sp_multiply_with_output]
                         (
                             @Value1 INT,
                             @Value2 INT,
@@ -479,8 +450,7 @@ public static class Database
                             SET @Output = (@Value1 * @Value2);
                             SELECT @Output;
                         END";
-                connection.ExecuteNonQuery(commandText);
-            }
+            connection.ExecuteNonQuery(commandText);
         }
     }
 
@@ -489,12 +459,11 @@ public static class Database
     /// </summary>
     private static void CreateGetServerInfoWithOutputStoredProcedure()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_server_info_with_output';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_server_info_with_output';");
-            if (exists == null)
-            {
-                var commandText = @"CREATE PROCEDURE [dbo].[sp_get_server_info_with_output]
+            var commandText = @"CREATE PROCEDURE [dbo].[sp_get_server_info_with_output]
                         (
                             @UserId INT OUTPUT,
                             @ServerName NVARCHAR(256) OUTPUT,
@@ -509,8 +478,7 @@ public static class Database
                                 , @ServerName AS [ServerName]
                                 , @DateTimeUtc AS [DateTimeUtc];
                         END";
-                connection.ExecuteNonQuery(commandText);
-            }
+            connection.ExecuteNonQuery(commandText);
         }
     }
 
@@ -519,12 +487,11 @@ public static class Database
     /// </summary>
     private static void CreateIdentityTableTypeStoredProcedure()
     {
-        using (var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen())
+        using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
+        var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_identity_table_type';");
+        if (exists == null)
         {
-            var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_identity_table_type';");
-            if (exists == null)
-            {
-                var commandText = @"CREATE PROCEDURE [dbo].[sp_identity_table_type]
+            var commandText = @"CREATE PROCEDURE [dbo].[sp_identity_table_type]
                         (
                             @Table IdentityTableType READONLY
                         )
@@ -552,8 +519,7 @@ public static class Database
                                 [ColumnNVarChar]
                             FROM @Table;
                         END";
-                connection.ExecuteNonQuery(commandText);
-            }
+            connection.ExecuteNonQuery(commandText);
         }
     }
 

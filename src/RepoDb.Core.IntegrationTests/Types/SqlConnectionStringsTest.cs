@@ -39,23 +39,21 @@ public class SqlConnectionStringsTest
             ColumnVarChar = text
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringsClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringsClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
-            Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
-            Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-            Assert.AreEqual(entity.ColumnText, data.ColumnText);
-            Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
+        Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
+        Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
+        Assert.AreEqual(entity.ColumnText, data.ColumnText);
+        Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
     }
 
     [TestMethod]
@@ -73,23 +71,21 @@ public class SqlConnectionStringsTest
             ColumnVarChar = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringsClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringsClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnChar);
-            Assert.IsNull(data.ColumnNChar);
-            Assert.IsNull(data.ColumnNText);
-            Assert.IsNull(data.ColumnNVarChar);
-            Assert.IsNull(data.ColumnText);
-            Assert.IsNull(data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnChar);
+        Assert.IsNull(data.ColumnNChar);
+        Assert.IsNull(data.ColumnNText);
+        Assert.IsNull(data.ColumnNVarChar);
+        Assert.IsNull(data.ColumnText);
+        Assert.IsNull(data.ColumnVarChar);
     }
 
     [TestMethod]
@@ -108,23 +104,21 @@ public class SqlConnectionStringsTest
             ColumnVarCharMapped = text
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringsMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringsMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnCharMapped, data.ColumnCharMapped.Trim());
-            Assert.AreEqual(entity.ColumnNCharMapped, data.ColumnNCharMapped.Trim());
-            Assert.AreEqual(entity.ColumnNTextMapped, data.ColumnNTextMapped);
-            Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
-            Assert.AreEqual(entity.ColumnTextMapped, data.ColumnTextMapped);
-            Assert.AreEqual(entity.ColumnVarCharMapped, data.ColumnVarCharMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnCharMapped, data.ColumnCharMapped.Trim());
+        Assert.AreEqual(entity.ColumnNCharMapped, data.ColumnNCharMapped.Trim());
+        Assert.AreEqual(entity.ColumnNTextMapped, data.ColumnNTextMapped);
+        Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
+        Assert.AreEqual(entity.ColumnTextMapped, data.ColumnTextMapped);
+        Assert.AreEqual(entity.ColumnVarCharMapped, data.ColumnVarCharMapped);
     }
 
     [TestMethod]
@@ -142,23 +136,21 @@ public class SqlConnectionStringsTest
             ColumnVarCharMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(entity);
 
-            // Act Query
-            var data = connection.Query<StringsMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
+        // Act Query
+        var data = connection.Query<StringsMapClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnCharMapped);
-            Assert.IsNull(data.ColumnNCharMapped);
-            Assert.IsNull(data.ColumnNTextMapped);
-            Assert.IsNull(data.ColumnNVarCharMapped);
-            Assert.IsNull(data.ColumnTextMapped);
-            Assert.IsNull(data.ColumnVarCharMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnCharMapped);
+        Assert.IsNull(data.ColumnNCharMapped);
+        Assert.IsNull(data.ColumnNTextMapped);
+        Assert.IsNull(data.ColumnNVarCharMapped);
+        Assert.IsNull(data.ColumnTextMapped);
+        Assert.IsNull(data.ColumnVarCharMapped);
     }
 
     [TestMethod]
@@ -177,25 +169,23 @@ public class SqlConnectionStringsTest
             ColumnVarChar = text
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
-            Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
-            Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-            Assert.AreEqual(entity.ColumnText, data.ColumnText);
-            Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
+        Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
+        Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
+        Assert.AreEqual(entity.ColumnText, data.ColumnText);
+        Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
     }
 
     [TestMethod]
@@ -213,25 +203,23 @@ public class SqlConnectionStringsTest
             ColumnVarChar = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnChar);
-            Assert.IsNull(data.ColumnNChar);
-            Assert.IsNull(data.ColumnNText);
-            Assert.IsNull(data.ColumnNVarChar);
-            Assert.IsNull(data.ColumnText);
-            Assert.IsNull(data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnChar);
+        Assert.IsNull(data.ColumnNChar);
+        Assert.IsNull(data.ColumnNText);
+        Assert.IsNull(data.ColumnNVarChar);
+        Assert.IsNull(data.ColumnText);
+        Assert.IsNull(data.ColumnVarChar);
     }
 
     [TestMethod]
@@ -250,25 +238,23 @@ public class SqlConnectionStringsTest
             ColumnVarCharMapped = text
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnCharMapped, data.ColumnCharMapped.Trim());
-            Assert.AreEqual(entity.ColumnNCharMapped, data.ColumnNCharMapped.Trim());
-            Assert.AreEqual(entity.ColumnNTextMapped, data.ColumnNTextMapped);
-            Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
-            Assert.AreEqual(entity.ColumnTextMapped, data.ColumnTextMapped);
-            Assert.AreEqual(entity.ColumnVarCharMapped, data.ColumnVarCharMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnCharMapped, data.ColumnCharMapped.Trim());
+        Assert.AreEqual(entity.ColumnNCharMapped, data.ColumnNCharMapped.Trim());
+        Assert.AreEqual(entity.ColumnNTextMapped, data.ColumnNTextMapped);
+        Assert.AreEqual(entity.ColumnNVarCharMapped, data.ColumnNVarCharMapped);
+        Assert.AreEqual(entity.ColumnTextMapped, data.ColumnTextMapped);
+        Assert.AreEqual(entity.ColumnVarCharMapped, data.ColumnVarCharMapped);
     }
 
     [TestMethod]
@@ -286,25 +272,23 @@ public class SqlConnectionStringsTest
             ColumnVarCharMapped = null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id);
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id);
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnCharMapped);
-            Assert.IsNull(data.ColumnNCharMapped);
-            Assert.IsNull(data.ColumnNTextMapped);
-            Assert.IsNull(data.ColumnNVarCharMapped);
-            Assert.IsNull(data.ColumnTextMapped);
-            Assert.IsNull(data.ColumnVarCharMapped);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnCharMapped);
+        Assert.IsNull(data.ColumnNCharMapped);
+        Assert.IsNull(data.ColumnNTextMapped);
+        Assert.IsNull(data.ColumnNVarCharMapped);
+        Assert.IsNull(data.ColumnTextMapped);
+        Assert.IsNull(data.ColumnVarCharMapped);
     }
 
     #endregion
@@ -327,23 +311,21 @@ public class SqlConnectionStringsTest
             ColumnVarChar = text
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<StringsClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<StringsClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
-            Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
-            Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-            Assert.AreEqual(entity.ColumnText, data.ColumnText);
-            Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
+        Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
+        Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
+        Assert.AreEqual(entity.ColumnText, data.ColumnText);
+        Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
     }
 
     [TestMethod]
@@ -361,23 +343,21 @@ public class SqlConnectionStringsTest
             ColumnVarChar = (string)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var id = connection.Insert(ClassMappedNameCache.Get<StringsClass>(), entity);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var id = connection.Insert(ClassMappedNameCache.Get<StringsClass>(), entity);
 
-            // Act Query
-            var data = connection.Query(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
+        // Act Query
+        var data = connection.Query(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id }).FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnChar);
-            Assert.IsNull(data.ColumnNChar);
-            Assert.IsNull(data.ColumnNText);
-            Assert.IsNull(data.ColumnNVarChar);
-            Assert.IsNull(data.ColumnText);
-            Assert.IsNull(data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnChar);
+        Assert.IsNull(data.ColumnNChar);
+        Assert.IsNull(data.ColumnNText);
+        Assert.IsNull(data.ColumnNVarChar);
+        Assert.IsNull(data.ColumnText);
+        Assert.IsNull(data.ColumnVarChar);
     }
 
     [TestMethod]
@@ -396,25 +376,23 @@ public class SqlConnectionStringsTest
             ColumnVarChar = text
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
-            Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
-            Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
-            Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
-            Assert.AreEqual(entity.ColumnText, data.ColumnText);
-            Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.AreEqual(entity.ColumnChar, data.ColumnChar.Trim());
+        Assert.AreEqual(entity.ColumnNChar, data.ColumnNChar.Trim());
+        Assert.AreEqual(entity.ColumnNText, data.ColumnNText);
+        Assert.AreEqual(entity.ColumnNVarChar, data.ColumnNVarChar);
+        Assert.AreEqual(entity.ColumnText, data.ColumnText);
+        Assert.AreEqual(entity.ColumnVarChar, data.ColumnVarChar);
     }
 
     [TestMethod]
@@ -432,25 +410,23 @@ public class SqlConnectionStringsTest
             ColumnVarChar = (string)null
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act Insert
-            var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity);
-            var id = await insertResult;
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act Insert
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity);
+        var id = await insertResult;
 
-            // Act Query
-            var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id });
-            var data = queryResult.FirstOrDefault();
+        // Act Query
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id });
+        var data = queryResult.FirstOrDefault();
 
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsNull(data.ColumnChar);
-            Assert.IsNull(data.ColumnNChar);
-            Assert.IsNull(data.ColumnNText);
-            Assert.IsNull(data.ColumnNVarChar);
-            Assert.IsNull(data.ColumnText);
-            Assert.IsNull(data.ColumnVarChar);
-        }
+        // Assert
+        Assert.IsNotNull(data);
+        Assert.IsNull(data.ColumnChar);
+        Assert.IsNull(data.ColumnNChar);
+        Assert.IsNull(data.ColumnNText);
+        Assert.IsNull(data.ColumnNVarChar);
+        Assert.IsNull(data.ColumnText);
+        Assert.IsNull(data.ColumnVarChar);
     }
 
     #endregion
