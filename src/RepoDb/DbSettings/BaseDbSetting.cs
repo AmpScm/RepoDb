@@ -72,9 +72,6 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     public string ParameterPrefix { get; protected init; }
 
     /// <inheritdoc />
-    public bool ForceAutomaticConversions { get; protected init; }
-
-    /// <inheritdoc />
     public int MaxParameterCount { get; protected init; } = 2100 - 2; // SqlServer supports 2100 parameters, but Microsoft.Data.SqlServer and System.Data.SqlClient reserve 2 for internal use
 
     /// <inheritdoc />
@@ -127,8 +124,7 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
             IsExecuteReaderDisposable,
             IsMultiStatementExecutable,
             IsPreparable,
-            IsUseUpsert,
-            ForceAutomaticConversions);
+            IsUseUpsert);
 
         hashCode = HashCode.Combine(hashCode,
             MaxParameterCount,

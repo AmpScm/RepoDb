@@ -83,7 +83,7 @@ public sealed class MySqlDbHelper : BaseDbHelper
         "mediumblob",
         "tinyblob",
         "varbinary"
-    ], StringComparer.OrdinalIgnoreCase));
+    ], StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// 

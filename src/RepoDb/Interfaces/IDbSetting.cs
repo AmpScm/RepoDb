@@ -63,11 +63,6 @@ public interface IDbSetting
     string ParameterPrefix { get; }
 
     /// <summary>
-    /// This database provider required automatic conversions, because it uses some form of duck-typing
-    /// </summary>
-    bool ForceAutomaticConversions { get; }
-
-    /// <summary>
     /// This database provider supports a maximum of this number of parameters
     /// </summary>
     /// <remarks>SqlServer supports 2100-2 = 2098 parameters</remarks>

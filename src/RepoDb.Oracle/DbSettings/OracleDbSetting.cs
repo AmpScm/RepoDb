@@ -15,7 +15,6 @@ public sealed record OracleDbSetting : BaseDbSetting
         IsPreparable = true;
         IsUseUpsert = false;
         ParameterPrefix = ":";
-        ForceAutomaticConversions = false; // Yes — Oracle returns untyped `NUMBER`, `DATE`, etc., requiring conversion
         MaxParameterCount = 32766;
         MaxQueriesInBatchCount = 1000;
         GenerateFinalSemiColon = false;
