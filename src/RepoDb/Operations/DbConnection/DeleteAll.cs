@@ -423,7 +423,7 @@ public static partial class DbConnectionExtension
             int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count();
 
             await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
-            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await connection.BeginTransactionAsync(cancellationToken) : null;
+            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
 
             transaction ??= myTransaction;
             int deleted = 0;
@@ -444,11 +444,11 @@ public static partial class DbConnectionExtension
                     transaction: transaction,
                     trace: trace,
                     statementBuilder: statementBuilder,
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
             }
 
             if (myTransaction is { })
-                await myTransaction.CommitAsync(cancellationToken);
+                await myTransaction.CommitAsync(cancellationToken).ConfigureAwait(false);
 
             return deleted;
         }
@@ -491,7 +491,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,7 +530,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -588,7 +588,7 @@ public static partial class DbConnectionExtension
             int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count();
 
             await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
-            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await connection.BeginTransactionAsync(cancellationToken) : null;
+            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
 
             transaction ??= myTransaction;
             int deleted = 0;
@@ -609,11 +609,11 @@ public static partial class DbConnectionExtension
                     transaction: transaction,
                     trace: trace,
                     statementBuilder: statementBuilder,
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
             }
 
             if (myTransaction is { })
-                await myTransaction.CommitAsync(cancellationToken);
+                await myTransaction.CommitAsync(cancellationToken).ConfigureAwait(false);
 
             return deleted;
         }
@@ -655,7 +655,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -692,7 +692,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,7 +725,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -988,7 +988,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1022,7 +1022,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1105,7 +1105,7 @@ public static partial class DbConnectionExtension
 
         await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
         var parameterBatchCount = connection.GetDbSetting().MaxParameterCount;
-        using var myTransaction = transaction is null && count > parameterBatchCount ? await connection.BeginTransactionAsync(cancellationToken) : null;
+        using var myTransaction = transaction is null && count > parameterBatchCount ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
         transaction ??= myTransaction;
 
         if (count > dbSetting.UseArrayParameterTreshold

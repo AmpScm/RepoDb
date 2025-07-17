@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://repodb.net/</PackageProjectUrl>
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <AnalysisLevel>latest-all</AnalysisLevel>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Disable some nullability for netstandard2.0, as some smart annotations are not available there -->

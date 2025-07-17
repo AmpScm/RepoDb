@@ -281,7 +281,7 @@ public static partial class DbConnectionExtension
             cancellationToken: cancellationToken,
             entityType: null,
             dbFields: null,
-            skipCommandArrayParametersCheck: false);
+            skipCommandArrayParametersCheck: false).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -316,7 +316,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-            using var command = await CreateDbCommandForExecutionAsync(connection: connection,
+            using var command = (await CreateDbCommandForExecutionAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -325,7 +325,7 @@ public static partial class DbConnectionExtension
             entityType: entityType,
             dbFields: dbFields,
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck,
-            cancellationToken: cancellationToken).ConfigureAwait(false);
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
 
         // Before Execution
         var traceResult = await Tracer

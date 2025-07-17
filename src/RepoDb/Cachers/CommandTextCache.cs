@@ -1349,7 +1349,6 @@ public static class CommandTextCache
                 {
                     if (i > 0)
                     {
-
                         dbFieldListUpdated.RemoveAt(i);
                         dbFieldListUpdated.Insert(0, move);
                     }

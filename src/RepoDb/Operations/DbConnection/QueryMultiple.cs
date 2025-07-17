@@ -4597,7 +4597,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4671,7 +4671,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4745,7 +4745,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4819,7 +4819,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5087,7 +5087,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5181,7 +5181,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5275,7 +5275,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5369,7 +5369,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5700,7 +5700,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5815,7 +5815,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5930,7 +5930,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6045,7 +6045,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6438,7 +6438,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6573,7 +6573,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6708,7 +6708,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6843,7 +6843,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7297,7 +7297,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7452,7 +7452,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7607,7 +7607,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7762,7 +7762,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8277,7 +8277,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8452,7 +8452,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8627,7 +8627,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8802,7 +8802,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -19869,7 +19869,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -19949,7 +19949,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -20029,7 +20029,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -20109,7 +20109,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -20228,7 +20228,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<T1>, IEnumerable<T2>> result;
         TraceResult? traceResult = null;
 
@@ -20241,7 +20241,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -20253,7 +20253,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -20505,7 +20505,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -20608,7 +20608,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -20711,7 +20711,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -20814,7 +20814,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -20973,7 +20973,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> result;
         TraceResult? traceResult = null;
 
@@ -20986,7 +20986,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -20998,7 +20998,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -21309,7 +21309,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -21436,7 +21436,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -21563,7 +21563,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -21690,7 +21690,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -21890,7 +21890,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>> result;
         TraceResult? traceResult = null;
 
@@ -21903,7 +21903,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -21915,7 +21915,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -22283,7 +22283,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -22433,7 +22433,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -22583,7 +22583,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -22733,7 +22733,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -22973,7 +22973,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>> result;
         TraceResult? traceResult = null;
 
@@ -22986,7 +22986,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -22998,7 +22998,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -23423,7 +23423,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -23596,7 +23596,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -23769,7 +23769,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -23942,7 +23942,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -24222,7 +24222,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>> result;
         TraceResult? traceResult = null;
 
@@ -24235,7 +24235,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -24247,7 +24247,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -24729,7 +24729,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -24925,7 +24925,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -25121,7 +25121,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -25317,7 +25317,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -25637,7 +25637,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>> result;
         TraceResult? traceResult = null;
 
@@ -25650,7 +25650,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -25662,7 +25662,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -25919,7 +25919,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -25995,7 +25995,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -26071,7 +26071,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -26188,7 +26188,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -26201,7 +26201,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -26213,7 +26213,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -26453,7 +26453,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -26550,7 +26550,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -26647,7 +26647,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -26803,7 +26803,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -26816,7 +26816,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -26828,7 +26828,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -27123,7 +27123,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -27242,7 +27242,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -27361,7 +27361,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -27557,7 +27557,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -27570,7 +27570,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -27582,7 +27582,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -27930,7 +27930,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -28070,7 +28070,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -28210,7 +28210,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -28445,7 +28445,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -28458,7 +28458,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -28470,7 +28470,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -28871,7 +28871,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -29032,7 +29032,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -29193,7 +29193,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -29467,7 +29467,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -29480,7 +29480,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -29492,7 +29492,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -29946,7 +29946,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -30128,7 +30128,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -30310,7 +30310,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -30623,7 +30623,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken).ConfigureAwait(false);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -30636,7 +30636,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = await ExecuteReaderInternalAsync(connection: connection,
+        using (var reader = (await ExecuteReaderInternalAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -30648,7 +30648,7 @@ public static partial class DbConnectionExtension
             dbFields: null,
             skipCommandArrayParametersCheck: true,
             beforeExecutionCallbackAsync: beforeExecutionCallbackAsync,
-            cancellationToken: cancellationToken).ConfigureAwait(false))
+            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
         {
             // Silent cancellation
             if (traceResult?.CancellableTraceLog?.IsCancelled == true)

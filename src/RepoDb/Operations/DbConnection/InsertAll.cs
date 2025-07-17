@@ -204,7 +204,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -247,7 +247,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -401,7 +401,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
@@ -857,7 +857,7 @@ public static partial class DbConnectionExtension
 #if NET
                         await
 #endif
-                        using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+                        using var reader = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
 
                         // Get the results
                         var position = 0;
@@ -875,7 +875,7 @@ public static partial class DbConnectionExtension
                                 position++;
                             }
                         }
-                        while (position < batchItems.Count && await reader.NextResultAsync(cancellationToken));
+                        while (position < batchItems.Count && await reader.NextResultAsync(cancellationToken).ConfigureAwait(false));
 
                         // Set the result
                         result += batchItems.Count;

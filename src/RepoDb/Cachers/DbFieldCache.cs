@@ -131,7 +131,7 @@ public static class DbFieldCache
         IDbTransaction? transaction,
         bool enableValidation,
         CancellationToken cancellationToken = default) =>
-        await GetInternalAsync(connection, tableName, transaction, enableValidation, cancellationToken);
+        await GetInternalAsync(connection, tableName, transaction, enableValidation, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Gets the cached field definitions of the entity in an asynchronous way.

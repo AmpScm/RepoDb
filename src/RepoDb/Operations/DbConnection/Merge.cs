@@ -2272,7 +2272,7 @@ public static partial class DbConnectionExtension
 #if NET
             await
 #endif
-            using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+            using var reader = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
 
             if (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
             {
