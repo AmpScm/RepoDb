@@ -2608,7 +2608,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region SumAsyncInternalBase
+    #region SumInternalBaseAsync
 
     /// <summary>
     /// Computes the sum value of the target field.

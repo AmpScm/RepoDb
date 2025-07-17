@@ -1100,7 +1100,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region ExistsAsyncInternalBase
+    #region ExistsInternalBaseAsync
 
     /// <summary>
     /// Check whether the rows are existing in the table in an asynchronous way.

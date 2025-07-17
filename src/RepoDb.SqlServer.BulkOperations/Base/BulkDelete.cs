@@ -466,7 +466,7 @@ public static partial class SqlConnectionExtension
 
     #endregion
 
-    #region BulkDeleteAsyncInternalBase
+    #region BulkDeleteInternalBaseAsync
 
     /// <summary>
     ///

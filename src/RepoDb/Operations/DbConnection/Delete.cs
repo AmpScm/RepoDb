@@ -1107,7 +1107,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region DeleteAsyncInternalBase
+    #region DeleteInternalBaseAsync
 
     /// <summary>
     /// Delete the rows from the table in an asynchronous way.

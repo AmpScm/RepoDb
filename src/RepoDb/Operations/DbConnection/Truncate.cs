@@ -326,7 +326,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region TruncateAsyncInternalBase
+    #region TruncateInternalBaseAsync
 
     /// <summary>
     /// Truncates a table from the database in an asynchronous way.

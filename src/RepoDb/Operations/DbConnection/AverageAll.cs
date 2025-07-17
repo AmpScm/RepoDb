@@ -670,7 +670,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region AverageAllAsyncInternalBase
+    #region AverageAllInternalBaseAsync
 
     /// <averagemary>
     /// Computes the average value of the target field in an asynchronous way.

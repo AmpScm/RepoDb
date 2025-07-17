@@ -638,7 +638,7 @@ public static partial class SqlConnectionExtension
 
     #endregion
 
-    #region BulkUpdateAsyncInternal
+    #region BulkUpdateInternalAsync
 
     /// <summary>
     /// Bulk update an instance of <see cref="DbDataReader"/> object into the database in an asynchronous way.

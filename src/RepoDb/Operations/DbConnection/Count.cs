@@ -889,7 +889,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region CountAsyncInternalBase
+    #region CountInternalBaseAsync
 
     /// <summary>
     /// Count the number of rows from the table in an asynchronous way.

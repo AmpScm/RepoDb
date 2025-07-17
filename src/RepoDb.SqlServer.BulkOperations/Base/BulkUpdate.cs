@@ -344,7 +344,7 @@ public static partial class SqlConnectionExtension
 
     #endregion
 
-    #region BulkUpdateAsyncInternalBase
+    #region BulkUpdateInternalBaseAsync
 
     /// <summary>
     ///

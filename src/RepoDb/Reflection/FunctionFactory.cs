@@ -87,16 +87,15 @@ internal static class FunctionFactory
     /// <summary>
     ///
     /// </summary>
-    /// <param name="entityType"></param>
     /// <param name="inputFields"></param>
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    public static Action<DbCommand, object?> CompileDictionaryStringObjectDbParameterSetter(Type entityType,
+    public static Action<DbCommand, object?> CompileDictionaryStringObjectDbParameterSetter(
         IEnumerable<DbField> inputFields,
         IDbSetting dbSetting,
         IDbHelper dbHelper) =>
-        Compiler.CompileDictionaryStringObjectDbParameterSetter(entityType, inputFields, dbSetting, dbHelper);
+        Compiler.CompileDictionaryStringObjectDbParameterSetter(inputFields, dbSetting, dbHelper);
 
     #endregion
 

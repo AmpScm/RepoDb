@@ -724,7 +724,7 @@ public static partial class DbConnectionExtension
         // Identify
         if (TypeCache.Get(typeOfResult).IsDictionaryStringObject() || typeOfResult.IsObjectType())
         {
-            return await ExecuteQueryAsyncInternalForDictionaryStringObject<TResult>(connection: connection,
+            return await ExecuteQueryInternalAsyncForDictionaryStringObject<TResult>(connection: connection,
                commandText: commandText,
                param: param,
                commandType: commandType,
@@ -741,7 +741,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            return await ExecuteQueryAsyncInternalForType<TResult>(connection: connection,
+            return await ExecuteQueryInternalAsyncForType<TResult>(connection: connection,
                commandText: commandText,
                param: param,
                commandType: commandType,
@@ -777,7 +777,7 @@ public static partial class DbConnectionExtension
     /// <param name="tableName"></param>
     /// <param name="skipCommandArrayParametersCheck"></param>
     /// <returns></returns>
-    private static async ValueTask<IEnumerable<TResult>> ExecuteQueryAsyncInternalForDictionaryStringObject<TResult>(this IDbConnection connection,
+    private static async ValueTask<IEnumerable<TResult>> ExecuteQueryInternalAsyncForDictionaryStringObject<TResult>(this IDbConnection connection,
         string commandText,
         object? param = null,
         CommandType commandType = default,
@@ -850,7 +850,7 @@ public static partial class DbConnectionExtension
     /// <param name="tableName"></param>
     /// <param name="skipCommandArrayParametersCheck"></param>
     /// <returns></returns>
-    private static async ValueTask<IEnumerable<TResult>> ExecuteQueryAsyncInternalForType<TResult>(this IDbConnection connection,
+    private static async ValueTask<IEnumerable<TResult>> ExecuteQueryInternalAsyncForType<TResult>(this IDbConnection connection,
         string commandText,
         object? param = null,
         CommandType commandType = default,

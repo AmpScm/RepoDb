@@ -713,7 +713,7 @@ public static partial class SqlConnectionExtension
 
     #endregion
 
-    #region BulkInsertAsyncInternal
+    #region BulkInsertInternalAsync
 
     /// <summary>
     ///

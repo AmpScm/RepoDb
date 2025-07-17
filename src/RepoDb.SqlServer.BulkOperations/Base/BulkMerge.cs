@@ -561,7 +561,7 @@ public static partial class SqlConnectionExtension
 
     #endregion
 
-    #region BulkMergeAsyncInternal
+    #region BulkMergeInternalAsync
 
     /// <summary>
     ///

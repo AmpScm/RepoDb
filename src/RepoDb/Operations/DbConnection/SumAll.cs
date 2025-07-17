@@ -670,7 +670,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region SumAllAsyncInternalBase
+    #region SumAllInternalBaseAsync
 
     /// <summary>
     /// Computes the sum value of the target field in an asynchronous way.

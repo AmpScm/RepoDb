@@ -670,7 +670,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region MinAllAsyncInternalBase
+    #region MinAllInternalBaseAsync
 
     /// <summary>
     /// Computes the min value of the target field in an asynchronous way.

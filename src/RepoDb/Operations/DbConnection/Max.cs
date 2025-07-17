@@ -2606,7 +2606,7 @@ public static partial class DbConnectionExtension
 
     #endregion
 
-    #region MaxAsyncInternalBase
+    #region MaxInternalBaseAsync
 
     /// <summary>
     /// Computes the max value of the target field.
