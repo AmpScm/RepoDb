@@ -118,7 +118,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
             !await reader.IsDBNullAsync(2, cancellationToken) && await reader.GetFieldValueAsync<bool>(2, cancellationToken),
             !await reader.IsDBNullAsync(3, cancellationToken) && await reader.GetFieldValueAsync<bool>(3, cancellationToken),
             DbTypeResolver.Resolve(dbType)!,
-            await reader.IsDBNullAsync(5) ? null : await reader.GetFieldValueAsync<int>(5, cancellationToken),
+            await reader.IsDBNullAsync(5, cancellationToken) ? null : await reader.GetFieldValueAsync<int>(5, cancellationToken),
             null,
             null,
             dbType,
@@ -176,8 +176,8 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         var commandText = GetCommandText();
         var param = new
         {
-            Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting)?.AsUnquoted(m_dbSetting),
-            TableName = DataEntityExtension.GetTableName(tableName, m_dbSetting).AsUnquoted(m_dbSetting)
+            Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting),
+            TableName = DataEntityExtension.GetTableName(tableName, m_dbSetting)
         };
 
         // Iterate and extract

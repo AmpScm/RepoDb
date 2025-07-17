@@ -278,7 +278,6 @@ public class CacheTest
         var item = cache.Get<DateTime>(cacheKey);
 
         // Assert
-        Assert.IsNotNull(result);
         Assert.IsNotNull(item);
         Assert.AreEqual(result, item.Value);
     }
@@ -304,7 +303,6 @@ public class CacheTest
         var item = cache.Get<DateTime>(cacheKey);
 
         // Assert
-        Assert.IsNotNull(result);
         Assert.IsNotNull(item);
         Assert.AreEqual(result, item.Value);
     }

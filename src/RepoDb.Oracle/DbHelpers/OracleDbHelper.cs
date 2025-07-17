@@ -82,8 +82,8 @@ ORDER BY C.COLUMN_ID
         var commandText = GetFieldsQuery;
         var param = new
         {
-            Schema = DataEntityExtension.GetSchema(tableName, DbSetting)?.AsUnquoted(DbSetting).ToUpperInvariant(),
-            TableName = DataEntityExtension.GetTableName(tableName, DbSetting).AsUnquoted(DbSetting)
+            Schema = DataEntityExtension.GetSchema(tableName, DbSetting)?.ToUpperInvariant(),
+            TableName = DataEntityExtension.GetTableName(tableName, DbSetting)
         };
         var param2 = string.IsNullOrWhiteSpace(param.Schema) ? (object)new { param.TableName } : null;
         if (param2 is { })

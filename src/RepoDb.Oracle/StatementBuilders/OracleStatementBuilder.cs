@@ -109,7 +109,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
                 .WriteText(string.Join(", ", updateFields.Select(f => $"T.{f.FieldName.AsQuoted(DbSetting)} = S.{f.FieldName.AsQuoted(DbSetting)}")));
         }
 
-        if (insertColumns.Any())
+        if (insertColumns.Count > 0)
         {
             builder
                 .When()

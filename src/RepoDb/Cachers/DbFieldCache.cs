@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Data;
 using RepoDb.Exceptions;
+using RepoDb.Extensions;
 
 namespace RepoDb;
 
@@ -80,6 +81,9 @@ public static class DbFieldCache
         bool enableValidation)
         where TDbConnection : IDbConnection
     {
+        ArgumentNullException.ThrowIfNull(tableName);
+        tableName = tableName.AsUnquoted(connection.GetDbSetting());
+
         // Note: For SqlConnection, the ConnectionString is changing if the (Integrated Security=False). Actually for this isolation, the database name is enough.
         var key = (connection.GetType(), connection.Database, tableName);
 
@@ -146,6 +150,9 @@ public static class DbFieldCache
         CancellationToken cancellationToken = default)
         where TDbConnection : IDbConnection
     {
+        ArgumentNullException.ThrowIfNull(tableName);
+        tableName = tableName.AsUnquoted(connection.GetDbSetting());
+
         // Note: For SqlConnection, the ConnectionString is changing if the (Integrated Security=False). Actually for this isolation, the database name is enough.
         var key = (connection.GetType(), connection.Database, tableName);
 

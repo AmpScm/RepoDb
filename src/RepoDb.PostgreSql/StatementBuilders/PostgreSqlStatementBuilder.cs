@@ -394,7 +394,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             .CloseParen()
             .OnConflict(qualifiers, DbSetting);
 
-        if (updatableFields.Any())
+        if (updatableFields.Count != 0)
         {
             builder
                 .DoUpdate()
@@ -509,7 +509,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
                 .CloseParen()
                 .OnConflict(qualifiers, DbSetting);
 
-            if (updatableFields.Any())
+            if (updatableFields.Count != 0)
             {
                 builder
                     .DoUpdate()
@@ -722,7 +722,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             .Where(f => keyFields.GetByFieldName(f.FieldName) is null && qualifiers.GetByFieldName(f.FieldName) is null)
             .ToArray();
 
-        if (!updateFields.Any())
+        if (updateFields.Length == 0)
         {
             throw new EmptyException(nameof(fields), "The list of updatable fields cannot be null or empty.");
         }
@@ -774,7 +774,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
 
     #region Helpers
 
-    private string GetDatabaseType(DbField dbField)
+    private static string GetDatabaseType(DbField dbField)
     {
         var dbType = new ClientTypeToDbTypeResolver().Resolve(dbField.Type);
         return dbType.HasValue ?

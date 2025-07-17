@@ -482,7 +482,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         // Verify the fields
         if (fields?.Any() != true)
         {
-            throw new ArgumentNullException($"The list of fields cannot be null or empty.");
+            throw new ArgumentNullException(nameof(fields), $"The list of fields cannot be null or empty.");
         }
 
         // Validate the Primary Key

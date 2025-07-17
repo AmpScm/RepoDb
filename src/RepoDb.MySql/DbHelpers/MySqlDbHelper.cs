@@ -73,21 +73,17 @@ public sealed class MySqlDbHelper : BaseDbHelper
     /// 
     /// </summary>
     /// <returns></returns>
-    private HashSet<string> GetBlobTypes()
-    {
-        return
-        [
-            "blob",
-            "blobasarray",
-            "binary",
-            "longtext",
-            "mediumtext",
-            "longblob",
-            "mediumblob",
-            "tinyblob",
-            "varbinary"
-        ];
-    }
+    static readonly HashSet<string> BlobTypes = new([
+        "blob",
+        "blobasarray",
+        "binary",
+        "longtext",
+        "mediumtext",
+        "longblob",
+        "mediumblob",
+        "tinyblob",
+        "varbinary"
+    ], StringComparer.OrdinalIgnoreCase));
 
     /// <summary>
     /// 
@@ -97,16 +93,7 @@ public sealed class MySqlDbHelper : BaseDbHelper
     private DbField ReaderToDbField(DbDataReader reader)
     {
         var columnType = reader.GetString(4);
-        var excluded = GetBlobTypes();
-        int? size;
-        if (excluded.Contains(columnType.ToLowerInvariant()))
-        {
-            size = null;
-        }
-        else
-        {
-            size = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5);
-        }
+        int? size = BlobTypes.Contains(columnType) ? null : reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5);
         return new DbField(reader.GetString(0),
             reader.GetBoolean(1),
             reader.GetBoolean(2),
@@ -143,7 +130,7 @@ public sealed class MySqlDbHelper : BaseDbHelper
         var param = new
         {
             TableSchema = connection.Database,
-            TableName = DataEntityExtension.GetTableName(tableName, m_dbSetting).AsUnquoted(m_dbSetting)
+            TableName = DataEntityExtension.GetTableName(tableName, m_dbSetting)
         };
 
         // Iterate and extract

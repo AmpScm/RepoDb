@@ -151,8 +151,8 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         await sql.InsertAllAsync(
             new GuidNullData[]
             {
-                new GuidNullData(){ ID = 1, Txt = Guid.NewGuid(), TxtNull = Guid.NewGuid(), Uuid = Guid.NewGuid(), UuidNull=Guid.NewGuid(), BlobData = new byte[]{32}, BlobDataNull = new byte[]{65 } },
-                new GuidNullData(){ ID = 2, Txt = Guid.NewGuid(), Uuid = Guid.NewGuid(), BlobData = new byte[]{ 97 } },
+                new GuidNullData(){ ID = 1, Txt = Guid.NewGuid(), TxtNull = Guid.NewGuid(), Uuid = Guid.NewGuid(), UuidNull=Guid.NewGuid(), BlobData = " "u8.ToArray(), BlobDataNull = "A"u8.ToArray() },
+                new GuidNullData(){ ID = 2, Txt = Guid.NewGuid(), Uuid = Guid.NewGuid(), BlobData = "a"u8.ToArray() },
             }, transaction: t);
 
         await t.RollbackAsync();
@@ -314,7 +314,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
 
         var fields = await DbFieldCache.GetAsync(sql, nameof(WithComputed), transaction: null);
-        Assert.AreEqual(true, fields.First(x => x.FieldName == "Computed").IsGenerated);
+        Assert.IsTrue(fields.First(x => x.FieldName == "Computed").IsGenerated);
 
         await sql.InsertAsync(new WithComputed() { ID = 1, Writable = "a" });
 
@@ -469,17 +469,17 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.AreEqual(37, id2?.Size);
         Assert.AreEqual(38, val3?.Size);
 
-        Assert.AreEqual(true, id1?.IsPrimary);
-        Assert.AreEqual(true, id2?.IsPrimary);
-        Assert.AreEqual(false, val3?.IsPrimary);
+        Assert.IsTrue(id1?.IsPrimary);
+        Assert.IsTrue(id2?.IsPrimary);
+        Assert.IsFalse(val3?.IsPrimary);
 
-        Assert.AreEqual(false, id1?.IsIdentity);
-        Assert.AreEqual(false, id2?.IsIdentity);
-        Assert.AreEqual(false, val3?.IsIdentity);
+        Assert.IsFalse(id1?.IsIdentity);
+        Assert.IsFalse(id2?.IsIdentity);
+        Assert.IsFalse(val3?.IsIdentity);
 
-        Assert.AreEqual(false, id1?.IsNullable);
-        Assert.AreEqual(false, id2?.IsNullable);
-        Assert.AreEqual(true, val3?.IsNullable);
+        Assert.IsFalse(id1?.IsNullable);
+        Assert.IsFalse(id2?.IsNullable);
+        Assert.IsTrue(val3?.IsNullable);
 
         var ftf = new FieldLengthTable[]
         {
@@ -548,17 +548,17 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.IsTrue(id2?.Type == typeof(int) || id2?.Type == typeof(decimal));
         Assert.AreEqual(typeof(string), val3?.Type);
 
-        Assert.AreEqual(true, id1?.IsPrimary);
-        Assert.AreEqual(true, id2?.IsPrimary);
-        Assert.AreEqual(false, val3?.IsPrimary);
+        Assert.IsTrue(id1?.IsPrimary);
+        Assert.IsTrue(id2?.IsPrimary);
+        Assert.IsFalse(val3?.IsPrimary);
 
-        Assert.AreEqual(false, id1?.IsIdentity);
-        Assert.AreEqual(true, id2?.IsIdentity);
-        Assert.AreEqual(false, val3?.IsIdentity);
+        Assert.IsFalse(id1?.IsIdentity);
+        Assert.IsTrue(id2?.IsIdentity);
+        Assert.IsFalse(val3?.IsIdentity);
 
-        Assert.AreEqual(false, id1?.IsNullable);
-        Assert.AreEqual(false, id2?.IsNullable);
-        Assert.AreEqual(true, val3?.IsNullable);
+        Assert.IsFalse(id1?.IsNullable);
+        Assert.IsFalse(id2?.IsNullable);
+        Assert.IsTrue(val3?.IsNullable);
 
         var ftf = new MorePrimaryKeyTable[]
         {
@@ -570,7 +570,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var data = (await sql.QueryAllAsync<MorePrimaryKeyTable>()).ToArray();
 
-        Assert.AreEqual(2, data.Count());
+        Assert.AreEqual(2, data.Length);
         Assert.AreEqual(ftf[0].ID, data[0].ID);
         Assert.AreEqual(ftf[1].ID, data[1].ID);
         Assert.AreEqual(ftf[0].ID2, data[0].ID2);

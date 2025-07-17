@@ -20,10 +20,8 @@ public class SqlServerDbTypeNameToClientTypeResolver : IResolver<string, Type>
     /// <returns>The equivalent .NET CLR type.</returns>
     public virtual Type Resolve(string dbTypeName)
     {
-        if (dbTypeName == null)
-        {
-            throw new ArgumentNullException("The DB Type name must not be null.");
-        }
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
+
         return dbTypeName.ToLowerInvariant() switch
         {
             "bigint" => typeof(long),
@@ -52,6 +50,5 @@ public class SqlServerDbTypeNameToClientTypeResolver : IResolver<string, Type>
             "uniqueidentifier" => typeof(Guid),
             _ => typeof(object),
         };
-
     }
 }

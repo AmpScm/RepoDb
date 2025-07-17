@@ -550,7 +550,7 @@ public class ClassHandlerTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        connection.Insert(table);
+        Assert.ThrowsExactly<InvalidTypeException>(() => connection.Insert(table));
 
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerTestModelClassHandler>(typeof(ClassHandlerIdentityTableWithTestModel));
@@ -592,7 +592,7 @@ public class ClassHandlerTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        connection.InsertAll(tables);
+        Assert.ThrowsExactly<InvalidTypeException>(() => connection.InsertAll(tables));
 
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerTestModelClassHandler>(typeof(ClassHandlerIdentityTableWithTestModel));

@@ -148,8 +148,8 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         var setting = connection.GetDbSetting();
         var param = new
         {
-            Schema = DataEntityExtension.GetSchema(tableName, setting).AsUnquoted(setting),
-            TableName = DataEntityExtension.GetTableName(tableName, setting).AsUnquoted(setting)
+            Schema = DataEntityExtension.GetSchema(tableName, setting),
+            TableName = DataEntityExtension.GetTableName(tableName, setting)
         };
 
         // Iterate and extract
@@ -185,8 +185,8 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         var setting = connection.GetDbSetting();
         var param = new
         {
-            Schema = DataEntityExtension.GetSchema(tableName, setting).AsUnquoted(setting),
-            TableName = DataEntityExtension.GetTableName(tableName, setting).AsUnquoted(setting)
+            Schema = DataEntityExtension.GetSchema(tableName, setting),
+            TableName = DataEntityExtension.GetTableName(tableName, setting)
         };
 
         // Iterate and extract

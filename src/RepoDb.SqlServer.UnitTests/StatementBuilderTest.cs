@@ -25,7 +25,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -52,7 +52,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -79,7 +79,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -106,7 +106,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -132,7 +132,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -158,7 +158,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var where = new QueryGroup(new QueryField("Field1", Operation.NotEqual, 1));
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
@@ -186,7 +186,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var where = new QueryGroup(new QueryField("Id", Operation.NotEqual, 1));
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
@@ -208,21 +208,21 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateBatchQueryIfTheTableIsNull()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         string? tableName = null;
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
-        statementBuilder.CreateBatchQuery(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateBatchQuery(tableName: tableName,
             fields: fields,
             page: 0,
             rowsPerBatch: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
     [TestMethod]
@@ -231,7 +231,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
         Assert.Throws<ArgumentException>(
@@ -249,7 +249,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = " ";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
         Assert.Throws<ArgumentException>(
@@ -261,7 +261,7 @@ public class StatementBuilderTest
             where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateBatchQueryIfTheFieldsAreNull()
     {
         // Setup
@@ -270,65 +270,65 @@ public class StatementBuilderTest
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act/Assert
-        statementBuilder.CreateBatchQuery(tableName: tableName,
+        Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateBatchQuery(tableName: tableName,
             fields: null,
             page: 0,
             rowsPerBatch: 10,
             orderBy: orderBy,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateBatchQueryIfThereAreNoOrderFields()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
-        statementBuilder.CreateBatchQuery(tableName: tableName,
+        Assert.ThrowsExactly<EmptyException>(() => statementBuilder.CreateBatchQuery(tableName: tableName,
             fields: fields,
             page: 0,
             rowsPerBatch: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateBatchQueryIfThePageIsLessThanZero()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act/Assert
-        statementBuilder.CreateBatchQuery(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => statementBuilder.CreateBatchQuery(tableName: tableName,
             fields: fields,
             page: -1,
             rowsPerBatch: 10,
             orderBy: orderBy,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateBatchQueryIfTheRowsPerBatchIsLessThanOne()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act/Assert
-        statementBuilder.CreateBatchQuery(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => statementBuilder.CreateBatchQuery(tableName: tableName,
             fields: fields,
             page: 0,
             rowsPerBatch: 0,
             orderBy: orderBy,
-            where: null);
+            where: null));
     }
     #endregion
 
@@ -520,7 +520,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -545,7 +545,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -570,7 +570,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(long), null, null, null, null);
 
@@ -596,7 +596,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -623,7 +623,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -653,7 +653,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -679,7 +679,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -705,7 +705,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -740,7 +740,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -763,7 +763,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -786,7 +786,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -809,7 +809,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
 
         // Act
@@ -834,7 +834,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -859,7 +859,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(long), null, null, null, null);
 
         // Act
@@ -884,7 +884,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
 
@@ -910,7 +910,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(long), null, null, null, null);
 
@@ -936,7 +936,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -964,7 +964,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -995,7 +995,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1026,7 +1026,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1057,7 +1057,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
 
@@ -1090,7 +1090,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
         var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
@@ -1124,7 +1124,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
@@ -1157,7 +1157,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
@@ -1191,7 +1191,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3a" });
+        var fields = Field.From(["Field1", "Field2", "Field3a"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
@@ -1230,7 +1230,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Id", false, true, false, typeof(int), null, null, null, null);
 
@@ -1263,7 +1263,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, isIdentity: false, false, typeof(int), null, null, null, null);
 
         // Act
@@ -1295,7 +1295,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
 
@@ -1328,7 +1328,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
@@ -1363,7 +1363,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1395,7 +1395,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
@@ -1425,7 +1425,7 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfThereAreNoFields()
     {
         // Setup
@@ -1434,83 +1434,83 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Id");
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: null,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(MissingQualifierFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfThereAreNoPrimaryAndNoQualifiers()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.ThrowsExactly<MissingQualifierFieldsException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: null,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidQualifiersException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfTheQualifiersAreNotPresentAtTheGivenFields()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Id");
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidQualifiersException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidQualifiersException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfThePrimaryAsQualifierIsNotPresentAtTheGivenFields()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Id", true, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidQualifiersException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: null,
             batchSize: 1,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfTheTableIsNull()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         string? tableName = null;
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod]
@@ -1519,7 +1519,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1538,7 +1538,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = " ";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1551,41 +1551,41 @@ public class StatementBuilderTest
             identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfThePrimaryIsNotReallyAPrimary()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: null,
             batchSize: 1,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeAllIfTheIdentityIsNotReallyAnIdentity()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identifyField = new DbField("Field2", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateMergeAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
             fields: fields,
             qualifiers: null,
             batchSize: 1,
             primaryField: null,
-            identityField: identifyField);
+            identityField: identifyField));
     }
 
     #endregion
@@ -1598,7 +1598,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1627,7 +1627,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1656,7 +1656,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1685,7 +1685,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
 
@@ -1716,7 +1716,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
         var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
@@ -1749,7 +1749,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3b" });
+        var fields = Field.From(["Field1", "Field2", "Field3b"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
         var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
@@ -1787,7 +1787,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
@@ -1818,7 +1818,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
@@ -1849,7 +1849,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Id", false, true, false, typeof(int), null, null, null, null);
 
@@ -1880,7 +1880,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, isIdentity: false, false, typeof(int), null, null, null, null);
 
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
@@ -1912,7 +1912,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
 
@@ -1945,7 +1945,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -1969,7 +1969,7 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfThereAreNoFields()
     {
         // Setup
@@ -1978,78 +1978,78 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Id");
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateMerge(tableName: tableName,
             fields: null,
             qualifiers: qualifiers,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(MissingQualifierFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfThereAreNoPrimaryAndNoQualifiers()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.ThrowsExactly<MissingQualifierFieldsException>(() => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: null,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidQualifiersException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfTheQualifiersAreNotPresentAtTheGivenFields()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Id");
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.ThrowsExactly<InvalidQualifiersException>(() => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidQualifiersException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfThePrimaryAsQualifierIsNotPresentAtTheGivenFields()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Id", true, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.ThrowsExactly<InvalidQualifiersException>(() => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: null,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfTheTableIsNull()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         string? tableName = null;
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod]
@@ -2058,7 +2058,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -2076,7 +2076,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = " ";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -2088,39 +2088,39 @@ public class StatementBuilderTest
             identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfThePrimaryIsNotReallyAPrimary()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: null,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateMergeIfTheIdentityIsNotReallyAnIdentity()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identifyField = new DbField("Field2", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateMerge(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateMerge(tableName: tableName,
             fields: fields,
             qualifiers: null,
             primaryField: null,
-            identityField: identifyField);
+            identityField: identifyField));
     }
 
     #endregion
@@ -2133,7 +2133,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -2163,7 +2163,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -2193,7 +2193,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -2224,7 +2224,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -2254,7 +2254,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act
@@ -2284,7 +2284,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var where = new QueryGroup(new QueryField("Field1", Operation.NotEqual, 1));
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
@@ -2316,7 +2316,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var where = new QueryGroup(new QueryField("Id", Operation.NotEqual, 1));
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
@@ -2342,21 +2342,21 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateSkipQueryIfTheTableIsNull()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         string? tableName = null;
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
-        statementBuilder.CreateSkipQuery(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateSkipQuery(tableName: tableName,
             fields: fields,
             skip: 0,
             take: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
     [TestMethod]
@@ -2365,7 +2365,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
         Assert.Throws<ArgumentException>(
@@ -2383,7 +2383,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = " ";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
         Assert.Throws<ArgumentException>(
@@ -2395,7 +2395,7 @@ public class StatementBuilderTest
             where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateSkipQueryIfTheFieldsAreNull()
     {
         // Setup
@@ -2404,65 +2404,65 @@ public class StatementBuilderTest
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act/Assert
-        statementBuilder.CreateSkipQuery(tableName: tableName,
+        Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateSkipQuery(tableName: tableName,
             fields: null,
             skip: 0,
             take: 10,
             orderBy: orderBy,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateSkipQueryIfThereAreNoOrderFields()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
 
         // Act/Assert
-        statementBuilder.CreateSkipQuery(tableName: tableName,
+        Assert.ThrowsExactly<EmptyException>(() => statementBuilder.CreateSkipQuery(tableName: tableName,
             fields: fields,
             skip: 0,
             take: 10,
             orderBy: null,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateSkipQueryIfThePageIsLessThanZero()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act/Assert
-        statementBuilder.CreateSkipQuery(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => statementBuilder.CreateSkipQuery(tableName: tableName,
             fields: fields,
             skip: -1,
             take: 10,
             orderBy: orderBy,
-            where: null);
+            where: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnSqlServerStatementBuilderCreateSkipQueryIfTheRowsPerBatchIsLessThanOne()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending });
 
         // Act/Assert
-        statementBuilder.CreateSkipQuery(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => statementBuilder.CreateSkipQuery(tableName: tableName,
             fields: fields,
             skip: 0,
             take: 0,
             orderBy: orderBy,
-            where: null);
+            where: null));
     }
     #endregion
 
@@ -2473,7 +2473,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
 
         // Act
@@ -2498,7 +2498,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var qualifiers = Field.From("Field1");
 
@@ -2522,7 +2522,7 @@ public class StatementBuilderTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2" });
+        var fields = Field.From(["Field1", "Field2"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var qualifiers = Field.From("Field1");
 

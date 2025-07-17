@@ -41,7 +41,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// <param name="tableName"></param>
     /// <returns></returns>
     private string GetCommandText(string tableName) =>
-        $"pragma table_xinfo({DataEntityExtension.GetTableName(tableName, DbSetting).AsUnquoted(DbSetting)});";
+        $"pragma table_xinfo({DataEntityExtension.GetTableName(tableName, DbSetting)});";
 
     /// <summary>
     ///
@@ -79,7 +79,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     private static Regex FieldTypeRegex() => re;
 #endif
 
-    private string? SplitDbType(string v, out int? size)
+    private static string? SplitDbType(string v, out int? size)
     {
         size = null;
 
@@ -157,9 +157,9 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     private static string GetIdentityFieldNameInternal(string sql)
     {
         // Get fieldname
-        var identityField = TokenizeSchema(sql.AsMemory()).FirstOrDefault(def => IsIdentity(def.Definition));
+        var (FieldName, Definition) = TokenizeSchema(sql.AsMemory()).FirstOrDefault(def => IsIdentity(def.Definition));
 
-        if (identityField.FieldName?.Equals("PRIMARY", StringComparison.OrdinalIgnoreCase) == true)
+        if (FieldName?.Equals("PRIMARY", StringComparison.OrdinalIgnoreCase) == true)
         {
             // Issue #802
             //
@@ -173,7 +173,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
             //  PRIMARY KEY("ID" AUTOINCREMENT)
             //  )
 
-            var def = identityField.FieldName + " " + identityField.Definition;
+            var def = FieldName + " " + Definition;
 
             def = def.Replace("PRIMARY KEY", string.Empty)
                     .Trim()
@@ -182,7 +182,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
             return def.Substring(0, def.IndexOf(' ')).Replace("\"", "");
         }
         else
-            return identityField.FieldName; // May be null as valuetuple is never null
+            return FieldName; // May be null as valuetuple is never null
     }
 
     /// <summary>
@@ -378,13 +378,13 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     public override IEnumerable<DbSchemaObject> GetSchemaObjects(IDbConnection connection, IDbTransaction? transaction = null)
     {
         // Using tuple helper as that doesn't call the helper to fetch columns
-        return connection.ExecuteQuery<(string Type, string Name)>(GetSchemaQuery).Select(MapSchemaQueryResult);
+        return connection.ExecuteQuery<(string Type, string Name)>(GetSchemaQuery, transaction: transaction).Select(MapSchemaQueryResult);
     }
 
     public override async ValueTask<IEnumerable<DbSchemaObject>> GetSchemaObjectsAsync(IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
         // Using tuple helper as that doesn't call the helper to fetch columns
-        return (await connection.ExecuteQueryAsync<(string Type, string Name)>(GetSchemaQuery)).Select(MapSchemaQueryResult);
+        return (await connection.ExecuteQueryAsync<(string Type, string Name)>(GetSchemaQuery, transaction: transaction, cancellationToken: cancellationToken)).Select(MapSchemaQueryResult);
     }
 
     private static DbSchemaObject MapSchemaQueryResult((string Type, string Name) r) =>

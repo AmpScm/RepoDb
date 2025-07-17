@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RepoDb.Extensions;
 using RepoDb.IntegrationTests;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
@@ -35,7 +36,7 @@ public class DbHelperTest
         var helper = connection.GetDbHelper();
 
         // Act
-        var fields = helper.GetFields(connection, "[sc].[IdentityTable]", null);
+        var fields = helper.GetFields(connection, "[sc].[IdentityTable]".AsUnquoted(connection.GetDbSetting()), null);
 
         // Assert
         using var reader = connection.ExecuteReader("SELECT name FROM sys.columns WHERE object_id = OBJECT_ID(@TableName);",
@@ -66,7 +67,7 @@ public class DbHelperTest
         var helper = connection.GetDbHelper();
 
         // Act
-        var fields = helper.GetFields(connection, "[NonIdentityTable]", null);
+        var fields = helper.GetFields(connection, "[NonIdentityTable]".AsUnquoted(connection.GetDbSetting()), null);
         var primary = fields.FirstOrDefault(f => f.IsPrimary == true);
 
         // Assert
@@ -83,7 +84,7 @@ public class DbHelperTest
         var helper = connection.GetDbHelper();
 
         // Act
-        var fields = helper.GetFields(connection, "[sc].[IdentityTable]", null);
+        var fields = helper.GetFields(connection, "[sc].[IdentityTable]".AsUnquoted(connection.GetDbSetting()), null);
         var primary = fields.FirstOrDefault(f => f.IsIdentity == true);
 
         // Assert
@@ -104,7 +105,7 @@ public class DbHelperTest
         var helper = connection.GetDbHelper();
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "[sc].[IdentityTable]", null);
+        var fields = await helper.GetFieldsAsync(connection, "[sc].[IdentityTable]".AsUnquoted(connection.GetDbSetting()), null);
 
         // Assert
         using var reader = connection.ExecuteReader("SELECT name FROM sys.columns WHERE object_id = OBJECT_ID(@TableName);",
@@ -135,7 +136,7 @@ public class DbHelperTest
         var helper = connection.GetDbHelper();
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "[NonIdentityTable]", null);
+        var fields = await helper.GetFieldsAsync(connection, "[NonIdentityTable]".AsUnquoted(connection.GetDbSetting()), null);
         var primary = fields.FirstOrDefault(f => f.IsPrimary == true);
 
         // Assert
@@ -152,7 +153,7 @@ public class DbHelperTest
         var helper = connection.GetDbHelper();
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "[sc].[IdentityTable]", null);
+        var fields = await helper.GetFieldsAsync(connection, "[sc].[IdentityTable]".AsUnquoted(connection.GetDbSetting()), null);
         var primary = fields.FirstOrDefault(f => f.IsIdentity == true);
 
         // Assert

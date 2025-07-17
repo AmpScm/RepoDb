@@ -24,7 +24,7 @@ public class AnonymousTest
 
     #region Helpers
 
-    private dynamic CreateIdentityTableTypeDef()
+    private static dynamic CreateIdentityTableTypeDef()
     {
         return new
         {
@@ -50,7 +50,7 @@ public class AnonymousTest
     public void TestExecuteQueryForAnonymous() =>
         TestExecuteQueryForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private void TestExecuteQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private static void TestExecuteQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
@@ -75,7 +75,7 @@ public class AnonymousTest
     public async Task TestExecuteQueryAsyncForAnonymous() =>
         await TestExecuteQueryAsyncForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private async Task TestExecuteQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private static async Task TestExecuteQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
@@ -104,7 +104,7 @@ public class AnonymousTest
     public void TestQueryForAnonymous() =>
         TestQueryForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private void TestQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private static void TestQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup

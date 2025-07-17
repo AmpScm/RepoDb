@@ -15,6 +15,7 @@ public abstract class DbInstance : IAsyncDisposable
 
     public ValueTask DisposeAsync()
     {
+        GC.SuppressFinalize(this);
 #if NET
         return ValueTask.CompletedTask;
 #else

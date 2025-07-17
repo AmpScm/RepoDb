@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -83,7 +84,7 @@ public static partial class StringExtension
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>True if the value is open-quoted.</returns>
     public static bool IsOpenQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting) =>
-        dbSetting != null ? value.StartsWith(dbSetting.OpeningQuote, StringComparison.Ordinal) : false;
+        dbSetting != null && value.StartsWith(dbSetting.OpeningQuote, StringComparison.Ordinal);
 
     /// <summary>
     /// Check whether the string value is close-quoted.
@@ -92,7 +93,7 @@ public static partial class StringExtension
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>True if the value is close-quoted.</returns>
     public static bool IsCloseQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting) =>
-        dbSetting != null ? value.EndsWith(dbSetting.ClosingQuote, StringComparison.Ordinal) : false;
+        dbSetting != null && value.EndsWith(dbSetting.ClosingQuote, StringComparison.Ordinal);
 
     /// <summary>
     /// Unquotes a string.
@@ -104,6 +105,9 @@ public static partial class StringExtension
         IDbSetting? dbSetting) =>
         AsUnquoted(value, false, dbSetting);
 
+#if NET8_0_OR_GREATER
+    static SearchValues<char> unquotedChars = SearchValues.Create(['`', '"', ' ', '[']);
+#endif
     /// <summary>
     /// Unquotes a string.
     /// </summary>
@@ -113,10 +117,17 @@ public static partial class StringExtension
     /// <returns>The unquoted string.</returns>
     public static string AsUnquoted(this string value, bool trim, IDbSetting? dbSetting)
     {
-        if (dbSetting == null)
+        if (dbSetting == null || string.IsNullOrEmpty(value))
         {
             return value;
         }
+
+#if NET_8_0_OR_GREATER
+        if (value.IndexOfAny(unquotedChars) < 0)
+        {
+            return value;
+        }
+#endif
 
         if (!value.Contains('.'))
         {

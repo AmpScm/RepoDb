@@ -524,7 +524,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                 .AsAliasFieldsFrom(insertableFields, "S", DbSetting)
                 .CloseParen();
 
-        if (updatableFields.Any())
+        if (updatableFields.Count > 0)
         {
             builder
                 // WHEN MATCHED THEN UPDATE SET
@@ -733,7 +733,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .AsAliasFieldsFrom(insertableFields, "S", DbSetting)
             .CloseParen();
 
-        if (updatableFields.Any())
+        if (updatableFields.Count > 0)
         {
             builder
                 // WHEN MATCHED THEN UPDATE SET
@@ -900,7 +900,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .Where(f => keyFields.GetByFieldName(f.FieldName) is null && qualifiers.GetByFieldName(f.FieldName) is null)
             .ToArray();
 
-        if (!updateFields.Any())
+        if (updateFields.Length == 0)
         {
             throw new EmptyException(nameof(fields), "The list of updatable fields cannot be null or empty.");
         }
