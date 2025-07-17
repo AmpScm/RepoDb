@@ -41,7 +41,7 @@ public class QueryAllTest
             Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllWithHints()
     {
         // Setup
@@ -49,7 +49,7 @@ public class QueryAllTest
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        connection.QueryAll<MdsCompleteTable>(hints: "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryAll<MdsCompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -71,7 +71,7 @@ public class QueryAllTest
             Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncWithHints()
     {
         // Setup
@@ -79,7 +79,7 @@ public class QueryAllTest
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        await connection.QueryAllAsync<MdsCompleteTable>(hints: "WhatEver");
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAllAsync<MdsCompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -105,7 +105,7 @@ public class QueryAllTest
             Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllViaTableNameWithHints()
     {
         // Setup
@@ -113,9 +113,9 @@ public class QueryAllTest
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        connection.Query(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -137,7 +137,7 @@ public class QueryAllTest
             Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncViaTableNameWithHints()
     {
         // Setup
@@ -145,9 +145,9 @@ public class QueryAllTest
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

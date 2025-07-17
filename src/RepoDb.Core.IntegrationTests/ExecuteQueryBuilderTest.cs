@@ -754,7 +754,7 @@ public class ExecuteQueryBuilderTest
         var sql = builder.CreateInsert(
             ClassMappedNameCache.Get<IdentityTable>(),
             fields: fields,
-            primaryField: dbFields.PrimaryFields.FirstOrDefault(),
+            primaryField: dbFields.PrimaryFields?.FirstOrDefault(),
             identityField: dbFields.Identity);
 
         // Act

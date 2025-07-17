@@ -1278,13 +1278,10 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         };
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        // Act
-        var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
-            null,
-            mappings);
 
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await connection.BulkDeleteAsync(tables,
+            null,
+            mappings));
     }
 
     [TestMethod]
@@ -1396,12 +1393,9 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader,
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader,
             null,
-            mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
+            mappings));
     }
 
     [TestMethod]

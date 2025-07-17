@@ -39,7 +39,7 @@ public class CountAllTest
         Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionCountAllWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -47,7 +47,7 @@ public class CountAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.CountAll<MdsCompleteTable>(hints: "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll<MdsCompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -68,7 +68,7 @@ public class CountAllTest
         Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionCountAllAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -76,7 +76,7 @@ public class CountAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.CountAllAsync<MdsCompleteTable>(hints: "WhatEver");
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<MdsCompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -101,7 +101,7 @@ public class CountAllTest
         Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionCountAllViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -109,8 +109,8 @@ public class CountAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.CountAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            hints: "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -131,7 +131,7 @@ public class CountAllTest
         Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionCountAllAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -139,8 +139,8 @@ public class CountAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            hints: "WhatEver");
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            hints: "WhatEver"));
     }
 
     #endregion

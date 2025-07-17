@@ -128,7 +128,7 @@ public class SumTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionSumWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -136,9 +136,9 @@ public class SumTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Sum<MdsCompleteTable>(e => e.ColumnInt,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Sum<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -247,7 +247,7 @@ public class SumTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionSumAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -255,9 +255,9 @@ public class SumTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.SumAsync<MdsCompleteTable>(e => e.ColumnInt,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAsync<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -359,7 +359,7 @@ public class SumTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionSumViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -367,10 +367,10 @@ public class SumTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Sum(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Sum(ClassMappedNameCache.Get<MdsCompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -468,7 +468,7 @@ public class SumTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionSumAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -476,10 +476,10 @@ public class SumTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.SumAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

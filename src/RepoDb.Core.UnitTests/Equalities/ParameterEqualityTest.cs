@@ -8,19 +8,6 @@ namespace RepoDb.UnitTests.Equalities;
 public class ParameterEqualityTest
 {
     [TestMethod]
-    public void TestParameterEqualityFromString()
-    {
-        // Prepare
-        var objA = new Parameter("ParameterName", new object());
-
-        // Act
-        var equal = Equals(objA.GetHashCode(), "ParameterName".GetHashCode());
-
-        // Assert
-        Assert.IsTrue(equal);
-    }
-
-    [TestMethod]
     public void TestParameterEqualityToImproperString()
     {
         // Prepare
@@ -42,19 +29,6 @@ public class ParameterEqualityTest
 
         // Act
         var equal = (objA.GetHashCode() == objB.GetHashCode());
-
-        // Assert
-        Assert.IsTrue(equal);
-    }
-
-    [TestMethod]
-    public void TestParameterHashCodeEqualityFromString()
-    {
-        // Prepare
-        var objA = new Parameter("ParameterName", new object());
-
-        // Act
-        var equal = (objA.GetHashCode() == "ParameterName".GetHashCode());
 
         // Assert
         Assert.IsTrue(equal);

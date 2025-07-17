@@ -122,7 +122,7 @@ public class CountTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionCountWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -130,8 +130,8 @@ public class CountTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Count<MdsCompleteTable>((object?)null,
-            hints: "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Count<MdsCompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -234,7 +234,7 @@ public class CountTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionCountAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -242,8 +242,8 @@ public class CountTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.CountAsync<MdsCompleteTable>((object?)null,
-            hints: "WhatEver");
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync<MdsCompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -340,7 +340,7 @@ public class CountTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionCountViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -348,9 +348,9 @@ public class CountTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Count(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Count(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -443,7 +443,7 @@ public class CountTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionCountAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -451,9 +451,9 @@ public class CountTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

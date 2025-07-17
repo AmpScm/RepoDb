@@ -98,7 +98,7 @@ public class BatchQueryTest
         Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionBatchQueryWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -106,11 +106,11 @@ public class BatchQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.BatchQuery<MdsCompleteTable>(0,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery<MdsCompleteTable>(0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -189,7 +189,7 @@ public class BatchQueryTest
         Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionBatchQueryAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -197,11 +197,11 @@ public class BatchQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.BatchQueryAsync<MdsCompleteTable>(0,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync<MdsCompleteTable>(0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -288,7 +288,7 @@ public class BatchQueryTest
         Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionBatchQueryViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -296,12 +296,12 @@ public class BatchQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.BatchQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -384,7 +384,7 @@ public class BatchQueryTest
         Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionBatchQueryAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -392,12 +392,12 @@ public class BatchQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.BatchQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

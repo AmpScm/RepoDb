@@ -137,7 +137,7 @@ public class QueryTest
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -145,8 +145,8 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        connection.Query<MdsCompleteTable>((object?)null,
-            hints: "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query<MdsCompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -264,7 +264,7 @@ public class QueryTest
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -272,8 +272,8 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        await connection.QueryAsync<MdsCompleteTable>((object?)null,
-            hints: "WhatEver");
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync<MdsCompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -382,7 +382,7 @@ public class QueryTest
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -390,9 +390,9 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        connection.Query(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -497,7 +497,7 @@ public class QueryTest
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -505,9 +505,9 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

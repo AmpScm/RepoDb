@@ -122,7 +122,7 @@ public class ExistsTest
         Assert.IsTrue(result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionExistsWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -130,8 +130,8 @@ public class ExistsTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Exists<MdsCompleteTable>((object?)null,
-            hints: "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Exists<MdsCompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -234,7 +234,7 @@ public class ExistsTest
         Assert.IsTrue(result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionExistsAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -242,8 +242,8 @@ public class ExistsTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.ExistsAsync<MdsCompleteTable>((object?)null,
-            hints: "WhatEver");
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.ExistsAsync<MdsCompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -340,7 +340,7 @@ public class ExistsTest
         Assert.IsTrue(result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionExistsViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -348,9 +348,9 @@ public class ExistsTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Exists(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Exists(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -443,7 +443,7 @@ public class ExistsTest
         Assert.IsTrue(result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionExistsAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -451,9 +451,9 @@ public class ExistsTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

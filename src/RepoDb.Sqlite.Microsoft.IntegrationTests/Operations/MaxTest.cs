@@ -128,7 +128,7 @@ public class MaxTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionMaxWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -136,9 +136,9 @@ public class MaxTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Max<MdsCompleteTable>(e => e.ColumnInt,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Max<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -247,7 +247,7 @@ public class MaxTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionMaxAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -255,9 +255,9 @@ public class MaxTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.MaxAsync<MdsCompleteTable>(e => e.ColumnInt,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAsync<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -359,7 +359,7 @@ public class MaxTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionMaxViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -367,10 +367,10 @@ public class MaxTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Max(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Max(ClassMappedNameCache.Get<MdsCompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -468,7 +468,7 @@ public class MaxTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionMaxAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -476,10 +476,10 @@ public class MaxTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.MaxAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

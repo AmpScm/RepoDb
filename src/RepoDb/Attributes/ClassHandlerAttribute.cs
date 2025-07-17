@@ -51,27 +51,15 @@ public class ClassHandlerAttribute : Attribute
 /// An attribute that is used to define a handler for the property transformation.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-public class ClassHandlerAttribute<T> : Attribute
+public class ClassHandlerAttribute<T> : ClassHandlerAttribute
 {
     /// <summary>
     /// Creates a new instance of <see cref="ClassHandlerAttribute{T}"/> class.
     /// </summary>
-    public ClassHandlerAttribute() => Validate(typeof(T));
-
-    #region Methods
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="handlerType"></param>
-    private static void Validate(Type handlerType)
+    public ClassHandlerAttribute()
+        : base(typeof(T))
     {
-        if (handlerType.IsInterfacedTo(StaticType.IClassHandler) != true)
-        {
-            throw new InvalidTypeException($"Type '{handlerType.FullName}' must implement the '{StaticType.IClassHandler}' interface.");
-        }
-    }
 
-    #endregion
+    }
 }
 #endif

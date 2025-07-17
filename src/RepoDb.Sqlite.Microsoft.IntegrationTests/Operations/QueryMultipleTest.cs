@@ -206,7 +206,7 @@ public class QueryMultipleTest
         result.Item7.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryMultipleWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -214,12 +214,12 @@ public class QueryMultipleTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             hints1: "WhatEver",
             top2: 2,
-            hints2: "WhatEver");
+            hints2: "WhatEver"));
     }
 
     #endregion
@@ -406,7 +406,7 @@ public class QueryMultipleTest
         result.Item7.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryMultipleAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -414,12 +414,12 @@ public class QueryMultipleTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             hints1: "WhatEver",
             top2: 2,
-            hints2: "WhatEver");
+            hints2: "WhatEver"));
     }
 
     #endregion

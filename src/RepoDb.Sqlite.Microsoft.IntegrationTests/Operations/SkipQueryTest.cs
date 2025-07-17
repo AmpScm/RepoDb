@@ -102,7 +102,7 @@ public class SkipQueryTest
         Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionSkipQueryWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -110,12 +110,12 @@ public class SkipQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.SkipQuery<MdsCompleteTable>(
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery<MdsCompleteTable>(
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -198,7 +198,7 @@ public class SkipQueryTest
         Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionSkipQueryAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -206,12 +206,12 @@ public class SkipQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.SkipQueryAsync<MdsCompleteTable>(
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync<MdsCompleteTable>(
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -298,7 +298,7 @@ public class SkipQueryTest
         Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionSkipQueryViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -306,12 +306,12 @@ public class SkipQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.SkipQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -394,7 +394,7 @@ public class SkipQueryTest
         Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionSkipQueryAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -402,12 +402,12 @@ public class SkipQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.SkipQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

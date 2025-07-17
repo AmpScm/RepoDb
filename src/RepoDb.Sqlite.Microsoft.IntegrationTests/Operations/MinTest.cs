@@ -128,7 +128,7 @@ public class MinTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionMinWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -136,9 +136,9 @@ public class MinTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Min<MdsCompleteTable>(e => e.ColumnInt,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Min<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -247,7 +247,7 @@ public class MinTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionMinAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -255,9 +255,9 @@ public class MinTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.MinAsync<MdsCompleteTable>(e => e.ColumnInt,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -359,7 +359,7 @@ public class MinTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionMinViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -367,10 +367,10 @@ public class MinTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Min(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Min(ClassMappedNameCache.Get<MdsCompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -468,7 +468,7 @@ public class MinTest
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionMinAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -476,10 +476,10 @@ public class MinTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.MinAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion

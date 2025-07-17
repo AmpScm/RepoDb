@@ -57,7 +57,7 @@ public class AverageTest
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void TestSqLiteConnectionAverageWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -65,9 +65,9 @@ public class AverageTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Average<MdsCompleteTable>(e => e.ColumnInt,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Average<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -105,7 +105,7 @@ public class AverageTest
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task TestSqLiteConnectionAverageAsyncWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -113,9 +113,9 @@ public class AverageTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.AverageAsync<MdsCompleteTable>(e => e.ColumnInt,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync<MdsCompleteTable>(e => e.ColumnInt,
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -159,7 +159,7 @@ public class AverageTest
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void TestSqLiteConnectionAverageViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -167,10 +167,10 @@ public class AverageTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        connection.Average(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Average(ClassMappedNameCache.Get<MdsCompleteTable>(),
             Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -210,7 +210,7 @@ public class AverageTest
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task TestSqLiteConnectionAverageAsyncViaTableNameWithHints()
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
@@ -218,10 +218,10 @@ public class AverageTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await connection.AverageAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
             (object?)null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
