@@ -51,8 +51,7 @@ public partial class PropertyValueAttributeCacheTest
     #region Helpers
 
     private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
-        new PropertyValueAttribute[]
-        {
+        [
             // Different Values
             new NameAttribute("ColumnString"),
             new DbTypeAttribute(DbType.StringFixedLength),
@@ -62,7 +61,7 @@ public partial class PropertyValueAttributeCacheTest
             new IsNullableAttribute(true),
             new PrecisionAttribute(100),
             new ScaleAttribute(2)
-        };
+        ];
 
     #endregion
 

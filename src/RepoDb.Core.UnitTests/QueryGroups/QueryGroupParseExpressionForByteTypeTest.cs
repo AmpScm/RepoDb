@@ -49,7 +49,7 @@ public partial class QueryGroupTest
         // Setup
         var value = new QueryGroupTestExpressionClass
         {
-            PropertyBytes = new[] { byte.Parse("0") }
+            PropertyBytes = [byte.Parse("0")]
         };
 
         // Act

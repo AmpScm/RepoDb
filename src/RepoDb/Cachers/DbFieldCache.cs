@@ -9,7 +9,7 @@ namespace RepoDb;
 /// </summary>
 public static class DbFieldCache
 {
-    private static readonly ConcurrentDictionary<int, DbFieldCollection> cache = new();
+    private static readonly ConcurrentDictionary<(Type, string, string), DbFieldCollection> cache = new();
 
     #region Helpers
 
@@ -81,7 +81,7 @@ public static class DbFieldCache
         where TDbConnection : IDbConnection
     {
         // Note: For SqlConnection, the ConnectionString is changing if the (Integrated Security=False). Actually for this isolation, the database name is enough.
-        var key = HashCode.Combine(connection.GetType(), connection.Database, tableName);
+        var key = (connection.GetType(), connection.Database, tableName);
 
         var result = cache.GetOrAdd(key,
             (_) => connection.GetDbHelper().GetFields(connection, tableName, transaction));
@@ -147,7 +147,7 @@ public static class DbFieldCache
         where TDbConnection : IDbConnection
     {
         // Note: For SqlConnection, the ConnectionString is changing if the (Integrated Security=False). Actually for this isolation, the database name is enough.
-        var key = HashCode.Combine(connection.GetType(), connection.Database, tableName);
+        var key = (connection.GetType(), connection.Database, tableName);
 
         // Try get the value
         if (cache.TryGetValue(key, out var result) == false)

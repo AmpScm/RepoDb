@@ -78,12 +78,12 @@ public partial class ClassMapperTableAttributeTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnClassMapperViaTableThatIsAlreadyExisting()
     {
         // Setup
         ClassMapper.Add<ClassMapperTableAttributeTestClass>("[sales].[Person]");
-        ClassMapper.Add<ClassMapperTableAttributeTestClass>("[sales].[Person]");
+        Assert.ThrowsExactly<MappingExistsException>(() => ClassMapper.Add<ClassMapperTableAttributeTestClass>("[sales].[Person]"));
     }
 
     /*
@@ -106,11 +106,11 @@ public partial class ClassMapperTableAttributeTest
             () => ClassMapper.Add<ClassMapperTableAttributeTestClass>("  "));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnClassMapperViaTableThatIsNull()
     {
         // Setup
-        ClassMapper.Add<ClassMapperTableAttributeTestClass>(null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => ClassMapper.Add<ClassMapperTableAttributeTestClass>(null));
     }
 
     /*

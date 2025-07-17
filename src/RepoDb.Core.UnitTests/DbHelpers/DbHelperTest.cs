@@ -34,11 +34,11 @@ public class DbHelperTest
 
     private DbFieldCollection GetDbFields()
     {
-        return new(new[]
-        {
+        return new(
+        [
             new DbField("Id", true, true, false, typeof(int), null, null, null, null),
             new DbField("Name", false, false, false, typeof(string), null, null, null, null)
-        });
+        ]);
     }
 
     public class MyDbHelper : BaseDbHelper
@@ -140,7 +140,7 @@ public class DbHelperTest
         DbHelperMapper.Add<DbHelperDbConnection>(dbHelper.Object, true);
 
         // Act
-        connection.InsertAll<DbHelperDataEntity>(new[] { new DbHelperDataEntity { Id = 1, Name = "Name" } });
+        connection.InsertAll<DbHelperDataEntity>([new DbHelperDataEntity { Id = 1, Name = "Name" }]);
 
         // Assert
         dbHelper.Verify(builder =>
@@ -186,7 +186,7 @@ public class DbHelperTest
         DbHelperMapper.Add<DbHelperDbConnection>(dbHelper.Object, true);
 
         // Act
-        connection.MergeAll<DbHelperDataEntity>(new[] { new DbHelperDataEntity { Id = 1, Name = "Name" } });
+        connection.MergeAll<DbHelperDataEntity>([new DbHelperDataEntity { Id = 1, Name = "Name" }]);
 
         // Assert
         dbHelper.Verify(builder =>
@@ -278,7 +278,7 @@ public class DbHelperTest
         DbHelperMapper.Add<DbHelperDbConnection>(dbHelper.Object, true);
 
         // Act
-        connection.UpdateAll<DbHelperDataEntity>(new[] { new DbHelperDataEntity { Id = 1, Name = "Name" } });
+        connection.UpdateAll<DbHelperDataEntity>([new DbHelperDataEntity { Id = 1, Name = "Name" }]);
 
         // Assert
         dbHelper.Verify(builder =>
@@ -357,7 +357,7 @@ public class DbHelperTest
 
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<DbHelperDataEntity>(),
-            new[] { new { Id = 1, Name = "Name" } });
+            [new { Id = 1, Name = "Name" }]);
 
         // Assert
         dbHelper.Verify(builder =>
@@ -405,7 +405,7 @@ public class DbHelperTest
 
         // Act
         connection.MergeAll(ClassMappedNameCache.Get<DbHelperDataEntity>(),
-            new[] { new DbHelperDataEntity { Id = 1, Name = "Name" } });
+            [new DbHelperDataEntity { Id = 1, Name = "Name" }]);
 
         // Assert
         dbHelper.Verify(builder =>
@@ -500,7 +500,7 @@ public class DbHelperTest
 
         // Act
         connection.UpdateAll(ClassMappedNameCache.Get<DbHelperDataEntity>(),
-            new[] { new DbHelperDataEntity { Id = 1, Name = "Name" } });
+            [new DbHelperDataEntity { Id = 1, Name = "Name" }]);
 
         // Assert
         dbHelper.Verify(builder =>

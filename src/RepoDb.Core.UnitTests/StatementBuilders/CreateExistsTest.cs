@@ -128,7 +128,7 @@ public class BaseStatementBuilderCreateExistsTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateExistsIfTheTableIsNull()
     {
         // Setup
@@ -136,8 +136,8 @@ public class BaseStatementBuilderCreateExistsTest
         string? tableName = null;
 
         // Act
-        statementBuilder.CreateExists(tableName: tableName,
-            hints: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateExists(tableName: tableName,
+            hints: null));
     }
 
     [TestMethod]
@@ -166,7 +166,7 @@ public class BaseStatementBuilderCreateExistsTest
             hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateExistsIIfTheHintsAreNotSupported()
     {
         // Setup
@@ -174,7 +174,7 @@ public class BaseStatementBuilderCreateExistsTest
         var tableName = "Table";
 
         // Act
-        statementBuilder.CreateExists(tableName: tableName,
-            hints: "Hints");
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateExists(tableName: tableName,
+            hints: "Hints"));
     }
 }

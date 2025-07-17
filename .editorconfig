@@ -19,6 +19,11 @@ dotnet_sort_system_directives_first = true
 
 csharp_style_namespace_declarations = file_scoped:suggestion
 
-[*.cs]
+# IDE0130: Namespace does not match folder structure
+dotnet_style_namespace_match_folder = false
+
 # CS1574: XML comment has cref attribute that could not be resolved
 dotnet_diagnostic.CS1574.severity = none
+
+# IDE0057: Use range operator
+csharp_style_prefer_range_operator = false

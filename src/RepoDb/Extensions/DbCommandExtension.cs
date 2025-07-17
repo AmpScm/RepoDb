@@ -777,7 +777,7 @@ public static class DbCommandExtension
 
         if (propertyHandler != null)
         {
-            var propertyHandlerSetMethod = Reflection.Compiler.GetPropertyHandlerInterfaceOrHandlerType(propertyHandler)?.GetMethod(nameof(IPropertyHandler<object, object>.Set))!;
+            var propertyHandlerSetMethod = Reflection.Compiler.GetPropertyHandlerInterfaceOrHandlerType(propertyHandler)?.GetMethod(nameof(IPropertyHandler<,>.Set))!;
             value = propertyHandlerSetMethod
                 .Invoke(propertyHandler, [ value,
                     PropertyHandlerSetOptions.Create(parameter, classProperty!) ]);

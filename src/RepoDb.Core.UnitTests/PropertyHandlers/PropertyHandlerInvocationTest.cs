@@ -45,10 +45,10 @@ public class PropertyHandlerInvocationTest
 
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
-            var reader = new DataEntityDataReader<PropertyHandlerQueryTestClass>(new[]
-            {
+            var reader = new DataEntityDataReader<PropertyHandlerQueryTestClass>(
+            [
                 new PropertyHandlerQueryTestClass { Id = 1, Name = "John Doe" }
-            });
+            ]);
             return reader;
         }
     }

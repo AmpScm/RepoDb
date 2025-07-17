@@ -171,30 +171,30 @@ public class OrderFieldTest
 
     // Exceptions
 
-    [TestMethod, ExpectedException(typeof(InvalidExpressionException))]
+    [TestMethod]
     public void ThrowExceptionOnOrderFieldIfTheParseLinqExpressionHasNoProperty()
     {
         // Act/Assert
-        OrderField.Parse<OrderFieldTestClass>(p => "A", Order.Ascending);
+        Assert.ThrowsExactly<InvalidExpressionException>(() => OrderField.Parse<OrderFieldTestClass>(p => "A", Order.Ascending));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidTypeException))]
+    [TestMethod]
     public void ThrowExceptionOnOrderFieldIfTheParseDynamicObjectFieldValueIsNotAnOrderType()
     {
         // Prepare
         var orderBy = new { Id = "NotAnOrderType" };
 
         // Act/Assert
-        OrderField.Parse(orderBy);
+        Assert.ThrowsExactly<InvalidTypeException>(() => OrderField.Parse(orderBy));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnOrderFieldIfTheParseDynamicObjectIsNull()
     {
         // Prepare
         object? orderBy = null;
 
         // Act/Assert
-        OrderField.Parse(orderBy);
+        Assert.ThrowsExactly<ArgumentNullException>(() => OrderField.Parse(orderBy));
     }
 }

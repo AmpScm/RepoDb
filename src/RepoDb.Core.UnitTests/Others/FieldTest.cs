@@ -144,63 +144,63 @@ public partial class FieldTest
         Assert.IsTrue(parsed.All(field => fields.Contains(field)));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnFieldIfTheFromMethodFieldsParameterIsNull()
     {
         // Prepare
         string? fields = null;
 
         // Act/Assert
-        Field.From(fields);
+        Assert.ThrowsExactly<ArgumentNullException>(() => Field.From(fields));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnFieldIfTheFromMethodFieldsParameterIsEmpty()
     {
         // Prepare
         var fields = new[] { "" };
 
         // Act/Assert
-        Field.From(fields);
+        Assert.ThrowsExactly<ArgumentNullException>(() => Field.From(fields));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnFieldIfTheFromMethodFieldsParameterIsWhitespace()
     {
         // Prepare
         var fields = new[] { " " };
 
         // Act/Assert
-        Field.From(fields);
+        Assert.ThrowsExactly<ArgumentNullException>(() => Field.From(fields));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnFieldIfTheFromMethodFieldsParameterHasNull()
     {
         // Prepare
         var fields = new[] { "Field1", null, "Field3" };
 
         // Act/Assert
-        Field.From(fields);
+        Assert.ThrowsExactly<ArgumentNullException>(() => Field.From(fields));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnFieldFromIfAnyOfTheParameterIsEmpty()
     {
         // Prepare
         var fields = new[] { "Field1", "", "Field3" };
 
         // Act/Assert
-        Field.From(fields);
+        Assert.ThrowsExactly<ArgumentNullException>(() => Field.From(fields));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnFieldIfTheFromMethodFieldsParameterHasWhitespace()
     {
         // Prepare
         var fields = new[] { "Field1", " ", "Field3" };
 
         // Act/Assert
-        Field.From(fields);
+        Assert.ThrowsExactly<ArgumentNullException>(() => Field.From(fields));
     }
 }

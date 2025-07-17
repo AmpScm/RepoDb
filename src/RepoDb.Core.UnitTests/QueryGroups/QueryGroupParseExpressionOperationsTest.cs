@@ -111,9 +111,9 @@ public partial class QueryGroupTest
 
     // ExpectedException
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnParseExpressionWithoutProperty()
     {
-        QueryGroup.Parse<QueryGroupTestExpressionClass>(e => true).GetString(m_dbSetting);
+        Assert.ThrowsExactly<NotSupportedException>(() => QueryGroup.Parse<QueryGroupTestExpressionClass>(e => true).GetString(m_dbSetting));
     }
 }

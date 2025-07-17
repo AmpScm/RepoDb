@@ -216,28 +216,28 @@ public partial class IdentityMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaPropertyNameThatIsAlreadyExisting()
     {
         // Setup
         IdentityMapper.Add<IdentityMapperTestClass>("ColumnInt");
-        IdentityMapper.Add<IdentityMapperTestClass>("ColumnString");
+        Assert.ThrowsExactly<MappingExistsException>(() => IdentityMapper.Add<IdentityMapperTestClass>("ColumnString"));
     }
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaFieldThatIsAlreadyExisting()
     {
         // Setup
         IdentityMapper.Add<IdentityMapperTestClass>(new Field("ColumnInt"));
-        IdentityMapper.Add<IdentityMapperTestClass>(new Field("ColumnString"));
+        Assert.ThrowsExactly<MappingExistsException>(() => IdentityMapper.Add<IdentityMapperTestClass>(new Field("ColumnString")));
     }
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaExpressionThatIsAlreadyExisting()
     {
         // Setup
         IdentityMapper.Add<IdentityMapperTestClass>(e => e.ColumnInt);
-        IdentityMapper.Add<IdentityMapperTestClass>(e => e.ColumnString);
+        Assert.ThrowsExactly<MappingExistsException>(() => IdentityMapper.Add<IdentityMapperTestClass>(e => e.ColumnString));
     }
 
     /*
@@ -333,36 +333,36 @@ public partial class IdentityMapperTest
      * Null Properties
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaPropertyNameThatIsNull()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(propertyName: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => IdentityMapper.Add<IdentityMapperTestClass>(propertyName: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaFieldThatIsNull()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(field: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => IdentityMapper.Add<IdentityMapperTestClass>(field: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaExpressionThatIsNull()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(expression: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => IdentityMapper.Add<IdentityMapperTestClass>(expression: null));
     }
 
     /*
      * Empty Properties
      */
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaPropertyNameThatIsEmpty()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(propertyName: "");
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => IdentityMapper.Add<IdentityMapperTestClass>(propertyName: ""));
     }
 
     [TestMethod]
@@ -377,11 +377,11 @@ public partial class IdentityMapperTest
      * Empty Spaces Properties
      */
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaPropertyNameThatIsEmptySpaces()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(propertyName: "  ");
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => IdentityMapper.Add<IdentityMapperTestClass>(propertyName: "  "));
     }
 
     [TestMethod]
@@ -396,18 +396,18 @@ public partial class IdentityMapperTest
      * Missing Properties
      */
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaPropertyNameThatIsMissing()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>("Whatever");
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => IdentityMapper.Add<IdentityMapperTestClass>("Whatever"));
     }
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnIdentityMapperViaFieldThatIsIsMissing()
     {
         // Setup
-        IdentityMapper.Add<IdentityMapperTestClass>(new Field("Whatever"));
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => IdentityMapper.Add<IdentityMapperTestClass>(new Field("Whatever")));
     }
 
     #endregion

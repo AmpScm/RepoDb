@@ -320,6 +320,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public new IDataReader GetData(int i)
     {
         ThrowExceptionIfNotAvailable();
+        GC.KeepAlive(i);
         throw new NotSupportedException("This is not supported by this data reader.");
     }
 

@@ -25,7 +25,7 @@ public class BaseStatementBuilderCreateInsertTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -48,7 +48,7 @@ public class BaseStatementBuilderCreateInsertTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -71,7 +71,7 @@ public class BaseStatementBuilderCreateInsertTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -94,7 +94,7 @@ public class BaseStatementBuilderCreateInsertTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
 
         // Act
@@ -118,7 +118,7 @@ public class BaseStatementBuilderCreateInsertTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -142,7 +142,7 @@ public class BaseStatementBuilderCreateInsertTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
 
@@ -167,7 +167,7 @@ public class BaseStatementBuilderCreateInsertTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsert(tableName: tableName,
@@ -185,23 +185,23 @@ public class BaseStatementBuilderCreateInsertTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertIfTheNonIdentityPrimaryIsNotCovered()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Id", true, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateInsert(tableName: tableName,
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => statementBuilder.CreateInsert(tableName: tableName,
             fields: fields,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertIfThereAreNoFields()
     {
         // Setup
@@ -209,13 +209,13 @@ public class BaseStatementBuilderCreateInsertTest
         var tableName = "Table";
 
         // Act
-        statementBuilder.CreateInsert(tableName: tableName,
+        Assert.ThrowsExactly<EmptyException>(() => statementBuilder.CreateInsert(tableName: tableName,
             fields: null,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertIfTheTableIsNull()
     {
         // Setup
@@ -223,10 +223,10 @@ public class BaseStatementBuilderCreateInsertTest
         string? tableName = null;
 
         // Act
-        statementBuilder.CreateInsert(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateInsert(tableName: tableName,
             fields: null,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod]
@@ -259,36 +259,36 @@ public class BaseStatementBuilderCreateInsertTest
             identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertIfThePrimaryIsNotReallyAPrimary()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateInsert(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateInsert(tableName: tableName,
             fields: fields,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertIfTheIdentityIsNotReallyAnIdentity()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identifyField = new DbField("Field2", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateInsert(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateInsert(tableName: tableName,
             fields: fields,
             primaryField: null,
-            identityField: identifyField);
+            identityField: identifyField));
     }
 }

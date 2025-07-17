@@ -214,7 +214,7 @@ internal sealed partial class Compiler
     /// <param name="handlerInstance"></param>
     /// <returns></returns>
     private static MethodInfo GetClassHandlerGetMethod(object handlerInstance) =>
-        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<object, object>.Get))!;
+        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<,>.Get))!;
 
     /// <summary>
     ///
@@ -222,7 +222,7 @@ internal sealed partial class Compiler
     /// <param name="handlerInstance"></param>
     /// <returns></returns>
     private static MethodInfo GetClassHandlerSetMethod(object handlerInstance) =>
-        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<object, object>.Set))!;
+        handlerInstance.GetType().GetMethod(nameof(IPropertyHandler<,>.Set))!;
 
     /// <summary>
     ///
@@ -249,7 +249,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static MethodInfo? GetPropertyHandlerGetMethod(object? handlerInstance) =>
         // In F#, the instance is not a concrete class, therefore, we need to extract it by interface
-        GetPropertyHandlerInterfaceOrHandlerType(handlerInstance)?.GetMethod(nameof(IPropertyHandler<object, object>.Get));
+        GetPropertyHandlerInterfaceOrHandlerType(handlerInstance)?.GetMethod(nameof(IPropertyHandler<,>.Get));
 
     /// <summary>
     ///
@@ -263,7 +263,7 @@ internal sealed partial class Compiler
             .GetInterfaces()
             .FirstOrDefault(interfaceType =>
                 interfaceType.IsInterfacedTo(StaticType.IPropertyHandler));
-        return propertyHandlerInterface?.GetMethod(nameof(IPropertyHandler<object, object>.Get));
+        return propertyHandlerInterface?.GetMethod(nameof(IPropertyHandler<,>.Get));
     }
 
     /// <summary>
@@ -286,7 +286,7 @@ internal sealed partial class Compiler
     /// <param name="handlerInstance"></param>
     /// <returns></returns>
     private static MethodInfo? GetPropertyHandlerSetMethod(object? handlerInstance) =>
-        GetPropertyHandlerInterfaceOrHandlerType(handlerInstance)?.GetMethod(nameof(IPropertyHandler<object, object>.Set));
+        GetPropertyHandlerInterfaceOrHandlerType(handlerInstance)?.GetMethod(nameof(IPropertyHandler<,>.Set));
 
     /// <summary>
     ///
@@ -472,8 +472,8 @@ internal sealed partial class Compiler
         var temp = Expression.Variable(expression.Type, "temp");
         var assign = Expression.Assign(temp, expression);
 
-        var hasValue = Expression.Property(temp, nameof(Nullable<int>.HasValue));
-        var value = Expression.Property(temp, nameof(Nullable<int>.Value));
+        var hasValue = Expression.Property(temp, nameof(Nullable<>.HasValue));
+        var value = Expression.Property(temp, nameof(Nullable<>.Value));
 
         var description = Expression.Constant(
             (expression as MemberExpression)?.Member.Name ?? expression.ToString());
@@ -496,7 +496,7 @@ internal sealed partial class Compiler
             var converted = converter(ConvertExpressionToNullableValue(expression));
             var nullableType = typeof(Nullable<>).MakeGenericType(converted.Type);
             return Expression.Condition(
-                Expression.Property(expression, nameof(Nullable<int>.HasValue)),
+                Expression.Property(expression, nameof(Nullable<>.HasValue)),
                 Expression.Convert(converted, nullableType),
                 Expression.Constant(null, nullableType)
             );
@@ -683,7 +683,7 @@ internal sealed partial class Compiler
             if (underlyingFromType != fromType)
             {
                 // E.g. Nullable<System.Int32> -> string
-                condition = Expression.Property(expression, nameof(Nullable<int>.HasValue));
+                condition = Expression.Property(expression, nameof(Nullable<>.HasValue));
             }
             else
             {
@@ -1050,7 +1050,7 @@ internal sealed partial class Compiler
             {
                 // Handle nullability
                 expression = Expression.Condition(
-                    Expression.Property(expression, nameof(Nullable<Guid>.HasValue)),
+                    Expression.Property(expression, nameof(Nullable<>.HasValue)),
                     result,
                     Expression.Constant(null, StaticType.String)
                     );
@@ -1066,7 +1066,7 @@ internal sealed partial class Compiler
             {
                 // Handle nullability
                 expression = Expression.Condition(
-                    Expression.Property(expression, nameof(Nullable<Guid>.HasValue)),
+                    Expression.Property(expression, nameof(Nullable<>.HasValue)),
                     result,
                     Expression.Constant(null, StaticType.ByteArray)
                     );
@@ -1197,7 +1197,7 @@ internal sealed partial class Compiler
         Type? targetType)
     {
         var handlerInstance = classProperty?.GetPropertyHandler() ??
-            PropertyHandlerCache.Get<object>(targetType);
+            (targetType is { } tt ? PropertyHandlerCache.Get<object>(tt) : null);
 
         // Check
         if (handlerInstance == null)
@@ -1771,7 +1771,7 @@ internal sealed partial class Compiler
 
                 // Don't set '0' in the identity output property
                 expression = Expression.Condition(
-                    Expression.Property(origExpression, nameof(Nullable<int>.HasValue)),
+                    Expression.Property(origExpression, nameof(Nullable<>.HasValue)),
                     Expression.Convert(expression, nullableType),
                     Expression.Constant(null, nullableType));
             }

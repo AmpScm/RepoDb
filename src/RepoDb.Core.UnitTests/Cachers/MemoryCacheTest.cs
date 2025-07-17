@@ -158,7 +158,7 @@ public class MemoryCacheTest
         Assert.AreEqual(expirationInMinutes, (actual.Expiration - actual.CreatedDate).TotalMinutes);
     }
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnAddingNewItemAtMemoryCacheWithTheSameKey()
     {
         // Prepare
@@ -166,27 +166,27 @@ public class MemoryCacheTest
         cache.Add("Key", new object(), throwException: true);
 
         // Act/Assert
-        cache.Add("Key", new object(), throwException: true);
+        Assert.ThrowsExactly<MappingExistsException>(() => cache.Add("Key", new object(), throwException: true));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionAtMemoryCacheOnAddingACacheWithNegativeExpiration()
     {
         // Prepare
-        var cache = new MemoryCache
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new MemoryCache
         {
             // Act/Assert
             { "Key", "Value", -1 }
-        };
+        });
     }
 
-    [TestMethod, ExpectedException(typeof(ItemNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionAtMemoryCacheOnRemovingAKeyThatIsNotPresent()
     {
         // Prepare
         var cache = new MemoryCache();
 
         // Act/Assert
-        cache.Remove("Key", true);
+        Assert.ThrowsExactly<ItemNotFoundException>(() => cache.Remove("Key", true));
     }
 }

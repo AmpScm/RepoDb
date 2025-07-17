@@ -41,12 +41,6 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
         lazyIdentity = new(GetIdentityDbField);
     }
 
-    [Obsolete("settings are unused")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public DbFieldCollection(IEnumerable<DbField> dbFields, IDbSetting dbSetting)
-        : this(dbFields)
-    { }
-
     /// <summary>
     /// Gets the column of the primary key if there is a single column primary key
     /// </summary>
@@ -60,14 +54,6 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     /// </summary>
     /// <returns>A identity column definition.</returns>
     public DbField? GetIdentity() => lazyIdentity.Value;
-
-    /// <summary>
-    /// Gets a column definitions of the table.
-    /// </summary>
-    /// <returns>A column definitions of the table.</returns>
-    [Obsolete("Use DbFieldCollection directly")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public DbFieldCollection GetItems() => this;
 
     /// <summary>
     /// Get the list of <see cref="DbField" /> objects converted into an <see cref="FieldSet" /> of <see cref="Field" /> objects.
@@ -104,18 +90,7 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     [EditorBrowsable(EditorBrowsableState.Never)]
     public DbField? GetByName(string name) => GetByFieldName(name);
 
-
-    /// <summary>
-    /// Gets column definition of the table based on the unquotes name of the database field.
-    /// </summary>
-    /// <param name="name">The name of the mapping that is equivalent to the column definition of the table.</param>
-    /// <returns>A column definition of table.</returns>
-    [Obsolete("We assume that DbField instances are normalized, as we get them from the database")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public DbField? GetByUnquotedName(string name) => GetByFieldName(name);
-
     private DbField? GetPrimaryDbField() => this.OneOrDefault(df => df.IsPrimary);
-
 
     private DbFieldCollection? GetPrimaryDbFields() => this.Where(x => x.IsPrimary) is { } p && p.Any() ? new DbFieldCollection(p) : null;
 

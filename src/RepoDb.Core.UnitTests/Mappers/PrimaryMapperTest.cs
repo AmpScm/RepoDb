@@ -216,28 +216,28 @@ public partial class PrimaryMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaPropertyNameThatIsAlreadyExisting()
     {
         // Setup
         PrimaryMapper.Add<PrimaryMapperTestClass>("ColumnInt");
-        PrimaryMapper.Add<PrimaryMapperTestClass>("ColumnString");
+        Assert.ThrowsExactly<MappingExistsException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>("ColumnString"));
     }
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaFieldThatIsAlreadyExisting()
     {
         // Setup
         PrimaryMapper.Add<PrimaryMapperTestClass>(new Field("ColumnInt"));
-        PrimaryMapper.Add<PrimaryMapperTestClass>(new Field("ColumnString"));
+        Assert.ThrowsExactly<MappingExistsException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(new Field("ColumnString")));
     }
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaExpressionThatIsAlreadyExisting()
     {
         // Setup
         PrimaryMapper.Add<PrimaryMapperTestClass>(e => e.ColumnInt);
-        PrimaryMapper.Add<PrimaryMapperTestClass>(e => e.ColumnString);
+        Assert.ThrowsExactly<MappingExistsException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(e => e.ColumnString));
     }
 
     /*
@@ -333,36 +333,36 @@ public partial class PrimaryMapperTest
      * Null Properties
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaPropertyNameThatIsNull()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaFieldThatIsNull()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(field: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(field: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaExpressionThatIsNull()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(expression: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(expression: null));
     }
 
     /*
      * Empty Properties
      */
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaPropertyNameThatIsEmpty()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: "");
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: ""));
     }
 
     [TestMethod]
@@ -377,11 +377,11 @@ public partial class PrimaryMapperTest
      * Empty Spaces Properties
      */
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaPropertyNameThatIsEmptySpaces()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: "  ");
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(propertyName: "  "));
     }
 
     [TestMethod]
@@ -396,18 +396,18 @@ public partial class PrimaryMapperTest
      * Missing Properties
      */
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaPropertyNameThatIsMissing()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>("Whatever");
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>("Whatever"));
     }
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPrimaryMapperViaFieldThatIsIsMissing()
     {
         // Setup
-        PrimaryMapper.Add<PrimaryMapperTestClass>(new Field("Whatever"));
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => PrimaryMapper.Add<PrimaryMapperTestClass>(new Field("Whatever")));
     }
 
     #endregion

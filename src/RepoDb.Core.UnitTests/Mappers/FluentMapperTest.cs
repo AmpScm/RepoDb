@@ -86,8 +86,7 @@ public partial class FluentMapperTest
     #region Helpers
 
     private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
-        new PropertyValueAttribute[]
-        {
+        [
             // Different Values
             new NameAttribute("ColumnString"),
             new DbTypeAttribute(DbType.StringFixedLength),
@@ -97,11 +96,10 @@ public partial class FluentMapperTest
             new IsNullableAttribute(true),
             new PrecisionAttribute(100),
             new ScaleAttribute(2)
-        };
+        ];
 
     private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributesForOverriding() =>
-        new PropertyValueAttribute[]
-        {
+        [
             // Different Values
             new NameAttribute("OverridingColumnString"),
             new DbTypeAttribute(DbType.AnsiString),
@@ -111,7 +109,7 @@ public partial class FluentMapperTest
             new IsNullableAttribute(false),
             new PrecisionAttribute(200),
             new ScaleAttribute(4)
-        };
+        ];
 
     #endregion
 
@@ -173,13 +171,13 @@ public partial class FluentMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnFluentMapTableMappingThatIsAlreadyExisting()
     {
         // Setup
-        FluentMapper
+        Assert.ThrowsExactly<MappingExistsException>(() => FluentMapper
             .Entity<FluentMapperTestWithAttributesClass>()
-            .Table("[sc].[Table]");
+            .Table("[sc].[Table]"));
     }
 
     #endregion
@@ -240,13 +238,13 @@ public partial class FluentMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnFluentMapPrimaryMappingThatIsAlreadyExisting()
     {
         // Setup
-        FluentMapper
+        Assert.ThrowsExactly<MappingExistsException>(() => FluentMapper
             .Entity<FluentMapperTestClass>()
-            .Primary(e => e.RowId);
+            .Primary(e => e.RowId));
     }
 
     #endregion
@@ -307,13 +305,13 @@ public partial class FluentMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnFluentMapIdentityMappingThatIsAlreadyExisting()
     {
         // Setup
-        FluentMapper
+        Assert.ThrowsExactly<MappingExistsException>(() => FluentMapper
             .Entity<FluentMapperTestClass>()
-            .Identity(e => e.RowId);
+            .Identity(e => e.RowId));
     }
 
     #endregion
@@ -374,13 +372,13 @@ public partial class FluentMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnFluentMapColumnMappingThatIsAlreadyExisting()
     {
         // Setup
-        FluentMapper
+        Assert.ThrowsExactly<MappingExistsException>(() => FluentMapper
             .Entity<FluentMapperTestWithAttributesClass>()
-            .Column(e => e.PropertyString, "ColumnStringOverriden");
+            .Column(e => e.PropertyString, "ColumnStringOverriden"));
     }
 
     #endregion
@@ -441,13 +439,13 @@ public partial class FluentMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnFluentMapDbTypeMappingThatIsAlreadyExisting()
     {
         // Setup
-        FluentMapper
+        Assert.ThrowsExactly<MappingExistsException>(() => FluentMapper
             .Entity<FluentMapperTestClass>()
-            .DbType(e => e.PropertyString, DbType.AnsiString);
+            .DbType(e => e.PropertyString, DbType.AnsiString));
     }
 
     #endregion
@@ -516,13 +514,13 @@ public partial class FluentMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnFluentMapPropertyValueAttributesMappingThatIsAlreadyExisting()
     {
         // Setup
-        FluentMapper
+        Assert.ThrowsExactly<MappingExistsException>(() => FluentMapper
             .Entity<FluentMapperTestWithAttributesClass>()
-            .PropertyValueAttributes(e => e.PropertyString, GetPropertyValueAttributes());
+            .PropertyValueAttributes(e => e.PropertyString, GetPropertyValueAttributes()));
     }
 
     #endregion

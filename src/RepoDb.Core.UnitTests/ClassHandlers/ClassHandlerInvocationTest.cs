@@ -39,10 +39,10 @@ public class ClassHandlerInvocationTest
     {
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
-            var reader = new DataEntityDataReader<ClassHandlerTestClass>(new[]
-            {
+            var reader = new DataEntityDataReader<ClassHandlerTestClass>(
+            [
                 new ClassHandlerTestClass { Id = 1, Name = "James Doe" }
-            });
+            ]);
             return reader;
         }
     }

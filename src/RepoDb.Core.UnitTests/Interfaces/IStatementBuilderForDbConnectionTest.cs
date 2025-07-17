@@ -1049,12 +1049,12 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
-        connection.InsertAll<StatementBuilderEntity>(new[]
-        {
+        connection.InsertAll<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name1" },
             new StatementBuilderEntity{ Name = "Name2" },
             new StatementBuilderEntity{ Name = "Name3" }
-        },
+        ],
         statementBuilder: statementBuilder.Object);
 
         // Assert
@@ -1070,12 +1070,12 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        connection.InsertAll<StatementBuilderEntity>(new[]
-        {
+        connection.InsertAll<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name1" },
             new StatementBuilderEntity{ Name = "Name2" },
             new StatementBuilderEntity{ Name = "Name3" }
-        },
+        ],
         statementBuilder: statementBuilderNever.Object);
 
         // Assert
@@ -1098,10 +1098,10 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
-        connection.InsertAll<StatementBuilderEntity>(new[]
-        {
+        connection.InsertAll<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name" }
-        },
+        ],
         batchSize: 1,
         statementBuilder: statementBuilder.Object);
 
@@ -1117,10 +1117,10 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        connection.InsertAll<StatementBuilderEntity>(new[]
-        {
+        connection.InsertAll<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name" }
-        },
+        ],
         batchSize: 1,
         statementBuilder: statementBuilderNever.Object);
 
@@ -1144,13 +1144,12 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.InsertAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             statementBuilder: statementBuilder.Object);
 
         // Assert
@@ -1167,13 +1166,12 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             statementBuilder: statementBuilderNever.Object);
 
         // Assert
@@ -1197,13 +1195,12 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.InsertAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
 
@@ -1220,13 +1217,12 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
 
@@ -1250,12 +1246,11 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.InsertAll<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             statementBuilder: statementBuilder.Object);
 
         // Assert
@@ -1272,12 +1267,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
+            ],
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
             statementBuilder: statementBuilderNever.Object);
 
@@ -1302,10 +1296,9 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.InsertAll<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name" }
-            },
+            ],
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
 
@@ -1322,11 +1315,10 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Name = "Name" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
 
@@ -1736,12 +1728,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.MergeAll<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -1760,12 +1751,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.MergeAll<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -1791,10 +1781,9 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.MergeAll<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
@@ -1813,10 +1802,9 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.MergeAll<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
@@ -1842,12 +1830,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.MergeAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -1866,12 +1853,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.MergeAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -1897,10 +1883,9 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.MergeAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
@@ -1919,10 +1904,9 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.MergeAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
@@ -1948,12 +1932,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.MergeAll<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -1972,12 +1955,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.MergeAll(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
             statementBuilder: statementBuilderNever.Object);
@@ -2004,12 +1986,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.MergeAll<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
@@ -2028,12 +2009,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.MergeAll(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             batchSize: 1,
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
@@ -3156,12 +3136,11 @@ public class IStatementBuilderForDbConnectionTest
         UpdateAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.UpdateAll<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -3180,12 +3159,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.UpdateAll<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -3211,12 +3189,11 @@ public class IStatementBuilderForDbConnectionTest
         UpdateAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.UpdateAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -3235,12 +3212,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.UpdateAll(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -3266,12 +3242,11 @@ public class IStatementBuilderForDbConnectionTest
         UpdateAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         connection.UpdateAll<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -3290,12 +3265,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         connection.UpdateAll(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
             statementBuilder: statementBuilderNever.Object);
@@ -4281,12 +4255,12 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
-        await connection.InsertAllAsync<StatementBuilderEntity>(new[]
-        {
+        await connection.InsertAllAsync<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name1" },
             new StatementBuilderEntity{ Name = "Name2" },
             new StatementBuilderEntity{ Name = "Name3" }
-        },
+        ],
         statementBuilder: statementBuilder.Object);
 
         // Assert
@@ -4302,12 +4276,12 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.InsertAllAsync<StatementBuilderEntity>(new[]
-        {
+        await connection.InsertAllAsync<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name1" },
             new StatementBuilderEntity{ Name = "Name2" },
             new StatementBuilderEntity{ Name = "Name3" }
-        },
+        ],
         statementBuilder: statementBuilderNever.Object);
 
         // Assert
@@ -4330,10 +4304,10 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
-        await connection.InsertAllAsync<StatementBuilderEntity>(new[]
-        {
+        await connection.InsertAllAsync<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name" }
-        },
+        ],
         batchSize: 1,
         statementBuilder: statementBuilder.Object);
 
@@ -4349,10 +4323,10 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.InsertAllAsync<StatementBuilderEntity>(new[]
-        {
+        await connection.InsertAllAsync<StatementBuilderEntity>(
+        [
             new StatementBuilderEntity{ Name = "Name" }
-        },
+        ],
         batchSize: 1,
         statementBuilder: statementBuilderNever.Object);
 
@@ -4376,13 +4350,12 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.InsertAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             statementBuilder: statementBuilder.Object);
 
         // Assert
@@ -4399,13 +4372,12 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             statementBuilder: statementBuilderNever.Object);
 
         // Assert
@@ -4429,11 +4401,10 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.InsertAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
 
@@ -4450,11 +4421,10 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
 
@@ -4478,12 +4448,11 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.InsertAllAsync<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             statementBuilder: statementBuilder.Object);
 
         // Assert
@@ -4500,13 +4469,12 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             statementBuilder: statementBuilderNever.Object);
 
         // Assert
@@ -4530,10 +4498,9 @@ public class IStatementBuilderForDbConnectionTest
         InsertAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.InsertAllAsync<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name" }
-            },
+            ],
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
 
@@ -4550,11 +4517,10 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Name = "Name" }
-            },
-            fields: new[] { new Field("Id", typeof(int)), new Field("Name", typeof(string)) },
+            ],
+            fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
 
@@ -4964,12 +4930,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.MergeAllAsync<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -4989,12 +4954,11 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         MergeAllExecutionContextCache.Flush();
         await connection.MergeAllAsync<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -5020,10 +4984,9 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.MergeAllAsync<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
@@ -5042,10 +5005,9 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
@@ -5071,12 +5033,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.MergeAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -5096,12 +5057,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" },
                 new { Name = "Name2" },
                 new { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -5128,10 +5088,9 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.MergeAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
@@ -5150,10 +5109,9 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Name = "Name1" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             batchSize: 1,
             statementBuilder: statementBuilderNever.Object);
@@ -5179,12 +5137,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.MergeAllAsync<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -5203,12 +5160,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
             statementBuilder: statementBuilderNever.Object);
@@ -5235,12 +5191,11 @@ public class IStatementBuilderForDbConnectionTest
         MergeAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.MergeAllAsync<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             batchSize: 1,
             statementBuilder: statementBuilder.Object);
@@ -5259,12 +5214,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             batchSize: 1,
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
@@ -6387,12 +6341,11 @@ public class IStatementBuilderForDbConnectionTest
         UpdateAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.UpdateAllAsync<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -6411,12 +6364,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.UpdateAllAsync<StatementBuilderEntity>(
-            new[]
-            {
+            [
                 new StatementBuilderEntity { Name = "Name1" },
                 new StatementBuilderEntity { Name = "Name2" },
                 new StatementBuilderEntity { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntity.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -6442,12 +6394,11 @@ public class IStatementBuilderForDbConnectionTest
         UpdateAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.UpdateAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -6466,12 +6417,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.UpdateAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             statementBuilder: statementBuilderNever.Object);
 
@@ -6497,12 +6447,11 @@ public class IStatementBuilderForDbConnectionTest
         UpdateAllExecutionContextCache.Flush();
         CommandTextCache.Flush();
         await connection.UpdateAllAsync<StatementBuilderEntityForCrossCall>(
-            new[]
-            {
+            [
                 new StatementBuilderEntityForCrossCall { Name = "Name1" },
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             statementBuilder: statementBuilder.Object);
 
@@ -6521,12 +6470,11 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.UpdateAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            new[]
-            {
+            [
                 new { Id = 0, Name = "Name1" },
                 new { Id = 0, Name = "Name2" },
                 new { Id = 0, Name = "Name3" }
-            },
+            ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
             statementBuilder: statementBuilderNever.Object);

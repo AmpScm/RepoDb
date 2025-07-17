@@ -84,11 +84,11 @@ public partial class ClassMappedNameCacheTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnClassMappingCacheIfTheTypeIsNull()
     {
         // Setup
-        ClassMappedNameCache.Get(null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => ClassMappedNameCache.Get(null));
     }
 
     #endregion

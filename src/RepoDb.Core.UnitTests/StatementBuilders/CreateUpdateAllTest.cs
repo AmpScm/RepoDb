@@ -27,7 +27,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -52,7 +52,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1", "Field2");
 
         // Act
@@ -77,7 +77,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -102,7 +102,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -127,7 +127,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -152,7 +152,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
@@ -178,7 +178,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
@@ -204,7 +204,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -235,7 +235,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -261,7 +261,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -287,22 +287,22 @@ public class BaseStatementBuilderCreateUpdateAllTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfTheTableIsNull()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         string? tableName = null;
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateUpdateAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod]
@@ -311,7 +311,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -330,7 +330,7 @@ public class BaseStatementBuilderCreateUpdateAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = " ";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
@@ -343,59 +343,59 @@ public class BaseStatementBuilderCreateUpdateAllTest
             identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfThePrimaryIsNotReallyAPrimary()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateUpdateAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfTheIdentityIsNotReallyAnIdentity()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identifyField = new DbField("Field2", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateUpdateAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
-            identityField: identifyField);
+            identityField: identifyField));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateAllIfTheBatchSizeIsGreaterThan1AndTheMultipleStatementExecutionIsNotSupported()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SingleStatementSupportBaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
 
         // Act
-        statementBuilder.CreateUpdateAll(tableName: tableName,
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateUpdateAll(tableName: tableName,
             fields: fields,
             qualifiers: qualifiers,
             batchSize: 10,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 }

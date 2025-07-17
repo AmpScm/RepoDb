@@ -140,7 +140,7 @@ public class BaseStatementBuilderCreateMinTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMinIfTheTableIsNull()
     {
         // Setup
@@ -149,9 +149,9 @@ public class BaseStatementBuilderCreateMinTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMin(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateMin(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod]
@@ -198,7 +198,7 @@ public class BaseStatementBuilderCreateMinTest
             hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMinIIfTheHintsAreNotSupported()
     {
         // Setup
@@ -207,8 +207,8 @@ public class BaseStatementBuilderCreateMinTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMin(tableName: tableName,
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateMin(tableName: tableName,
             field: field,
-            hints: "Hints");
+            hints: "Hints"));
     }
 }

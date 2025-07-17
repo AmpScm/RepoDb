@@ -152,7 +152,7 @@ namespace RepoDb
 
         extension(ArgumentNullException)
         {
-            public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+            public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
             {
                 if (argument is null)
                 {
@@ -160,26 +160,28 @@ namespace RepoDb
                 }
             }
 
-            public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+            public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
             {
                 if (string.IsNullOrWhiteSpace(argument))
                 {
                     Throw(new ArgumentNullException(paramName, "Argument cannot be null or whitespace."));
                 }
+                argument = ""; // Suppress stupid warning
             }
 
-            public static void ThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+            public static void ThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
             {
                 if (string.IsNullOrEmpty(argument))
                 {
                     Throw(new ArgumentNullException(paramName, "Argument cannot be null or empty."));
                 }
+                argument = ""; // Suppress stupid warning
             }
         }
 
         extension(ArgumentOutOfRangeException)
         {
-            public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression("value")] string? paramName = null) where T : IComparable<T>
+            public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null) where T : IComparable<T>
             {
                 if (value.CompareTo(other) < 0)
                 {
@@ -221,6 +223,8 @@ namespace RepoDb
 #if !NET
         public static Task PrepareAsync(this DbCommand dbCommand, CancellationToken cancellationToken = default)
         {
+            ArgumentNullException.ThrowIfNull(dbCommand);
+            GC.KeepAlive(cancellationToken);
             dbCommand.Prepare();
             // PrepareAsync is not available in netstandard2.0
             // This is a no-op to maintain compatibility

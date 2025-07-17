@@ -1399,7 +1399,7 @@ public class ITraceForDbConnectionTest
         var connection = new TraceDbConnection();
 
         // Act
-        connection.InsertAll<TraceEntity>(new[] { new TraceEntity { Name = "Name" } },
+        connection.InsertAll<TraceEntity>([new TraceEntity { Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -1415,7 +1415,7 @@ public class ITraceForDbConnectionTest
         var connection = new TraceDbConnection();
 
         // Act
-        connection.InsertAll<TraceEntity>(new[] { new TraceEntity { Name = "Name" } },
+        connection.InsertAll<TraceEntity>([new TraceEntity { Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -1432,7 +1432,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Name = "Name" } },
+            [new { Name = "Name" }],
             fields: Field.From("Name"),
             trace: trace.Object);
 
@@ -1450,7 +1450,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Name = "Name" } },
+            [new { Name = "Name" }],
             fields: Field.From("Name"),
             trace: trace.Object);
 
@@ -1471,7 +1471,7 @@ public class ITraceForDbConnectionTest
         var connection = new TraceDbConnection();
 
         // Act
-        await connection.InsertAllAsync<TraceEntity>(new[] { new TraceEntity { Name = "Name" } },
+        await connection.InsertAllAsync<TraceEntity>([new TraceEntity { Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -1488,7 +1488,7 @@ public class ITraceForDbConnectionTest
         var connection = new TraceDbConnection();
 
         // Act
-        await connection.InsertAllAsync<TraceEntity>(new[] { new TraceEntity { Name = "Name" } },
+        await connection.InsertAllAsync<TraceEntity>([new TraceEntity { Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -1506,7 +1506,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Name = "Name" } },
+            [new { Name = "Name" }],
             fields: Field.From("Name"),
             trace: trace.Object);
 
@@ -1525,7 +1525,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Name = "Name" } },
+            [new { Name = "Name" }],
             fields: Field.From("Name"),
             trace: trace.Object);
 
@@ -2008,7 +2008,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.MergeAll<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -2025,7 +2025,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.MergeAll<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -2042,7 +2042,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.MergeAll(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -2059,7 +2059,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.MergeAll(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Id = 1, Name = "Name" } },
+            [new { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -2080,7 +2080,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -2098,7 +2098,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -2116,7 +2116,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Id = 1, Name = "Name" } },
+            [new { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -2134,7 +2134,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.MergeAllAsync(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Id = 1, Name = "Name" } },
+            [new { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3836,7 +3836,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.UpdateAll<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3853,7 +3853,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.UpdateAll<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3870,7 +3870,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.UpdateAll(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Id = 1, Name = "Name" } },
+            [new { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3887,7 +3887,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         connection.UpdateAll(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Id = 1, Name = "Name" } },
+            [new { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3908,7 +3908,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.UpdateAllAsync<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3926,7 +3926,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.UpdateAllAsync<TraceEntity>(
-            new[] { new TraceEntity { Id = 1, Name = "Name" } },
+            [new TraceEntity { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3944,7 +3944,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.UpdateAllAsync(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Id = 1, Name = "Name" } },
+            [new { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert
@@ -3962,7 +3962,7 @@ public class ITraceForDbConnectionTest
 
         // Act
         await connection.UpdateAllAsync(ClassMappedNameCache.Get<TraceEntity>(),
-            new[] { new { Id = 1, Name = "Name" } },
+            [new { Id = 1, Name = "Name" }],
             trace: trace.Object);
 
         // Assert

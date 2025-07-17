@@ -140,7 +140,7 @@ public class BaseStatementBuilderCreateSumTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateSumIfTheTableIsNull()
     {
         // Setup
@@ -149,9 +149,9 @@ public class BaseStatementBuilderCreateSumTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateSum(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateSum(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod]
@@ -198,7 +198,7 @@ public class BaseStatementBuilderCreateSumTest
             hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateSumIIfTheHintsAreNotSupported()
     {
         // Setup
@@ -207,8 +207,8 @@ public class BaseStatementBuilderCreateSumTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateSum(tableName: tableName,
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateSum(tableName: tableName,
             field: field,
-            hints: "Hints");
+            hints: "Hints"));
     }
 }

@@ -15,7 +15,7 @@ public static class PropertyMappedNameCache
     #region Privates
 
     private static readonly ConcurrentDictionary<int, string> cache = new();
-    private static readonly PropertyMappedNameResolver resolver = new PropertyMappedNameResolver();
+    private static readonly PropertyMappedNameResolver resolver = new();
 
     #endregion
 

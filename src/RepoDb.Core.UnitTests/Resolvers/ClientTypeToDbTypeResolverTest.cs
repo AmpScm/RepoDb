@@ -236,10 +236,10 @@ public class ClientTypeToDbTypeResolverTest
         Assert.AreEqual(DbType.Object, dbType);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowOnExceptionClientTypeToDbTypeResolverIfTypeIsNull()
     {
         // Act
-        m_resolver.Resolve(null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => m_resolver.Resolve(null));
     }
 }

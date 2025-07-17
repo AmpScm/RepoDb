@@ -16,11 +16,11 @@ public class CustomDbHelper : BaseDbHelper
         string tableName,
         IDbTransaction? transaction = null)
     {
-        return new(new[]
-        {
+        return new(
+        [
             new DbField("Id", true, true, false, typeof(int), null, null, null, null),
             new DbField("Name", false, false, true, typeof(string), null, null, null, null)
-        });
+        ]);
     }
 
     public override IEnumerable<DbSchemaObject> GetSchemaObjects(IDbConnection connection, IDbTransaction? transaction = null)

@@ -54,11 +54,11 @@ public partial class PropertyMappedNameCacheTest
         Assert.AreEqual(expected, property.GetMappedName());
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyMappingCacheIfThePropertyIsNull()
     {
         // Setup
-        PropertyMappedNameCache.Get<PropertyMappedNameCacheTestClass>((Field)null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PropertyMappedNameCache.Get<PropertyMappedNameCacheTestClass>((Field)null));
     }
 
     #endregion

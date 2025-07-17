@@ -303,11 +303,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithTwoFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field2", Operation.Equal, 2)
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -321,11 +321,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithTwoIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field1", Operation.Equal, 2)
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -343,11 +343,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithNoConjunction()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, "Value1"),
             new QueryField("Field2", Operation.Equal, "Value2")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -361,11 +361,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithConjunctionAnd()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, "Value1"),
             new QueryField("Field2", Operation.Equal, "Value2")
-        },
+        ],
         Conjunction.And);
 
         // Act
@@ -380,11 +380,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithConjunctionOr()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, "Value1"),
             new QueryField("Field2", Operation.Equal, "Value2")
-        },
+        ],
         Conjunction.Or);
 
         // Act
@@ -403,11 +403,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithNoIsNot()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, "Value1"),
             new QueryField("Field2", Operation.Equal, "Value2")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -421,11 +421,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithIsNotAsFalse()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, "Value1"),
             new QueryField("Field2", Operation.Equal, "Value2")
-        },
+        ],
         false);
 
         // Act
@@ -440,11 +440,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithIsNotAsTrue()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, "Value1"),
             new QueryField("Field2", Operation.Equal, "Value2")
-        },
+        ],
         true);
 
         // Act
@@ -463,11 +463,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithChildQueryGroupWithTwoFields()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field2", Operation.Equal, 2)
-        });
+        ]);
         var queryGroup = new QueryGroup(childQueryGroup);
 
         // Act
@@ -482,11 +482,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithChildQueryGroupWithTwoIdenticalFields()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field1", Operation.Equal, 2)
-        });
+        ]);
         var queryGroup = new QueryGroup(childQueryGroup);
 
         // Act
@@ -501,11 +501,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithSingleFieldAndWithChildQueryGroupWithTwoFields()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field2", Operation.Equal, 2),
             new QueryField("Field3", Operation.Equal, 3)
-        });
+        ]);
         var queryGroup = new QueryGroup(new QueryField("Field1", 1).AsEnumerable(),
             childQueryGroup.AsEnumerable());
 
@@ -521,11 +521,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithSingleFieldAndWithChildQueryGroupWithTwoIdenticalFields()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field2", Operation.Equal, 2),
             new QueryField("Field2", Operation.Equal, 3)
-        });
+        ]);
         var queryGroup = new QueryGroup(new QueryField("Field1", 1).AsEnumerable(),
             childQueryGroup.AsEnumerable());
 
@@ -541,11 +541,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithSingleFieldAndWithChildQueryGroupWithTwoFieldsAllAreIdentitical()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 2),
             new QueryField("Field1", Operation.Equal, 3)
-        });
+        ]);
         var queryGroup = new QueryGroup(new QueryField("Field1", 1).AsEnumerable(),
             childQueryGroup.AsEnumerable());
 
@@ -561,11 +561,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithSingleFieldWithConjunctionOrAndWithChildQueryGroupWithTwoFields()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field2", Operation.Equal, 2),
             new QueryField("Field3", Operation.Equal, 3)
-        });
+        ]);
         var queryGroup = new QueryGroup(new QueryField("Field1", 1).AsEnumerable(),
             childQueryGroup.AsEnumerable(),
             Conjunction.Or);
@@ -582,11 +582,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithSingleFieldAndWithChildQueryGroupWithTwoFieldsAndWithConjunctionOr()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field2", Operation.Equal, 2),
             new QueryField("Field3", Operation.Equal, 3)
-        },
+        ],
         Conjunction.Or);
         var queryGroup = new QueryGroup(new QueryField("Field1", 1).AsEnumerable(),
             childQueryGroup.AsEnumerable());
@@ -603,11 +603,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithSingleFieldWithConjunctionOrAndWithChildQueryGroupWithTwoFieldsAndWithConjunctionOr()
     {
         // Setup
-        var childQueryGroup = new QueryGroup(new[]
-        {
+        var childQueryGroup = new QueryGroup(
+        [
             new QueryField("Field2", Operation.Equal, 2),
             new QueryField("Field3", Operation.Equal, 3)
-        },
+        ],
         Conjunction.Or);
         var queryGroup = new QueryGroup(new QueryField("Field1", 1).AsEnumerable(),
             childQueryGroup.AsEnumerable(),
@@ -625,17 +625,17 @@ public partial class QueryGroupTest
     public void TestQueryGroupForConjunctionOrWithoutQueryFieldButWithMultipleChildQueryGroupsWithMultipleSameFields()
     {
         // Setup
-        var childQueryGroup1 = new QueryGroup(new[]
-        {
+        var childQueryGroup1 = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotLike, "%B%"),
             new QueryField("Field1", Operation.NotLike, "%C%"),
             new QueryField("Field1", Operation.NotLike, "%D%")
-        });
-        var childQueryGroup2 = new QueryGroup(new[]
-        {
+        ]);
+        var childQueryGroup2 = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, "A")
-        });
-        var parentChildqueryGroup = new QueryGroup(new[] { childQueryGroup1, childQueryGroup2 }, Conjunction.Or);
+        ]);
+        var parentChildqueryGroup = new QueryGroup([childQueryGroup1, childQueryGroup2], Conjunction.Or);
         var queryGroup = new QueryGroup(new QueryField("Field2", "E").AsEnumerable(),
             parentChildqueryGroup.AsEnumerable(), Conjunction.Or);
 
@@ -655,11 +655,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndNotEqual()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field2", Operation.NotEqual, 1)
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -673,11 +673,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndNotEqualIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field1", Operation.NotEqual, 1)
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -691,11 +691,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndBetween()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field2", Operation.Between, new [] { 1, 2 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -709,11 +709,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndBetweenIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field1", Operation.Between, new [] { 1, 2 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -727,11 +727,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndLike()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field2", Operation.Like, "A")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -745,11 +745,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndLikeIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field2", Operation.Like, "A")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -763,11 +763,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndIn()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field2", Operation.In, new [] { 1, 2, 3 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -781,11 +781,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupWithEqualAndInIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Equal, 1),
             new QueryField("Field1", Operation.In, new [] { 1, 2, 3 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);

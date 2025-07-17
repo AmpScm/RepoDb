@@ -24,7 +24,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         QueryGroup? where = null;
 
         // Act
@@ -47,7 +47,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         QueryGroup? where = null;
 
         // Act
@@ -70,7 +70,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         QueryGroup? where = null;
 
         // Act
@@ -93,7 +93,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Field1", 1));
 
         // Setup
@@ -120,7 +120,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Field1", 1));
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
@@ -148,7 +148,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Field1", 1));
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
@@ -176,7 +176,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Field1", 1));
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
@@ -204,7 +204,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Id", 1));
         var field = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
@@ -232,7 +232,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Id", 1));
         var field = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
@@ -260,7 +260,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Id", 1));
         var field = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
@@ -288,7 +288,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Id", 1));
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
@@ -316,7 +316,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var where = new QueryGroup(new QueryField("Id", 1));
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
@@ -344,7 +344,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         QueryGroup? where = null;
 
         // Act
@@ -362,20 +362,20 @@ public class BaseStatementBuilderCreateUpdateTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateIfTheTableIsNull()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         string? tableName = null;
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
-        statementBuilder.CreateUpdate(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateUpdate(tableName: tableName,
             fields: fields,
             where: null,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod]
@@ -384,7 +384,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         Assert.Throws<ArgumentException>(
@@ -401,7 +401,7 @@ public class BaseStatementBuilderCreateUpdateTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = " ";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         Assert.Throws<ArgumentException>(
@@ -412,38 +412,38 @@ public class BaseStatementBuilderCreateUpdateTest
             identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateIfThePrimaryIsNotReallyAPrimary()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateUpdate(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateUpdate(tableName: tableName,
             fields: fields,
             where: null,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateUpdateIfTheIdentityIsNotReallyAnIdentity()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identifyField = new DbField("Field2", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateUpdate(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateUpdate(tableName: tableName,
             fields: fields,
             where: null,
             primaryField: null,
-            identityField: identifyField);
+            identityField: identifyField));
     }
 }

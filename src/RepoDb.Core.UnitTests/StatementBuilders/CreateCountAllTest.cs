@@ -86,7 +86,7 @@ public class BaseStatementBuilderCreateCountAllTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateCountAllIfTheTableIsNull()
     {
         // Setup
@@ -94,8 +94,8 @@ public class BaseStatementBuilderCreateCountAllTest
         string? tableName = null;
 
         // Act
-        statementBuilder.CreateCountAll(tableName: tableName,
-            hints: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateCountAll(tableName: tableName,
+            hints: null));
     }
 
     [TestMethod]
@@ -124,7 +124,7 @@ public class BaseStatementBuilderCreateCountAllTest
             hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateCountAllIIfTheHintsAreNotSupported()
     {
         // Setup
@@ -132,7 +132,7 @@ public class BaseStatementBuilderCreateCountAllTest
         var tableName = "Table";
 
         // Act
-        statementBuilder.CreateCountAll(tableName: tableName,
-            hints: "Hints");
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateCountAll(tableName: tableName,
+            hints: "Hints"));
     }
 }

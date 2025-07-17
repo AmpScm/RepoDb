@@ -28,7 +28,7 @@ public class BaseStatementBuilderCreateInsertAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsertAll(tableName: tableName,
@@ -56,7 +56,7 @@ public class BaseStatementBuilderCreateInsertAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsertAll(tableName: tableName,
@@ -85,7 +85,7 @@ public class BaseStatementBuilderCreateInsertAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsertAll(tableName: tableName,
@@ -115,7 +115,7 @@ public class BaseStatementBuilderCreateInsertAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
 
         // Act
@@ -146,7 +146,7 @@ public class BaseStatementBuilderCreateInsertAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -178,7 +178,7 @@ public class BaseStatementBuilderCreateInsertAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateInsertAll(tableName: tableName,
@@ -209,7 +209,7 @@ public class BaseStatementBuilderCreateInsertAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -236,24 +236,24 @@ public class BaseStatementBuilderCreateInsertAllTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertAllIfTheNonIdentityPrimaryIsNotCovered()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Id", true, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateInsertAll(tableName: tableName,
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => statementBuilder.CreateInsertAll(tableName: tableName,
             fields: fields,
             batchSize: 1,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertAllIfThereAreNoFields()
     {
         // Setup
@@ -261,14 +261,14 @@ public class BaseStatementBuilderCreateInsertAllTest
         var tableName = "Table";
 
         // Act
-        statementBuilder.CreateInsertAll(tableName: tableName,
+        Assert.ThrowsExactly<EmptyException>(() => statementBuilder.CreateInsertAll(tableName: tableName,
             fields: null,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertAllIfTheTableIsNull()
     {
         // Setup
@@ -276,11 +276,11 @@ public class BaseStatementBuilderCreateInsertAllTest
         string? tableName = null;
 
         // Act
-        statementBuilder.CreateInsertAll(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateInsertAll(tableName: tableName,
             fields: null,
             batchSize: 1,
             primaryField: null,
-            identityField: null);
+            identityField: null));
     }
 
     [TestMethod]
@@ -315,56 +315,56 @@ public class BaseStatementBuilderCreateInsertAllTest
             identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertAllIfThePrimaryIsNotReallyAPrimary()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateInsertAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateInsertAll(tableName: tableName,
             fields: fields,
             batchSize: 1,
             primaryField: primaryField,
-            identityField: null);
+            identityField: null));
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertAllIfTheIdentityIsNotReallyAnIdentity()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identifyField = new DbField("Field2", false, false, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateInsertAll(tableName: tableName,
+        Assert.ThrowsExactly<InvalidOperationException>(() => statementBuilder.CreateInsertAll(tableName: tableName,
             fields: fields,
             batchSize: 1,
             primaryField: null,
-            identityField: identifyField);
+            identityField: identifyField));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateInsertAllIfTheBatchSizeIsGreaterThan1AndTheMultipleStatementExecutionIsNotSupported()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<SingleStatementSupportBaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identifyField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
 
         // Act
-        statementBuilder.CreateInsertAll(tableName: tableName,
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateInsertAll(tableName: tableName,
             fields: fields,
             batchSize: 10,
             primaryField: null,
-            identityField: identifyField);
+            identityField: identifyField));
     }
 }

@@ -31,8 +31,7 @@ public partial class PropertyValueAttributeMapperTest
     #region Helpers
 
     private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
-        new PropertyValueAttribute[]
-        {
+        [
             // Different Values
             new NameAttribute("ColumnString"),
             new DbTypeAttribute(DbType.StringFixedLength),
@@ -42,7 +41,7 @@ public partial class PropertyValueAttributeMapperTest
             new IsNullableAttribute(true),
             new PrecisionAttribute(100),
             new ScaleAttribute(2)
-        };
+        ];
 
     #endregion
 

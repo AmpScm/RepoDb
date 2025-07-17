@@ -53,10 +53,10 @@ public class ClassHandlerPrecedenceTest
     {
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
-            var reader = new DataEntityDataReader<ClassHandlerTestClass>(new[]
-            {
+            var reader = new DataEntityDataReader<ClassHandlerTestClass>(
+            [
                 new ClassHandlerTestClass { Id = 1, Name = "James Doe" }
-            });
+            ]);
             return reader;
         }
     }
@@ -73,10 +73,10 @@ public class ClassHandlerPrecedenceTest
     {
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
-            var reader = new DataEntityDataReader<ClassHandlerTestClassWithAttribute>(new[]
-            {
+            var reader = new DataEntityDataReader<ClassHandlerTestClassWithAttribute>(
+            [
                 new ClassHandlerTestClassWithAttribute { Id = 1, Name = "James Doe" }
-            });
+            ]);
             return reader;
         }
     }
@@ -94,10 +94,10 @@ public class ClassHandlerPrecedenceTest
     {
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
-            var reader = new DataEntityDataReader<ClassHandlerTestClassWithGenericAttribute>(new[]
-            {
+            var reader = new DataEntityDataReader<ClassHandlerTestClassWithGenericAttribute>(
+            [
                 new ClassHandlerTestClassWithGenericAttribute { Id = 1, Name = "James Doe" }
-            });
+            ]);
             return reader;
         }
     }

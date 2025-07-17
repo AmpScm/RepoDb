@@ -79,7 +79,7 @@ public class BaseStatementBuilderCreateDeleteAllTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateDeleteAllIfTheTableIsNull()
     {
         // Setup
@@ -87,7 +87,7 @@ public class BaseStatementBuilderCreateDeleteAllTest
         string? tableName = null;
 
         // Act
-        statementBuilder.CreateDeleteAll(tableName: tableName);
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateDeleteAll(tableName: tableName));
     }
 
     [TestMethod]

@@ -34,11 +34,11 @@ public partial class QueryGroupTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnParseExpressionWithNameAtRight()
     {
         // Act
-        QueryGroup.Parse<QueryGroupTestExpressionClass>(e => 1 == e.PropertyInt);
+        Assert.ThrowsExactly<NotSupportedException>(() => QueryGroup.Parse<QueryGroupTestExpressionClass>(e => 1 == e.PropertyInt));
     }
 
     #endregion

@@ -261,7 +261,7 @@ public static class PropertyInfoExtension
         var value = property?.GetValue(entity);
         if (propertyHandler != null)
         {
-            var setMethod = propertyHandler.GetType().GetMethod(nameof(IPropertyHandler<object, object>.Set))!;
+            var setMethod = propertyHandler.GetType().GetMethod(nameof(IPropertyHandler<,>.Set))!;
             return setMethod.Invoke(propertyHandler, [value, classProperty]);
         }
         return value;

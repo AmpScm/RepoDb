@@ -25,11 +25,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationInWithTwoFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.In, new [] { 1, 2, 3 }),
             new QueryField("Field2", Operation.In, new [] { 1, 2, 3 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -43,11 +43,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationInWithTwoIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.In, new [] { 1, 2, 3 }),
             new QueryField("Field1", Operation.In, new [] { 1, 2, 3 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -61,11 +61,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationInWithTwoIdenticalFieldsWithConjunctionOr()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.In, new [] { 1, 2, 3 }),
             new QueryField("Field1", Operation.In, new [] { 1, 2, 3 })
-        },
+        ],
         Conjunction.Or);
 
         // Act
@@ -98,11 +98,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotInWithTwoFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotIn, new [] { 1, 2, 3 }),
             new QueryField("Field2", Operation.NotIn, new [] { 1, 2, 3 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -116,11 +116,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotInWithTwoIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotIn, new [] { 1, 2, 3 }),
             new QueryField("Field1", Operation.NotIn, new [] { 1, 2, 3 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -134,11 +134,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotInWithTwoIdenticalFieldsWithConjunctionOr()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotIn, new [] { 1, 2, 3 }),
             new QueryField("Field1", Operation.NotIn, new [] { 1, 2, 3 })
-        },
+        ],
         Conjunction.Or);
 
         // Act

@@ -29,11 +29,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationBetweenWithTwoFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Between, new[] { 1, 100 }),
             new QueryField("Field2", Operation.Between, new[] { 500, 1000 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -47,11 +47,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationBetweenWithTwoIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Between, new[] { 1, 100 }),
             new QueryField("Field1", Operation.Between, new[] { 500, 1000 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -65,11 +65,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationBetweenWithTwoIdenticalFieldsWithConjunctionOr()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Between, new[] { 1, 100 }),
             new QueryField("Field1", Operation.Between, new[] { 500, 1000 })
-        },
+        ],
         Conjunction.Or);
 
         // Act
@@ -102,11 +102,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotBetweenWithTwoFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotBetween, new[] { 1, 100 }),
             new QueryField("Field2", Operation.NotBetween, new[] { 500, 1000 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -120,11 +120,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotBetweenWithTwoIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotBetween, new[] { 1, 100 }),
             new QueryField("Field1", Operation.NotBetween, new[] { 500, 1000 })
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -138,11 +138,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotBetweenWithTwoIdenticalFieldsWithConjunctionOr()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotBetween, new[] { 1, 100 }),
             new QueryField("Field1", Operation.NotBetween, new[] { 500, 1000 })
-        },
+        ],
         Conjunction.Or);
 
         // Act

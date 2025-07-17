@@ -151,7 +151,7 @@ public class BaseStatementBuilderCreateAverageAllTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateAverageAllIfTheTableIsNull()
     {
         // Setup
@@ -160,9 +160,9 @@ public class BaseStatementBuilderCreateAverageAllTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateAverageAll(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateAverageAll(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod]
@@ -209,7 +209,7 @@ public class BaseStatementBuilderCreateAverageAllTest
             hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateAverageAllIfTheHintsAreNotSupported()
     {
         // Setup
@@ -218,8 +218,8 @@ public class BaseStatementBuilderCreateAverageAllTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateAverageAll(tableName: tableName,
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateAverageAll(tableName: tableName,
             field: field,
-            hints: "Hints");
+            hints: "Hints"));
     }
 }

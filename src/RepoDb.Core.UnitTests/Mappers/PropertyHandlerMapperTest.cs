@@ -274,7 +274,7 @@ public partial class PropertyHandlerMapperTest
      * Override False
      */
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaPropertyNameThatIsAlreadyExisting()
     {
         // Setup
@@ -282,10 +282,10 @@ public partial class PropertyHandlerMapperTest
         var textPropertyHandler = new TextPropertyHandler();
         var propertyName = "ColumnString";
         PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(propertyName, stringPropertyHandler);
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, TextPropertyHandler>(propertyName, textPropertyHandler);
+        Assert.ThrowsExactly<MappingExistsException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, TextPropertyHandler>(propertyName, textPropertyHandler));
     }
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaFieldThatIsAlreadyExisting()
     {
         // Setup
@@ -293,90 +293,90 @@ public partial class PropertyHandlerMapperTest
         var textPropertyHandler = new TextPropertyHandler();
         var field = new Field("ColumnString");
         PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(field, stringPropertyHandler);
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, TextPropertyHandler>(field, textPropertyHandler);
+        Assert.ThrowsExactly<MappingExistsException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, TextPropertyHandler>(field, textPropertyHandler));
     }
 
-    [TestMethod, ExpectedException(typeof(MappingExistsException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaExpressionThatIsAlreadyExisting()
     {
         // Setup
         var stringPropertyHandler = new StringPropertyHandler();
         var textPropertyHandler = new TextPropertyHandler();
         PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(e => e.ColumnString, stringPropertyHandler);
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, TextPropertyHandler>(e => e.ColumnString, textPropertyHandler);
+        Assert.ThrowsExactly<MappingExistsException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, TextPropertyHandler>(e => e.ColumnString, textPropertyHandler));
     }
 
     /*
      * Null Properties
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaPropertyNameThatIsNull()
     {
         // Setup
         var stringPropertyHandler = new StringPropertyHandler();
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>((string)null, stringPropertyHandler);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>((string)null, stringPropertyHandler));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaFieldThatIsNull()
     {
         // Setup
         var stringPropertyHandler = new StringPropertyHandler();
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>((Field)null, stringPropertyHandler);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>((Field)null, stringPropertyHandler));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaExpressionThatIsNull()
     {
         // Setup
         var stringPropertyHandler = new StringPropertyHandler();
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(expression: null, propertyHandler: stringPropertyHandler);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(expression: null, propertyHandler: stringPropertyHandler));
     }
 
     /*
      * Missing Properties
      */
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaPropertyNameThatIsMissing()
     {
         // Setup
         var stringPropertyHandler = new StringPropertyHandler();
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>("Whatever", stringPropertyHandler);
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>("Whatever", stringPropertyHandler));
     }
 
-    [TestMethod, ExpectedException(typeof(PropertyNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaFieldThatIsIsMissing()
     {
         // Setup
         var stringPropertyHandler = new StringPropertyHandler();
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(new Field("Whatever"), stringPropertyHandler);
+        Assert.ThrowsExactly<PropertyNotFoundException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(new Field("Whatever"), stringPropertyHandler));
     }
 
     /*
      * Null PropertyHandler
      */
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaPropertyNameWithNullPropertyHandler()
     {
         // Setup
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>("ColumnString", null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>("ColumnString", null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaFieldWithNullPropertyHandler()
     {
         // Setup
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(new Field("ColumnString"), null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(new Field("ColumnString"), null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnPropertyTypeHandlerMapperViaExpressionWithNullPropertyHandler()
     {
         // Setup
-        PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(e => e.ColumnString, null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => PropertyHandlerMapper.Add<PropertyHandlerMapperTestClass, StringPropertyHandler>(e => e.ColumnString, null));
     }
 
     #endregion

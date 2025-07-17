@@ -140,7 +140,7 @@ public class BaseStatementBuilderCreateMaxTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMaxIfTheTableIsNull()
     {
         // Setup
@@ -149,9 +149,9 @@ public class BaseStatementBuilderCreateMaxTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMax(tableName: tableName,
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateMax(tableName: tableName,
             field: field,
-            hints: null);
+            hints: null));
     }
 
     [TestMethod]
@@ -198,7 +198,7 @@ public class BaseStatementBuilderCreateMaxTest
             hints: null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateMaxIIfTheHintsAreNotSupported()
     {
         // Setup
@@ -207,8 +207,8 @@ public class BaseStatementBuilderCreateMaxTest
         var field = new Field("Value");
 
         // Act
-        statementBuilder.CreateMax(tableName: tableName,
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateMax(tableName: tableName,
             field: field,
-            hints: "Hints");
+            hints: "Hints"));
     }
 }

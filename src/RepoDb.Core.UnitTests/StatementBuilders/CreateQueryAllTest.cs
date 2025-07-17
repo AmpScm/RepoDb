@@ -28,7 +28,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateQueryAll(tableName: tableName,
@@ -45,7 +45,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "[dbo].[Table]";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateQueryAll(tableName: tableName,
@@ -62,7 +62,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "dbo.Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         var actual = statementBuilder.CreateQueryAll(tableName: tableName,
@@ -79,7 +79,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending, Field2 = Order.Descending });
 
         // Act
@@ -101,7 +101,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var hints = "WITH (NOLOCK)";
 
         // Act
@@ -120,7 +120,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
         var orderBy = OrderField.Parse(new { Field1 = Order.Ascending, Field2 = Order.Descending });
         var hints = "WITH (NOLOCK)";
 
@@ -138,7 +138,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateQueryAllIfThereAreNoFields()
     {
         // Setup
@@ -146,21 +146,21 @@ public class BaseStatementBuilderCreateQueryAllTest
         var tableName = "Table";
 
         // Act
-        statementBuilder.CreateQueryAll(tableName: tableName,
-            fields: null);
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateQueryAll(tableName: tableName,
+            fields: null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateQueryAllIfTheTableIsNull()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         string? tableName = null;
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
-        statementBuilder.CreateQueryAll(tableName: tableName,
-            fields: fields);
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateQueryAll(tableName: tableName,
+            fields: fields));
     }
 
     [TestMethod]
@@ -169,7 +169,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = "";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         Assert.Throws<ArgumentException>(
@@ -183,7 +183,7 @@ public class BaseStatementBuilderCreateQueryAllTest
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<BaseStatementBuilderDbConnection>();
         var tableName = " ";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
         Assert.Throws<ArgumentException>(
@@ -191,17 +191,17 @@ public class BaseStatementBuilderCreateQueryAllTest
             fields: fields));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateQueryAllIfTheHintsAreNotSupported()
     {
         // Setup
         var statementBuilder = StatementBuilderMapper.Get<NonHintsSupportingBaseStatementBuilderDbConnection>();
         var tableName = "Table";
-        var fields = Field.From(new[] { "Field1", "Field2", "Field3" });
+        var fields = Field.From(["Field1", "Field2", "Field3"]);
 
         // Act
-        statementBuilder.CreateQueryAll(tableName: tableName,
+        Assert.ThrowsExactly<NotSupportedException>(() => statementBuilder.CreateQueryAll(tableName: tableName,
             fields: fields,
-            hints: "Hints");
+            hints: "Hints"));
     }
 }

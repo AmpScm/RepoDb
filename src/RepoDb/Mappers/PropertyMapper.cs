@@ -74,11 +74,7 @@ public static class PropertyMapper
         ArgumentNullException.ThrowIfNull(propertyName);
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(propertyName);
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(propertyName), $"Property '{propertyName}' is not found at type '{typeof(TEntity).FullName}'.");
-        }
+        var property = TypeExtension.GetProperty<TEntity>(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), $"Property '{propertyName}' is not found at type '{typeof(TEntity).FullName}'.");
 
         // Add to the mapping
         Add<TEntity>(property, columnName, force);
@@ -110,11 +106,7 @@ public static class PropertyMapper
         ArgumentNullException.ThrowIfNull(field);
 
         // Get the property
-        var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
-        if (property == null)
-        {
-            throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
-        }
+        var property = TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), $"Property '{field.FieldName}' is not found at type '{typeof(TEntity).FullName}'.");
 
         // Add to the mapping
         Add<TEntity>(property, columnName, force);

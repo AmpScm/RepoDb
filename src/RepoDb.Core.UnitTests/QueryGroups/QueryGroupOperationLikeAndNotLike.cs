@@ -25,11 +25,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationLikeWithTwoFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Like, "A%"),
             new QueryField("Field2", Operation.Like, "B%")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -43,11 +43,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationLikeWithTwoIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Like, "A%"),
             new QueryField("Field1", Operation.Like, "B%")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -61,11 +61,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationLikeWithTwoIdenticalFieldsWithConjunctionOr()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.Like, "A%"),
             new QueryField("Field1", Operation.Like, "B%")
-        },
+        ],
         Conjunction.Or);
 
         // Act
@@ -98,11 +98,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotLikeWithTwoFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotLike, "A%"),
             new QueryField("Field2", Operation.NotLike, "B%")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -116,11 +116,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotLikeWithTwoIdenticalFields()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotLike, "A%"),
             new QueryField("Field1", Operation.NotLike, "B%")
-        });
+        ]);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
@@ -134,11 +134,11 @@ public partial class QueryGroupTest
     public void TestQueryGroupOperationNotLikeWithTwoIdenticalFieldsWithConjunctionOr()
     {
         // Setup
-        var queryGroup = new QueryGroup(new[]
-        {
+        var queryGroup = new QueryGroup(
+        [
             new QueryField("Field1", Operation.NotLike, "A%"),
             new QueryField("Field1", Operation.NotLike, "B%")
-        },
+        ],
         Conjunction.Or);
 
         // Act

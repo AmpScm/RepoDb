@@ -63,7 +63,7 @@ public class BaseStatementBuilderCreateTruncateTest
         Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnBaseStatementBuilderCreateTruncateIfTheTableIsNull()
     {
         // Setup
@@ -71,7 +71,7 @@ public class BaseStatementBuilderCreateTruncateTest
         string? tableName = null;
 
         // Act
-        statementBuilder.CreateTruncate(tableName: tableName);
+        Assert.ThrowsExactly<ArgumentNullException>(() => statementBuilder.CreateTruncate(tableName: tableName));
     }
 
     [TestMethod]

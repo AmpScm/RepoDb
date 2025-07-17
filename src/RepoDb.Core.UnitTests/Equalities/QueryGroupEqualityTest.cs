@@ -191,16 +191,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupHashCodeEqualityWithMultipleFieldsForQueryFields()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        });
-        var objB = new QueryGroup(new[]
-        {
+        ]);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        });
+        ]);
 
         // Act
         var equal = (objA.GetHashCode() == objB.GetHashCode());
@@ -213,16 +213,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupHashCodeEqualityWithMultipleFieldsForQueryFieldsWithSameConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.And);
+        ], Conjunction.And);
 
         // Act
         var equal = (objA.GetHashCode() == objB.GetHashCode());
@@ -235,16 +235,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupHashCodeEqualityWithMultipleFieldsForQueryFieldsWithDifferentConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.Or);
+        ], Conjunction.Or);
 
         // Act
         var equal = (objA.GetHashCode() == objB.GetHashCode());
@@ -257,16 +257,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupHashCodeEqualityWithMultipleFieldsForQueryFieldsWithSameIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, true);
+        ], true);
 
         // Act
         var equal = (objA.GetHashCode() == objB.GetHashCode());
@@ -279,16 +279,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupHashCodeEqualityWithMultipleFieldsForQueryFieldsWithDifferentIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, false);
+        ], false);
 
         // Act
         var equal = (objA.GetHashCode() == objB.GetHashCode());
@@ -501,16 +501,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityWithMultipleFieldsForQueryFields()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        });
-        var objB = new QueryGroup(new[]
-        {
+        ]);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        });
+        ]);
 
         // Act
         var equal = (objA == objB);
@@ -523,16 +523,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityWithMultipleFieldsForQueryFieldsWithSameConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.And);
+        ], Conjunction.And);
 
         // Act
         var equal = (objA == objB);
@@ -545,16 +545,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityWithMultipleFieldsForQueryFieldsWithDifferentConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.Or);
+        ], Conjunction.Or);
 
         // Act
         var equal = (objA == objB);
@@ -567,16 +567,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityWithMultipleFieldsForQueryFieldsWithSameIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, true);
+        ], true);
 
         // Act
         var equal = (objA == objB);
@@ -589,16 +589,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityWithMultipleFieldsForQueryFieldsWithDifferentIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, false);
+        ], false);
 
         // Act
         var equal = (objA == objB);
@@ -811,16 +811,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityViaEqualsMethodWithMultipleFieldsForQueryFields()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        });
-        var objB = new QueryGroup(new[]
-        {
+        ]);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        });
+        ]);
 
         // Act
         var equal = Equals(objA, objB);
@@ -833,16 +833,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityViaEqualsMethodWithMultipleFieldsForQueryFieldsWithSameConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.And);
+        ], Conjunction.And);
 
         // Act
         var equal = Equals(objA, objB);
@@ -855,16 +855,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityViaEqualsMethodWithMultipleFieldsForQueryFieldsWithDifferentConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.Or);
+        ], Conjunction.Or);
 
         // Act
         var equal = Equals(objA, objB);
@@ -877,16 +877,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityViaEqualsMethodWithMultipleFieldsForQueryFieldsWithSameIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, true);
+        ], true);
 
         // Act
         var equal = Equals(objA, objB);
@@ -899,16 +899,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupObjectEqualityViaEqualsMethodWithMultipleFieldsForQueryFieldsWithDifferentIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, false);
+        ], false);
 
         // Act
         var equal = Equals(objA, objB);
@@ -1154,16 +1154,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupArrayListContainabilityWithMultipleMultipleFieldsForQueryFields()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        });
-        var objB = new QueryGroup(new[]
-        {
+        ]);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        });
+        ]);
         var list = new ArrayList
         {
             // Act
@@ -1179,16 +1179,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupArrayListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithSameConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.And);
+        ], Conjunction.And);
         var list = new ArrayList
         {
             // Act
@@ -1204,16 +1204,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupArrayListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithDifferentConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.Or);
+        ], Conjunction.Or);
         var list = new ArrayList
         {
             // Act
@@ -1229,16 +1229,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupArrayListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithSameIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, true);
+        ], true);
         var list = new ArrayList
         {
             // Act
@@ -1254,16 +1254,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupArrayListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithDifferentIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, false);
+        ], false);
         var list = new ArrayList
         {
             // Act
@@ -1521,16 +1521,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupGenericListContainabilityWithMultipleMultipleFieldsForQueryFields()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        });
-        var objB = new QueryGroup(new[]
-        {
+        ]);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        });
+        ]);
         var list = new List<QueryGroup>
         {
             // Act
@@ -1546,16 +1546,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupGenericListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithSameConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.And);
+        ], Conjunction.And);
         var list = new List<QueryGroup>
         {
             // Act
@@ -1571,16 +1571,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupGenericListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithDifferentConjunction()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, Conjunction.And);
-        var objB = new QueryGroup(new[]
-        {
+        ], Conjunction.And);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, Conjunction.Or);
+        ], Conjunction.Or);
         var list = new List<QueryGroup>
         {
             // Act
@@ -1596,16 +1596,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupGenericListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithSameIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, true);
+        ], true);
         var list = new List<QueryGroup>
         {
             // Act
@@ -1621,16 +1621,16 @@ public class QueryGroupEqualityTest
     public void TestQueryGroupGenericListContainabilityWithMultipleMultipleFieldsForQueryFieldsWithDifferentIsNot()
     {
         // Prepare
-        var objA = new QueryGroup(new[]
-        {
+        var objA = new QueryGroup(
+        [
             new QueryField("Id", 1),
             new QueryField("Name", "Name1")
-        }, true);
-        var objB = new QueryGroup(new[]
-        {
+        ], true);
+        var objB = new QueryGroup(
+        [
             new QueryField("Id", 2),
             new QueryField("Name", "Name2")
-        }, false);
+        ], false);
         var list = new List<QueryGroup>
         {
             // Act
