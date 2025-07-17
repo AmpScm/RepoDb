@@ -90,7 +90,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
         // Connection
         if (_isDisposeConnection == true && _connection is { })
         {
-            await _connection.DisposeAsync();
+            await _connection.DisposeAsync().ConfigureAwait(false);
         }
 
         // Set the output parameters

@@ -211,7 +211,7 @@ public static partial class DbConnectionExtension
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
             skipCommandArrayParametersCheck: false,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -671,7 +671,7 @@ public static partial class DbConnectionExtension
             trace: trace,
             tableName: ClassMappedNameCache.Get<TResult>(false),
             skipCommandArrayParametersCheck: false,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

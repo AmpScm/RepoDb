@@ -47,7 +47,7 @@ public partial class QueryGroup
 
         foreach (var queryGroupTypeMap in queryGroupTypeMaps)
         {
-            await AsMappedObjectAsync(dictionary, queryGroupTypeMap, tableName, connection, transaction, cancellationToken);
+            await AsMappedObjectAsync(dictionary, queryGroupTypeMap, tableName, connection, transaction, cancellationToken).ConfigureAwait(false);
         }
 
         return (ExpandoObject)dictionary;
@@ -101,7 +101,7 @@ public partial class QueryGroup
         if (tableName is { }
             && queryGroupTypeMap.QueryGroup is { })
         {
-            await queryGroupTypeMap.QueryGroup.FixAsync(connection, transaction, tableName, cancellationToken);
+            await queryGroupTypeMap.QueryGroup.FixAsync(connection, transaction, tableName, cancellationToken).ConfigureAwait(false);
         }
 
         // Iterate all the query fields

@@ -885,7 +885,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -942,7 +942,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -999,7 +999,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1056,7 +1056,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1223,7 +1223,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1278,7 +1278,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1333,7 +1333,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1388,7 +1388,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1939,7 +1939,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1994,7 +1994,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2049,7 +2049,7 @@ public static partial class DbConnectionExtension
             cache: cache,
             trace: trace,
             statementBuilder: statementBuilder,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2266,7 +2266,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, tableName, cancellationToken) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, tableName, cancellationToken).ConfigureAwait(false) : null;
 
         var commandText = await CommandTextCache.GetQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
 

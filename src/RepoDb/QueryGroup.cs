@@ -699,7 +699,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         if (connection is { } && tableName is { })
         {
             // Preload list async then use non async code. One time hit on first use of table
-            DbFieldCollection? dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken);
+            DbFieldCollection? dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
             FixForDb(connection, transaction, tableName, ref dbFields);
         }

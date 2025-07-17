@@ -24,20 +24,6 @@ public class ClassHandlerResolver : IResolver<Type, object?>
             classHandler = Activator.CreateInstance(attribute.HandlerType);
         }
 
-        if (classHandler is not null) return classHandler;
-
-#if NET
-        var genericAttribute = type.GetCustomAttribute(typeof(ClassHandlerAttribute<>));
-        if (genericAttribute is not null)
-        {
-            var handlerType = genericAttribute.GetType()
-                .GetGenericArguments()
-                .First();
-
-            classHandler = Activator.CreateInstance(handlerType);
-        }
-#endif
-
         return classHandler ?? ClassHandlerMapper.Get<object>(type);
     }
 }

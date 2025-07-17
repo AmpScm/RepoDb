@@ -50,7 +50,7 @@ public static class DbSchemaExtensions
         DbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        var schemaObjects = await connection.GetDbHelper().GetSchemaObjectsAsync(connection, transaction, cancellationToken);
+        var schemaObjects = await connection.GetDbHelper().GetSchemaObjectsAsync(connection, transaction, cancellationToken).ConfigureAwait(false);
 
         if (type != null && schemaName != null)
             return schemaObjects.Any(x => x.Name == name && x.Type == type && x.Schema == schemaName);

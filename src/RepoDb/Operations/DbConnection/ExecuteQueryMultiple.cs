@@ -677,7 +677,7 @@ public static partial class DbConnectionExtension
         DbDataReader? reader = null;
 
         // Get Cache
-        if (cacheKey == null || cache?.Contains(cacheKey) != true)
+        if (cacheKey == null || cache is null || !await cache.ContainsAsync(cacheKey, cancellationToken).ConfigureAwait(false))
         {
             // Call
             reader = await ExecuteReaderInternalAsync(connection: connection,

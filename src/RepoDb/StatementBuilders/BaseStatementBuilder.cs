@@ -290,6 +290,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string? hints = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(keyFields);
         GuardHints(hints);
 
         // Verify the fields
@@ -348,6 +349,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string? hints = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(keyFields);
         GuardHints(hints);
 
         // Validate the multiple statement execution

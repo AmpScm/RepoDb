@@ -172,7 +172,7 @@ public static partial class DbConnectionExtension
             cancellationToken: cancellationToken,
             entityType: null,
             dbFields: null,
-            skipCommandArrayParametersCheck: false);
+            skipCommandArrayParametersCheck: false).ConfigureAwait(false);
     }
 
     /// <summary>

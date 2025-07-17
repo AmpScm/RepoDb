@@ -30851,7 +30851,7 @@ public static partial class DbConnectionExtension
 
         if (cache != null && !string.IsNullOrEmpty(cacheKey))
         {
-            cache?.Add(cacheKey, items, cacheItemExpiration, false);
+            cache.Add(cacheKey, items, cacheItemExpiration, false);
         }
 
         return items;
