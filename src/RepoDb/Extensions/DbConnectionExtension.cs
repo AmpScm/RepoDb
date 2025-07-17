@@ -632,24 +632,6 @@ public static partial class DbConnectionExtension
     /// <summary>
     ///
     /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="transaction"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    internal static async ValueTask<IEnumerable<DbField>> GetAndGuardPrimaryKeyOrIdentityKeyAsync(IDbConnection connection,
-        string tableName,
-        IDbTransaction? transaction,
-        CancellationToken cancellationToken = default)
-    {
-        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
-        var dbField = dbFields?.GetPrimary() ?? dbFields?.Identity;
-        return dbField?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(tableName);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
     /// <param name="tableName"></param>
     /// <param name="dbField"></param>
     /// <returns></returns>
@@ -836,7 +818,9 @@ public static partial class DbConnectionExtension
             }
             else
             {
-                var dbField = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+                var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+                var dbField = dbFields.PrimaryFields?.OneOrDefault() ?? dbFields?.Identity ?? throw GetKeyFieldNotFoundException(tableName);
+
                 queryGroup = WhatToQueryGroup(dbField, what);
             }
         }

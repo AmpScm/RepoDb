@@ -86,7 +86,7 @@ public static partial class NpgsqlConnectionExtension
             if (isBinaryBulkInsert == false && withPseudoTable)
             {
                 qualifiers = qualifiers?.Any() == true ? qualifiers :
-                    dbFields?.GetPrimary().AsField().AsEnumerable();
+                    dbFields?.PrimaryFields?.OneOrDefault().AsField().AsEnumerable();
 
                 CreatePseudoTableIndex(connection,
                     pseudoTableName,
@@ -203,7 +203,7 @@ public static partial class NpgsqlConnectionExtension
             if (isBinaryBulkInsert == false && withPseudoTable)
             {
                 qualifiers = qualifiers?.Any() == true ? qualifiers :
-                    dbFields?.GetPrimary().AsField().AsEnumerable();
+                    dbFields?.PrimaryFields?.OneOrDefault().AsField().AsEnumerable();
 
                 await CreatePseudoTableIndexAsync(connection,
                     pseudoTableName,

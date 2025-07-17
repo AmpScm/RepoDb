@@ -5,6 +5,7 @@ using Npgsql;
 using NpgsqlTypes;
 using RepoDb.Enumerations.PostgreSql;
 using RepoDb.Exceptions;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.PostgreSql.BulkOperations;
@@ -88,7 +89,7 @@ internal static class Compiler
             IDbSetting dbSetting = null)
         {
             var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
-            var primaryDbField = dbFields?.GetPrimary();
+            var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var isPrimaryAnIdentity = primaryDbField?.IsIdentity == true;
             var includePrimary = isPrimaryAnIdentity == false ||
                 (isPrimaryAnIdentity && identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
@@ -260,7 +261,7 @@ internal static class Compiler
             IDbSetting dbSetting = null)
         {
             var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
-            var primaryDbField = dbFields?.GetPrimary();
+            var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var isPrimaryAnIdentity = primaryDbField?.IsIdentity == true;
             var includePrimary = isPrimaryAnIdentity == false ||
                 (isPrimaryAnIdentity && identityBehavior == BulkImportIdentityBehavior.KeepIdentity);

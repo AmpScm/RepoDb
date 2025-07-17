@@ -575,7 +575,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="dbFields"></param>
     /// <returns></returns>
     private static bool IsPrimaryAnIdentity(DbFieldCollection dbFields) =>
-        IsPrimaryAnIdentity(dbFields?.GetPrimary());
+        IsPrimaryAnIdentity(dbFields?.PrimaryFields?.OneOrDefault());
 
     /// <summary>
     /// 

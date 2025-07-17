@@ -170,6 +170,7 @@ public static class TypeExtension
 
     public static bool IsTuple(this Type type)
     {
+        ArgumentNullException.ThrowIfNull(type);
 #if NET
         return typeof(ITuple).IsAssignableFrom(type);
 #else

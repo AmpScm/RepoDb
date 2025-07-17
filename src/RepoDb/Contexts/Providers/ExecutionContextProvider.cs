@@ -18,15 +18,15 @@ internal static class ExecutionContextProvider
     public static Field? GetTargetReturnColumnAsField(Type entityType,
         DbFieldCollection dbFields)
     {
-        var primaryField = PrimaryCache.Get(entityType)?.AsField() ?? dbFields?.GetPrimary();
+        var primaryField = PrimaryCache.Get(entityType)?.AsField();
         var identityField = IdentityCache.Get(entityType)?.AsField() ?? dbFields?.Identity;
 
         return GlobalConfiguration.Options.KeyColumnReturnBehavior switch
         {
-            KeyColumnReturnBehavior.Primary => primaryField,
+            KeyColumnReturnBehavior.Primary => primaryField ?? dbFields?.PrimaryFields?.FirstOrDefault(),
             KeyColumnReturnBehavior.Identity => identityField,
-            KeyColumnReturnBehavior.PrimaryOrElseIdentity => primaryField ?? identityField,
-            KeyColumnReturnBehavior.IdentityOrElsePrimary => identityField ?? primaryField,
+            KeyColumnReturnBehavior.PrimaryOrElseIdentity => primaryField ?? identityField ?? dbFields?.PrimaryFields?.FirstOrDefault(),
+            KeyColumnReturnBehavior.IdentityOrElsePrimary => identityField ?? dbFields?.PrimaryFields?.FirstOrDefault(),
             _ => throw new InvalidOperationException(nameof(GlobalConfiguration.Options.KeyColumnReturnBehavior)),
         };
     }

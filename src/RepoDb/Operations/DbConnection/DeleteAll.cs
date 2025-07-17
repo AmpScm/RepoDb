@@ -1098,7 +1098,10 @@ public static partial class DbConnectionExtension
             return default;
         }
 
-        var keyField = (await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false)).Single();
+        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+
+        var keyField = dbFields.PrimaryFields?.SingleOrDefault() ?? dbFields?.Identity ?? throw GetKeyFieldNotFoundException(tableName);
+
         var dbSetting = connection.GetDbSetting();
         var count = keys.Count();
         var deletedRows = 0;

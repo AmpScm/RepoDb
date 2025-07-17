@@ -21,7 +21,6 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     private readonly Lazy<DbField?> lazyIdentity;
     private readonly Lazy<DbFieldCollection?> lazyPrimaryFields;
     private Dictionary<string, DbField>? _nameMap;
-    private readonly Lazy<DbField?> lazyPrimary;
     int? _hashCode;
 
     public int Count => _fields.Count;
@@ -37,15 +36,8 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
 
         _fields = new(dbFields is DbFieldCollection fc ? fc._fields : dbFields, DbField.CompareByName);
         lazyPrimaryFields = new(GetPrimaryDbFields);
-        lazyPrimary = new(GetPrimaryDbField);
         lazyIdentity = new(GetIdentityDbField);
     }
-
-    /// <summary>
-    /// Gets the column of the primary key if there is a single column primary key
-    /// </summary>
-    /// <returns>A primary column definition.</returns>
-    public DbField? GetPrimary() => lazyPrimary.Value;
 
     public DbFieldCollection? PrimaryFields => lazyPrimaryFields.Value;
 

@@ -55,7 +55,7 @@ public static partial class SqlConnectionExtension
 
             // Variables needed
             var primaryOrIdentityDbField =
-                dbFields.GetPrimary()
+                dbFields.PrimaryFields?.OneOrDefault()
                 ?? dbFields.Identity
                 ?? throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
 
@@ -341,7 +341,7 @@ public static partial class SqlConnectionExtension
             var tableFields = Enumerable.Range(0, dataTable.Columns.Count)
                 .Select((index) => dataTable.Columns[index].ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
-            var primaryDbField = dbFields.GetPrimary();
+            var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
@@ -506,7 +506,7 @@ public static partial class SqlConnectionExtension
             var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, true, cancellationToken);
 
             // Variables needed
-            var primaryDbField = dbFields?.GetPrimary();
+            var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields?.Identity;
             var primaryOrIdentityDbField =
                 primaryDbField
@@ -631,7 +631,7 @@ public static partial class SqlConnectionExtension
             var readerFields = Enumerable.Range(0, reader.FieldCount)
                 .Select((index) => reader.GetName(index));
             var fields = dbFields.AsFields().AsEnumerable();
-            var primaryDbField = dbFields.GetPrimary();
+            var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
@@ -802,7 +802,7 @@ public static partial class SqlConnectionExtension
             var tableFields = Enumerable.Range(0, dataTable.Columns.Count)
                 .Select((index) => dataTable.Columns[index].ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
-            var primaryDbField = dbFields.GetPrimary();
+            var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 

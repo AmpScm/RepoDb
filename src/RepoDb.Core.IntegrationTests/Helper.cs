@@ -1041,7 +1041,7 @@ public static class Helper
     public static List<TypeLevelMappedForStringEnumCompleteTable> CreateTypeLevelMappedForStringEnumCompleteTables(int count)
     {
         var tables = new List<TypeLevelMappedForStringEnumCompleteTable>();
-        var values = Enum.GetValues<Continent>().AsList();
+        var values = Enum.GetValues(typeof(Continent)).AsEnumerable<Continent>().AsList();
         for (var i = 0; i < count; i++)
         {
             tables.Add(new TypeLevelMappedForStringEnumCompleteTable

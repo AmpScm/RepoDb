@@ -34,7 +34,7 @@ public static partial class NpgsqlConnectionExtension
         var identityBehavior = BulkImportIdentityBehavior.Unspecified;
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
-        var primaryKey = dbFields.GetPrimary();
+        var primaryKey = dbFields.PrimaryFields?.OneOrDefault();
         var pseudoTableName = tableName;
         IEnumerable<NpgsqlBulkInsertMapItem> mappings = null;
 
@@ -70,7 +70,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetDeleteByKeyCommandText(pseudoTableName,
                     tableName,
-                    dbFields.GetPrimary()?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
                     dbSetting),
 
             // setIdentities
@@ -117,7 +117,7 @@ public static partial class NpgsqlConnectionExtension
         var identityBehavior = BulkImportIdentityBehavior.Unspecified;
         var dbSetting = connection.GetDbSetting();
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken);
-        var primaryKey = dbFields.GetPrimary();
+        var primaryKey = dbFields.PrimaryFields?.OneOrDefault();
         var pseudoTableName = tableName;
         IEnumerable<NpgsqlBulkInsertMapItem> mappings = null;
 
@@ -154,7 +154,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetDeleteByKeyCommandText(pseudoTableName,
                     tableName,
-                    dbFields.GetPrimary()?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
                     dbSetting),
 
             // setIdentities

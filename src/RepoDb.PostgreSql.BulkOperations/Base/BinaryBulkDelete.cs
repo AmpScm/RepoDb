@@ -2,6 +2,7 @@
 using System.Data.Common;
 using Npgsql;
 using RepoDb.Enumerations.PostgreSql;
+using RepoDb.Extensions;
 using RepoDb.PostgreSql.BulkOperations;
 
 namespace RepoDb;
@@ -93,8 +94,8 @@ public static partial class NpgsqlConnectionExtension
                     tableName,
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.GetPrimary()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.Identity?.AsField(),
                     identityBehavior,
                     dbSetting),
 
@@ -188,8 +189,8 @@ public static partial class NpgsqlConnectionExtension
                     tableName,
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.GetPrimary()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.Identity?.AsField(),
                     identityBehavior,
                     dbSetting),
 
@@ -277,8 +278,8 @@ public static partial class NpgsqlConnectionExtension
                     tableName,
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.GetPrimary()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.Identity?.AsField(),
                     identityBehavior,
                     dbSetting),
 
@@ -385,8 +386,8 @@ public static partial class NpgsqlConnectionExtension
                     tableName,
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.GetPrimary()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.Identity?.AsField(),
                     identityBehavior,
                     dbSetting),
 
@@ -484,8 +485,8 @@ public static partial class NpgsqlConnectionExtension
                     tableName,
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.GetPrimary()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.Identity?.AsField(),
                     identityBehavior,
                     dbSetting),
 
@@ -577,8 +578,8 @@ public static partial class NpgsqlConnectionExtension
                     tableName,
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.GetPrimary()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.Identity?.AsField(),
                     identityBehavior,
                     dbSetting),
 
