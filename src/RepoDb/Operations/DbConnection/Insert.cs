@@ -195,7 +195,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
-        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject() == true)
+        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject == true)
         {
             return InsertInternalBase<IDictionary<string, object>, TResult>(connection: connection,
                 tableName: tableName,
@@ -423,7 +423,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject() == true)
+        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject == true)
         {
             return await InsertInternalBaseAsync<IDictionary<string, object>, TResult>(connection: connection,
                 tableName: tableName,
@@ -793,9 +793,9 @@ public static partial class DbConnectionExtension
 #if NET
                 await
 #endif
-                using var rdr = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+                using var rdr = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
-                if (rdr.Read())
+                if (await rdr.ReadAsync(cancellationToken).ConfigureAwait(false))
                 {
                     result = Converter.ToType<TResult>(rdr.GetValue(0))!;
                 }

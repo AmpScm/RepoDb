@@ -67,12 +67,12 @@ public static partial class SqlConnectionExtension
 
             // Variables needed
             var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
-            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject() ?
+            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
                 GetDictionaryStringObjectFields(entities.FirstOrDefault() as IDictionary<string, object>) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.GetPrimary();
-            var identityDbField = dbFields.GetIdentity();
+            var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys
@@ -168,7 +168,7 @@ public static partial class SqlConnectionExtension
                 options.HasFlag(SqlBulkCopyOptions.KeepIdentity));
 
             // Identity if the identity is to return
-            if (hasOrderingColumn != true || TypeCache.Get(entityType).IsAnonymousType())
+            if (hasOrderingColumn != true || TypeCache.Get(entityType).IsAnonymousType)
             {
                 result = connection.ExecuteNonQuery(sql, commandTimeout: bulkCopyTimeout, transaction: transaction, trace: trace);
             }
@@ -254,7 +254,7 @@ public static partial class SqlConnectionExtension
                 .Select((index) => reader.GetName(index));
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.GetPrimary();
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys
@@ -425,7 +425,7 @@ public static partial class SqlConnectionExtension
                 .Select((index) => dataTable.Columns[index].ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.GetPrimary();
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys
@@ -622,12 +622,12 @@ public static partial class SqlConnectionExtension
 
             // Variables needed
             var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
-            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject() ?
+            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
                 GetDictionaryStringObjectFields(entities.FirstOrDefault() as IDictionary<string, object>) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.GetPrimary();
-            var identityDbField = dbFields.GetIdentity();
+            var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys
@@ -723,7 +723,7 @@ public static partial class SqlConnectionExtension
                 options.HasFlag(SqlBulkCopyOptions.KeepIdentity));
 
             // Identity if the identity is to return
-            if (hasOrderingColumn != true || TypeCache.Get(entityType).IsAnonymousType())
+            if (hasOrderingColumn != true || TypeCache.Get(entityType).IsAnonymousType)
             {
                 result = await connection.ExecuteNonQueryAsync(sql, commandTimeout: bulkCopyTimeout,
                     transaction: transaction, trace: trace, cancellationToken: cancellationToken);
@@ -810,7 +810,7 @@ public static partial class SqlConnectionExtension
                 .Select(index => reader.GetName(index));
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.GetPrimary();
-            var identityDbField = dbFields.GetIdentity();
+            var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys
@@ -984,7 +984,7 @@ public static partial class SqlConnectionExtension
                 .Select((index) => dataTable.Columns[index].ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.GetPrimary();
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys

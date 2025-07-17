@@ -67,6 +67,7 @@ public static class ExpressionExtension
     /// <returns></returns>
     public static Field GetField(this BinaryExpression expression, out object? coalesceValue)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         coalesceValue = null;
         return expression.Left switch
         {
@@ -122,6 +123,7 @@ public static class ExpressionExtension
     /// <exception cref="NotSupportedException"></exception>
     public static Field GetField(this MethodCallExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (expression.Object is MemberExpression objectMemberExpression)
         {
             return objectMemberExpression.GetField();
@@ -149,6 +151,7 @@ public static class ExpressionExtension
     /// <exception cref="NotSupportedException"></exception>
     public static Field GetField(this MemberExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         return expression.Member switch
         {
             PropertyInfo propertyInfo => propertyInfo.AsField(),
@@ -183,6 +186,7 @@ public static class ExpressionExtension
     /// <returns>The name of the operand.</returns>
     public static string GetName(this UnaryExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (expression.Operand is MethodCallExpression methodCallExpression)
         {
             return methodCallExpression.GetName();
@@ -197,6 +201,7 @@ public static class ExpressionExtension
     /// <returns>The name of the operand.</returns>
     public static string GetName(this MethodCallExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (expression.Object is MemberExpression objectMemberExpression)
         {
             return objectMemberExpression.GetName();
@@ -236,6 +241,7 @@ public static class ExpressionExtension
     /// <returns>The type of the <see cref="MemberInfo"/>.</returns>
     public static Type GetMemberType(this BinaryExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         return expression.Left switch
         {
             MemberExpression memberExpression => memberExpression.GetMemberType(),
@@ -251,6 +257,7 @@ public static class ExpressionExtension
     /// <returns>The type of the operand.</returns>
     public static Type GetMemberType(this UnaryExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (expression.Operand is MethodCallExpression methodCallExpression)
         {
             return methodCallExpression.GetMemberType();
@@ -265,6 +272,7 @@ public static class ExpressionExtension
     /// <returns>The type of the operand.</returns>
     public static Type GetMemberType(this MethodCallExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (expression.Object is MemberExpression memberExpression)
         {
             return memberExpression.GetMemberType();
@@ -279,6 +287,7 @@ public static class ExpressionExtension
     /// <returns>The type of the <see cref="MemberInfo"/>.</returns>
     public static Type GetMemberType(this MemberExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         return expression.Member switch
         {
             PropertyInfo propertyInfo => propertyInfo.PropertyType,
@@ -353,8 +362,11 @@ public static class ExpressionExtension
     /// </summary>
     /// <param name="expression">The instance of <see cref="ConstantExpression"/> object where the value is to be extracted.</param>
     /// <returns>The extracted value from <see cref="ConstantExpression"/> object.</returns>
-    public static object? GetValue(this ConstantExpression expression) =>
-        expression.Value;
+    public static object? GetValue(this ConstantExpression expression)
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return expression.Value;
+    }
 
     /// <summary>
     /// Gets a value from the current instance of <see cref="UnaryExpression"/> object.
@@ -363,6 +375,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="UnaryExpression"/> object.</returns>
     public static object? GetValue(this UnaryExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         var value = expression.Operand.GetValue();
         switch (expression.NodeType)
         {
@@ -370,20 +383,20 @@ public static class ExpressionExtension
                 var toType = expression.Type;
                 var tp = TypeCache.Get(expression.Type);
 
-                if (value is null && tp.HasNullValue())
+                if (value is null && tp.HasNullValue)
                 {
                     return null;
                 }
-                else if (tp.IsNullable())
+                else if (tp.IsNullable)
                 {
-                    toType = tp.GetUnderlyingType();
+                    toType = tp.UnderlyingType;
                 }
-                else if (tp.GetUnderlyingType() == StaticType.DateTimeOffset && value is DateTime dateTime)
+                else if (tp.UnderlyingType == StaticType.DateTimeOffset && value is DateTime dateTime)
                 {
                     return new DateTimeOffset(dateTime);
                 }
 #if NET
-                else if (tp.GetUnderlyingType() == StaticType.DateOnly && value is DateTime dateTime2)
+                else if (tp.UnderlyingType == StaticType.DateOnly && value is DateTime dateTime2)
                 {
                     return DateOnly.FromDateTime(dateTime2.Date);
                 }
@@ -400,8 +413,11 @@ public static class ExpressionExtension
     /// </summary>
     /// <param name="expression">The instance of <see cref="MethodCallExpression"/> object where the value is to be extracted.</param>
     /// <returns>The extracted value from <see cref="MethodCallExpression"/> object.</returns>
-    public static object? GetValue(this MethodCallExpression expression) =>
-        expression.Method.GetValue(expression.Object?.GetValue(), expression.Arguments.Select(argExpression => argExpression.GetValue()!).ToArray());
+    public static object? GetValue(this MethodCallExpression expression)
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return expression.Method.GetValue(expression.Object?.GetValue(), expression.Arguments.Select(argExpression => argExpression.GetValue()!).ToArray());
+    }
 
     /// <summary>
     /// Gets a value from the current instance of <see cref="MemberExpression"/> object.
@@ -418,6 +434,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="NewArrayExpression"/> object.</returns>
     public static object? GetValue(this NewArrayExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         var arrayType = expression.Type.HasElementType ? expression.Type.GetElementType()! : expression.Type;
         var array = Array.CreateInstance(arrayType, expression.Expressions.Count);
         for (var i = 0; i < expression.Expressions.Count; i++)
@@ -449,6 +466,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="NewExpression"/> object.</returns>
     public static object GetValue(this NewExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (expression.Arguments.Count > 0)
         {
             return Activator.CreateInstance(expression.Type,
@@ -467,6 +485,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="MemberInitExpression"/> object.</returns>
     public static object GetValue(this MemberInitExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         var instance = expression.NewExpression.GetValue();
         foreach (var binding in expression.Bindings)
         {
@@ -482,6 +501,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="ConditionalExpression"/> object.</returns>
     public static object? GetValue(this ConditionalExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         var test = expression.Test.GetValue();
         var trueValue = expression.IfTrue.GetValue();
         if (expression.Test.NodeType == ExpressionType.Equal)
@@ -518,6 +538,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="ParameterExpression"/> object.</returns>
     public static object? GetValue(this ParameterExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (expression.Type.GetConstructors().Any(e => e.GetParameters().Length == 0))
         {
             return Activator.CreateInstance(expression.Type)!;
@@ -530,8 +551,11 @@ public static class ExpressionExtension
     /// </summary>
     /// <param name="expression">The instance of <see cref="DefaultE"/> object where the value is to be extracted.</param>
     /// <returns>The extracted value from <see cref="DefaultExpression"/> object.</returns>
-    public static object? GetValue(this DefaultExpression expression) =>
-        expression.Type.IsValueType ? Activator.CreateInstance(expression.Type) : null;
+    public static object? GetValue(this DefaultExpression expression)
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return expression.Type.IsValueType ? Activator.CreateInstance(expression.Type) : null;
+    }
 
     #endregion
 

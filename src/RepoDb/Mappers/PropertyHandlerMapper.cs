@@ -453,8 +453,11 @@ public static class PropertyHandlerMapper
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     /// <returns>The mapped property handler object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Field field)
-        where TEntity : class =>
-        Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), $"{field.FieldName} not found"));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), $"{field.FieldName} not found"));
+    }
 
     /// <summary>
     /// Property Level: Gets the mapped property handler on a specific <see cref="PropertyInfo"/> object.

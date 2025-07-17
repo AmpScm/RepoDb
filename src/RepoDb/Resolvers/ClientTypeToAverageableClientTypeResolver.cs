@@ -17,7 +17,7 @@ public class ClientTypeToAverageableClientTypeResolver : IResolver<Type, Type?>
         ArgumentNullException.ThrowIfNull(type);
 
         // Get the type
-        type = TypeCache.Get(type).GetUnderlyingType();
+        type = TypeCache.Get(type).UnderlyingType;
 
         // Only convert those numerics
         if (type == StaticType.Int16 ||

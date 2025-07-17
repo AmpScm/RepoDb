@@ -98,7 +98,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         EntityType = entityType == StaticType.Object ?
             (entities.FirstOrDefault()?.GetType() ?? entityType) :
             entityType;
-        isDictionaryStringObject = TypeCache.Get(EntityType).IsDictionaryStringObject();
+        isDictionaryStringObject = TypeCache.Get(EntityType).IsDictionaryStringObject;
 
         // Properties
         Connection = connection;

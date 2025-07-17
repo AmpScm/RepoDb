@@ -245,34 +245,43 @@ public static class PropertyMapper
     /// </summary>
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <param name="expression">The expression to be parsed.</param>
-    public static void Remove<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Remove<TEntity>(ExpressionExtension.GetProperty(expression));
+    public static bool Remove<TEntity>(Expression<Func<TEntity, object?>> expression)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Remove<TEntity>(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Removes the mapping between the class property and database column (via property name).
     /// </summary>
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="propertyName">The name of the property.</param>
-    public static void Remove<TEntity>(string propertyName)
-        where TEntity : class =>
-        Remove<TEntity>(TypeExtension.GetProperty<TEntity>(propertyName));
+    public static bool Remove<TEntity>(string propertyName)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(propertyName);
+        return Remove<TEntity>(TypeExtension.GetProperty<TEntity>(propertyName));
+    }
 
     /// <summary>
     /// Removes the mapping between the  class property and database column (via <see cref="Field"/> object).
     /// </summary>
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
-    public static void Remove<TEntity>(Field field)
-        where TEntity : class =>
-        Remove<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName));
+    public static bool Remove<TEntity>(Field field)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Remove<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName));
+    }
 
     /// <summary>
     /// Removes the mapped database column from a <see cref="PropertyInfo"/> object.
     /// </summary>
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    internal static void Remove<TEntity>(PropertyInfo propertyInfo)
+    internal static bool Remove<TEntity>(PropertyInfo propertyInfo)
         where TEntity : class
     {
         ArgumentNullException.ThrowIfNull(propertyInfo);
@@ -281,7 +290,7 @@ public static class PropertyMapper
         var key = GenerateHashCode(typeof(TEntity), propertyInfo);
 
         // Try get the value
-        maps.TryRemove(key, out var _);
+        return maps.TryRemove(key, out var _);
     }
 
     /*

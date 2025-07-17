@@ -316,7 +316,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-            using var command = (await CreateDbCommandForExecutionAsync(connection: connection,
+            using var command = await CreateDbCommandForExecutionAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -325,7 +325,7 @@ public static partial class DbConnectionExtension
             entityType: entityType,
             dbFields: dbFields,
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck,
-            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         // Before Execution
         var traceResult = await Tracer
@@ -585,7 +585,7 @@ public static partial class DbConnectionExtension
         IDbTransaction? transaction)
     {
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
-        var keys = dbFields?.GetPrimaryFields() ?? dbFields?.GetIdentity()?.AsEnumerable();
+        var keys = dbFields?.PrimaryFields ?? dbFields?.Identity?.AsEnumerable();
         return GetAndGuardPrimaryKeyOrIdentityKey(tableName, keys);
     }
 
@@ -638,20 +638,9 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
     {
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
-        var dbField = dbFields?.GetPrimary() ?? dbFields?.GetIdentity();
-        return GetAndGuardPrimaryKeyOrIdentityKey(tableName, dbField);
+        var dbField = dbFields?.GetPrimary() ?? dbFields?.Identity;
+        return dbField?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(tableName);
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="tableName"></param>
-    /// <param name="dbField"></param>
-    /// <returns></returns>
-    internal static IEnumerable<DbField> GetAndGuardPrimaryKeyOrIdentityKey(string tableName,
-        DbField? dbField) =>
-        dbField?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(tableName);
-
 
     /// <summary>
     ///
@@ -692,7 +681,7 @@ public static partial class DbConnectionExtension
     internal static IEnumerable<Field>? GetAndGuardPrimaryKeyOrIdentityKey(Type entityType,
         DbFieldCollection dbFields) =>
         entityType == null ? null :
-            TypeCache.Get(entityType).IsDictionaryStringObject() ?
+            TypeCache.Get(entityType).IsDictionaryStringObject ?
             GetAndGuardPrimaryKeyOrIdentityKeyForDictionaryStringObject(entityType, dbFields) :
             GetAndGuardPrimaryKeysOrIdentityKeyForEntity(entityType, dbFields);
 
@@ -706,8 +695,8 @@ public static partial class DbConnectionExtension
         DbFieldCollection dbFields)
     {
         // Primary/Identity
-        var dbField = (dbFields.GetPrimaryFields() ??
-            dbFields.GetIdentity()?.AsEnumerable() ??
+        var dbField = (dbFields.PrimaryFields ??
+            dbFields.Identity?.AsEnumerable() ??
             dbFields.GetByFieldName("Id")?.AsEnumerable())
             ?? throw GetKeyFieldNotFoundException(type);
 
@@ -728,7 +717,7 @@ public static partial class DbConnectionExtension
         var properties = PropertyCache.Get(type) ?? type.GetClassProperties();
 
         // Primary
-        if (dbFields?.GetPrimaryFields() is { } dbPrimary) // Database driven
+        if (dbFields?.PrimaryFields is { } dbPrimary) // Database driven
         {
             return dbPrimary.Select(f => properties.GetByFieldName(f.FieldName) ?? throw GetKeyFieldNotFoundException(type)).AsFields();
         }
@@ -738,7 +727,7 @@ public static partial class DbConnectionExtension
         }
 
         // Identity
-        if (dbFields?.GetIdentity() is { } dbIdentity)
+        if (dbFields?.Identity is { } dbIdentity)
         {
             return properties.GetByFieldName(dbIdentity.FieldName)?.AsField()?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(type);
         }
@@ -789,7 +778,7 @@ public static partial class DbConnectionExtension
         {
             var whatType = what.GetType();
             var cachedType = TypeCache.Get(whatType);
-            if (cachedType.IsClassType() || cachedType.IsAnonymousType())
+            if (cachedType.IsClassType || cachedType.IsAnonymousType)
             {
                 var fields = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction, whatType);
 
@@ -835,7 +824,7 @@ public static partial class DbConnectionExtension
         {
             var whatType = what.GetType();
             var cachedType = TypeCache.Get(whatType);
-            if (cachedType.IsClassType() || cachedType.IsAnonymousType())
+            if (cachedType.IsClassType || cachedType.IsAnonymousType)
             {
                 var fields = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction, whatType, cancellationToken).ConfigureAwait(false);
                 queryGroup = WhatToQueryGroup(fields, what);
@@ -986,7 +975,7 @@ public static partial class DbConnectionExtension
         {
             throw new KeyFieldNotFoundException($"No primary key and identity key found at the type '{type.FullName}'.");
         }
-        if (TypeCache.Get(type).IsClassType())
+        if (TypeCache.Get(type).IsClassType)
         {
             var classProperty = PropertyCache.Get(typeof(T), field, true);
             return new QueryGroup(classProperty?.PropertyInfo.AsQueryField(what));
@@ -1019,7 +1008,7 @@ public static partial class DbConnectionExtension
             QueryField field => ToQueryGroup(field),
             IEnumerable<QueryField> fields => ToQueryGroup(fields),
             QueryGroup group => group,
-            _ when (TypeCache.Get(typeof(T)).GetUnderlyingType() is { } type && (TypeCache.Get(type).IsAnonymousType() || type == StaticType.Object)) => QueryGroup.Parse(what, false),
+            _ when (TypeCache.Get(typeof(T)).UnderlyingType is { } type && (TypeCache.Get(type).IsAnonymousType || type == StaticType.Object)) => QueryGroup.Parse(what, false),
             _ => null,
         };
     }
@@ -1040,7 +1029,7 @@ public static partial class DbConnectionExtension
             return null;
         }
         var type = obj.GetType();
-        if (TypeCache.Get(type).IsClassType())
+        if (TypeCache.Get(type).IsClassType)
         {
             return QueryGroup.Parse(obj, true);
         }
@@ -1066,7 +1055,7 @@ public static partial class DbConnectionExtension
         if (dbField != null)
         {
             var type = entity.GetType();
-            if (TypeCache.Get(type).IsClassType())
+            if (TypeCache.Get(type).IsClassType)
             {
                 var properties = PropertyCache.Get(type) ?? type.GetClassProperties();
                 if (properties?.GetByFieldName(dbField.FieldName) is { } property)
@@ -1126,7 +1115,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         var type = entity?.GetType() ?? typeof(TEntity);
-        return TypeCache.Get(type).IsDictionaryStringObject() ? ToQueryGroup(field, (IDictionary<string, object>)entity!)
+        return TypeCache.Get(type).IsDictionaryStringObject ? ToQueryGroup(field, (IDictionary<string, object>)entity!)
             : ToQueryGroup(PropertyCache.Get<TEntity>(field, true) ?? PropertyCache.Get(type, field, true), entity!);
     }
 
@@ -1312,7 +1301,7 @@ public static partial class DbConnectionExtension
     {
         var typeOfEntity = entity?.GetType() ?? typeof(TEntity);
 
-        if (TypeCache.Get(typeOfEntity).IsClassType())
+        if (TypeCache.Get(typeOfEntity).IsClassType)
             return FieldCache.Get(typeOfEntity);
         else
             return Field.Parse<TEntity>(entity);
@@ -1327,7 +1316,7 @@ public static partial class DbConnectionExtension
     internal static IEnumerable<Field>? GetQualifiedFields<TEntity>()
         where TEntity : class
     {
-        if (TypeCache.Get(typeof(TEntity)).IsClassType())
+        if (TypeCache.Get(typeof(TEntity)).IsClassType)
             return FieldCache.Get<TEntity>();
         else
             return null;

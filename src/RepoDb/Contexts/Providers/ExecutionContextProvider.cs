@@ -18,8 +18,8 @@ internal static class ExecutionContextProvider
     public static Field? GetTargetReturnColumnAsField(Type entityType,
         DbFieldCollection dbFields)
     {
-        var primaryField = GetPrimaryAsReturnKeyField(entityType, dbFields);
-        var identityField = GetIdentityAsReturnKeyField(entityType, dbFields);
+        var primaryField = PrimaryCache.Get(entityType)?.AsField() ?? dbFields?.GetPrimary();
+        var identityField = IdentityCache.Get(entityType)?.AsField() ?? dbFields?.Identity;
 
         return GlobalConfiguration.Options.KeyColumnReturnBehavior switch
         {
@@ -30,30 +30,6 @@ internal static class ExecutionContextProvider
             _ => throw new InvalidOperationException(nameof(GlobalConfiguration.Options.KeyColumnReturnBehavior)),
         };
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="dbFields"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    private static Field? GetPrimaryAsReturnKeyField(Type entityType,
-        DbFieldCollection dbFields) =>
-        PrimaryCache.Get(entityType)?.AsField() ??
-            dbFields?.GetPrimary();
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="dbFields"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    private static Field? GetIdentityAsReturnKeyField(Type entityType,
-        DbFieldCollection dbFields) =>
-        IdentityCache.Get(entityType)?.AsField() ??
-            dbFields?.GetIdentity();
 
     #endregion
 }

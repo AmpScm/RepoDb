@@ -34,7 +34,7 @@ public static partial class NpgsqlConnectionExtension
         var matchedProperties = properties?
             .Where(property =>
             {
-                var dbField = dbFields?.GetByFieldName(property.GetMappedName().AsUnquoted(true, dbSetting));
+                var dbField = dbFields?.GetByFieldName(property.FieldName.AsUnquoted(true, dbSetting));
 
                 return (dbField != null && dbField.IsPrimary == false && dbField.IsIdentity == false) ||
                        (includePrimary && dbField?.IsPrimary == true) ||
@@ -155,7 +155,7 @@ public static partial class NpgsqlConnectionExtension
         foreach (var property in matchedProperties)
         {
             var mapping = GetMapping(property.PropertyInfo.Name,
-                property.GetMappedName(),
+                property.FieldName,
                 dbFields,
                 includePrimary,
                 includeIdentity,
@@ -192,7 +192,7 @@ public static partial class NpgsqlConnectionExtension
                 dbFields,
                 includePrimary,
                 includeIdentity,
-                TypeCache.Get(kvp.Value?.GetType()).GetUnderlyingType(),
+                TypeCache.Get(kvp.Value?.GetType()).UnderlyingType,
                 null,
                 dbSetting);
 
@@ -225,7 +225,7 @@ public static partial class NpgsqlConnectionExtension
                 dbFields,
                 includePrimary,
                 includeIdentity,
-                TypeCache.Get(column.DataType).GetUnderlyingType(),
+                TypeCache.Get(column.DataType).UnderlyingType,
                 null,
                 dbSetting);
 
@@ -259,7 +259,7 @@ public static partial class NpgsqlConnectionExtension
                 dbFields,
                 includePrimary,
                 includeIdentity,
-                TypeCache.Get(reader.GetFieldType(i)).GetUnderlyingType(),
+                TypeCache.Get(reader.GetFieldType(i)).UnderlyingType,
                 null,
                 dbSetting);
 
@@ -361,7 +361,7 @@ public static partial class NpgsqlConnectionExtension
         IDbSetting dbSetting)
         where TEntity : class
     {
-        if (TypeCache.Get(entityType).IsDictionaryStringObject())
+        if (TypeCache.Get(entityType).IsDictionaryStringObject)
         {
             var dictionaries = entities.Select(item => item as IDictionary<string, object>);
             SetDictionaryIdentities(dictionaries, dbFields, identityResults, dbSetting);
@@ -405,7 +405,7 @@ public static partial class NpgsqlConnectionExtension
         }
 
         var entityType = (entities?.FirstOrDefault().GetType() ?? typeof(TEntity));
-        if (TypeCache.Get(entityType).IsClassType() != true)
+        if (TypeCache.Get(entityType).IsClassType != true)
         {
             return;
         }
@@ -440,7 +440,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<IdentityResult> identityResults,
         IDbSetting dbSetting)
     {
-        var identityField = dbFields?.GetIdentity().AsField();
+        var identityField = dbFields?.Identity.AsField();
 
         if (identityField == null)
         {
@@ -471,7 +471,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<IdentityResult> identityResults,
         IDbSetting dbSetting)
     {
-        var identityField = dbFields?.GetIdentity().AsField();
+        var identityField = dbFields?.Identity.AsField();
         if (identityField == null)
         {
             return;
@@ -533,12 +533,12 @@ public static partial class NpgsqlConnectionExtension
     {
         ClassProperty? property = null;
 
-        if (dbFields?.GetIdentity() is { } identityDbField)
+        if (dbFields?.Identity is { } identityDbField)
         {
             property = PropertyCache
                .Get<TEntity>()
                .FirstOrDefault(p =>
-                   string.Equals(p.GetMappedName().AsUnquoted(true, dbSetting),
+                   string.Equals(p.FieldName.AsUnquoted(true, dbSetting),
                        identityDbField.FieldName, StringComparison.OrdinalIgnoreCase));
         }
 

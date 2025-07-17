@@ -21,8 +21,11 @@ public static class PropertyCache
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The instance of cached <see cref="ClassProperty"/> object.</returns>
     public static ClassProperty? Get<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get(typeof(TEntity), ExpressionExtension.GetProperty(expression), false);
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get(typeof(TEntity), ExpressionExtension.GetProperty(expression), false);
+    }
 
     /// <summary>
     /// Gets the cached <see cref="ClassProperty"/> object of the data entity (via property name).
@@ -118,7 +121,7 @@ public static class PropertyCache
     /// <returns>The cached list <see cref="ClassProperty"/> objects.</returns>
     public static IEnumerable<ClassProperty> Get(Type? entityType)
     {
-        if (entityType is null || TypeCache.Get(entityType).IsClassType() != true)
+        if (entityType is null || TypeCache.Get(entityType).IsClassType != true)
         {
             return [];
         }

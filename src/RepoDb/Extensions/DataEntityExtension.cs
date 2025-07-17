@@ -59,7 +59,7 @@ public static class DataEntityExtension
     /// <returns>The mapped name for the data entity.</returns>
     public static string? GetMappedName(Type type) =>
         type.GetCustomAttribute<MapAttribute>()?.Name ?? GetMappedName(type.GetCustomAttribute<TableAttribute>()) ??
-            ClassMapper.Get(type) ?? (type.Name is { } typeName && !typeName.Contains('`') ? typeName : null);
+            ClassMapper.Get(type) ?? (type.Name is { } typeName && !typeName.Contains('`', StringComparison.Ordinal) ? typeName : null);
 
     /// <summary>
     /// Gets the mapped name of the data entity. This will return the value of <see cref="MapAttribute.Name"/> and/or <see cref="TableAttribute.Name"/> property.

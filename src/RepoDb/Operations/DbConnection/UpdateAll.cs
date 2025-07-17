@@ -399,7 +399,7 @@ public static partial class DbConnectionExtension
             qualifiers = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction,
                 GetEntityType(entities));
         }
-        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
         {
             return UpdateAllInternalBase(connection: connection,
                 tableName: tableName,
@@ -845,7 +845,7 @@ public static partial class DbConnectionExtension
             qualifiers = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction,
                 GetEntityType(entities), cancellationToken).ConfigureAwait(false);
         }
-        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
         {
             return await UpdateAllInternalBaseAsync(connection: connection,
                 tableName: tableName,

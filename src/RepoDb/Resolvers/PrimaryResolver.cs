@@ -15,6 +15,7 @@ public class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IRes
     /// <returns>The instance of the primary <see cref="ClassProperty"/> object.</returns>
     public IEnumerable<ClassProperty>? Resolve(Type entityType)
     {
+        ArgumentNullException.ThrowIfNull(entityType);
         if (PropertyCache.Get(entityType) is not { } properties)
         {
             return null;
@@ -22,17 +23,14 @@ public class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IRes
 
         // Get the first entry with Primary or Key attribute
         var pkProperties = properties
-            .Where(p => p.GetPrimaryAttribute() != null);
+            .Where(p => p.GetPrimaryAttribute() != null).ToList();
 
-        if (pkProperties.Any())
+        if (pkProperties.Count != 0)
             return pkProperties;
 
         // Get from the implicit mapping
-        if (!pkProperties.Any())
-        {
-            if (PrimaryMapper.Get(entityType) is { } v)
-                return [v];
-        }
+        if (PrimaryMapper.Get(entityType) is { } v)
+            return [v];
 
         // Id Property
         if (properties.GetByPropertyName("id") is { } idProperty)

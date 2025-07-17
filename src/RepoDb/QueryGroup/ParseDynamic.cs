@@ -24,10 +24,10 @@ public partial class QueryGroup
         ArgumentNullException.ThrowIfNull(obj);
 
         // Type of the object
-        var type = TypeCache.Get(obj.GetType()).GetUnderlyingType();
+        var type = TypeCache.Get(obj.GetType()).UnderlyingType;
 
         // Filter the type
-        if (TypeCache.Get(type).IsClassType() == false)
+        if (TypeCache.Get(type).IsClassType == false)
         {
             if (throwException == true)
             {

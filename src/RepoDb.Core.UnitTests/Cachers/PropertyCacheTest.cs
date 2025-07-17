@@ -44,7 +44,7 @@ public class PropertyCacheTest
         var expected = "Id";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class PropertyCacheTest
         var expected = "Id";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class PropertyCacheTest
         var expected = "Id";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     #endregion
@@ -92,7 +92,7 @@ public class PropertyCacheTest
         var expected = "Property2";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public class PropertyCacheTest
         var expected = "Property2";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ public class PropertyCacheTest
         var expected = "Property2";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     [TestMethod]
@@ -125,7 +125,7 @@ public class PropertyCacheTest
         var expected = "Property4";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     [TestMethod]
@@ -136,7 +136,7 @@ public class PropertyCacheTest
         var expected = "Property4";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     [TestMethod]
@@ -147,7 +147,7 @@ public class PropertyCacheTest
         var expected = "Property4";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     #endregion

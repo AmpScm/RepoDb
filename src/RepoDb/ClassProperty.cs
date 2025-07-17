@@ -73,16 +73,8 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// </summary>
     /// <returns>The unquoted name.</returns>
     public override string ToString() =>
-        string.Concat("ClassProperty :: Name = ", GetMappedName(), " (", PropertyInfo.PropertyType.FullName, "), ",
+        string.Concat("ClassProperty :: Name = ", FieldName, " (", PropertyInfo.PropertyType.FullName, "), ",
             "DeclaringType = ", DeclaringType.FullName);
-
-    /// <summary>
-    /// Gets the declaring parent type of the current property info. If the class inherits an interface, then this will return
-    /// the derived class type instead (if there is), otherwise the <see cref="PropertyInfo.DeclaringType"/> property.
-    /// </summary>
-    /// <returns>The declaring type.</returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public Type GetDeclaringType() => DeclaringType;
 
     /// <summary>
     /// Gets the declaring parent type of the current property info. If the class inherits an interface, then this will return
@@ -103,7 +95,7 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// <returns>An instance of <see cref="string"/> object.</returns>
     public Field AsField()
     {
-        return field ??= new Field(GetMappedName(), PropertyInfo.PropertyType);
+        return field ??= new Field(FieldName, PropertyInfo.PropertyType);
     }
 
     /*
@@ -204,10 +196,7 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// Gets the mapped <see cref="DbType"/> for the current property.
     /// </summary>
     /// <returns>The mapped <see cref="DbType"/> value.</returns>
-    public DbType? GetDbType()
-    {
-        return dbType.Value;
-    }
+    public DbType? DbType => dbType.Value;
 
     /*
      * GetPropertyHandler
@@ -229,13 +218,6 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     {
         return Converter.ToType<TPropertyHandler>(PropertyHandlerCache.Get<TPropertyHandler>(DeclaringType, PropertyInfo));
     }
-
-    /// <summary>
-    /// Gets the mapped-name for the current property.
-    /// </summary>
-    /// <returns>The mapped-name value.</returns>
-    public string GetMappedName() => FieldName;
-
 
     /*
      * PropertyHandlerAttributes

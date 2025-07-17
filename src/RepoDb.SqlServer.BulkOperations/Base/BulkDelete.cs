@@ -57,7 +57,7 @@ public static partial class SqlConnectionExtension
             var primaryOrIdentityDbField =
                 (
                     dbFields.GetPrimary() ??
-                    dbFields.GetIdentity()
+                    dbFields.                    Identity
                 );
 
             // Throw an error if there are is no primary key
@@ -185,7 +185,7 @@ public static partial class SqlConnectionExtension
             // Validate the primary keys
             if (qualifiers?.Any() != true)
             {
-                var keyFields = dbFields.GetPrimaryFields() ?? dbFields.GetIdentity()?.AsEnumerable();
+                var keyFields = dbFields.PrimaryFields ?? dbFields.Identity?.AsEnumerable();
 
                 if (keyFields is not { })
                 {
@@ -349,7 +349,7 @@ public static partial class SqlConnectionExtension
                 .Select((index) => dataTable.Columns[index].ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.GetPrimary();
-            var identityDbField = dbFields.GetIdentity();
+            var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys
@@ -514,7 +514,7 @@ public static partial class SqlConnectionExtension
 
             // Variables needed
             var primaryDbField = dbFields?.GetPrimary();
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Throw an error if there are is no primary key
@@ -642,7 +642,7 @@ public static partial class SqlConnectionExtension
                 .Select((index) => reader.GetName(index));
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.GetPrimary();
-            var identityDbField = dbFields.GetIdentity();
+            var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys
@@ -813,7 +813,7 @@ public static partial class SqlConnectionExtension
                 .Select((index) => dataTable.Columns[index].ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.GetPrimary();
-            var identityDbField = dbFields.GetIdentity();
+            var identityDbField = dbFields.Identity;
             var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
 
             // Validate the primary keys

@@ -58,7 +58,7 @@ partial class Compiler
                 #region NewParameter
 
                 var propertyType = targetProperty.PropertyInfo.PropertyType;
-                var underlyingType = TypeCache.Get(propertyType).GetUnderlyingType();
+                var underlyingType = TypeCache.Get(propertyType).UnderlyingType;
                 var valueType = GetPropertyHandlerSetMethodReturnType(prop, underlyingType) ?? underlyingType;
                 var dbParameterExpression = Expression.Variable(StaticType.DbParameter, $"var{prop.PropertyName}");
                 var parameterCallExpressions = new List<Expression>();
@@ -83,7 +83,7 @@ partial class Compiler
 
                     if (!IsPostgreSqlUserDefined(dbField))
                     {
-                        dbType = prop.GetDbType() ??
+                        dbType = prop.DbType ??
                             valueType.GetDbType() ??
                             (dbField != null ? new ClientTypeToDbTypeResolver().Resolve(dbField.Type) : null) ??
                             (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType;
@@ -100,7 +100,7 @@ partial class Compiler
                 }
                 else
                 {
-                    dbType = targetProperty.GetDbType() ??
+                    dbType = targetProperty.DbType ??
                         valueType.GetDbType() ??
                         new ClientTypeToDbTypeResolver().Resolve(valueType);
                 }

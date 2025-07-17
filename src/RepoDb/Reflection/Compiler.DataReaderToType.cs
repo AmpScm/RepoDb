@@ -23,7 +23,7 @@ partial class Compiler
         {
             return CompileDataReaderToTuple<TResult>(reader, dbFields);
         }
-        else if (TypeCache.Get(typeOfResult).IsClassType())
+        else if (TypeCache.Get(typeOfResult).IsClassType)
         {
             return CompileDataReaderToDataEntity<TResult>(reader, dbFields);
         }

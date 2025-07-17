@@ -65,7 +65,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnInt";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnInt";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnInt";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     /*
@@ -111,14 +111,14 @@ public partial class PrimaryMapperTest
         var expected = "ColumnInt";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
 
         // Act
         actual = PrimaryCache.Get<PrimaryMapperTestWithAttributeClass>();
         expected = "ColumnString";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -132,14 +132,14 @@ public partial class PrimaryMapperTest
         var expected = "ColumnInt";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
 
         // Act
         actual = PrimaryCache.Get<PrimaryMapperTestWithAttributeClass>();
         expected = "ColumnString";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -153,14 +153,14 @@ public partial class PrimaryMapperTest
         var expected = "ColumnInt";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
 
         // Act
         actual = PrimaryCache.Get<PrimaryMapperTestWithAttributeClass>();
         expected = "ColumnString";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     /*
@@ -179,7 +179,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnString";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -194,7 +194,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnString";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -209,7 +209,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnString";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     /*
@@ -257,7 +257,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnId";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
 
         // Derived 2
 
@@ -269,7 +269,7 @@ public partial class PrimaryMapperTest
         expected = "ColumnId";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -285,7 +285,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnId";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
 
         // Derived 2
 
@@ -297,7 +297,7 @@ public partial class PrimaryMapperTest
         expected = "ColumnId";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
     }
 
     [TestMethod]
@@ -313,7 +313,7 @@ public partial class PrimaryMapperTest
         var expected = "ColumnId";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
 
         // Derived 2
 
@@ -325,7 +325,7 @@ public partial class PrimaryMapperTest
         expected = "ColumnId";
 
         // Assert
-        Assert.AreEqual(expected, actual?.GetMappedName());
+        Assert.AreEqual(expected, actual?.FieldName);
 
     }
 

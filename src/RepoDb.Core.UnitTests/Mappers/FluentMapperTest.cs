@@ -196,7 +196,7 @@ public partial class FluentMapperTest
         var expected = "PrimaryId";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     /*
@@ -211,7 +211,7 @@ public partial class FluentMapperTest
         var expected = "Id";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     /*
@@ -231,7 +231,7 @@ public partial class FluentMapperTest
         var expected = "RowId";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     /*
@@ -263,7 +263,7 @@ public partial class FluentMapperTest
         var expected = "PrimaryId";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     /*
@@ -278,7 +278,7 @@ public partial class FluentMapperTest
         var expected = "Id";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     /*
@@ -298,7 +298,7 @@ public partial class FluentMapperTest
         var expected = "RowId";
 
         // Assert
-        Assert.AreEqual(expected, actual.GetMappedName());
+        Assert.AreEqual(expected, actual.FieldName);
     }
 
     /*

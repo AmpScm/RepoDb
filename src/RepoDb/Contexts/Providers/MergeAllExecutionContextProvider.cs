@@ -270,7 +270,7 @@ internal static class MergeAllExecutionContextProvider
             .AsList();
 
         // Exclude the fields not on the actual entity
-        if (TypeCache.Get(entityType).IsClassType() == false)
+        if (TypeCache.Get(entityType).IsClassType == false)
         {
             var entityFields = Field.Parse(entities?.FirstOrDefault());
             inputFields = inputFields
@@ -294,7 +294,7 @@ internal static class MergeAllExecutionContextProvider
         // Check the qualifiers
         if (qualifiers?.Any() != true)
         {
-            qualifiers = dbFields.GetPrimaryFields()?.AsFields() ?? keyField?.AsEnumerable();
+            qualifiers = dbFields.PrimaryFields?.AsFields() ?? keyField?.AsEnumerable();
         }
 
         // Identity which objects to set

@@ -28,7 +28,7 @@ public static class FieldCache
     /// <returns>The cached list <see cref="Field"/> objects.</returns>
     public static FieldSet Get(Type entityType)
     {
-        if (!TypeCache.Get(entityType).IsClassType())
+        if (!TypeCache.Get(entityType).IsClassType)
             throw new ArgumentOutOfRangeException(nameof(entityType));
 
         // Try get the value

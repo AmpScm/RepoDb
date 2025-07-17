@@ -755,7 +755,7 @@ public class ExecuteQueryBuilderTest
             ClassMappedNameCache.Get<IdentityTable>(),
             fields: fields,
             primaryField: dbFields.GetPrimary(),
-            identityField: dbFields.GetIdentity());
+            identityField: dbFields.Identity);
 
         // Act
         var id = connection.ExecuteScalar(sql, table);
@@ -1137,7 +1137,7 @@ public class ExecuteQueryBuilderTest
             fields: fields,
             where: where,
             primaryField: dbFields.GetPrimary(),
-            identityField: dbFields.GetIdentity());
+            identityField: dbFields.Identity);
 
         // Act
         var affectedRow = connection.ExecuteNonQuery(sql, table);

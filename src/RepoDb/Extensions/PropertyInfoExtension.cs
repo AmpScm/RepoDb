@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Buffers;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Reflection;
 using RepoDb.Attributes;
@@ -28,8 +29,15 @@ public static class PropertyInfoExtension
     /// </summary>
     /// <param name="property">The property where the mapped name will be retrieved.</param>
     /// <returns>A string containing the mapped name.</returns>
-    public static string GetMappedName(this PropertyInfo property) =>
-        GetMappedName(property, property.DeclaringType!);
+    public static string GetMappedName(this PropertyInfo property)
+    {
+        ArgumentNullException.ThrowIfNull(property);
+        return GetMappedName(property, property.DeclaringType!);
+    }
+
+#if NET8_0_OR_GREATER
+    static readonly SearchValues<char> unquote = SearchValues.Create(['[', ']', '`', '\"']);
+#endif
 
     /// <summary>
     /// Gets the mapped name of the property.
@@ -44,17 +52,26 @@ public static class PropertyInfoExtension
             GetCustomAttribute<ColumnAttribute>(property)?.Name ??
             GetCustomAttribute<NameAttribute>(property)?.Name;
 
+#if NET8_0_OR_GREATER
+        if (mappedName is { } && mappedName.IndexOfAny(unquote) >= 0)
+#else
         if (mappedName is { })
+#endif
         {
             if (mappedName.StartsWith('[') && mappedName.EndsWith(']'))
             {
                 var nn = mappedName.Substring(1, mappedName.Length - 2);
 
                 if (nn.IndexOfAny(['[', ']']) < 0)
-                    mappedName = nn; ;
+                    mappedName = nn;
             }
-            else if (mappedName.Contains('`'))
-                mappedName = mappedName.Replace("`", "");
+            else
+            {
+                if (mappedName.Contains('`', StringComparison.Ordinal))
+                    mappedName = mappedName.Replace("`", "");
+                if (mappedName.Contains('"', StringComparison.Ordinal))
+                    mappedName = mappedName.Replace("\"", "");
+            }
         }
 
         return mappedName ??
@@ -151,8 +168,11 @@ public static class PropertyInfoExtension
     /// </summary>
     /// <param name="property">The instance of <see cref="PropertyInfo"/> object to be converted.</param>
     /// <returns>The converted instance of <see cref="Field"/> object.</returns>
-    public static Field AsField(this PropertyInfo property) =>
-        new(PropertyMappedNameCache.Get(property), TypeCache.Get(property.PropertyType).GetUnderlyingType());
+    public static Field AsField(this PropertyInfo property)
+    {
+        ArgumentNullException.ThrowIfNull(property);
+        return new(PropertyMappedNameCache.Get(property), TypeCache.Get(property.PropertyType).UnderlyingType);
+    }
 
     /// <summary>
     /// Converts an enumerable of <see cref="PropertyInfo"/> objects into an enumerable array of <see cref="Field"/>.
@@ -168,11 +188,14 @@ public static class PropertyInfoExtension
     /// <param name="propertyInfo">The target property.</param>
     /// <param name="declaringType">The declaring type.</param>
     /// <returns>The mapped <see cref="DbType"/> object.</returns>
-    public static DbType? GetDbType(this PropertyInfo propertyInfo, Type? declaringType = null) =>
-        TypeMapCache.Get(declaringType ??= propertyInfo.DeclaringType!, propertyInfo) ??
+    public static DbType? GetDbType(this PropertyInfo propertyInfo, Type? declaringType = null)
+    {
+        ArgumentNullException.ThrowIfNull(propertyInfo);
+        return TypeMapCache.Get(declaringType ??= propertyInfo.DeclaringType!, propertyInfo) ??
             GetPropertyValueAttribute<DbTypeAttribute>(propertyInfo, declaringType)?.DbType ??
             (DbType?)GetDbTypePropertyValueAttribute(propertyInfo, declaringType)?.Value ??
             TypeMapCache.Get(propertyInfo.PropertyType);
+    }
 
     /// <summary>
     /// Returns the list of <see cref="PropertyValueAttribute"/> object that is currently mapped
@@ -205,8 +228,11 @@ public static class PropertyInfoExtension
     /// <returns>The instance of target <see cref="PropertyValueAttribute"/> object.</returns>
     public static TPropertyValueAttribute? GetPropertyValueAttribute<TPropertyValueAttribute>(this PropertyInfo property,
         Type? declaringType = null)
-        where TPropertyValueAttribute : PropertyValueAttribute =>
-        GetPropertyValueAttributes(property, declaringType ?? property.DeclaringType!).OfType<TPropertyValueAttribute>().LastOrDefault();
+        where TPropertyValueAttribute : PropertyValueAttribute
+    {
+        ArgumentNullException.ThrowIfNull(property);
+        return GetPropertyValueAttributes(property, declaringType ?? property.DeclaringType!).OfType<TPropertyValueAttribute>().LastOrDefault();
+    }
 
     /// <summary>
     ///
@@ -239,8 +265,11 @@ public static class PropertyInfoExtension
     /// <param name="entity">The instance of the data entity object.</param>
     /// <returns>The handled value of the data entity property.</returns>
     public static object? GetHandledValue(this PropertyInfo property,
-        object entity) =>
-        GetHandledValue(property, entity, property.DeclaringType!);
+        object entity)
+    {
+        ArgumentNullException.ThrowIfNull(property);
+        return GetHandledValue(property, entity, property.DeclaringType!);
+    }
 
     /// <summary>
     /// Returns the value of the data entity property. If the property handler is defined in the property, then the

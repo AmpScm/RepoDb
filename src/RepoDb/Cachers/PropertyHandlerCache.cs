@@ -87,8 +87,11 @@ public static class PropertyHandlerCache
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Field field)
-        where TEntity : class =>
-        Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
+    }
 
 
     /// <summary>

@@ -51,7 +51,7 @@ public partial class PropertyMappedNameCacheTest
         var expected = "PropertyName";
 
         // Assert
-        Assert.AreEqual(expected, property.GetMappedName());
+        Assert.AreEqual(expected, property.FieldName);
     }
 
     [TestMethod]

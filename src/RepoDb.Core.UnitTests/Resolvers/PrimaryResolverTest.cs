@@ -69,7 +69,7 @@ public class PrimaryResolverTest
         var resolver = new PrimaryResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithPrimaryAttribute))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithPrimaryAttribute))?.FirstOrDefault()?.FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -83,7 +83,7 @@ public class PrimaryResolverTest
         var resolver = new PrimaryResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute))?.FirstOrDefault()?.FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -97,7 +97,7 @@ public class PrimaryResolverTest
         var resolver = new PrimaryResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithPrimaryAndKeyAttribute))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithPrimaryAndKeyAttribute))?.FirstOrDefault()?.FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -118,7 +118,7 @@ public class PrimaryResolverTest
             .Primary(e => e.SecondaryId);
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithPrimaryAttribute))?.FirstOrDefault().GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithPrimaryAttribute))?.FirstOrDefault().FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -135,7 +135,7 @@ public class PrimaryResolverTest
             .Primary(e => e.SecondaryId);
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute))?.FirstOrDefault()?.FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -153,7 +153,7 @@ public class PrimaryResolverTest
         var resolver = new PrimaryResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithPrimaryProperty))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithPrimaryProperty))?.FirstOrDefault()?.FieldName;
         var expected = "Id";
 
         // Assert
@@ -171,7 +171,7 @@ public class PrimaryResolverTest
         var resolver = new PrimaryResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithClassAndPrimaryProperty))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithClassAndPrimaryProperty))?.FirstOrDefault()?.FieldName;
         var expected = "EntityModelWithClassAndPrimaryPropertyId";
 
         // Assert
@@ -189,7 +189,7 @@ public class PrimaryResolverTest
         var resolver = new PrimaryResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithMapAttributeAndPrimaryProperty))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithMapAttributeAndPrimaryProperty))?.FirstOrDefault()?.FieldName;
         var expected = "MapId";
 
         // Assert
@@ -207,7 +207,7 @@ public class PrimaryResolverTest
         var resolver = new PrimaryResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithTableAttributeAndPrimaryProperty))?.FirstOrDefault()?.GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithTableAttributeAndPrimaryProperty))?.FirstOrDefault()?.FieldName;
         var expected = "TableId";
 
         // Assert

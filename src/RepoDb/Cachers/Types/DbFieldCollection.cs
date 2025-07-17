@@ -47,13 +47,13 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     /// <returns>A primary column definition.</returns>
     public DbField? GetPrimary() => lazyPrimary.Value;
 
-    public DbFieldCollection? GetPrimaryFields() => lazyPrimaryFields.Value;
+    public DbFieldCollection? PrimaryFields => lazyPrimaryFields.Value;
 
     /// <summary>
     /// Gets the identity column of this table if there is ine
     /// </summary>
     /// <returns>A identity column definition.</returns>
-    public DbField? GetIdentity() => lazyIdentity.Value;
+    public DbField? Identity => lazyIdentity.Value;
 
     /// <summary>
     /// Get the list of <see cref="DbField" /> objects converted into an <see cref="FieldSet" /> of <see cref="Field" /> objects.
@@ -78,7 +78,7 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
         {
             // If the collection is large, we will create a map for faster access
             if (_fields.Count > 10)
-                _nameMap ??= _fields.ToDictionary(df => df.FieldName, df => df, StringComparer.OrdinalIgnoreCase);
+                _nameMap = _fields.ToDictionary(df => df.FieldName, df => df, StringComparer.OrdinalIgnoreCase);
             else
                 return _fields.AsEnumerable().GetByFieldName(name);
         }
@@ -101,10 +101,10 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
 
     internal DbField? GetKeyColumnReturn(KeyColumnReturnBehavior keyColumnReturnBehavior) => keyColumnReturnBehavior switch
     {
-        KeyColumnReturnBehavior.Primary => GetPrimaryFields()?.FirstOrDefault(),
-        KeyColumnReturnBehavior.Identity => GetIdentity(),
-        KeyColumnReturnBehavior.PrimaryOrElseIdentity => GetPrimaryFields()?.FirstOrDefault() ?? GetIdentity(),
-        KeyColumnReturnBehavior.IdentityOrElsePrimary => GetIdentity() ?? GetPrimaryFields()?.FirstOrDefault(),
+        KeyColumnReturnBehavior.Primary => PrimaryFields?.FirstOrDefault(),
+        KeyColumnReturnBehavior.Identity => Identity,
+        KeyColumnReturnBehavior.PrimaryOrElseIdentity => PrimaryFields?.FirstOrDefault() ?? Identity,
+        KeyColumnReturnBehavior.IdentityOrElsePrimary => Identity ?? PrimaryFields?.FirstOrDefault(),
         _ => throw new NotSupportedException($"The key column return behavior '{GlobalConfiguration.Options.KeyColumnReturnBehavior}' is not supported."),
     };
 

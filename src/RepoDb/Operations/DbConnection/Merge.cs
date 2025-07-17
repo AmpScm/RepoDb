@@ -737,7 +737,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Return the result
-        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject() == true)
+        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject == true)
         {
             return MergeInternalBase<IDictionary<string, object>, TResult>(connection: connection,
                 tableName: tableName,
@@ -1538,7 +1538,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Return the result
-        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject() == true)
+        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject == true)
         {
             return MergeInternalBaseAsync<IDictionary<string, object>, TResult>(
                 connection: connection,
@@ -2172,7 +2172,7 @@ public static partial class DbConnectionExtension
             {
                 result = Converter.ToType<TResult>(reader.GetValue(0))!;
             }
-            else if (connection.GetDbFields(tableName, transaction).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
+            else if (DbFieldCache.Get(connection, tableName, transaction).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
                 && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
             {
                 result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
@@ -2272,13 +2272,13 @@ public static partial class DbConnectionExtension
 #if NET
             await
 #endif
-            using var reader = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
             if (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
             {
                 result = Converter.ToType<TResult>(reader.GetValue(0))!;
             }
-            else if (connection.GetDbFields(tableName, transaction).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
+            else if ((await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false)).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
                 && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
             {
                 result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;

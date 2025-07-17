@@ -47,7 +47,7 @@ public class TypeMapAttributeTest
         // Act
         var actual = PropertyCache.Get<TypeMapAttributeTestClass>()
             .First(p => p.PropertyInfo.Name == "ColumnDateTime");
-        var result = actual.GetDbType();
+        var result = actual.DbType;
         var expected = DbType.DateTime2;
 
         // Assert

@@ -110,7 +110,7 @@ public class Field : IEquatable<Field>
         obj switch
         {
             null => FieldSet.Empty,
-            _ when (TypeCache.Get(obj.GetType()).IsDictionaryStringObject() == true) => ParseDictionaryStringObject((IDictionary<string, object>)obj),
+            _ when (TypeCache.Get(obj.GetType()).IsDictionaryStringObject == true) => ParseDictionaryStringObject((IDictionary<string, object>)obj),
             _ => Parse(obj.GetType())
         };
 
@@ -122,7 +122,7 @@ public class Field : IEquatable<Field>
     /// <returns>An enumerable of <see cref="Field"/> objects.</returns>
     public static FieldSet Parse<TEntity>(TEntity? instance = null) where TEntity : class
     {
-        if (instance is { } && TypeCache.Get(instance.GetType()).IsDictionaryStringObject() == true)
+        if (instance is { } && TypeCache.Get(instance.GetType()).IsDictionaryStringObject == true)
             return ParseDictionaryStringObject((IDictionary<string, object>)instance);
 
         return Parse(instance?.GetType() ?? typeof(TEntity));

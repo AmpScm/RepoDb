@@ -33,7 +33,7 @@ public static partial class SqlConnectionExtension
         var list = entities.AsList();
         var result = 0;
 
-        if (TypeCache.Get(entityType).IsDictionaryStringObject())
+        if (TypeCache.Get(entityType).IsDictionaryStringObject)
         {
             while (reader.Read())
             {
@@ -81,7 +81,7 @@ public static partial class SqlConnectionExtension
         var list = entities.AsList();
         var result = 0;
 
-        if (TypeCache.Get(entityType).IsDictionaryStringObject())
+        if (TypeCache.Get(entityType).IsDictionaryStringObject)
         {
             while (await reader.ReadAsync(cancellationToken))
             {

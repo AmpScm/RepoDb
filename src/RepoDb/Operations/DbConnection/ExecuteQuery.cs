@@ -265,7 +265,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-            using var command = (await CreateDbCommandForExecutionAsync(connection: (DbConnection)connection,
+            using var command = await CreateDbCommandForExecutionAsync(connection: (DbConnection)connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -274,7 +274,7 @@ public static partial class DbConnectionExtension
             entityType: null,
             dbFields: dbFields,
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck,
-            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         // Variables
         IEnumerable<dynamic>? result = null;
@@ -293,7 +293,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
+        using (var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false))
         {
             result = await DataReader.ToEnumerableAsync(reader, dbFields, cancellationToken)
                 .ToListAsync(cancellationToken).ConfigureAwait(false);
@@ -418,7 +418,7 @@ public static partial class DbConnectionExtension
         var typeOfResult = typeof(TResult);
 
         // Identify
-        if (TypeCache.Get(typeOfResult).IsDictionaryStringObject() || typeOfResult.IsObjectType())
+        if (TypeCache.Get(typeOfResult).IsDictionaryStringObject || typeOfResult.IsObjectType())
         {
             return ExecuteQueryInternalForDictionaryStringObject<TResult>(connection: connection,
                 commandText: commandText,
@@ -722,7 +722,7 @@ public static partial class DbConnectionExtension
         var typeOfResult = typeof(TResult);
 
         // Identify
-        if (TypeCache.Get(typeOfResult).IsDictionaryStringObject() || typeOfResult.IsObjectType())
+        if (TypeCache.Get(typeOfResult).IsDictionaryStringObject || typeOfResult.IsObjectType())
         {
             return await ExecuteQueryInternalAsyncForDictionaryStringObject<TResult>(connection: connection,
                commandText: commandText,
@@ -883,7 +883,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-            using var command = (await CreateDbCommandForExecutionAsync(connection: (DbConnection)connection,
+            using var command = await CreateDbCommandForExecutionAsync(connection: (DbConnection)connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -892,7 +892,7 @@ public static partial class DbConnectionExtension
             entityType: typeof(TResult),
             dbFields: dbFields,
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck,
-            cancellationToken: cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         IEnumerable<TResult>? result = null;
 
@@ -910,7 +910,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-        using (var reader = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false))
+        using (var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false))
         {
             result = await DataReader.ToEnumerableAsync<TResult>(reader, dbFields, cancellationToken)
                 .ToListAsync(cancellationToken).ConfigureAwait(false);

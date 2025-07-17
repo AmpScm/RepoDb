@@ -27,7 +27,7 @@ public class ClientTypeToDbTypeResolver : IResolver<Type, DbType?>
             return null; // TODO: Maybe use GlobalSettings to return string/int ?
         }
 
-        type = TypeCache.Get(type).GetUnderlyingType();
+        type = TypeCache.Get(type).UnderlyingType;
 
         if (type == StaticType.Int64)
         {

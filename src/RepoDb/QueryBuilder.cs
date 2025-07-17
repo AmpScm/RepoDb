@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Security.Cryptography;
 using System.Text;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -141,7 +140,7 @@ public sealed class QueryBuilder
         string separator = ", ",
         bool spaceBefore = true)
     {
-        if (values.IsNullOrEmpty()) return this;
+        if (values?.IsNullOrEmpty() != false) return this;
 
         if (spaceBefore && !skipNextSpace)
             Space();

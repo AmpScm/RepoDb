@@ -98,7 +98,7 @@ internal static class Compiler
                 includeIdentity,
                 dbSetting);
             var mappings = matchedProperties.Select(property =>
-                new NpgsqlBulkInsertMapItem(property.PropertyInfo.Name, property.GetMappedName()));
+                new NpgsqlBulkInsertMapItem(property.PropertyInfo.Name, property.FieldName));
 
             return GetFunc(tableName, mappings, entityType);
         }
@@ -270,7 +270,7 @@ internal static class Compiler
                 includeIdentity,
                 dbSetting);
             var mappings = matchedProperties.Select(property =>
-                new NpgsqlBulkInsertMapItem(property.PropertyInfo.Name, property.GetMappedName()));
+                new NpgsqlBulkInsertMapItem(property.PropertyInfo.Name, property.FieldName));
 
             return GetFunc(tableName, mappings, entityType);
         }
@@ -442,7 +442,7 @@ internal static class Compiler
         var propertyExpression = (Expression)Expression.Property(entityExpression, mapping.SourceColumn);
 
         // Enum
-        if (TypeCache.Get(classProperty.PropertyInfo.PropertyType).GetUnderlyingType().IsEnum)
+        if (TypeCache.Get(classProperty.PropertyInfo.PropertyType).UnderlyingType.IsEnum)
         {
             propertyExpression = GetEntityPropertyExpressionForEnum(propertyExpression, mapping.NpgsqlDbType);
         }
@@ -469,9 +469,9 @@ internal static class Compiler
             _ => propertyExpression
         };
 
-        if (TypeCache.Get(propertyExpression.Type).IsNullable())
+        if (TypeCache.Get(propertyExpression.Type).IsNullable)
         {
-            var underlyingType = TypeCache.Get(expression.Type).GetUnderlyingType();
+            var underlyingType = TypeCache.Get(expression.Type).UnderlyingType;
             var nullableType = underlyingType.IsValueType ?
                 typeof(Nullable<>).MakeGenericType(underlyingType) : underlyingType;
             var testExpression = Expression.Equal(Expression.Constant(null), propertyExpression);
@@ -504,9 +504,9 @@ internal static class Compiler
         Type intBasedType)
     {
         var cachedType = TypeCache.Get(propertyExpression.Type);
-        var typeExpression = Expression.Constant(cachedType.GetUnderlyingType());
+        var typeExpression = Expression.Constant(cachedType.UnderlyingType);
         var nameExpression = Expression.Call(GetEnumGetNameMethod(),
-            Expression.Constant(cachedType.GetUnderlyingType()),
+            Expression.Constant(cachedType.UnderlyingType),
             Expression.Convert(propertyExpression, typeof(object)));
         var ignoreCaseExpression = Expression.Constant(true);
         var valueExpression = Expression.Call(GetEnumParseMethod(), typeExpression, nameExpression, ignoreCaseExpression);

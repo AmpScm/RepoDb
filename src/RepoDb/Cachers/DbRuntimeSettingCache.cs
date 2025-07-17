@@ -43,6 +43,8 @@ public static class DbRuntimeSettingCache
     internal static DbRuntimeSetting GetInternal(IDbConnection connection,
         IDbTransaction? transaction)
     {
+        ArgumentNullException.ThrowIfNull(connection);
+
         var key = (connection.GetType(), connection.Database);
 
         var result = cache.GetOrAdd(key,
@@ -83,6 +85,8 @@ public static class DbRuntimeSettingCache
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(connection);
+
         var key = (connection.GetType(), connection.Database);
 
         // Try get the value

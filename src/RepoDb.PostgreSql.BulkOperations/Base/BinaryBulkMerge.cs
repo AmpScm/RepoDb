@@ -43,7 +43,7 @@ public static partial class NpgsqlConnectionExtension
         where TEntity : class
     {
         var entityType = entities?.First()?.GetType() ?? typeof(TEntity); // Solving the anonymous types
-        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject();
+        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
         var pseudoTableName = tableName;
@@ -96,7 +96,7 @@ public static partial class NpgsqlConnectionExtension
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.GetPrimary()?.AsField(),
-                    dbFields.GetIdentity()?.AsField(),
+                    dbFields.                    Identity?.AsField(),
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -193,7 +193,7 @@ public static partial class NpgsqlConnectionExtension
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.GetPrimary()?.AsField(),
-                    dbFields.GetIdentity()?.AsField(),
+                    dbFields.                    Identity?.AsField(),
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -284,7 +284,7 @@ public static partial class NpgsqlConnectionExtension
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.GetPrimary()?.AsField(),
-                    dbFields.GetIdentity()?.AsField(),
+                    dbFields.                    Identity?.AsField(),
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -340,7 +340,7 @@ public static partial class NpgsqlConnectionExtension
         where TEntity : class
     {
         var entityType = entities?.First()?.GetType() ?? typeof(TEntity); // Solving the anonymous types
-        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject();
+        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var dbSetting = connection.GetDbSetting();
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken);
         var pseudoTableName = tableName;
@@ -394,7 +394,7 @@ public static partial class NpgsqlConnectionExtension
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.GetPrimary()?.AsField(),
-                    dbFields.GetIdentity()?.AsField(),
+                    dbFields.                    Identity?.AsField(),
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -495,7 +495,7 @@ public static partial class NpgsqlConnectionExtension
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.GetPrimary()?.AsField(),
-                    dbFields.GetIdentity()?.AsField(),
+                    dbFields.                    Identity?.AsField(),
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -590,7 +590,7 @@ public static partial class NpgsqlConnectionExtension
                     mappings.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.GetPrimary()?.AsField(),
-                    dbFields.GetIdentity()?.AsField(),
+                    dbFields.                    Identity?.AsField(),
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),

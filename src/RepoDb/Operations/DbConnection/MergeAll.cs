@@ -422,7 +422,7 @@ public static partial class DbConnectionExtension
         // Return the result
         if (setting.IsUseUpsert == false)
         {
-            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
             {
                 return MergeAllInternalBase(connection: connection,
                     tableName: tableName,
@@ -457,7 +457,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
             {
                 return UpsertAllInternalBase(connection: connection,
                     tableName: tableName,
@@ -924,7 +924,7 @@ public static partial class DbConnectionExtension
         // Return the result
         if (setting.IsUseUpsert == false)
         {
-            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
             {
                 return await MergeAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
@@ -961,7 +961,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+            if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
             {
                 return await UpsertAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
@@ -1696,7 +1696,7 @@ public static partial class DbConnectionExtension
 #if NET
                         await
 #endif
-                        using var reader = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+                        using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
                         // Get the results.
                         var position = 0;
@@ -1770,7 +1770,7 @@ public static partial class DbConnectionExtension
         // Variables needed
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
+        qualifiers ??= dbFields.PrimaryFields?.AsFields();
 
         // Check the qualifiers
         if (qualifiers?.Any() != true)
@@ -1852,7 +1852,7 @@ public static partial class DbConnectionExtension
         // Variables needed
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
+        qualifiers ??= dbFields.PrimaryFields?.AsFields();
 
         // Check the qualifiers
         if (qualifiers?.Any() != true)

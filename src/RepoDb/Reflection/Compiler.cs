@@ -188,8 +188,8 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static MethodInfo? GetSystemConvertToTypeMethod(Type fromType,
         Type toType) =>
-        StaticType.Convert.GetMethod(string.Concat("To", TypeCache.Get(toType).GetUnderlyingType().Name),
-            [TypeCache.Get(fromType).GetUnderlyingType()])!;
+        StaticType.Convert.GetMethod(string.Concat("To", TypeCache.Get(toType).UnderlyingType.Name),
+            [TypeCache.Get(fromType).UnderlyingType])!;
 
     /// <summary>
     ///
@@ -198,7 +198,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static MethodInfo? GetSystemConvertChangeTypeMethod(Type conversionType) =>
         StaticType.Convert.GetMethod(nameof(Convert.ChangeType),
-            [StaticType.Object, TypeCache.Get(conversionType).GetUnderlyingType()]);
+            [StaticType.Object, TypeCache.Get(conversionType).UnderlyingType]);
 
     /// <summary>
     ///
@@ -395,7 +395,7 @@ internal sealed partial class Compiler
         if (value == null && readerField?.Type != null)
         {
             value = PropertyHandlerCache
-                .Get<object>(TypeCache.Get(readerField.Type).GetUnderlyingType());
+                .Get<object>(TypeCache.Get(readerField.Type).UnderlyingType);
         }
         return value;
     }
@@ -560,8 +560,8 @@ internal sealed partial class Compiler
         Type toType)
     {
         var fromType = expression.Type;
-        var underlyingFromType = TypeCache.Get(fromType).GetUnderlyingType();
-        var underlyingToType = TypeCache.Get(toType).GetUnderlyingType();
+        var underlyingFromType = TypeCache.Get(fromType).UnderlyingType;
+        var underlyingToType = TypeCache.Get(toType).UnderlyingType;
 
         if (fromType == toType)
         {
@@ -640,7 +640,7 @@ internal sealed partial class Compiler
             result = Expression.Call(systemChangeType,
             [
                 ConvertExpressionToTypeExpression(result, StaticType.Object),
-                Expression.Constant(TypeCache.Get(underlyingToType).GetUnderlyingType())
+                Expression.Constant(TypeCache.Get(underlyingToType).UnderlyingType)
             ]);
         }
         else if (underlyingFromType == StaticType.String)
@@ -896,7 +896,7 @@ internal sealed partial class Compiler
     private static Expression ConvertEnumExpressionToTypeExpression(Expression expression,
         Type toType)
     {
-        var underlyingType = TypeCache.Get(toType).GetUnderlyingType();
+        var underlyingType = TypeCache.Get(toType).UnderlyingType;
         if (underlyingType == StaticType.String || underlyingType == StaticType.Boolean)
         {
             return ConvertEnumExpressionToTypeExpressionForString(expression);
@@ -922,7 +922,7 @@ internal sealed partial class Compiler
         Expression falseExpression;
 
         // Ensure (Ref/Nullable)
-        if (TypeCache.Get(expression.Type).IsNullable())
+        if (TypeCache.Get(expression.Type).IsNullable)
         {
             // Check
             isNullExpression = Expression.Equal(Expression.Constant(null), expression);
@@ -955,14 +955,14 @@ internal sealed partial class Compiler
 
         // Ensure (Ref/Nullable)
         var cachedType = TypeCache.Get(expression.Type);
-        if (cachedType.IsNullable())
+        if (cachedType.IsNullable)
         {
             isNullExpression = Expression.Equal(Expression.Constant(null), expression);
             trueExpression = GetNullableTypeExpression(toType);
         }
 
         // Casting
-        if (TypeCache.Get(toType).GetUnderlyingType() is { } tt && cachedType.GetUnderlyingType() != tt)
+        if (TypeCache.Get(toType).UnderlyingType is { } tt && cachedType.UnderlyingType != tt)
         {
             if (tt != StaticType.Decimal)
             {
@@ -973,13 +973,13 @@ internal sealed partial class Compiler
                 // Oracle loves decimal
                 falseExpression =
                     ConvertExpressionToTypeExpression(
-                        ConvertExpressionToTypeExpression(expression, Enum.GetUnderlyingType(cachedType.GetUnderlyingType())),
+                        ConvertExpressionToTypeExpression(expression, Enum.GetUnderlyingType(cachedType.UnderlyingType)),
                         tt);
             }
         }
 
         // Nullable
-        if (cachedType.IsNullable())
+        if (cachedType.IsNullable)
         {
             falseExpression = ConvertExpressionToNullableExpression(falseExpression, toType);
         }
@@ -1016,13 +1016,13 @@ internal sealed partial class Compiler
         }
 
         var underlyingType = Nullable.GetUnderlyingType(expression.Type);
-        targetNullableType = TypeCache.Get(targetNullableType).GetUnderlyingType();
+        targetNullableType = TypeCache.Get(targetNullableType).UnderlyingType;
 
         if (targetNullableType.IsValueType && (underlyingType == null || underlyingType != targetNullableType))
         {
             var nullableType = StaticType.Nullable.MakeGenericType(targetNullableType);
             var constructor = nullableType.GetConstructor([targetNullableType])!;
-            expression = TypeCache.Get(expression.Type).IsNullable() ? expression :
+            expression = TypeCache.Get(expression.Type).IsNullable ? expression :
                 Expression.New(constructor, ConvertExpressionToTypeExpression(expression, targetNullableType));
         }
 
@@ -1038,8 +1038,8 @@ internal sealed partial class Compiler
     private static Expression ConvertExpressionWithAutomaticConversion(Expression expression,
         Type trueToType)
     {
-        var fromType = TypeCache.Get(expression.Type).GetUnderlyingType();
-        var toType = TypeCache.Get(trueToType)?.GetUnderlyingType();
+        var fromType = TypeCache.Get(expression.Type).UnderlyingType;
+        var toType = TypeCache.Get(trueToType)?.UnderlyingType;
 
         // Guid to String
         if (fromType == StaticType.Guid && toType == StaticType.String)
@@ -1211,7 +1211,7 @@ internal sealed partial class Compiler
 
         // Nullable
         expression = ConvertExpressionToNullableExpression(expression,
-            TypeCache.Get(setParameter.ParameterType).GetUnderlyingType());
+            TypeCache.Get(setParameter.ParameterType).UnderlyingType);
 
         // Call
         var valueExpression = ConvertExpressionToTypeExpression(expression, setParameter.ParameterType);
@@ -1406,7 +1406,7 @@ internal sealed partial class Compiler
         var readerGetValueMethod = GetDbReaderGetValueOrDefaultMethod(readerField, readerType);
         var valueExpression = (Expression)GetDbReaderGetValueExpression(readerParameterExpression,
             readerGetValueMethod, readerField.Ordinal);
-        var targetTypeUnderlyingType = TypeCache.Get(targetType).GetUnderlyingType();
+        var targetTypeUnderlyingType = TypeCache.Get(targetType).UnderlyingType;
 
         // get handler on class property or type level
         var handlerInstance = GetHandlerInstance(classPropertyParameterInfo, readerField) ?? PropertyHandlerCache.Get<object>(classPropertyParameterInfo.GetTargetType());
@@ -1419,7 +1419,7 @@ internal sealed partial class Compiler
             if (handlerInstance != null)
             {
                 var getParameter = GetPropertyHandlerGetParameter(GetPropertyHandlerGetMethod(handlerInstance))!;
-                autoConvertEnum = !(TypeCache.Get(getParameter.ParameterType).GetUnderlyingType() == readerField.Type);
+                autoConvertEnum = !(TypeCache.Get(getParameter.ParameterType).UnderlyingType == readerField.Type);
             }
             if (autoConvertEnum)
             {
@@ -1483,7 +1483,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static Expression GetNullableTypeExpression(Type targetType) =>
         targetType.IsValueType
-        ? Expression.New(StaticType.Nullable.MakeGenericType(TypeCache.Get(targetType).GetUnderlyingType()))
+        ? Expression.New(StaticType.Nullable.MakeGenericType(TypeCache.Get(targetType).UnderlyingType))
         : Expression.Constant(null, targetType);
 
     /// <summary>
@@ -1685,7 +1685,7 @@ internal sealed partial class Compiler
             var expression = (Expression)GetDbReaderGetValueExpression(readerParameterExpression, readerGetValueMethod, ordinal);
 
             // Check for nullables
-            if (readerField.DbField == null || readerField.DbField?.IsNullable == true)
+            if (readerField.DbField == null || readerField.DbField.IsNullable == true)
             {
                 var isDbNullExpression = GetDbNullExpression(readerParameterExpression, ordinal);
                 var toType = (readerField.Type?.IsValueType != true) ? (readerField.Type ?? StaticType.Object) : StaticType.Object;
@@ -1720,9 +1720,9 @@ internal sealed partial class Compiler
         var expression = (Expression)Expression.Property(entityInstanceExpression, classProperty.PropertyInfo);
 
         // Target type
-        var handlerInstance = classProperty.GetPropertyHandler() ?? PropertyHandlerCache.Get<object>(TypeCache.Get(dbField.Type).GetUnderlyingType());
+        var handlerInstance = classProperty.GetPropertyHandler() ?? PropertyHandlerCache.Get<object>(TypeCache.Get(dbField.Type).UnderlyingType);
         var targetType = GetPropertyHandlerSetParameter(handlerInstance)?.ParameterType
-            ?? (classProperty.GetDbType() is { } dbt ? new DbTypeToClientTypeResolver().Resolve(dbt) : null)
+            ?? (classProperty.DbType is { } dbt ? new DbTypeToClientTypeResolver().Resolve(dbt) : null)
             ?? dbField.TypeNullable();
 
         if (targetType.IsValueType && dbField.IsNullable)
@@ -1737,14 +1737,14 @@ internal sealed partial class Compiler
          */
 
         // Enum Handling
-        if (TypeCache.Get(classProperty.PropertyInfo.PropertyType).GetUnderlyingType() is { } underlyingType
+        if (TypeCache.Get(classProperty.PropertyInfo.PropertyType).UnderlyingType is { } underlyingType
             && underlyingType.IsEnum == true)
         {
             try
             {
                 if (!IsPostgreSqlUserDefined(dbField))
                 {
-                    var dbType = classProperty.GetDbType() ?? underlyingType.GetDbType();
+                    var dbType = classProperty.DbType ?? underlyingType.GetDbType();
                     var toType = dbType.HasValue ? new DbTypeToClientTypeResolver().Resolve(dbType.Value)! : targetType;
 
                     expression = ConvertEnumExpressionToTypeExpression(expression, toType);
@@ -1764,8 +1764,8 @@ internal sealed partial class Compiler
             expression = ConvertExpressionWithAutomaticConversion(expression, targetType);
 
             if (dbField?.IsIdentity == true
-                && targetType.IsValueType && !TypeCache.Get(targetType).IsNullable()
-                && TypeCache.Get(origExpression.Type).IsNullable())
+                && targetType.IsValueType && !TypeCache.Get(targetType).IsNullable
+                && TypeCache.Get(origExpression.Type).IsNullable)
             {
                 var nullableType = typeof(Nullable<>).MakeGenericType(expression.Type);
 
@@ -1786,7 +1786,7 @@ internal sealed partial class Compiler
         try
         {
             expression = ConvertExpressionToPropertyHandlerSetExpression(
-                expression, null, classProperty, TypeCache.Get(dbField?.Type).GetUnderlyingType());
+                expression, null, classProperty, TypeCache.Get(dbField?.Type).UnderlyingType);
         }
         catch (Exception ex)
         {
@@ -1823,7 +1823,7 @@ internal sealed partial class Compiler
 
         // Property Handler
         expression = ConvertExpressionToPropertyHandlerSetExpression(expression,
-            null, null, TypeCache.Get(dbField?.Type).GetUnderlyingType());
+            null, null, TypeCache.Get(dbField?.Type).UnderlyingType);
 
         // Convert to object
         return ConvertExpressionToTypeExpression(expression, StaticType.Object);
@@ -1843,7 +1843,7 @@ internal sealed partial class Compiler
 
         // Property Handler
         expression = ConvertExpressionToPropertyHandlerSetExpression(expression,
-            null, null, TypeCache.Get(dbField.Type).GetUnderlyingType());
+            null, null, TypeCache.Get(dbField.Type).UnderlyingType);
 
         // Convert to object
         return ConvertExpressionToTypeExpression(expression, StaticType.Object);
@@ -1877,7 +1877,7 @@ internal sealed partial class Compiler
         }
 
         // Nullable? -> Convert to DBNull when necessary
-        if (TypeCache.Get(expression.Type) is { } returnType && returnType.HasNullValue())
+        if (TypeCache.Get(expression.Type) is { } returnType && returnType.HasNullValue)
         {
             expression = ConvertExpressionToDbNullExpression(expression);
         }
@@ -1939,10 +1939,10 @@ internal sealed partial class Compiler
     private static DbType? GetDbType(ClassProperty? classProperty,
         DbField dbField)
     {
-        var dbType = IsPostgreSqlUserDefined(dbField) ? DbType.Object : classProperty?.GetDbType();
+        var dbType = IsPostgreSqlUserDefined(dbField) ? DbType.Object : classProperty?.DbType;
         if (dbType == null)
         {
-            var underlyingType = TypeCache.Get(dbField?.Type).GetUnderlyingType();
+            var underlyingType = TypeCache.Get(dbField?.Type).UnderlyingType;
             dbType = TypeMapper.Get(underlyingType) ?? new ClientTypeToDbTypeResolver().Resolve(underlyingType);
         }
         return dbType;
@@ -2205,7 +2205,7 @@ internal sealed partial class Compiler
         var fieldName = fieldDirection.DbField.FieldName;
 
         // Set the proper assignments (property)
-        if (TypeCache.Get(entityExpression.Type).IsClassType() == false)
+        if (TypeCache.Get(entityExpression.Type).IsClassType == false)
         {
             var typeGetPropertyMethod = GetMethodInfo<Type>(t => t.GetProperty("", BindingFlags.Instance));
             var objectGetTypeMethod = GetMethodInfo<object>(x => x.GetType());

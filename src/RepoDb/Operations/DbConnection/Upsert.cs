@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using RepoDb.Contexts.Providers;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -40,12 +41,13 @@ public static partial class DbConnectionExtension
     {
         // Variables needed
         var type = entity.GetType();
-        var isDictionaryType = TypeCache.Get(type).IsDictionaryStringObject();
+        var isDictionaryType = TypeCache.Get(type).IsDictionaryStringObject;
         var dbFields = DbFieldCache.Get(connection, tableName, transaction, true);
-        var primary = dbFields.GetPrimary();
-        ClassProperty? primaryKey = null;
 
-        qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
+        var resultField = ExecutionContextProvider.GetTargetReturnColumnAsField(entity.GetType(), dbFields);
+        ClassProperty? resultInfo = null;
+
+        qualifiers ??= dbFields.PrimaryFields?.AsFields();
 
         // Check the qualifiers
         if (qualifiers?.Any() != true)
@@ -59,12 +61,11 @@ public static partial class DbConnectionExtension
         {
             IEnumerable<ClassProperty> properties = type.IsGenericType == true ? type.GetClassProperties() : PropertyCache.Get(type);
 
-            // Set the primary key
-            primaryKey = properties.GetByFieldName(primary?.FieldName);
-
             where = CreateQueryGroupForUpsert(entity,
                 properties,
                 qualifiers);
+
+            resultInfo = properties.GetByFieldName(resultField?.FieldName);
         }
         else
         {
@@ -109,15 +110,15 @@ public static partial class DbConnectionExtension
             {
                 if (isDictionaryType == false)
                 {
-                    if (primaryKey != null)
+                    if (resultInfo != null)
                     {
-                        result = Converter.ToType<TResult>(primaryKey.PropertyInfo.GetValue(entity));
+                        result = Converter.ToType<TResult>(resultInfo.PropertyInfo.GetValue(entity));
                     }
                 }
                 else
                 {
                     var dictionary = (IDictionary<string, object>)entity;
-                    if (primary != null && dictionary.TryGetValue(primary.FieldName, out var value))
+                    if (resultField != null && dictionary.TryGetValue(resultField.FieldName, out var value))
                     {
                         result = Converter.ToType<TResult>(value);
                     }
@@ -183,17 +184,18 @@ public static partial class DbConnectionExtension
     {
         // Variables needed
         var type = entity.GetType() ?? typeof(TEntity);
-        var isDictionaryType = TypeCache.Get(type).IsDictionaryStringObject();
+        var isDictionaryType = TypeCache.Get(type).IsDictionaryStringObject;
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
-        var primary = dbFields.GetPrimary();
+
+        var resultField = ExecutionContextProvider.GetTargetReturnColumnAsField(entity.GetType(), dbFields);
+        ClassProperty? resultProperty = null;
         IEnumerable<ClassProperty>? properties = null;
-        ClassProperty? primaryKey = null;
 
         // Check the qualifiers
         if (qualifiers?.Any() != true)
         {
             // Set the primary as the qualifier
-            qualifiers = dbFields.GetPrimaryFields()?.AsFields();
+            qualifiers = dbFields.PrimaryFields?.AsFields();
 
             if (qualifiers is null)
             {
@@ -215,8 +217,7 @@ public static partial class DbConnectionExtension
             }
 
             // Set the primary key
-            primaryKey = properties.FirstOrDefault(p =>
-                string.Equals(primary?.FieldName, p.FieldName, StringComparison.OrdinalIgnoreCase));
+            resultProperty = resultField != null ? properties.GetByFieldName(resultField.FieldName) : null;
 
             where = CreateQueryGroupForUpsert(entity,
                 properties,
@@ -267,15 +268,15 @@ public static partial class DbConnectionExtension
             {
                 if (isDictionaryType == false)
                 {
-                    if (primaryKey != null)
+                    if (resultProperty != null)
                     {
-                        result = Converter.ToType<TResult>(primaryKey.PropertyInfo.GetValue(entity))!;
+                        result = Converter.ToType<TResult>(resultProperty.PropertyInfo.GetValue(entity))!;
                     }
                 }
                 else
                 {
                     var dictionary = (IDictionary<string, object>)entity;
-                    if (primary != null && dictionary.TryGetValue(primary.FieldName, out var value))
+                    if (resultField != null && dictionary.TryGetValue(resultField.FieldName, out var value))
                     {
                         result = Converter.ToType<TResult>(value)!;
                     }

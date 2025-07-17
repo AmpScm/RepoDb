@@ -322,16 +322,22 @@ public static class PropertyValueAttributeMapper
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     /// <returns>The list of mapped <see cref="PropertyValueAttribute"/> objects.</returns>
     public static IEnumerable<PropertyValueAttribute>? Get<TEntity>(Field field)
-        where TEntity : class =>
-        Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+    }
 
     /// <summary>
     /// Get the list of mapped <see cref="PropertyValueAttribute"/> objects of the <see cref="PropertyInfo"/> object.
     /// </summary>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The list of mapped <see cref="PropertyValueAttribute"/> objects.</returns>
-    public static IEnumerable<PropertyValueAttribute>? Get(PropertyInfo propertyInfo) =>
-        Get(propertyInfo.DeclaringType!, propertyInfo);
+    public static IEnumerable<PropertyValueAttribute>? Get(PropertyInfo propertyInfo)
+    {
+        ArgumentNullException.ThrowIfNull(propertyInfo);
+        return Get(propertyInfo.DeclaringType!, propertyInfo);
+    }
 
     /// <summary>
     /// Get the list of mapped <see cref="PropertyValueAttribute"/> objects of the <see cref="PropertyInfo"/> object.

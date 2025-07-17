@@ -157,7 +157,7 @@ public partial class QueryField
         // Operation
         var operation = GetOperation(expression.NodeType);
 
-        if (value is { } && TypeCache.Get(property.PropertyInfo.PropertyType).GetUnderlyingType() is { } ut && ut.IsEnum)
+        if (value is { } && TypeCache.Get(property.PropertyInfo.PropertyType).UnderlyingType is { } ut && ut.IsEnum)
         {
             value = ToEnumValue(ut, value);
         }

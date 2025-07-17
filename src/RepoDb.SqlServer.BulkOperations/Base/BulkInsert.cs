@@ -56,9 +56,9 @@ public static partial class SqlConnectionExtension
             var dbFields = DbFieldCache.Get(connection, tableName, transaction, true);
 
             // Variables needed
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var entityType = entities?.FirstOrDefault()?.GetType() ?? typeof(TEntity);
-            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject() ?
+            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
                 GetDictionaryStringObjectFields(entities?.FirstOrDefault() as IDictionary<string, object>) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
@@ -304,7 +304,7 @@ public static partial class SqlConnectionExtension
             var dbFields = DbFieldCache.Get(connection, tableName, transaction, true);
 
             // Variables needed
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var tableFields = GetDataColumns(dataTable)
                 .Select(column => column.ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
@@ -466,9 +466,9 @@ public static partial class SqlConnectionExtension
             var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, true, cancellationToken: cancellationToken);
 
             // Variables needed
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var entityType = firstEntity.GetType();
-            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject() ?
+            var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
                 GetDictionaryStringObjectFields(firstEntity as IDictionary<string, object>) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
@@ -718,7 +718,7 @@ public static partial class SqlConnectionExtension
             var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, true, cancellationToken);
 
             // Variables needed
-            var identityDbField = dbFields?.GetIdentity();
+            var identityDbField = dbFields?.Identity;
             var tableFields = GetDataColumns(dataTable)
                 .Select(column => column.ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();

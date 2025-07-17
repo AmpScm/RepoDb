@@ -1,4 +1,5 @@
-﻿using RepoDb.Exceptions;
+﻿using System.Globalization;
+using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Resolvers;
@@ -352,7 +353,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                     .OpenParen()
                     .ParametersFrom(insertableFields, index, DbSetting)
                     .Comma()
-                    .WriteText(index.ToString())
+                    .WriteText(index.ToString(CultureInfo.InvariantCulture))
                     .CloseParen();
             }
 

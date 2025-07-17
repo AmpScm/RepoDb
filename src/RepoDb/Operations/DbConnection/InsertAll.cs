@@ -128,7 +128,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
-        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
         {
             return InsertAllInternalBase(connection: connection,
                 tableName: tableName,
@@ -281,7 +281,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject())
+        if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
         {
             return InsertAllInternalBaseAsync(connection: connection,
                 tableName: tableName,
@@ -857,7 +857,7 @@ public static partial class DbConnectionExtension
 #if NET
                         await
 #endif
-                        using var reader = (await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+                        using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
                         // Get the results
                         var position = 0;

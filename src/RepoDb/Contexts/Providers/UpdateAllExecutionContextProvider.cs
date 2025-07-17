@@ -216,7 +216,7 @@ internal static class UpdateAllExecutionContextProvider
             .AsList();
 
         // Exclude the fields not on the actual entity
-        if (TypeCache.Get(entityType).IsClassType() == false)
+        if (TypeCache.Get(entityType).IsClassType == false)
         {
             var entityFields = Field.Parse(entities?.FirstOrDefault());
             inputFields = inputFields

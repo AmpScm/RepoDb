@@ -412,7 +412,7 @@ public static partial class DbConnectionExtension
         where T1 : class
         where T2 : class
     {
-        await using var extractor = (await ExecuteQueryMultipleAsync(
+        await using var extractor = await ExecuteQueryMultipleAsync(
             connection,
             commandText,
             param,
@@ -424,7 +424,7 @@ public static partial class DbConnectionExtension
             transaction,
             cache,
             trace,
-            cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            cancellationToken).ConfigureAwait(false);
 
         return new(
             await extractor.ExtractAsync<T1>(true, cancellationToken).ConfigureAwait(false),
@@ -449,7 +449,7 @@ public static partial class DbConnectionExtension
             where T2 : class
             where T3 : class
     {
-        await using var extractor = (await ExecuteQueryMultipleAsync(
+        await using var extractor = await ExecuteQueryMultipleAsync(
             connection,
             commandText,
             param,
@@ -461,7 +461,7 @@ public static partial class DbConnectionExtension
             transaction,
             cache,
             trace,
-            cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            cancellationToken).ConfigureAwait(false);
 
         return new(
             await extractor.ExtractAsync<T1>(true, cancellationToken).ConfigureAwait(false),
@@ -488,7 +488,7 @@ public static partial class DbConnectionExtension
             where T3 : class
             where T4 : class
     {
-        await using var extractor = (await ExecuteQueryMultipleAsync(
+        await using var extractor = await ExecuteQueryMultipleAsync(
             connection,
             commandText,
             param,
@@ -500,7 +500,7 @@ public static partial class DbConnectionExtension
             transaction,
             cache,
             trace,
-            cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            cancellationToken).ConfigureAwait(false);
 
         return new(
             await extractor.ExtractAsync<T1>(true, cancellationToken).ConfigureAwait(false),

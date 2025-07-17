@@ -17,7 +17,7 @@ partial class Compiler
 
         // Variables for type
         var valueParameter = Expression.Parameter(StaticType.Object, "value");
-        var targetType = TypeCache.Get(field.Type)?.GetUnderlyingType();
+        var targetType = TypeCache.Get(field.Type)?.UnderlyingType;
         var valueExpression = (Expression)valueParameter;
 
         if (targetType != null)
@@ -26,7 +26,7 @@ partial class Compiler
             var toTypeMethod = StaticType
                 .Converter
                 .GetMethod("ToType", [StaticType.Object])!
-                .MakeGenericMethod(TypeCache.Get(field.Type).GetUnderlyingType());
+                .MakeGenericMethod(TypeCache.Get(field.Type).UnderlyingType);
 
             // Conversion (if needed)
             valueExpression = ConvertExpressionToTypeExpression(Expression.Call(toTypeMethod, valueParameter), targetType);

@@ -47,7 +47,7 @@ public class IdentityResolverTest
         var resolver = new IdentityResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithIdentityAttribute)).GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithIdentityAttribute)).FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -61,7 +61,7 @@ public class IdentityResolverTest
         var resolver = new IdentityResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute)).GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute)).FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -75,7 +75,7 @@ public class IdentityResolverTest
         var resolver = new IdentityResolver();
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithIdentityAndKeyAttribute)).GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithIdentityAndKeyAttribute)).FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -96,7 +96,7 @@ public class IdentityResolverTest
             .Primary(e => e.SecondaryId);
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithIdentityAttribute)).GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithIdentityAttribute)).FieldName;
         var expected = "PrimaryId";
 
         // Assert
@@ -113,7 +113,7 @@ public class IdentityResolverTest
             .Primary(e => e.SecondaryId);
 
         // Act
-        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute)).GetMappedName();
+        var result = resolver.Resolve(typeof(EntityModelWithKeyAttribute)).FieldName;
         var expected = "PrimaryId";
 
         // Assert

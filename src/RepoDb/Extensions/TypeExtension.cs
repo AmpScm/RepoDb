@@ -20,7 +20,7 @@ public static class TypeExtension
     /// <returns>The instance of the <see cref="DbType"/> object.</returns>
     [return: NotNullIfNotNull(nameof(type))]
     public static IEnumerable<PropertyValueAttribute>? GetPropertyValueAttributes(this Type type) =>
-        type != null ? PropertyValueAttributeMapper.Get(TypeCache.Get(type).GetUnderlyingType()) : null;
+        type != null ? PropertyValueAttributeMapper.Get(TypeCache.Get(type).UnderlyingType) : null;
 
     /// <summary>
     /// Gets the corresponding <see cref="DbType"/> object.
@@ -28,16 +28,19 @@ public static class TypeExtension
     /// <param name="type">The target type.</param>
     /// <returns>The instance of the <see cref="DbType"/> object.</returns>
     public static DbType? GetDbType(this Type? type) =>
-        type != null ? TypeMapCache.Get(TypeCache.Get(type).GetUnderlyingType()) : null;
+        type != null ? TypeMapCache.Get(TypeCache.Get(type).UnderlyingType) : null;
 
     /// <summary>
     /// Returns the instance of <see cref="ConstructorInfo"/> with the most argument.
     /// </summary>
     /// <param name="type">The current type.</param>
     /// <returns>The instance of <see cref="ConstructorInfo"/> with the most arguments.</returns>
-    public static ConstructorInfo? GetConstructorWithMostArguments(this Type type) =>
-        type.GetConstructors().Where(item => item.GetParameters().Length > 0)
+    public static ConstructorInfo? GetConstructorWithMostArguments(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return type.GetConstructors().Where(item => item.GetParameters().Length > 0)
             .OrderByDescending(item => item.GetParameters().Length).FirstOrDefault();
+    }
 
     /// <summary>
     /// Checks whether the current type is of type <see cref="object"/>.
@@ -58,18 +61,25 @@ public static class TypeExtension
     /// </summary>
     /// <param name="type">The current type.</param>
     /// <returns>Returns true if the current type is a class.</returns>
-    public static bool IsClassType(this Type type) =>
-        type.IsClass &&
-        type.IsObjectType() != true &&
-        StaticType.IEnumerable.IsAssignableFrom(type) != true;
+    public static bool IsClassType(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return type.IsClass &&
+            type.IsObjectType() != true &&
+            type != StaticType.String &&
+            StaticType.IEnumerable.IsAssignableFrom(type) != true;
+    }
 
     /// <summary>
     /// Checks whether the current type is an anonymous type.
     /// </summary>
     /// <param name="type">The current type.</param>
     /// <returns>Returns true if the current type is an anonymous class.</returns>
-    public static bool IsAnonymousType(this Type type) =>
-        type.FullName?.StartsWith("<>f__AnonymousType", StringComparison.OrdinalIgnoreCase) ?? false;
+    public static bool IsAnonymousType(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return type.FullName?.StartsWith("<>f__AnonymousType", StringComparison.OrdinalIgnoreCase) ?? false;
+    }
 
     /// <summary>
     /// Checks whether the current type is of type <see cref="IDictionary{TKey, TValue}"/> (with string/object key-value-pair).
@@ -97,9 +107,9 @@ public static class TypeExtension
     {
         var cachedType = TypeCache.Get(type);
 
-        return (cachedType.IsClassType() || cachedType.IsAnonymousType()) &&
+        return (cachedType.IsClassType || cachedType.IsAnonymousType) &&
                IsQueryObjectType(type) != true &&
-               cachedType.IsDictionaryStringObject() != true &&
+               cachedType.IsDictionaryStringObject != true &&
                GetEnumerableClassProperties(type).Any() != true;
     }
 
@@ -177,6 +187,7 @@ public static class TypeExtension
     public static Type? MakeGenericTypeFrom(this Type currentType,
         Type? sourceType)
     {
+        ArgumentNullException.ThrowIfNull(currentType);
         var genericTypes = sourceType?.GetGenericArguments();
         if (genericTypes?.Length == currentType.GetGenericArguments().Length)
         {
@@ -194,9 +205,10 @@ public static class TypeExtension
     public static bool IsInterfacedTo(this Type currentType,
         Type interfaceType)
     {
+        ArgumentNullException.ThrowIfNull(currentType);
         var targetInterface = currentType.IsInterface ? currentType :
-            currentType?
-                .GetInterfaces()?
+            currentType
+                .GetInterfaces()
                 .FirstOrDefault(item =>
                     item.Name == interfaceType.Name && item.Namespace == interfaceType.Namespace);
         interfaceType = interfaceType.MakeGenericTypeFrom(targetInterface)!;

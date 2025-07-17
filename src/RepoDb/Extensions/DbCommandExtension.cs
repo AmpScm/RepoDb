@@ -266,7 +266,7 @@ public static class DbCommandExtension
             return parameter;
         }
 
-        var valueType = TypeCache.Get(value?.GetType() ?? classProperty?.PropertyInfo.PropertyType).GetUnderlyingType();
+        var valueType = TypeCache.Get(value?.GetType() ?? classProperty?.PropertyInfo.PropertyType).UnderlyingType;
 
         if (valueType?.IsEnum == true)
         {
@@ -321,8 +321,8 @@ public static class DbCommandExtension
         Type? fallbackType)
     {
         // DbType
-        valueType ??= TypeCache.Get(dbField?.Type).GetUnderlyingType() ?? fallbackType;
-        dbType ??= classProperty?.GetDbType() ?? (dbField?.Type ?? fallbackType ?? valueType)?.GetDbType();
+        valueType ??= TypeCache.Get(dbField?.Type).UnderlyingType ?? fallbackType;
+        dbType ??= classProperty?.DbType ?? (dbField?.Type ?? fallbackType ?? valueType)?.GetDbType();
 
         // Create the parameter
         var parameter = command.CreateParameter(name, value, dbType, parameterDirection);
@@ -376,7 +376,7 @@ public static class DbCommandExtension
     {
         // DbType
         dbType ??= IsPostgreSqlUserDefined(dbField) ? default :
-            classProperty?.GetDbType() ??
+            classProperty?.DbType ??
             valueType.GetDbType() ??
             (dbField != null ? clientTypeToDbTypeResolver.Resolve(dbField.Type) : null) ??
             (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType;
@@ -450,7 +450,7 @@ public static class DbCommandExtension
 
         // Variables
         var entityClassProperties = entityType != null ? PropertyCache.Get(entityType) : default;
-        var paramClassProperties = TypeCache.Get(type).IsClassType() ? PropertyCache.Get(type) : type.GetClassProperties();
+        var paramClassProperties = TypeCache.Get(type).IsClassType ? PropertyCache.Get(type) : type.GetClassProperties();
 
         // Skip
         if (propertiesToSkip != null)
@@ -781,7 +781,7 @@ public static class DbCommandExtension
             value = propertyHandlerSetMethod
                 .Invoke(propertyHandler, [ value,
                     PropertyHandlerSetOptions.Create(parameter, classProperty!) ]);
-            valueType = TypeCache.Get(propertyHandlerSetMethod.ReturnType).GetUnderlyingType();
+            valueType = TypeCache.Get(propertyHandlerSetMethod.ReturnType).UnderlyingType;
         }
     }
 
@@ -850,7 +850,7 @@ public static class DbCommandExtension
     {
         if (valueType != null && dbField != null && dbField?.Type != null)
         {
-            var dbFieldType = TypeCache.Get(dbField.Type).GetUnderlyingType();
+            var dbFieldType = TypeCache.Get(dbField.Type).UnderlyingType;
 
             if (dbFieldType != valueType)
             {
@@ -953,7 +953,7 @@ public static class DbCommandExtension
         {
             if (value == DBNull.Value)
             {
-                if (TypeCache.Get(targetType).HasNullValue())
+                if (TypeCache.Get(targetType).HasNullValue)
                     return null;
                 else
                     return Activator.CreateInstance(targetType);

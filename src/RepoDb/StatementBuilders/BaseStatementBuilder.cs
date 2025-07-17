@@ -756,6 +756,8 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
+        keyFields = keyFields.AsList();
+
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
         GuardPrimary(primaryField);

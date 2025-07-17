@@ -116,7 +116,7 @@ public static partial class NpgsqlConnectionExtension
     {
         // Solving the anonymous types
         var entityType = (entities?.First()?.GetType() ?? typeof(TEntity));
-        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject();
+        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
@@ -529,7 +529,7 @@ public static partial class NpgsqlConnectionExtension
     {
         // Solving the anonymous types
         var entityType = (entities?.First()?.GetType() ?? typeof(TEntity));
-        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject();
+        var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
