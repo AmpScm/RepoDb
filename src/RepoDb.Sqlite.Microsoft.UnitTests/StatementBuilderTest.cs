@@ -54,76 +54,76 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateBatchQueryIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentNullException>(() => builder.CreateBatchQuery("Table",
             null,
             0,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateBatchQueryIfThereAreNoOrderFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             10,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateBatchQueryIfThePageValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             -1,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateBatchQueryIfTheRowsPerBatchValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateBatchQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
             OrderField.Parse(new { Id = Order.Ascending }),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -203,18 +203,18 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateInsertIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateInsert("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateInsert("Table",
             Field.From("Id", "Name", "Address"),
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -278,19 +278,19 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateInsertAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateInsertAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateInsertAll("Table",
             Field.From("Id", "Name", "Address"),
             3,
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -692,18 +692,18 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateQuery("Table",
             Field.From("Id", "Name", "Address"),
             null,
             null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -746,76 +746,76 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderSkipBatchQueryIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentNullException>(() => builder.CreateSkipQuery("Table",
             null,
             0,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateSkipQueryIfThereAreNoOrderFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             10,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateSkipQueryIfThePageValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             -1,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateSkipQueryIfTheRowsPerBatchValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMdsSqLiteStatementBuilderCreateSkipQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
             OrderField.Parse(new { Id = Order.Ascending }),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion

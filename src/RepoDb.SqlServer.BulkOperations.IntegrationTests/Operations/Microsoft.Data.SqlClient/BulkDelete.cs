@@ -877,13 +877,10 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+        Assert.ThrowsExactly<InvalidOperationException>(() => destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             (DbDataReader)reader,
             null,
-            mappings);
-
-        // Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() => Assert.AreEqual(tables.Count, bulkDeleteResult));
+            mappings));
     }
 
     [TestMethod]
@@ -1006,14 +1003,11 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+        Assert.ThrowsExactly<InvalidOperationException>(() => destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             table,
             null,
             DataRowState.Unchanged,
-            mappings);
-
-        // Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() => Assert.AreEqual(tables.Count, bulkDeleteResult));
+            mappings));
     }
 
     #endregion
@@ -1517,13 +1511,10 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table,
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table,
             null,
             DataRowState.Unchanged,
-            mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
+            mappings));
     }
 
     [TestMethod]
@@ -1887,13 +1878,10 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             (DbDataReader)reader,
             null,
-            mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
+            mappings));
     }
 
     [TestMethod]
@@ -1915,10 +1903,7 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("InvalidTable", (DbDataReader)reader);
-
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkDeleteAsync("InvalidTable", (DbDataReader)reader));
     }
 
     [TestMethod]
@@ -1940,10 +1925,7 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("MissingTable", (DbDataReader)reader);
-
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkDeleteAsync("MissingTable", (DbDataReader)reader));
     }
 
     [TestMethod]
@@ -2066,14 +2048,11 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             table,
             null,
             DataRowState.Unchanged,
-            mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
+            mappings));
     }
 
     [TestMethod]
@@ -2097,11 +2076,8 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
 
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("InvalidTable", table);
 
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkDeleteAsync("InvalidTable", table));
     }
 
     [TestMethod]
@@ -2126,13 +2102,10 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("MissingTable",
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkDeleteAsync("MissingTable",
             table,
             null,
-            DataRowState.Unchanged);
-
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
+            DataRowState.Unchanged));
     }
 
     #endregion

@@ -1136,7 +1136,7 @@ public class ExecuteQueryBuilderTest
             ClassMappedNameCache.Get<IdentityTable>(),
             fields: fields,
             where: where,
-            primaryField: dbFields.PrimaryFields.FirstOrDefault(),
+            primaryField: dbFields.PrimaryFields?.FirstOrDefault(),
             identityField: dbFields.Identity);
 
         // Act

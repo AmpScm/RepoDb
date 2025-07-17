@@ -1059,10 +1059,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = destinationConnection.BulkInsert(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader, mappings);
-
-        // Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() => Assert.AreEqual(tables.Count, bulkInsertResult));
+        Assert.ThrowsExactly<InvalidOperationException>(() => destinationConnection.BulkInsert(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader, mappings));
     }
 
     [TestMethod]
@@ -1350,10 +1347,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = destinationConnection.BulkInsert(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table, DataRowState.Unchanged, mappings);
-
-        // Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() => Assert.AreEqual(tables.Count, bulkInsertResult));
+        Assert.ThrowsExactly<InvalidOperationException>(() => destinationConnection.BulkInsert(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table, DataRowState.Unchanged, mappings));
     }
 
     [TestMethod]
@@ -1569,10 +1563,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await connection.BulkInsertAsync(tables, mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await connection.BulkInsertAsync(tables, mappings));
     }
 
     [TestMethod]
@@ -1681,10 +1672,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync<BulkOperationIdentityTable>((DbDataReader)reader, mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkInsertAsync<BulkOperationIdentityTable>((DbDataReader)reader, mappings));
     }
 
     [TestMethod]
@@ -1928,10 +1916,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync<BulkOperationIdentityTable>(table, DataRowState.Unchanged, mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkInsertAsync<BulkOperationIdentityTable>(table, DataRowState.Unchanged, mappings));
     }
 
     //[TestMethod, ExpectedException(typeof(AggregateException))]
@@ -2316,10 +2301,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader, mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader, mappings));
     }
 
     [TestMethod]
@@ -2341,10 +2323,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync("InvalidTable", (DbDataReader)reader);
-
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkInsertAsync("InvalidTable", (DbDataReader)reader));
     }
 
     [TestMethod]
@@ -2366,10 +2345,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync("MissingTable", (DbDataReader)reader);
-
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkInsertAsync("MissingTable", (DbDataReader)reader));
     }
 
     [TestMethod]
@@ -2613,10 +2589,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table, DataRowState.Unchanged, mappings);
-
-        // Trigger
-        Assert.ThrowsExactly<InvalidOperationException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table, DataRowState.Unchanged, mappings));
     }
 
     [TestMethod]
@@ -2641,10 +2614,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync("InvalidTable", table);
-
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkInsertAsync("InvalidTable", table));
     }
 
     [TestMethod]
@@ -2669,10 +2639,7 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkInsertResult = await destinationConnection.BulkInsertAsync("MissingTable", table, DataRowState.Unchanged);
-
-        // Trigger
-        Assert.ThrowsExactly<MissingFieldsException>(() => bulkInsertResult);
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkInsertAsync("MissingTable", table, DataRowState.Unchanged));
     }
 
     #endregion
