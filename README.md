@@ -106,15 +106,13 @@ You can always target the version when installing the library, even it is on a s
 
 ## .NET Type Coercion
 
-By default, RepoDB does not do the automatic .NET CLR Type conversion during the serialization and deserialization process. The coercion support is completely dependent to the ADO.NET coercion capability.
+By default, RepoDB does not do the automatic .NET CLR Type conversion during the serialization and deserialization process. The coercion support is completely dependent to the ADO.NET coercion capability. But when types like enums are used
+additional handling is generated in the entity layer to 'do the right thing'. What the right thing is in your case can be configured using the `EnumHandling` property when initializing using the `GlobalConfigurationOptions` instance
+passed to `GlobalConfiguration.Setup()` when initializing RepoDB. Whether strings or integers are used in the database is usually found by identifying the schema on first use, but when using custom queries the `EnumDefaultDatabaseType` setting
+is used first.
 
-It is in purpose to strictly notify you (as a library user) the design and/or the implementation problem of the entity model if being compared to its corresponding database table/view.
-
-If you wish to have an automatic conversion, simply set the [Converter.ConversionType](https://repodb.net/class/converter) property to [Automatic](https://repodb.net/enumeration/conversiontype).
-
-```csharp
-RepoDb.Converter.ConversionType = ConversionType.Automatic;
-```
+If needed the library allows you to register custom conversion classes. For recently added .Net classes the AmpScm fork adds DateOnly and TimeOnly support out of the box, and also improves quite a few
+of the standard conversions (e.g. enums) with proper `NULL` support.
 
 **Note:** The exception that is being thrown is dependent to what the underlying ADO.NET coercion exception. If the [Automatic](https://repodb.net/enumeration/conversiontype) conversion is used, the extracted value will always be evaluated and an additional conversion logic will be used (if needed). The conversion logic is through the AOT compilation of [System.Linq.Expressions.Expression.Convert](https://docs.microsoft.com/en-us/dotnet/api/system.linq.expressions.expression.convert?view=netcore-3.1) and/or [System.Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert?view=netcore-3.1).
 
@@ -159,7 +157,8 @@ The issue above can be rectified by simply enabling the TLS 1.2. Alternatively, 
 
 ## Library Limitations
 
-It is very important for you and to the community of .NET to learn the things the library is capable and is-not capable of doing, so please spend time reading the [limitation](docs/limitations.md) page before using the library.
+It is very important for you and to the community of .NET to learn the things the library is capable and is-not capable of doing, so please spend time reading the [limitation](docs/limitations.md) page before using the library. Some original limitations are lifted in the AmpScm fork. (This fork properly identifies multi-column primary keys and
+uses those through the common operations without affecting the public api)
 
 ## Benchmark
 
