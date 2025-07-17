@@ -736,9 +736,6 @@ public static partial class DbConnectionExtension
         ITrace? trace = null, IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
-        // Variables needed
-        var setting = connection.GetDbSetting();
-
         // Return the result
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject() == true)
         {

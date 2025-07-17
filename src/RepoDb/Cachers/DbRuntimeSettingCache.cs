@@ -4,7 +4,7 @@ using System.Data;
 namespace RepoDb;
 public static class DbRuntimeSettingCache
 {
-    private static readonly ConcurrentDictionary<int, DbRuntimeSetting> cache = new();
+    private static readonly ConcurrentDictionary<(Type, string), DbRuntimeSetting> cache = new();
 
     #region Helpers
 
@@ -43,18 +43,13 @@ public static class DbRuntimeSettingCache
     internal static DbRuntimeSetting GetInternal(IDbConnection connection,
         IDbTransaction? transaction)
     {
-        var key = HashCode.Combine(connection.GetType(), connection.Database);
+        var key = (connection.GetType(), connection.Database);
 
         var result = cache.GetOrAdd(key,
             (_) => connection.GetDbHelper().GetDbConnectionRuntimeInformation(connection, transaction));
 
         // Validate
-        if (result is null)
-        {
-            throw new InvalidOperationException($"There is no database engine version available");
-        }
-
-        return result;
+        return result ?? throw new InvalidOperationException($"There is no database engine version available");
     }
 
     #endregion
@@ -88,7 +83,7 @@ public static class DbRuntimeSettingCache
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default)
     {
-        var key = HashCode.Combine(connection.GetType(), connection.Database);
+        var key = (connection.GetType(), connection.Database);
 
         // Try get the value
         if (cache.TryGetValue(key, out var result) == false)

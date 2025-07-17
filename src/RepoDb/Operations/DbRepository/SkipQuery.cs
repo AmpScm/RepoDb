@@ -583,6 +583,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
                 rowsPerBatch: rowsPerBatch,
                 orderBy: orderBy,
                 where: where,
+                fields: fields,
                 hints: hints,
                 commandTimeout: CommandTimeout ?? 0,
                 traceKey: traceKey,

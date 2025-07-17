@@ -286,12 +286,13 @@ internal static class FunctionCache
 
             return cache.GetOrAdd(key, (_) =>
                 TypeCache.Get(entityType).IsDictionaryStringObject()
-                ? FunctionFactory.CompileDictionaryStringObjectListDbParameterSetter(entityType,
+                ? FunctionFactory.CompileDictionaryStringObjectListDbParameterSetter(
                         inputFields,
                         batchSize,
                         dbSetting,
                         dbHelper)
-                : FunctionFactory.CompileDataEntityListDbParameterSetter(entityType,
+                : FunctionFactory.CompileDataEntityListDbParameterSetter(
+                        entityType,
                         inputFields,
                         outputFields,
                         batchSize,

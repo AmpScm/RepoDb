@@ -102,7 +102,7 @@ internal class MergeAllRequest : BaseRequest
     {
         Type = type;
         Fields = fields.AsFieldSet();
-        noUpdateFields = noUpdateFields?.AsFieldSet();
+        NoUpdateFields = noUpdateFields?.AsFieldSet();
         Qualifiers = qualifiers.AsFieldSet();
         BatchSize = batchSize;
         Hints = hints;

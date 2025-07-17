@@ -21,19 +21,14 @@ internal static class ExecutionContextProvider
         var primaryField = GetPrimaryAsReturnKeyField(entityType, dbFields);
         var identityField = GetIdentityAsReturnKeyField(entityType, dbFields);
 
-        switch (GlobalConfiguration.Options.KeyColumnReturnBehavior)
+        return GlobalConfiguration.Options.KeyColumnReturnBehavior switch
         {
-            case KeyColumnReturnBehavior.Primary:
-                return primaryField;
-            case KeyColumnReturnBehavior.Identity:
-                return identityField;
-            case KeyColumnReturnBehavior.PrimaryOrElseIdentity:
-                return primaryField ?? identityField;
-            case KeyColumnReturnBehavior.IdentityOrElsePrimary:
-                return identityField ?? primaryField;
-            default:
-                throw new InvalidOperationException(nameof(GlobalConfiguration.Options.KeyColumnReturnBehavior));
-        }
+            KeyColumnReturnBehavior.Primary => primaryField,
+            KeyColumnReturnBehavior.Identity => identityField,
+            KeyColumnReturnBehavior.PrimaryOrElseIdentity => primaryField ?? identityField,
+            KeyColumnReturnBehavior.IdentityOrElsePrimary => identityField ?? primaryField,
+            _ => throw new InvalidOperationException(nameof(GlobalConfiguration.Options.KeyColumnReturnBehavior)),
+        };
     }
 
     /// <summary>

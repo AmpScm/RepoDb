@@ -43,7 +43,6 @@ public static partial class DbConnectionExtension
         var isDictionaryType = TypeCache.Get(type).IsDictionaryStringObject();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction, true);
         var primary = dbFields.GetPrimary();
-        IEnumerable<ClassProperty>? properties = null;
         ClassProperty? primaryKey = null;
 
         qualifiers ??= dbFields.GetPrimaryFields()?.AsFields();
@@ -55,17 +54,10 @@ public static partial class DbConnectionExtension
         }
 
         // Get the properties
-        QueryGroup? where = null;
+        QueryGroup? where;
         if (isDictionaryType == false)
         {
-            if (type.IsGenericType == true)
-            {
-                properties = type.GetClassProperties();
-            }
-            else
-            {
-                properties = PropertyCache.Get(type);
-            }
+            IEnumerable<ClassProperty> properties = type.IsGenericType == true ? type.GetClassProperties() : PropertyCache.Get(type);
 
             // Set the primary key
             primaryKey = properties.GetByFieldName(primary?.FieldName);

@@ -320,8 +320,8 @@ public partial class QueryField : IEquatable<QueryField>
             && other.Field == Field
             && other.Operation == Operation
             && other.Parameter == Parameter
-            && (Operation is Operation.Equal or Operation.NotEqual ? (other.Parameter.Value == null) == (Parameter.Value == null) : true)
-            && (Operation is Operation.In or Operation.NotIn ? (other.Parameter.Value as IEnumerable<object>)?.Count() == (Parameter.Value as IEnumerable<object>)?.Count() : true)
+            && (Operation is not Operation.Equal and not Operation.NotEqual || (other.Parameter.Value == null) == (Parameter.Value == null))
+            && (Operation is not Operation.In and not Operation.NotIn || (other.Parameter.Value as IEnumerable<object>)?.Count() == (Parameter.Value as IEnumerable<object>)?.Count())
             && other.Field?.FieldName == Field?.FieldName
             && other.Operation.GetText() == Operation.GetText();
     }

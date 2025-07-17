@@ -52,7 +52,8 @@ public partial class QueryGroup
         var parsed = Parse<TEntity>(expression.Body) ?? throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
 
         // Return the parsed values
-        return parsed.Fix(connection, transaction, tableName ?? ClassMappedNameCache.Get<TEntity>());
+        parsed.Fix(connection, transaction, tableName ?? ClassMappedNameCache.Get<TEntity>());
+        return parsed;
     }
 
     /// <summary>

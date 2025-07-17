@@ -94,7 +94,7 @@ internal sealed class MergeRequest : BaseRequest
     {
         Type = type;
         Fields = fields.AsFieldSet();
-        noUpdateFields = noUpdateFields?.AsFieldSet();
+        NoUpdateFields = noUpdateFields?.AsFieldSet();
         Qualifiers = qualifiers.AsFieldSet();
         Hints = hints;
     }

@@ -451,7 +451,7 @@ public static partial class DbConnectionExtension
         }
 
         // Return the result
-        return CountInternalBaseAsync(connection: connection,
+        return await CountInternalBaseAsync(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,

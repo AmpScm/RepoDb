@@ -1279,7 +1279,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
         return await AverageInternalBaseAsync<object>(connection: connection,
@@ -1730,7 +1730,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
         return await AverageInternalBaseAsync<TResult>(connection: connection,
@@ -2346,7 +2346,7 @@ public static partial class DbConnectionExtension
         var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return AverageInternalBaseAsync<object>(connection: connection,
+        return await AverageInternalBaseAsync<object>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2558,7 +2558,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? await QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
         return await AverageInternalBaseAsync<TResult>(connection: connection,

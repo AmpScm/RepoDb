@@ -105,18 +105,17 @@ internal static class FunctionFactory
     /// <summary>
     ///
     /// </summary>
-    /// <param name="entityType"></param>
     /// <param name="inputFields"></param>
     /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
     /// <param name="dbSetting"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    public static Action<DbCommand, IList<object?>> CompileDictionaryStringObjectListDbParameterSetter(Type entityType,
+    public static Action<DbCommand, IList<object?>> CompileDictionaryStringObjectListDbParameterSetter(
         IEnumerable<DbField> inputFields,
         int batchSize,
         IDbSetting dbSetting,
         IDbHelper? dbHelper) =>
-        Compiler.CompileDictionaryStringObjectListDbParameterSetter(entityType, inputFields, batchSize, dbSetting, dbHelper);
+        Compiler.CompileDictionaryStringObjectListDbParameterSetter(inputFields, batchSize, dbSetting, dbHelper);
 
     #endregion
 

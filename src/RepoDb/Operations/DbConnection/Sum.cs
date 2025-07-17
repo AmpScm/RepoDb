@@ -2335,7 +2335,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? await QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
         return await SumInternalBaseAsync<object>(connection: connection,

@@ -650,23 +650,22 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// </summary>
     /// <returns>The current instance.</returns>
     public QueryGroup Fix()
-        => Fix(null, null, null);
+    {
+        Fix(null, null, null);
+        return this;
+    }
 
-    internal QueryGroup Fix(IDbConnection? connection, IDbTransaction? transaction, string? tableName)
+    internal void Fix(IDbConnection? connection, IDbTransaction? transaction, string? tableName)
     {
         if (isFixed)
-        {
-            return this;
-        }
+            return;
 
         // Check the presence
         var fields = GetFields(true);
 
         // Check any item
         if (fields?.Any() != true)
-        {
-            return this;
-        }
+            return;
 
         if (connection is { })
         {
@@ -679,9 +678,37 @@ public partial class QueryGroup : IEquatable<QueryGroup>
 
         // Force the variables
         ForceIsFixedVariables();
+    }
 
-        // Return the current instance
-        return this;
+    internal async ValueTask FixAsync(IDbConnection? connection, IDbTransaction? transaction, string? tableName, CancellationToken cancellationToken)
+    {
+        if (isFixed)
+        {
+            return;
+        }
+
+        // Check the presence
+        var fields = GetFields(true);
+
+        // Check any item
+        if (fields?.Any() != true)
+        {
+            return;
+        }
+
+        if (connection is { } && tableName is { })
+        {
+            // Preload list async then use non async code. One time hit on first use of table
+            DbFieldCollection? dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken);
+
+            FixForDb(connection, transaction, tableName, ref dbFields);
+        }
+
+        // Fix the fields
+        FixQueryFields(fields);
+
+        // Force the variables
+        ForceIsFixedVariables();
     }
 
     private void FixForDb(IDbConnection connection, IDbTransaction? transaction, string? tableName, ref DbFieldCollection? dbFields)

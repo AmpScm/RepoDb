@@ -40,7 +40,7 @@ public partial class QueryGroup
     /// <param name="connection"></param>
     /// <returns>An instance of an object that contains all the definition of the converted underlying <see cref="QueryFields"/>s.</returns>
     /// <param name="transaction"></param><param name="fixParameters">A boolean value whether to fix the parameter name before converting.</param>
-    internal static async ValueTask<object> AsMappedObjectAsync(QueryGroupTypeMap[] queryGroupTypeMaps,
+    internal static async ValueTask<object> AsMappedObjectAsync(IReadOnlyList<QueryGroupTypeMap> queryGroupTypeMaps,
         IDbConnection connection, IDbTransaction? transaction, string? tableName, CancellationToken cancellationToken = default)
     {
         var dictionary = new ExpandoObject() as IDictionary<string, object?>;
@@ -79,9 +79,9 @@ public partial class QueryGroup
         AsMappedObjectForQueryFields(dictionary, queryGroupTypeMap, queryFields, connection, transaction);
     }
 
-    private static ValueTask AsMappedObjectAsync(
+    private static async ValueTask<object> AsMappedObjectAsync(
         IDictionary<string, object?> dictionary,
-        in QueryGroupTypeMap queryGroupTypeMap,
+        QueryGroupTypeMap queryGroupTypeMap,
         string? tableName,
         IDbConnection connection,
         IDbTransaction? transaction = null,
@@ -98,9 +98,10 @@ public partial class QueryGroup
         }
 
         // Fix the variables for the parameters
-        if (tableName is { })
+        if (tableName is { }
+            && queryGroupTypeMap.QueryGroup is { })
         {
-            queryGroupTypeMap.QueryGroup?.Fix(connection, transaction, tableName);
+            await queryGroupTypeMap.QueryGroup.FixAsync(connection, transaction, tableName, cancellationToken);
         }
 
         // Iterate all the query fields

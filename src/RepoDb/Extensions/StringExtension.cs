@@ -106,7 +106,7 @@ public static partial class StringExtension
         AsUnquoted(value, false, dbSetting);
 
 #if NET8_0_OR_GREATER
-    static SearchValues<char> unquotedChars = SearchValues.Create(['`', '"', ' ', '[']);
+    static readonly SearchValues<char> unquotedChars = SearchValues.Create(['`', '"', ' ', '[']);
 #endif
     /// <summary>
     /// Unquotes a string.
