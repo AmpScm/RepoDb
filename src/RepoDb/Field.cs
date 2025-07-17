@@ -173,6 +173,7 @@ public class Field : IEquatable<Field>
     public static FieldSet Parse<TEntity, TResult>(Expression<Func<TEntity, TResult?>> expression)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(expression);
         return new(expression.Body switch
         {
             UnaryExpression unaryExpression => Parse<TEntity>(unaryExpression),

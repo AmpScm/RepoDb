@@ -18,6 +18,8 @@ public class PropertyHandlerPropertyLevelResolver : IResolver<Type, PropertyInfo
     public object? Resolve(Type entityType,
         PropertyInfo propertyInfo)
     {
+        ArgumentNullException.ThrowIfNull(entityType);
+        ArgumentNullException.ThrowIfNull(propertyInfo);
         object? propertyHandler = null;
 
         // Attribute

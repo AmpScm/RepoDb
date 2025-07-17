@@ -8,6 +8,7 @@ tab_width = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
+csharp_indent_labels = one_less_than_current
 
 [*.{csproj,props,build}]
 indent_size = 2
@@ -27,6 +28,9 @@ dotnet_diagnostic.CS1574.severity = none
 
 # IDE0057: Use range operator
 csharp_style_prefer_range_operator = false
+
+# DE0290: Use primary constructor
+csharp_style_prefer_primary_constructors = false
 
 [*.{cs,vb}]
 #### Naming styles ####
@@ -75,3 +79,4 @@ dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix = 
 dotnet_naming_style.pascal_case.word_separator = 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
+dotnet_style_operator_placement_when_wrapping = beginning_of_line

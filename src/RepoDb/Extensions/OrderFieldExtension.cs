@@ -38,6 +38,7 @@ public static class OrderFieldExtension
         string? alias,
         IDbSetting dbSetting)
     {
+        ArgumentNullException.ThrowIfNull(orderField);
         if (string.IsNullOrWhiteSpace(alias))
         {
             return string.Concat(orderField.Name.AsField(dbSetting), " ", orderField.Order.GetText());

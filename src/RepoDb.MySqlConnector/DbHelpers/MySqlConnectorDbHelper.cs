@@ -40,7 +40,7 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
     /// 
     /// </summary>
     /// <returns></returns>
-    private string GetCommandText()
+    private static string GetCommandText()
     {
         return $@"SELECT COLUMN_NAME AS ColumnName
                 , CASE WHEN COLUMN_KEY = 'PRI' THEN 1 ELSE 0 END AS IsPrimary

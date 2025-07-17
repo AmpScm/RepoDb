@@ -18,7 +18,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// <param name="dbSetting">The database settings object currently in used.</param>
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
-    public BaseStatementBuilder(IDbSetting dbSetting,
+    protected BaseStatementBuilder(IDbSetting dbSetting,
         IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
         IResolver<Type, Type?>? averageableClientTypeResolver = null)
     {

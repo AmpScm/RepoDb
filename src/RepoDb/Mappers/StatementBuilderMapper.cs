@@ -43,7 +43,7 @@ public static class StatementBuilderMapper
             }
             else
             {
-                throw new MappingExistsException(type?.FullName);
+                throw new MappingExistsException(type.FullName);
             }
         }
         else

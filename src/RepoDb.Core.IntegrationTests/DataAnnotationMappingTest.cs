@@ -525,7 +525,7 @@ public class DataAnnotationMappingTest
 
         // Act Update
         var mergeResult = connection.Merge<MappedIdentityTable>(entity,
-            qualifiers: Field.From(new[] { "Id" }));
+            qualifiers: Field.From(["Id"]));
 
         // Assert
         Assert.AreEqual(entity.IdMapped, mergeResult);

@@ -68,12 +68,41 @@ namespace System
                 return value.IndexOf(stringToSeek, comparisonType) >= 0;
         }
 
+        public static int IndexOf(this string value,
+            char charToSeek,
+            StringComparison comparisonType)
+        {
+            if (comparisonType == StringComparison.Ordinal)
+                return value.IndexOf(charToSeek);
+            else
+                return value.IndexOf(charToSeek.ToString(), comparisonType) ;
+        }
+
+
         public static string[] Split(this string value,
             char separator,
             int count,
             StringSplitOptions options = StringSplitOptions.None)
         {
             return value.Split([separator], count, options);
+        }
+
+        public static bool Contains(this string value,
+            char charToSeek,
+            StringComparison comparisonType)
+        {
+            if (comparisonType == StringComparison.Ordinal)
+                return value.Contains(charToSeek);
+            else
+                throw new NotSupportedException($"String comparison '{comparisonType}' is not supported for char search.");
+        }
+
+        public static string Replace(this string value, string needle, string replacement, StringComparison comparisonType)
+        {
+            if (comparisonType == StringComparison.Ordinal)
+                return value.Replace(needle, replacement);
+            else
+                throw new NotSupportedException($"String replacement '{comparisonType}' is not supported for char search.");
         }
     }
 
@@ -203,7 +232,7 @@ namespace RepoDb
         {
 #if NET
             if (dbConnection is DbConnection dbc)
-                return await dbc.BeginTransactionAsync(cancellationToken);
+                return await dbc.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
 #endif
             return dbConnection.BeginTransaction();
         }
@@ -211,7 +240,7 @@ namespace RepoDb
         public static async ValueTask CommitAsync(this IDbTransaction dbTransaction, CancellationToken cancellationToken = default)
         {
             if (dbTransaction is DbTransaction dbTransaction1)
-                await dbTransaction1.CommitAsync(cancellationToken);
+                await dbTransaction1.CommitAsync(cancellationToken).ConfigureAwait(false);
             else
                 dbTransaction.Commit();
         }

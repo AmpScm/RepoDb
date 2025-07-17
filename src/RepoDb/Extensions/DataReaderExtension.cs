@@ -18,6 +18,7 @@ public static class DataReaderExtension
     public static IEnumerable<TEntity> AsEnumerable<TEntity>(this IDataReader reader)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(reader);
         var properties = PropertyCache.Get<TEntity>()
             .Where(property => property.PropertyInfo.CanWrite);
         var dictionary = new Dictionary<int, ClassProperty>();
@@ -49,6 +50,7 @@ public static class DataReaderExtension
     [Obsolete("This extended method will be removed soon.")]
     public static IEnumerable<object> AsEnumerable(this IDataReader reader)
     {
+        ArgumentNullException.ThrowIfNull(reader);
         while (reader.Read())
         {
             var obj = new ExpandoObject() as IDictionary<string, object?>;

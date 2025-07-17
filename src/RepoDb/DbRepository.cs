@@ -946,7 +946,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
             transaction: transaction,
             cache: Cache,
             isDisposeConnection: isDisposeConnection,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

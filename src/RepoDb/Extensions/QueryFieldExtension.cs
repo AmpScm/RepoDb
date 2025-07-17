@@ -25,6 +25,7 @@ public static class QueryFieldExtension
     /// <param name="queryFields">The list of <see cref="QueryField"/> objects.</param>
     public static void ResetAll(this IEnumerable<QueryField> queryFields)
     {
+        ArgumentNullException.ThrowIfNull(queryFields);
         foreach (var queryField in queryFields)
         {
             queryField.Reset();

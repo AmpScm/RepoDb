@@ -148,12 +148,12 @@ partial class Compiler
         DbFieldCollection? dbFields)
     {
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
-        var readerFields = GetDataReaderFields(reader, dbFields);
+        var readerFields = GetDataReaderFields(reader, dbFields).AsList();
         var typeOfResult = typeof(TResult);
         var constructorInfo = typeOfResult.GetConstructorWithMostArguments()!;
         var parameters = constructorInfo.GetParameters();
 
-        if (parameters.Length > readerFields.Count())
+        if (parameters.Length > readerFields.Count)
         {
             throw new InvalidOperationException("Tuple has more arguments than reader");
         }

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -149,7 +150,7 @@ public sealed class QueryBuilder
 
         stringBuilder
 #if NET
-            .AppendJoin(separator, values ?? []);
+            .AppendJoin(separator, values);
 #else
             .Append(values.Join(separator));
 #endif
@@ -181,6 +182,8 @@ public sealed class QueryBuilder
 
     public QueryBuilder WriteDefinitions(IEnumerable<DbField> fields, IDbSetting dbSetting)
     {
+        ArgumentNullException.ThrowIfNull(fields);
+        ArgumentNullException.ThrowIfNull(dbSetting);
         bool first = true;
         foreach (var f in fields)
         {
@@ -221,6 +224,7 @@ public sealed class QueryBuilder
         IDbSetting dbSetting,
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
+        ArgumentNullException.ThrowIfNull(field);
         var name = convertResolver == null
             ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
@@ -250,6 +254,7 @@ public sealed class QueryBuilder
         IDbSetting dbSetting,
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
+        ArgumentNullException.ThrowIfNull(field);
         var name = convertResolver == null
             ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
@@ -279,6 +284,7 @@ public sealed class QueryBuilder
         IDbSetting dbSetting,
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
+        ArgumentNullException.ThrowIfNull(field);
         var name = convertResolver == null
             ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
@@ -308,6 +314,7 @@ public sealed class QueryBuilder
         IDbSetting dbSetting,
         IResolver<Field, IDbSetting, string>? convertResolver)
     {
+        ArgumentNullException.ThrowIfNull(field);
         var name = convertResolver == null
             ? field.FieldName.AsField(dbSetting)
             : convertResolver.Resolve(field, dbSetting);
@@ -483,6 +490,8 @@ public sealed class QueryBuilder
         int index,
         IDbSetting dbSetting)
     {
+        ArgumentNullException.ThrowIfNull(queryField);
+
         return Append("HAVING COUNT(")
             .Append(queryField.Field.FieldName, false)
             .Append(')')

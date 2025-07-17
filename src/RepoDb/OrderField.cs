@@ -55,6 +55,7 @@ public class OrderField : IEquatable<OrderField>
         Order order)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(expression);
         return expression.Body switch
         {
             UnaryExpression unaryExpression => Parse<TEntity>(unaryExpression, order),

@@ -15,6 +15,7 @@ public class PropertyHandlerAttribute : Attribute
     /// <param name="handlerType">The type of the handler.</param>
     public PropertyHandlerAttribute(Type handlerType)
     {
+        ArgumentNullException.ThrowIfNull(handlerType);
         Validate(handlerType);
         HandlerType = handlerType;
     }

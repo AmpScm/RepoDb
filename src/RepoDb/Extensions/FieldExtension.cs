@@ -28,8 +28,11 @@ public static class FieldExtension
         string leftAlias,
         string rightAlias,
         bool considerNulls,
-        IDbSetting dbSetting) =>
-        field.FieldName.AsJoinQualifier(leftAlias, rightAlias, considerNulls, dbSetting);
+        IDbSetting dbSetting)
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return field.FieldName.AsJoinQualifier(leftAlias, rightAlias, considerNulls, dbSetting);
+    }
 
     public static Field? GetByFieldName(this IEnumerable<Field> source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         => source.FirstOrDefault(p => string.Equals(p.FieldName, name, stringComparison));

@@ -9,6 +9,7 @@
     <PackageReleaseNotes>https://repodb.net/release/sqlserver</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/AmpScm/RepoDB/tree/master/src/RepoDb.SqlServer/</PackageProjectUrl>
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" />

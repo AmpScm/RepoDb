@@ -30,6 +30,7 @@ public static class DbFieldExtension
     /// <returns></returns>
     public static TItem? OneOrDefault<TItem>(this IEnumerable<TItem> source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         if (source is IReadOnlyCollection<TItem> col && col.Count == 1)
             return col.First();
         else

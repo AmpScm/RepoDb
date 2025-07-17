@@ -60,6 +60,7 @@ public static class ClassMapper
         string name,
         bool force)
     {
+        ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
 
         // Variables
@@ -103,6 +104,7 @@ public static class ClassMapper
     /// <returns>The mapped name of the class.</returns>
     public static string? Get(Type type)
     {
+        ArgumentNullException.ThrowIfNull(type);
         var key = type.GetHashCode();
 
         // Try get the value
@@ -120,7 +122,7 @@ public static class ClassMapper
     /// Remove the exising mapped database object on the .NET CLR type.
     /// </summary>
     /// <typeparam name="TEntity">The target type.</typeparam>
-    public static void Remove<TEntity>()
+    public static bool Remove<TEntity>()
         where TEntity : class =>
         Remove(typeof(TEntity));
 
@@ -128,12 +130,13 @@ public static class ClassMapper
     /// Remove the exising mapped database object on the .NET CLR type.
     /// </summary>
     /// <param name="type">The target type.</param>
-    public static void Remove(Type type)
+    public static bool Remove(Type type)
     {
+        ArgumentNullException.ThrowIfNull(type);
         var key = type.GetHashCode();
 
         // Try get the value
-        maps.TryRemove(key, out var _);
+        return maps.TryRemove(key, out var _);
     }
 
     /*

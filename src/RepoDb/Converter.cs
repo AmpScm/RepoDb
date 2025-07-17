@@ -75,7 +75,7 @@ public static class Converter
 #if NET
                     if (Enum.TryParse(type, sv, out var parsedValue))
                     {
-                        if (mode != Enumerations.InvalidEnumValueHandling.ThrowError)
+                        if (mode == Enumerations.InvalidEnumValueHandling.Cast)
                             return (T)parsedValue;
                         else if (Enum.IsDefined(type, parsedValue))
                             return (T)parsedValue;
@@ -90,7 +90,7 @@ public static class Converter
 
                     if (r is {})
                     {
-                        if (mode != Enumerations.InvalidEnumValueHandling.ThrowError)
+                        if (mode == Enumerations.InvalidEnumValueHandling.Cast)
                             return (T)r;
                         else if (Enum.IsDefined(type, r))
                             return (T)r;
@@ -174,7 +174,7 @@ public static class Converter
         }
         catch (InvalidCastException ex)
         {
-            throw new InvalidCastException($"While converting '{value ?? "null"}' ({value?.GetType()}) to '{type.FullName}'", ex);
+            throw new InvalidCastException($"While converting '{value}' ({value.GetType()}) to '{type.FullName}'", ex);
         }
     }
 

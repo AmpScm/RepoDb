@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
-using Microsoft.Data.SqlClient;
 
 namespace RepoDb.IntegrationTests;
 
@@ -70,7 +70,6 @@ public class DottedTableTest
         var id = connection.Insert<DottedTable, long>(entity);
 
         // Assert
-        Assert.IsNotNull(id);
         Assert.IsTrue(id > 0);
         Assert.AreEqual(1, connection.CountAll<DottedTable>());
     }
@@ -109,7 +108,6 @@ public class DottedTableTest
         var id = connection.Merge<DottedTable, long>(entity);
 
         // Assert
-        Assert.IsNotNull(id);
         Assert.IsTrue(id > 0);
         Assert.AreEqual(1, connection.CountAll<DottedTable>());
 

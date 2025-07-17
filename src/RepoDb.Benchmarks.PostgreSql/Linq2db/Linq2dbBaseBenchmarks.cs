@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using BenchmarkDotNet.Attributes;
 using DataModels;
 using LinqToDB;
@@ -18,14 +17,14 @@ public class Linq2dbBaseBenchmarks : BaseBenchmark
     {
         using var db = GetDb();
 
-        db.People.Select(x => x.Id == CurrentId).ToList();
+        GC.KeepAlive(db.People.Select(x => x.Id == CurrentId).ToList());
     }
-    
+
     protected static RepoDbDB GetDb()
     {
         var options = new DataOptions();
         options = options.UsePostgreSQL(DatabaseHelper.ConnectionString);
-        
+
         return new RepoDbDB(options);
     }
 }

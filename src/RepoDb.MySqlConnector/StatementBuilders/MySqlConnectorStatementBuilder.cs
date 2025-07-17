@@ -502,7 +502,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         builder
             .Insert();
 
-        if (!updateFields.Any())
+        if (updateFields.Count == 0)
             builder.Ignore();
 
         builder
@@ -516,7 +516,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             .ParametersFrom(fields, 0, DbSetting)
             .CloseParen();
 
-        if (updateFields.Any())
+        if (updateFields.Count > 0)
         {
             builder
                 .WriteText("ON DUPLICATE KEY")
@@ -588,7 +588,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         // Verify the fields
         if (fields?.Any() != true)
         {
-            throw new ArgumentNullException($"The list of fields cannot be null or empty.");
+            throw new ArgumentNullException(nameof(fields), $"The list of fields cannot be null or empty.");
         }
 
         var builder = new QueryBuilder();

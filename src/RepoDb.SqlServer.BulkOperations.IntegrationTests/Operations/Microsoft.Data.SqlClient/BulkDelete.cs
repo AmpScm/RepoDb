@@ -32,26 +32,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var primaryKeys = tables.Select(e => (object)e.Id);
+        // Setup
+        var primaryKeys = tables.Select(e => (object)e.Id);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete<BulkOperationIdentityTable>(primaryKeys);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete<BulkOperationIdentityTable>(primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -60,23 +58,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -85,24 +81,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables,
-                qualifiers: e => new { e.RowGuid, e.ColumnInt });
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables,
+            qualifiers: e => new { e.RowGuid, e.ColumnInt });
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -111,24 +105,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables,
-                usePhysicalPseudoTempTable: true);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables,
+            usePhysicalPseudoTempTable: true);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -149,23 +141,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationIdentityTable.ColumnNVarChar), nameof(BulkOperationIdentityTable.ColumnNVarChar))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -174,23 +164,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationMappedIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -199,24 +187,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationMappedIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables,
-                qualifiers: e => new { e.RowGuidMapped, e.ColumnIntMapped });
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables,
+            qualifiers: e => new { e.RowGuidMapped, e.ColumnIntMapped });
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -225,24 +211,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationMappedIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables,
-                usePhysicalPseudoTempTable: true);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables,
+            usePhysicalPseudoTempTable: true);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -263,26 +247,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationMappedIdentityTable.ColumnNVarCharMapped), nameof(BulkOperationIdentityTable.ColumnNVarChar))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForEntitiesIfTheMappingsAreInvalid()
     {
         // Setup
@@ -301,11 +283,9 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationIdentityTable.ColumnNVarChar), nameof(BulkOperationIdentityTable.ColumnInt))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.BulkDelete(tables, null, mappings);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<InvalidOperationException>(() => connection.BulkDelete(tables, null, mappings));
     }
 
     [TestMethod]
@@ -321,28 +301,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>((DbDataReader)reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>((DbDataReader)reader);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -371,31 +345,25 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>((DbDataReader)reader, null, mappings);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>((DbDataReader)reader, null, mappings);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForEntitiesDbDataReaderIfTheMappingsAreInvalid()
     {
         // Setup
@@ -421,19 +389,13 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    destinationConnection.BulkDelete<BulkOperationIdentityTable>((DbDataReader)reader, null, mappings);
-                }
-            }
-        }
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<InvalidOperationException>(() => destinationConnection.BulkDelete<BulkOperationIdentityTable>((DbDataReader)reader, null, mappings));
     }
 
     [TestMethod]
@@ -449,33 +411,25 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>(table);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>(table);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -504,36 +458,28 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>(table, null, DataRowState.Unchanged, mappings);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete<BulkOperationIdentityTable>(table, null, DataRowState.Unchanged, mappings);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForEntitiesDataTableIfTheMappingsAreInvalid()
     {
         // Setup
@@ -559,33 +505,23 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        destinationConnection.BulkDelete<BulkOperationIdentityTable>(table, null, DataRowState.Unchanged, mappings);
-                    }
-                }
-            }
-        }
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        Assert.ThrowsExactly<InvalidOperationException>(() => destinationConnection.BulkDelete<BulkOperationIdentityTable>(table, null, DataRowState.Unchanged, mappings));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForNullEntities()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            connection.BulkDelete((IEnumerable<BulkOperationIdentityTable>)null);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        Assert.ThrowsExactly<ArgumentNullException>(() => connection.BulkDelete((IEnumerable<BulkOperationIdentityTable>)null));
     }
 
     //[TestMethod, ExpectedException(typeof(EmptyException))]
@@ -597,24 +533,20 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
     //    }
     //}
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForNullDataReader()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                (DbDataReader)null);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        Assert.ThrowsExactly<ArgumentNullException>(() => connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForNullDataTable()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                (DataTable)null);
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        Assert.ThrowsExactly<ArgumentNullException>(() => connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DataTable)null));
     }
 
     #endregion
@@ -627,23 +559,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateWithExtraFieldsBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -664,23 +594,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationIdentityTable.ColumnNVarChar), nameof(BulkOperationIdentityTable.ColumnNVarChar))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(tables);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -693,27 +621,25 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var primaryKeys = tables.Select(e => (object)e.Id);
+        // Setup
+        var primaryKeys = tables.Select(e => (object)e.Id);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                primaryKeys: primaryKeys);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            primaryKeys: primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -722,26 +648,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var entities = Helper.CreateBulkOperationExpandoObjectIdentityTables(10, true);
+        // Setup
+        var entities = Helper.CreateBulkOperationExpandoObjectIdentityTables(10, true);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -750,26 +674,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var entities = Helper.CreateBulkOperationAnonymousObjectIdentityTables(10, true);
+        // Setup
+        var entities = Helper.CreateBulkOperationAnonymousObjectIdentityTables(10, true);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete<object>(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete<object>(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -778,23 +700,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -803,25 +723,23 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                entities: tables,
-                qualifiers: e => new { e.RowGuid, e.ColumnInt });
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            entities: tables,
+            qualifiers: e => new { e.RowGuid, e.ColumnInt });
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -830,25 +748,23 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                entities: tables,
-                usePhysicalPseudoTempTable: true);
+        // Act
+        var bulkDeleteResult = connection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            entities: tables,
+            usePhysicalPseudoTempTable: true);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -864,28 +780,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -914,34 +824,28 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                        (DbDataReader)reader,
-                        null,
-                        mappings);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)reader,
+            null,
+            mappings);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForTableNameDbDataReaderIfTheMappingsAreInvalid()
     {
         // Setup
@@ -967,25 +871,19 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                        (DbDataReader)reader,
-                        null,
-                        mappings);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)reader,
+            null,
+            mappings);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
-                }
-            }
-        }
+        // Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() => Assert.AreEqual(tables.Count, bulkDeleteResult));
     }
 
     [TestMethod]
@@ -1001,33 +899,25 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1056,40 +946,32 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                            table,
-                            null,
-                            DataRowState.Unchanged,
-                            mappings);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            table,
+            null,
+            DataRowState.Unchanged,
+            mappings);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteForTableNameDbDataTableIfTheMappingsAreInvalid()
     {
         // Setup
@@ -1115,31 +997,23 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                            table,
-                            null,
-                            DataRowState.Unchanged,
-                            mappings);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = destinationConnection.BulkDelete(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            table,
+            null,
+            DataRowState.Unchanged,
+            mappings);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() => Assert.AreEqual(tables.Count, bulkDeleteResult));
     }
 
     #endregion
@@ -1152,26 +1026,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var primaryKeys = tables.Select(e => (object)e.Id);
+        // Setup
+        var primaryKeys = tables.Select(e => (object)e.Id);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync<BulkOperationIdentityTable>(primaryKeys);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync<BulkOperationIdentityTable>(primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1180,23 +1052,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1205,24 +1075,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
-                qualifiers: e => new { e.RowGuid, e.ColumnInt });
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
+            qualifiers: e => new { e.RowGuid, e.ColumnInt });
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1231,24 +1099,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
-                usePhysicalPseudoTempTable: true);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
+            usePhysicalPseudoTempTable: true);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1269,23 +1135,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationIdentityTable.ColumnNVarChar), nameof(BulkOperationIdentityTable.ColumnNVarChar))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1294,23 +1158,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationMappedIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1319,24 +1181,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationMappedIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
-                qualifiers: e => new { e.RowGuidMapped, e.ColumnIntMapped });
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
+            qualifiers: e => new { e.RowGuidMapped, e.ColumnIntMapped });
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1345,24 +1205,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationMappedIdentityTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
-                usePhysicalPseudoTempTable: true);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
+            usePhysicalPseudoTempTable: true);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1383,26 +1241,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationMappedIdentityTable.ColumnNVarCharMapped), nameof(BulkOperationIdentityTable.ColumnNVarChar))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationMappedIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForEntitiesIfTheMappingsAreInvalid()
     {
         // Setup
@@ -1421,16 +1277,14 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationIdentityTable.ColumnNVarChar), nameof(BulkOperationIdentityTable.ColumnInt))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
-                null,
-                mappings);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables,
+            null,
+            mappings);
 
-            // Trigger
-            var result = bulkDeleteResult;
-        }
+        // Trigger
+        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
     }
 
     [TestMethod]
@@ -1446,28 +1300,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1496,33 +1344,27 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader,
-                        null,
-                        mappings);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader,
+            null,
+            mappings);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForEntitiesDbDataReaderIfTheMappingsAreInvalid()
     {
         // Setup
@@ -1548,24 +1390,18 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader,
-                        null,
-                        mappings);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>((DbDataReader)reader,
+            null,
+            mappings);
 
-                    // Trigger
-                    var result = bulkDeleteResult;
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
     }
 
     [TestMethod]
@@ -1581,33 +1417,25 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1636,39 +1464,31 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table,
-                            null,
-                            DataRowState.Unchanged,
-                            mappings);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table,
+            null,
+            DataRowState.Unchanged,
+            mappings);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForEntitiesDataTableIfTheMappingsAreInvalid()
     {
         // Setup
@@ -1694,39 +1514,29 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table,
-                            null,
-                            DataRowState.Unchanged,
-                            mappings);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync<BulkOperationIdentityTable>(table,
+            null,
+            DataRowState.Unchanged,
+            mappings);
 
-                        // Trigger
-                        var result = bulkDeleteResult;
-                    }
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
     }
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullEntities()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            connection.BulkDeleteAsync((IEnumerable<BulkOperationIdentityTable>)null).Wait();
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        Assert.ThrowsExactly<AggregateException>(() => connection.BulkDeleteAsync((IEnumerable<BulkOperationIdentityTable>)null).Wait());
     }
 
     //[TestMethod, ExpectedException(typeof(AggregateException))]
@@ -1738,24 +1548,20 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
     //    }
     //}
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullDataReader()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                (DbDataReader)null).Wait();
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        Assert.ThrowsExactly<AggregateException>(() => connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)null).Wait());
     }
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullDataTable()
     {
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                (DataTable)null).Wait();
-        }
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        Assert.ThrowsExactly<AggregateException>(() => connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DataTable)null).Wait());
     }
 
     #endregion
@@ -1768,23 +1574,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateWithExtraFieldsBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1806,23 +1610,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             new BulkInsertMapItem(nameof(BulkOperationIdentityTable.ColumnNVarChar), nameof(BulkOperationIdentityTable.ColumnNVarChar))
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -1835,27 +1637,25 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var primaryKeys = tables.Select(e => (object)e.Id);
+        // Setup
+        var primaryKeys = tables.Select(e => (object)e.Id);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                primaryKeys: primaryKeys);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            primaryKeys: primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1864,26 +1664,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var entities = Helper.CreateBulkOperationExpandoObjectIdentityTables(10, true);
+        // Setup
+        var entities = Helper.CreateBulkOperationExpandoObjectIdentityTables(10, true);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1892,26 +1690,24 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Setup
-            var entities = Helper.CreateBulkOperationAnonymousObjectIdentityTables(10, true);
+        // Setup
+        var entities = Helper.CreateBulkOperationAnonymousObjectIdentityTables(10, true);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync<object>(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync<object>(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1920,23 +1716,21 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1945,25 +1739,23 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                entities: tables,
-                qualifiers: e => new { e.RowGuid, e.ColumnInt });
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            entities: tables,
+            qualifiers: e => new { e.RowGuid, e.ColumnInt });
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -1972,25 +1764,23 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         // Setup
         var tables = Helper.CreateBulkOperationIdentityTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Act
-            connection.InsertAll(tables);
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        connection.InsertAll(tables);
 
-            // Act
-            var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                entities: tables,
-                usePhysicalPseudoTempTable: true);
+        // Act
+        var bulkDeleteResult = await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            entities: tables,
+            usePhysicalPseudoTempTable: true);
 
-            // Assert
-            Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-            // Act
-            var countResult = connection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = connection.CountAll<BulkOperationIdentityTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -2006,28 +1796,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -2056,34 +1840,28 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                        (DbDataReader)reader,
-                        null,
-                        mappings);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)reader,
+            null,
+            mappings);
 
-                    // Assert
-                    Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                    // Act
-                    var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                    // Assert
-                    Assert.AreEqual(0, countResult);
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForTableNameDbDataReaderIfTheMappingsAreInvalid()
     {
         // Setup
@@ -2109,28 +1887,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                        (DbDataReader)reader,
-                        null,
-                        mappings);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)reader,
+            null,
+            mappings);
 
-                    // Trigger
-                    var result = bulkDeleteResult;
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForTableNameDbDataReaderIfTheTableNameIsNotValid()
     {
         // Setup
@@ -2143,25 +1915,19 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("InvalidTable", (DbDataReader)reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("InvalidTable", (DbDataReader)reader);
 
-                    // Trigger
-                    var result = bulkDeleteResult;
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForTableNameDbDataReaderIfTheTableNameIsMissing()
     {
         // Setup
@@ -2174,22 +1940,16 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                // Open the destination connection
-                using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                {
-                    // Act
-                    var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("MissingTable", (DbDataReader)reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("MissingTable", (DbDataReader)reader);
 
-                    // Trigger
-                    var result = bulkDeleteResult;
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
     }
 
     [TestMethod]
@@ -2205,33 +1965,25 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
@@ -2260,40 +2012,32 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                            table,
-                            null,
-                            DataRowState.Unchanged,
-                            mappings);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            table,
+            null,
+            DataRowState.Unchanged,
+            mappings);
 
-                        // Assert
-                        Assert.AreEqual(tables.Count, bulkDeleteResult);
+        // Assert
+        Assert.AreEqual(tables.Count, bulkDeleteResult);
 
-                        // Act
-                        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
+        // Act
+        var countResult = destinationConnection.CountAll<BulkOperationIdentityTable>();
 
-                        // Assert
-                        Assert.AreEqual(0, countResult);
-                    }
-                }
-            }
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
-    [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForTableNameDataTableIfTheMappingsAreInvalid()
     {
         // Setup
@@ -2319,34 +2063,26 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-                            table,
-                            null,
-                            DataRowState.Unchanged,
-                            mappings);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            table,
+            null,
+            DataRowState.Unchanged,
+            mappings);
 
-                        // Trigger
-                        var result = bulkDeleteResult;
-                    }
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<InvalidOperationException>(() => bulkDeleteResult);
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForTableNameDataTableIfTheTableNameIsNotValid()
     {
         // Setup
@@ -2359,30 +2095,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("InvalidTable", table);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("InvalidTable", table);
 
-                        // Trigger
-                        var result = bulkDeleteResult;
-                    }
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
     }
 
-    [TestMethod, ExpectedException(typeof(MissingFieldsException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForTableNameDataTableIfTheTableNameIsMissing()
     {
         // Setup
@@ -2395,30 +2123,22 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
         }
 
         // Open the source connection
-        using (var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-        {
-            // Read the data from source connection
-            using (var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];"))
-            {
-                using (var table = new DataTable())
-                {
-                    table.Load(reader);
+        using var sourceConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Read the data from source connection
+        using var reader = sourceConnection.ExecuteReader("SELECT * FROM [dbo].[BulkOperationIdentityTable];");
+        using var table = new DataTable();
+        table.Load(reader);
 
-                    // Open the destination connection
-                    using (var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb))
-                    {
-                        // Act
-                        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("MissingTable",
-                            table,
-                            null,
-                            DataRowState.Unchanged);
+        // Open the destination connection
+        using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        // Act
+        var bulkDeleteResult = await destinationConnection.BulkDeleteAsync("MissingTable",
+            table,
+            null,
+            DataRowState.Unchanged);
 
-                        // Trigger
-                        var result = bulkDeleteResult;
-                    }
-                }
-            }
-        }
+        // Trigger
+        Assert.ThrowsExactly<MissingFieldsException>(() => bulkDeleteResult);
     }
 
     #endregion

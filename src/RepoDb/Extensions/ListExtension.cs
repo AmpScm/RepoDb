@@ -6,14 +6,15 @@
 public static class ListExtension
 {
     /// <summary>
-    /// Adds an item into the <see cref="IList{T}"/> if not null.
+    /// Adds an item into the <see cref="ICollection{T}"/> if not null.
     /// </summary>
     /// <typeparam name="T">The type of the item.</typeparam>
     /// <param name="list">The instance of the list.</param>
     /// <param name="item">The item to be evaulated and added.</param>
-    public static void AddIfNotNull<T>(this IList<T> list,
+    public static void AddIfNotNull<T>(this ICollection<T> list,
         T? item)
     {
+        ArgumentNullException.ThrowIfNull(list);
         if (item != null)
         {
             list.Add(item);
@@ -21,7 +22,7 @@ public static class ListExtension
     }
 
     /// <summary>
-    /// Adds an item into the <see cref="IList{T}"/> if not null.
+    /// Adds an item into the <see cref="List{T}"/> if not null.
     /// </summary>
     /// <typeparam name="T">The type of the item.</typeparam>
     /// <param name="list">The instance of the list.</param>
@@ -29,6 +30,7 @@ public static class ListExtension
     public static void AddRangeIfNotNullOrNotEmpty<T>(this List<T> list,
         IEnumerable<T>? items)
     {
+        ArgumentNullException.ThrowIfNull(list);
         if (items?.Any() == true)
         {
             list.AddRange(items);

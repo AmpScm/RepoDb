@@ -55,10 +55,8 @@ public static class Database
     /// </summary>
     public static void Cleanup()
     {
-        using (var connection = new SqlConnection(ConnectionString))
-        {
-            connection.Truncate<BulkOperationIdentityTable>();
-        }
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Truncate<BulkOperationIdentityTable>();
     }
 
     #endregion
@@ -90,10 +88,8 @@ public static class Database
                         WITH (FILLFACTOR = 90) ON [PRIMARY]
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionString).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionString).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     #endregion

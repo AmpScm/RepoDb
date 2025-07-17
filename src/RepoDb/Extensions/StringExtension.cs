@@ -69,6 +69,7 @@ public static partial class StringExtension
     public static string AsAlphaNumeric(this string value,
         bool trim)
     {
+        ArgumentNullException.ThrowIfNull(value);
         if (trim)
         {
             value = value.Trim();
@@ -83,8 +84,11 @@ public static partial class StringExtension
     /// <param name="value">The string value to be checked.</param>
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>True if the value is open-quoted.</returns>
-    public static bool IsOpenQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting) =>
-        dbSetting != null && value.StartsWith(dbSetting.OpeningQuote, StringComparison.Ordinal);
+    public static bool IsOpenQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        return dbSetting != null && value.StartsWith(dbSetting.OpeningQuote, StringComparison.Ordinal);
+    }
 
     /// <summary>
     /// Check whether the string value is close-quoted.
@@ -92,8 +96,11 @@ public static partial class StringExtension
     /// <param name="value">The string value to be checked.</param>
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>True if the value is close-quoted.</returns>
-    public static bool IsCloseQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting) =>
-        dbSetting != null && value.EndsWith(dbSetting.ClosingQuote, StringComparison.Ordinal);
+    public static bool IsCloseQuoted(this string value, [NotNullWhen(true)] IDbSetting? dbSetting)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        return dbSetting != null && value.EndsWith(dbSetting.ClosingQuote, StringComparison.Ordinal);
+    }
 
     /// <summary>
     /// Unquotes a string.
@@ -122,14 +129,14 @@ public static partial class StringExtension
             return value;
         }
 
-#if NET_8_0_OR_GREATER
+#if NET8_0_OR_GREATER
         if (value.IndexOfAny(unquotedChars) < 0)
         {
             return value;
         }
 #endif
 
-        if (!value.Contains('.'))
+        if (!value.Contains('.', StringComparison.Ordinal))
         {
             return value.AsUnquotedInternal(trim, dbSetting);
         }
@@ -151,11 +158,11 @@ public static partial class StringExtension
     {
         if (!string.IsNullOrWhiteSpace(dbSetting.OpeningQuote))
         {
-            value = value.Replace(dbSetting.OpeningQuote, string.Empty);
+            value = value.Replace(dbSetting.OpeningQuote, string.Empty, StringComparison.Ordinal);
         }
         if (!string.IsNullOrWhiteSpace(dbSetting.ClosingQuote))
         {
-            value = value.Replace(dbSetting.ClosingQuote, string.Empty);
+            value = value.Replace(dbSetting.ClosingQuote, string.Empty, StringComparison.Ordinal);
         }
         if (trim)
         {
@@ -193,6 +200,7 @@ public static partial class StringExtension
     /// <returns>The quoted string.</returns>
     public static string AsQuoted(this string value, bool trim, bool ignoreSchema, IDbSetting? dbSetting)
     {
+        ArgumentNullException.ThrowIfNull(value);
         if (dbSetting == null)
         {
             return value;
@@ -201,7 +209,7 @@ public static partial class StringExtension
         {
             value = value.Trim();
         }
-        var firstIndex = value.IndexOf('.');
+        var firstIndex = value.IndexOf('.', StringComparison.Ordinal);
         if (ignoreSchema || firstIndex < 0)
         {
             return value.AsQuotedInternal(dbSetting);
@@ -352,7 +360,8 @@ public static partial class StringExtension
         IDbSetting? dbSetting,
         string? suffix = null)
     {
-        Debug.Assert(!value.Contains('@'));
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(value);
+        Debug.Assert(!value.Contains('@', StringComparison.Ordinal));
         var parameterPrefix = dbSetting?.ParameterPrefix ?? "@";
         quote = quote && dbSetting?.QuoteParameterNames == true;
 

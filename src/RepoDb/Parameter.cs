@@ -145,22 +145,7 @@ public sealed class Parameter : IEquatable<Parameter>
     /// <returns>The hashcode value.</returns>
     public override int GetHashCode()
     {
-        if (this.hashCode != null)
-        {
-            return this.hashCode.Value;
-        }
-
-        // OriginalName
-        var hashCode = OriginalName.GetHashCode();
-
-        // DbType
-        if (DbType.HasValue)
-        {
-            hashCode = HashCode.Combine(hashCode, DbType.Value);
-        }
-
-        // Set and return the hashcode
-        return this.hashCode ??= hashCode;
+        return this.hashCode ??= HashCode.Combine(OriginalName, DbType);
     }
 
     /// <summary>

@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Dynamic;
+using System.Reflection;
+using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Enumerations;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.Interfaces;
-using Microsoft.Data.SqlClient;
-using System.Dynamic;
-using System.Reflection;
 
 namespace RepoDb.IntegrationTests;
 
@@ -622,7 +622,7 @@ public static class Helper
             ColumnDecimal = Convert.ToDecimal(random.Next(int.MinValue, int.MaxValue)),
             ColumnFloat = Convert.ToSingle(random.Next(int.MinValue, int.MaxValue)),
             ColumnInt = random.Next(int.MinValue, int.MaxValue),
-            ColumnNVarChar = $"NVARCHAR-{Guid.NewGuid().ToString()}"
+            ColumnNVarChar = $"NVARCHAR-{Guid.NewGuid()}"
         };
     }
 
@@ -754,7 +754,6 @@ public static class Helper
         var tables = new List<EnumCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            var index = i + 1;
             tables.Add(new EnumCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -778,7 +777,6 @@ public static class Helper
         var tables = new List<EnumCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            var index = i + 1;
             tables.Add(new EnumCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -860,7 +858,6 @@ public static class Helper
         var tables = new List<EnumAsIntForStringCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            var index = i + 1;
             tables.Add(new EnumAsIntForStringCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -910,7 +907,6 @@ public static class Helper
         var tables = new List<FlaggedEnumForStringCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            var index = i + 1;
             tables.Add(new FlaggedEnumForStringCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -930,7 +926,6 @@ public static class Helper
         var tables = new List<FlaggedEnumForStringCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            var index = i + 1;
             tables.Add(new FlaggedEnumForStringCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -980,7 +975,6 @@ public static class Helper
         var tables = new List<FlaggedEnumForIntCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            var index = i + 1;
             tables.Add(new FlaggedEnumForIntCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -1000,7 +994,6 @@ public static class Helper
         var tables = new List<FlaggedEnumForIntCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            var index = i + 1;
             tables.Add(new FlaggedEnumForIntCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -1048,7 +1041,7 @@ public static class Helper
     public static List<TypeLevelMappedForStringEnumCompleteTable> CreateTypeLevelMappedForStringEnumCompleteTables(int count)
     {
         var tables = new List<TypeLevelMappedForStringEnumCompleteTable>();
-        var values = Enum.GetValues(typeof(Continent)).AsEnumerable<Continent>().AsList();
+        var values = Enum.GetValues<Continent>().AsList();
         for (var i = 0; i < count; i++)
         {
             tables.Add(new TypeLevelMappedForStringEnumCompleteTable
