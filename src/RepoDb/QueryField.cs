@@ -40,7 +40,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="value">The value to be used for the query expression.</param>
     public QueryField(Field field,
         object? value)
-        : this(field, Operation.Equal, value, null, false)
+        : this(field ?? throw new ArgumentNullException(nameof(field)), Operation.Equal, value, null, false)
     { }
 
     /// <summary>

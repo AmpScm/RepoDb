@@ -287,11 +287,20 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     {
         try
         {
-            DbRepository.Dispose();
+            Dispose(true);
         }
         finally
         {
             GC.SuppressFinalize(this);
+        }
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Dispose the DbRepository
+            DbRepository.Dispose();
         }
     }
 

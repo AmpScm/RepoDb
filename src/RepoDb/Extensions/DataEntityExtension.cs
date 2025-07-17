@@ -88,9 +88,10 @@ public static class DataEntityExtension
     public static string? GetSchema(string tableName,
         IDbSetting? dbSetting)
     {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         if (tableName.IsOpenQuoted(dbSetting))
         {
-            var index = tableName.IndexOf(string.Concat(dbSetting.ClosingQuote, "."), StringComparison.OrdinalIgnoreCase);
+            var index = tableName.IndexOf(string.Concat(dbSetting!.ClosingQuote, "."), StringComparison.OrdinalIgnoreCase);
             if (index >= 0)
             {
                 return tableName.Substring(0, index + 1);
@@ -127,9 +128,10 @@ public static class DataEntityExtension
     public static string GetTableName(string tableName,
         IDbSetting? dbSetting)
     {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         if (tableName.IsOpenQuoted(dbSetting))
         {
-            var index = tableName.IndexOf(string.Concat(dbSetting.ClosingQuote, "."), StringComparison.OrdinalIgnoreCase);
+            var index = tableName.IndexOf(string.Concat(dbSetting!.ClosingQuote, "."), StringComparison.OrdinalIgnoreCase);
             if (index >= 0 && tableName.Length > index + 2)
             {
                 return tableName.Substring(index + 2);
@@ -137,7 +139,7 @@ public static class DataEntityExtension
         }
         else
         {
-            var index = tableName.IndexOf('.');
+            var index = tableName.IndexOf('.', StringComparison.Ordinal);
             if (index >= 0 && tableName.Length > index)
             {
                 return tableName.Substring(index + 1);

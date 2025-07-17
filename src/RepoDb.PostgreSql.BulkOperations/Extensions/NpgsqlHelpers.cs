@@ -337,7 +337,7 @@ public static partial class NpgsqlConnectionExtension
     /// 
     /// </summary>
     /// <param name="mappings"></param>
-    private static IEnumerable<NpgsqlBulkInsertMapItem> AddOrderColumnMapping(IEnumerable<NpgsqlBulkInsertMapItem> mappings)
+    private static List<NpgsqlBulkInsertMapItem> AddOrderColumnMapping(IEnumerable<NpgsqlBulkInsertMapItem> mappings)
     {
         var list = new List<NpgsqlBulkInsertMapItem>(mappings);
         list.Insert(0,
@@ -478,12 +478,8 @@ public static partial class NpgsqlConnectionExtension
         }
 
         var identityColumn = GetDataTableIdentityColumn(table, identityField, dbSetting);
-        if (identityColumn == null)
-        {
-            identityColumn = table.Columns.Add(identityField.FieldName, identityField.Type ?? typeof(object));
-        }
+        identityColumn ??= table.Columns.Add(identityField.FieldName, identityField.Type ?? typeof(object));
 
-        var identityList = identityResults.ToList();
         var bulkInsertIndex = -1;
         var index = 0;
 

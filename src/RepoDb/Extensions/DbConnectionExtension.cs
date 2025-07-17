@@ -35,6 +35,7 @@ public static partial class DbConnectionExtension
         int commandTimeout = 0,
         IDbTransaction? transaction = null)
     {
+        ArgumentNullException.ThrowIfNull(connection);
         var command = connection.CreateCommand();
         command.CommandText = commandText;
         if (commandType > 0)
@@ -58,6 +59,7 @@ public static partial class DbConnectionExtension
         int commandTimeout = 0,
         DbTransaction? transaction = null)
     {
+        ArgumentNullException.ThrowIfNull(connection);
         var command = connection.CreateCommand();
         command.CommandText = commandText;
 
@@ -83,6 +85,7 @@ public static partial class DbConnectionExtension
     /// <returns>The instance of the current connection object.</returns>
     public static IDbConnection EnsureOpen(this IDbConnection connection)
     {
+        ArgumentNullException.ThrowIfNull(connection);
         if (connection.State != ConnectionState.Open)
         {
             connection.Open();
@@ -113,6 +116,7 @@ public static partial class DbConnectionExtension
     public static async Task<IDbConnection> EnsureOpenAsync(this IDbConnection connection,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(connection);
         if (connection.State != ConnectionState.Open)
         {
             await ((DbConnection)connection).OpenAsync(cancellationToken).ConfigureAwait(false);
@@ -129,6 +133,7 @@ public static partial class DbConnectionExtension
     public static async ValueTask<TDbConnection> EnsureOpenAsync<TDbConnection>(this TDbConnection connection,
         CancellationToken cancellationToken = default) where TDbConnection : DbConnection
     {
+        ArgumentNullException.ThrowIfNull(connection);
         if (connection.State != ConnectionState.Open)
         {
             await connection.OpenAsync(cancellationToken).ConfigureAwait(false);

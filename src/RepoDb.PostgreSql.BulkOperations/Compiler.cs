@@ -433,12 +433,7 @@ internal static class Compiler
         NpgsqlBulkInsertMapItem mapping)
     {
         // Property
-        var classProperty = PropertyCache.Get(entityType, mapping.SourceColumn);
-        if (classProperty == null)
-        {
-            throw new PropertyNotFoundException(nameof(mapping), $"Property '{mapping.SourceColumn}' is not found from type '{entityType.FullName}'.");
-        }
-
+        var classProperty = PropertyCache.Get(entityType, mapping.SourceColumn) ?? throw new PropertyNotFoundException(nameof(mapping), $"Property '{mapping.SourceColumn}' is not found from type '{entityType.FullName}'.");
         var propertyExpression = (Expression)Expression.Property(entityExpression, mapping.SourceColumn);
 
         // Enum
@@ -500,7 +495,7 @@ internal static class Compiler
     /// <param name="propertyExpression"></param>
     /// <param name="intBasedType"></param>
     /// <returns></returns>
-    private static Expression ConvertEnumExpressionToIntBasedType(Expression propertyExpression,
+    private static MethodCallExpression ConvertEnumExpressionToIntBasedType(Expression propertyExpression,
         Type intBasedType)
     {
         var cachedType = TypeCache.Get(propertyExpression.Type);

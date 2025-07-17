@@ -365,12 +365,12 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         };
     }
 
-    public override DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? type, IEnumerable values, string parameterName)
+    public override DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName)
     {
         var info = DbRuntimeSettingCache.Get(connection, transaction);
 
         if (info?.ParameterTypeMap is { } pm
-            && (type ?? values.GetElementType()) is { } elementType
+            && (fieldType ?? values.GetElementType()) is { } elementType
             && pm.TryGetValue(elementType, out var mapping))
         {
             var dt = new DataTable();

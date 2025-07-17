@@ -16,6 +16,7 @@ public sealed class DiagnosticsTracer : ITrace
     /// <param name="log"></param>
     public void AfterExecution<TResult>(ResultTraceLog<TResult> log)
     {
+        ArgumentNullException.ThrowIfNull(log);
         if (_timeMap.TryGetValue(log.SessionId, out var startTime))
         {
             _timeMap.Remove(log.SessionId);

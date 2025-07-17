@@ -1,6 +1,6 @@
-﻿using RepoDb.Extensions;
+﻿using System.Data;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
-using System.Data;
 
 namespace RepoDb.Resolvers;
 
@@ -42,7 +42,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
             var dbType = DbTypeResolver.Resolve(field.Type);
             if (dbType != null)
             {
-                var dbTypeName = StringNameResolver.Resolve(dbType.Value).ToUpper().AsQuoted(dbSetting);
+                var dbTypeName = StringNameResolver.Resolve(dbType.Value).ToUpperInvariant().AsQuoted(dbSetting);
                 return string.Concat("CONVERT(", dbTypeName, ", ", field.FieldName.AsField(dbSetting), ")");
             }
         }

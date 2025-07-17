@@ -38,6 +38,7 @@ public class MemoryCache : ICache
     public void Add<T>(CacheItem<T> item,
         bool throwException = true)
     {
+        ArgumentNullException.ThrowIfNull(item);
         CacheItem<T>? cacheItem = null;
         if (_cache.TryGetValue(item.Key, out var value))
         {

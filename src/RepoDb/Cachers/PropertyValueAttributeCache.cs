@@ -30,8 +30,11 @@ public static class PropertyValueAttributeCache
     /// <param name="expression">The property expression.</param>
     /// <returns>The list of <see cref="PropertyValueAttribute"/> object.</returns>
     public static IEnumerable<PropertyValueAttribute> Get<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get(ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Property Level: Gets the list of cached <see cref="PropertyValueAttribute"/> objects that is currently mapped to the class property (via property name).

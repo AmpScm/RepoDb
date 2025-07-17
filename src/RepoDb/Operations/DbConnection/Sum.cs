@@ -2528,7 +2528,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The sum value of the target field.</returns>
-    internal static ValueTask<TResult> SumInternalAsync<TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> SumInternalAsync<TResult>(this IDbConnection connection,
         string tableName,
         Field field,
         QueryGroup? where = null,
@@ -2550,17 +2550,17 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken).ConfigureAwait(false) : null;
 
         // Return the result
-        return SumInternalBaseAsync<TResult>(connection: connection,
+        return await SumInternalBaseAsync<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
             trace: trace,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

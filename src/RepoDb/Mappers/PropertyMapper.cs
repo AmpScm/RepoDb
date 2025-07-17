@@ -45,8 +45,11 @@ public static class PropertyMapper
     public static void Add<TEntity>(Expression<Func<TEntity, object?>> expression,
         string columnName,
         bool force)
-        where TEntity : class =>
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
         Add<TEntity>(ExpressionExtension.GetProperty(expression), columnName, force);
+    }
 
     /// <summary>
     /// Adds a mapping between a class property and a database column (via property name).
@@ -173,8 +176,11 @@ public static class PropertyMapper
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The mapped name of the property.</returns>
     public static string? Get<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get<TEntity>(ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get<TEntity>(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Gets the mapped database column of the property (via property name).
@@ -193,8 +199,11 @@ public static class PropertyMapper
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     /// <returns>The mapped name of the property.</returns>
     public static string? Get<TEntity>(Field field)
-        where TEntity : class =>
-        Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName));
+    }
 
 
     /// <summary>

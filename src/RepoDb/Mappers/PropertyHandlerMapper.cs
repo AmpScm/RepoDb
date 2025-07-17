@@ -205,8 +205,11 @@ public static class PropertyHandlerMapper
     public static void Add<TEntity, TPropertyHandler>(Expression<Func<TEntity, object?>> expression,
         TPropertyHandler propertyHandler,
         bool force)
-        where TEntity : class =>
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
         Add<TEntity, TPropertyHandler>(ExpressionExtension.GetProperty(expression), propertyHandler, force);
+    }
 
     /// <summary>
     /// Property Level: Adds a property handler mapping into a data entity type property (via property name). It uses the <see cref="Activator.CreateInstance(Type)"/> method to create the instance of target property handler.
@@ -431,8 +434,11 @@ public static class PropertyHandlerMapper
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The mapped property handler object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get<TEntity, TPropertyHandler>(ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get<TEntity, TPropertyHandler>(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Property Level: Gets the mapped property handler object of the data entity type property (via property name).
@@ -506,8 +512,11 @@ public static class PropertyHandlerMapper
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <param name="expression">The expression to be parsed.</param>
     public static void Remove<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
         Remove<TEntity>(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Property Level: Removes the existing mapped property handler from a data entity type property (via property name).

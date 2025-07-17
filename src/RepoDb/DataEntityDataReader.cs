@@ -104,7 +104,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         Connection = connection;
         Transaction = transaction;
         HasOrderingColumn = hasOrderingColumn;
-        Enumerator = entities.GetEnumerator();
+        EntityEnumerator = entities.GetEnumerator();
         Entities = entities;
         Properties = GetClassProperties().AsList();
         Fields = EnumerableExtension.AsList(GetFields(Entities.FirstOrDefault() as IDictionary<string, object>));
@@ -136,7 +136,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets the instance of enumerator that iterates through a collection of data entity objects.
     /// </summary>
-    public IEnumerator<TEntity> Enumerator { get; private set; }
+    public IEnumerator<TEntity> EntityEnumerator { get; private set; }
 
     /// <summary>
     /// Gets the list of data entity objects.
@@ -233,7 +233,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     {
         base.Dispose();
         Entities = null!;
-        Enumerator = null!;
+        EntityEnumerator = null!;
         Close();
         isDisposed = true;
     }
@@ -244,7 +244,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public void Reset()
     {
         ThrowExceptionIfNotAvailable();
-        Enumerator = Entities.GetEnumerator();
+        EntityEnumerator = Entities.GetEnumerator();
         position = -1;
         recordsAffected = -1;
     }
@@ -567,7 +567,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         }
         else
         {
-            return Properties[i].PropertyInfo.GetValue(Enumerator.Current);
+            return Properties[i].PropertyInfo.GetValue(EntityEnumerator.Current);
         }
     }
 
@@ -585,7 +585,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         }
         else
         {
-            var dictionary = Enumerator.Current as IDictionary<string, object>;
+            var dictionary = EntityEnumerator.Current as IDictionary<string, object>;
             return dictionary?[Fields[i].FieldName];
         }
     }
@@ -604,7 +604,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         {
             throw new ArgumentOutOfRangeException($"The length of the array must be equals to the number of fields of the data entity (it should be {FieldCount}).");
         }
-        var extracted = ClassExpression.GetPropertiesAndValues(Enumerator.Current).ToArray();
+        var extracted = ClassExpression.GetPropertiesAndValues(EntityEnumerator.Current).ToArray();
         for (var i = 0; i < Properties.Count; i++)
         {
             values[i] = extracted[i].Value;
@@ -642,7 +642,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         ThrowExceptionIfNotAvailable();
         position++;
         recordsAffected++;
-        return Enumerator.MoveNext();
+        return EntityEnumerator.MoveNext();
     }
 
     /// <summary>

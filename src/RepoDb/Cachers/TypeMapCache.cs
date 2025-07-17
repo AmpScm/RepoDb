@@ -60,8 +60,11 @@ public static class TypeMapCache
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The mapped <see cref="DbType"/> object of the property.</returns>
     public static DbType? Get<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get<TEntity>(ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get<TEntity>(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Property Level: Gets the cached <see cref="DbType"/> object that is being mapped on a specific class property (via property name).
@@ -80,8 +83,11 @@ public static class TypeMapCache
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     /// <returns>The mapped <see cref="DbType"/> object of the property.</returns>
     public static DbType? Get<TEntity>(Field field)
-        where TEntity : class =>
-        Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Get<TEntity>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
+    }
 
     /// <summary>
     /// Property Level: Gets the cached <see cref="DbType"/> object that is being mapped on a specific <see cref="PropertyInfo"/> object.

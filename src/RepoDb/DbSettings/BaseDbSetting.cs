@@ -18,7 +18,7 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     /// <summary>
     /// Creates a new instance of <see cref="BaseDbSetting"/> class.
     /// </summary>
-    public BaseDbSetting()
+    protected BaseDbSetting()
     {
         AreTableHintsSupported = true;
         AverageableType = StaticType.Double;

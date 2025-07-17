@@ -71,8 +71,11 @@ public static class PropertyValueAttributeMapper
     public static void Add<TEntity>(Expression<Func<TEntity, object?>> expression,
         IEnumerable<PropertyValueAttribute> attributes,
         bool force)
-        where TEntity : class =>
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
         Add(ExpressionExtension.GetProperty(expression), attributes, force);
+    }
 
     /// <summary>
     /// Property Level: Adds a mapping between a class property and an instance of <see cref="PropertyValueAttribute"/> object (property name).
@@ -217,8 +220,11 @@ public static class PropertyValueAttributeMapper
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add(PropertyInfo propertyInfo,
         IEnumerable<PropertyValueAttribute> attributes,
-        bool force) =>
+        bool force)
+    {
+        ArgumentNullException.ThrowIfNull(propertyInfo);
         Add(propertyInfo.DeclaringType!, propertyInfo, attributes, force);
+    }
 
     /// <summary>
     /// Property Level: Adds a mapping between a <see cref="PropertyInfo"/> object and an instance of <see cref="PropertyValueAttribute"/> object.
@@ -302,8 +308,11 @@ public static class PropertyValueAttributeMapper
     /// <param name="expression">The property expression.</param>
     /// <returns>The list of mapped <see cref="PropertyValueAttribute"/> objects.</returns>
     public static IEnumerable<PropertyValueAttribute>? Get<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Get the list of mapped <see cref="PropertyValueAttribute"/> objects of the class property (via property name).
@@ -369,16 +378,19 @@ public static class PropertyValueAttributeMapper
     /// </summary>
     /// <typeparam name="TEntity">The target type.</typeparam>
     /// <param name="expression">The property expression.</param>
-    public static void Remove<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Remove(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+    public static bool Remove<TEntity>(Expression<Func<TEntity, object?>> expression)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Remove(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Removes the existing mapped <see cref="PropertyValueAttribute"/> objects of the class property (via property name).
     /// </summary>
     /// <typeparam name="TEntity">The target type.</typeparam>
     /// <param name="propertyName">The name of the target class property.</param>
-    public static void Remove<TEntity>(string propertyName)
+    public static bool Remove<TEntity>(string propertyName)
         where TEntity : class =>
         Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(propertyName));
 
@@ -387,23 +399,29 @@ public static class PropertyValueAttributeMapper
     /// </summary>
     /// <typeparam name="TEntity">The target type.</typeparam>
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
-    public static void Remove<TEntity>(Field field)
-        where TEntity : class =>
-        Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+    public static bool Remove<TEntity>(Field field)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+    }
 
     /// <summary>
     /// Removes the existing mapped <see cref="PropertyValueAttribute"/> objects of the <see cref="PropertyInfo"/> object.
     /// </summary>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    public static void Remove(PropertyInfo propertyInfo) =>
-        Remove(propertyInfo.DeclaringType!, propertyInfo);
+    public static bool Remove(PropertyInfo propertyInfo)
+    {
+        ArgumentNullException.ThrowIfNull(propertyInfo);
+        return Remove(propertyInfo.DeclaringType!, propertyInfo);
+    }
 
     /// <summary>
     /// Removes the existing mapped <see cref="PropertyValueAttribute"/> objects of the <see cref="PropertyInfo"/> object.
     /// </summary>
     /// <param name="entityType">The target type.</param>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    public static void Remove(Type entityType,
+    public static bool Remove(Type entityType,
         PropertyInfo propertyInfo)
     {
         ArgumentNullException.ThrowIfNull(propertyInfo);
@@ -412,7 +430,7 @@ public static class PropertyValueAttributeMapper
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
 
         // Try get the value
-        maps.TryRemove(key, out var _);
+        return maps.TryRemove(key, out var _);
     }
 
     #endregion

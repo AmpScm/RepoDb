@@ -67,7 +67,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <summary>
     /// Gets the value that is being used to set the target parameter property value.
     /// </summary>
-    protected internal object? Value { get; }
+    public object? Value { get; }
 
     /// <summary>
     /// Gets the value that indicates whether this current attribute method invocation

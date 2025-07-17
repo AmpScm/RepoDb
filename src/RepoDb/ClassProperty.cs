@@ -18,7 +18,7 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// </summary>
     /// <param name="property">The wrapped property.</param>
     public ClassProperty(PropertyInfo property) :
-        this(property.DeclaringType!, property)
+        this((property ?? throw new ArgumentNullException(nameof(property))).DeclaringType!, property)
     { }
 
     /// <summary>

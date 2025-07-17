@@ -25,6 +25,8 @@ public static partial class ClassExpression
         Expression<Func<TEntity, object?>> expression)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(entities);
+        ArgumentNullException.ThrowIfNull(expression);
         var property = ExpressionExtension.GetProperty(expression) ?? throw new PropertyNotFoundException(nameof(expression), "Property not found");
         var classProperty = PropertyCache.Get<TEntity>().GetByPropertyName(property.Name) ?? throw new PropertyNotFoundException(nameof(expression), "Property not found on class"); ;
         return GetEntitiesPropertyValues<TEntity, TResult>(entities, classProperty);

@@ -131,6 +131,7 @@ public static class TypeMapper
     /// <param name="type">The .NET CLR type where the mapping is to be removed.</param>
     public static bool Remove(Type type)
     {
+        ArgumentNullException.ThrowIfNull(type);
         var key = type.GetHashCode();
 
         // Try get the value
@@ -166,8 +167,11 @@ public static class TypeMapper
     public static void Add<TEntity>(Expression<Func<TEntity, object?>> expression,
         DbType dbType,
         bool force)
-        where TEntity : class =>
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
         Add<TEntity>(ExpressionExtension.GetProperty(expression), dbType, force);
+    }
 
     /// <summary>
     /// Property Level: Adds a mapping between a class property and a <see cref="DbType"/> object (via property name).
@@ -297,8 +301,11 @@ public static class TypeMapper
     /// <param name="expression">The property expression.</param>
     /// <returns>The mapped <see cref="DbType"/> object of the property.</returns>
     public static DbType? Get<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Property Level: Get the existing mapped <see cref="DbType"/> object of the class property (via property name).
@@ -317,8 +324,11 @@ public static class TypeMapper
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
     /// <returns>The mapped <see cref="DbType"/> object of the property.</returns>
     public static DbType? Get<TEntity>(Field field)
-        where TEntity : class =>
-        Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Get(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+    }
 
     /// <summary>
     /// Property Level: Get the existing mapped <see cref="DbType"/> object of the <see cref="PropertyInfo"/> object.
@@ -354,43 +364,53 @@ public static class TypeMapper
     /// </summary>
     /// <typeparam name="TEntity">The target type.</typeparam>
     /// <param name="expression">The property expression.</param>
-    public static void Remove<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Remove(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+    public static bool Remove<TEntity>(Expression<Func<TEntity, object?>> expression)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Remove(typeof(TEntity), ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Property Level: Remove the existing mapped <see cref="DbType"/> from the class property (via property name).
     /// </summary>
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="propertyName">The name of the property.</param>
-    public static void Remove<TEntity>(string propertyName)
-        where TEntity : class =>
-        Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(propertyName));
+    public static bool Remove<TEntity>(string propertyName)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(propertyName);
+        return Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(propertyName));
+    }
 
     /// <summary>
     /// Property Level: Remove the existing mapped <see cref="DbType"/> from the class property (via <see cref="Field"/> object).
     /// </summary>
     /// <typeparam name="TEntity">The target .NET CLR type.</typeparam>
     /// <param name="field">The instance of <see cref="Field"/> object.</param>
-    public static void Remove<TEntity>(Field field)
-        where TEntity : class =>
-        Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+    public static bool Remove<TEntity>(Field field)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        return Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(field.FieldName));
+    }
 
     /// <summary>
     /// Property Level: Remove the existing mapped <see cref="DbType"/> from the <see cref="PropertyInfo"/> object.
     /// </summary>
     /// <param name="entityType">The target type.</param>
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    internal static void Remove(Type entityType,
+    internal static bool Remove(Type entityType,
         PropertyInfo propertyInfo)
     {
+        ArgumentNullException.ThrowIfNull(entityType);
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
 
         // Try get the value
-        maps.TryRemove(key, out var _);
+        return maps.TryRemove(key, out var _);
     }
 
     /*

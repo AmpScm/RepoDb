@@ -54,7 +54,7 @@ public static class DbCommandExtension
         DbType? dbType,
         ParameterDirection? parameterDirection)
     {
-        // Create the parameter
+        ArgumentNullException.ThrowIfNull(command);
         var parameter = command.CreateParameter();
 
         // Set the values
@@ -848,7 +848,7 @@ public static class DbCommandExtension
         ref Type? valueType,
         ref object? value)
     {
-        if (valueType != null && dbField != null && dbField?.Type != null)
+        if (valueType != null && dbField != null && dbField.Type != null)
         {
             var dbFieldType = TypeCache.Get(dbField.Type).UnderlyingType;
 

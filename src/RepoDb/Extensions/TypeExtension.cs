@@ -242,8 +242,11 @@ public static class TypeExtension
     /// </summary>
     /// <param name="type">The type of the data entity.</param>
     /// <returns>The generated hashcode.</returns>
-    public static int GenerateHashCode(Type type) =>
-        type.GetHashCode();
+    public static int GenerateHashCode(Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return type.GetHashCode();
+    }
 
     /// <summary>
     /// Generates a hashcode for caching.
@@ -252,8 +255,12 @@ public static class TypeExtension
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The generated hashcode.</returns>
     public static int GenerateHashCode(Type entityType,
-        PropertyInfo propertyInfo) =>
-        HashCode.Combine(entityType, propertyInfo.GenerateCustomizedHashCode(entityType));
+        PropertyInfo propertyInfo)
+    {
+        ArgumentNullException.ThrowIfNull(entityType);
+        ArgumentNullException.ThrowIfNull(propertyInfo);
+        return HashCode.Combine(entityType, propertyInfo.GenerateCustomizedHashCode(entityType));
+    }
 
     /// <summary>
     /// A helper method to return the instance of <see cref="PropertyInfo"/> object based on name.

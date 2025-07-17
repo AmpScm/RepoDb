@@ -20,6 +20,8 @@ public static class EnumerableExtension
     public static IEnumerable<T[]> Split<T>(this IEnumerable<T> value,
         int sizePerSplit)
     {
+        ArgumentNullException.ThrowIfNull(value);
+        value = value.AsList();
         var count = value.Count();
         if (sizePerSplit <= 0 || count <= sizePerSplit)
         {

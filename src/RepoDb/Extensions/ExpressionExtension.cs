@@ -85,6 +85,7 @@ public static class ExpressionExtension
     /// <exception cref="NotSupportedException"></exception>
     public static Field GetField(this UnaryExpression expression, out object? coalesceValue)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         return FieldFrom(expression.Operand, out coalesceValue);
     }
 
@@ -171,6 +172,7 @@ public static class ExpressionExtension
     /// <returns>The name of the <see cref="MemberInfo"/>.</returns>
     public static string GetName(this BinaryExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         return expression.Left switch
         {
             MemberExpression memberExpression => memberExpression.Member.GetMappedName(),
@@ -227,8 +229,11 @@ public static class ExpressionExtension
     /// </summary>
     /// <param name="expression">The instance of <see cref="MemberExpression"/> to be checked.</param>
     /// <returns>The name of the <see cref="MemberInfo"/>.</returns>
-    public static string GetName(this MemberExpression expression) =>
-        expression.Member.GetMappedName();
+    public static string GetName(this MemberExpression expression)
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return expression.Member.GetMappedName();
+    }
 
     #endregion
 
@@ -332,6 +337,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="BinaryExpression"/> object.</returns>
     public static object? GetValue(this BinaryExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         if (IsMathematical(expression))
         {
             throw new NotSupportedException($"A mathematical expression '{expression}' is currently not supported.");
@@ -424,8 +430,11 @@ public static class ExpressionExtension
     /// </summary>
     /// <param name="expression">The instance of <see cref="MemberExpression"/> object where the value is to be extracted.</param>
     /// <returns>The extracted value from <see cref="MemberExpression"/> object.</returns>
-    public static object? GetValue(this MemberExpression expression) =>
-        expression.Member.GetValue(expression.Expression?.GetValue());
+    public static object? GetValue(this MemberExpression expression)
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return expression.Member.GetValue(expression.Expression?.GetValue());
+    }
 
     /// <summary>
     /// Gets a value from the current instance of <see cref="NewArrayExpression"/> object.
@@ -451,6 +460,7 @@ public static class ExpressionExtension
     /// <returns>The extracted value from <see cref="ListInitExpression"/> object.</returns>
     public static object GetValue(this ListInitExpression expression)
     {
+        ArgumentNullException.ThrowIfNull(expression);
         var list = Activator.CreateInstance(expression.Type);
         foreach (var item in expression.Initializers)
         {

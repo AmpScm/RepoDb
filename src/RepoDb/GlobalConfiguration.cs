@@ -7,15 +7,7 @@ namespace RepoDb;
 /// </summary>
 public sealed class GlobalConfiguration
 {
-    private static readonly GlobalConfiguration _instance;
-
-    /// <summary>
-    ///
-    /// </summary>
-    static GlobalConfiguration()
-    {
-        _instance = new GlobalConfiguration();
-    }
+    private static readonly GlobalConfiguration _instance = new();
 
     #region Methods
 

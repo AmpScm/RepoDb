@@ -2,7 +2,7 @@
 
 namespace RepoDb;
 
-public readonly struct DbSession : IAsyncDisposable, IDisposable
+public readonly struct DbSession : IAsyncDisposable, IDisposable, IEquatable<DbSession>
 {
     private readonly object _value; // Either DbConnection or DbTransaction
     private readonly bool _owns;
@@ -58,4 +58,34 @@ public readonly struct DbSession : IAsyncDisposable, IDisposable
         return new();
     }
 #endif
+
+    public override bool Equals(object? obj)
+    {
+        return obj is DbSession other && Equals(other);
+    }
+
+    public bool Equals(DbSession other)
+    {
+        if (_value is DbTransaction tx1 && other._value is DbTransaction tx2)
+        {
+            return tx1.Equals(tx2);
+        }
+        else if (_value is DbConnection conn1 && other._value is DbConnection conn2)
+        {
+            return conn1.Equals(conn2);
+        }
+        return false;
+    }
+
+    public override int GetHashCode() => _value.GetHashCode();
+
+    public static bool operator ==(DbSession left, DbSession right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(DbSession left, DbSession right)
+    {
+        return !(left == right);
+    }
 }

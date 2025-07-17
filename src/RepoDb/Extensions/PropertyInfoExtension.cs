@@ -206,6 +206,7 @@ public static class PropertyInfoExtension
     /// <returns>The list of mapped <see cref="PropertyHandlerAttribute"/> objects.</returns>
     public static IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes(this PropertyInfo property, Type? declaringType = null)
     {
+        ArgumentNullException.ThrowIfNull(property);
         var customAttributes = property
             .GetCustomAttributes<PropertyValueAttribute>()
             .ToHashSet();

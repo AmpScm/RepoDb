@@ -204,7 +204,7 @@ public static partial class DbConnectionExtension
         }
 
         // Get the properties
-        QueryGroup? where = null;
+        QueryGroup? where;
         if (isDictionaryType == false)
         {
             if (type.IsGenericType == true)

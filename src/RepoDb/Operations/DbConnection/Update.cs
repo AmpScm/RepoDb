@@ -1365,6 +1365,10 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
     {
+        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(entity);
+
         var key = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction, entity.GetType());
         return UpdateInternal(connection: connection,
             tableName: tableName,
@@ -1570,6 +1574,10 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNull(entity);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction,
             entity.GetType(), cancellationToken).ConfigureAwait(false);
         return await UpdateInternalAsync(connection: connection,

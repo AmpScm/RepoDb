@@ -63,8 +63,11 @@ public static class DbFieldCache
     public static DbFieldCollection Get(IDbConnection connection,
         string tableName,
         IDbTransaction? transaction,
-        bool enableValidation) =>
-        GetInternal(connection, tableName, transaction, enableValidation);
+        bool enableValidation)
+    {
+        ArgumentNullException.ThrowIfNull(connection);
+        return GetInternal(connection, tableName, transaction, enableValidation);
+    }
 
     /// <summary>
     /// Gets the cached field definitions of the entity.
@@ -130,8 +133,11 @@ public static class DbFieldCache
         string tableName,
         IDbTransaction? transaction,
         bool enableValidation,
-        CancellationToken cancellationToken = default) =>
-        await GetInternalAsync(connection, tableName, transaction, enableValidation, cancellationToken).ConfigureAwait(false);
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(connection);
+        return await GetInternalAsync(connection, tableName, transaction, enableValidation, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Gets the cached field definitions of the entity in an asynchronous way.

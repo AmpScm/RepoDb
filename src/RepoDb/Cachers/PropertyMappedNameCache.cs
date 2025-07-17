@@ -28,8 +28,11 @@ public static class PropertyMappedNameCache
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The cached column name mappings of the property.</returns>
     public static string Get<TEntity>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get<TEntity>(ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get<TEntity>(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Gets the cached column name mappings of the property (via property name).

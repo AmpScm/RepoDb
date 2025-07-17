@@ -65,8 +65,11 @@ public static class PropertyHandlerCache
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Expression<Func<TEntity, object?>> expression)
-        where TEntity : class =>
-        Get<TEntity, TPropertyHandler>(ExpressionExtension.GetProperty(expression));
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(expression);
+        return Get<TEntity, TPropertyHandler>(ExpressionExtension.GetProperty(expression));
+    }
 
     /// <summary>
     /// Property Level: Gets the cached <see cref="IPropertyHandler{TInput, TResult}"/> object that is being mapped on a specific class property (via property name).

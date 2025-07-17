@@ -55,16 +55,9 @@ public static partial class SqlConnectionExtension
 
             // Variables needed
             var primaryOrIdentityDbField =
-                (
-                    dbFields.GetPrimary() ??
-                    dbFields.                    Identity
-                );
-
-            // Throw an error if there are is no primary key
-            if (primaryOrIdentityDbField == null)
-            {
-                throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
-            }
+                dbFields.GetPrimary()
+                ?? dbFields.Identity
+                ?? throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
 
             // Create a temporary table
             var primaryOrIdentityField = primaryOrIdentityDbField.AsField();
@@ -515,13 +508,10 @@ public static partial class SqlConnectionExtension
             // Variables needed
             var primaryDbField = dbFields?.GetPrimary();
             var identityDbField = dbFields?.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
-
-            // Throw an error if there are is no primary key
-            if (primaryOrIdentityDbField == null)
-            {
-                throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
-            }
+            var primaryOrIdentityDbField =
+                primaryDbField
+                ?? identityDbField
+                ?? throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
 
             // Create a temporary table
             var primaryOrIdentityField = primaryOrIdentityDbField.AsField();
