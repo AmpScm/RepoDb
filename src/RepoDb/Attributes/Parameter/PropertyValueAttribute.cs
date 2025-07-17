@@ -125,9 +125,9 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     private void Validate(Type parameterType,
         string propertyName)
     {
-        ArgumentNullException.ThrowIfNull(parameterType, "ParameterType");
+        ArgumentNullException.ThrowIfNull(parameterType);
         ValidateParameterType(parameterType);
-        ArgumentNullException.ThrowIfNull(propertyName, "PropertyName");
+        ArgumentNullException.ThrowIfNull(propertyName);
         EnsurePropertyInfo(parameterType, propertyName);
     }
 

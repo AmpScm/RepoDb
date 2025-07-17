@@ -78,8 +78,7 @@ public static class PropertyMappedNameCache
     internal static string Get(Type entityType,
         PropertyInfo propertyInfo)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);

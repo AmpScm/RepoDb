@@ -42,8 +42,7 @@ public static class PrimaryMapper
         bool force)
         where TEntity : class
     {
-        // Validates
-        ArgumentNullException.ThrowIfNull(expression, "Expression");
+        ArgumentNullException.ThrowIfNull(expression);
 
         // Get the property
         var property = ExpressionExtension.GetProperty(expression);
@@ -71,8 +70,7 @@ public static class PrimaryMapper
         bool force)
         where TEntity : class
     {
-        // Validates
-        ArgumentNullException.ThrowIfNull(propertyName, "PropertyName");
+        ArgumentNullException.ThrowIfNull(propertyName);
 
         // Add to the mapping
         Add<TEntity>(DataEntityExtension.GetClassPropertyOrThrow<TEntity>(propertyName), force);
@@ -97,8 +95,7 @@ public static class PrimaryMapper
         bool force)
         where TEntity : class
     {
-        // Validates
-        ArgumentNullException.ThrowIfNull(field, "Field");
+        ArgumentNullException.ThrowIfNull(field);
 
         // Add to the mapping
         Add<TEntity>(DataEntityExtension.GetClassPropertyOrThrow<TEntity>(field.FieldName), force);
@@ -125,9 +122,8 @@ public static class PrimaryMapper
         ClassProperty classProperty,
         bool force)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(type, "Type");
-        ArgumentNullException.ThrowIfNull(classProperty, "ClassProperty");
+        ArgumentNullException.ThrowIfNull(type);
+        ArgumentNullException.ThrowIfNull(classProperty);
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
@@ -170,8 +166,7 @@ public static class PrimaryMapper
     /// <returns>An instance of the mapped <see cref="ClassProperty"/> object.</returns>
     public static ClassProperty? Get(Type type)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type);
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
@@ -201,8 +196,7 @@ public static class PrimaryMapper
     /// <param name="type">The target type.</param>
     public static void Remove(Type type)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type);
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);

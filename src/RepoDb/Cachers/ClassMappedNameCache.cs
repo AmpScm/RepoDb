@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using RepoDb.Extensions;
 using RepoDb.Resolvers;
 
 namespace RepoDb;
@@ -34,8 +33,7 @@ public static class ClassMappedNameCache
 
     public static string? Get(Type entityType, bool throwOnError)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(entityType, nameof(entityType));
+        ArgumentNullException.ThrowIfNull(entityType);
 
         // Try get the value
         return cache.GetOrAdd(entityType, resolver.Resolve) ?? (throwOnError ? throw new ArgumentException($"Type '{entityType}' not resolvable to table name", nameof(entityType)) : null);

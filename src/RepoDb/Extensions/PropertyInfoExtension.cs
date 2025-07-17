@@ -254,7 +254,7 @@ public static class PropertyInfoExtension
         object entity,
         Type declaringType)
     {
-        ArgumentNullException.ThrowIfNull(property, nameof(property));
+        ArgumentNullException.ThrowIfNull(property);
 
         var classProperty = PropertyCache.Get((declaringType ?? property.DeclaringType), property, true);
         var propertyHandler = classProperty?.GetPropertyHandler();

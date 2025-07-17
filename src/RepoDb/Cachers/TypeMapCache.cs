@@ -40,8 +40,7 @@ public static class TypeMapCache
     /// <returns>The mapped <see cref="DbType"/> object of the .NET CLR type.</returns>
     public static DbType? Get(Type type)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type);
 
         // Variables
         var key = GenerateHashCode(type);
@@ -103,8 +102,7 @@ public static class TypeMapCache
     internal static DbType? Get(Type entityType,
         PropertyInfo propertyInfo)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);

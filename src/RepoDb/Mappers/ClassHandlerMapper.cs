@@ -107,7 +107,7 @@ public static class ClassHandlerMapper
     public static TClassHandler? Get<TClassHandler>(Type type)
     {
         // Check the presence
-        ArgumentNullException.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type);
 
         // get the value
         maps.TryGetValue(GenerateHashCode(type), out var value);
@@ -141,7 +141,7 @@ public static class ClassHandlerMapper
     public static void Remove(Type type)
     {
         // Check the presence
-        ArgumentNullException.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type);
 
         // Variables for cache
         var key = GenerateHashCode(type);

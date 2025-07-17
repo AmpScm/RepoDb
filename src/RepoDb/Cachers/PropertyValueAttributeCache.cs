@@ -70,9 +70,8 @@ public static class PropertyValueAttributeCache
     internal static IEnumerable<PropertyValueAttribute> Get(Type entityType,
         PropertyInfo propertyInfo)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(entityType, nameof(entityType));
-        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(entityType);
+        ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
@@ -100,8 +99,7 @@ public static class PropertyValueAttributeCache
     /// <returns>The list of mapped <see cref="PropertyValueAttribute"/> objects.</returns>
     public static IEnumerable<PropertyValueAttribute> Get(Type type)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(type, "Type");
+        ArgumentNullException.ThrowIfNull(type);
 
         // Variables
         var key = TypeExtension.GenerateHashCode(type);

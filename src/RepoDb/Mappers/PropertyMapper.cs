@@ -71,8 +71,7 @@ public static class PropertyMapper
         bool force)
         where TEntity : class
     {
-        // Validates
-        ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
+        ArgumentNullException.ThrowIfNull(propertyName);
 
         // Get the property
         var property = TypeExtension.GetProperty<TEntity>(propertyName);
@@ -108,8 +107,7 @@ public static class PropertyMapper
         bool force)
         where TEntity : class
     {
-        // Validates
-        ArgumentNullException.ThrowIfNull(field, nameof(field));
+        ArgumentNullException.ThrowIfNull(field);
 
         // Get the property
         var property = TypeExtension.GetProperty<TEntity>(field.FieldName);
@@ -145,8 +143,7 @@ public static class PropertyMapper
         bool force)
         where TEntity : class
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo);
         ArgumentNullException.ThrowIfNullOrWhiteSpace(columnName);
 
         // Variables
@@ -235,8 +232,7 @@ public static class PropertyMapper
     internal static string? Get(Type entityType,
         PropertyInfo propertyInfo)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);
@@ -287,8 +283,7 @@ public static class PropertyMapper
     internal static void Remove<TEntity>(PropertyInfo propertyInfo)
         where TEntity : class
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = GenerateHashCode(typeof(TEntity), propertyInfo);

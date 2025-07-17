@@ -42,8 +42,7 @@ public static class PropertyHandlerCache
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the .NET CLR type.</returns>
     public static TPropertyHandler? Get<TPropertyHandler>(Type type)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(type, nameof(type));
+        ArgumentNullException.ThrowIfNull(type);
 
         // Variables
         var key = GenerateHashCode(type);
@@ -112,8 +111,7 @@ public static class PropertyHandlerCache
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     internal static TPropertyHandler? Get<TPropertyHandler>(Type entityType, PropertyInfo propertyInfo)
     {
-        // Validate
-        ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
+        ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = GenerateHashCode(entityType, propertyInfo);
