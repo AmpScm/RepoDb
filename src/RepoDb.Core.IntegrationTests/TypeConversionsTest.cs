@@ -104,7 +104,7 @@ public class TypeConversionsTest
         var data = connection.ExecuteQuery<bool>("SELECT 'true' AS Value;").First();
 
         // Assert
-        Assert.AreEqual(true, data);
+        Assert.IsTrue(data);
     }
 
     [TestMethod]

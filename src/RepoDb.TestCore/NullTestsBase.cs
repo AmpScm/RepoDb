@@ -66,11 +66,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         var t = await sql.BeginTransactionAsync();
 
         await sql.InsertAllAsync(
-            new CommonNullTestData[]
-            {
+            [
                 new CommonNullTestData(){ ID = 1, Txt = "t1", TxtNull = "t2", Nr = 10, NrNull = 11},
                 new CommonNullTestData(){ ID = 2, Txt = "t5", TxtNull = null, Nr = 15, NrNull = null}
-            }, transaction: t);
+            ], transaction: t);
 
         var all = sql.QueryAll<CommonNullTestData>(transaction: t);
         Assert.AreEqual(2, all.Count());
@@ -149,11 +148,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         var t = await sql.BeginTransactionAsync();
 
         await sql.InsertAllAsync(
-            new GuidNullData[]
-            {
+            [
                 new GuidNullData(){ ID = 1, Txt = Guid.NewGuid(), TxtNull = Guid.NewGuid(), Uuid = Guid.NewGuid(), UuidNull=Guid.NewGuid(), BlobData = " "u8.ToArray(), BlobDataNull = "A"u8.ToArray() },
                 new GuidNullData(){ ID = 2, Txt = Guid.NewGuid(), Uuid = Guid.NewGuid(), BlobData = "a"u8.ToArray() },
-            }, transaction: t);
+            ], transaction: t);
 
         await t.RollbackAsync();
     }
@@ -200,19 +198,17 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         var t = await sql.BeginTransactionAsync();
 
         await sql.InsertAllAsync(
-            new[]
-            {
+            [
                 new DateTestData(){ ID = 1, Txt = new DateTime(2001, 1,1,1,1,1, DateTimeKind.Utc), Date = new DateTime(2002, 1,2,2,2,2, DateTimeKind.Utc)},
                 new DateTestData(){ ID = 2, Txt =null, Date = null }
-            },
+            ],
             trace: new DiagnosticsTracer(),
             transaction: t);
         await sql.InsertAllAsync(
-            new[]
-            {
+            [
                 new DateOffsetTestData(){ ID = 3, Txt = new DateTimeOffset(2003, 1,3,3,3,3, TimeSpan.Zero), Date = new DateTimeOffset(2004, 1,4,4,4,4, TimeSpan.Zero)},
                 new DateOffsetTestData(){ ID = 4, Txt =null, Date = null }
-            }, transaction: t);
+            ], transaction: t);
 
         var all = sql.QueryAll<DateTestData>(transaction: t);
         Assert.AreEqual(4, all.Count());
@@ -350,10 +346,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         var sql = CreateConnection().EnsureOpen();
 
-        var t = sql.ExecuteQuery<(int v1, string c2)>("SELECT 1, 'a'").FirstOrDefault();
+        var (v1, c2) = sql.ExecuteQuery<(int v1, string c2)>("SELECT 1, 'a'").FirstOrDefault();
 
-        Assert.AreEqual(1, t.Item1);
-        Assert.AreEqual("a", t.Item2);
+        Assert.AreEqual(1, v1);
+        Assert.AreEqual("a", c2);
     }
 
     record WithGroupByItems
@@ -383,13 +379,13 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             );
     }
 
-    class id2record
+    class Id2record
     {
 
         public int ID { get; set; }
         public int ID2 { get; set; }
     }
-    class id2recordNullable
+    class Id2recordNullable
     {
         public int ID { get; set; }
         public int? ID2 { get; set; }
@@ -409,10 +405,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             )");
         }
 
-        await sql.InsertAsync(tableName: IntNotNullable, new id2record { ID = 1, ID2 = 2 });
+        await sql.InsertAsync(tableName: IntNotNullable, new Id2record { ID = 1, ID2 = 2 });
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await sql.InsertAsync(tableName: IntNotNullable, new id2recordNullable { ID = 3, ID2 = null }),
+            await sql.InsertAsync(tableName: IntNotNullable, new Id2recordNullable { ID = 3, ID2 = null }),
             "Required Nullable<Int32> property ID2 evaluated to null.");
     }
 
@@ -491,7 +487,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var data = (await sql.QueryAllAsync<FieldLengthTable>()).ToArray();
 
-        Assert.AreEqual(2, data.Count());
+        Assert.AreEqual(2, data.Length);
         Assert.AreEqual(ftf[0].ID, data[0].ID);
     }
 

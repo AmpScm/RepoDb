@@ -85,15 +85,19 @@ public abstract class DbInstance<TDbConnection> : DbInstance where TDbConnection
     string? _databaseName;
     public override DbConnection CreateConnection()
     {
-        var c = new TDbConnection();
-        c.ConnectionString = ConnectionString;
+        var c = new TDbConnection
+        {
+            ConnectionString = ConnectionString
+        };
         return c;
     }
 
     public override DbConnection CreateAdminConnection()
     {
-        var c = new TDbConnection();
-        c.ConnectionString = AdminConnectionString;
+        var c = new TDbConnection
+        {
+            ConnectionString = AdminConnectionString
+        };
         return c;
     }
 

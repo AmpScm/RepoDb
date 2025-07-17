@@ -87,7 +87,7 @@ internal static class InsertExecutionContextProvider
             commandText);
 
         // Add to cache
-        InsertExecutionContextCache.Add(entityType, key, context);
+        InsertExecutionContextCache.Add(key, context);
 
         // Return
         return context;
@@ -148,7 +148,7 @@ internal static class InsertExecutionContextProvider
             commandText);
 
         // Add to cache
-        InsertExecutionContextCache.Add(entityType, key, context);
+        InsertExecutionContextCache.Add(key, context);
 
         // Return
         return context;

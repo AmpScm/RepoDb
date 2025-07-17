@@ -76,7 +76,7 @@ public class DataAnnotationMappingTest
 
     #region Methods
 
-    private MappedCompleteTable GetMappedCompleteTable()
+    private static MappedCompleteTable GetMappedCompleteTable()
     {
         return new MappedCompleteTable
         {
@@ -90,7 +90,7 @@ public class DataAnnotationMappingTest
         };
     }
 
-    private IEnumerable<MappedCompleteTable> GetMappedCompleteTables(int count = 10)
+    private static IEnumerable<MappedCompleteTable> GetMappedCompleteTables(int count = 10)
     {
         var random = new Random();
         for (var i = 0; i < count; i++)
@@ -108,7 +108,7 @@ public class DataAnnotationMappingTest
         }
     }
 
-    private MappedIdentityTable GetMappedIdentityTable()
+    private static MappedIdentityTable GetMappedIdentityTable()
     {
         return new MappedIdentityTable
         {
@@ -122,7 +122,7 @@ public class DataAnnotationMappingTest
         };
     }
 
-    private IEnumerable<MappedIdentityTable> GetMappedIdentityTables(int count = 10)
+    private static IEnumerable<MappedIdentityTable> GetMappedIdentityTables(int count = 10)
     {
         for (var i = 0; i < count; i++)
         {

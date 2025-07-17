@@ -773,7 +773,7 @@ public class QueryTest
         var result = connection.Query<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR"));
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, result.ElementAt(tables.IndexOf(table))));
     }
 
@@ -829,7 +829,7 @@ public class QueryTest
         var result = connection.Query<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.StartsWith("NVAR"));
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
     }
 
@@ -1050,7 +1050,7 @@ public class QueryTest
         var result = connection.Query<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") == true);
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, result.ElementAt(tables.IndexOf(table))));
     }
 
@@ -1085,7 +1085,7 @@ public class QueryTest
         var result = connection.Query<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") != false);
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, result.ElementAt(tables.IndexOf(table))));
     }
 
@@ -1928,7 +1928,7 @@ public class QueryTest
         var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("NVAR"));
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, result.ElementAt(tables.IndexOf(table))));
     }
 
@@ -1984,7 +1984,7 @@ public class QueryTest
         var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.StartsWith("NVAR"));
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
     }
 
@@ -2205,7 +2205,7 @@ public class QueryTest
         var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") == true);
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, result.ElementAt(tables.IndexOf(table))));
     }
 
@@ -2240,7 +2240,7 @@ public class QueryTest
         var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") != false);
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, result.ElementAt(tables.IndexOf(table))));
     }
 

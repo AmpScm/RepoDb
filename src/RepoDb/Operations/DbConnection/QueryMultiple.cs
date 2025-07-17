@@ -9453,7 +9453,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -9494,7 +9494,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<T1>, IEnumerable<T2>> result;
         TraceResult? traceResult = null;
 
@@ -10156,7 +10156,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -10215,7 +10215,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> result;
         TraceResult? traceResult = null;
 
@@ -11031,7 +11031,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -11108,7 +11108,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>> result;
         TraceResult? traceResult = null;
 
@@ -12071,7 +12071,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -12166,7 +12166,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>> result;
         TraceResult? traceResult = null;
 
@@ -13276,7 +13276,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -13389,7 +13389,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>> result;
         TraceResult? traceResult = null;
 
@@ -14646,7 +14646,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -14777,7 +14777,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>> result;
         TraceResult? traceResult = null;
 
@@ -15266,7 +15266,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -15309,7 +15309,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -15841,7 +15841,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -15903,7 +15903,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -16555,7 +16555,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -16636,7 +16636,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -17401,7 +17401,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -17501,7 +17501,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -18381,7 +18381,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -18500,7 +18500,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -19494,7 +19494,7 @@ public static partial class DbConnectionExtension
             queryGroups);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -19632,7 +19632,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = QueryGroup.AsMappedObject(maps, connection, transaction, null);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -20241,7 +20241,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -20282,7 +20282,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<T1>, IEnumerable<T2>> result;
         TraceResult? traceResult = null;
 
@@ -20970,7 +20970,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -21029,7 +21029,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> result;
         TraceResult? traceResult = null;
 
@@ -21872,7 +21872,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -21949,7 +21949,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>> result;
         TraceResult? traceResult = null;
 
@@ -22941,7 +22941,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -23036,7 +23036,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>> result;
         TraceResult? traceResult = null;
 
@@ -24177,7 +24177,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -24290,7 +24290,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>> result;
         TraceResult? traceResult = null;
 
@@ -25580,7 +25580,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -25711,7 +25711,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>> result;
         TraceResult? traceResult = null;
 
@@ -26226,7 +26226,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -26269,7 +26269,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -26824,7 +26824,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -26886,7 +26886,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -27562,7 +27562,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -27643,7 +27643,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -28435,7 +28435,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -28535,7 +28535,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -29443,7 +29443,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -29562,7 +29562,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 
@@ -30586,7 +30586,7 @@ public static partial class DbConnectionExtension
             cancellationToken).ConfigureAwait(false);
 
         // Fix
-        QueryGroup.FixForQueryMultiple(queryGroups.ToArray());
+        QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
         if (item1 == null)
@@ -30724,7 +30724,7 @@ public static partial class DbConnectionExtension
         // Shared variables
         var commandText = string.Join(" ", commandTexts);
 
-        var param = QueryGroup.AsMappedObject(maps.ToArray(), connection, transaction, null);
+        var param = await QueryGroup.AsMappedObjectAsync(maps, connection, transaction, null, cancellationToken);
         Tuple<IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>, IEnumerable<dynamic>> result;
         TraceResult? traceResult = null;
 

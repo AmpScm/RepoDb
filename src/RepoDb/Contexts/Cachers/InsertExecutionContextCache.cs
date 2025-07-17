@@ -19,11 +19,10 @@ internal static class InsertExecutionContextCache
     /// <summary>
     ///
     /// </summary>
-    /// <param name="type"></param>
     /// <param name="key"></param>
     /// <param name="context"></param>
-    internal static void Add(Type type,
-        string key,
+    /// 
+    internal static void Add(string key,
         InsertExecutionContext context) =>
         cache.TryAdd(key, context);
 

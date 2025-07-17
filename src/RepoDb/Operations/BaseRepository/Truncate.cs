@@ -41,6 +41,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     public Task<int> TruncateAsync(string? traceKey = TraceKeys.Truncate)
     {
         return DbRepository.TruncateAsync<TEntity>(transaction: null,
+            traceKey: traceKey,
             cancellationToken: CancellationToken.None);
     }
 

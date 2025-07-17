@@ -539,9 +539,9 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// </summary>
     /// <param name="queryGroups">The list of query groups.</param>
     /// <returns>An instance of <see cref="QueryGroup"/> object containing all the fields.</returns>
-    internal static void FixForQueryMultiple(QueryGroup?[] queryGroups)
+    internal static void FixForQueryMultiple(IReadOnlyList<QueryGroup?> queryGroups)
     {
-        for (var i = 0; i < queryGroups.Length; i++)
+        for (var i = 0; i < queryGroups.Count; i++)
         {
             var fields = queryGroups[i]?.GetFields(true);
 

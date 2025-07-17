@@ -22,7 +22,7 @@ public class ExecuteQueryRawTest
 #endif
     }
 
-    [ClassCleanup]
+    [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
     public static void ClassCleaup()
     {
         TypeMapCache.Flush();

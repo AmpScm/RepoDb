@@ -28,30 +28,26 @@ public class CountAllTest
     [TestMethod]
     public void TestSqLiteConnectionCountAll()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.CountAll<MdsCompleteTable>();
+        // Act
+        var result = connection.CountAll<MdsCompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public void ThrowExceptionOnSqLiteConnectionCountAllWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            connection.CountAll<MdsCompleteTable>(hints: "WhatEver");
-        }
+        // Act
+        connection.CountAll<MdsCompleteTable>(hints: "WhatEver");
     }
 
     #endregion
@@ -61,30 +57,26 @@ public class CountAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionCountAllAsync()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.CountAllAsync<MdsCompleteTable>();
+        // Act
+        var result = await connection.CountAllAsync<MdsCompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public async Task ThrowExceptionOnSqLiteConnectionCountAllAsyncWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            await connection.CountAllAsync<MdsCompleteTable>(hints: "WhatEver");
-        }
+        // Act
+        await connection.CountAllAsync<MdsCompleteTable>(hints: "WhatEver");
     }
 
     #endregion
@@ -98,31 +90,27 @@ public class CountAllTest
     [TestMethod]
     public void TestSqLiteConnectionCountAllViaTableName()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<MdsCompleteTable>());
+        // Act
+        var result = connection.CountAll(ClassMappedNameCache.Get<MdsCompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public void ThrowExceptionOnSqLiteConnectionCountAllViaTableNameWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            connection.CountAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
-                hints: "WhatEver");
-        }
+        // Act
+        connection.CountAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            hints: "WhatEver");
     }
 
     #endregion
@@ -132,31 +120,27 @@ public class CountAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionCountAllAsyncViaTableName()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>());
+        // Act
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public async Task ThrowExceptionOnSqLiteConnectionCountAllAsyncViaTableNameWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-                hints: "WhatEver");
-        }
+        // Act
+        await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            hints: "WhatEver");
     }
 
     #endregion

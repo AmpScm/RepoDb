@@ -28,31 +28,27 @@ public class SumAllTest
     [TestMethod]
     public void TestSqLiteConnectionSumAll()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.SumAll<MdsCompleteTable>(e => e.ColumnInt);
+        // Act
+        var result = connection.SumAll<MdsCompleteTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public void ThrowExceptionOnSqLiteConnectionSumAllWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            connection.SumAll<MdsCompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        // Act
+        connection.SumAll<MdsCompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver");
     }
 
     #endregion
@@ -62,31 +58,27 @@ public class SumAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionSumAllAsync()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAllAsync<MdsCompleteTable>(e => e.ColumnInt);
+        // Act
+        var result = await connection.SumAllAsync<MdsCompleteTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public async Task ThrowExceptionOnSqLiteConnectionSumAllAsyncWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            await connection.SumAllAsync<MdsCompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        // Act
+        await connection.SumAllAsync<MdsCompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver");
     }
 
     #endregion
@@ -100,33 +92,29 @@ public class SumAllTest
     [TestMethod]
     public void TestSqLiteConnectionSumAllViaTableName()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.SumAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
-                Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First());
+        // Act
+        var result = connection.SumAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First());
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public void ThrowExceptionOnSqLiteConnectionSumAllViaTableNameWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            connection.SumAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
-                Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+        // Act
+        connection.SumAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
+            hints: "WhatEver");
     }
 
     #endregion
@@ -136,33 +124,29 @@ public class SumAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionSumAllAsyncViaTableName()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-                Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First());
+        // Act
+        var result = await connection.SumAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First());
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod, ExpectedException(typeof(NotSupportedException))]
     public async Task ThrowExceptionOnSqLiteConnectionSumAllAsyncViaTableNameWithHints()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            await connection.SumAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-                Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+        // Act
+        await connection.SumAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
+            hints: "WhatEver");
     }
 
     #endregion

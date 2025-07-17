@@ -48,7 +48,7 @@ public class BinaryBulkDeleteByKeyTest
                 primaryKeys: primaryKeys);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -79,7 +79,7 @@ public class BinaryBulkDeleteByKeyTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -110,7 +110,7 @@ public class BinaryBulkDeleteByKeyTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -144,7 +144,7 @@ public class BinaryBulkDeleteByKeyTest
                 primaryKeys: primaryKeys);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -175,7 +175,7 @@ public class BinaryBulkDeleteByKeyTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -206,7 +206,7 @@ public class BinaryBulkDeleteByKeyTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);

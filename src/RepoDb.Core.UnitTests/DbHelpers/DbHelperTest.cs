@@ -32,7 +32,7 @@ public class DbHelperTest
 
     #region Helpers
 
-    private DbFieldCollection GetDbFields()
+    private static DbFieldCollection GetDbFields()
     {
         return new(
         [

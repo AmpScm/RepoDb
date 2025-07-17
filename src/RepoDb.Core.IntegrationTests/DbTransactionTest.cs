@@ -1036,7 +1036,7 @@ public class SqlTransactionTest
         var queryResult = connection.Query<IdentityTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(false, queryResult.First().ColumnBit);
+        Assert.IsFalse(queryResult.First().ColumnBit);
     }
 
     [TestMethod]
@@ -1065,7 +1065,7 @@ public class SqlTransactionTest
         var queryResult = connection.Query<IdentityTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(true, queryResult.First().ColumnBit);
+        Assert.IsTrue(queryResult.First().ColumnBit);
     }
 
     #endregion
@@ -1098,7 +1098,7 @@ public class SqlTransactionTest
         var queryResult = connection.Query<IdentityTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(false, queryResult.First().ColumnBit);
+        Assert.IsFalse(queryResult.First().ColumnBit);
     }
 
     [TestMethod]
@@ -1127,7 +1127,7 @@ public class SqlTransactionTest
         var queryResult = connection.Query<IdentityTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(true, queryResult.First().ColumnBit);
+        Assert.IsTrue(queryResult.First().ColumnBit);
     }
 
     #endregion
@@ -1164,7 +1164,7 @@ public class SqlTransactionTest
         var queryResult = connection.QueryAll<IdentityTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     [TestMethod]
@@ -1193,7 +1193,7 @@ public class SqlTransactionTest
         var queryResult = connection.QueryAll<IdentityTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     #endregion
@@ -1226,7 +1226,7 @@ public class SqlTransactionTest
         var queryResult = connection.QueryAll<IdentityTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     [TestMethod]
@@ -1255,7 +1255,7 @@ public class SqlTransactionTest
         var queryResult = connection.QueryAll<IdentityTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     #endregion
@@ -1378,7 +1378,7 @@ public class SqlTransactionTest
             var queryResult = connection.QueryAll<IdentityTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
 
         // Complete
@@ -1407,7 +1407,7 @@ public class SqlTransactionTest
             var queryResult = connection.QueryAll<IdentityTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
 
         // Complete

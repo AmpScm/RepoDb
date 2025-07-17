@@ -46,7 +46,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -74,7 +74,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -102,7 +102,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -130,7 +130,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -155,7 +155,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -180,7 +180,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -205,7 +205,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -234,7 +234,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -262,7 +262,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -290,7 +290,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -318,7 +318,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -343,7 +343,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -368,7 +368,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -393,7 +393,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -422,7 +422,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -445,7 +445,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -468,7 +468,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -491,7 +491,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -511,7 +511,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -531,7 +531,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -551,7 +551,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion
@@ -575,7 +575,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -598,7 +598,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -621,7 +621,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -644,7 +644,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -664,7 +664,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -684,7 +684,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -704,7 +704,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion
@@ -730,7 +730,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -760,7 +760,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -790,7 +790,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -820,7 +820,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -847,7 +847,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -874,7 +874,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -901,7 +901,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -932,7 +932,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -962,7 +962,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -992,7 +992,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1022,7 +1022,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1049,7 +1049,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1076,7 +1076,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1103,7 +1103,7 @@ public class ExecuteArrayParameterTest
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1132,7 +1132,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1155,7 +1155,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1178,7 +1178,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1201,7 +1201,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1221,7 +1221,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1241,7 +1241,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1261,7 +1261,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion
@@ -1285,7 +1285,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1308,7 +1308,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1331,7 +1331,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1354,7 +1354,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1374,7 +1374,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1394,7 +1394,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1414,7 +1414,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion
@@ -1442,7 +1442,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1470,7 +1470,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1498,7 +1498,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1526,7 +1526,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1551,7 +1551,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1576,7 +1576,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1601,7 +1601,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1630,7 +1630,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1658,7 +1658,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1686,7 +1686,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1714,7 +1714,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1739,7 +1739,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1764,7 +1764,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1789,7 +1789,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result.Count());
+        Assert.AreEqual(values.Length, result.Count());
         result.AsList().ForEach(item =>
         {
             Assert.IsTrue(values.Contains(item.ColumnInt));
@@ -1818,7 +1818,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1841,7 +1841,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1864,7 +1864,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1887,7 +1887,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1907,7 +1907,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1927,7 +1927,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1947,7 +1947,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion
@@ -1971,7 +1971,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -1994,7 +1994,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2017,7 +2017,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2040,7 +2040,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2060,7 +2060,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2080,7 +2080,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2100,7 +2100,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion
@@ -2124,7 +2124,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2147,7 +2147,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2170,7 +2170,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2193,7 +2193,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2213,7 +2213,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2233,7 +2233,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2253,7 +2253,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion
@@ -2277,7 +2277,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2300,7 +2300,7 @@ public class ExecuteArrayParameterTest
             (object)param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2323,7 +2323,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2346,7 +2346,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2366,7 +2366,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2386,7 +2386,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     [TestMethod]
@@ -2406,7 +2406,7 @@ public class ExecuteArrayParameterTest
             param);
 
         // Assert
-        Assert.AreEqual(values.Count(), result);
+        Assert.AreEqual(values.Length, result);
     }
 
     #endregion

@@ -1,7 +1,6 @@
 #nullable enable
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Npgsql;
 using RepoDb.DbSettings;
@@ -41,7 +40,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     ///
     /// </summary>
     /// <returns></returns>
-    private string GetCommandText()
+    private static string GetCommandText()
     {
         return @"
                 SELECT C.column_name,
@@ -130,37 +129,6 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     #endregion
 
     #region Methods
-
-    private TResult TryExecuteOnExistingConnection<TResult>(IDbConnection connection, Func<IDbConnection, TResult> func)
-    {
-        try
-        {
-            return func(connection);
-        }
-        catch (NpgsqlOperationInProgressException)
-        {
-            Debug.WriteLine("NpgsqlOperationInProgressException occurred. Retrying the operation on a new connection.");
-            using var newConnection = new NpgsqlConnection(connection.ConnectionString);
-            newConnection.Open();
-            return func(newConnection);
-        }
-    }
-
-    private async ValueTask<TResult> TryExecuteOnExistingConnectionAsync<TResult>(IDbConnection connection, Func<IDbConnection, Task<TResult>> func)
-    {
-        try
-        {
-            return await func(connection);
-        }
-        catch (NpgsqlOperationInProgressException)
-        {
-            Debug.WriteLine("NpgsqlOperationInProgressException occurred. Retrying the operation on a new connection.");
-            using var newConnection = new NpgsqlConnection(connection.ConnectionString);
-            await newConnection.OpenAsync();
-            return await func(newConnection);
-        }
-    }
-
     #region GetFields
 
     /// <summary>
@@ -248,7 +216,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
 
     public override async ValueTask<IEnumerable<DbSchemaObject>> GetSchemaObjectsAsync(IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        var results = await connection.ExecuteQueryAsync<(string Type, string Name, string Schema)>(GetSchemaQuery, transaction);
+        var results = await connection.ExecuteQueryAsync<(string Type, string Name, string Schema)>(GetSchemaQuery, transaction, cancellationToken: cancellationToken);
         return results.Select(MapSchemaQueryResult);
     }
 

@@ -14,7 +14,7 @@ public static class TestExtensions
         string? hints = null
         )
     {
-        IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
+        IEnumerable<DbField> keyFields = MakeKeyFields(primaryField, identityField);
         return sb.CreateInsert(tableName, fields, keyFields, hints);
     }
 
@@ -27,7 +27,7 @@ public static class TestExtensions
         DbField? identityField = null,
         string? hints = null)
     {
-        IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
+        IEnumerable<DbField> keyFields = MakeKeyFields(primaryField, identityField);
 
         return sb.CreateInsertAll(tableName, fields ?? [], batchSize, keyFields, hints);
     }
@@ -41,7 +41,7 @@ public static class TestExtensions
         DbField? identityField = null,
         string? hints = null)
     {
-        IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
+        IEnumerable<DbField> keyFields = MakeKeyFields(primaryField, identityField);
         return sb.CreateMerge(tableName, fields, null, keyFields, qualifiers ?? [], hints);
     }
 
@@ -55,7 +55,7 @@ public static class TestExtensions
         DbField? identityField = null,
         string? hints = null)
     {
-        IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
+        IEnumerable<DbField> keyFields = MakeKeyFields(primaryField, identityField);
         return sb.CreateMergeAll(tableName, fields, null, qualifiers, batchSize, keyFields, hints);
     }
 
@@ -68,7 +68,7 @@ public static class TestExtensions
         DbField? identityField = null,
         string? hints = null)
     {
-        IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
+        IEnumerable<DbField> keyFields = MakeKeyFields(primaryField, identityField);
         return sb.CreateUpdate(tableName, fields, where, keyFields, hints);
     }
 
@@ -82,11 +82,11 @@ public static class TestExtensions
         DbField? identityField = null,
         string? hints = null)
     {
-        IEnumerable<DbField> keyFields = MakeKeyFields(fields, primaryField, identityField);
+        IEnumerable<DbField> keyFields = MakeKeyFields(primaryField, identityField);
         return sb.CreateUpdateAll(tableName, fields, qualifiers, batchSize, keyFields, hints);
     }
 
-    private static IEnumerable<DbField> MakeKeyFields(IEnumerable<Field> fields, DbField? primaryField, DbField? identityField)
+    private static IEnumerable<DbField> MakeKeyFields(DbField? primaryField, DbField? identityField)
     {
         if (identityField?.IsIdentity == false)
             throw new InvalidOperationException(); // To make tests happy

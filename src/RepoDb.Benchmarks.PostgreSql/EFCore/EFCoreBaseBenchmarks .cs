@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using BenchmarkDotNet.Attributes;
 using Microsoft.EntityFrameworkCore;
 using RepoDb.Benchmarks.PostgreSql.Configurations;
@@ -18,8 +17,8 @@ public class EFCoreBaseBenchmarks : BaseBenchmark
     {
         using var context = new EFCoreContext(DatabaseHelper.ConnectionString);
 
-        context.Persons.FirstOrDefault();
-        context.Persons.AsNoTracking().FirstOrDefault();
-        context.Persons.FromSqlRaw(@"select * from ""Person""").FirstOrDefault();
+        GC.KeepAlive(context.Persons.FirstOrDefault());
+        GC.KeepAlive(context.Persons.AsNoTracking().FirstOrDefault());
+        GC.KeepAlive(context.Persons.FromSqlRaw(@"select * from ""Person""").FirstOrDefault());
     }
 }

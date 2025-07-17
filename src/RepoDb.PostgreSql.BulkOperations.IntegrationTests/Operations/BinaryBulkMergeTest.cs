@@ -45,12 +45,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -91,12 +91,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -118,12 +118,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -143,12 +143,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -168,12 +168,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(entities.Count(), queryResult.Count());
+            Assert.AreEqual(entities.Count, queryResult.Count);
             foreach (var entity in entities)
             {
                 var target = queryResult.First(item => item.Id == entity.Id);
@@ -199,13 +199,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -224,12 +224,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -249,12 +249,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -275,12 +275,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -300,13 +300,13 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -327,13 +327,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -364,12 +364,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -401,12 +401,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -439,12 +439,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -476,13 +476,13 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -515,13 +515,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -541,12 +541,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -567,12 +567,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -602,13 +602,13 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -639,13 +639,13 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -674,13 +674,13 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -699,12 +699,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -733,12 +733,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -761,12 +761,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -786,12 +786,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -813,12 +813,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -838,12 +838,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -874,12 +874,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -911,12 +911,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -949,12 +949,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -974,12 +974,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1000,12 +1000,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1035,13 +1035,13 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1072,13 +1072,13 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1107,13 +1107,13 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1132,12 +1132,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1166,12 +1166,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1194,12 +1194,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1219,12 +1219,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1246,12 +1246,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1271,12 +1271,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1296,13 +1296,13 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1323,13 +1323,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1360,12 +1360,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1397,12 +1397,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1435,12 +1435,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1472,14 +1472,14 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             //Assert.IsTrue(entities.All(e => e.IdMapped > 0));
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1512,14 +1512,14 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             //Assert.IsTrue(entities.All(e => e.IdMapped > 0));
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1538,12 +1538,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1564,12 +1564,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1599,13 +1599,13 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1636,13 +1636,13 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1671,13 +1671,13 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1696,12 +1696,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1730,12 +1730,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1759,12 +1759,12 @@ public class BinaryBulkMergeTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1785,12 +1785,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1813,12 +1813,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1839,12 +1839,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1865,7 +1865,7 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -1874,7 +1874,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1896,7 +1896,7 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -1905,7 +1905,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1937,12 +1937,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1975,12 +1975,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2014,12 +2014,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2052,7 +2052,7 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -2061,7 +2061,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2095,7 +2095,7 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -2104,7 +2104,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2125,12 +2125,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2152,12 +2152,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2188,7 +2188,7 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -2197,7 +2197,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2229,7 +2229,7 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -2238,7 +2238,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2269,13 +2269,13 @@ public class BinaryBulkMergeTest
                 table: table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2295,12 +2295,12 @@ public class BinaryBulkMergeTest
                 table: table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2331,12 +2331,12 @@ public class BinaryBulkMergeTest
                 table: table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2361,13 +2361,13 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2391,13 +2391,13 @@ public class BinaryBulkMergeTest
                         nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2419,13 +2419,13 @@ public class BinaryBulkMergeTest
                     identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2458,13 +2458,13 @@ public class BinaryBulkMergeTest
                     mappings: mappings);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2499,13 +2499,13 @@ public class BinaryBulkMergeTest
                     identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2541,13 +2541,13 @@ public class BinaryBulkMergeTest
                     pseudoTableType: BulkImportPseudoTableType.Physical);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2569,13 +2569,13 @@ public class BinaryBulkMergeTest
                     mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2598,13 +2598,13 @@ public class BinaryBulkMergeTest
                     mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2626,7 +2626,7 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Prepare (Elimination)
@@ -2643,14 +2643,14 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2672,13 +2672,13 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2700,7 +2700,7 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Prepare (Elimination)
@@ -2717,13 +2717,13 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2750,12 +2750,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2796,12 +2796,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2823,12 +2823,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2848,12 +2848,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2873,12 +2873,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(entities.Count(), queryResult.Count());
+            Assert.AreEqual(entities.Count, queryResult.Count);
             foreach (var entity in entities)
             {
                 var target = queryResult.First(item => item.Id == entity.Id);
@@ -2904,13 +2904,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2929,12 +2929,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2954,12 +2954,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -2980,12 +2980,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3005,13 +3005,13 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3032,13 +3032,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3069,12 +3069,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3106,12 +3106,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3144,12 +3144,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3181,13 +3181,13 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3220,13 +3220,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.IdMapped > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3246,12 +3246,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3272,12 +3272,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3307,13 +3307,13 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3344,13 +3344,13 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3379,13 +3379,13 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3404,12 +3404,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3438,12 +3438,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3466,12 +3466,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3491,12 +3491,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3518,12 +3518,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3543,12 +3543,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3579,12 +3579,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3616,12 +3616,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3654,12 +3654,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationMappedIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.IdMapped);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3679,12 +3679,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3705,12 +3705,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3740,13 +3740,13 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3777,13 +3777,13 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3812,13 +3812,13 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3837,12 +3837,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3871,12 +3871,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3899,12 +3899,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3924,12 +3924,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3951,12 +3951,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -3976,12 +3976,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4001,13 +4001,13 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4028,13 +4028,13 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4065,12 +4065,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4102,12 +4102,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4140,12 +4140,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4177,14 +4177,14 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             //Assert.IsTrue(entities.All(e => e.IdMapped > 0));
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4217,14 +4217,14 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             //Assert.IsTrue(entities.All(e => e.IdMapped > 0));
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4243,12 +4243,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4269,12 +4269,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4304,13 +4304,13 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4341,13 +4341,13 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             Assert.IsTrue(entities.All(e => e.Id > 0));
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4376,13 +4376,13 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4401,12 +4401,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4435,12 +4435,12 @@ public class BinaryBulkMergeTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4464,12 +4464,12 @@ public class BinaryBulkMergeTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4490,12 +4490,12 @@ public class BinaryBulkMergeTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4518,12 +4518,12 @@ public class BinaryBulkMergeTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4544,12 +4544,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4570,7 +4570,7 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -4579,7 +4579,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4601,7 +4601,7 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -4610,7 +4610,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4642,12 +4642,12 @@ public class BinaryBulkMergeTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4680,12 +4680,12 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4719,12 +4719,12 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4757,7 +4757,7 @@ public class BinaryBulkMergeTest
                 identityBehavior: BulkImportIdentityBehavior.ReturnIdentity);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -4766,7 +4766,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4800,7 +4800,7 @@ public class BinaryBulkMergeTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -4809,7 +4809,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4830,12 +4830,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4857,12 +4857,12 @@ public class BinaryBulkMergeTest
                 mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4893,7 +4893,7 @@ public class BinaryBulkMergeTest
                mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -4902,7 +4902,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4934,7 +4934,7 @@ public class BinaryBulkMergeTest
                pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
                 Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
@@ -4943,7 +4943,7 @@ public class BinaryBulkMergeTest
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -4974,13 +4974,13 @@ public class BinaryBulkMergeTest
                 table: table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5000,12 +5000,12 @@ public class BinaryBulkMergeTest
                 table: table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5036,12 +5036,12 @@ public class BinaryBulkMergeTest
                 table: table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5066,13 +5066,13 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5096,13 +5096,13 @@ public class BinaryBulkMergeTest
                         nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5124,13 +5124,13 @@ public class BinaryBulkMergeTest
                     identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5163,13 +5163,13 @@ public class BinaryBulkMergeTest
                     mappings: mappings);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5204,13 +5204,13 @@ public class BinaryBulkMergeTest
                     identityBehavior: BulkImportIdentityBehavior.KeepIdentity);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5246,13 +5246,13 @@ public class BinaryBulkMergeTest
                     pseudoTableType: BulkImportPseudoTableType.Physical);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.IdMapped == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5274,13 +5274,13 @@ public class BinaryBulkMergeTest
                     mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5303,13 +5303,13 @@ public class BinaryBulkMergeTest
                     mergeCommandType: BulkImportMergeCommandType.OnConflictDoUpdate);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5331,7 +5331,7 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Prepare (Elimination)
@@ -5348,14 +5348,14 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count());
+            Assert.AreEqual(10, queryResult.Count);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5377,13 +5377,13 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -5405,7 +5405,7 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Prepare (Elimination)
@@ -5422,13 +5422,13 @@ public class BinaryBulkMergeTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 

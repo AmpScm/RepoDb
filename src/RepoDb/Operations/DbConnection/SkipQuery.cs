@@ -1888,7 +1888,7 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, tableName) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, tableName, cancellationToken) : null;
 
         var commandText = await CommandTextCache.GetSkipQueryTextAsync(request, cancellationToken).ConfigureAwait(false);
 

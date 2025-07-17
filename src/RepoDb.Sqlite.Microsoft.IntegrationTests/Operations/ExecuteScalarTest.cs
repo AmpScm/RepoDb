@@ -25,33 +25,29 @@ public class ExecuteScalarTest
     [TestMethod]
     public void TestSqLiteConnectionExecuteScalar()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.ExecuteScalar("SELECT COUNT(*) FROM [MdsCompleteTable];");
+        // Act
+        var result = connection.ExecuteScalar("SELECT COUNT(*) FROM [MdsCompleteTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionExecuteScalarWithReturnType()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM [MdsCompleteTable];");
+        // Act
+        var result = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM [MdsCompleteTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -61,33 +57,29 @@ public class ExecuteScalarTest
     [TestMethod]
     public async Task TestSqLiteConnectionExecuteScalarAsync()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM [MdsCompleteTable];");
+        // Act
+        var result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM [MdsCompleteTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionExecuteScalarAsyncWithReturnType()
     {
-        using (var connection = new SqliteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateMdsCompleteTables(10, connection);
+        using var connection = new SqliteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateMdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM [MdsCompleteTable];");
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM [MdsCompleteTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion

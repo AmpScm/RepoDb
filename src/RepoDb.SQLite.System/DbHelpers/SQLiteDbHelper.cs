@@ -158,7 +158,7 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
     /// </summary>
     /// <param name="sql"></param>
     /// <returns></returns>
-    private string? GetIdentityFieldNameInternal(string? sql)
+    private static string? GetIdentityFieldNameInternal(string? sql)
     {
         // Get fieldname
         var (FieldName, Definition) = TokenizeSchema(sql.AsMemory()).FirstOrDefault(def => IsIdentity(def.Definition));

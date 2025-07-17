@@ -571,7 +571,6 @@ public class StatementBuilderTest
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
         var fields = Field.From(["Field1", "Field2", "Field3"]);
-        var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(long), null, null, null, null);
 
         // Act
@@ -885,7 +884,6 @@ public class StatementBuilderTest
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
         var fields = Field.From(["Field1", "Field2", "Field3"]);
-        var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
 
         // Act
@@ -911,7 +909,6 @@ public class StatementBuilderTest
         var statementBuilder = StatementBuilderMapper.Get<SqlConnection>();
         var tableName = "Table";
         var fields = Field.From(["Field1", "Field2", "Field3"]);
-        var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(long), null, null, null, null);
 
         // Act
@@ -1093,7 +1090,6 @@ public class StatementBuilderTest
         var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
-        var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         // Act
         var actual = statementBuilder.CreateMergeAll(tableName: tableName,
@@ -1719,7 +1715,6 @@ public class StatementBuilderTest
         var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
-        var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
 
@@ -1752,7 +1747,6 @@ public class StatementBuilderTest
         var fields = Field.From(["Field1", "Field2", "Field3b"]);
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
-        var identifyField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
 

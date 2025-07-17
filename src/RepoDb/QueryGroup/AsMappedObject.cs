@@ -18,7 +18,7 @@ public partial class QueryGroup
     /// <param name="connection"></param>
     /// <returns>An instance of an object that contains all the definition of the converted underlying <see cref="QueryFields"/>s.</returns>
     /// <param name="transaction"></param><param name="fixParameters">A boolean value whether to fix the parameter name before converting.</param>
-    internal static object AsMappedObject(QueryGroupTypeMap[] queryGroupTypeMaps,
+    internal static object AsMappedObject(IReadOnlyList<QueryGroupTypeMap> queryGroupTypeMaps,
         IDbConnection connection, IDbTransaction? transaction, string? tableName)
     {
         var dictionary = new ExpandoObject() as IDictionary<string, object?>;

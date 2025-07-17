@@ -44,8 +44,8 @@ public class ClassExpressionTest
         var propertyValues = ClassExpression.GetEntitiesPropertyValues<ClassExpressionTestClass, string>(entities, e => e.Property1);
 
         // Assert
-        Assert.AreEqual(entities.Count(), propertyValues.Count());
-        for (var i = 0; i < entities.Count(); i++)
+        Assert.AreEqual(entities.Count, propertyValues.Count());
+        for (var i = 0; i < entities.Count; i++)
         {
             var entity = entities.ElementAt(i);
             Assert.AreEqual(entity.Property1, propertyValues.ElementAt(i));
@@ -62,8 +62,8 @@ public class ClassExpressionTest
         var propertyValues = ClassExpression.GetEntitiesPropertyValues<ClassExpressionTestClass, string>(entities, "Property1");
 
         // Assert
-        Assert.AreEqual(entities.Count(), propertyValues.Count());
-        for (var i = 0; i < entities.Count(); i++)
+        Assert.AreEqual(entities.Count, propertyValues.Count());
+        for (var i = 0; i < entities.Count; i++)
         {
             var entity = entities.ElementAt(i);
             Assert.AreEqual(entity.Property1, propertyValues.ElementAt(i));

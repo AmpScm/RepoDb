@@ -50,7 +50,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -105,7 +105,7 @@ public class BinaryBulkDeleteTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -135,7 +135,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -167,7 +167,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -196,7 +196,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -226,7 +226,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -268,7 +268,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -311,7 +311,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -363,7 +363,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -393,7 +393,7 @@ public class BinaryBulkDeleteTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -423,7 +423,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -455,7 +455,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -497,7 +497,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -540,7 +540,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -592,7 +592,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -622,7 +622,7 @@ public class BinaryBulkDeleteTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -652,7 +652,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -684,7 +684,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -726,7 +726,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -769,7 +769,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -822,7 +822,7 @@ public class BinaryBulkDeleteTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -853,7 +853,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -886,7 +886,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -929,7 +929,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -973,7 +973,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1031,7 +1031,7 @@ public class BinaryBulkDeleteTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -1067,7 +1067,7 @@ public class BinaryBulkDeleteTest
                     keepIdentity: false);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -1105,7 +1105,7 @@ public class BinaryBulkDeleteTest
                         nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -1153,7 +1153,7 @@ public class BinaryBulkDeleteTest
                     mappings: mappings);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -1202,7 +1202,7 @@ public class BinaryBulkDeleteTest
                     pseudoTableType: BulkImportPseudoTableType.Physical);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -1261,7 +1261,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1316,7 +1316,7 @@ public class BinaryBulkDeleteTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1346,7 +1346,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1378,7 +1378,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1407,7 +1407,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1437,7 +1437,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1479,7 +1479,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1522,7 +1522,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1574,7 +1574,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1604,7 +1604,7 @@ public class BinaryBulkDeleteTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1634,7 +1634,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1666,7 +1666,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1708,7 +1708,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1751,7 +1751,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1803,7 +1803,7 @@ public class BinaryBulkDeleteTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1833,7 +1833,7 @@ public class BinaryBulkDeleteTest
                 batchSize: 3);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1863,7 +1863,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1895,7 +1895,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1937,7 +1937,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -1980,7 +1980,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -2033,7 +2033,7 @@ public class BinaryBulkDeleteTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -2064,7 +2064,7 @@ public class BinaryBulkDeleteTest
                 keepIdentity: false);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -2097,7 +2097,7 @@ public class BinaryBulkDeleteTest
                     nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -2140,7 +2140,7 @@ public class BinaryBulkDeleteTest
                 mappings: mappings);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -2184,7 +2184,7 @@ public class BinaryBulkDeleteTest
                 pseudoTableType: BulkImportPseudoTableType.Physical);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll(tableName);
@@ -2242,7 +2242,7 @@ public class BinaryBulkDeleteTest
                     reader);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -2278,7 +2278,7 @@ public class BinaryBulkDeleteTest
                     keepIdentity: false);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -2316,7 +2316,7 @@ public class BinaryBulkDeleteTest
                         nameof(BulkOperationLightIdentityTable.ColumnInteger)));
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -2364,7 +2364,7 @@ public class BinaryBulkDeleteTest
                     mappings: mappings);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert
@@ -2413,7 +2413,7 @@ public class BinaryBulkDeleteTest
                     pseudoTableType: BulkImportPseudoTableType.Physical);
 
                 // Assert
-                Assert.AreEqual(entities.Count(), result);
+                Assert.AreEqual(entities.Count, result);
             }
 
             // Assert

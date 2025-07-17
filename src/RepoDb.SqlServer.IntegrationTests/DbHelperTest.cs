@@ -56,7 +56,7 @@ public class DbHelperTest
                 }
 
                 // Assert
-                Assert.AreEqual(fieldCount, fields.Count());
+                Assert.AreEqual(fieldCount, fields.Count);
             }
         }
     }
@@ -133,7 +133,7 @@ public class DbHelperTest
                 }
 
                 // Assert
-                Assert.AreEqual(fieldCount, fields.Count());
+                Assert.AreEqual(fieldCount, fields.Count);
             }
         }
     }

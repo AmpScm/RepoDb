@@ -14,7 +14,7 @@ public class RepoDbBaseBenchmarks : BaseBenchmark
     public void Setup()
     {
         GlobalConfiguration.Setup().UsePostgreSql();
-        TypeMapper.Add(typeof(DateTime), DbType.DateTime2, true);
+        TypeMapper.Add<DateTime>(DbType.DateTime2, true);
         BaseSetup();
     }
 

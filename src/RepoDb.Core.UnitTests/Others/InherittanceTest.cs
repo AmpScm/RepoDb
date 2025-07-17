@@ -108,7 +108,7 @@ public class InherittanceTest
         var properties = PropertyCache.Get<DerivedClass>().AsList();
 
         // Assert
-        Assert.AreEqual<long>(4, properties.Count());
+        Assert.AreEqual<long>(4, properties.Count);
     }
 
     #endregion
@@ -122,7 +122,7 @@ public class InherittanceTest
         var fields = FieldCache.Get<DerivedClass>();
 
         // Assert
-        Assert.AreEqual(4, fields.Count());
+        Assert.AreEqual(4, fields.Count);
     }
 
     [TestMethod]
@@ -132,7 +132,7 @@ public class InherittanceTest
         var fields = Field.Parse(new DerivedClass());
 
         // Assert
-        Assert.AreEqual(4, fields.Count());
+        Assert.AreEqual(4, fields.Count);
     }
 
     [TestMethod]

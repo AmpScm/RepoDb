@@ -564,7 +564,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A boolean value that indicates whether the rows are existing in the table.</returns>
-    internal static ValueTask<bool> ExistsAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<bool> ExistsAsyncInternal<TEntity>(this IDbConnection connection,
         QueryGroup? where,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Exists,
@@ -584,10 +584,10 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
-        return ExistsAsyncInternalBase(connection: connection,
+        return await ExistsAsyncInternalBase(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -1022,7 +1022,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>A boolean value that indicates whether the rows are existing in the table.</returns>
-    internal static ValueTask<bool> ExistsAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<bool> ExistsAsyncInternal(this IDbConnection connection,
         string tableName,
         QueryGroup? where,
         string? hints = null,
@@ -1042,10 +1042,10 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return ExistsAsyncInternalBase(connection: connection,
+        return await ExistsAsyncInternalBase(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,

@@ -77,7 +77,7 @@ public class InheritedTest
         var deleteResult = connection.DeleteAll<InheritedIdentityTable>(entities);
 
         // Assert
-        Assert.AreEqual(entities.Count(), deleteResult);
+        Assert.AreEqual(entities.Count, deleteResult);
         Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 
@@ -96,7 +96,7 @@ public class InheritedTest
             ClassExpression.GetEntitiesPropertyValues<InheritedIdentityTable, object>(entities, "Id"));
 
         // Assert
-        Assert.AreEqual(entities.Count(), deleteResult);
+        Assert.AreEqual(entities.Count, deleteResult);
         Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 

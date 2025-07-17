@@ -643,7 +643,7 @@ public class ExecuteQueryBuilderTest
         var result = connection.ExecuteScalar<int>(sql);
 
         // Assert
-        Assert.AreEqual(tables.Count(), result);
+        Assert.AreEqual(tables.Count, result);
     }
 
     #endregion
@@ -662,7 +662,7 @@ public class ExecuteQueryBuilderTest
         connection.InsertAll(tables);
 
         // Assert
-        Assert.AreEqual(tables.Count(), connection.CountAll<IdentityTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
 
         // Setup
         var builder = connection.GetStatementBuilder();
@@ -693,7 +693,7 @@ public class ExecuteQueryBuilderTest
         connection.InsertAll(tables);
 
         // Assert
-        Assert.AreEqual(tables.Count(), connection.CountAll<IdentityTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
 
         // Setup
         var builder = connection.GetStatementBuilder();
@@ -704,7 +704,7 @@ public class ExecuteQueryBuilderTest
         var result = connection.ExecuteNonQuery(sql);
 
         // Assert
-        Assert.AreEqual(tables.Count(), result);
+        Assert.AreEqual(tables.Count, result);
         Assert.AreEqual(0, connection.CountAll<IdentityTable>());
     }
 
@@ -1016,7 +1016,7 @@ public class ExecuteQueryBuilderTest
         var result = connection.ExecuteQuery<IdentityTable>(sql);
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count());
+        Assert.AreEqual(tables.Count, result.Count());
         result.AsList().ForEach(item =>
         {
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
@@ -1094,7 +1094,7 @@ public class ExecuteQueryBuilderTest
         connection.InsertAll(tables);
 
         // Assert
-        Assert.AreEqual(tables.Count(), connection.CountAll<IdentityTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<IdentityTable>());
 
         // Setup
         var builder = connection.GetStatementBuilder();

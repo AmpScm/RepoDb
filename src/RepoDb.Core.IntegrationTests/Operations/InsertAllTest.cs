@@ -39,7 +39,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -63,7 +63,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -86,7 +86,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -109,7 +109,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -133,7 +133,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -155,7 +155,7 @@ public class InsertAllTest
         var result = connection.QueryAll<NonIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -178,7 +178,7 @@ public class InsertAllTest
         var result = connection.QueryAll<NonIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -201,7 +201,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -227,7 +227,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -250,7 +250,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -277,7 +277,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -301,7 +301,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -324,7 +324,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -347,7 +347,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -371,7 +371,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -393,7 +393,7 @@ public class InsertAllTest
         var result = connection.QueryAll<NonIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -416,7 +416,7 @@ public class InsertAllTest
         var result = connection.QueryAll<NonIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -439,7 +439,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -465,7 +465,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -488,7 +488,7 @@ public class InsertAllTest
         var result = connection.QueryAll<IdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count());
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(r => r.Id == table.Id);
@@ -841,7 +841,7 @@ public class InsertAllTest
         var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>()).AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count);
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(item => item.RowGuid == table.RowGuid);
@@ -1218,7 +1218,7 @@ public class InsertAllTest
         var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>()).AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count(), result.Count);
+        Assert.AreEqual(tables.Count, result.Count);
         tables.ForEach(table =>
         {
             var entity = result.FirstOrDefault(item => item.RowGuid == table.RowGuid);

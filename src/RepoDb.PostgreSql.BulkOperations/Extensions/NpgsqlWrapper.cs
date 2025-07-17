@@ -109,7 +109,7 @@ public static partial class NpgsqlConnectionExtension
                     setIdentities?.Invoke(identityResults);
                 }
 
-                result = identityResults.Count();
+                result = identityResults.Count;
             }
 
             // Return

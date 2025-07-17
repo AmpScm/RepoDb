@@ -28,7 +28,7 @@ public sealed class OracleDbHelper : BaseDbHelper
             HandleDbParameterPostCreation(op);
         }
 
-        void HandleDbParameterPostCreation(OracleParameter oracleParameter)
+        static void HandleDbParameterPostCreation(OracleParameter oracleParameter)
         {
             if (oracleParameter.Value is string)
             {

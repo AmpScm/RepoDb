@@ -1247,7 +1247,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The min value of the target field.</returns>
-    internal static ValueTask<object> MinAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<object> MinAsyncInternal<TEntity>(this IDbConnection connection,
         Field field,
         QueryGroup? where = null,
         int commandTimeout = 0,
@@ -1269,10 +1269,10 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
-        return MinAsyncInternalBase<object>(connection: connection,
+        return await MinAsyncInternalBase<object>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -1698,7 +1698,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The min value of the target field.</returns>
-    internal static ValueTask<TResult> MinAsyncInternal<TEntity, TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> MinAsyncInternal<TEntity, TResult>(this IDbConnection connection,
         Field field,
         QueryGroup? where = null,
         int commandTimeout = 0,
@@ -1720,10 +1720,10 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>()) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken) : null;
 
         // Return the result
-        return MinAsyncInternalBase<TResult>(connection: connection,
+        return await MinAsyncInternalBase<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2311,7 +2311,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The min value of the target field.</returns>
-    internal static ValueTask<object> MinAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<object> MinAsyncInternal(this IDbConnection connection,
         string tableName,
         Field field,
         QueryGroup? where = null,
@@ -2333,10 +2333,10 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return MinAsyncInternalBase<object>(connection: connection,
+        return await MinAsyncInternalBase<object>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,
@@ -2526,7 +2526,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>The min value of the target field.</returns>
-    internal static ValueTask<TResult> MinAsyncInternal<TResult>(this IDbConnection connection,
+    internal static async ValueTask<TResult> MinAsyncInternal<TResult>(this IDbConnection connection,
         string tableName,
         Field field,
         QueryGroup? where = null,
@@ -2548,10 +2548,10 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return MinAsyncInternalBase<TResult>(connection: connection,
+        return await MinAsyncInternalBase<TResult>(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,

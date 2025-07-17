@@ -424,7 +424,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An integer value that holds the number of rows from the table.</returns>
-    internal static ValueTask<long> CountAsyncInternal<TEntity>(this IDbConnection connection,
+    internal static async ValueTask<long> CountAsyncInternal<TEntity>(this IDbConnection connection,
         QueryGroup? where,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Count,
@@ -447,7 +447,7 @@ public static partial class DbConnectionExtension
         // Converts to property mapped object
         if (where != null)
         {
-            param = QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>());
+            param = await QueryGroup.AsMappedObjectAsync([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>(), cancellationToken);
         }
 
         // Return the result
@@ -811,7 +811,7 @@ public static partial class DbConnectionExtension
     /// <param name="statementBuilder">The statement builder object to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
     /// <returns>An integer value that holds the number of rows from the table.</returns>
-    internal static ValueTask<long> CountAsyncInternal(this IDbConnection connection,
+    internal static async ValueTask<long> CountAsyncInternal(this IDbConnection connection,
         string tableName,
         QueryGroup? where = null,
         string? hints = null,
@@ -831,10 +831,10 @@ public static partial class DbConnectionExtension
             statementBuilder);
 
         // Converts to property mapped object
-        var param = (where != null) ? QueryGroup.AsMappedObject([where.MapTo(null)], connection, transaction, tableName) : null;
+        var param = (where != null) ? await QueryGroup.AsMappedObjectAsync([where.MapTo(null)], connection, transaction, tableName, cancellationToken) : null;
 
         // Return the result
-        return CountAsyncInternalBase(connection: connection,
+        return await CountAsyncInternalBase(connection: connection,
             request: request,
             param: param,
             commandTimeout: commandTimeout,

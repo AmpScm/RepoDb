@@ -33,7 +33,7 @@ public class ParseTest
         var queryFields = queryGroup.GetFields(true).AsList();
 
         // Assert
-        Assert.AreEqual(4, queryFields.Count());
+        Assert.AreEqual(4, queryFields.Count);
         properties.ForEach(p =>
         {
             var queryField = queryFields.FirstOrDefault(qf => qf.Field.FieldName == p.Name);
@@ -50,7 +50,7 @@ public class ParseTest
         var queryFields = queryGroup.GetFields(true).AsList();
 
         // Assert
-        Assert.AreEqual(1, queryFields.Count());
+        Assert.AreEqual(1, queryFields.Count);
 
         // Prepare
         var queryField = queryFields.First();
@@ -72,8 +72,8 @@ public class ParseTest
         var classProperties = PropertyCache.Get<DerivedClass>().AsList();
 
         // Assert
-        Assert.AreEqual(4, properties.Count());
-        Assert.AreEqual(4, classProperties.Count());
+        Assert.AreEqual(4, properties.Count);
+        Assert.AreEqual(4, classProperties.Count);
         properties.ForEach(p =>
         {
             var property = classProperties.FirstOrDefault(cp => cp.PropertyInfo == p);
@@ -93,8 +93,8 @@ public class ParseTest
         var fields = FieldCache.Get<DerivedClass>();
 
         // Assert
-        Assert.AreEqual(4, properties.Count());
-        Assert.AreEqual(4, fields.Count());
+        Assert.AreEqual(4, properties.Count);
+        Assert.AreEqual(4, fields.Count);
         properties.ForEach(p =>
         {
             var field = fields.FirstOrDefault(f => f.FieldName == p.Name);
@@ -111,8 +111,8 @@ public class ParseTest
         var fields = Field.Parse(new DerivedClass());
 
         // Assert
-        Assert.AreEqual(4, properties.Count());
-        Assert.AreEqual(4, fields.Count());
+        Assert.AreEqual(4, properties.Count);
+        Assert.AreEqual(4, fields.Count);
         properties.ForEach(p =>
         {
             var field = fields.FirstOrDefault(f => f.FieldName == p.Name);

@@ -51,7 +51,7 @@ public partial class FieldTest
         var parsed = Field.From(fields);
 
         // Assert
-        Assert.AreEqual(3, parsed.Count());
+        Assert.AreEqual(3, parsed.Count);
         Assert.IsTrue(parsed.All(field => fields.Contains(field.FieldName)));
     }
 
@@ -69,7 +69,7 @@ public partial class FieldTest
         var parsed = Field.Parse(obj);
 
         // Assert
-        Assert.AreEqual(3, parsed.Count());
+        Assert.AreEqual(3, parsed.Count);
         Assert.IsTrue(parsed.All(field => fields.Contains(field)));
     }
 
@@ -85,7 +85,7 @@ public partial class FieldTest
         var parsed = Field.Parse<FieldTestClass>();
 
         // Assert
-        Assert.AreEqual(3, parsed.Count());
+        Assert.AreEqual(3, parsed.Count);
         Assert.IsTrue(parsed.All(field => fields.Contains(field)));
     }
 
@@ -103,7 +103,7 @@ public partial class FieldTest
         var parsed = Field.Parse(obj);
 
         // Assert
-        Assert.AreEqual(3, parsed.Count());
+        Assert.AreEqual(3, parsed.Count);
         Assert.IsTrue(parsed.All(field => fields.Contains(field)));
     }
 
@@ -140,7 +140,7 @@ public partial class FieldTest
         });
 
         // Assert
-        Assert.AreEqual(3, parsed.Count());
+        Assert.AreEqual(3, parsed.Count);
         Assert.IsTrue(parsed.All(field => fields.Contains(field)));
     }
 

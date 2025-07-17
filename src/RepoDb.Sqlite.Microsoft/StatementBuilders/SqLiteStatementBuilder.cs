@@ -1,7 +1,6 @@
 ﻿using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
-using RepoDb.Resolvers;
 
 namespace RepoDb.StatementBuilders;
 
@@ -380,7 +379,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             .CloseParen()
             .OnConflict(qualifiers, DbSetting);
 
-        if (updatableFields.Any())
+        if (updatableFields.Count != 0)
         {
             builder
                 .DoUpdate()
@@ -659,22 +658,6 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
 
         // Return the query
         return builder.ToString();
-    }
-
-    #endregion
-
-    #region Helpers
-
-    private string GetDatabaseType(DbField dbField)
-    {
-        if (dbField == null)
-        {
-            return default;
-        }
-
-        var dbType = new ClientTypeToDbTypeResolver().Resolve(dbField.Type);
-        return dbType.HasValue ?
-            new DbTypeToSqLiteStringNameResolver().Resolve(dbType.Value) : null;
     }
 
     #endregion

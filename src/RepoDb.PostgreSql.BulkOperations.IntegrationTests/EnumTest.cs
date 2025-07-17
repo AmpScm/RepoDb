@@ -145,12 +145,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -169,12 +169,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -200,7 +200,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -226,7 +226,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -253,12 +253,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -277,12 +277,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -308,12 +308,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -335,12 +335,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -367,12 +367,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -391,12 +391,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -422,7 +422,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -448,7 +448,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -475,12 +475,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -499,12 +499,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -530,12 +530,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -557,12 +557,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -589,12 +589,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -613,12 +613,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -644,7 +644,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -670,7 +670,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -697,12 +697,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -721,12 +721,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -752,12 +752,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -779,12 +779,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -812,7 +812,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -832,12 +832,12 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -864,7 +864,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -891,7 +891,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -919,11 +919,11 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -943,11 +943,11 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -974,7 +974,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -997,7 +997,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -1028,12 +1028,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1052,12 +1052,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1083,7 +1083,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1109,7 +1109,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1136,12 +1136,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1160,12 +1160,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1191,12 +1191,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1218,12 +1218,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1250,12 +1250,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1274,12 +1274,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1305,7 +1305,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1331,7 +1331,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1358,12 +1358,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1382,12 +1382,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1413,12 +1413,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1440,12 +1440,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1472,12 +1472,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1496,12 +1496,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1527,7 +1527,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1553,7 +1553,7 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1580,12 +1580,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1604,12 +1604,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1635,12 +1635,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1662,12 +1662,12 @@ public class EnumTest
                 entities: entities);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1695,7 +1695,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -1715,12 +1715,12 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count(), assertCount);
+            Assert.AreEqual(entities.Count, assertCount);
         }
     }
 
@@ -1747,7 +1747,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1774,7 +1774,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
@@ -1802,11 +1802,11 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -1826,11 +1826,11 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
 
             // Assert
             var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -1857,7 +1857,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 
@@ -1880,7 +1880,7 @@ public class EnumTest
                 table);
 
             // Assert
-            Assert.AreEqual(entities.Count(), result);
+            Assert.AreEqual(entities.Count, result);
         }
     }
 

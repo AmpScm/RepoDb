@@ -8,7 +8,7 @@ namespace RepoDb.Benchmarks.PostgreSql.EFCore;
 
 public class GetAllEFCoreBenchmarks : EFCoreBaseBenchmarks
 {
-    private readonly Consumer consumer = new ();
+    private readonly Consumer consumer = new();
 
     [Benchmark]
     public void NoTrackingGetAll()
