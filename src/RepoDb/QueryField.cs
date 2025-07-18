@@ -381,8 +381,14 @@ public partial class QueryField : IEquatable<QueryField>
     /// </example>
     internal static int RoundUpInLength(int size)
     {
-        if (size <= 10 || size >= 2000) // 2098 is sqlserver max params. Issues ahead if we go beyond that
+        if (size <= 10)
             return size;
+
+        // 2098 is sqlserver max params. Issues ahead if we round that up to 5000.
+        if (size > 2000 && size < 2098)
+        {
+            return 2098;
+        }
 
         int threshold = 20;
         int multiplierIndex = 2;
