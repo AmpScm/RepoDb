@@ -20,5 +20,5 @@ public class XmlSchemaCollectionDatabaseAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped name of the database where the schema collection is located for the parameter.
     /// </summary>
-    public string XmlSchemaCollectionDatabase => (string)Value;
+    public string XmlSchemaCollectionDatabase => (string)Value!;
 }

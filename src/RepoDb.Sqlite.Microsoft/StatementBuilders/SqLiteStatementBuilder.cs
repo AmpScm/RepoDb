@@ -21,8 +21,8 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     public SqLiteStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
-        IResolver<Type, Type> averageableClientTypeResolver = null)
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
+        IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
               convertFieldResolver,
               averageableClientTypeResolver)
@@ -76,7 +76,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         }
 
         // Validate order by
-        if (orderBy == null || orderBy.Any() != true)
+        if (orderBy == null || !orderBy.Any())
         {
             throw new EmptyException(nameof(orderBy), "The argument 'orderBy' is required.");
         }
@@ -94,7 +94,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         }
 
         // Skipping variables
-        var skip = (page * rowsPerBatch);
+        var skip = page * rowsPerBatch;
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -160,8 +160,8 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
 
     /// <inheritdoc />
     public override string CreateInsert(string tableName,
-        IEnumerable<Field>? fields,
-        IEnumerable<DbField>? keyFields,
+        IEnumerable<Field> fields,
+        IEnumerable<DbField> keyFields,
         string? hints = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
@@ -319,7 +319,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> noUpdateFields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields,
         IEnumerable<Field> qualifiers, string? hints = null)
     {
@@ -423,17 +423,13 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMergeAll(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> noUpdateFields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
-        var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
-        var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
-        GuardPrimary(primaryField);
-        GuardIdentity(identityField);
 
         // Verify the fields
         if (fields?.Any() != true)
@@ -442,14 +438,17 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         }
 
         // Set the qualifiers
-        if (qualifiers?.Any() != true && primaryField != null)
+        if (qualifiers?.Any() != true)
         {
-            qualifiers = primaryField.AsField().AsEnumerable();
+            qualifiers = keyFields;
         }
 
         // Validate the qualifiers
         if (qualifiers?.Any() != true)
         {
+            var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
+            var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
+
             if (primaryField == null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
@@ -594,7 +593,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         }
 
         // Validate order by
-        if (orderBy == null || orderBy.Any() != true)
+        if (orderBy == null || !orderBy.Any())
         {
             throw new EmptyException(nameof(orderBy), "The argument 'orderBy' is required.");
         }

@@ -5,7 +5,7 @@ namespace RepoDb.MySqlConnector.IntegrationTests.Setup;
 
 public static class Database
 {
-    static readonly MysqlDbInstance Instance = new();
+    private static readonly MysqlDbInstance Instance = new();
     #region Properties
 
     /// <summary>

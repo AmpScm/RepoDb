@@ -50,9 +50,9 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// <param name="identityFieldName"></param>
     /// <returns></returns>
     private DbField ReaderToDbField(DbDataReader reader,
-        string identityFieldName)
+        string? identityFieldName)
     {
-        var dbType = SplitDbType(reader.IsDBNull(2) ? null : reader.GetString(2), out var size);
+        var dbType = SplitDbType(reader.IsDBNull(2) ? "" : reader.GetString(2), out var size);
 
         if (dbType?.Length == 0)
             dbType = null;
@@ -60,8 +60,8 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         return new DbField(reader.GetString(1),
             !reader.IsDBNull(5) && reader.GetBoolean(5),
             string.Equals(reader.GetString(1), identityFieldName, StringComparison.OrdinalIgnoreCase),
-            reader.IsDBNull(3) || reader.GetBoolean(3) == false,
-            DbTypeResolver.Resolve(dbType ?? "text"),
+            reader.IsDBNull(3) || !reader.GetBoolean(3),
+            DbTypeResolver.Resolve(dbType ?? "text") ?? typeof(object),
             size,
             null,
             null,
@@ -75,7 +75,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     [GeneratedRegex(@"\((\d+)(,(\d+))*\)$")]
     private static partial Regex FieldTypeRegex();
 #else
-    static readonly Regex re = new Regex(@"\((\d+)(,(\d+))*\)$", RegexOptions.Compiled);
+    private static readonly Regex re = new Regex(@"\((\d+)(,(\d+))*\)$", RegexOptions.Compiled);
     private static Regex FieldTypeRegex() => re;
 #endif
 
@@ -104,7 +104,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// <param name="tableName"></param>
     /// <param name="transaction"></param>
     /// <returns></returns>
-    private string GetIdentityFieldName<TDbConnection>(TDbConnection connection,
+    private string? GetIdentityFieldName<TDbConnection>(TDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null)
         where TDbConnection : IDbConnection
@@ -116,7 +116,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
             transaction: transaction);
 
         // Return
-        return GetIdentityFieldNameInternal(tableDefinition)?
+        return GetIdentityFieldNameInternal(tableDefinition ?? "")?
             .AsUnquoted(connection.GetDbSetting())?
             .Replace(doubleQuote, string.Empty);
     }
@@ -130,7 +130,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private async Task<string> GetIdentityFieldNameAsync<TDbConnection>(TDbConnection connection,
+    private async Task<string?> GetIdentityFieldNameAsync<TDbConnection>(TDbConnection connection,
         string tableName,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
@@ -144,7 +144,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
             cancellationToken: cancellationToken);
 
         // Return
-        return GetIdentityFieldNameInternal(tableDefinition)?
+        return GetIdentityFieldNameInternal(tableDefinition ?? "")?
             .AsUnquoted(connection.GetDbSetting())?
             .Replace(doubleQuote, string.Empty);
     }
@@ -154,7 +154,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     /// </summary>
     /// <param name="sql"></param>
     /// <returns></returns>
-    private static string GetIdentityFieldNameInternal(string sql)
+    private static string? GetIdentityFieldNameInternal(string sql)
     {
         // Get fieldname
         var (FieldName, Definition) = TokenizeSchema(sql.AsMemory()).FirstOrDefault(def => IsIdentity(def.Definition));
@@ -271,7 +271,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
 
     #region Table Definition Parser
 
-    static IEnumerable<(string FieldName, string Definition)> TokenizeSchema(ReadOnlyMemory<char> schema)
+    private static IEnumerable<(string FieldName, string Definition)> TokenizeSchema(ReadOnlyMemory<char> schema)
     {
         {
             int start = schema.Span.IndexOf('(');
@@ -326,7 +326,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         }
     }
 
-    static (string FieldName, string Definition) ParseField(ReadOnlySpan<char> field)
+    private static (string FieldName, string Definition) ParseField(ReadOnlySpan<char> field)
     {
         // Trim the span directly to avoid extra allocations
         field = field.Trim();
@@ -373,7 +373,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
         return (fieldName, definition);
     }
 
-    const string GetSchemaQuery = "SELECT type, name FROM sqlite_master WHERE (type = 'table' OR type = 'view')";
+    private const string GetSchemaQuery = "SELECT type, name FROM sqlite_master WHERE (type = 'table' OR type = 'view')";
 
     public override IEnumerable<DbSchemaObject> GetSchemaObjects(IDbConnection connection, IDbTransaction? transaction = null)
     {
@@ -406,7 +406,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
 SELECT sqlite_version();
 ";
 
-    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         using var rdr = (SqliteDataReader)connection.ExecuteReader(SqliteRuntimeInfoQuery, transaction: transaction);
 

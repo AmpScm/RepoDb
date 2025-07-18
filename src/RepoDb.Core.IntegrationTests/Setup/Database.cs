@@ -7,7 +7,7 @@ namespace RepoDb.IntegrationTests.Setup;
 /// </summary>
 public static class Database
 {
-    static readonly SqlServerDbInstance Instance = new SqlServerDbInstance();
+    private static readonly SqlServerDbInstance Instance = new SqlServerDbInstance();
 
 
     /// <summary>

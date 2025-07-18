@@ -1,5 +1,4 @@
-﻿using RepoDb.Enumerations;
-using RepoDb.Exceptions;
+﻿using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
@@ -19,7 +18,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     protected BaseStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
         IResolver<Type, Type?>? averageableClientTypeResolver = null)
     {
         ArgumentNullException.ThrowIfNull(dbSetting);
@@ -38,7 +37,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// <summary>
     /// Gets the resolver used to convert the <see cref="Field"/> object.
     /// </summary>
-    protected IResolver<Field, IDbSetting, string>? ConvertFieldResolver { get; }
+    protected IResolver<Field, IDbSetting, string?>? ConvertFieldResolver { get; }
 
     /// <summary>
     /// Gets the resolver that is being used to resolve the type to be averageable type.
@@ -1007,29 +1006,6 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         if (!DbSetting.IsMultiStatementExecutable && batchSize > 1)
         {
             throw new NotSupportedException($"Multiple execution is not supported based on the current database setting '{DbSetting.GetType().FullName}'. Consider setting the batchSize to 1.");
-        }
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="primaryDbField"></param>
-    /// <param name="identityDbField"></param>
-    protected static DbField? GetReturnKeyColumnAsDbField(DbField? primaryDbField,
-        DbField? identityDbField)
-    {
-        switch (GlobalConfiguration.Options.KeyColumnReturnBehavior)
-        {
-            case KeyColumnReturnBehavior.Primary:
-                return primaryDbField;
-            case KeyColumnReturnBehavior.Identity:
-                return identityDbField;
-            case KeyColumnReturnBehavior.PrimaryOrElseIdentity:
-                return primaryDbField ?? identityDbField;
-            case KeyColumnReturnBehavior.IdentityOrElsePrimary:
-                return identityDbField ?? primaryDbField;
-            default:
-                throw new InvalidOperationException(nameof(GlobalConfiguration.Options.KeyColumnReturnBehavior));
         }
     }
 

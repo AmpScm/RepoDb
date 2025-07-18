@@ -11,7 +11,7 @@ namespace RepoDb.SqlServer.BulkOperations.IntegrationTests;
 /// </summary>
 public static class Database
 {
-    static readonly SqlServerDbInstance Instance = new();
+    private static readonly SqlServerDbInstance Instance = new();
     #region Properties
 
     /// <summary>

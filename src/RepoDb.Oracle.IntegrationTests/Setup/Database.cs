@@ -4,7 +4,7 @@ namespace RepoDb.Oracle.IntegrationTests.Setup;
 
 public static class Database
 {
-    static readonly OracleDbInstance Instance = new();
+    private static readonly OracleDbInstance Instance = new();
     #region Properties
 
     /// <summary>

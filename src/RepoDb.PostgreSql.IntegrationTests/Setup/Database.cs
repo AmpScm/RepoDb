@@ -5,7 +5,7 @@ namespace RepoDb.PostgreSql.IntegrationTests.Setup;
 
 public static class Database
 {
-    static readonly PostgreSqlDbInstance Instance = new();
+    private static readonly PostgreSqlDbInstance Instance = new();
     #region Properties
 
     /// <summary>

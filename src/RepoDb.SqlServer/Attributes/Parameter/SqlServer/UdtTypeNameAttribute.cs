@@ -20,5 +20,5 @@ public class UdtTypeNameAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the name of the currently mapped user-defined type of the parameter.
     /// </summary>
-    public string UdtTypeName => (string)Value;
+    public string UdtTypeName => (string)Value!;
 }

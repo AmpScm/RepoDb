@@ -21,5 +21,5 @@ public class CompareInfoAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped value that determines how the string comparission is being defined on the parameter.
     /// </summary>
-    public SqlCompareOptions CompareInfo => (SqlCompareOptions)Value;
+    public SqlCompareOptions CompareInfo => (SqlCompareOptions)Value!;
 }

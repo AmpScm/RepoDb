@@ -221,7 +221,7 @@ public sealed class QueryBuilder
     /// <returns>The current instance.</returns>
     public QueryBuilder Average(Field field,
         IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertResolver)
+        IResolver<Field, IDbSetting, string?>? convertResolver)
     {
         ArgumentNullException.ThrowIfNull(field);
         var name = convertResolver == null
@@ -345,7 +345,7 @@ public sealed class QueryBuilder
     /// <param name="field">The instance of the <see cref="Field"/> object to be used.</param>
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
-    public QueryBuilder CountBig(Field field,
+    public QueryBuilder CountBig(Field? field,
         IDbSetting dbSetting)
     {
         var name = field != null ? field.FieldName.AsField(dbSetting) : "*";

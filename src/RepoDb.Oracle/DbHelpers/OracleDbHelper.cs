@@ -41,7 +41,7 @@ public sealed class OracleDbHelper : BaseDbHelper
         }
     }
 
-    const string GetFieldsQuery = @"
+    private const string GetFieldsQuery = @"
         SELECT 
             C.COLUMN_NAME,
             CASE WHEN PK.COLUMN_NAME IS NOT NULL THEN 1 ELSE 0 END AS IsPrimary,
@@ -137,7 +137,7 @@ ORDER BY C.COLUMN_ID
     }
 
     #region GetSchemaObjects
-    const string GetSchemaQuery = @"
+    private const string GetSchemaQuery = @"
         SELECT
             object_type ""Type"",
             object_name ""Name"",

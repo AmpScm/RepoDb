@@ -21,7 +21,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
     /// Creates a new instance of <see cref="SqlServerConvertFieldResolver"/> class.
     /// </summary>
     public SqlServerConvertFieldResolver(IResolver<Type, DbType?> dbTypeResolver,
-        IResolver<DbType, string> stringNameResolver)
+        IResolver<DbType, string?> stringNameResolver)
         : base(dbTypeResolver,
               stringNameResolver)
     { }
@@ -34,7 +34,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
     /// <param name="field">The instance of the <see cref="Field"/> to be converted.</param>
     /// <param name="dbSetting">The current in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The converted name of the <see cref="Field"/> object for SQL Server.</returns>
-    public override string Resolve(Field field,
+    public override string? Resolve(Field field,
         IDbSetting dbSetting)
     {
         if (field?.Type != null)
@@ -42,7 +42,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
             var dbType = DbTypeResolver.Resolve(field.Type);
             if (dbType != null)
             {
-                var dbTypeName = StringNameResolver.Resolve(dbType.Value).ToUpperInvariant().AsQuoted(dbSetting);
+                var dbTypeName = StringNameResolver.Resolve(dbType.Value)?.ToUpperInvariant().AsQuoted(dbSetting);
                 return string.Concat("CONVERT(", dbTypeName, ", ", field.FieldName.AsField(dbSetting), ")");
             }
         }

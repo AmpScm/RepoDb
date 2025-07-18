@@ -20,5 +20,5 @@ public class ForceColumnEncryptionAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped value that determines whether the parameter is forced encrypted.
     /// </summary>
-    public bool ForceColumnEncryption => (bool)Value;
+    public bool ForceColumnEncryption => (bool)Value!;
 }

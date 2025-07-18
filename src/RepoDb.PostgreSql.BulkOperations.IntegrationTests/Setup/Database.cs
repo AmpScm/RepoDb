@@ -7,7 +7,7 @@ namespace RepoDb.IntegrationTests.Setup;
 /// </summary>
 public static class Database
 {
-    static readonly PostgreSqlDbInstance instance = new();
+    private static readonly PostgreSqlDbInstance instance = new();
 
     /// <summary>
     /// Initialize the creation of the database.

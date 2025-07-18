@@ -13,7 +13,7 @@ namespace System.Runtime.CompilerServices
     {
     }
 
-    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Field | System.AttributeTargets.Property | System.AttributeTargets.Struct, AllowMultiple=false, Inherited=false)]
+    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Field | System.AttributeTargets.Property | System.AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
     internal sealed class RequiredMemberAttribute : Attribute
     {
         public RequiredMemberAttribute()
@@ -21,7 +21,7 @@ namespace System.Runtime.CompilerServices
         }
     }
 
-    [System.AttributeUsage(System.AttributeTargets.All, AllowMultiple=true, Inherited=false)]
+    [System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = true, Inherited = false)]
     internal sealed class CompilerFeatureRequiredAttribute : Attribute
     {
         public CompilerFeatureRequiredAttribute(string featureName)
@@ -32,7 +32,7 @@ namespace System.Runtime.CompilerServices
         public string FeatureName { get; }
     }
 
-    [System.AttributeUsage(System.AttributeTargets.Parameter, AllowMultiple=false, Inherited=false)]
+    [System.AttributeUsage(System.AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
     internal sealed class CallerArgumentExpressionAttribute : Attribute
     {
         public CallerArgumentExpressionAttribute(string parameterName)
@@ -55,7 +55,7 @@ namespace System
 
         public static bool EndsWith(this string v, char value)
         {
-            return v.Length > 0 && v[v.Length-1] == value;
+            return v.Length > 0 && v[v.Length - 1] == value;
         }
 
         public static bool Contains(this string value,
@@ -63,9 +63,13 @@ namespace System
             StringComparison comparisonType)
         {
             if (comparisonType == StringComparison.Ordinal)
+            {
                 return value.Contains(stringToSeek);
+            }
             else
+            {
                 return value.IndexOf(stringToSeek, comparisonType) >= 0;
+            }
         }
 
         public static int IndexOf(this string value,
@@ -177,7 +181,7 @@ namespace RepoDb
     {
 #if !NET
         [DoesNotReturn]
-        static void Throw<TException>(TException value) where TException : Exception => throw value;
+        private static void Throw<TException>(TException value) where TException : Exception => throw value;
 
         extension(ArgumentNullException)
         {
@@ -263,23 +267,23 @@ namespace RepoDb
 
 
 #if NETSTANDARD
-    /// <summary>
-    /// CCreates a new <see cref="HashSet{T}"/> from an <see cref="IEnumerable{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements.</typeparam>
-    /// <param name="source">The actual enumerable instance.</param>
-    /// <param name="comparer">An <see cref="IEqualityComparer{T}"/> to compare keys.</param>
-    /// <returns>The created <see cref="HashSet{T}"/> object.</returns>
-    internal static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) =>
-        new(source, comparer);
+        /// <summary>
+        /// CCreates a new <see cref="HashSet{T}"/> from an <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements.</typeparam>
+        /// <param name="source">The actual enumerable instance.</param>
+        /// <param name="comparer">An <see cref="IEqualityComparer{T}"/> to compare keys.</param>
+        /// <returns>The created <see cref="HashSet{T}"/> object.</returns>
+        internal static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) =>
+            new(source, comparer);
 
-    /// <summary>
-    /// Creates a new <see cref="HashSet{T}"/> from an <see cref="IEnumerable{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements=.</typeparam>
-    /// <param name="source">The actual enumerable instance.</param>
-    /// <returns>The created <see cref="HashSet{T}"/> object.</returns>
-    internal static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) => [.. source];
+        /// <summary>
+        /// Creates a new <see cref="HashSet{T}"/> from an <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements=.</typeparam>
+        /// <param name="source">The actual enumerable instance.</param>
+        /// <returns>The created <see cref="HashSet{T}"/> object.</returns>
+        internal static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) => [.. source];
 #endif
 
     }
@@ -320,11 +324,11 @@ namespace RepoDb
 #if NET
             return segment[index];
 #else
-        if (index < 0 || index >= segment.Count)
-        {
-            throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range of the segment.");
-        }
-        return segment.Array![segment.Offset + index];
+            if (index < 0 || index >= segment.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range of the segment.");
+            }
+            return segment.Array![segment.Offset + index];
 #endif
         }
     }

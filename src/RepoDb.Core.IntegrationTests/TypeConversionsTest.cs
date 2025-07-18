@@ -363,7 +363,7 @@ public class TypeConversionsTest
     #endregion
 
 
-    enum Direction
+    private enum Direction
     {
         None,
         North,
@@ -371,16 +371,7 @@ public class TypeConversionsTest
         South,
         West
     }
-    enum Direction2
-    {
-        None,
-        North,
-        East,
-        South,
-        West
-    }
-
-    enum Direction3
+    private enum Direction2
     {
         None,
         North,
@@ -389,7 +380,16 @@ public class TypeConversionsTest
         West
     }
 
-    enum Direction4
+    private enum Direction3
+    {
+        None,
+        North,
+        East,
+        South,
+        West
+    }
+
+    private enum Direction4
     {
         None,
         North,

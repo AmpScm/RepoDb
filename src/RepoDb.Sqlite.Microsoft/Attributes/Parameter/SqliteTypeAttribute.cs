@@ -20,5 +20,5 @@ public class SqliteTypeAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped <see cref="Microsoft.Data.Sqlite.SqliteType"/> value of the parameter.
     /// </summary>
-    public SqliteType SqliteType => (SqliteType)Value;
+    public SqliteType SqliteType => (SqliteType)Value!;
 }

@@ -2,13 +2,14 @@
   <PropertyGroup>
     <Title>RepoDb.PostgreSql</Title>
     <TargetFrameworks>net9.0;net8.0;netstandard2.0;net48</TargetFrameworks>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>A hybrid .NET ORM library for PostgreSQL.</Description>
     <PackageTags>orm hybrid-orm micro-orm postgresql npgsql</PackageTags>
     <PackageReleaseNotes>https://repodb.net/release/postgresql</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/AmpScm/RepoDB/tree/master/src/RepoDb.PostgreSql/</PackageProjectUrl>
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Npgsql" />

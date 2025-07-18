@@ -1306,7 +1306,8 @@ public class StatementBuilderTest
             "MERGE [Table] AS T " +
             "USING (VALUES (@Field1, @Field2, @Field3)) " +
             "AS S ([Field1], [Field2], [Field3]) " +
-            "ON ((S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
+            "ON ((S.[Field2] = T.[Field2] OR (S.[Field2] IS NULL AND T.[Field2] IS NULL)) " +
+                "AND (S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
             "WHEN NOT MATCHED THEN " +
             "INSERT ([Field1], [Field3]) " +
             "VALUES (S.[Field1], S.[Field3]) " +

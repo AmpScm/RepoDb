@@ -157,7 +157,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     }
 
     [Table("CommonDateTimeNullTestData")]
-    class DateTestData
+    private class DateTestData
     {
         public int ID { get; set; }
         public DateTime? Txt { get; set; }
@@ -165,7 +165,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     }
 
     [Table("CommonDateTimeNullTestData")]
-    class DateOffsetTestData
+    private class DateOffsetTestData
     {
         public int ID { get; set; }
         public DateTimeOffset? Txt { get; set; }
@@ -239,7 +239,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     public virtual string TimeOnlyDbType => "time";
     public virtual string DateOnlyDbType => "date";
 
-    record DateTimeOnlyTable
+    private record DateTimeOnlyTable
     {
         public TimeOnly TOnly { get; set; }
         public DateOnly DOnly { get; set; }
@@ -282,7 +282,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     }
 #endif
 
-    record WithComputed
+    private record WithComputed
     {
         public int ID { get; set; }
         public string Writable { get; set; }
@@ -352,7 +352,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.AreEqual("a", c2);
     }
 
-    record WithGroupByItems
+    private record WithGroupByItems
     {
         public int ID { get; set; }
         public string Txt { get; set; }
@@ -379,19 +379,19 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             );
     }
 
-    class Id2record
+    private class Id2record
     {
 
         public int ID { get; set; }
         public int ID2 { get; set; }
     }
-    class Id2recordNullable
+    private class Id2recordNullable
     {
         public int ID { get; set; }
         public int? ID2 { get; set; }
     }
 
-    const string IntNotNullable = nameof(IntNotNullable);
+    private const string IntNotNullable = nameof(IntNotNullable);
     [TestMethod]
     public async Task NullableIntError()
     {
@@ -413,7 +413,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     }
 
 
-    class FieldLengthTable
+    private class FieldLengthTable
     {
         public string ID { get; set; }
         public string ID2 { get; set; }
@@ -491,7 +491,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.AreEqual(ftf[0].ID, data[0].ID);
     }
 
-    class MorePrimaryKeyTable
+    private class MorePrimaryKeyTable
     {
         public string ID { get; set; }
         public int ID2 { get; set; }
@@ -599,7 +599,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
     }
 
-    record MergeEdgeTable
+    private record MergeEdgeTable
     {
         public int ID { get; set; }
         public string Name { get; set; }

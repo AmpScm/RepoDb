@@ -20,5 +20,5 @@ public class OffsetAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped offset value of the parameter.
     /// </summary>
-    public int Offset => (int)Value;
+    public int Offset => (int)Value!;
 }

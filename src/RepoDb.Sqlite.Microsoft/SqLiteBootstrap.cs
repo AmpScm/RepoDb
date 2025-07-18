@@ -34,7 +34,7 @@ public static class SqliteBootstrap
     internal static void InitializeInternal()
     {
         // Skip if already initialized
-        if (IsInitialized == true)
+        if (IsInitialized)
         {
             return;
         }

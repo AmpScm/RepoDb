@@ -179,7 +179,7 @@ public static class Converter
     }
 
 #if !NET
-    static object? EnumTryParse<TEnum>(string value)
+    private static object? EnumTryParse<TEnum>(string value)
         where TEnum : struct, Enum
     {
         if (Enum.TryParse<TEnum>(value, out var result))

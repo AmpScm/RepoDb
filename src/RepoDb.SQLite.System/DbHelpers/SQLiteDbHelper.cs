@@ -79,7 +79,7 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
     [GeneratedRegex(@"\((\d+)(,(\d+))*\)$")]
     private static partial Regex FieldTypeRegex();
 #else
-    static readonly Regex re = new Regex(@"\((\d+)(,(\d+))*\)$", RegexOptions.Compiled);
+    private static readonly Regex re = new Regex(@"\((\d+)(,(\d+))*\)$", RegexOptions.Compiled);
     private static Regex FieldTypeRegex() => re;
 #endif
 
@@ -275,7 +275,7 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
 
     #region Table Definition Parser
 
-    static IEnumerable<(string FieldName, string Definition)> TokenizeSchema(ReadOnlyMemory<char> schema)
+    private static IEnumerable<(string FieldName, string Definition)> TokenizeSchema(ReadOnlyMemory<char> schema)
     {
         {
             int start = schema.Span.IndexOf('(');
@@ -330,7 +330,7 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
         }
     }
 
-    static (string FieldName, string Definition) ParseField(ReadOnlySpan<char> field)
+    private static (string FieldName, string Definition) ParseField(ReadOnlySpan<char> field)
     {
         // Trim the span directly to avoid extra allocations
         field = field.Trim();
@@ -377,7 +377,7 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
         return (fieldName, definition);
     }
 
-    const string GetSchemaQuery = "SELECT type, name FROM sqlite_master WHERE (type = 'table' OR type = 'view')";
+    private const string GetSchemaQuery = "SELECT type, name FROM sqlite_master WHERE (type = 'table' OR type = 'view')";
 
     public override IEnumerable<DbSchemaObject> GetSchemaObjects(IDbConnection connection, IDbTransaction? transaction = null)
     {

@@ -7,7 +7,7 @@ namespace RepoDb.Resolvers;
 /// <summary>
 /// A class that is being used to resolve the <see cref="Field"/> name conversion.
 /// </summary>
-public class DbConvertFieldResolver : IResolver<Field, IDbSetting, string>
+public class DbConvertFieldResolver : IResolver<Field, IDbSetting, string?>
 {
     /// <summary>
     /// Creates a new instance of <see cref="DbConvertFieldResolver"/> class.

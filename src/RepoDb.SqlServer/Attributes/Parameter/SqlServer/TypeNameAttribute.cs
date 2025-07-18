@@ -20,5 +20,5 @@ public class TypeNameAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the name of the mapped table-valued parameter object (TVP) of the parameter.
     /// </summary>
-    public string TypeName => (string)Value;
+    public string TypeName => (string)Value!;
 }

@@ -1,12 +1,12 @@
-﻿using RepoDb.Interfaces;
-using System.Data;
+﻿using System.Data;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
 
 /// <summary>
 /// A class used to resolve the <see cref="DbType"/> into its equivalent SQL Server database string name.
 /// </summary>
-public class DbTypeToSqlServerStringNameResolver : IResolver<DbType, string>
+public class DbTypeToSqlServerStringNameResolver : IResolver<DbType, string?>
 {
     /*
      * Taken:
@@ -43,6 +43,12 @@ public class DbTypeToSqlServerStringNameResolver : IResolver<DbType, string>
             DbType.StringFixedLength => "NCHAR",
             DbType.Object => "OBJECT",
             DbType.Xml => "XML",
+            DbType.Currency or
+            DbType.SByte or
+            DbType.UInt16 or
+            DbType.UInt32 or
+            DbType.UInt64 or
+            DbType.VarNumeric or
             _ => "NVARCHAR",
         };
     }

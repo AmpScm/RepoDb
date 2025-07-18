@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Title>RepoDb.SqlServer</Title>
     <TargetFrameworks>net9.0;net8.0;net48</TargetFrameworks>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>A hybrid .NET ORM library for SQL Server.</Description>
     <PackageTags>orm hybrid-orm micro-orm sqlserver</PackageTags>

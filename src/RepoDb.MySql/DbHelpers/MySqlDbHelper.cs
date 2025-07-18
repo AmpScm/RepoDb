@@ -73,7 +73,7 @@ public sealed class MySqlDbHelper : BaseDbHelper
     /// 
     /// </summary>
     /// <returns></returns>
-    static readonly HashSet<string> BlobTypes = new([
+    private static readonly HashSet<string> BlobTypes = new([
         "blob",
         "blobasarray",
         "binary",
@@ -194,7 +194,7 @@ public sealed class MySqlDbHelper : BaseDbHelper
     #endregion
 
     #region GetSchemaObjects
-    const string GetSchemaQuery = @"
+    private const string GetSchemaQuery = @"
         SELECT
             table_type AS `Type`,
             table_name AS `Name`,

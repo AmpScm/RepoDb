@@ -20,5 +20,5 @@ public class XmlSchemaCollectionNameAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped value of the schema collection of the parameter.
     /// </summary>
-    public string XmlSchemaCollectionName => (string)Value;
+    public string XmlSchemaCollectionName => (string)Value!;
 }

@@ -5,7 +5,7 @@ namespace RepoDb.Core.UnitTests.Others;
 [TestClass]
 public class ToTypeTests
 {
-    enum WindDirection
+    private enum WindDirection
     {
         North,
         East,

@@ -448,7 +448,7 @@ public class InsertTest
 
 
     [Table(nameof(CompleteTable))]
-    class DateTimeMixup : CompleteTable
+    private class DateTimeMixup : CompleteTable
     {
         public new int Id { get; set; }
 

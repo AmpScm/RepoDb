@@ -26,7 +26,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     public OracleStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
         IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
               convertFieldResolver,
@@ -98,7 +98,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
             .WriteText(onConditions)
             .CloseParen();
 
-        if (updateFields.Any())
+        if (updateFields.Count > 0)
         {
             builder
                 .When()

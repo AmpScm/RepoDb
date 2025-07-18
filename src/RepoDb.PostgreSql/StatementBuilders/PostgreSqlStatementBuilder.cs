@@ -445,9 +445,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
-        var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
-        GuardPrimary(primaryField);
         GuardIdentity(identityField);
 
         // Verify the fields
@@ -457,14 +455,15 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         }
 
         // Set the qualifiers
-        if (qualifiers?.Any() != true && primaryField != null)
+        if (qualifiers?.Any() != true)
         {
-            qualifiers = primaryField.AsField().AsEnumerable();
+            qualifiers = keyFields;
         }
 
         // Validate the qualifiers
         if (qualifiers?.Any() != true)
         {
+            var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
             if (primaryField == null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");

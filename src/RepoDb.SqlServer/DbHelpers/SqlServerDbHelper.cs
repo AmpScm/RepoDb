@@ -93,7 +93,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             !reader.IsDBNull(1) && reader.GetBoolean(1),
             !reader.IsDBNull(2) && reader.GetBoolean(2),
             !reader.IsDBNull(3) && reader.GetBoolean(3),
-            reader.IsDBNull(4) ? DbTypeResolver.Resolve("text") : DbTypeResolver.Resolve(reader.GetString(4)),
+            DbTypeResolver.Resolve(reader.IsDBNull(4) ? "text" : reader.GetString(4)) ?? typeof(object),
             reader.IsDBNull(5) ? 0 : reader.GetInt32(5),
             reader.IsDBNull(6) ? (byte?)0 : reader.GetByte(6),
             reader.IsDBNull(7) ? (byte?)0 : reader.GetByte(7),
@@ -116,7 +116,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             !await reader.IsDBNullAsync(1, cancellationToken) && await reader.GetFieldValueAsync<bool>(1, cancellationToken),
             !await reader.IsDBNullAsync(2, cancellationToken) && await reader.GetFieldValueAsync<bool>(2, cancellationToken),
             !await reader.IsDBNullAsync(3, cancellationToken) && await reader.GetFieldValueAsync<bool>(3, cancellationToken),
-            await reader.IsDBNullAsync(4, cancellationToken) ? DbTypeResolver.Resolve("text") : DbTypeResolver.Resolve(await reader.GetFieldValueAsync<string>(4, cancellationToken)),
+            DbTypeResolver.Resolve(await reader.IsDBNullAsync(4, cancellationToken) ? "text" : await reader.GetFieldValueAsync<string>(4, cancellationToken)) ?? typeof(object),
             await reader.IsDBNullAsync(5, cancellationToken) ? 0 : await reader.GetFieldValueAsync<int>(5, cancellationToken),
             await reader.IsDBNullAsync(6, cancellationToken) ? (byte?)0 : await reader.GetFieldValueAsync<byte>(6, cancellationToken),
             await reader.IsDBNullAsync(7, cancellationToken) ? (byte?)0 : await reader.GetFieldValueAsync<byte>(7, cancellationToken),
@@ -208,7 +208,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     #endregion
 
     #region GetSchemaObjects
-    const string GetSchemaQuery = @"
+    private const string GetSchemaQuery = @"
         SELECT
             o.type AS [Type],
             o.name AS [Name],
@@ -308,7 +308,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     ORDER BY
         ColumnType, is_nullable DESC;";
 
-    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction transaction)
+    public override DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         using var rdr = (SqlDataReader)connection.ExecuteReader(DbRuntimeInfoQuery, transaction: transaction);
 
@@ -333,7 +333,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
                     RequiresDistinct = rdr.GetInt32(5) != 0 && !(rdr.GetInt32(6) != 0),
                 };
 
-                var type = DbTypeResolver.Resolve(info.ColumnType);
+                var type = DbTypeResolver.Resolve(info.ColumnType) ?? typeof(object);
 
                 if (type.IsValueType && info.IsNullable)
                 {
@@ -356,8 +356,8 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         return new()
         {
             EngineName = "MSSQL",
-            EngineVersion = Version.Parse(Regex.Replace(ver.serverVersion, "^.*?([0-9]+(\\.[0-9]+)*).*?$", "$1") ?? "0.0"),
-            CompatibilityVersion = ver.compatibilityLevel is { } c ? new(c / 10, c % 10) : default,
+            EngineVersion = Version.Parse(Regex.Replace(ver?.serverVersion ?? "0", "^.*?([0-9]+(\\.[0-9]+)*).*?$", "$1") ?? "0.0"),
+            CompatibilityVersion = ver?.compatibilityLevel is { } c ? new(c / 10, c % 10) : new Version(0, 0),
             ParameterTypeMap = typeMap
 #if NET
             .AsReadOnly()

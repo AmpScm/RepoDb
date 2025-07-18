@@ -7,7 +7,7 @@ namespace RepoDb.TestCore;
 
 public abstract class DbInstance : IAsyncDisposable
 {
-    bool _initialized;
+    private bool _initialized;
     internal DbInstance()
     {
 
@@ -82,7 +82,7 @@ public abstract class DbInstance : IAsyncDisposable
 
 public abstract class DbInstance<TDbConnection> : DbInstance where TDbConnection : DbConnection, new()
 {
-    string? _databaseName;
+    private string? _databaseName;
     public override DbConnection CreateConnection()
     {
         var c = new TDbConnection

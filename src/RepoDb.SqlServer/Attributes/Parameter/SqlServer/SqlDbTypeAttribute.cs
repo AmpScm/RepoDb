@@ -21,5 +21,5 @@ public class SqlDbTypeAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped <see cref="System.Data.SqlDbType"/> value of the parameter.
     /// </summary>
-    public SqlDbType SqlDbType => (SqlDbType)Value;
+    public SqlDbType SqlDbType => (SqlDbType)Value!;
 }

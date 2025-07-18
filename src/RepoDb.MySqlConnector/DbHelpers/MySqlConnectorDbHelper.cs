@@ -180,7 +180,7 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
     #endregion
 
     #region GetSchemaObjects
-    const string GetSchemaQuery = @"
+    private const string GetSchemaQuery = @"
         SELECT
             table_type AS `Type`,
             table_name AS `Name`,

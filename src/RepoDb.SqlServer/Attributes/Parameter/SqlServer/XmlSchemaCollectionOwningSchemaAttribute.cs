@@ -20,5 +20,5 @@ public class XmlSchemaCollectionOwningSchemaAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped value of the owning relation schema of the parameter.
     /// </summary>
-    public string XmlSchemaCollectionOwningSchema => (string)Value;
+    public string XmlSchemaCollectionOwningSchema => (string)Value!;
 }

@@ -20,5 +20,5 @@ public class LocaleIdAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped value of the local identifier of the parameter.
     /// </summary>
-    public int LocaleId => (int)Value;
+    public int LocaleId => (int)Value!;
 }

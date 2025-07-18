@@ -33,7 +33,7 @@ public static class SqlServerBootstrap
     internal static void InitializeInternal()
     {
         // Skip if already initialized
-        if (IsInitialized == true)
+        if (IsInitialized)
         {
             return;
         }

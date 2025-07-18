@@ -27,7 +27,7 @@ public class SqLiteDbTypeNameToClientTypeResolver : IResolver<string, Type>
             "decimal" or "numeric" => typeof(decimal),
             "double" or "real" => typeof(double),
             "tinyint" or "smallint" or "bit" => typeof(int),
-            _ when (dbTypeName.IndexOfAny(['(', ']']) is { } p && p > 0) => Resolve(dbTypeName.Substring(0, p)), // varchar(3) => varchar, etc.
+            _ when dbTypeName.IndexOfAny(['(', ']']) is { } p && p > 0 => Resolve(dbTypeName.Substring(0, p)), // varchar(3) => varchar, etc.
             _ => typeof(object),
         };
     }

@@ -558,7 +558,7 @@ public static class Helper
     #endregion
 }
 
-static class Extensions
+internal static class Extensions
 {
     public static DateTime TruncateToSqlSafe(this DateTime self)
     {

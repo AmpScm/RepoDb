@@ -3375,7 +3375,7 @@ public class QueryTest
 
     #endregion
 
-    class DateTimeItems
+    private class DateTimeItems
     {
         public DateTime DateTime { get; set; }
         public DateTime? DateTimeNullable { get; set; }

@@ -6,7 +6,7 @@ namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 
 public class SqliteDbInstance : DbInstance<SqliteConnection>
 {
-    readonly SqliteConnection _conn;
+    private readonly SqliteConnection _conn;
 
     static SqliteDbInstance()
     {

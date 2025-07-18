@@ -28,11 +28,11 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     public SqlServerStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
-        IResolver<Type, Type> averageableClientTypeResolver = null)
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
+        IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
-              (convertFieldResolver ?? new SqlServerConvertFieldResolver()),
-              (averageableClientTypeResolver ?? new ClientTypeToAverageableClientTypeResolver()))
+              convertFieldResolver ?? new SqlServerConvertFieldResolver(),
+              averageableClientTypeResolver ?? new ClientTypeToAverageableClientTypeResolver())
     { }
 
     #region CreateBatchQuery
@@ -68,7 +68,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Validate order by
-        if (orderBy == null || orderBy.Any() != true)
+        if (orderBy == null || !orderBy.Any())
         {
             throw new EmptyException(nameof(orderBy), "The argument 'orderBy' is required.");
         }
@@ -409,7 +409,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> noUpdateFields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields,
         IEnumerable<Field>? qualifiers, string? hints = null)
     {
@@ -435,7 +435,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                     string.Equals(field.FieldName, f.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
 
             // Throw an error we found any unmatches
-            if (unmatchesQualifiers.Any() == true)
+            if (unmatchesQualifiers.Any())
             {
                 throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
                     $"present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -449,7 +449,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                 var isPresent = fields.FirstOrDefault(f => string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
 
                 // Throw if not present
-                if (isPresent == false)
+                if (!isPresent)
                 {
                     throw new InvalidQualifiersException($"There are no qualifier field objects found for '{tableName}'. Ensure that the " +
                         $"primary field is present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -538,14 +538,11 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Variables needed
-        var keyColumn = GetReturnKeyColumnAsDbField(primaryField, identityField);
-
-        // Set the output
-        if (keyColumn != null)
+        if (keyFields.Any())
         {
             builder
-                .WriteText(string.Concat("OUTPUT INSERTED.", keyColumn.FieldName.AsField(DbSetting)))
-                .As("Result", DbSetting);
+                .Output()
+                .AsAliasFieldsFrom(keyFields, "INSERTED", DbSetting);
         }
 
         // End the builder
@@ -584,17 +581,13 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMergeAll(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> noUpdateFields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field>? qualifiers,
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
-        var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
-        var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
-        GuardPrimary(primaryField);
-        GuardIdentity(identityField);
 
         // Verify the fields
         if (fields?.Any() != true)
@@ -603,7 +596,10 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Check the qualifiers
-        if (qualifiers?.Any() == true)
+        if (qualifiers?.Any() != true)
+            qualifiers = keyFields;
+
+        if (qualifiers.Any())
         {
             // Check if the qualifiers are present in the given fields
             var unmatchesQualifiers = qualifiers.Where(field =>
@@ -611,7 +607,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                     string.Equals(field.FieldName, f.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
 
             // Throw an error we found any unmatches
-            if (unmatchesQualifiers.Any() == true)
+            if (unmatchesQualifiers.Any())
             {
                 throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
                     $"present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -619,13 +615,16 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
         else
         {
+            var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
+            var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
+
             if (primaryField != null)
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
                 var isPresent = fields.FirstOrDefault(f => string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
 
                 // Throw if not present
-                if (isPresent == false)
+                if (!isPresent)
                 {
                     throw new InvalidQualifiersException($"There are no qualifier field objects found for '{tableName}'. Ensure that the " +
                         $"primary field is present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -647,7 +646,6 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 );
 
         // Initialize the builder
-        var keyColumn = GetReturnKeyColumnAsDbField(primaryField, identityField);
         var builder = new QueryBuilder();
 
         bool insertingIdentity = fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
@@ -816,7 +814,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Validate order by
-        if (orderBy == null || orderBy.Any() != true)
+        if (orderBy == null || !orderBy.Any())
         {
             throw new EmptyException(nameof(orderBy), "The argument 'orderBy' is required.");
         }

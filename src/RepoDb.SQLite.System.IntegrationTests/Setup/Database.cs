@@ -6,7 +6,7 @@ namespace RepoDb.SQLite.System.IntegrationTests.Setup;
 
 public static class Database
 {
-    static readonly SQLiteDbInstance Instance = new();
+    private static readonly SQLiteDbInstance Instance = new();
 
     public static string ConnectionString => Instance.ConnectionString;
 
@@ -182,7 +182,7 @@ public static class Database
         }
     }
 
-    static string GetDbPath(TestContext tc)
+    private static string GetDbPath(TestContext tc)
     {
         return Path.Combine(tc.TestRunDirectory, "sqlite.db");
     }
