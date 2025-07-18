@@ -1701,7 +1701,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
-            "OUTPUT INSERTED.[Field1] AS [Result];";
+            "OUTPUT INSERTED.[Field1];";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1734,7 +1734,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field2], S.[Field3]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
-            "OUTPUT INSERTED.[Field1] AS [Result];";
+            "OUTPUT INSERTED.[Field1];";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1768,7 +1768,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field1], S.[Field2], S.[Field3b]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3b] = S.[Field3b] " +
-            "OUTPUT INSERTED.[Field1] AS [Result]; " +
+            "OUTPUT INSERTED.[Field1]; " +
             "BEGIN TRY SET IDENTITY_INSERT [Table] OFF; END TRY BEGIN CATCH END CATCH";
 
         // Assert
@@ -1801,7 +1801,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
-            "OUTPUT INSERTED.[Id] AS [Result];";
+            "OUTPUT INSERTED.[Id];";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1832,7 +1832,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field2], S.[Field3]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
-            "OUTPUT INSERTED.[Field1] AS [Result];";
+            "OUTPUT INSERTED.[Field1];";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1863,7 +1863,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
-            "OUTPUT INSERTED.[Id] AS [Result];";
+            "OUTPUT INSERTED.[Id];";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1895,7 +1895,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field1], S.[Field2], S.[Field3]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field2] = S.[Field2], T.[Field3] = S.[Field3] " +
-            "OUTPUT INSERTED.[Field1] AS [Result];";
+            "OUTPUT INSERTED.[Field1];";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1928,7 +1928,7 @@ public class StatementBuilderTest
             "VALUES (S.[Field1], S.[Field3]) " +
             "WHEN MATCHED THEN " +
             "UPDATE SET T.[Field3] = S.[Field3] " +
-            "OUTPUT INSERTED.[Field2] AS [Result];";
+            "OUTPUT INSERTED.[Field2], INSERTED.[Field1];";
 
         // Assert
         Assert.AreEqual(expected, actual);
