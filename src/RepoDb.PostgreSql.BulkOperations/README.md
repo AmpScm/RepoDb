@@ -41,8 +41,9 @@ During the operation, the process ignores the audit, logs, constraints and any o
 
 ## License
 
-[Apache-2.0](https://apache.org/licenses/LICENSE-2.0.html) - Copyright © 2020 - 2024 - [Michael Camara Pendon](https://twitter.com/mike_pendon)
-[Apache-2.0](https://apache.org/licenses/LICENSE-2.0.html) - Copyright © 2025 - now - [Bert Huijben](https://github.com/rhuijben)
+[Apache-2.0](http://apache.org/licenses/LICENSE-2.0.html) 
+- Copyright © 2019 - 2024 [Michael Camara Pendon](https://github.com/mikependon)
+- Copyright © 2025 - now [Bert Huijben](https://github.com/rhuijben)
 
 --------
 
