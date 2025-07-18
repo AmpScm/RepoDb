@@ -82,7 +82,7 @@ The execute methods below support all the RDBMS data providers.
 - [ExecuteReader](https://repodb.net/operation/executereader)
 - [ExecuteQueryMultiple](https://repodb.net/operation/executequerymultiple)
 
-Whereas the fluent methods below only support the [SQL Server](https://www.nuget.org/packages/RepoDb.SqlServer), [SQLite](https://www.nuget.org/packages/RepoDb.SqLite), [MySQL](https://www.nuget.org/packages/RepoDb.MySql) and [PostgreSQL](https://www.nuget.org/packages/RepoDb.PostgreSql) RDBMS data providers.
+Whereas the fluent methods below only support the [SQL Server](https://www.nuget.org/packages/AmpScm.RepoDb.SqlServer), [SQLite](https://www.nuget.org/packages/AmpScm.RepoDb.SqLite.Microsoft), [MySQL](https://www.nuget.org/packages/AmpScm.RepoDb.MySql) and [PostgreSQL](https://www.nuget.org/packages/AmpScm.RepoDb.PostgreSql) RDBMS data providers.
 
 - [Query](https://repodb.net/operation/query)
 - [Insert](https://repodb.net/operation/insert)
@@ -94,7 +94,7 @@ Click [here](https://repodb.net/operation) to see all the operations.
 
 ## Package Referencing
 
-By default, .NET is auto-resolving the references, however, we strongly recommend that you always explicitly reference the [RepoDb](https://www.nuget.org/packages/RepoDb) core library. The rationale behind this is that, the [RepoDb](https://www.nuget.org/packages/RepoDb) core library is a fast-moving package in which all the alpha/beta releases, hotfixes and/or even the actual releases could happen without affecting the extension libraries.
+By default, .NET is auto-resolving the references, however, we strongly recommend that you always explicitly reference the [RepoDb](https://www.nuget.org/packages/AmpScm.RepoDb) core library. The rationale behind this is that, the [RepoDb](https://www.nuget.org/packages/AmpScm.RepoDb) core library is a fast-moving package in which all the alpha/beta releases, hotfixes and/or even the actual releases could happen without affecting the extension libraries.
 
 Please note that we are releasing an actual next released-version if the changes are having minimal impact but is important for the other users.
 
@@ -141,7 +141,7 @@ Or, you can replicate the actual [SqlServerBootstrap](src/RepoDb.SqlServer/RepoD
 
 ## Trust Server Certificate
 
-For [RepoDb.SqlServer](https://www.nuget.org/packages/RepoDb.SqlServer) package, starting the version [v1.1.5-beta4](https://www.nuget.org/packages/AmpScm.RepoDb.SqlServer/1.1.5-beta4), the [Microsoft.Data.SqlClient v4.0.0](https://www.nuget.org/packages/Microsoft.Data.SqlClient/4.0.0) is used, however, it seems to require a TLS 1.2 when connecting to the database via Integrated Security.
+For [RepoDb.SqlServer](https://www.nuget.org/packages/AmpScm.RepoDb.SqlServer) package, the [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient) is used, which by default validates the server certificate where System.Data.SqlClient didn't.
 
 In most cases, an exception below is thrown if the mentioned security chain is not enabled.
 
