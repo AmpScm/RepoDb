@@ -1,9 +1,9 @@
-﻿using Npgsql;
-using RepoDb.Enumerations.PostgreSql;
-using RepoDb.PostgreSql.BulkOperations;
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Dynamic;
+using Npgsql;
+using RepoDb.Enumerations.PostgreSql;
+using RepoDb.PostgreSql.BulkOperations;
 
 namespace RepoDb;
 
@@ -45,7 +45,7 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         BinaryBulkMerge<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
@@ -90,10 +90,10 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         BinaryBulkMergeBase<TEntity>(connection: connection,
-            tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
             entities: entities,
             qualifiers: qualifiers,
             mappings: mappings,
@@ -136,9 +136,9 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryBulkMerge(connection: connection,
-            tableName: table?.TableName,
+            tableName: table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,
@@ -180,9 +180,9 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryBulkMergeBase(connection: connection,
-            tableName: (tableName ?? table?.TableName),
+            tableName: tableName ?? table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,
@@ -224,7 +224,7 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryBulkMergeBase(connection: connection,
             tableName: tableName,
             reader: reader,
@@ -326,7 +326,7 @@ public static partial class NpgsqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class =>
         await BinaryBulkMergeBaseAsync<TEntity>(connection: connection,
-            tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
             entities: entities,
             qualifiers: qualifiers,
             mappings: mappings,
@@ -374,7 +374,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default) =>
         BinaryBulkMergeAsync(connection: connection,
-            tableName: table?.TableName,
+            tableName: table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,
@@ -421,7 +421,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default) =>
         await BinaryBulkMergeBaseAsync(connection: connection,
-            tableName: (tableName ?? table?.TableName),
+            tableName: tableName ?? table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,

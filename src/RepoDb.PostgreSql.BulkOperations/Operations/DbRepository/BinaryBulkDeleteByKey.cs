@@ -32,10 +32,10 @@ public static partial class DbRepositoryExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
@@ -92,7 +92,7 @@ public static partial class DbRepositoryExtension
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {

@@ -29,14 +29,14 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var identityBehavior = BulkImportIdentityBehavior.Unspecified;
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
-        var primaryKey = dbFields.PrimaryFields?.OneOrDefault();
+        var primaryKey = dbFields.PrimaryFields!.First();
         var pseudoTableName = tableName;
-        IEnumerable<NpgsqlBulkInsertMapItem> mappings = null;
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null;
 
         return PseudoBasedBinaryImport(connection,
             tableName,
@@ -117,9 +117,9 @@ public static partial class NpgsqlConnectionExtension
         var identityBehavior = BulkImportIdentityBehavior.Unspecified;
         var dbSetting = connection.GetDbSetting();
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken);
-        var primaryKey = dbFields.PrimaryFields?.OneOrDefault();
+        var primaryKey = dbFields.PrimaryFields!.First();
         var pseudoTableName = tableName;
-        IEnumerable<NpgsqlBulkInsertMapItem> mappings = null;
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null;
 
         return await PseudoBasedBinaryImportAsync(connection,
             tableName,
@@ -154,7 +154,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetDeleteByKeyCommandText(pseudoTableName,
                     tableName,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
                     dbSetting),
 
             // setIdentities

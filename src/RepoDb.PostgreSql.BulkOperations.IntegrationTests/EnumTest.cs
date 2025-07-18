@@ -73,7 +73,7 @@ public class EnumTest
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object>;
+            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
             var index = i + 1;
             expandoObject["Id"] = (long)(hasId ? index + addToKey : 0);
             expandoObject["ColumnEnumHand"] = (Hands?)null;
@@ -570,7 +570,7 @@ public class EnumTest
 
     #endregion
 
-    #region IDictionary<string, object>
+    #region IDictionary<string, object?>
 
     #region BinaryBulkInsert
 
@@ -1453,7 +1453,7 @@ public class EnumTest
 
     #endregion
 
-    #region IDictionary<string, object>
+    #region IDictionary<string, object?>
 
     #region BinaryBulkInsertAsync
 

@@ -180,7 +180,7 @@ public static partial class SqlConnectionExtension
     /// </summary>
     /// <param name="dictionary"></param>
     /// <returns></returns>
-    private static IEnumerable<Field> GetDictionaryStringObjectFields(IDictionary<string, object> dictionary)
+    private static IEnumerable<Field> GetDictionaryStringObjectFields(IDictionary<string, object?> dictionary)
     {
         foreach (var kvp in dictionary)
         {

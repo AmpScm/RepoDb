@@ -28,7 +28,7 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportPseudoTableType pseudoTableType = default,
         IDbSetting? dbSetting = null,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var commandText = pseudoTableType == BulkImportPseudoTableType.Physical ?
             GetCreatePseudoTableCommandText(tableName, pseudoTableName, mappings, identityBehavior, dbSetting) :
@@ -84,7 +84,7 @@ public static partial class NpgsqlConnectionExtension
     private static int MergeToPseudoTable(NpgsqlConnection connection,
         Func<string> getMergeToPseudoCommandText,
         int bulkCopyTimeout = 0,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var commandText = getMergeToPseudoCommandText();
 
@@ -104,7 +104,7 @@ public static partial class NpgsqlConnectionExtension
     private static IEnumerable<IdentityResult> MergeToPseudoTableWithIdentityResults(NpgsqlConnection connection,
         Func<string> getMergeToPseudoCommandText,
         int bulkCopyTimeout = 0,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var commandText = getMergeToPseudoCommandText();
 
@@ -167,7 +167,7 @@ public static partial class NpgsqlConnectionExtension
     private static void DropPseudoTable(NpgsqlConnection connection,
         string tableName,
         int bulkCopyTimeout = 0,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         if (string.IsNullOrWhiteSpace(tableName))
         {
@@ -221,10 +221,10 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="transaction"></param>
     private static void CreatePseudoTableIndex(NpgsqlConnection connection,
         string tableName,
-        IEnumerable<Field> fields,
+        IEnumerable<Field>? fields,
         int bulkCopyTimeout = 0,
         IDbSetting? dbSetting = null,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         if (fields?.Any() != true)
         {
@@ -251,7 +251,7 @@ public static partial class NpgsqlConnectionExtension
     /// <returns></returns>
     private static async Task CreatePseudoTableIndexAsync(NpgsqlConnection connection,
         string tableName,
-        IEnumerable<Field> fields,
+        IEnumerable<Field>? fields,
         int bulkCopyTimeout = 0,
         IDbSetting? dbSetting = null,
         NpgsqlTransaction? transaction = null,
@@ -279,7 +279,7 @@ public static partial class NpgsqlConnectionExtension
     /// <returns></returns>
     private static string GetCreatePseudoTableIndexCommandText(string tableName,
         IEnumerable<Field> fields,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         var indexName = $"{tableName}_{fields.Select(field => field.FieldName).Join("")}_IDX".AsQuoted(true, dbSetting);
         var columns = fields.Select(field => field.FieldName.AsQuoted(true, dbSetting)).Join(", ");
@@ -301,7 +301,7 @@ public static partial class NpgsqlConnectionExtension
         string pseudoTableName,
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         BulkImportIdentityBehavior identityBehavior,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         $"SELECT {GetCreatePseudoTableQueryColumns(mappings, identityBehavior, dbSetting)} " +
         $"INTO {pseudoTableName.AsQuoted(true, dbSetting)} " +
         $"FROM {tableName.AsQuoted(true, dbSetting)} " +
@@ -320,7 +320,7 @@ public static partial class NpgsqlConnectionExtension
         string pseudoTableName,
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         BulkImportIdentityBehavior identityBehavior,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         $"SELECT {GetCreatePseudoTableQueryColumns(mappings, identityBehavior, dbSetting)} " +
         $"INTO TEMPORARY {pseudoTableName.AsQuoted(true, dbSetting)} " +
         $"FROM {tableName.AsQuoted(true, dbSetting)} " +
@@ -335,7 +335,7 @@ public static partial class NpgsqlConnectionExtension
     /// <returns></returns>
     private static string GetCreatePseudoTableQueryColumns(IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         BulkImportIdentityBehavior identityBehavior,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         identityBehavior != BulkImportIdentityBehavior.ReturnIdentity ?
             mappings.Select(field => field.DestinationColumn.AsQuoted(true, dbSetting)).Join(", ") :
             $"0 AS {"__RepoDb_OrderColumn".AsQuoted(dbSetting)}, " +
@@ -348,6 +348,6 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static string GetDropPseudoTemporaryTableCommandText(string tableName,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         $"DROP TABLE IF EXISTS {tableName.AsQuoted(true, dbSetting)};";
 }

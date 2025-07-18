@@ -721,7 +721,7 @@ public class UpdateAllTest
         var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
         for (var i = 0; i < tables.Count; i++)
         {
-            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
+            ((IDictionary<string, object?>)items[i])["Id"] = tables[i].Id;
         }
 
         // Act
@@ -758,7 +758,7 @@ public class UpdateAllTest
         var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
         for (var i = 0; i < tables.Count; i++)
         {
-            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
+            ((IDictionary<string, object?>)items[i])["Id"] = tables[i].Id;
         }
 
         // Act
@@ -1144,7 +1144,7 @@ public class UpdateAllTest
         var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
         for (var i = 0; i < tables.Count; i++)
         {
-            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
+            ((IDictionary<string, object?>)items[i])["Id"] = tables[i].Id;
         }
 
         // Act
@@ -1181,7 +1181,7 @@ public class UpdateAllTest
         var items = Helper.CreateExpandoObjectNonIdentityTables(tables.Count);
         for (var i = 0; i < tables.Count; i++)
         {
-            ((IDictionary<string, object>)items[i])["Id"] = tables[i].Id;
+            ((IDictionary<string, object?>)items[i])["Id"] = tables[i].Id;
         }
 
         // Act

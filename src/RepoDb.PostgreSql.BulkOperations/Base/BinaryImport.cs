@@ -36,7 +36,7 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         bool keepIdentity = false,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         BinaryImport<TEntity>(connection,
             ClassMappedNameCache.Get<TEntity>(),
@@ -70,7 +70,7 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         bool keepIdentity = false,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
         tableName ??= ClassMappedNameCache.Get<TEntity>();
@@ -82,7 +82,7 @@ public static partial class NpgsqlConnectionExtension
             DbFieldCache.Get(connection, tableName, transaction),
             bulkCopyTimeout,
             batchSize,
-            (keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default),
+            keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default,
             connection.GetDbSetting(),
             transaction);
     }
@@ -105,26 +105,26 @@ public static partial class NpgsqlConnectionExtension
     private static int BinaryImport<TEntity>(this NpgsqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
-        DbFieldCollection? dbFields = null,
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings,
+        DbFieldCollection dbFields,
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportIdentityBehavior identityBehavior = default,
         IDbSetting? dbSetting = null,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
         // Solving the anonymous types
-        var entityType = (entities?.First()?.GetType() ?? typeof(TEntity));
+        var entityType = entities.First().GetType();
         var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
-        var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
+        var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
 
         // Mappings
         mappings = mappings?.Any() == true ? mappings :
             isDictionary ?
-            GetMappings(entities?.First() as IDictionary<string, object>,
+            GetMappings((IDictionary<string, object?>)entities.First(),
                 dbFields,
                 includePrimary,
                 includeIdentity,
@@ -153,7 +153,7 @@ public static partial class NpgsqlConnectionExtension
                     if (isDictionary)
                     {
                         result += BinaryImport(importer,
-                            batch?.Select(entity => entity as IDictionary<string, object>),
+                            batch.Select(entity => (IDictionary<string, object?>)entity),
                             mappings,
                             identityBehavior);
                     }
@@ -200,9 +200,9 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         bool keepIdentity = false,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryImport(connection,
-            table?.TableName,
+            table.TableName,
             table,
             rowState,
             mappings,
@@ -233,19 +233,19 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         bool keepIdentity = false,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
-        tableName ??= table?.TableName;
+        tableName ??= table.TableName;
 
         return BinaryImport(connection,
-            tableName ?? table?.TableName,
+            tableName ?? table.TableName,
             table,
             rowState,
             mappings,
-            DbFieldCache.Get(connection, tableName ?? table?.TableName, transaction),
+            DbFieldCache.Get(connection, tableName ?? table.TableName, transaction),
                 bulkCopyTimeout,
                 batchSize,
-                (keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default),
+                keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default,
                 connection.GetDbSetting(),
                 transaction);
     }
@@ -268,16 +268,16 @@ public static partial class NpgsqlConnectionExtension
     private static int BinaryImport(this NpgsqlConnection connection,
         string tableName,
         DataTable table,
-        DataRowState? rowState = null,
-        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
-        DbFieldCollection? dbFields = null,
+        DataRowState? rowState,
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings,
+        DbFieldCollection dbFields,
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportIdentityBehavior identityBehavior = default,
         IDbSetting? dbSetting = null,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
-        var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
+        var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
 
@@ -299,7 +299,7 @@ public static partial class NpgsqlConnectionExtension
             foreach (var batch in batches)
             {
                 using (var importer = GetNpgsqlBinaryImporter(connection,
-                    tableName ?? table?.TableName,
+                    tableName ?? table.TableName,
                     mappings,
                     bulkCopyTimeout,
                     identityBehavior,
@@ -341,14 +341,14 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
         int bulkCopyTimeout = 0,
         bool keepIdentity = false,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryImport(connection,
             tableName,
             reader,
             mappings,
             DbFieldCache.Get(connection, tableName, transaction),
             bulkCopyTimeout,
-            (keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default),
+            keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default,
             connection.GetDbSetting(),
             transaction);
 
@@ -368,14 +368,14 @@ public static partial class NpgsqlConnectionExtension
     private static int BinaryImport(this NpgsqlConnection connection,
         string tableName,
         DbDataReader reader,
-        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
-        DbFieldCollection? dbFields = null,
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings,
+        DbFieldCollection dbFields,
         int bulkCopyTimeout = 0,
         BulkImportIdentityBehavior identityBehavior = default,
         IDbSetting? dbSetting = null,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
-        var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
+        var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
 
@@ -492,7 +492,7 @@ public static partial class NpgsqlConnectionExtension
             await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken),
             bulkCopyTimeout,
             batchSize,
-            (keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default),
+            keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default,
             connection.GetDbSetting(),
             transaction,
             cancellationToken);
@@ -517,8 +517,8 @@ public static partial class NpgsqlConnectionExtension
     private static async Task<int> BinaryImportAsync<TEntity>(this NpgsqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
-        DbFieldCollection? dbFields = null,
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings,
+        DbFieldCollection dbFields,
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportIdentityBehavior identityBehavior = default,
@@ -528,16 +528,16 @@ public static partial class NpgsqlConnectionExtension
         where TEntity : class
     {
         // Solving the anonymous types
-        var entityType = (entities?.First()?.GetType() ?? typeof(TEntity));
+        var entityType = entities.First()?.GetType() ?? typeof(TEntity);
         var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
-        var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
+        var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
 
         // Mappings
         mappings = mappings?.Any() == true ? mappings :
             isDictionary ?
-            GetMappings(entities?.First() as IDictionary<string, object>,
+            GetMappings((IDictionary<string, object?>)entities.First(),
                 dbFields,
                 includePrimary,
                 includeIdentity,
@@ -567,7 +567,7 @@ public static partial class NpgsqlConnectionExtension
                     if (isDictionary)
                     {
                         result += await BinaryImportExplicitAsync(importer,
-                            batch?.Select(entity => entity as IDictionary<string, object>),
+                            batch.Select(entity => (IDictionary<string, object?>)entity),
                             mappings,
                             identityBehavior,
                             cancellationToken);
@@ -620,7 +620,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default) =>
         BinaryImportAsync(connection,
-            table?.TableName,
+            table.TableName,
             table,
             rowState,
             mappings,
@@ -656,7 +656,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        tableName ??= table?.TableName;
+        tableName ??= table.TableName;
 
         return await BinaryImportAsync(connection,
             tableName,
@@ -666,7 +666,7 @@ public static partial class NpgsqlConnectionExtension
             await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken),
             bulkCopyTimeout,
             batchSize,
-            (keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default),
+            keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default,
             connection.GetDbSetting(),
             transaction,
             cancellationToken);
@@ -691,9 +691,9 @@ public static partial class NpgsqlConnectionExtension
     private static async Task<int> BinaryImportAsync(this NpgsqlConnection connection,
         string tableName,
         DataTable table,
-        DataRowState? rowState = null,
-        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
-        DbFieldCollection? dbFields = null,
+        DataRowState? rowState,
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings,
+        DbFieldCollection dbFields,
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportIdentityBehavior identityBehavior = default,
@@ -701,7 +701,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
+        var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
 
@@ -723,7 +723,7 @@ public static partial class NpgsqlConnectionExtension
             foreach (var batch in batches)
             {
                 using (var importer = await GetNpgsqlBinaryImporterAsync(connection,
-                    tableName ?? table?.TableName,
+                    tableName ?? table.TableName,
                     mappings,
                     bulkCopyTimeout,
                     identityBehavior,
@@ -776,7 +776,7 @@ public static partial class NpgsqlConnectionExtension
             mappings,
             await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken),
             bulkCopyTimeout,
-            (keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default),
+            keepIdentity ? BulkImportIdentityBehavior.KeepIdentity : default,
             connection.GetDbSetting(),
             transaction,
             cancellationToken);
@@ -798,15 +798,15 @@ public static partial class NpgsqlConnectionExtension
     private static async Task<int> BinaryImportAsync(this NpgsqlConnection connection,
         string tableName,
         DbDataReader reader,
-        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
-        DbFieldCollection? dbFields = null,
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings,
+        DbFieldCollection dbFields,
         int bulkCopyTimeout = 0,
         BulkImportIdentityBehavior identityBehavior = default,
         IDbSetting? dbSetting = null,
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        var includeIdentity = (identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
+        var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
         var isPrimaryAnIdentity = IsPrimaryAnIdentity(dbFields);
         var includePrimary = isPrimaryAnIdentity == false || (isPrimaryAnIdentity && includeIdentity);
 

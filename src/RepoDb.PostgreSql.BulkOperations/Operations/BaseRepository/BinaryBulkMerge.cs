@@ -43,7 +43,7 @@ public static partial class BaseRepositoryExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         repository.DbRepository.BinaryBulkMerge<TEntity>(tableName: ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
@@ -87,9 +87,9 @@ public static partial class BaseRepositoryExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
-        repository.DbRepository.BinaryBulkMerge<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+        repository.DbRepository.BinaryBulkMerge<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 qualifiers: qualifiers,
                 mappings: mappings,
@@ -188,7 +188,7 @@ public static partial class BaseRepositoryExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where TEntity : class =>
-        await repository.DbRepository.BinaryBulkMergeAsync<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+        await repository.DbRepository.BinaryBulkMergeAsync<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 qualifiers: qualifiers,
                 mappings: mappings,

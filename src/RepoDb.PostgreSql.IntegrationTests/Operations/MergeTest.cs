@@ -248,7 +248,7 @@ public class MergeTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Setup
         System.Dynamic.ExpandoObject entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-        ((IDictionary<string, object>)entity)["Id"] = table.Id;
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
         // Act
         object result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
@@ -447,7 +447,7 @@ public class MergeTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Setup
         System.Dynamic.ExpandoObject entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-        ((IDictionary<string, object>)entity)["Id"] = table.Id;
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),

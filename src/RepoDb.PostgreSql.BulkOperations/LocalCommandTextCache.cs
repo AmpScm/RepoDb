@@ -32,7 +32,7 @@ internal static class LocalCommandTextCache
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public static string Get(int key)
+    public static string? Get(int key)
     {
         if (cache.TryGetValue(key, out var value))
         {

@@ -88,7 +88,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -276,7 +276,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -454,7 +454,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -607,7 +607,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -774,7 +774,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -976,7 +976,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -1164,7 +1164,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -1317,7 +1317,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -1484,7 +1484,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -1672,7 +1672,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -1850,7 +1850,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -2003,7 +2003,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -2156,7 +2156,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);
@@ -2309,7 +2309,7 @@ public class ExecuteArrayParameterTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var values = new int?[] { 1, 3, 4, 8 };
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("Values", values);

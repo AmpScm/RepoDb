@@ -1,9 +1,9 @@
-﻿using Npgsql;
+﻿using System.Data;
+using System.Data.Common;
+using Npgsql;
 using RepoDb.Enumerations.PostgreSql;
 using RepoDb.Extensions;
 using RepoDb.PostgreSql.BulkOperations;
-using System.Data;
-using System.Data.Common;
 
 namespace RepoDb;
 
@@ -39,10 +39,10 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
-        var entityType = entities?.First()?.GetType() ?? typeof(TEntity); // Solving the anonymous types
+        var entityType = entities.First().GetType();
         var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
@@ -65,7 +65,7 @@ public static partial class NpgsqlConnectionExtension
 
                 return mappings = mappings?.Any() == true ? mappings :
                     isDictionary ?
-                    GetMappings(entities?.First() as IDictionary<string, object>,
+                    GetMappings((IDictionary<string, object?>)entities.First(),
                         dbFields,
                         includePrimary,
                         includeIdentity,
@@ -93,10 +93,10 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    dbFields.Identity,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -144,7 +144,7 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
@@ -190,10 +190,10 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    dbFields.Identity,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -237,7 +237,7 @@ public static partial class NpgsqlConnectionExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
@@ -281,10 +281,10 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    dbFields.Identity,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -328,8 +328,8 @@ public static partial class NpgsqlConnectionExtension
     private static async Task<int> BinaryBulkMergeBaseAsync<TEntity>(this NpgsqlConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers = null,
-        IEnumerable<NpgsqlBulkInsertMapItem>? mappings = null,
+        IEnumerable<Field>? qualifiers,
+        IEnumerable<NpgsqlBulkInsertMapItem>? mappings,
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportIdentityBehavior identityBehavior = default,
@@ -339,7 +339,7 @@ public static partial class NpgsqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        var entityType = entities?.First()?.GetType() ?? typeof(TEntity); // Solving the anonymous types
+        var entityType = entities.First().GetType();
         var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var dbSetting = connection.GetDbSetting();
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken);
@@ -362,7 +362,7 @@ public static partial class NpgsqlConnectionExtension
 
                 return mappings = mappings?.Any() == true ? mappings :
                     isDictionary ?
-                    GetMappings(entities?.First() as IDictionary<string, object>,
+                    GetMappings((IDictionary<string, object?>)entities.First(),
                         dbFields,
                         includePrimary,
                         includeIdentity,
@@ -391,10 +391,10 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    dbFields.Identity,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -492,10 +492,10 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    dbFields.Identity,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -587,10 +587,10 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.                    Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    dbFields.Identity,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),

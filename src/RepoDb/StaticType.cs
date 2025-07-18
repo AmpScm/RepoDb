@@ -223,7 +223,7 @@ internal static class StaticType
     /// <summary>
     /// Gets a type of the <see cref="IDictionary{TKey, TValue}"/> (with string/object key-value-pair) .NET CLR type.
     /// </summary>
-    public static Type IDictionaryStringObject => typeof(IDictionary<string, object>);
+    public static Type IDictionaryStringObject => typeof(IDictionary<string, object?>);
 
     /// <summary>
     /// Gets a type of the <see cref="short"/> .NET CLR type.

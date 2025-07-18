@@ -1,7 +1,7 @@
-﻿using Npgsql;
+﻿using System.Dynamic;
+using Npgsql;
 using RepoDb.Enumerations.PostgreSql;
 using RepoDb.PostgreSql.BulkOperations;
-using System.Dynamic;
 
 namespace RepoDb;
 
@@ -37,7 +37,7 @@ public static partial class BaseRepositoryExtension
         int batchSize = 0,
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         repository.DbRepository.BinaryBulkInsert<TEntity>(tableName: ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
@@ -73,9 +73,9 @@ public static partial class BaseRepositoryExtension
         int batchSize = 0,
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
-        repository.DbRepository.BinaryBulkInsert<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+        repository.DbRepository.BinaryBulkInsert<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 mappings: mappings,
                 bulkCopyTimeout: bulkCopyTimeout,
@@ -158,7 +158,7 @@ public static partial class BaseRepositoryExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
         where TEntity : class =>
-        await repository.DbRepository.BinaryBulkInsertAsync<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+        await repository.DbRepository.BinaryBulkInsertAsync<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 mappings: mappings,
                 bulkCopyTimeout: bulkCopyTimeout,

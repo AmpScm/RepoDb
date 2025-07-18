@@ -44,7 +44,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(tables.Count, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -76,7 +76,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(2, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -108,7 +108,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(3, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -140,7 +140,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(2, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -172,7 +172,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(tables.Count, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -205,7 +205,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(1, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -235,7 +235,7 @@ public class ExecuteQueryTest
             commandType: CommandType.StoredProcedure).FirstOrDefault();
 
         // Assert
-        var kvp = result as IDictionary<string, object>;
+        var kvp = result as IDictionary<string, object?>;
         Assert.IsNotNull(result);
         Assert.AreEqual(20000, kvp.First().Value);
     }
@@ -263,7 +263,7 @@ public class ExecuteQueryTest
             commandType: CommandType.StoredProcedure).FirstOrDefault();
 
         // Assert
-        var kvp = result as IDictionary<string, object>;
+        var kvp = result as IDictionary<string, object?>;
         Assert.IsNotNull(result);
         Assert.AreEqual(20000, kvp.First().Value);
 
@@ -308,7 +308,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(tables.Count, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -340,7 +340,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(2, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -372,7 +372,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(3, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -404,7 +404,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(2, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -436,7 +436,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(tables.Count, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -469,7 +469,7 @@ public class ExecuteQueryTest
         Assert.AreEqual(1, result.Count());
         result.AsList().ForEach(kvpItem =>
         {
-            var kvp = kvpItem as IDictionary<string, object>;
+            var kvp = kvpItem as IDictionary<string, object?>;
             var item = tables.First(t => t.Id == Convert.ToInt32(kvp[nameof(IdentityTable.Id)]));
 
             // Assert
@@ -499,7 +499,7 @@ public class ExecuteQueryTest
             commandType: CommandType.StoredProcedure)).FirstOrDefault();
 
         // Assert
-        var kvp = result as IDictionary<string, object>;
+        var kvp = result as IDictionary<string, object?>;
         Assert.IsNotNull(result);
         Assert.AreEqual(20000, kvp.First().Value);
     }
@@ -527,7 +527,7 @@ public class ExecuteQueryTest
             commandType: CommandType.StoredProcedure)).FirstOrDefault();
 
         // Assert
-        var kvp = result as IDictionary<string, object>;
+        var kvp = result as IDictionary<string, object?>;
         Assert.IsNotNull(result);
         Assert.AreEqual(20000, kvp.First().Value);
 
@@ -747,7 +747,7 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Add the parameters
         param.Add("ColumnFloat", last.ColumnFloat);
@@ -1056,7 +1056,7 @@ public class ExecuteQueryTest
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Add the parameters
         param.Add("ColumnFloat", last.ColumnFloat);

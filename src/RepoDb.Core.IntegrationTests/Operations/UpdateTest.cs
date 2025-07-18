@@ -1254,7 +1254,7 @@ public class UpdateTest
         connection.Insert(table);
 
         // Setup
-        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         data["Id"] = table.Id;
 
         // Act
@@ -1282,7 +1282,7 @@ public class UpdateTest
         connection.Insert(table);
 
         // Setup
-        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         data["Id"] = table.Id;
 
         // Act
@@ -1752,7 +1752,7 @@ public class UpdateTest
         connection.Insert(table);
 
         // Setup
-        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         data["Id"] = table.Id;
 
         // Act
@@ -1780,7 +1780,7 @@ public class UpdateTest
         connection.Insert(table);
 
         // Setup
-        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var data = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         data["Id"] = table.Id;
 
         // Act

@@ -275,7 +275,7 @@ public static partial class DbConnectionExtension
                 }
                 else
                 {
-                    var dictionary = (IDictionary<string, object>)entity;
+                    var dictionary = (IDictionary<string, object?>)entity;
                     if (resultField != null && dictionary.TryGetValue(resultField.FieldName, out var value))
                     {
                         result = Converter.ToType<TResult>(value)!;

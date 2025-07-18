@@ -106,7 +106,7 @@ public static class Helper
 
     #endregion
 
-    #region IDictionary<string, object>
+    #region IDictionary<string, object?>
 
     /// <summary>
     /// 
@@ -130,7 +130,7 @@ public static class Helper
         for (var i = 0; i < items1.Count(); i++)
         {
             var item1 = items1.ElementAt(i);
-            var item2 = items2.FirstOrDefault(item => selector((IDictionary<string, object>)item1, item));
+            var item2 = items2.FirstOrDefault(item => selector((IDictionary<string, object?>)item1, item));
             Assert.IsNotNull(item2, $"Item '{i}' from the 1st list has no equivalent item from the 2nd list.");
 
             AssertExpandoObjectEquality(item1, item2);
@@ -149,8 +149,8 @@ public static class Helper
     public static void AssertExpandoObjectEquality(dynamic item1,
         dynamic item2)
     {
-        var obj1Dictionary = item1 as IDictionary<string, object>;
-        var obj2Dictionary = item2 as IDictionary<string, object>;
+        var obj1Dictionary = item1 as IDictionary<string, object?>;
+        var obj2Dictionary = item2 as IDictionary<string, object?>;
 
         AssertDictionaryEquality(obj1Dictionary, obj2Dictionary);
     }
@@ -164,7 +164,7 @@ public static class Helper
     /// <returns></returns>
     public static int AssertDictionariesEquality(IEnumerable<IDictionary<string, object?>> items1,
         IEnumerable<IDictionary<string, object?>> items2,
-        Func<IDictionary<string, object>, IDictionary<string, object>, bool> selector)
+        Func<IDictionary<string, object?>, IDictionary<string, object?>, bool> selector)
     {
         Assert.AreEqual(items1.Count(), items2.Count(), "Count is not equal.");
 
@@ -189,8 +189,8 @@ public static class Helper
     /// </summary>
     /// <param name="obj1"></param>
     /// <param name="obj2"></param>
-    public static void AssertDictionaryEquality(IDictionary<string, object> dict1,
-        IDictionary<string, object> dict2)
+    public static void AssertDictionaryEquality(IDictionary<string, object?> dict1,
+        IDictionary<string, object?> dict2)
     {
         foreach (var kvp1 in dict1)
         {
@@ -644,7 +644,7 @@ public static class Helper
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object>;
+            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
             var index = i + 1;
             expandoObject["Id"] = (long)(hasId ? index + addToKey : 0);
             expandoObject["ColumnBigInt"] = (long)index;
@@ -668,7 +668,7 @@ public static class Helper
     {
         foreach (ExpandoObject item in data)
         {
-            var dictionary = item as IDictionary<string, object>;
+            var dictionary = item as IDictionary<string, object?>;
             /*dictionary["ColumnBigInt"] = (long)dictionary["ColumnBigInt"];
             dictionary["ColumnInteger"] = (int)dictionary["ColumnInteger"];*/
             dictionary["ColumnBoolean"] = false;
@@ -698,7 +698,7 @@ public static class Helper
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object>;
+            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
             var index = i + 1;
             expandoObject["IdMapped"] = (long)(hasId ? index + addToKey : 0);
             expandoObject["ColumnBigIntMapped"] = (long)index;
@@ -722,7 +722,7 @@ public static class Helper
     {
         foreach (ExpandoObject item in data)
         {
-            var dictionary = item as IDictionary<string, object>;
+            var dictionary = item as IDictionary<string, object?>;
             /*dictionary["ColumnBigIntMapped"] = (long)dictionary["ColumnBigIntMapped"]);
             dictionary["ColumnIntegerMapped"] = (int)dictionary["ColumnIntegerMapped"]);*/
             dictionary["ColumnBooleanMapped"] = false;
@@ -752,7 +752,7 @@ public static class Helper
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object>;
+            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
             var index = i + 1;
             expandoObject["Id"] = (long)(hasId ? index + addToKey : 0);
             expandoObject["ColumnEnumHand"] = Hands.Right;

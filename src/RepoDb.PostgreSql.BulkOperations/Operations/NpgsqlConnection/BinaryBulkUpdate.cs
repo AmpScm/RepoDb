@@ -1,9 +1,9 @@
-﻿using Npgsql;
-using RepoDb.Enumerations.PostgreSql;
-using RepoDb.PostgreSql.BulkOperations;
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Dynamic;
+using Npgsql;
+using RepoDb.Enumerations.PostgreSql;
+using RepoDb.PostgreSql.BulkOperations;
 
 namespace RepoDb;
 
@@ -41,7 +41,7 @@ public static partial class NpgsqlConnectionExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         BinaryBulkUpdate<TEntity>(connection: connection,
             tableName: ClassMappedNameCache.Get<TEntity>(),
@@ -81,10 +81,10 @@ public static partial class NpgsqlConnectionExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         BinaryBulkUpdateBase<TEntity>(connection: connection,
-            tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
             entities: entities,
             qualifiers: qualifiers,
             mappings: mappings,
@@ -122,9 +122,9 @@ public static partial class NpgsqlConnectionExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryBulkUpdate(connection: connection,
-            tableName: table?.TableName,
+            tableName: table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,
@@ -161,9 +161,9 @@ public static partial class NpgsqlConnectionExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryBulkUpdateBase(connection: connection,
-            tableName: (tableName ?? table?.TableName),
+            tableName: tableName ?? table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,
@@ -200,7 +200,7 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryBulkUpdateBase(connection: connection,
             tableName: tableName,
             reader: reader,
@@ -292,7 +292,7 @@ public static partial class NpgsqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class =>
         await BinaryBulkUpdateBaseAsync<TEntity>(connection: connection,
-            tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
             entities: entities,
             qualifiers: qualifiers,
             mappings: mappings,
@@ -335,7 +335,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default) =>
         BinaryBulkUpdateAsync(connection: connection,
-            tableName: table?.TableName,
+            tableName: table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,
@@ -377,7 +377,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default) =>
         await BinaryBulkUpdateBaseAsync(connection: connection,
-            tableName: (tableName ?? table?.TableName),
+            tableName: tableName ?? table.TableName,
             table: table,
             rowState: rowState,
             qualifiers: qualifiers,

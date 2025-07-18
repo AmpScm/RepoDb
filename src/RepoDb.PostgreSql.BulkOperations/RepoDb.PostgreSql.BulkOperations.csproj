@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Title>RepoDb.PostgreSql.BulkOperations</Title>
     <TargetFrameworks>net9.0;net8.0;netstandard2.0</TargetFrameworks>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>An extension library that contains the official Bulk Operations of RepoDb for PostgreSQL.</Description>
     <PackageTags>orm hybrid-orm micro-orm postgresql bulkoperations</PackageTags>
@@ -11,6 +11,7 @@
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\RepoDb\Compat.cs" />
     <None Include="README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>

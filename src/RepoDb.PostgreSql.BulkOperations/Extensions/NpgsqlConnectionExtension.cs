@@ -31,7 +31,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         int? bulkCopyTimeout,
         BulkImportIdentityBehavior identityBehavior,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         var copyCommand = GetBinaryImportCopyCommand(tableName,
             mappings,
@@ -199,7 +199,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="data"></param>
     /// <param name="npgsqlDbType"></param>
     private static void BinaryImportWrite(NpgsqlBinaryImporter importer,
-        object data,
+        object? data,
         NpgsqlDbType? npgsqlDbType)
     {
         if (data == null)
@@ -268,7 +268,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         int? bulkCopyTimeout,
         BulkImportIdentityBehavior identityBehavior,
-        IDbSetting dbSetting,
+        IDbSetting? dbSetting,
         CancellationToken cancellationToken = default)
     {
         var copyCommand = GetBinaryImportCopyCommand(tableName,
@@ -462,7 +462,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     private static async Task BinaryImportWriteAsync(NpgsqlBinaryImporter importer,
-        object data,
+        object? data,
         NpgsqlDbType? npgsqlDbType,
         CancellationToken cancellationToken = default)
     {
@@ -517,7 +517,7 @@ public static partial class NpgsqlConnectionExtension
     private static string GetBinaryImportCopyCommand(string tableName,
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         BulkImportIdentityBehavior identityBehavior,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         if (identityBehavior == BulkImportIdentityBehavior.ReturnIdentity &&
             mappings.FirstOrDefault(mapping =>
@@ -538,8 +538,8 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="dbSetting"></param>
     /// <returns></returns>
     private static string GetTextColumns(IEnumerable<NpgsqlBulkInsertMapItem> mappings,
-        IDbSetting dbSetting) =>
-        mappings?.Select(mapping => mapping.DestinationColumn.AsQuoted(true, dbSetting)).Join(", ");
+        IDbSetting? dbSetting) =>
+        mappings.Select(mapping => mapping.DestinationColumn.AsQuoted(true, dbSetting)).Join(", ");
 
     /// <summary>
     /// 
@@ -548,11 +548,11 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="columnName"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    private static object GetDataRowColumnData(DataRow row,
+    private static object? GetDataRowColumnData(DataRow row,
         string columnName,
         NpgsqlDbType? type)
     {
-        var columnType = row.Table.Columns[columnName].DataType;
+        var columnType = row.Table.Columns[columnName]!.DataType;
         var data = row[columnName];
         if (columnType.IsEnum)
         {

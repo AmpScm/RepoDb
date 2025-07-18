@@ -119,7 +119,7 @@ public class UpdateAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Setup
         var tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-        tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+        tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
         // Act
         var result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(),
@@ -173,7 +173,7 @@ public class UpdateAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Setup
         var tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-        tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+        tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
         // Act
         var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(),

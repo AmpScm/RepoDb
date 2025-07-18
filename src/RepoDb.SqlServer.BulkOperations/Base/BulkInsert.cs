@@ -61,7 +61,7 @@ public static partial class SqlConnectionExtension
             var identityDbField = dbFields.Identity;
             var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
-                GetDictionaryStringObjectFields((IDictionary<string, object>)entities.First()) :
+                GetDictionaryStringObjectFields((IDictionary<string, object?>)entities.First()) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
 
@@ -473,7 +473,7 @@ public static partial class SqlConnectionExtension
             var identityDbField = dbFields.Identity;
             var entityType = firstEntity.GetType();
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
-                GetDictionaryStringObjectFields((IDictionary<string, object>)firstEntity) :
+                GetDictionaryStringObjectFields((IDictionary<string, object?>)firstEntity) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
 

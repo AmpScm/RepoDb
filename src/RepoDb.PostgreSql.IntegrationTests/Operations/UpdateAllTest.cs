@@ -119,7 +119,7 @@ public class UpdateAllTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-        tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+        tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
         // Act
         int result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(),
@@ -173,7 +173,7 @@ public class UpdateAllTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-        tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+        tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
         // Act
         int result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(),

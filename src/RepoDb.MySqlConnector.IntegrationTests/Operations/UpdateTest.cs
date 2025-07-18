@@ -369,7 +369,7 @@ public class UpdateTest
         {
             // Setup
             var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-            ((IDictionary<string, object>)entity)["Id"] = table.Id;
+            ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
             // Act
             var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
@@ -545,7 +545,7 @@ public class UpdateTest
         {
             // Setup
             var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-            ((IDictionary<string, object>)entity)["Id"] = table.Id;
+            ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
             // Act
             var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(),

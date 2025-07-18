@@ -157,7 +157,7 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, object expandoObj)
     {
-        var dictionary = new ExpandoObject() as IDictionary<string, object>;
+        var dictionary = new ExpandoObject() as IDictionary<string, object?>;
         foreach (var property in expandoObj.GetType().GetProperties())
         {
             dictionary.Add(property.Name, property.GetValue(expandoObj));
@@ -173,7 +173,7 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, ExpandoObject expandoObj)
     {
-        var dictionary = expandoObj as IDictionary<string, object>;
+        var dictionary = expandoObj as IDictionary<string, object?>;
         AssertMembersEquality(obj, dictionary);
     }
 
@@ -183,7 +183,7 @@ public static class Helper
     /// <typeparam name="T">The type of first object.</typeparam>
     /// <param name="obj">The instance of first object.</param>
     /// <param name="dictionary">The instance of second object.</param>
-    public static void AssertMembersEquality(object obj, IDictionary<string, object> dictionary)
+    public static void AssertMembersEquality(object obj, IDictionary<string, object?> dictionary)
     {
         var properties = obj.GetType().GetProperties();
         properties.AsList().ForEach(property =>
@@ -1391,7 +1391,7 @@ public static class Helper
     /// <returns>An instance of <see cref="ExpandoObject"/> for [sc].[IdentityTable] table.</returns>
     public static ExpandoObject CreateExpandoObjectIdentityTable()
     {
-        var table = new ExpandoObject() as IDictionary<string, object>;
+        var table = new ExpandoObject() as IDictionary<string, object?>;
         table.Add("RowGuid", Guid.NewGuid());
         table.Add("ColumnBit", true);
         table.Add("ColumnDateTime", EpocDate.AddDays(1));
@@ -1414,7 +1414,7 @@ public static class Helper
         for (var i = 0; i < count; i++)
         {
             var index = i + 1;
-            var table = new ExpandoObject() as IDictionary<string, object>;
+            var table = new ExpandoObject() as IDictionary<string, object?>;
             table.Add("RowGuid", Guid.NewGuid());
             table.Add("ColumnBit", true);
             table.Add("ColumnDateTime", EpocDate.AddDays(1));
@@ -1439,7 +1439,7 @@ public static class Helper
     /// <returns>An instance of <see cref="ExpandoObject"/> for [dbo].[NonIdentityTable] table.</returns>
     public static ExpandoObject CreateExpandoObjectNonIdentityTable()
     {
-        var table = new ExpandoObject() as IDictionary<string, object>;
+        var table = new ExpandoObject() as IDictionary<string, object?>;
         table.Add("Id", Guid.NewGuid());
         table.Add("RowGuid", Guid.NewGuid());
         table.Add("ColumnBit", true);
@@ -1463,7 +1463,7 @@ public static class Helper
         for (var i = 0; i < count; i++)
         {
             var index = i + 1;
-            var table = new ExpandoObject() as IDictionary<string, object>;
+            var table = new ExpandoObject() as IDictionary<string, object?>;
             table.Add("Id", Guid.NewGuid());
             table.Add("RowGuid", Guid.NewGuid());
             table.Add("ColumnBit", true);

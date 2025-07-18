@@ -1,4 +1,5 @@
-﻿using RepoDb.Enumerations;
+﻿using System.Diagnostics.CodeAnalysis;
+using RepoDb.Enumerations;
 using RepoDb.Enumerations.PostgreSql;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -26,7 +27,7 @@ public static partial class NpgsqlConnectionExtension
     private static string GetInsertCommandText(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        Field identityField,
+        Field? identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
@@ -41,13 +42,13 @@ public static partial class NpgsqlConnectionExtension
         var commandText = LocalCommandTextCache.Get(key);
         if (!string.IsNullOrEmpty(commandText))
         {
-            return commandText;
+            return commandText!;
         }
 
         // Eliminate the identity
         if (identityBehavior != BulkImportIdentityBehavior.KeepIdentity)
         {
-            fields = fields?
+            fields = fields
                 .Where(field =>
                     !string.Equals(field.FieldName, identityField?.FieldName, System.StringComparison.OrdinalIgnoreCase));
         }
@@ -123,8 +124,8 @@ public static partial class NpgsqlConnectionExtension
     private static string GetMergeCommandText(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        Field primaryField,
+        IEnumerable<Field>? qualifiers,
+        Field? primaryField,
         Field identityField,
         BulkImportIdentityBehavior identityBehavior,
         BulkImportMergeCommandType mergeCommandType,
@@ -146,7 +147,7 @@ public static partial class NpgsqlConnectionExtension
         var commandText = LocalCommandTextCache.Get(key);
         if (!string.IsNullOrEmpty(commandText))
         {
-            return commandText;
+            return commandText!;
         }
 
         // Compose
@@ -200,9 +201,9 @@ public static partial class NpgsqlConnectionExtension
     private static string GetMergeCommandTextViaOnConflictDoUpdate(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        Field primaryField,
-        Field identityField,
+        IEnumerable<Field>? qualifiers,
+        Field? primaryField,
+        Field? identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
@@ -307,8 +308,8 @@ public static partial class NpgsqlConnectionExtension
     private static string GetMergeCommandTextViaInsertAndUpdate(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        Field primaryField,
+        IEnumerable<Field>? qualifiers,
+        Field? primaryField,
         Field identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting) =>
@@ -345,8 +346,8 @@ public static partial class NpgsqlConnectionExtension
     private static string GetMergeCommandTextViaInsertAndUpdateForNormal(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        Field primaryField,
+        IEnumerable<Field>? qualifiers,
+        Field? primaryField,
         Field identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
@@ -416,8 +417,8 @@ public static partial class NpgsqlConnectionExtension
     private static string GetMergeCommandTextViaInsertAndUpdateForReturnIdentity(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        Field primaryField,
+        IEnumerable<Field>? qualifiers,
+        Field? primaryField,
         Field identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
@@ -613,7 +614,7 @@ ORDER BY ""Index"";";
     {
         if (identityBehavior != BulkImportIdentityBehavior.KeepIdentity)
         {
-            fields = fields?
+            fields = fields
                 .Where(field =>
                     !string.Equals(field.FieldName, identityField?.FieldName, System.StringComparison.OrdinalIgnoreCase));
         }
@@ -914,9 +915,9 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     private static string GetUpdateCommandText(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        Field primaryField,
-        Field identityField,
+        IEnumerable<Field>? qualifiers,
+        Field? primaryField,
+        Field? identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
@@ -933,7 +934,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         var commandText = LocalCommandTextCache.Get(key);
         if (!string.IsNullOrEmpty(commandText))
         {
-            return commandText;
+            return commandText!;
         }
 
         // Qualifiers
@@ -1007,9 +1008,9 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     private static string GetDeleteCommandText(string sourceTableName,
         string destinationTableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        Field primaryField,
-        Field identityField,
+        IEnumerable<Field>? qualifiers,
+        Field? primaryField,
+        Field? identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
@@ -1026,7 +1027,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         var commandText = LocalCommandTextCache.Get(key);
         if (!string.IsNullOrEmpty(commandText))
         {
-            return commandText;
+            return commandText!;
         }
 
         // Qualifiers
@@ -1089,7 +1090,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// <returns></returns>
     private static string GetDeleteByKeyCommandText(string sourceTableName,
         string destinationTableName,
-        Field primaryField,
+        Field? primaryField,
         IDbSetting dbSetting)
     {
         var key = HashCode.Combine("BinaryBulkDeleteByKey",
@@ -1222,7 +1223,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// </summary>
     /// <param name="qualifiers"></param>
     /// <param name="tableName"></param>
-    private static void ThrowIfNoQualifiers(IEnumerable<Field> qualifiers,
+    private static void ThrowIfNoQualifiers([NotNull] IEnumerable<Field>? qualifiers,
         string tableName)
     {
         if (qualifiers?.Any() != true)
@@ -1260,10 +1261,10 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     private static IEnumerable<Field> GetMissingQualifiers(IEnumerable<Field> fields,
         IEnumerable<Field> qualifiers,
         IDbSetting dbSetting) =>
-        qualifiers?
+        qualifiers
             .Where(qualifier =>
                 fields?.FirstOrDefault(field => field == qualifier ||
-                    string.Equals(field.FieldName.AsQuoted(true, dbSetting), qualifier.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) == null);
+                    string.Equals(field.FieldName, qualifier.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
 
     /// <summary>
     /// 
@@ -1272,8 +1273,8 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// <param name="primaryField"></param>
     /// 
     /// <returns></returns>
-    private static IEnumerable<Field> EnsurePrimaryAsQualifier(IEnumerable<Field> qualifiers,
-        Field primaryField)
+    private static IEnumerable<Field>? EnsurePrimaryAsQualifier(IEnumerable<Field>? qualifiers,
+        Field? primaryField)
     {
         if (qualifiers?.Any() != true && primaryField != null)
         {
@@ -1295,10 +1296,10 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         Field identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting) =>
-        fields?
+        fields
             .Where(field =>
             {
-                var isIdentity = string.Equals(identityField?.FieldName.AsQuoted(true, dbSetting), field.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase);
+                var isIdentity = string.Equals(identityField?.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase);
                 return (isIdentity == false) ||
                     (isIdentity && identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
             });
@@ -1313,14 +1314,14 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// <returns></returns>
     private static IEnumerable<Field> GetUpdatableFields(IEnumerable<Field> fields,
         IEnumerable<Field> qualfiers,
-        Field primaryField,
+        Field? primaryField,
         IDbSetting dbSetting) =>
-        fields?
+        fields
             .Where(field =>
-                !string.Equals(primaryField?.FieldName.AsQuoted(true, dbSetting), field.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase))
+                !string.Equals(primaryField?.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase))
             .Where(field =>
                 qualfiers?.FirstOrDefault(qualifier => qualifier == field ||
-                    string.Equals(qualifier.FieldName.AsQuoted(true, dbSetting), field.FieldName.AsQuoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) == null);
+                    string.Equals(qualifier.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
 
     #endregion
 }

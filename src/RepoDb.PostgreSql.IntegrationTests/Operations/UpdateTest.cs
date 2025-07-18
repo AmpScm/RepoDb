@@ -344,7 +344,7 @@ public class UpdateTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Setup
         System.Dynamic.ExpandoObject entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-        ((IDictionary<string, object>)entity)["Id"] = table.Id;
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
         // Act
         int result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
@@ -508,7 +508,7 @@ public class UpdateTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Setup
         System.Dynamic.ExpandoObject entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-        ((IDictionary<string, object>)entity)["Id"] = table.Id;
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
         // Act
         int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(),

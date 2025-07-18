@@ -72,7 +72,7 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, object expandoObj)
     {
-        var dictionary = new ExpandoObject() as IDictionary<string, object>;
+        var dictionary = new ExpandoObject() as IDictionary<string, object?>;
         foreach (var property in expandoObj.GetType().GetProperties())
         {
             dictionary.Add(property.Name, property.GetValue(expandoObj));
@@ -88,7 +88,7 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, ExpandoObject expandoObj)
     {
-        var dictionary = expandoObj as IDictionary<string, object>;
+        var dictionary = expandoObj as IDictionary<string, object?>;
         AssertMembersEquality(obj, dictionary);
     }
 
@@ -98,7 +98,7 @@ public static class Helper
     /// <typeparam name="T">The type of first object.</typeparam>
     /// <param name="obj">The instance of first object.</param>
     /// <param name="dictionary">The instance of second object.</param>
-    public static void AssertMembersEquality(object obj, IDictionary<string, object> dictionary)
+    public static void AssertMembersEquality(object obj, IDictionary<string, object?> dictionary)
     {
         var properties = obj.GetType().GetProperties();
         properties.AsList().ForEach(property =>
@@ -350,7 +350,7 @@ public static class Helper
                 DateTimeKind.Unspecified);
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object>;
+            var item = new ExpandoObject() as IDictionary<string, object?>;
             item["Id"] = (i + 1);
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBinary"] = (byte[])null;
@@ -400,7 +400,7 @@ public static class Helper
         var now = DateTime.SpecifyKind(
             DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
                 DateTimeKind.Unspecified);
-        var item = table as IDictionary<string, object>;
+        var item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBinary"] = (byte[])null;
         item["ColumnBit"] = true;
@@ -654,7 +654,7 @@ public static class Helper
                 DateTimeKind.Unspecified);
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object>;
+            var item = new ExpandoObject() as IDictionary<string, object?>;
             item["Id"] = (i + 1);
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBinary"] = (byte[])null;
@@ -704,7 +704,7 @@ public static class Helper
         var now = DateTime.SpecifyKind(
             DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
                 DateTimeKind.Unspecified);
-        var item = table as IDictionary<string, object>;
+        var item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBinary"] = (byte[])null;
         item["ColumnBit"] = true;

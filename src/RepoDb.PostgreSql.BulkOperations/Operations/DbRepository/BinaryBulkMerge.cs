@@ -1,10 +1,10 @@
-﻿using Npgsql;
+﻿using System.Data;
+using System.Data.Common;
+using System.Dynamic;
+using Npgsql;
 using RepoDb.Enumerations;
 using RepoDb.Enumerations.PostgreSql;
 using RepoDb.PostgreSql.BulkOperations;
-using System.Data;
-using System.Data.Common;
-using System.Dynamic;
 
 namespace RepoDb;
 
@@ -46,11 +46,11 @@ public static partial class DbRepositoryExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
@@ -110,16 +110,16 @@ public static partial class DbRepositoryExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return connection.BinaryBulkMerge<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            return connection.BinaryBulkMerge<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 qualifiers: qualifiers,
                 mappings: mappings,
@@ -175,15 +175,15 @@ public static partial class DbRepositoryExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return connection.BinaryBulkMerge(tableName: table?.TableName,
+            return connection.BinaryBulkMerge(tableName: table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -238,15 +238,15 @@ public static partial class DbRepositoryExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return connection.BinaryBulkMerge(tableName: (tableName ?? table?.TableName),
+            return connection.BinaryBulkMerge(tableName: tableName ?? table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -301,10 +301,10 @@ public static partial class DbRepositoryExtension
         BulkImportIdentityBehavior identityBehavior = default,
         BulkImportMergeCommandType mergeCommandType = default,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
@@ -375,7 +375,7 @@ public static partial class DbRepositoryExtension
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
@@ -442,12 +442,12 @@ public static partial class DbRepositoryExtension
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return await connection.BinaryBulkMergeAsync<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            return await connection.BinaryBulkMergeAsync<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 qualifiers: qualifiers,
                 mappings: mappings,
@@ -509,12 +509,12 @@ public static partial class DbRepositoryExtension
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return await connection.BinaryBulkMergeAsync(tableName: table?.TableName,
+            return await connection.BinaryBulkMergeAsync(tableName: table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -575,12 +575,12 @@ public static partial class DbRepositoryExtension
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return await connection.BinaryBulkMergeAsync(tableName: (tableName ?? table?.TableName),
+            return await connection.BinaryBulkMergeAsync(tableName: tableName ?? table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -641,7 +641,7 @@ public static partial class DbRepositoryExtension
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {

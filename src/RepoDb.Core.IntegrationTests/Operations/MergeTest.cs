@@ -1777,7 +1777,7 @@ public class MergeTest
             entity);
 
         // Setup
-        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         table["Id"] = entity.Id;
 
         // Act
@@ -1807,7 +1807,7 @@ public class MergeTest
             entity);
 
         // Setup
-        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         table["Id"] = entity.Id;
 
         // Act
@@ -2284,7 +2284,7 @@ public class MergeTest
             entity);
 
         // Setup
-        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         table["Id"] = entity.Id;
 
         // Act
@@ -2314,7 +2314,7 @@ public class MergeTest
             entity);
 
         // Setup
-        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object>;
+        var table = Helper.CreateExpandoObjectNonIdentityTable() as IDictionary<string, object?>;
         table["Id"] = entity.Id;
 
         // Act

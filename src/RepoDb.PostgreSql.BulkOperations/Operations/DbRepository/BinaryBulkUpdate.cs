@@ -1,10 +1,10 @@
-﻿using Npgsql;
+﻿using System.Data;
+using System.Data.Common;
+using System.Dynamic;
+using Npgsql;
 using RepoDb.Enumerations;
 using RepoDb.Enumerations.PostgreSql;
 using RepoDb.PostgreSql.BulkOperations;
-using System.Data;
-using System.Data.Common;
-using System.Dynamic;
 
 namespace RepoDb;
 
@@ -42,11 +42,11 @@ public static partial class DbRepositoryExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
@@ -101,16 +101,16 @@ public static partial class DbRepositoryExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return connection.BinaryBulkUpdate<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            return connection.BinaryBulkUpdate<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 qualifiers: qualifiers,
                 mappings: mappings,
@@ -161,15 +161,15 @@ public static partial class DbRepositoryExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return connection.BinaryBulkUpdate(tableName: table?.TableName,
+            return connection.BinaryBulkUpdate(tableName: table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -219,15 +219,15 @@ public static partial class DbRepositoryExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return connection.BinaryBulkUpdate(tableName: (tableName ?? table?.TableName),
+            return connection.BinaryBulkUpdate(tableName: tableName ?? table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -277,10 +277,10 @@ public static partial class DbRepositoryExtension
         int bulkCopyTimeout = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
@@ -346,7 +346,7 @@ public static partial class DbRepositoryExtension
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
@@ -408,12 +408,12 @@ public static partial class DbRepositoryExtension
         where TEntity : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return await connection.BinaryBulkUpdateAsync<TEntity>(tableName: (tableName ?? ClassMappedNameCache.Get<TEntity>()),
+            return await connection.BinaryBulkUpdateAsync<TEntity>(tableName: tableName ?? ClassMappedNameCache.Get<TEntity>(),
                 entities: entities,
                 qualifiers: qualifiers,
                 mappings: mappings,
@@ -470,12 +470,12 @@ public static partial class DbRepositoryExtension
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return await connection.BinaryBulkUpdateAsync(tableName: table?.TableName,
+            return await connection.BinaryBulkUpdateAsync(tableName: table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -531,12 +531,12 @@ public static partial class DbRepositoryExtension
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {
             // Call the method
-            return await connection.BinaryBulkUpdateAsync(tableName: (tableName ?? table?.TableName),
+            return await connection.BinaryBulkUpdateAsync(tableName: tableName ?? table.TableName,
                 table: table,
                 rowState: rowState,
                 qualifiers: qualifiers,
@@ -592,7 +592,7 @@ public static partial class DbRepositoryExtension
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? repository.CreateConnection());
+        var connection = transaction?.Connection ?? repository.CreateConnection();
 
         try
         {

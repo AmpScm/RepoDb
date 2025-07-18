@@ -41,13 +41,13 @@ public static partial class NpgsqlConnectionExtension
         Func<IEnumerable<NpgsqlBulkInsertMapItem>> getMappings,
         Func<string, int> binaryImport,
         Func<string> getMergeToPseudoCommandText,
-        Action<IEnumerable<IdentityResult>> setIdentities,
-        IEnumerable<Field> qualifiers,
+        Action<IEnumerable<IdentityResult>>? setIdentities,
+        IEnumerable<Field>? qualifiers,
         bool isBinaryBulkInsert,
         BulkImportIdentityBehavior identityBehavior,
         BulkImportPseudoTableType pseudoTableType,
         IDbSetting dbSetting,
-        NpgsqlTransaction transaction)
+        NpgsqlTransaction? transaction)
     {
         string? pseudoTableName = null;
         var withPseudoTable = identityBehavior == BulkImportIdentityBehavior.ReturnIdentity ||
@@ -56,12 +56,12 @@ public static partial class NpgsqlConnectionExtension
         try
         {
             // Mappings
-            var mappings = getMappings?.Invoke();
+            var mappings = getMappings();
 
             // Create (TEMP)
             if (withPseudoTable)
             {
-                pseudoTableName = getPseudoTableName?.Invoke();
+                pseudoTableName = getPseudoTableName();
 
                 DropPseudoTable(connection,
                     pseudoTableName,
@@ -80,16 +80,15 @@ public static partial class NpgsqlConnectionExtension
             }
 
             // Import
-            var result = binaryImport?.Invoke(pseudoTableName ?? tableName);
+            var result = binaryImport(pseudoTableName ?? tableName);
 
             // Create Index
             if (isBinaryBulkInsert == false && withPseudoTable)
             {
-                qualifiers = qualifiers?.Any() == true ? qualifiers :
-                    dbFields?.PrimaryFields?.OneOrDefault().AsField().AsEnumerable();
+                qualifiers = qualifiers?.Any() == true ? qualifiers :dbFields?.PrimaryFields;
 
                 CreatePseudoTableIndex(connection,
-                    pseudoTableName,
+                    pseudoTableName!,
                     qualifiers,
                     bulkCopyTimeout,
                     dbSetting,
@@ -102,7 +101,7 @@ public static partial class NpgsqlConnectionExtension
                 var identityResults = MergeToPseudoTableWithIdentityResults(connection,
                     getMergeToPseudoCommandText,
                     bulkCopyTimeout,
-                    transaction)?.AsList();
+                    transaction).AsList();
 
                 if (identityBehavior == BulkImportIdentityBehavior.ReturnIdentity)
                 {
@@ -113,14 +112,14 @@ public static partial class NpgsqlConnectionExtension
             }
 
             // Return
-            return result.GetValueOrDefault();
+            return result;
         }
         finally
         {
             if (withPseudoTable)
             {
                 DropPseudoTable(connection,
-                    pseudoTableName,
+                    pseudoTableName!,
                     bulkCopyTimeout,
                     transaction);
             }
@@ -155,13 +154,13 @@ public static partial class NpgsqlConnectionExtension
         Func<IEnumerable<NpgsqlBulkInsertMapItem>> getMappings,
         Func<string, Task<int>> binaryImportAsync,
         Func<string> getMergeToPseudoCommandText,
-        Action<IEnumerable<IdentityResult>> setIdentities,
-        IEnumerable<Field> qualifiers,
+        Action<IEnumerable<IdentityResult>>? setIdentities,
+        IEnumerable<Field>? qualifiers,
         bool isBinaryBulkInsert,
         BulkImportIdentityBehavior identityBehavior,
         BulkImportPseudoTableType pseudoTableType,
         IDbSetting dbSetting,
-        NpgsqlTransaction transaction,
+        NpgsqlTransaction? transaction,
         CancellationToken cancellationToken = default)
     {
         string? pseudoTableName = null;
@@ -171,12 +170,12 @@ public static partial class NpgsqlConnectionExtension
         try
         {
             // Mappings
-            var mappings = getMappings?.Invoke();
+            var mappings = getMappings();
 
             // Create (TEMP)
             if (withPseudoTable)
             {
-                pseudoTableName = getPseudoTableName?.Invoke();
+                pseudoTableName = getPseudoTableName();
 
                 await DropPseudoTableAsync(connection,
                     pseudoTableName,
@@ -197,16 +196,19 @@ public static partial class NpgsqlConnectionExtension
             }
 
             // Import
-            var result = await binaryImportAsync?.Invoke(pseudoTableName ?? tableName);
+            if (binaryImportAsync is not { })
+                throw new InvalidOperationException();
+
+            var result = await binaryImportAsync(pseudoTableName ?? tableName);
 
             // Create Index
             if (isBinaryBulkInsert == false && withPseudoTable)
             {
                 qualifiers = qualifiers?.Any() == true ? qualifiers :
-                    dbFields?.PrimaryFields?.OneOrDefault().AsField().AsEnumerable();
+                    dbFields.PrimaryFields;
 
                 await CreatePseudoTableIndexAsync(connection,
-                    pseudoTableName,
+                    pseudoTableName!,
                     qualifiers,
                     bulkCopyTimeout,
                     dbSetting,
@@ -220,7 +222,7 @@ public static partial class NpgsqlConnectionExtension
                 var identityResults = (await MergeToPseudoTableWithIdentityResultsAsync(connection,
                     getMergeToPseudoCommandText,
                     bulkCopyTimeout,
-                    transaction))?.AsList();
+                    transaction)).AsList();
 
                 if (identityBehavior == BulkImportIdentityBehavior.ReturnIdentity)
                 {
@@ -238,7 +240,7 @@ public static partial class NpgsqlConnectionExtension
             if (withPseudoTable)
             {
                 await DropPseudoTableAsync(connection,
-                    pseudoTableName,
+                    pseudoTableName!,
                     bulkCopyTimeout,
                     transaction,
                     cancellationToken);
@@ -258,13 +260,13 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="execute"></param>
     /// <param name="transaction"></param>
     /// <returns></returns>
-    private static TResult TransactionalExecute<TResult>(this NpgsqlConnection connection,
+    private static TResult? TransactionalExecute<TResult>(this NpgsqlConnection connection,
         Func<TResult> execute,
-        NpgsqlTransaction transaction)
+        NpgsqlTransaction? transaction)
     {
         // Variables
         var result = default(TResult);
-        var hasTransaction = (transaction != null || Transaction.Current != null);
+        var hasTransaction = transaction != null || Transaction.Current != null;
 
         // Open
         connection.EnsureOpen();
@@ -286,7 +288,7 @@ public static partial class NpgsqlConnectionExtension
             // Commit
             if (hasTransaction == false)
             {
-                transaction.Commit();
+                transaction!.Commit();
             }
         }
         catch
@@ -294,7 +296,7 @@ public static partial class NpgsqlConnectionExtension
             // Rollback
             if (hasTransaction == false)
             {
-                transaction.Rollback();
+                transaction!.Rollback();
             }
 
             // Throw
@@ -305,7 +307,7 @@ public static partial class NpgsqlConnectionExtension
             // Dispose
             if (hasTransaction == false)
             {
-                transaction.Dispose();
+                transaction!.Dispose();
             }
         }
 
@@ -322,14 +324,14 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async Task<TResult> TransactionalExecuteAsync<TResult>(this NpgsqlConnection connection,
+    private static async Task<TResult?> TransactionalExecuteAsync<TResult>(this NpgsqlConnection connection,
         Func<Task<TResult>> executeAsync,
-        NpgsqlTransaction transaction,
+        NpgsqlTransaction? transaction,
         CancellationToken cancellationToken = default)
     {
         // Variables
         var result = default(TResult);
-        var hasTransaction = (transaction != null || Transaction.Current != null);
+        var hasTransaction = transaction != null || Transaction.Current != null;
 
         // Open
         await connection.EnsureOpenAsync(cancellationToken);
@@ -355,7 +357,7 @@ public static partial class NpgsqlConnectionExtension
             // Commit
             if (hasTransaction == false)
             {
-                await transaction.CommitAsync(cancellationToken);
+                await transaction!.CommitAsync(cancellationToken);
             }
         }
         catch
@@ -363,7 +365,7 @@ public static partial class NpgsqlConnectionExtension
             // Rollback
             if (hasTransaction == false)
             {
-                await transaction.RollbackAsync(cancellationToken);
+                await transaction!.RollbackAsync(cancellationToken);
             }
 
             // Throw
@@ -374,7 +376,7 @@ public static partial class NpgsqlConnectionExtension
             // Dispose
             if (hasTransaction == false)
             {
-                await transaction.DisposeAsync();
+                await transaction!.DisposeAsync();
             }
         }
 

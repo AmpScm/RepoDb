@@ -19,7 +19,7 @@ public class NpgsqlBulkInsertMapItem : BulkInsertMapItem
     /// <param name="destinationColumn">The name of the destination column in the database.</param>
     public NpgsqlBulkInsertMapItem(string sourceColumn,
         string destinationColumn) :
-        this(sourceColumn, destinationColumn, (Type)null)
+        this(sourceColumn, destinationColumn, (Type?)null)
     { }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class NpgsqlBulkInsertMapItem : BulkInsertMapItem
     /// </param>
     public NpgsqlBulkInsertMapItem(string sourceColumn,
         string destinationColumn,
-        Type type) :
+        Type? type) :
         this(sourceColumn, destinationColumn, type != null ? clientTypeToNpgsqlDbTypeResolver.Resolve(type) : null)
     { }
 

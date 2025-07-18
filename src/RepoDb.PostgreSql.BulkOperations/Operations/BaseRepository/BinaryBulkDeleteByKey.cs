@@ -32,7 +32,7 @@ public static partial class BaseRepositoryExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class =>
         repository.DbRepository.BinaryBulkDeleteByKey<TPrimaryKey>(tableName: tableName,
                 primaryKeys: primaryKeys,

@@ -29,7 +29,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<ClassProperty> properties,
         bool includePrimary,
         bool includeIdentity,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         var matchedProperties = properties?
             .Where(property =>
@@ -62,14 +62,14 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="npgsqlDbType"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static NpgsqlBulkInsertMapItem GetMapping(string sourceName,
+    private static NpgsqlBulkInsertMapItem? GetMapping(string sourceName,
         string destinationName,
         DbFieldCollection dbFields,
         bool includePrimary,
         bool includeIdentity,
         Type alternativeType,
         NpgsqlDbType? npgsqlDbType,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         if (npgsqlDbType == null)
         {
@@ -86,9 +86,9 @@ public static partial class NpgsqlConnectionExtension
             }
 
             // Resolve
-            npgsqlDbType = !string.IsNullOrWhiteSpace(dbField?.DatabaseType) ?
-                dbTypeNameToNpgsqlDbTypeResolver.Resolve(dbField.DatabaseType) :
-                clientTypeToNpgsqlDbTypeResolver.Resolve(dbField?.Type ?? alternativeType);
+            npgsqlDbType = !string.IsNullOrWhiteSpace(dbField.DatabaseType) ?
+                dbTypeNameToNpgsqlDbTypeResolver.Resolve(dbField.DatabaseType ?? "TEXT") :
+                clientTypeToNpgsqlDbTypeResolver.Resolve(dbField.Type ?? alternativeType);
         }
 
         // Return
@@ -104,11 +104,11 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="includeIdentity"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static DbField GetMappingDbField(string name,
+    private static DbField? GetMappingDbField(string name,
         DbFieldCollection dbFields,
         bool includePrimary,
         bool includeIdentity,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         // Get
         var dbField = dbFields?.GetByFieldName(name.AsUnquoted(true, dbSetting));
@@ -128,7 +128,7 @@ public static partial class NpgsqlConnectionExtension
         }
 
         // Return
-        return default;
+        return null;
     }
 
     /// <summary>
@@ -144,7 +144,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<ClassProperty> properties,
         bool includePrimary,
         bool includeIdentity,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         var matchedProperties = GetMatchedProperties(dbFields,
             properties,
@@ -179,11 +179,11 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="includeIdentity"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static IEnumerable<NpgsqlBulkInsertMapItem> GetMappings(IDictionary<string, object> dictionary,
+    private static IEnumerable<NpgsqlBulkInsertMapItem> GetMappings(IDictionary<string, object?> dictionary,
         DbFieldCollection dbFields,
         bool includePrimary,
         bool includeIdentity,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         foreach (var kvp in dictionary)
         {
@@ -216,7 +216,7 @@ public static partial class NpgsqlConnectionExtension
         DbFieldCollection dbFields,
         bool includePrimary,
         bool includeIdentity,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         foreach (DataColumn column in table.Columns)
         {
@@ -249,7 +249,7 @@ public static partial class NpgsqlConnectionExtension
         DbFieldCollection dbFields,
         bool includePrimary,
         bool includeIdentity,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         for (var i = 0; i < reader.FieldCount; i++)
         {
@@ -280,7 +280,7 @@ public static partial class NpgsqlConnectionExtension
         // In purpose, the PropertyValueAttribute.Value is not exposed, therefore we cannot use this.
         // -> string.Equals(propertyValueAttribute.PropertyName, nameof(NpgsqlDbTypeAttribute.PropertyName), StringComparison.OrdinalIgnoreCase))
 
-        var attribute = (NpgsqlDbTypeAttribute)propertyValueAttributes?
+        var attribute = (NpgsqlDbTypeAttribute?)propertyValueAttributes
             .FirstOrDefault(propertyValueAttribute => propertyValueAttribute is NpgsqlDbTypeAttribute);
 
         return attribute?.NpgsqlDbType;
@@ -327,7 +327,7 @@ public static partial class NpgsqlConnectionExtension
     {
         foreach (var item in data)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object>;
+            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
             expandoObject[column] = item;
             yield return (ExpandoObject)expandoObject;
         }
@@ -363,7 +363,7 @@ public static partial class NpgsqlConnectionExtension
     {
         if (TypeCache.Get(entityType).IsDictionaryStringObject)
         {
-            var dictionaries = entities.Select(item => item as IDictionary<string, object>);
+            var dictionaries = entities.Select(item => (IDictionary<string, object?>)item);
             SetDictionaryIdentities(dictionaries, dbFields, identityResults, dbSetting);
         }
         else
@@ -395,7 +395,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="identityField"></param>
     /// <param name="identityResults"></param>
     private static void SetEntityIdentities<TEntity>(IEnumerable<TEntity> entities,
-        Field identityField,
+        Field? identityField,
         IEnumerable<IdentityResult> identityResults)
         where TEntity : class
     {
@@ -404,7 +404,7 @@ public static partial class NpgsqlConnectionExtension
             return;
         }
 
-        var entityType = (entities?.FirstOrDefault().GetType() ?? typeof(TEntity));
+        var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
         if (TypeCache.Get(entityType).IsClassType != true)
         {
             return;
@@ -440,7 +440,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<IdentityResult> identityResults,
         IDbSetting dbSetting)
     {
-        var identityField = dbFields?.Identity.AsField();
+        var identityField = dbFields.Identity;
 
         if (identityField == null)
         {
@@ -471,7 +471,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<IdentityResult> identityResults,
         IDbSetting dbSetting)
     {
-        var identityField = dbFields?.Identity.AsField();
+        var identityField = dbFields.Identity?.AsField();
         if (identityField == null)
         {
             return;
@@ -498,7 +498,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="dbFields"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static Field GetEntityIdentityField<TEntity>(DbFieldCollection dbFields,
+    private static Field? GetEntityIdentityField<TEntity>(DbFieldCollection dbFields,
         IDbSetting dbSetting)
         where TEntity : class
     {
@@ -523,7 +523,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="dbFields"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static ClassProperty GetEntityIdentityProperty<TEntity>(DbFieldCollection dbFields,
+    private static ClassProperty? GetEntityIdentityProperty<TEntity>(DbFieldCollection dbFields,
         IDbSetting dbSetting)
         where TEntity : class
     {
@@ -548,7 +548,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="identityField"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    private static DataColumn GetDataTableIdentityColumn(DataTable table,
+    private static DataColumn? GetDataTableIdentityColumn(DataTable table,
         Field identityField,
         IDbSetting dbSetting)
     {
@@ -575,14 +575,14 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="dbFields"></param>
     /// <returns></returns>
     private static bool IsPrimaryAnIdentity(DbFieldCollection dbFields) =>
-        IsPrimaryAnIdentity(dbFields?.PrimaryFields?.OneOrDefault());
+        IsPrimaryAnIdentity(dbFields.PrimaryFields?.OneOrDefault());
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="primary"></param>
     /// <returns></returns>
-    private static bool IsPrimaryAnIdentity(DbField primary) =>
+    private static bool IsPrimaryAnIdentity(DbField? primary) =>
         primary?.IsPrimary == true && primary?.IsIdentity == true;
 
     /// <summary>
@@ -591,7 +591,7 @@ public static partial class NpgsqlConnectionExtension
     /// <typeparam name="T"></typeparam>
     /// <param name="enumerable"></param>
     /// <returns></returns>
-    private static int EnumerableGetHashCode<T>(IEnumerable<T> enumerable)
+    private static int EnumerableGetHashCode<T>(IEnumerable<T>? enumerable)
     {
         var hashCode = 0;
 

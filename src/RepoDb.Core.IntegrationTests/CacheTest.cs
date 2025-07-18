@@ -756,7 +756,7 @@ public class CacheTest
 
     #endregion
 
-    #region IDictionary<string, object>
+    #region IDictionary<string, object?>
 
     [TestMethod]
     public void TestSqlConnectionQueryCacheViaDynamicsAsDictionaryStringObject()
@@ -1343,7 +1343,7 @@ public class CacheTest
 
     #endregion
 
-    #region IDictionary<string, object>
+    #region IDictionary<string, object?>
 
     [TestMethod]
     public async Task TestSqlConnectionQueryAsyncCacheViaDynamicsAsDictionaryStringObject()

@@ -454,7 +454,7 @@ public class MergeAllTest
         {
             // Setup
             var tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-            tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+            tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
             // Act
             var result = connection.MergeAll(ClassMappedNameCache.Get<CompleteTable>(),
@@ -849,7 +849,7 @@ public class MergeAllTest
         {
             // Setup
             var tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-            tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+            tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
             // Act
             var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),

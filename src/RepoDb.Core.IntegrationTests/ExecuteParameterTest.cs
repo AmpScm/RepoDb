@@ -79,7 +79,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -251,7 +251,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -412,7 +412,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -576,7 +576,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -741,7 +741,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -916,7 +916,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -1087,7 +1087,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -1248,7 +1248,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -1413,7 +1413,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -1574,7 +1574,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -1735,7 +1735,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -1897,7 +1897,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -2058,7 +2058,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);
@@ -2219,7 +2219,7 @@ public class ExecuteParameterTest
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
-        var param = new ExpandoObject() as IDictionary<string, object>;
+        var param = new ExpandoObject() as IDictionary<string, object?>;
 
         // Set the properties
         param.Add("ColumnInt", 5);

@@ -31,7 +31,7 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null) =>
+        NpgsqlTransaction? transaction = null) =>
         BinaryBulkDeleteByKeyBase<TPrimaryKey>(connection: connection,
             tableName: tableName,
             primaryKeys: primaryKeys,

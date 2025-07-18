@@ -249,7 +249,7 @@ public class MergeTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Setup
         var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-        ((IDictionary<string, object>)entity)["Id"] = table.Id;
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
         // Act
         var result = connection.Merge<long>(ClassMappedNameCache.Get<CompleteTable>(),
@@ -451,7 +451,7 @@ public class MergeTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Setup
         var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-        ((IDictionary<string, object>)entity)["Id"] = table.Id;
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
         // Act
         var result = await connection.MergeAsync<long>(ClassMappedNameCache.Get<CompleteTable>(),

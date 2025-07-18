@@ -105,7 +105,7 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, object expandoObj)
     {
-        IDictionary<string, object> dictionary = new ExpandoObject() as IDictionary<string, object>;
+        IDictionary<string, object?> dictionary = new ExpandoObject() as IDictionary<string, object?>;
         foreach (System.Reflection.PropertyInfo property in expandoObj.GetType().GetProperties())
         {
             dictionary.Add(property.Name, property.GetValue(expandoObj));
@@ -121,7 +121,7 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, ExpandoObject expandoObj)
     {
-        IDictionary<string, object> dictionary = expandoObj as IDictionary<string, object>;
+        IDictionary<string, object?> dictionary = expandoObj as IDictionary<string, object?>;
         AssertMembersEquality(obj, dictionary);
     }
 
@@ -131,7 +131,7 @@ public static class Helper
     /// <typeparam name="T">The type of first object.</typeparam>
     /// <param name="obj">The instance of first object.</param>
     /// <param name="dictionary">The instance of second object.</param>
-    public static void AssertMembersEquality(object obj, IDictionary<string, object> dictionary)
+    public static void AssertMembersEquality(object obj, IDictionary<string, object?> dictionary)
     {
         System.Reflection.PropertyInfo[] properties = obj.GetType().GetProperties();
         properties.AsList().ForEach(property =>
@@ -335,7 +335,7 @@ public static class Helper
         DateTime now = GetCurrentUniversalTime();
         for (int i = 0; i < count; i++)
         {
-            IDictionary<string, object> item = new ExpandoObject() as IDictionary<string, object>;
+            IDictionary<string, object?> item = new ExpandoObject() as IDictionary<string, object?>;
             item["Id"] = (long)(i + 1);
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
@@ -371,7 +371,7 @@ public static class Helper
     public static void UpdateCompleteTableAsExpandoObjectProperties(CompleteTable table)
     {
         DateTime now = GetCurrentUniversalTime();
-        IDictionary<string, object> item = table as IDictionary<string, object>;
+        IDictionary<string, object?> item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
         item["ColumnBigSerial"] = Convert.ToInt64(2);
@@ -555,7 +555,7 @@ public static class Helper
         DateTime now = GetCurrentUniversalTime();
         for (int i = 0; i < count; i++)
         {
-            IDictionary<string, object> item = new ExpandoObject() as IDictionary<string, object>;
+            IDictionary<string, object?> item = new ExpandoObject() as IDictionary<string, object?>;
             item["Id"] = (i + 1);
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
@@ -591,7 +591,7 @@ public static class Helper
     public static void UpdateNonIdentityCompleteTableAsExpandoObjectProperties(CompleteTable table)
     {
         DateTime now = GetCurrentUniversalTime();
-        IDictionary<string, object> item = table as IDictionary<string, object>;
+        IDictionary<string, object?> item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
         item["ColumnBigSerial"] = Convert.ToInt64(2);

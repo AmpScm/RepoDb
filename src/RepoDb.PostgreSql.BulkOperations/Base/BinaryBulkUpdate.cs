@@ -37,10 +37,10 @@ public static partial class NpgsqlConnectionExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
         where TEntity : class
     {
-        var entityType = entities?.First()?.GetType() ?? typeof(TEntity); // Solving the anonymous types
+        var entityType = entities.First().GetType();
         var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
@@ -64,7 +64,7 @@ public static partial class NpgsqlConnectionExtension
 
                 return mappings = mappings?.Any() == true ? mappings :
                     isDictionary ?
-                    GetMappings(entities?.First() as IDictionary<string, object>,
+                    GetMappings((IDictionary<string, object?>)entities.First(),
                         dbFields,
                         includePrimary,
                         includeIdentity,
@@ -92,7 +92,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
                     dbFields.Identity?.AsField(),
@@ -140,7 +140,7 @@ public static partial class NpgsqlConnectionExtension
         int batchSize = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
@@ -187,7 +187,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
                     dbFields.Identity?.AsField(),
@@ -231,7 +231,7 @@ public static partial class NpgsqlConnectionExtension
         int bulkCopyTimeout = 0,
         bool keepIdentity = false,
         BulkImportPseudoTableType pseudoTableType = default,
-        NpgsqlTransaction transaction = null)
+        NpgsqlTransaction? transaction = null)
     {
         var dbSetting = connection.GetDbSetting();
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
@@ -276,10 +276,10 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    dbFields.Identity,
                     identityBehavior,
                     dbSetting),
 
@@ -331,7 +331,7 @@ public static partial class NpgsqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        var entityType = entities?.First()?.GetType() ?? typeof(TEntity); // Solving the anonymous types
+        var entityType = entities.First().GetType(); // Solving the anonymous types
         var isDictionary = TypeCache.Get(entityType).IsDictionaryStringObject;
         var dbSetting = connection.GetDbSetting();
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken);
@@ -355,7 +355,7 @@ public static partial class NpgsqlConnectionExtension
 
                 return mappings = mappings?.Any() == true ? mappings :
                     isDictionary ?
-                    GetMappings(entities?.First() as IDictionary<string, object>,
+                    GetMappings((IDictionary<string, object?>)entities.First(),
                         dbFields,
                         includePrimary,
                         includeIdentity,
@@ -384,7 +384,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
                     dbFields.Identity?.AsField(),
@@ -483,7 +483,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
                     dbFields.Identity?.AsField(),
@@ -576,7 +576,7 @@ public static partial class NpgsqlConnectionExtension
             () =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
-                    mappings.Select(mapping => new Field(mapping.DestinationColumn)),
+                    mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
                     dbFields.Identity?.AsField(),
