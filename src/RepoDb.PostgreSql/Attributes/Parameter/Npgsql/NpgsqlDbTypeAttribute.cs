@@ -21,5 +21,5 @@ public class NpgsqlDbTypeAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped <see cref="NpgsqlTypes.NpgsqlDbType"/> value of the parameter.
     /// </summary>
-    public NpgsqlDbType NpgsqlDbType => (NpgsqlDbType)Value;
+    public NpgsqlDbType NpgsqlDbType => (NpgsqlDbType)Value!;
 }

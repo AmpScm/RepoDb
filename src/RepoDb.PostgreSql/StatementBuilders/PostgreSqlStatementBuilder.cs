@@ -16,7 +16,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     /// Creates a new instance of <see cref="PostgreSqlStatementBuilder"/> object.
     /// </summary>
     public PostgreSqlStatementBuilder()
-        : this(DbSettingMapper.Get<NpgsqlConnection>(),
+        : this(DbSettingMapper.Get<NpgsqlConnection>()!,
               new PostgreSqlConvertFieldResolver(),
               new ClientTypeToAverageableClientTypeResolver())
     { }
@@ -28,8 +28,8 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     public PostgreSqlStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
-        IResolver<Type, Type> averageableClientTypeResolver = null)
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
+        IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
               convertFieldResolver,
               averageableClientTypeResolver)
@@ -327,7 +327,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> noUpdateFields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields,
         IEnumerable<Field>? qualifiers,
         string? hints = null)
@@ -769,16 +769,5 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
 
         return builder.ToString();
     }
-    #endregion
-
-    #region Helpers
-
-    private static string GetDatabaseType(DbField dbField)
-    {
-        var dbType = new ClientTypeToDbTypeResolver().Resolve(dbField.Type);
-        return dbType.HasValue ?
-            new DbTypeToPostgreSqlStringNameResolver().Resolve(dbType.Value) : null;
-    }
-
     #endregion
 }

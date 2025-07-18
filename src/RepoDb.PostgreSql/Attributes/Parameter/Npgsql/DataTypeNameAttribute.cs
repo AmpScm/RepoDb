@@ -20,5 +20,5 @@ public class DataTypeNameAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped name of the PostgreSQL type of the parameter.
     /// </summary>
-    public string DataTypeName => (string)Value;
+    public string DataTypeName => (string)Value!;
 }

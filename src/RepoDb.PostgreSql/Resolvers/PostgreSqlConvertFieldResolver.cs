@@ -1,6 +1,6 @@
-﻿using RepoDb.Extensions;
+﻿using System.Data;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
-using System.Data;
 
 namespace RepoDb.Resolvers;
 
@@ -21,7 +21,7 @@ public class PostgreSqlConvertFieldResolver : DbConvertFieldResolver
     /// Creates a new instance of <see cref="PostgreSqlConvertFieldResolver"/> class.
     /// </summary>
     public PostgreSqlConvertFieldResolver(IResolver<Type, DbType?> dbTypeResolver,
-        IResolver<DbType, string> stringNameResolver)
+        IResolver<DbType, string?> stringNameResolver)
         : base(dbTypeResolver,
               stringNameResolver)
     { }
@@ -34,7 +34,7 @@ public class PostgreSqlConvertFieldResolver : DbConvertFieldResolver
     /// <param name="field">The instance of the <see cref="Field"/> to be converted.</param>
     /// <param name="dbSetting">The current in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The converted name of the <see cref="Field"/> object for PostgreSql.</returns>
-    public override string Resolve(Field field,
+    public override string? Resolve(Field field,
         IDbSetting dbSetting)
     {
         if (field?.Type != null)
@@ -42,7 +42,7 @@ public class PostgreSqlConvertFieldResolver : DbConvertFieldResolver
             var dbType = DbTypeResolver.Resolve(field.Type);
             if (dbType != null)
             {
-                var dbTypeName = StringNameResolver.Resolve(dbType.Value).ToUpper();
+                var dbTypeName = StringNameResolver.Resolve(dbType.Value)?.ToUpperInvariant();
                 return string.Concat("CAST(", field.FieldName.AsField(dbSetting), " AS ", dbTypeName, ")");
             }
         }

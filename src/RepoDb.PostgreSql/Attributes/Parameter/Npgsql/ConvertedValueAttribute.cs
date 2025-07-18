@@ -21,5 +21,5 @@ public class ConvertedValueAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped converted value of the parameter.
     /// </summary>
-    public object ConvertedValue => Value;
+    public object ConvertedValue => Value!;
 }
