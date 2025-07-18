@@ -8,7 +8,7 @@ An extension library that contains the official Bulk Operations of RepoDB for Po
 
 ## Important Pages
 
-- [GitHub Home Page](https://github.com/mikependon/RepoDb) - to learn more about the core library.
+- [GitHub Home Page](https://github.com/AmpScm/RepoDb) - to learn more about the core library.
 - [Website](https://repodb.net) - docs, features, classes, references, releases and blogs.
 
 ## Why use the Bulk Operations?
@@ -34,7 +34,7 @@ During the operation, the process ignores the audit, logs, constraints and any o
 
 ## Community Engagements
 
-- [GitHub](https://github.com/mikependon/RepoDb/issues) - for any issues, requests and problems.
+- [GitHub](https://github.com/AmpScm/RepoDb/issues) - for any issues, requests and problems.
 - [StackOverflow](https://stackoverflow.com/search?q=RepoDB) - for any technical questions.
 - [Twitter](https://twitter.com/search?q=%23repodb) - for the latest news.
 - [Gitter Chat](https://gitter.im/RepoDb/community) - for direct and live Q&A.

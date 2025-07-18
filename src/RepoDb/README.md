@@ -8,7 +8,7 @@ RepoDB is an open-source .NET ORM library that bridges the gaps of micro-ORMs an
 
 ## Important Pages
 
-- [GitHub Home Page](https://github.com/mikependon/RepoDb) - to learn more about the core library.
+- [GitHub Home Page](https://github.com/AmpScm/RepoDb) - to learn more about the core library.
 - [Website](https://repodb.net) - docs, features, classes, references, releases and blogs.
 
 ## Core Features
@@ -34,7 +34,7 @@ RepoDB is an open-source .NET ORM library that bridges the gaps of micro-ORMs an
 
 ## Community Engagements
 
-- [GitHub](https://github.com/mikependon/RepoDb/issues) - for any issues, requests and problems.
+- [GitHub](https://github.com/AmpScm/RepoDb/issues) - for any issues, requests and problems.
 - [StackOverflow](https://stackoverflow.com/search?q=RepoDB) - for any technical questions.
 - [Twitter](https://twitter.com/search?q=%23repodb) - for the latest news.
 - [Gitter Chat](https://gitter.im/RepoDb/community) - for direct and live Q&A.
