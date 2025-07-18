@@ -1100,7 +1100,7 @@ public static partial class DbConnectionExtension
 
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        var keyField = dbFields.PrimaryFields?.SingleOrDefault() ?? dbFields?.Identity ?? throw GetKeyFieldNotFoundException(tableName);
+        var keyField = dbFields.PrimaryFields?.OneOrDefault() ?? dbFields?.Identity ?? dbFields.PrimaryFields?.FirstOrDefault() ?? throw GetKeyFieldNotFoundException(tableName);
 
         var dbSetting = connection.GetDbSetting();
         var count = keys.Count();

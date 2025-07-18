@@ -13,7 +13,7 @@ public interface IExpirable
     /// <summary>
     /// Gets or sets the expiration date of this class.
     /// </summary>
-    DateTime Expiration { get; set; }
+    DateTime Expiration { get; }
 
     /// <summary>
     /// Identifies whether this class is expired.

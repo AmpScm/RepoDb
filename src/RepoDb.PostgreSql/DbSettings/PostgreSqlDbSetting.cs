@@ -23,6 +23,6 @@ public sealed record PostgreSqlDbSetting : BaseDbSetting
         IsUseUpsert = false;
         OpeningQuote = "\"";
         ParameterPrefix = "@";
-        MaxParameterCount = 30000; // PostgreSQL allows up to 32767 parameters, but we set it lower to avoid issues with large queries
+        MaxParameterCount = 8096; // PostgreSQL allows up to 32767 parameters, but we set it lower to avoid issues with large queries and code generated for that
     }
 }

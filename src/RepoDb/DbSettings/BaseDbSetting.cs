@@ -72,7 +72,7 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     public string ParameterPrefix { get; protected init; }
 
     /// <inheritdoc />
-    public int MaxParameterCount { get; protected init; } = 2100 - 2; // SqlServer supports 2100 parameters, but Microsoft.Data.SqlServer and System.Data.SqlClient reserve 2 for internal use
+    public int MaxParameterCount { get; protected init; } = 2048; // A little less than the sqlserver default should be a sane default
 
     /// <inheritdoc />
     public int MaxQueriesInBatchCount { get; protected init; } = 1000;
