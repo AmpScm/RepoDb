@@ -224,7 +224,7 @@ public class OrderField : IEquatable<OrderField>
     /// <returns>True if the instances are not equal.</returns>
     public static bool operator !=(OrderField? objA,
         OrderField? objB) =>
-        (objA == objB) == false;
+        !(objA == objB);
 
     #endregion
 }

@@ -45,7 +45,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetAverageAllText(AverageAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateAverageAll(request.Name,
@@ -67,7 +67,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetBatchQueryText(BatchQueryRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -92,7 +92,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetBatchQueryTextAsync(BatchQueryRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -140,7 +140,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetCountText(CountRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateCount(request.Name,
@@ -162,7 +162,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetCountAllText(CountAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateCountAll(request.Name,
@@ -183,7 +183,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetDeleteText(DeleteRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateDelete(request.Name,
@@ -205,7 +205,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetDeleteAllText(DeleteAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateDeleteAll(request.Name,
@@ -226,7 +226,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetExistsText(ExistsRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateExists(request.Name,
@@ -248,7 +248,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetInsertText(InsertRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -270,7 +270,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetInsertTextAsync(InsertRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -309,7 +309,7 @@ public static class CommandTextCache
 
     internal static string GetInsertAllText(InsertAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -325,7 +325,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetInsertAllTextAsync(InsertAllRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -362,7 +362,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetMaxText(MaxRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateMax(request.Name,
@@ -385,7 +385,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetMaxAllText(MaxAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateMaxAll(request.Name,
@@ -407,7 +407,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetMergeText(MergeRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -434,7 +434,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetMergeTextAsync(MergeRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -486,7 +486,7 @@ public static class CommandTextCache
     /// <returns>The cached command text.</returns>
     internal static string GetMergeAllText(MergeAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -512,7 +512,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetMergeAllTextAsync(MergeAllRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -567,7 +567,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetMinText(MinRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateMin(request.Name,
@@ -590,7 +590,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetMinAllText(MinAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateMinAll(request.Name,
@@ -612,7 +612,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetQueryText(QueryRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -637,7 +637,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetQueryTextAsync(QueryRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -684,7 +684,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetQueryAllText(QueryAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -709,7 +709,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetQueryAllTextAsync(QueryAllRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -754,7 +754,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetQueryMultipleText(QueryMultipleRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -779,7 +779,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetQueryMultipleTextAsync(QueryMultipleRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -826,7 +826,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetSkipQueryText(SkipQueryRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -851,7 +851,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetSkipQueryTextAsync(SkipQueryRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -900,7 +900,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetSumText(SumRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateSum(request.Name,
@@ -923,7 +923,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetSumAllText(SumAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateSumAll(request.Name,
@@ -945,7 +945,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetTruncateText(TruncateRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var statementBuilder = EnsureStatementBuilder(request.Connection, request.StatementBuilder);
             commandText = statementBuilder.CreateTruncate(request.Name);
@@ -965,7 +965,7 @@ public static class CommandTextCache
     /// <returns></returns>
     internal static string GetUpdateText(UpdateRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -987,7 +987,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetUpdateTextAsync(UpdateRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -1027,7 +1027,7 @@ public static class CommandTextCache
 
     internal static string GetUpdateAllText(UpdateAllRequest request)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = GetTargetFields(request.Connection,
                 request.Name,
@@ -1043,7 +1043,7 @@ public static class CommandTextCache
     internal static async ValueTask<string> GetUpdateAllTextAsync(UpdateAllRequest request,
         CancellationToken cancellationToken = default)
     {
-        if (cache.TryGetValue(request, out var commandText) == false)
+        if (!cache.TryGetValue(request, out var commandText))
         {
             var fields = await GetTargetFieldsAsync(request.Connection,
                 request.Name,
@@ -1074,7 +1074,7 @@ public static class CommandTextCache
                     string.Equals(field.FieldName, f.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
 
             // Throw an error we found any unmatches
-            if (unmatchesQualifiers.Any() == true)
+            if (unmatchesQualifiers.Any())
             {
                 throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
                     $"present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -1091,7 +1091,7 @@ public static class CommandTextCache
                     string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
 
                 // Throw if not present
-                if (isPresent == false)
+                if (!isPresent)
                 {
                     throw new InvalidQualifiersException($"There are no qualifier field objects found for '{request.Name}'. Ensure that the " +
                         $"primary field is present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -1266,7 +1266,7 @@ public static class CommandTextCache
         IEnumerable<ClassProperty>? primary;
         ClassProperty? identity;
 
-        if (request.Type != null && request.Type.IsObjectType() == false)
+        if (request.Type != null && !request.Type.IsObjectType())
         {
             primary = PrimaryCache.GetPrimaryKeys(request.Type);
             identity = IdentityCache.Get(request.Type);

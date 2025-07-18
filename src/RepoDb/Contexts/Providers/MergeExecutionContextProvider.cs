@@ -75,7 +75,7 @@ internal static class MergeExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
@@ -141,7 +141,7 @@ internal static class MergeExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        if (dbFields.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }

@@ -27,9 +27,9 @@ public partial class QueryGroup
         var type = TypeCache.Get(obj.GetType()).UnderlyingType;
 
         // Filter the type
-        if (TypeCache.Get(type).IsClassType == false)
+        if (!TypeCache.Get(type).IsClassType)
         {
-            if (throwException == true)
+            if (throwException)
             {
                 throw new ArgumentException("Parameter 'obj' type cannot be parsed.");
             }

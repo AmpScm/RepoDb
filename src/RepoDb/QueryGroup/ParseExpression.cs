@@ -111,11 +111,10 @@ public partial class QueryGroup
 
         // IsNot
         if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual
-            && expression.Right.Type == StaticType.Boolean && expression.IsExtractable() == true
-            && expression.Right.GetValue() is bool rightValue)
+            && expression.Right.Type == StaticType.Boolean && expression.IsExtractable() && expression.Right.GetValue() is bool rightValue)
         {
-            var isNot = (expression.NodeType == ExpressionType.Equal && rightValue == false) ||
-                (expression.NodeType == ExpressionType.NotEqual && rightValue == true);
+            var isNot = (expression.NodeType == ExpressionType.Equal && !rightValue) ||
+                (expression.NodeType == ExpressionType.NotEqual && rightValue);
 
             leftQueryGroup.SetIsNot(isNot);
         }

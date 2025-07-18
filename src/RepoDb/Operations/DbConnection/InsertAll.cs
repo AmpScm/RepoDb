@@ -443,13 +443,13 @@ public static partial class DbConnectionExtension
         entities = entities.AsList(); // Ensure the entities are enumerated as a list for performance
 
         // Guard the parameters
-        if (entities.Any() != true)
+        if (!entities.Any())
         {
             return default;
         }
 
         // Validate the batch size
-        int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
+        int maxBatchSize = (dbSetting.IsMultiStatementExecutable)
             ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize), dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
@@ -687,13 +687,13 @@ public static partial class DbConnectionExtension
         entities = entities.AsList(); // Ensure the entities are enumerated as a list for performance
 
         // Guard the parameters
-        if (entities.Any() != true)
+        if (!entities.Any())
         {
             return default;
         }
 
         // Validate the batch size
-        int maxBatchSize = (dbSetting.IsMultiStatementExecutable == true)
+        int maxBatchSize = (dbSetting.IsMultiStatementExecutable)
             ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize), dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());

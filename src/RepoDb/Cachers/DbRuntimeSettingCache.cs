@@ -90,7 +90,7 @@ public static class DbRuntimeSettingCache
         var key = (connection.GetType(), connection.Database);
 
         // Try get the value
-        if (cache.TryGetValue(key, out var result) == false)
+        if (!cache.TryGetValue(key, out var result))
         {
             // Get from DB
             result = await connection

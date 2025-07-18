@@ -137,7 +137,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="parameterType"></param>
     private static void ValidateParameterType(Type parameterType)
     {
-        if (StaticType.IDbDataParameter.IsAssignableFrom(parameterType) == false)
+        if (!StaticType.IDbDataParameter.IsAssignableFrom(parameterType))
         {
             throw new InvalidOperationException($"The parameter type must be deriving from the '{StaticType.IDbDataParameter.FullName}' interface. " +
                 $"The current passed parameter type is '{parameterType.FullName}'.");
@@ -252,7 +252,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <returns>True if the instances are not equal.</returns>
     public static bool operator !=(PropertyValueAttribute? objA,
         PropertyValueAttribute? objB) =>
-        (objA == objB) == false;
+        !(objA == objB);
 
     #endregion
 }

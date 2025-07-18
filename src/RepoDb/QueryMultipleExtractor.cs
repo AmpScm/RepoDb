@@ -65,7 +65,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
         _reader?.Dispose();
 
         // Connection
-        if (_isDisposeConnection == true)
+        if (_isDisposeConnection)
         {
             _connection?.Dispose();
         }
@@ -88,7 +88,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
             await _reader.DisposeAsync().ConfigureAwait(false);
 
         // Connection
-        if (_isDisposeConnection == true && _connection is { })
+        if (_isDisposeConnection && _connection is { })
         {
             await _connection.DisposeAsync().ConfigureAwait(false);
         }
@@ -175,7 +175,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public IEnumerable<TEntity> Extract<TEntity>(bool isMoveToNextResult = true)
     {
-        if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
+        if (!TryGetCacheItem<IEnumerable<TEntity>>(out var result))
         {
             result = DataReader.ToEnumerable<TEntity>(_reader!).AsList();
             AddToCache(result);
@@ -197,7 +197,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public async Task<IEnumerable<TEntity>> ExtractAsync<TEntity>(bool isMoveToNextResult = true, CancellationToken cancellationToken = default)
     {
-        if (TryGetCacheItem<IEnumerable<TEntity>>(out var result) == false)
+        if (!TryGetCacheItem<IEnumerable<TEntity>>(out var result))
         {
             result = await DataReader
                 .ToEnumerableAsync<TEntity>(_reader!, cancellationToken: cancellationToken)
@@ -227,7 +227,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public IEnumerable<dynamic> Extract(bool isMoveToNextResult = true)
     {
-        if (TryGetCacheItem<IEnumerable<dynamic>>(out var result) == false)
+        if (!TryGetCacheItem<IEnumerable<dynamic>>(out var result))
         {
             result = DataReader.ToEnumerable(_reader!).AsList();
             AddToCache(result);
@@ -248,7 +248,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An enumerable of extracted data entity.</returns>
     public async Task<IEnumerable<dynamic>> ExtractAsync(bool isMoveToNextResult = true)
     {
-        if (TryGetCacheItem<IEnumerable<dynamic>>(out var result) == false)
+        if (!TryGetCacheItem<IEnumerable<dynamic>>(out var result))
         {
             result = await DataReader.ToEnumerableAsync(_reader!, cancellationToken: CancellationToken)
                 .ToListAsync(CancellationToken).ConfigureAwait(false);
@@ -278,7 +278,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An instance of extracted object as value result.</returns>
     public TResult? Scalar<TResult>(bool isMoveToNextResult = true)
     {
-        if (TryGetCacheItem<TResult>(out var result) == false)
+        if (!TryGetCacheItem<TResult>(out var result))
         {
             if (_reader?.Read() == true)
             {
@@ -303,7 +303,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns>An instance of extracted object as value result.</returns>
     public async Task<TResult?> ScalarAsync<TResult>(bool isMoveToNextResult = true)
     {
-        if (TryGetCacheItem<TResult>(out var result) == false)
+        if (!TryGetCacheItem<TResult>(out var result))
         {
             if (await _reader!.ReadAsync(CancellationToken).ConfigureAwait(false))
             {

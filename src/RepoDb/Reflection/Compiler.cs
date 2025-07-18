@@ -1010,7 +1010,7 @@ internal sealed partial class Compiler
     private static Expression ConvertExpressionToNullableExpression(Expression expression,
         Type targetNullableType)
     {
-        if (expression.Type.IsValueType == false)
+        if (!expression.Type.IsValueType)
         {
             return expression;
         }
@@ -1156,7 +1156,7 @@ internal sealed partial class Compiler
 
         // Validate
         var handlerType = handlerInstance.GetType();
-        if (handlerType.IsClassHandlerValidForModel(typeOfResult) == false)
+        if (!handlerType.IsClassHandlerValidForModel(typeOfResult))
         {
             throw new InvalidTypeException($"The class handler '{handlerType.FullName}' cannot be used for the type '{typeOfResult.FullName}'.");
         }
@@ -1247,7 +1247,7 @@ internal sealed partial class Compiler
 
         // Validate
         var handlerType = handlerInstance.GetType();
-        if (handlerType.IsClassHandlerValidForModel(resultType) == false)
+        if (!handlerType.IsClassHandlerValidForModel(resultType))
         {
             throw new InvalidTypeException($"The class handler '{handlerType.FullName}' cannot be used for type '{resultType.FullName}'.");
         }
@@ -1685,7 +1685,7 @@ internal sealed partial class Compiler
             var expression = (Expression)GetDbReaderGetValueExpression(readerParameterExpression, readerGetValueMethod, ordinal);
 
             // Check for nullables
-            if (readerField.DbField == null || readerField.DbField.IsNullable == true)
+            if (readerField.DbField == null || readerField.DbField.IsNullable)
             {
                 var isDbNullExpression = GetDbNullExpression(readerParameterExpression, ordinal);
                 var toType = (readerField.Type?.IsValueType != true) ? (readerField.Type ?? StaticType.Object) : StaticType.Object;
@@ -1738,7 +1738,7 @@ internal sealed partial class Compiler
 
         // Enum Handling
         if (TypeCache.Get(classProperty.PropertyInfo.PropertyType).UnderlyingType is { } underlyingType
-            && underlyingType.IsEnum == true)
+            && underlyingType.IsEnum)
         {
             try
             {
@@ -2205,7 +2205,7 @@ internal sealed partial class Compiler
         var fieldName = fieldDirection.DbField.FieldName;
 
         // Set the proper assignments (property)
-        if (TypeCache.Get(entityExpression.Type).IsClassType == false)
+        if (!TypeCache.Get(entityExpression.Type).IsClassType)
         {
             var typeGetPropertyMethod = GetMethodInfo<Type>(t => t.GetProperty("", BindingFlags.Instance));
             var objectGetTypeMethod = GetMethodInfo<object>(x => x.GetType());

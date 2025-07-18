@@ -287,7 +287,7 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// <returns>True if the instances are not equal.</returns>
     public static bool operator !=(ClassProperty? objA,
         ClassProperty? objB) =>
-        (objA == objB) == false;
+        !(objA == objB);
 
     #endregion
 }

@@ -132,7 +132,7 @@ public partial class QueryField
         where TEntity : class
     {
         // Only support the following expression type
-        if (expression.IsExtractable() == false)
+        if (!expression.IsExtractable())
         {
             throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
         }

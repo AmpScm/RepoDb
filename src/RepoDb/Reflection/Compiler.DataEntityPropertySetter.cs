@@ -42,7 +42,7 @@ partial class Compiler
         Type targetType)
     {
         // Make sure we can write
-        if (property.CanWrite == false)
+        if (!property.CanWrite)
         {
             return (_, _) => { };
         }

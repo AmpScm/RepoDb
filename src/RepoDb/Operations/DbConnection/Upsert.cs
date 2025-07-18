@@ -57,9 +57,9 @@ public static partial class DbConnectionExtension
 
         // Get the properties
         QueryGroup? where;
-        if (isDictionaryType == false)
+        if (!isDictionaryType)
         {
-            IEnumerable<ClassProperty> properties = type.IsGenericType == true ? type.GetClassProperties() : PropertyCache.Get(type);
+            IEnumerable<ClassProperty> properties = type.IsGenericType ? type.GetClassProperties() : PropertyCache.Get(type);
 
             where = CreateQueryGroupForUpsert(entity,
                 properties,
@@ -91,7 +91,7 @@ public static partial class DbConnectionExtension
             statementBuilder: statementBuilder);
 
         // Check the existence
-        if (exists == true)
+        if (exists)
         {
             // Call the update operation
             var updateResult = connection.Update(tableName,
@@ -108,7 +108,7 @@ public static partial class DbConnectionExtension
             // Check if there is result
             if (updateResult > 0)
             {
-                if (isDictionaryType == false)
+                if (!isDictionaryType)
                 {
                     if (resultInfo != null)
                     {
@@ -205,9 +205,9 @@ public static partial class DbConnectionExtension
 
         // Get the properties
         QueryGroup? where;
-        if (isDictionaryType == false)
+        if (!isDictionaryType)
         {
-            if (type.IsGenericType == true)
+            if (type.IsGenericType)
             {
                 properties = type.GetClassProperties();
             }
@@ -248,7 +248,7 @@ public static partial class DbConnectionExtension
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
         // Check the existence
-        if (exists == true)
+        if (exists)
         {
             // Call the update operation
             var updateResult = await connection.UpdateAsync(tableName,
@@ -266,7 +266,7 @@ public static partial class DbConnectionExtension
             // Check if there is result
             if (updateResult > 0)
             {
-                if (isDictionaryType == false)
+                if (!isDictionaryType)
                 {
                     if (resultProperty != null)
                     {

@@ -72,7 +72,7 @@ internal static class UpdateExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields.Any(x => x.IsReadOnly) == true)
+        if (dbFields.Any(x => x.IsReadOnly))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
         }
@@ -136,7 +136,7 @@ internal static class UpdateExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        if (dbFields.Any(x => x.IsReadOnly) == true)
+        if (dbFields.Any(x => x.IsReadOnly))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
         }
@@ -188,7 +188,7 @@ internal static class UpdateExecutionContextProvider
 
         // Filter the actual properties for input fields
         inputFields = dbFields
-            .Where(dbField => dbField.IsIdentity == false)
+            .Where(dbField => !dbField.IsIdentity)
             .Where(dbField =>
                 fields.FirstOrDefault(field => string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
             .AsList();

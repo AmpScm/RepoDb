@@ -87,7 +87,7 @@ internal static class MergeAllExecutionContextProvider
             .Get(connection, tableName, transaction);
         string commandText;
 
-        if (dbFields.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
@@ -179,7 +179,7 @@ internal static class MergeAllExecutionContextProvider
         string commandText;
 
         // On Merge we do want to have the identity key in the fields
-        if (dbFields.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
@@ -270,7 +270,7 @@ internal static class MergeAllExecutionContextProvider
             .AsList();
 
         // Exclude the fields not on the actual entity
-        if (TypeCache.Get(entityType).IsClassType == false)
+        if (!TypeCache.Get(entityType).IsClassType)
         {
             var entityFields = Field.Parse(entities?.FirstOrDefault());
             inputFields = inputFields

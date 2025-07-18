@@ -256,7 +256,7 @@ public static class EnumerableExtension
 
                 if (p != vt)
                 {
-                    while (p.IsAssignableFrom(vt) == false)
+                    while (!p.IsAssignableFrom(vt))
                         p = p.BaseType!;
                 }
 

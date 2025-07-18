@@ -350,7 +350,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <returns>True if the instances are not equal.</returns>
     public static bool operator !=(QueryField? objA,
         QueryField? objB) =>
-        (objA == objB) == false;
+        !(objA == objB);
 
     #endregion
 

@@ -839,7 +839,7 @@ public static partial class DbConnectionExtension
         T what,
         IEnumerable<DbField> dbFields) where T : notnull
     {
-        var key = dbFields?.FirstOrDefault(p => p.IsPrimary == true) ?? dbFields?.FirstOrDefault(p => p.IsIdentity == true);
+        var key = dbFields?.FirstOrDefault(p => p.IsPrimary) ?? dbFields?.FirstOrDefault(p => p.IsIdentity);
         if (key == null)
         {
             throw new KeyFieldNotFoundException($"No primary key and identity key found at the table '{tableName}'.");
@@ -1177,7 +1177,7 @@ public static partial class DbConnectionExtension
     {
         ArgumentNullException.ThrowIfNull(entities);
 
-        if (entities.Any() == false)
+        if (!entities.Any())
         {
             throw new EmptyException(nameof(entities), "The entities must not be empty.");
         }
@@ -1471,7 +1471,7 @@ public static partial class DbConnectionExtension
 
         // ArrayParameters
         CommandArrayParametersText? commandArrayParametersText = null;
-        if (param != null && skipCommandArrayParametersCheck == false)
+        if (param != null && !skipCommandArrayParametersCheck)
         {
             commandArrayParametersText = GetCommandArrayParametersText(command, connection, transaction,
                 param);
@@ -1552,7 +1552,7 @@ public static partial class DbConnectionExtension
             var propertyHandler = PropertyHandlerCache.Get<object>(property.DeclaringType!, property);
             if (propertyHandler != null ||
                 property.PropertyType == StaticType.String ||
-                StaticType.IEnumerable.IsAssignableFrom(property.PropertyType) == false)
+!StaticType.IEnumerable.IsAssignableFrom(property.PropertyType))
             {
                 continue;
             }
@@ -1802,7 +1802,7 @@ public static partial class DbConnectionExtension
         if (value == null ||
             propertyHandler != null ||
             value is string ||
-            value is IEnumerable values == false)
+            value is not IEnumerable values)
         {
             return null;
         }

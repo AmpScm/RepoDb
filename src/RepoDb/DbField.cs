@@ -257,7 +257,7 @@ public sealed class DbField : Field, IEquatable<DbField>
     /// <returns>True if the instances are not equal.</returns>
     public static bool operator !=(DbField? objA,
         DbField? objB) =>
-        (objA == objB) == false;
+        !(objA == objB);
 
     #endregion
 

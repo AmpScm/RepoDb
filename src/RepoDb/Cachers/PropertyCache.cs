@@ -121,7 +121,7 @@ public static class PropertyCache
     /// <returns>The cached list <see cref="ClassProperty"/> objects.</returns>
     public static IEnumerable<ClassProperty> Get(Type? entityType)
     {
-        if (entityType is null || TypeCache.Get(entityType).IsClassType != true)
+        if (entityType is null || !TypeCache.Get(entityType).IsClassType)
         {
             return [];
         }

@@ -493,7 +493,7 @@ public static class PropertyHandlerMapper
         var result = default(TPropertyHandler);
 
         // Try get the value
-        if (maps.TryGetValue(key, out var value) == true)
+        if (maps.TryGetValue(key, out var value))
         {
             result = Converter.ToType<TPropertyHandler>(value);
         }
@@ -615,7 +615,7 @@ public static class PropertyHandlerMapper
     private static void Guard([NotNull] Type? type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        if (type.IsInterfacedTo(StaticType.IPropertyHandler) == false)
+        if (!type.IsInterfacedTo(StaticType.IPropertyHandler))
         {
             throw new InvalidTypeException($"Type '{type.FullName}' must implement the '{StaticType.IPropertyHandler.FullName}' interface.");
         }

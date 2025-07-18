@@ -65,9 +65,9 @@ public static class TypeExtension
     {
         ArgumentNullException.ThrowIfNull(type);
         return type.IsClass &&
-            type.IsObjectType() != true &&
+!type.IsObjectType() &&
             type != StaticType.String &&
-            StaticType.IEnumerable.IsAssignableFrom(type) != true;
+!StaticType.IEnumerable.IsAssignableFrom(type);
     }
 
     /// <summary>
@@ -108,9 +108,9 @@ public static class TypeExtension
         var cachedType = TypeCache.Get(type);
 
         return (cachedType.IsClassType || cachedType.IsAnonymousType) &&
-               IsQueryObjectType(type) != true &&
-               cachedType.IsDictionaryStringObject != true &&
-               GetEnumerableClassProperties(type).Any() != true;
+!IsQueryObjectType(type) &&
+!cachedType.IsDictionaryStringObject &&
+!GetEnumerableClassProperties(type).Any();
     }
 
     /// <summary>

@@ -397,7 +397,7 @@ public static partial class DbConnectionExtension
         ArgumentNullException.ThrowIfNull(entities);
 
         entities = entities.AsList();
-        if (entities.Any() != true)
+        if (!entities.Any())
         {
             return default;
         }
@@ -561,7 +561,7 @@ public static partial class DbConnectionExtension
         ArgumentNullException.ThrowIfNull(entities);
 
         entities = entities.AsList();
-        if (entities.Any() != true)
+        if (!entities.Any())
         {
             return default;
         }
@@ -900,7 +900,7 @@ public static partial class DbConnectionExtension
         ArgumentNullException.ThrowIfNull(keys);
 
         keys = keys.AsList();
-        if (keys.Any() != true)
+        if (!keys.Any())
         {
             return default;
         }
@@ -1093,7 +1093,7 @@ public static partial class DbConnectionExtension
         ArgumentNullException.ThrowIfNull(keys);
 
         keys = keys.AsList();
-        if (keys.Any() != true)
+        if (!keys.Any())
         {
             return default;
         }

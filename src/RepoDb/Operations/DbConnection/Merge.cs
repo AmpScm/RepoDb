@@ -737,7 +737,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Return the result
-        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject == true)
+        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject)
         {
             return MergeInternalBase<IDictionary<string, object>, TResult>(connection: connection,
                 tableName: tableName,
@@ -1538,7 +1538,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Return the result
-        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject == true)
+        if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject)
         {
             return MergeInternalBaseAsync<IDictionary<string, object>, TResult>(
                 connection: connection,

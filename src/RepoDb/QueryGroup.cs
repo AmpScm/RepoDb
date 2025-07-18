@@ -968,7 +968,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <returns>True if the instances are not equal.</returns>
     public static bool operator !=(QueryGroup? objA,
         QueryGroup? objB) =>
-        (objA == objB) == false;
+        !(objA == objB);
 
     #endregion
 }

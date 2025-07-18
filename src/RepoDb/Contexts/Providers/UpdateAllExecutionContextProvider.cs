@@ -81,7 +81,7 @@ internal static class UpdateAllExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
@@ -152,7 +152,7 @@ internal static class UpdateAllExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
 
-        if (dbFields.Any(x => x.IsGenerated) == true)
+        if (dbFields.Any(x => x.IsGenerated))
         {
             fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
         }
@@ -216,7 +216,7 @@ internal static class UpdateAllExecutionContextProvider
             .AsList();
 
         // Exclude the fields not on the actual entity
-        if (TypeCache.Get(entityType).IsClassType == false)
+        if (!TypeCache.Get(entityType).IsClassType)
         {
             var entityFields = Field.Parse(entities?.FirstOrDefault());
             inputFields = inputFields

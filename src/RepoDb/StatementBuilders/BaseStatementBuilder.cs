@@ -768,7 +768,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
             .Where(f => keyFields.GetByFieldName(f.FieldName) is null);
 
         // Check if there are updatable fields
-        if (updatableFields.Any() != true)
+        if (!updatableFields.Any())
         {
             throw new EmptyException("The list of updatable fields cannot be null or empty.");
         }
@@ -831,7 +831,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
             .Where(f => keyFields.GetByFieldName(f.FieldName) is null && qualifiers?.GetByFieldName(f.FieldName) is null);
 
         // Check if there are updatable fields
-        if (updateFields.Any() != true)
+        if (!updateFields.Any())
         {
             throw new EmptyException(nameof(fields), "The list of updatable fields cannot be null or empty.");
         }
@@ -1004,7 +1004,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// <exception cref="NotSupportedException"></exception>
     protected void ValidateMultipleStatementExecution(int batchSize)
     {
-        if (DbSetting.IsMultiStatementExecutable == false && batchSize > 1)
+        if (!DbSetting.IsMultiStatementExecutable && batchSize > 1)
         {
             throw new NotSupportedException($"Multiple execution is not supported based on the current database setting '{DbSetting.GetType().FullName}'. Consider setting the batchSize to 1.");
         }

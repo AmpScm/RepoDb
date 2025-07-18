@@ -121,14 +121,10 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// <param name="objA">The first <see cref="FunctionalQueryField"/> object.</param>
     /// <param name="objB">The second <see cref="FunctionalQueryField"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(FunctionalQueryField objA,
-        FunctionalQueryField objB)
+    public static bool operator ==(FunctionalQueryField? objA,
+        FunctionalQueryField? objB)
     {
-        if (objA is null)
-        {
-            return objB is null;
-        }
-        return objA.Equals(objB);
+        return objA is null ? objB is null : objA.Equals(objB);
     }
 
     /// <summary>
@@ -137,9 +133,9 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// <param name="objA">The first <see cref="FunctionalQueryField"/> object.</param>
     /// <param name="objB">The second <see cref="FunctionalQueryField"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(FunctionalQueryField objA,
-        FunctionalQueryField objB) =>
-        (objA == objB) == false;
+    public static bool operator !=(FunctionalQueryField? objA,
+        FunctionalQueryField? objB) =>
+        !(objA == objB);
 
     #endregion
 }

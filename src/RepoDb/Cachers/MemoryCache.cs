@@ -46,14 +46,14 @@ public class MemoryCache : ICache
         }
         if (cacheItem == null)
         {
-            if (_cache.TryAdd(item.Key, item) == false && throwException == true)
+            if (!_cache.TryAdd(item.Key, item) && throwException)
             {
                 throw new InvalidOperationException($"Fail to add an item into the cache for the key {item.Key}.");
             }
         }
         else
         {
-            if (!cacheItem.IsExpired() && throwException == true)
+            if (!cacheItem.IsExpired() && throwException)
             {
                 throw new MappingExistsException($"An existing cache for key '{item.Key}' already exists.");
             }
@@ -119,7 +119,7 @@ public class MemoryCache : ICache
 
         if (removed)
             return true;
-        else if (throwException == true)
+        else if (throwException)
             throw new ItemNotFoundException($"Failed to remove an item with key '{key}'.");
 
         return false;

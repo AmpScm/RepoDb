@@ -93,7 +93,7 @@ public static class DbCommandExtension
     /// <param name="parameter"></param>
     internal static void EnsureTableValueParameter(IDbDataParameter parameter)
     {
-        if (parameter == null || parameter.Value is DataTable table == false)
+        if (parameter == null || parameter.Value is not DataTable table)
         {
             return;
         }
@@ -455,7 +455,7 @@ public static class DbCommandExtension
         // Skip
         if (propertiesToSkip != null)
         {
-            paramClassProperties = paramClassProperties.Where(p => propertiesToSkip.Contains(p.PropertyInfo.Name) == false);
+            paramClassProperties = paramClassProperties.Where(p => !propertiesToSkip.Contains(p.PropertyInfo.Name));
         }
 
         // Iterate

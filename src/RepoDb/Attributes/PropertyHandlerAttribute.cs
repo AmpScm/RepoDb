@@ -37,7 +37,7 @@ public class PropertyHandlerAttribute : Attribute
     /// <param name="handlerType"></param>
     private static void Validate(Type handlerType)
     {
-        if (handlerType.IsInterfacedTo(StaticType.IPropertyHandler) != true)
+        if (!handlerType.IsInterfacedTo(StaticType.IPropertyHandler))
         {
             throw new InvalidTypeException($"Type '{handlerType.FullName}' must implement the '{StaticType.IPropertyHandler}' interface.");
         }

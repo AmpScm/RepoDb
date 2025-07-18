@@ -317,14 +317,10 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="objA">The first <see cref="DirectionalQueryField"/> object.</param>
     /// <param name="objB">The second <see cref="DirectionalQueryField"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(DirectionalQueryField objA,
-        DirectionalQueryField objB)
+    public static bool operator ==(DirectionalQueryField? objA,
+        DirectionalQueryField? objB)
     {
-        if (objA is null)
-        {
-            return objB is null;
-        }
-        return objA.Equals(objB);
+        return objA is null ? objB is null : objA.Equals(objB);
     }
 
     /// <summary>
@@ -333,9 +329,9 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="objA">The first <see cref="DirectionalQueryField"/> object.</param>
     /// <param name="objB">The second <see cref="DirectionalQueryField"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(DirectionalQueryField objA,
-        DirectionalQueryField objB) =>
-        (objA == objB) == false;
+    public static bool operator !=(DirectionalQueryField? objA,
+        DirectionalQueryField? objB) =>
+        !(objA == objB);
 
     #endregion
 }

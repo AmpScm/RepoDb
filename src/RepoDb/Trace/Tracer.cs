@@ -87,7 +87,7 @@ internal static class Tracer
             return;
         }
 
-        if (result.CancellableTraceLog.IsCancelled == true)
+        if (result.CancellableTraceLog.IsCancelled)
         {
             return;
         }
