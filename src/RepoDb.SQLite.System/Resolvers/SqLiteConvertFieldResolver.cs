@@ -1,5 +1,5 @@
-﻿using RepoDb.Interfaces;
-using System.Data;
+﻿using System.Data;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
 
@@ -20,7 +20,7 @@ public class SqLiteConvertFieldResolver : DbConvertFieldResolver
     /// Creates a new instance of <see cref="SqLiteConvertFieldResolver"/> class.
     /// </summary>
     public SqLiteConvertFieldResolver(IResolver<Type, DbType?> dbTypeResolver,
-        IResolver<DbType, string> stringNameResolver)
+        IResolver<DbType, string?> stringNameResolver)
         : base(dbTypeResolver,
               stringNameResolver)
     { }
