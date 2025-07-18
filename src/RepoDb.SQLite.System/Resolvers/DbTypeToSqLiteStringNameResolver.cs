@@ -1,19 +1,19 @@
-﻿using RepoDb.Interfaces;
-using System.Data;
+﻿using System.Data;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
 
 /// <summary>
 /// A class that is being used to resolve the <see cref="DbType"/> into its equivalent database string name.
 /// </summary>
-public class DbTypeToSqLiteStringNameResolver : IResolver<DbType, string>
+public class DbTypeToSqLiteStringNameResolver : IResolver<DbType, string?>
 {
     /// <summary>
     /// Returns the equivalent <see cref="DbType"/> of the .NET CLR Types.
     /// </summary>
     /// <param name="dbType">The type of the database.</param>
     /// <returns>The equivalent string name.</returns>
-    public virtual string Resolve(DbType dbType)
+    public virtual string? Resolve(DbType dbType)
     {
         /*
         Id : System.Int64

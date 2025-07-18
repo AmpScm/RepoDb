@@ -1102,7 +1102,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         var commandText = LocalCommandTextCache.Get(key);
         if (!string.IsNullOrEmpty(commandText))
         {
-            return commandText;
+            return commandText!;
         }
 
         // Qualifiers

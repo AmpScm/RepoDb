@@ -35,8 +35,8 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     public SQLiteStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
-        IResolver<Type, Type> averageableClientTypeResolver = null)
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
+        IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
               convertFieldResolver,
               averageableClientTypeResolver)

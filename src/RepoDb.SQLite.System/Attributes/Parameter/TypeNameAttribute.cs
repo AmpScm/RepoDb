@@ -20,5 +20,5 @@ public class TypeNameAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped type name of the parameter.
     /// </summary>
-    public string TypeName => (string)Value;
+    public string TypeName => (string)Value!;
 }

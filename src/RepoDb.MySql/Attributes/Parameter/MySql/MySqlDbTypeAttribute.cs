@@ -20,5 +20,5 @@ public class MySqlDbTypeAttribute : PropertyValueAttribute
     /// <summary>
     /// Gets the mapped <see cref="global::MySql.Data.MySqlClient.MySqlDbType"/> value of the parameter.
     /// </summary>
-    public MySqlDbType MySqlDbType => (MySqlDbType)Value;
+    public MySqlDbType MySqlDbType => (MySqlDbType)Value!;
 }

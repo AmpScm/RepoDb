@@ -20,7 +20,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
 {
 #if MYSQLPLAIN
     public MySqlStatementBuilder()
-        : this(DbSettingMapper.Get<MySqlConnection>(),
+        : this(DbSettingMapper.Get<MySqlConnection>()!,
               null,
               null)
     { }
@@ -32,8 +32,8 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     public MySqlStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
-        IResolver<Type, Type> averageableClientTypeResolver = null)
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
+        IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
               convertFieldResolver,
               averageableClientTypeResolver)
@@ -43,7 +43,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     /// Creates a new instance of <see cref="MySqlStatementBuilder"/> object.
     /// </summary>
     public MySqlConnectorStatementBuilder()
-        : this(DbSettingMapper.Get<MySqlConnection>(),
+        : this(DbSettingMapper.Get<MySqlConnection>()!,
               null,
               null)
     { }
@@ -55,8 +55,8 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
     public MySqlConnectorStatementBuilder(IDbSetting dbSetting,
-        IResolver<Field, IDbSetting, string>? convertFieldResolver = null,
-        IResolver<Type, Type> averageableClientTypeResolver = null)
+        IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
+        IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
               convertFieldResolver,
               averageableClientTypeResolver)
@@ -466,9 +466,9 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMerge(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> noUpdateFields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<DbField> keyFields,
-        IEnumerable<Field>? qualifiers, string? hints = null)
+        IEnumerable<Field> qualifiers, string? hints = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
@@ -577,7 +577,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for merge operation.</returns>
     public override string CreateMergeAll(string tableName,
         IEnumerable<Field> fields,
-        IEnumerable<Field> noUpdateFields,
+        IEnumerable<Field>? noUpdateFields,
         IEnumerable<Field> qualifiers,
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
