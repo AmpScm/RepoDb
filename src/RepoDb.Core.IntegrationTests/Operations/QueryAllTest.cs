@@ -143,7 +143,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = connection.QueryAll<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = connection.QueryAll<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>());
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -439,7 +439,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>());
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());

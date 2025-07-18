@@ -763,7 +763,7 @@ public class BinaryBulkUpdateTest
 
     #endregion
 
-    #region BinaryBulkUpdate<IDictionary<string, object>>
+    #region BinaryBulkUpdate<IDictionary<string, object?>>
 
     [TestMethod]
     public void TestBinaryBulkUpdateViaExpandoObject()
@@ -2425,7 +2425,7 @@ public class BinaryBulkUpdateTest
 
     #endregion
 
-    #region BinaryBulkUpdate<IDictionary<string, object>>
+    #region BinaryBulkUpdate<IDictionary<string, object?>>
 
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncViaExpandoObject()

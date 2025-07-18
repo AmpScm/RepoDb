@@ -137,11 +137,11 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = connection.ExecuteQuery<IDictionary<string, object>>("SELECT * FROM [sc].[IdentityTable];",
+        var result = connection.ExecuteQuery<IDictionary<string, object?>>("SELECT * FROM [sc].[IdentityTable];",
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
             cache: cache);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -245,11 +245,11 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IDictionary<string, object>>("SELECT * FROM [sc].[IdentityTable];",
+        var result = await connection.ExecuteQueryAsync<IDictionary<string, object?>>("SELECT * FROM [sc].[IdentityTable];",
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
             cache: cache);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -772,7 +772,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = connection.Query<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             what: (object?)null,
             orderBy: (IEnumerable<OrderField>)null,
             top: 0,
@@ -785,7 +785,7 @@ public class CacheTest
             trace: null,
             statementBuilder: Helper.StatementBuilder);
 
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -807,7 +807,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = connection.Query<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             where: (QueryGroup)null,
             orderBy: null,
             top: 0,
@@ -819,7 +819,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -841,7 +841,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = connection.Query<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             where: (IEnumerable<QueryField>)null,
             orderBy: null,
             top: 0,
@@ -852,7 +852,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -874,7 +874,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = connection.Query<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             where: (QueryGroup)null,
             orderBy: null,
             top: 0,
@@ -885,7 +885,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1359,7 +1359,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = await connection.QueryAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             what: (object?)null,
             orderBy: (IEnumerable<OrderField>)null,
             top: 0,
@@ -1372,7 +1372,7 @@ public class CacheTest
             trace: null,
             statementBuilder: Helper.StatementBuilder);
 
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1394,7 +1394,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = await connection.QueryAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             where: (QueryGroup)null,
             orderBy: null,
             top: 0,
@@ -1406,7 +1406,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1428,7 +1428,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = await connection.QueryAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             where: (IEnumerable<QueryField>)null,
             orderBy: null,
             top: 0,
@@ -1439,7 +1439,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1461,7 +1461,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = await connection.QueryAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             where: (QueryGroup)null,
             orderBy: null,
             top: 0,
@@ -1472,7 +1472,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1595,7 +1595,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = connection.QueryAll<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = connection.QueryAll<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,
@@ -1605,7 +1605,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1726,7 +1726,7 @@ public class CacheTest
         entity.Id = Convert.ToInt32(connection.Insert(entity));
 
         // Act
-        var result = await connection.QueryAllAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = await connection.QueryAllAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             orderBy: null,
             hints: null,
             cacheKey: cacheKey,
@@ -1736,7 +1736,7 @@ public class CacheTest
             cache: cache,
             trace: null,
             statementBuilder: null);
-        var item = cache.Get<IEnumerable<IDictionary<string, object>>>(cacheKey);
+        var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
         Assert.AreEqual(1, result.Count());

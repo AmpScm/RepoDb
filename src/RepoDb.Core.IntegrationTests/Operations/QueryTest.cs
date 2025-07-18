@@ -153,7 +153,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = connection.Query<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
 
@@ -1308,7 +1308,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IDictionary<string, object>>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
 

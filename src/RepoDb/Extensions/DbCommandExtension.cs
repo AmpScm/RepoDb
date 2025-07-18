@@ -207,10 +207,10 @@ public static class DbCommandExtension
             return;
         }
 
-        // IDictionary<string, object>
+        // IDictionary<string, object?>
         switch (param)
         {
-            case IDictionary<string, object> objects:
+            case IDictionary<string, object?> objects:
                 CreateParameters(command, objects, propertiesToSkip, dbFields);
                 break;
 
@@ -445,7 +445,7 @@ public static class DbCommandExtension
         // Check
         if (type.IsGenericType && type.GetGenericTypeDefinition() == StaticType.Dictionary)
         {
-            throw new InvalidParameterException("The supported type of dictionary object must be of type IDictionary<string, object>.");
+            throw new InvalidParameterException("The supported type of dictionary object must be of type IDictionary<string, object?>.");
         }
 
         // Variables
@@ -491,7 +491,7 @@ public static class DbCommandExtension
     /// <param name="propertiesToSkip"></param>
     /// <param name="dbFields"></param>
     private static void CreateParameters(IDbCommand command,
-        IDictionary<string, object> dictionary,
+        IDictionary<string, object?> dictionary,
         HashSet<string>? propertiesToSkip,
         DbFieldCollection? dbFields = null)
     {

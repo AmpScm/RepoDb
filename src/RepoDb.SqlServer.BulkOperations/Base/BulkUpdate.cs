@@ -149,8 +149,8 @@ public static partial class SqlConnectionExtension
                 tempTableName,
                 fields,
                 qualifiers,
-                primaryDbField?.AsField(),
-                identityDbField?.AsField(),
+                primaryDbField,
+                identityDbField,
                 hints,
                 dbSetting);
             result = connection.ExecuteNonQuery(sql, commandTimeout: bulkCopyTimeout, transaction: transaction);
@@ -207,7 +207,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null)
     {
         // Validate
-        if (dataTable?.Rows.Count <= 0)
+        if (dataTable.Rows.Count <= 0)
         {
             return default;
         }
@@ -546,9 +546,9 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
     {
         // Validate
-        if (dataTable?.Rows.Count <= 0)
+        if (dataTable.Rows.Count <= 0)
         {
-            return default;
+            return 0;
         }
 
         // Variables

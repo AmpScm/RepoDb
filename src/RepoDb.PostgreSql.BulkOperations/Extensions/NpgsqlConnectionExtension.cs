@@ -87,7 +87,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="mappings"></param>
     /// <param name="identityBehavior"></param>
     private static int BinaryImport(NpgsqlBinaryImporter importer,
-        IEnumerable<IDictionary<string, object>> dictionaries,
+        IEnumerable<IDictionary<string, object?>> dictionaries,
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         BulkImportIdentityBehavior identityBehavior)
     {
@@ -335,7 +335,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     private static async Task<int> BinaryImportExplicitAsync(NpgsqlBinaryImporter importer,
-        IEnumerable<IDictionary<string, object>> dictionaries,
+        IEnumerable<IDictionary<string, object?>> dictionaries,
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
         BulkImportIdentityBehavior identityBehavior,
         CancellationToken cancellationToken = default)

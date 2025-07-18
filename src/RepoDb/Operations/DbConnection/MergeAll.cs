@@ -426,7 +426,7 @@ public static partial class DbConnectionExtension
             {
                 return MergeAllInternalBase(connection: connection,
                     tableName: tableName,
-                    entities: entities.WithType<IDictionary<string, object>>(),
+                    entities: entities.WithType<IDictionary<string, object?>>(),
                     qualifiers: qualifiers,
                     batchSize: batchSize,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
@@ -461,7 +461,7 @@ public static partial class DbConnectionExtension
             {
                 return UpsertAllInternalBase(connection: connection,
                     tableName: tableName,
-                    entities: entities.WithType<IDictionary<string, object>>(),
+                    entities: entities.WithType<IDictionary<string, object?>>(),
                     qualifiers: qualifiers,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
                     noUpdateFields: noUpdateFields,
@@ -928,7 +928,7 @@ public static partial class DbConnectionExtension
             {
                 return await MergeAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
-                    entities: entities.WithType<IDictionary<string, object>>(),
+                    entities: entities.WithType<IDictionary<string, object?>>(),
                     qualifiers: qualifiers,
                     batchSize: batchSize,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
@@ -965,7 +965,7 @@ public static partial class DbConnectionExtension
             {
                 return await UpsertAllInternalBaseAsync(connection: connection,
                     tableName: tableName,
-                    entities: entities.WithType<IDictionary<string, object>>(),
+                    entities: entities.WithType<IDictionary<string, object?>>(),
                     qualifiers: qualifiers,
                     fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
                     hints: hints,
@@ -1787,7 +1787,7 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Iterate the entities
-        var immutableFields = EnumerableExtension.AsList(fields); // Fix for the IDictionary<string, object> object
+        var immutableFields = EnumerableExtension.AsList(fields); // Fix for the IDictionary<string, object?> object
         foreach (var entity in entities.AsList())
         {
             // Call the upsert
@@ -1868,7 +1868,7 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Iterate the entities
-        var immutableFields = EnumerableExtension.AsList(fields); // Fix for the IDictionary<string, object> object
+        var immutableFields = EnumerableExtension.AsList(fields); // Fix for the IDictionary<string, object?> object
         foreach (var entity in entities.AsList())
         {
             // Call the upsert

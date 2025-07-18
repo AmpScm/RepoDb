@@ -29,7 +29,7 @@ public static partial class SqlConnectionExtension
         Field identityField)
         where TEntity : class
     {
-        var entityType = entities?.FirstOrDefault()?.GetType() ?? typeof(TEntity);
+        var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
         var list = entities.AsList();
         var result = 0;
 
@@ -39,7 +39,7 @@ public static partial class SqlConnectionExtension
             {
                 var value = Converter.DbNullToNull(reader.GetFieldValue<object>(0));
                 var index = reader.GetFieldValue<int>(1);
-                var dictionary = (IDictionary<string, object>)list[index < 0 ? result : index];
+                var dictionary = (IDictionary<string, object?>)list[index < 0 ? result : index];
                 dictionary[identityField.FieldName] = value;
                 result++;
             }
@@ -77,7 +77,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        var entityType = entities?.FirstOrDefault()?.GetType() ?? typeof(TEntity);
+        var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
         var list = entities.AsList();
         var result = 0;
 
@@ -87,7 +87,7 @@ public static partial class SqlConnectionExtension
             {
                 var value = Converter.DbNullToNull(await reader.GetFieldValueAsync<object>(0, cancellationToken));
                 var index = await reader.GetFieldValueAsync<int>(1, cancellationToken);
-                var dictionary = (IDictionary<string, object>)list[(index < 0 ? result : index)];
+                var dictionary = (IDictionary<string, object?>)list[(index < 0 ? result : index)];
                 dictionary[identityDbField.FieldName] = value;
                 result++;
             }
@@ -100,7 +100,7 @@ public static partial class SqlConnectionExtension
                 var value = Converter.DbNullToNull(await reader.GetFieldValueAsync<object>(0, cancellationToken));
                 var index = await reader.GetFieldValueAsync<int>(1, cancellationToken);
                 var entity = list[(index < 0 ? result : index)];
-                func(entity, value);
+                func?.Invoke(entity, value);
                 result++;
             }
         }
@@ -166,10 +166,13 @@ public static partial class SqlConnectionExtension
         var columnMappingsInstance = columnMappingsProperty(sqlBulkCopy);
         var types = new[] { typeof(string), typeof(string) };
         var addMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopyColumnMappingCollection, SqlBulkCopyColumnMapping>("Add", types);
-        mappings
+        if (addMethod is { })
+        {
+            mappings
             .AsList()
             .ForEach(mapItem =>
                 addMethod(columnMappingsInstance, new[] { mapItem.SourceColumn, mapItem.DestinationColumn }));
+        }
     }
 
     /// <summary>
@@ -191,7 +194,7 @@ public static partial class SqlConnectionExtension
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="qualifiers"></param>
     /// <returns></returns>
-    private static IEnumerable<Field> ParseExpression<TEntity>(Expression<Func<TEntity, object?>> qualifiers)
+    private static FieldSet? ParseExpression<TEntity>(Expression<Func<TEntity, object?>>? qualifiers)
         where TEntity : class =>
         qualifiers != null ? Field.Parse<TEntity>(qualifiers) : default;
 
@@ -275,7 +278,7 @@ public static partial class SqlConnectionExtension
     /// 
     /// </summary>
     /// <param name="mappings"></param>
-    private static IEnumerable<BulkInsertMapItem> AddOrderColumnMapping(IEnumerable<BulkInsertMapItem> mappings)
+    private static List<BulkInsertMapItem> AddOrderColumnMapping(IEnumerable<BulkInsertMapItem> mappings)
     {
         var list = mappings.AsList();
         list.Add(new BulkInsertMapItem("__RepoDb_OrderColumn", "__RepoDb_OrderColumn"));
@@ -301,10 +304,7 @@ public static partial class SqlConnectionExtension
     /// <param name="reader"></param>
     internal static void ThrowIfNullOrEmpty(DbDataReader reader)
     {
-        if (reader == null)
-        {
-            throw new ArgumentNullException("The reader must not be null.");
-        }
+        ArgumentNullException.ThrowIfNull(reader);
         if (reader.HasRows == false)
         {
             throw new EmptyException("The reader must contain at least a single row.");
@@ -317,10 +317,7 @@ public static partial class SqlConnectionExtension
     /// <param name="dataTable"></param>
     internal static void ThrowIfNullOrEmpty(DataTable dataTable)
     {
-        if (dataTable == null)
-        {
-            throw new ArgumentNullException("The data table must not be null.");
-        }
+        ArgumentNullException.ThrowIfNull(dataTable);
         if (dataTable.Rows.Count <= 0)
         {
             throw new EmptyException("The data table must contain at least a single row.");
@@ -335,17 +332,14 @@ public static partial class SqlConnectionExtension
     internal static void ThrowIfNullOrEmpty<TEntity>(IEnumerable<TEntity> entities)
         where TEntity : class
     {
-        if (entities == null)
-        {
-            throw new ArgumentNullException("The entities must not be null.");
-        }
+        ArgumentNullException.ThrowIfNull(entities);
         if (entities.Any() == false)
         {
             throw new EmptyException("The entities must not be empty.");
         }
     }
 
-    private static void CommitTransaction(IDbTransaction transaction,
+    private static void CommitTransaction(SqlTransaction transaction,
         bool hasTransaction)
     {
         if (hasTransaction == false)
@@ -354,7 +348,7 @@ public static partial class SqlConnectionExtension
         }
     }
 
-    private static void RollbackTransaction(IDbTransaction transaction,
+    private static void RollbackTransaction(SqlTransaction transaction,
         bool hasTransaction)
     {
         if (hasTransaction == false)
@@ -363,7 +357,7 @@ public static partial class SqlConnectionExtension
         }
     }
 
-    private static void DisposeTransaction(IDbTransaction transaction,
+    private static void DisposeTransaction(SqlTransaction transaction,
         bool hasTransaction)
     {
         if (hasTransaction == false)
@@ -373,7 +367,7 @@ public static partial class SqlConnectionExtension
     }
 
     private static T CreateOrValidateCurrentTransaction<T>(IDbConnection connection,
-        T transaction)
+        T? transaction)
         where T : DbTransaction
     {
         // Check the transaction
@@ -390,7 +384,7 @@ public static partial class SqlConnectionExtension
     }
 
     private static async Task<T> CreateOrValidateCurrentTransactionAsync<T>(IDbConnection connection,
-        T transaction,
+        T? transaction,
         CancellationToken cancellationToken = default)
         where T : DbTransaction
     {
@@ -557,7 +551,7 @@ public static partial class SqlConnectionExtension
     private static string GetBulkDeleteSqlText(string tableName,
         string tempTableName,
         IEnumerable<Field> qualifiers,
-        string hints,
+        string? hints,
         IDbSetting dbSetting)
     {
         // Validate the presence
@@ -607,8 +601,8 @@ public static partial class SqlConnectionExtension
     private static string GetBulkInsertSqlText(string tableName,
         string tempTableName,
         IEnumerable<Field> fields,
-        Field identityField,
-        string hints,
+        Field? identityField,
+        string? hints,
         IDbSetting dbSetting,
         bool isReturnIdentity,
         bool forceIdentityColumn)
@@ -730,9 +724,9 @@ public static partial class SqlConnectionExtension
         string tempTableName,
         IEnumerable<Field> fields,
         IEnumerable<Field> qualifiers,
-        Field primaryField,
-        Field identityField,
-        string hints,
+        Field? primaryField,
+        Field? identityField,
+        string? hints,
         IDbSetting dbSetting,
         bool isReturnIdentity,
         bool forceIdentityColumn)
@@ -884,9 +878,9 @@ public static partial class SqlConnectionExtension
         string tempTableName,
         IEnumerable<Field> fields,
         IEnumerable<Field> qualifiers,
-        Field primaryField,
-        Field identityField,
-        string hints,
+        Field? primaryField,
+        Field? identityField,
+        string? hints,
         IDbSetting dbSetting)
     {
         // Validate the presence
@@ -948,7 +942,7 @@ public static partial class SqlConnectionExtension
         var table = new DataTable();
         var column = table
             .Columns
-            .Add(field.FieldName, field.Type);
+            .Add(field.FieldName, field.Type!);
 
         // Add the values
         foreach (var value in values)

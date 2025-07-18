@@ -162,8 +162,8 @@ public static class Helper
     /// <param name="items2"></param>
     /// <param name="selector"></param>
     /// <returns></returns>
-    public static int AssertDictionariesEquality(IEnumerable<IDictionary<string, object>> items1,
-        IEnumerable<IDictionary<string, object>> items2,
+    public static int AssertDictionariesEquality(IEnumerable<IDictionary<string, object?>> items1,
+        IEnumerable<IDictionary<string, object?>> items2,
         Func<IDictionary<string, object>, IDictionary<string, object>, bool> selector)
     {
         Assert.AreEqual(items1.Count(), items2.Count(), "Count is not equal.");

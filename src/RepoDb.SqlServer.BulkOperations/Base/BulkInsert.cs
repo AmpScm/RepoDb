@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Data.SqlClient;
 using RepoDb.Interfaces;
 
@@ -40,8 +41,9 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null)
         where TEntity : class
     {
-        // Validate
-        // ThrowIfNullOrEmpty(entities);
+        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(entities);
 
         // Variables needed
         var dbSetting = connection.GetDbSetting();
@@ -56,10 +58,10 @@ public static partial class SqlConnectionExtension
             var dbFields = DbFieldCache.Get(connection, tableName, transaction, true);
 
             // Variables needed
-            var identityDbField = dbFields?.Identity;
-            var entityType = entities?.FirstOrDefault()?.GetType() ?? typeof(TEntity);
+            var identityDbField = dbFields.Identity;
+            var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
-                GetDictionaryStringObjectFields(entities?.FirstOrDefault() as IDictionary<string, object>) :
+                GetDictionaryStringObjectFields((IDictionary<string, object>)entities.First()) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
 
@@ -118,9 +120,9 @@ public static partial class SqlConnectionExtension
             {
                 // Merge the actual data
                 var sql = GetBulkInsertSqlText(tableName,
-                    tempTableName,
+                    tempTableName!,
                     fields,
-                    identityDbField?.AsField(),
+                    identityDbField!,
                     hints,
                     dbSetting,
                     withPseudoExecution,
@@ -129,13 +131,13 @@ public static partial class SqlConnectionExtension
                 // Execute the SQL
                 using (var reader = (DbDataReader)connection.ExecuteReader(sql, commandTimeout: bulkCopyTimeout, transaction: transaction))
                 {
-                    var mapping = mappings?.FirstOrDefault(e => string.Equals(e.DestinationColumn, identityDbField.FieldName, StringComparison.OrdinalIgnoreCase));
-                    var identityField = mapping != null ? new Field(mapping.SourceColumn) : identityDbField.AsField();
+                    var mapping = mappings?.FirstOrDefault(e => string.Equals(e.DestinationColumn, identityDbField!.FieldName, StringComparison.OrdinalIgnoreCase));
+                    var identityField = mapping != null ? new Field(mapping.SourceColumn) : identityDbField!;
                     result = SetIdentityForEntities(entities, reader, identityField);
                 }
 
                 // Drop the table after used
-                sql = GetDropTemporaryTableSqlText(tempTableName, dbSetting);
+                sql = GetDropTemporaryTableSqlText(tempTableName!, dbSetting);
                 connection.ExecuteNonQuery(sql, transaction: transaction, trace: trace);
             }
 
@@ -286,7 +288,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null)
     {
         // Validate
-        if (dataTable?.Rows.Count <= 0)
+        if (dataTable.Rows.Count <= 0)
         {
             return default;
         }
@@ -304,7 +306,7 @@ public static partial class SqlConnectionExtension
             var dbFields = DbFieldCache.Get(connection, tableName, transaction, true);
 
             // Variables needed
-            var identityDbField = dbFields?.Identity;
+            var identityDbField = dbFields.Identity;
             var tableFields = GetDataColumns(dataTable)
                 .Select(column => column.ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
@@ -366,16 +368,16 @@ public static partial class SqlConnectionExtension
                 if (isReturnIdentity == true)
                 {
                     var sql = GetBulkInsertSqlText(tableName,
-                        tempTableName,
+                        tempTableName!,
                         fields,
-                        identityDbField?.AsField(),
+                        identityDbField!,
                         hints,
                         dbSetting,
                         withPseudoExecution,
                         options.HasFlag(SqlBulkCopyOptions.KeepIdentity));
 
                     // Identify the column
-                    var column = dataTable.Columns[identityDbField.FieldName];
+                    var column = dataTable.Columns[identityDbField!.FieldName];
                     if (column?.ReadOnly == false)
                     {
                         using var reader = (DbDataReader)connection.ExecuteReader(sql, commandTimeout: bulkCopyTimeout, transaction: transaction);
@@ -388,7 +390,7 @@ public static partial class SqlConnectionExtension
                     }
 
                     // Drop the table after used
-                    sql = GetDropTemporaryTableSqlText(tempTableName, dbSetting);
+                    sql = GetDropTemporaryTableSqlText(tempTableName!, dbSetting);
                     connection.ExecuteNonQuery(sql, transaction: transaction, trace: trace);
                 }
             }
@@ -446,11 +448,13 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        // Validate
-        var firstEntity = entities?.FirstOrDefault();
+        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNull(entities);
+
+        var firstEntity = entities.FirstOrDefault();
         if (firstEntity is null)
         {
-            return default;
+            return 0;
         }
 
         // Variables needed
@@ -466,10 +470,10 @@ public static partial class SqlConnectionExtension
             var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, true, cancellationToken: cancellationToken);
 
             // Variables needed
-            var identityDbField = dbFields?.Identity;
+            var identityDbField = dbFields.Identity;
             var entityType = firstEntity.GetType();
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
-                GetDictionaryStringObjectFields(firstEntity as IDictionary<string, object>) :
+                GetDictionaryStringObjectFields((IDictionary<string, object>)firstEntity) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
 
@@ -529,9 +533,9 @@ public static partial class SqlConnectionExtension
             {
                 // Merge the actual data
                 var sql = GetBulkInsertSqlText(tableName,
-                    tempTableName,
+                    tempTableName!,
                     fields,
-                    identityDbField?.AsField(),
+                    identityDbField!,
                     hints,
                     dbSetting,
                     withPseudoExecution,
@@ -540,11 +544,11 @@ public static partial class SqlConnectionExtension
                 // Execute the SQL
                 using (var reader = (DbDataReader)(await connection.ExecuteReaderAsync(sql, commandTimeout: bulkCopyTimeout, transaction: transaction, cancellationToken: cancellationToken)))
                 {
-                    result = await SetIdentityForEntitiesAsync(entities, reader, identityDbField, cancellationToken);
+                    result = await SetIdentityForEntitiesAsync(entities, reader, identityDbField!, cancellationToken);
                 }
 
                 // Drop the table after used
-                sql = GetDropTemporaryTableSqlText(tempTableName, dbSetting);
+                sql = GetDropTemporaryTableSqlText(tempTableName!, dbSetting);
                 await connection.ExecuteNonQueryAsync(sql, transaction: transaction, trace: trace, cancellationToken: cancellationToken);
             }
 
@@ -699,10 +703,12 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNull(dataTable);
         // Validate
-        if (dataTable?.Rows.Count <= 0)
+        if (dataTable.Rows.Count <= 0)
         {
-            return default;
+            return 0;
         }
 
         // Variables needed
@@ -718,7 +724,7 @@ public static partial class SqlConnectionExtension
             var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, true, cancellationToken);
 
             // Variables needed
-            var identityDbField = dbFields?.Identity;
+            var identityDbField = dbFields.Identity;
             var tableFields = GetDataColumns(dataTable)
                 .Select(column => column.ColumnName);
             var fields = dbFields.AsFields().AsEnumerable();
@@ -782,16 +788,16 @@ public static partial class SqlConnectionExtension
                 if (isReturnIdentity == true)
                 {
                     var sql = GetBulkInsertSqlText(tableName,
-                        tempTableName,
+                        tempTableName!,
                         fields,
-                        identityDbField?.AsField(),
+                        identityDbField!,
                         hints,
                         dbSetting,
                         withPseudoExecution,
                         options.HasFlag(SqlBulkCopyOptions.KeepIdentity));
 
                     // Identify the column
-                    var column = dataTable.Columns[identityDbField.FieldName];
+                    var column = dataTable.Columns[identityDbField!.FieldName];
                     if (column?.ReadOnly == false)
                     {
                         using var reader = (DbDataReader)await connection.ExecuteReaderAsync(sql, commandTimeout: bulkCopyTimeout, transaction: transaction, cancellationToken: cancellationToken);
@@ -804,7 +810,7 @@ public static partial class SqlConnectionExtension
                     }
 
                     // Drop the table after used
-                    sql = GetDropTemporaryTableSqlText(tempTableName, dbSetting);
+                    sql = GetDropTemporaryTableSqlText(tempTableName!, dbSetting);
                     await connection.ExecuteNonQueryAsync(sql, transaction: transaction, trace: trace, cancellationToken: cancellationToken);
                 }
             }
@@ -827,11 +833,12 @@ public static partial class SqlConnectionExtension
 
     #endregion
 
-    private static string CreateBulkInsertTempTableIfNecessary<TSqlTransaction>(
+    private static string? CreateBulkInsertTempTableIfNecessary<TSqlTransaction>(
         IDbConnection connection,
         string tableName,
         bool? usePhysicalPseudoTempTable,
         TSqlTransaction transaction,
+        [NotNullWhen(false)]
         bool withPseudoExecution,
         IDbSetting dbSetting,
         IEnumerable<Field> fields,
@@ -849,7 +856,7 @@ public static partial class SqlConnectionExtension
         return tempTableName;
     }
 
-    private static async Task<string> CreateBulkInsertTempTableIfNecessaryAsync<TSqlTransaction>(IDbConnection connection,
+    private static async Task<string?> CreateBulkInsertTempTableIfNecessaryAsync<TSqlTransaction>(IDbConnection connection,
         string tableName,
         bool? usePhysicalPseudoTempTable,
         TSqlTransaction transaction,

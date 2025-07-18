@@ -739,9 +739,9 @@ public static partial class DbConnectionExtension
         // Return the result
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject)
         {
-            return MergeInternalBase<IDictionary<string, object>, TResult>(connection: connection,
+            return MergeInternalBase<IDictionary<string, object?>, TResult>(connection: connection,
                 tableName: tableName,
-                entity: (IDictionary<string, object>)entity,
+                entity: (IDictionary<string, object?>)entity,
                 qualifiers: qualifiers,
                 fields: fields ?? GetQualifiedFields(entity),
                 noUpdateFields: noUpdateFields,
@@ -1540,10 +1540,10 @@ public static partial class DbConnectionExtension
         // Return the result
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject)
         {
-            return MergeInternalBaseAsync<IDictionary<string, object>, TResult>(
+            return MergeInternalBaseAsync<IDictionary<string, object?>, TResult>(
                 connection: connection,
                 tableName: tableName,
-                entity: (IDictionary<string, object>)entity,
+                entity: (IDictionary<string, object?>)entity,
                 fields: fields ?? GetQualifiedFields(entity),
                 noUpdateFields: noUpdateFields,
                 qualifiers: qualifiers,

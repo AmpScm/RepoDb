@@ -403,7 +403,7 @@ public static partial class DbConnectionExtension
         {
             return UpdateAllInternalBase(connection: connection,
                 tableName: tableName,
-                entities: entities.WithType<IDictionary<string, object>>(),
+                entities: entities.WithType<IDictionary<string, object?>>(),
                 batchSize: batchSize,
                 fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
                 qualifiers: qualifiers,
@@ -849,7 +849,7 @@ public static partial class DbConnectionExtension
         {
             return await UpdateAllInternalBaseAsync(connection: connection,
                 tableName: tableName,
-                entities: entities.WithType<IDictionary<string, object>>(),
+                entities: entities.WithType<IDictionary<string, object?>>(),
                 batchSize: batchSize,
                 fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
                 qualifiers: qualifiers,

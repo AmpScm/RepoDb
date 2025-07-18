@@ -110,7 +110,7 @@ public class Field : IEquatable<Field>
         obj switch
         {
             null => FieldSet.Empty,
-            _ when TypeCache.Get(obj.GetType()).IsDictionaryStringObject => ParseDictionaryStringObject((IDictionary<string, object>)obj),
+            _ when TypeCache.Get(obj.GetType()).IsDictionaryStringObject => ParseDictionaryStringObject((IDictionary<string, object?>)obj),
             _ => Parse(obj.GetType())
         };
 
@@ -123,7 +123,7 @@ public class Field : IEquatable<Field>
     public static FieldSet Parse<TEntity>(TEntity? instance = null) where TEntity : class
     {
         if (instance is { } && TypeCache.Get(instance.GetType()).IsDictionaryStringObject)
-            return ParseDictionaryStringObject((IDictionary<string, object>)instance);
+            return ParseDictionaryStringObject((IDictionary<string, object?>)instance);
 
         return Parse(instance?.GetType() ?? typeof(TEntity));
     }
@@ -144,7 +144,7 @@ public class Field : IEquatable<Field>
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
-    private static FieldSet ParseDictionaryStringObject(IDictionary<string, object> obj)
+    private static FieldSet ParseDictionaryStringObject(IDictionary<string, object?> obj)
     {
         ArgumentNullException.ThrowIfNull(obj);
 

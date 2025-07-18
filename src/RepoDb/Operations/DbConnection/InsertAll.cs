@@ -132,7 +132,7 @@ public static partial class DbConnectionExtension
         {
             return InsertAllInternalBase(connection: connection,
                 tableName: tableName,
-                entities: entities.WithType<IDictionary<string, object>>(),
+                entities: entities.WithType<IDictionary<string, object?>>(),
                 batchSize: batchSize,
                 fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
                 hints: hints,
@@ -285,7 +285,7 @@ public static partial class DbConnectionExtension
         {
             return InsertAllInternalBaseAsync(connection: connection,
                 tableName: tableName,
-                entities: entities.WithType<IDictionary<string, object>>(),
+                entities: entities.WithType<IDictionary<string, object?>>(),
                 batchSize: batchSize,
                 fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
                 hints: hints,

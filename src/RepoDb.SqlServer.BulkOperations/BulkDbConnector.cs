@@ -9,16 +9,15 @@ namespace RepoDb;
 internal sealed class BulkDbConnector : IDisposable
 {
     private readonly DbRepository<SqlConnection> repository;
-    private readonly SqlTransaction transaction;
 
     /// <summary>
     /// A class with the connection for bulk operations.
     /// </summary>
     /// <param name="transaction">The transaction to be used.</param>
     /// <param name="repository">The instance of <see cref="DbRepository{SqlConnection}"/> object.</param>
-    public BulkDbConnector(SqlTransaction transaction, DbRepository<SqlConnection> repository)
+    public BulkDbConnector(SqlTransaction? transaction, DbRepository<SqlConnection> repository)
     {
-        this.transaction = transaction;
+        this.Transaction = transaction;
         this.repository = repository;
 
         Connection = transaction?.Connection ?? repository.CreateConnection();
@@ -28,13 +27,14 @@ internal sealed class BulkDbConnector : IDisposable
     /// Represents a connection to a SQL Server database.
     /// </summary>
     public SqlConnection Connection { get; }
+    public SqlTransaction? Transaction { get; }
 
     /// <inheritdoc />
     public void Dispose()
     {
         if (repository.ConnectionPersistency != ConnectionPersistency.PerCall) return;
 
-        if (transaction == null)
+        if (Transaction == null)
             Connection?.Dispose();
     }
 }

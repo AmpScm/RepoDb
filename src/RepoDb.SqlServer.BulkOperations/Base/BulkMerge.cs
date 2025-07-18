@@ -68,7 +68,7 @@ public static partial class SqlConnectionExtension
             // Variables needed
             var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
-                GetDictionaryStringObjectFields(entities.FirstOrDefault() as IDictionary<string, object>) :
+                GetDictionaryStringObjectFields((IDictionary<string, object>)entities.First()) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
@@ -146,22 +146,21 @@ public static partial class SqlConnectionExtension
                 bulkCopyTimeout,
                 batchSize,
                 hasOrderingColumn,
-                transaction,
-                trace);
+                transaction);
 
             // Create the clustered index
-            sql = GetCreateTemporaryTableClusteredIndexSqlText(tempTableName,
+            sql = GetCreateTemporaryTableClusteredIndexSqlText(tempTableName!,
                 qualifiers,
                 dbSetting);
             connection.ExecuteNonQuery(sql, transaction: transaction, trace: trace);
 
             // Merge the actual merge
             sql = GetBulkMergeSqlText(tableName,
-                tempTableName,
+                tempTableName!,
                 fields,
                 qualifiers,
-                primaryDbField?.AsField(),
-                identityDbField?.AsField(),
+                primaryDbField,
+                identityDbField!,
                 hints,
                 dbSetting,
                 isReturnIdentity,
@@ -176,13 +175,13 @@ public static partial class SqlConnectionExtension
             {
                 using var reader = (DbDataReader)connection.ExecuteReader(sql, commandTimeout: bulkCopyTimeout, transaction: transaction, trace: trace);
 
-                var mapping = mappings?.FirstOrDefault(e => string.Equals(e.DestinationColumn, identityDbField.FieldName, StringComparison.OrdinalIgnoreCase));
-                var identityField = mapping != null ? new Field(mapping.SourceColumn) : identityDbField.AsField();
+                var mapping = mappings?.FirstOrDefault(e => string.Equals(e.DestinationColumn, identityDbField!.FieldName, StringComparison.OrdinalIgnoreCase));
+                var identityField = mapping != null ? new Field(mapping.SourceColumn) : identityDbField!;
                 result = SetIdentityForEntities<TEntity>(entities, reader, identityField);
             }
 
             // Drop the table after used
-            sql = GetDropTemporaryTableSqlText(tempTableName, dbSetting);
+            sql = GetDropTemporaryTableSqlText(tempTableName!, dbSetting);
             connection.ExecuteNonQuery(sql, transaction: transaction, trace: trace);
 
             CommitTransaction(transaction, hasTransaction);
@@ -401,10 +400,9 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null)
     {
-        // Validate
-        if (dataTable?.Rows.Count <= 0)
+        if (dataTable.Rows.Count <= 0)
         {
-            return default;
+            return 0;
         }
 
         // Variables
@@ -623,7 +621,7 @@ public static partial class SqlConnectionExtension
             // Variables needed
             var entityType = entities.FirstOrDefault()?.GetType() ?? typeof(TEntity);
             var entityFields = TypeCache.Get(entityType).IsDictionaryStringObject ?
-                GetDictionaryStringObjectFields(entities.FirstOrDefault() as IDictionary<string, object>) :
+                GetDictionaryStringObjectFields((IDictionary<string, object>)entities.First()) :
                 FieldCache.Get(entityType);
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
@@ -705,14 +703,14 @@ public static partial class SqlConnectionExtension
                 cancellationToken);
 
             // Create the clustered index
-            sql = GetCreateTemporaryTableClusteredIndexSqlText(tempTableName,
+            sql = GetCreateTemporaryTableClusteredIndexSqlText(tempTableName!,
                 qualifiers,
                 dbSetting);
             await connection.ExecuteNonQueryAsync(sql, transaction: transaction, trace: trace, cancellationToken: cancellationToken);
 
             // Merge the actual merge
             sql = GetBulkMergeSqlText(tableName,
-                tempTableName,
+                tempTableName!,
                 fields,
                 qualifiers,
                 primaryDbField?.AsField(),
@@ -732,11 +730,11 @@ public static partial class SqlConnectionExtension
             {
                 using var reader = (DbDataReader)await connection.ExecuteReaderAsync(sql, commandTimeout: bulkCopyTimeout, transaction: transaction, cancellationToken: cancellationToken);
 
-                result = await SetIdentityForEntitiesAsync(entities, reader, identityDbField, cancellationToken);
+                result = await SetIdentityForEntitiesAsync(entities, reader, identityDbField!, cancellationToken);
             }
 
             // Drop the table after used
-            sql = GetDropTemporaryTableSqlText(tempTableName, dbSetting);
+            sql = GetDropTemporaryTableSqlText(tempTableName!, dbSetting);
             await connection.ExecuteNonQueryAsync(sql, transaction: transaction, trace: trace, cancellationToken: cancellationToken);
 
             CommitTransaction(transaction, hasTransaction);
@@ -961,7 +959,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
     {
         // Validate
-        if (dataTable?.Rows.Count <= 0)
+        if (dataTable.Rows.Count <= 0)
         {
             return default;
         }

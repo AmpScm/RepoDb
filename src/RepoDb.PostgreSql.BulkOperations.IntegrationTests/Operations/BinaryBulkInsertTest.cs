@@ -871,7 +871,7 @@ public class BinaryBulkInsertTest
 
     #endregion
 
-    #region BinaryBulkInsert<IDictionary<string, object>>
+    #region BinaryBulkInsert<IDictionary<string, object?>>
 
     [TestMethod]
     public void TestBinaryBulkInsertViaExpandoObject()
@@ -2859,7 +2859,7 @@ public class BinaryBulkInsertTest
 
     #endregion
 
-    #region BinaryBulkInsert<IDictionary<string, object>>
+    #region BinaryBulkInsert<IDictionary<string, object?>>
 
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncViaExpandoObject()

@@ -69,7 +69,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            where = CreateQueryGroupForUpsert((IDictionary<string, object>)entity,
+            where = CreateQueryGroupForUpsert((IDictionary<string, object?>)entity,
                 qualifiers);
         }
 
@@ -117,7 +117,7 @@ public static partial class DbConnectionExtension
                 }
                 else
                 {
-                    var dictionary = (IDictionary<string, object>)entity;
+                    var dictionary = (IDictionary<string, object?>)entity;
                     if (resultField != null && dictionary.TryGetValue(resultField.FieldName, out var value))
                     {
                         result = Converter.ToType<TResult>(value);
@@ -189,7 +189,7 @@ public static partial class DbConnectionExtension
 
         var resultField = ExecutionContextProvider.GetTargetReturnColumnAsField(entity.GetType(), dbFields);
         ClassProperty? resultProperty = null;
-        IEnumerable<ClassProperty>? properties = null;
+        IEnumerable<ClassProperty>? properties;
 
         // Check the qualifiers
         if (qualifiers?.Any() != true)
@@ -225,7 +225,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            where = CreateQueryGroupForUpsert((IDictionary<string, object>)entity,
+            where = CreateQueryGroupForUpsert((IDictionary<string, object?>)entity,
                 qualifiers);
         }
 

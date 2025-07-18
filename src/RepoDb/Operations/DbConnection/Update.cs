@@ -624,7 +624,7 @@ public static partial class DbConnectionExtension
         {
             return UpdateInternalBase(connection: connection,
                 tableName: tableName,
-                entity: (IDictionary<string, object>)entity,
+                entity: (IDictionary<string, object?>)entity,
                 where: where,
                 fields: fields ?? GetQualifiedFields(entity),
                 hints: hints,
@@ -1308,7 +1308,7 @@ public static partial class DbConnectionExtension
         {
             return UpdateInternalBaseAsync(connection: connection,
                 tableName: tableName,
-                entity: (IDictionary<string, object>)entity,
+                entity: (IDictionary<string, object?>)entity,
                 where: where,
                 fields: fields ?? GetQualifiedFields(entity),
                 hints: hints,

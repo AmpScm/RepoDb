@@ -2,7 +2,6 @@
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using RepoDb.Exceptions;
-using RepoDb.Interfaces;
 using RepoDb.SqlServer.BulkOperations;
 
 namespace RepoDb;
@@ -24,7 +23,7 @@ public static partial class SqlConnectionExtension
     /// <param name="batchSize"></param>
     /// <param name="hasOrderingColumn"></param>
     /// <param name="transaction"></param>
-    /// <param name="trace"></param>
+    /// 
     /// <returns></returns>
     private static int WriteToServerInternal<TEntity>(SqlConnection connection,
         string tableName,
@@ -34,8 +33,7 @@ public static partial class SqlConnectionExtension
         int bulkCopyTimeout = 0,
         int batchSize = 0,
         bool hasOrderingColumn = false,
-        SqlTransaction? transaction = null,
-        ITrace? trace = null)
+        SqlTransaction? transaction = null)
         where TEntity : class
     {
         // Throw an error if there are no mappings
@@ -48,7 +46,7 @@ public static partial class SqlConnectionExtension
         int result;
 
         // Actual Execution
-        using (var sqlBulkCopy = (SqlBulkCopy)Activator.CreateInstance(typeof(SqlBulkCopy), connection, options, transaction))
+        using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
             Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
@@ -79,7 +77,7 @@ public static partial class SqlConnectionExtension
             using (var reader = new DataEntityDataReader<TEntity>(tableName, entities, connection, transaction, hasOrderingColumn))
             {
                 var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DbDataReader) });
-                writeToServerMethod(sqlBulkCopy, new[] { reader });
+                writeToServerMethod?.Invoke(sqlBulkCopy, new[] { reader });
                 result = reader.RecordsAffected;
             }
 
@@ -89,7 +87,7 @@ public static partial class SqlConnectionExtension
                 // Set the return value
                 var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
                     Compiler.GetPropertyGetterFunc<SqlBulkCopy, int>("RowsCopied");
-                result = (int)rowsCopiedFieldOrProperty?.Invoke(sqlBulkCopy);
+                result = rowsCopiedFieldOrProperty?.Invoke(sqlBulkCopy) ?? 0;
             }
         }
 
@@ -128,7 +126,7 @@ public static partial class SqlConnectionExtension
         int result;
 
         // Actual Execution
-        using (var sqlBulkCopy = (SqlBulkCopy)Activator.CreateInstance(typeof(SqlBulkCopy), connection, options, transaction))
+        using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
             Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
@@ -152,7 +150,7 @@ public static partial class SqlConnectionExtension
             // Open the connection and do the operation
             connection.EnsureOpen();
             var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DbDataReader) });
-            writeToServerMethod(sqlBulkCopy, new[] { reader });
+            writeToServerMethod?.Invoke(sqlBulkCopy, new[] { reader });
 
             // Set the return value
             var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
@@ -199,7 +197,7 @@ public static partial class SqlConnectionExtension
         int result;
 
         // Actual Execution
-        using (var sqlBulkCopy = (SqlBulkCopy)Activator.CreateInstance(typeof(SqlBulkCopy), connection, options, transaction))
+        using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
             Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
@@ -231,12 +229,12 @@ public static partial class SqlConnectionExtension
             if (rowState.HasValue == true)
             {
                 var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DataTable), typeof(DataRowState) });
-                writeToServerMethod(sqlBulkCopy, new object[] { dataTable, rowState.Value });
+                writeToServerMethod?.Invoke(sqlBulkCopy, new object[] { dataTable, rowState.Value });
             }
             else
             {
                 var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DataTable) });
-                writeToServerMethod(sqlBulkCopy, new[] { dataTable });
+                writeToServerMethod?.Invoke(sqlBulkCopy, new[] { dataTable });
             }
 
             // Set the result
@@ -288,7 +286,7 @@ public static partial class SqlConnectionExtension
         int result;
 
         // Actual Execution
-        using (var sqlBulkCopy = (SqlBulkCopy)Activator.CreateInstance(typeof(SqlBulkCopy), connection, options, transaction))
+        using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
             Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
@@ -319,7 +317,8 @@ public static partial class SqlConnectionExtension
             using (var reader = new DataEntityDataReader<TEntity>(tableName, entities, connection, transaction, hasOrderingColumn))
             {
                 var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DbDataReader), typeof(CancellationToken) });
-                await writeToServerMethod(sqlBulkCopy, new object[] { reader, cancellationToken });
+                if (writeToServerMethod is { })
+                    await writeToServerMethod(sqlBulkCopy, new object[] { reader, cancellationToken });
                 result = reader.RecordsAffected;
             }
 
@@ -329,7 +328,7 @@ public static partial class SqlConnectionExtension
                 // Set the return value
                 var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
                     Compiler.GetPropertyGetterFunc<SqlBulkCopy, int>("RowsCopied");
-                result = (int)rowsCopiedFieldOrProperty?.Invoke(sqlBulkCopy);
+                result = rowsCopiedFieldOrProperty?.Invoke(sqlBulkCopy) ?? 0;
             }
         }
 
@@ -370,7 +369,7 @@ public static partial class SqlConnectionExtension
         int result;
 
         // Actual Execution
-        using (var sqlBulkCopy = (SqlBulkCopy)Activator.CreateInstance(typeof(SqlBulkCopy), connection, options, transaction))
+        using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
             Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
@@ -393,7 +392,8 @@ public static partial class SqlConnectionExtension
             // Open the connection and do the operation
             await connection.EnsureOpenAsync(cancellationToken);
             var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DbDataReader), typeof(CancellationToken) });
-            await writeToServerMethod(sqlBulkCopy, new object[] { reader, cancellationToken });
+            if (writeToServerMethod is { })
+                await writeToServerMethod(sqlBulkCopy, new object[] { reader, cancellationToken });
 
             // Set the return value
             var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
@@ -442,7 +442,7 @@ public static partial class SqlConnectionExtension
         int result;
 
         // Actual Execution
-        using (var sqlBulkCopy = (SqlBulkCopy)Activator.CreateInstance(typeof(SqlBulkCopy), connection, options, transaction))
+        using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
             Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
@@ -474,12 +474,14 @@ public static partial class SqlConnectionExtension
             if (rowState.HasValue == true)
             {
                 var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DataTable), typeof(DataRowState), typeof(CancellationToken) });
-                await writeToServerMethod(sqlBulkCopy, new object[] { dataTable, rowState.Value, cancellationToken });
+                if (writeToServerMethod is { })
+                    await writeToServerMethod(sqlBulkCopy, new object[] { dataTable, rowState.Value, cancellationToken });
             }
             else
             {
                 var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DataTable), typeof(CancellationToken) });
-                await writeToServerMethod(sqlBulkCopy, new object[] { dataTable, cancellationToken });
+                if (writeToServerMethod is { })
+                    await writeToServerMethod(sqlBulkCopy, new object[] { dataTable, cancellationToken });
             }
 
             // Set the result

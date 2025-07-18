@@ -89,7 +89,7 @@ public static partial class SqlConnectionExtension
         bool isReturnIdentity = false,
         bool usePhysicalPseudoTempTable = false,
         SqlTransaction? transaction = null,
-        ITrace trace = null)
+        ITrace? trace = null)
         where TEntity : class
     {
         return BulkMergeInternal<TEntity>(connection: connection,
@@ -133,7 +133,7 @@ public static partial class SqlConnectionExtension
         int batchSize = 0,
         bool usePhysicalPseudoTempTable = false,
         SqlTransaction? transaction = null,
-        ITrace trace = null)
+        ITrace? trace = null)
         where TEntity : class
     {
         return BulkMergeInternal(connection: connection,
@@ -546,6 +546,7 @@ public static partial class SqlConnectionExtension
             isReturnIdentity: isReturnIdentity,
             usePhysicalPseudoTempTable: usePhysicalPseudoTempTable,
             transaction: transaction,
+            trace: trace,
             cancellationToken: cancellationToken);
     }
 

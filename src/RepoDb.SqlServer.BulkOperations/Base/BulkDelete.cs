@@ -72,7 +72,7 @@ public static partial class SqlConnectionExtension
             using (var dataTable = CreateDataTableWithSingleColumn(primaryOrIdentityField, primaryKeys))
             {
                 var options = primaryOrIdentityDbField.IsIdentity == true ?
-                    Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")() : default;
+                    Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")?.Invoke() : default;
                 var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.FieldName, primaryOrIdentityField.FieldName) };
 
                 // WriteToServer
@@ -81,7 +81,7 @@ public static partial class SqlConnectionExtension
                    dataTable,
                    null,
                    mappings,
-                   options,
+                   options ?? throw new InvalidOperationException(),
                    bulkCopyTimeout,
                    batchSize,
                    false,
@@ -318,10 +318,13 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         ITrace? trace = null)
     {
-        // Validate
-        if (dataTable?.Rows.Count <= 0)
+        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(dataTable);
+
+        if (dataTable.Rows.Count <= 0)
         {
-            return default;
+            return 0;
         }
 
         // Variables
@@ -526,7 +529,7 @@ public static partial class SqlConnectionExtension
             using (var dataTable = CreateDataTableWithSingleColumn(primaryOrIdentityField, primaryKeys))
             {
                 var options = primaryOrIdentityDbField.IsIdentity == true ?
-                    Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")() : default;
+                    Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")?.Invoke() : default;
                 var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.FieldName, primaryOrIdentityField.FieldName) };
 
                 // WriteToServer
@@ -535,7 +538,7 @@ public static partial class SqlConnectionExtension
                    dataTable,
                    null,
                    mappings,
-                   options,
+                   options ?? throw new InvalidOperationException(),
                    bulkCopyTimeout,
                    batchSize,
                    false,
@@ -779,8 +782,11 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
-        // Validate
-        if (dataTable?.Rows.Count <= 0)
+        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentNullException.ThrowIfNull(dataTable);
+
+        if (dataTable.Rows.Count <= 0)
         {
             return default;
         }

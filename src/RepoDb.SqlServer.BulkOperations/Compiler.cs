@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
+using RepoDb.Exceptions;
 
 namespace RepoDb.SqlServer.BulkOperations;
 
@@ -18,7 +19,7 @@ internal static class Compiler
     /// <typeparam name="TResult"></typeparam>
     /// <param name="methodName"></param>
     /// <returns></returns>
-    public static Func<TEntity, TResult> GetMethodFunc<TEntity, TResult>(string methodName)
+    public static Func<TEntity, TResult>? GetMethodFunc<TEntity, TResult>(string methodName)
         where TEntity : class =>
         MethodFuncCache<TEntity, TResult>.GetFunc(methodName);
 
@@ -30,16 +31,16 @@ internal static class Compiler
     private static class MethodFuncCache<TEntity, TResult>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>> cache = new();
+        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>?> cache = new();
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="methodName"></param>
         /// <returns></returns>
-        public static Func<TEntity, TResult> GetFunc(string methodName)
+        public static Func<TEntity, TResult>? GetFunc(string methodName)
         {
-            if (cache.TryGetValue(methodName.GetHashCode(), out var func) == false)
+            return cache.GetOrAdd(methodName.GetHashCode(), (_) =>
             {
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName);
@@ -49,14 +50,13 @@ internal static class Compiler
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var body = Expression.Convert(Expression.Call(entity, method), typeof(TResult));
 
-                    func = Expression
+                    return Expression
                         .Lambda<Func<TEntity, TResult>>(body, entity)
                         .Compile();
                 }
-
-                cache.TryAdd(methodName.GetHashCode(), func);
-            }
-            return func;
+                else
+                    return null;
+            });
         }
     }
 
@@ -70,7 +70,7 @@ internal static class Compiler
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="methodName"></param>
     /// <returns></returns>
-    public static Action<TEntity> GetMethodFunc<TEntity>(string methodName)
+    public static Action<TEntity>? GetMethodFunc<TEntity>(string methodName)
         where TEntity : class =>
         VoidMethodFuncCache<TEntity>.GetFunc(methodName);
 
@@ -81,16 +81,16 @@ internal static class Compiler
     private static class VoidMethodFuncCache<TEntity>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Action<TEntity>> cache = new();
+        private static readonly ConcurrentDictionary<int, Action<TEntity>?> cache = new();
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="methodName"></param>
         /// <returns></returns>
-        public static Action<TEntity> GetFunc(string methodName)
+        public static Action<TEntity>? GetFunc(string methodName)
         {
-            if (cache.TryGetValue(methodName.GetHashCode(), out var func) == false)
+            return cache.GetOrAdd(methodName.GetHashCode(), (_) =>
             {
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName);
@@ -100,14 +100,13 @@ internal static class Compiler
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var body = Expression.Call(entity, method);
 
-                    func = Expression
+                    return Expression
                         .Lambda<Action<TEntity>>(body, entity)
                         .Compile();
                 }
-
-                cache.TryAdd(methodName.GetHashCode(), func);
-            }
-            return func;
+                else
+                    return null;
+            });
         }
     }
 
@@ -123,7 +122,7 @@ internal static class Compiler
     /// <param name="methodName"></param>
     /// <param name="types"></param>
     /// <returns></returns>
-    public static Func<TEntity, object[], TResult> GetParameterizedMethodFunc<TEntity, TResult>(string methodName,
+    public static Func<TEntity, object[], TResult>? GetParameterizedMethodFunc<TEntity, TResult>(string methodName,
         Type[] types)
         where TEntity : class =>
         ParameterizedMethodFuncCache<TEntity, TResult>.GetFunc(methodName, types);
@@ -136,7 +135,7 @@ internal static class Compiler
     private static class ParameterizedMethodFuncCache<TEntity, TResult>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, object[], TResult>> cache = new();
+        private static readonly ConcurrentDictionary<int, Func<TEntity, object?[], TResult>?> cache = new();
 
         /// <summary>
         ///
@@ -144,36 +143,32 @@ internal static class Compiler
         /// <param name="methodName"></param>
         /// <param name="types"></param>
         /// <returns></returns>
-        public static Func<TEntity, object[], TResult> GetFunc(string methodName,
+        public static Func<TEntity, object?[], TResult>? GetFunc(string methodName,
             Type[] types)
         {
-            var key = methodName.GetHashCode() + types?.Sum(e => e.GetHashCode());
-            if (cache.TryGetValue(key.Value, out var func) == false)
+            var key = methodName.GetHashCode() + types.Sum(e => e.GetHashCode());
+
+            return cache.GetOrAdd(key, _ =>
             {
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName, types);
-
                 if (method != null)
                 {
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var arguments = Expression.Parameter(typeof(object[]), "arguments");
                     var parameters = new List<Expression>();
-
                     for (var index = 0; index < types.Length; index++)
                     {
                         parameters.Add(Expression.Convert(Expression.ArrayIndex(arguments, Expression.Constant(index)), types[index]));
                     }
-
                     var body = Expression.Convert(Expression.Call(entity, method, parameters), typeof(TResult));
-
-                    func = Expression
-                        .Lambda<Func<TEntity, object[], TResult>>(body, entity, arguments)
+                    return Expression
+                        .Lambda<Func<TEntity, object?[], TResult>>(body, entity, arguments)
                         .Compile();
                 }
-
-                cache.TryAdd(key.Value, func);
-            }
-            return func;
+                else
+                    return null;
+            });
         }
     }
 
@@ -188,7 +183,7 @@ internal static class Compiler
     /// <param name="methodName"></param>
     /// <param name="types"></param>
     /// <returns></returns>
-    public static Action<TEntity, object[]> GetParameterizedVoidMethodFunc<TEntity>(string methodName,
+    public static Action<TEntity, object?[]>? GetParameterizedVoidMethodFunc<TEntity>(string methodName,
         Type[] types)
         where TEntity : class =>
         ParameterizedVoidMethodFuncCache<TEntity>.GetFunc(methodName, types);
@@ -200,7 +195,7 @@ internal static class Compiler
     private static class ParameterizedVoidMethodFuncCache<TEntity>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Action<TEntity, object[]>> cache = new();
+        private static readonly ConcurrentDictionary<int, Action<TEntity, object?[]>?> cache = new();
 
         /// <summary>
         ///
@@ -208,11 +203,12 @@ internal static class Compiler
         /// <param name="methodName"></param>
         /// <param name="types"></param>
         /// <returns></returns>
-        public static Action<TEntity, object[]> GetFunc(string methodName,
+        public static Action<TEntity, object?[]>? GetFunc(string methodName,
             Type[] types)
         {
-            var key = methodName.GetHashCode() + types?.Sum(e => e.GetHashCode());
-            if (cache.TryGetValue(key.Value, out var func) == false)
+            var key = methodName.GetHashCode() + types.Sum(e => e.GetHashCode());
+
+            return cache.GetOrAdd(key, (_) =>
             {
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName, types);
@@ -230,14 +226,13 @@ internal static class Compiler
 
                     var body = Expression.Call(entity, method, parameters);
 
-                    func = Expression
-                        .Lambda<Action<TEntity, object[]>>(body, entity, arguments)
+                    return Expression
+                        .Lambda<Action<TEntity, object?[]>>(body, entity, arguments)
                         .Compile();
                 }
-
-                cache.TryAdd(key.Value, func);
-            }
-            return func;
+                else
+                    return null;
+            });
         }
     }
 
@@ -254,7 +249,7 @@ internal static class Compiler
     /// <returns></returns>
     public static Func<TEntity, TResult> GetPropertyGetterFunc<TEntity, TResult>(string propertyName)
         where TEntity : class =>
-        PropertyGetterFuncCache<TEntity, TResult>.GetFunc(PropertyCache.Get<TEntity>(propertyName));
+        PropertyGetterFuncCache<TEntity, TResult>.GetFunc(PropertyCache.Get<TEntity>(propertyName) ?? throw new PropertyNotFoundException($"Property {propertyName} not found"));
 
     /// <summary>
     ///
@@ -277,7 +272,7 @@ internal static class Compiler
             {
                 var typeOfEntity = typeof(TEntity);
                 var entity = Expression.Parameter(typeOfEntity, "entity");
-                var body = Expression.Convert(Expression.Call(entity, classProperty.PropertyInfo.GetMethod), typeof(TResult));
+                var body = Expression.Convert(Expression.Call(entity, classProperty.PropertyInfo.GetMethod!), typeof(TResult));
 
                 func = Expression
                     .Lambda<Func<TEntity, TResult>>(body, entity)
@@ -299,7 +294,7 @@ internal static class Compiler
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="propertyName"></param>
     /// <returns></returns>
-    public static Action<TEntity, object> GetPropertySetterFunc<TEntity>(string propertyName)
+    public static Action<TEntity, object?>? GetPropertySetterFunc<TEntity>(string propertyName)
         where TEntity : class =>
         PropertySetterFuncCache<TEntity>.GetFunc(PropertyCache.Get<TEntity>(propertyName, true));
 
@@ -310,37 +305,36 @@ internal static class Compiler
     private static class PropertySetterFuncCache<TEntity>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Action<TEntity, object>> cache = new();
+        private static readonly ConcurrentDictionary<int, Action<TEntity, object?>?> cache = new();
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="classProperty"></param>
         /// <returns></returns>
-        public static Action<TEntity, object> GetFunc(ClassProperty classProperty)
+        public static Action<TEntity, object?>? GetFunc(ClassProperty? classProperty)
         {
             if (classProperty == null)
             {
                 return null;
             }
 
-            if (cache.TryGetValue(classProperty.GetHashCode(), out var func) == false)
+            return cache.GetOrAdd(classProperty.GetHashCode(), (_) =>
             {
                 if (classProperty != null)
                 {
                     var entity = Expression.Parameter(typeof(TEntity), "entity");
                     var value = Expression.Parameter(typeof(object), "value");
                     var converted = Expression.Convert(value, classProperty.PropertyInfo.PropertyType);
-                    var body = (Expression)Expression.Call(entity, classProperty.PropertyInfo.SetMethod, converted);
+                    var body = (Expression)Expression.Call(entity, classProperty.PropertyInfo.SetMethod!, converted);
 
-                    func = Expression
-                        .Lambda<Action<TEntity, object>>(body, entity, value)
+                    return Expression
+                        .Lambda<Action<TEntity, object?>>(body, entity, value)
                         .Compile();
                 }
-
-                cache.TryAdd(classProperty.GetHashCode(), func);
-            }
-            return func;
+                else
+                    return null;
+            });
         }
     }
 
@@ -355,7 +349,7 @@ internal static class Compiler
     /// <typeparam name="TResult"></typeparam>
     /// <param name="fieldName"></param>
     /// <returns></returns>
-    public static Func<TEntity, TResult> GetFieldGetterFunc<TEntity, TResult>(string fieldName)
+    public static Func<TEntity, TResult>? GetFieldGetterFunc<TEntity, TResult>(string fieldName)
         where TEntity : class =>
         FieldGetterFuncCache<TEntity, TResult>.GetFunc(fieldName);
 
@@ -367,16 +361,16 @@ internal static class Compiler
     private static class FieldGetterFuncCache<TEntity, TResult>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>> cache = new();
+        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>?> cache = new();
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="fieldName"></param>
         /// <returns></returns>
-        public static Func<TEntity, TResult> GetFunc(string fieldName)
+        public static Func<TEntity, TResult>? GetFunc(string fieldName)
         {
-            if (cache.TryGetValue(fieldName.GetHashCode(), out var func) == false)
+            return cache.GetOrAdd(fieldName.GetHashCode(), (_) =>
             {
                 var typeOfEntity = typeof(TEntity);
                 var fieldInfo = typeOfEntity
@@ -388,14 +382,14 @@ internal static class Compiler
                     var field = Expression.Field(entity, fieldInfo);
                     var body = Expression.Convert(field, typeof(TResult));
 
-                    func = Expression
+                    return Expression
                         .Lambda<Func<TEntity, TResult>>(body, entity)
                         .Compile();
                 }
+                else
+                    return null;
 
-                cache.TryAdd(fieldName.GetHashCode(), func);
-            }
-            return func;
+            });
         }
     }
 
@@ -409,7 +403,7 @@ internal static class Compiler
     /// <typeparam name="TEnum"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static Func<TEnum> GetEnumFunc<TEnum>(string value)
+    public static Func<TEnum>? GetEnumFunc<TEnum>(string value)
         where TEnum : Enum =>
         EnumFuncCache<TEnum>.GetFunc(value);
 
@@ -420,16 +414,16 @@ internal static class Compiler
     private static class EnumFuncCache<TEnum>
         where TEnum : Enum
     {
-        private static readonly ConcurrentDictionary<int, Func<TEnum>> cache = new();
+        private static readonly ConcurrentDictionary<int, Func<TEnum>?> cache = new();
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Func<TEnum> GetFunc(string value)
+        public static Func<TEnum>? GetFunc(string value)
         {
-            if (cache.TryGetValue(value.GetHashCode(), out var func) == false)
+            return cache.GetOrAdd(value.GetHashCode(), (_) =>
             {
                 var typeOfEnum = typeof(TEnum);
                 var fieldInfo = typeOfEnum.GetField(value);
@@ -438,14 +432,13 @@ internal static class Compiler
                 {
                     var body = Expression.Field(null, fieldInfo);
 
-                    func = Expression
+                    return Expression
                         .Lambda<Func<TEnum>>(body)
                         .Compile();
                 }
-
-                cache.TryAdd(value.GetHashCode(), func);
-            }
-            return func;
+                else
+                    return null;
+            });
         }
     }
 

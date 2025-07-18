@@ -1177,7 +1177,7 @@ public class BinaryBulkMergeTest
 
     #endregion
 
-    #region BinaryBulkMerge<IDictionary<string, object>>
+    #region BinaryBulkMerge<IDictionary<string, object?>>
 
     [TestMethod]
     public void TestBinaryBulkMergeViaExpandoObject()
@@ -3882,7 +3882,7 @@ public class BinaryBulkMergeTest
 
     #endregion
 
-    #region BinaryBulkMergeAsync<IDictionary<string, object>>
+    #region BinaryBulkMergeAsync<IDictionary<string, object?>>
 
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncViaExpandoObject()

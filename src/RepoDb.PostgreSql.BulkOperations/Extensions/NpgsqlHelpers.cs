@@ -435,7 +435,7 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="dbFields"></param>
     /// <param name="identityResults"></param>
     /// <param name="dbSetting"></param>
-    private static void SetDictionaryIdentities(IEnumerable<IDictionary<string, object>> entities,
+    private static void SetDictionaryIdentities(IEnumerable<IDictionary<string, object?>> entities,
         DbFieldCollection dbFields,
         IEnumerable<IdentityResult> identityResults,
         IDbSetting dbSetting)

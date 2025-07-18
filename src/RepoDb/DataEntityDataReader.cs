@@ -107,7 +107,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         EntityEnumerator = entities.GetEnumerator();
         Entities = entities;
         Properties = GetClassProperties().AsList();
-        Fields = EnumerableExtension.AsList(GetFields(Entities.FirstOrDefault() as IDictionary<string, object>));
+        Fields = EnumerableExtension.AsList(GetFields(Entities.FirstOrDefault() as IDictionary<string, object?>));
         fieldCount = isDictionaryStringObject ? Fields.Count : Properties.Count;
     }
 
@@ -585,7 +585,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         }
         else
         {
-            var dictionary = EntityEnumerator.Current as IDictionary<string, object>;
+            var dictionary = EntityEnumerator.Current as IDictionary<string, object?>;
             return dictionary?[Fields[i].FieldName];
         }
     }
@@ -678,7 +678,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// </summary>
     /// <param name="dictionary"></param>
     /// <returns></returns>
-    private static IEnumerable<Field> GetFields(IDictionary<string, object>? dictionary)
+    private static IEnumerable<Field> GetFields(IDictionary<string, object?>? dictionary)
     {
         if (dictionary != null)
         {

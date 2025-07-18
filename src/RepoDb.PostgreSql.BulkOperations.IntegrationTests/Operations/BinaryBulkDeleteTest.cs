@@ -569,7 +569,7 @@ public class BinaryBulkDeleteTest
 
     #endregion
 
-    #region BinaryBulkDelete<IDictionary<string, object>>
+    #region BinaryBulkDelete<IDictionary<string, object?>>
 
     [TestMethod]
     public void TestBinaryBulkDeleteViaExpandoObject()
@@ -1780,7 +1780,7 @@ public class BinaryBulkDeleteTest
 
     #endregion
 
-    #region BinaryBulkDelete<IDictionary<string, object>>
+    #region BinaryBulkDelete<IDictionary<string, object?>>
 
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncViaExpandoObject()

@@ -197,9 +197,9 @@ public static partial class DbConnectionExtension
     {
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject)
         {
-            return InsertInternalBase<IDictionary<string, object>, TResult>(connection: connection,
+            return InsertInternalBase<IDictionary<string, object?>, TResult>(connection: connection,
                 tableName: tableName,
-                entity: (IDictionary<string, object>)entity,
+                entity: (IDictionary<string, object?>)entity,
                 fields: fields ?? GetQualifiedFields(entity),
                 hints: hints,
                 commandTimeout: commandTimeout,
@@ -425,9 +425,9 @@ public static partial class DbConnectionExtension
     {
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject)
         {
-            return await InsertInternalBaseAsync<IDictionary<string, object>, TResult>(connection: connection,
+            return await InsertInternalBaseAsync<IDictionary<string, object?>, TResult>(connection: connection,
                 tableName: tableName,
-                entity: (IDictionary<string, object>)entity,
+                entity: (IDictionary<string, object?>)entity,
                 fields: fields ?? GetQualifiedFields(entity),
                 hints: hints,
                 commandTimeout: commandTimeout,

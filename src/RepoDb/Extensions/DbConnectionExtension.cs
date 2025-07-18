@@ -1083,7 +1083,7 @@ public static partial class DbConnectionExtension
     /// <param name="dictionary"></param>
     /// <returns></returns>
     internal static QueryGroup? ToQueryGroup(Field field,
-        IDictionary<string, object> dictionary)
+        IDictionary<string, object?> dictionary)
     {
         if (!dictionary.TryGetValue(field.FieldName, out var value))
         {
@@ -1104,7 +1104,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         var type = entity?.GetType() ?? typeof(TEntity);
-        return TypeCache.Get(type).IsDictionaryStringObject ? ToQueryGroup(field, (IDictionary<string, object>)entity!)
+        return TypeCache.Get(type).IsDictionaryStringObject ? ToQueryGroup(field, (IDictionary<string, object?>)entity!)
             : ToQueryGroup(PropertyCache.Get<TEntity>(field, true) ?? PropertyCache.Get(type, field, true), entity!);
     }
 
@@ -1238,7 +1238,7 @@ public static partial class DbConnectionExtension
     /// <param name="dictionary"></param>
     /// <param name="qualifiers"></param>
     /// <returns></returns>
-    internal static QueryGroup CreateQueryGroupForUpsert(IDictionary<string, object> dictionary,
+    internal static QueryGroup CreateQueryGroupForUpsert(IDictionary<string, object?> dictionary,
         IEnumerable<Field>? qualifiers = null)
     {
         if (qualifiers?.Any() != true)
@@ -1521,7 +1521,7 @@ public static partial class DbConnectionExtension
         return param switch
         {
             null => null,
-            IDictionary<string, object> objects => GetCommandArrayParametersText(command, connection, transaction, objects),
+            IDictionary<string, object?> objects => GetCommandArrayParametersText(command, connection, transaction, objects),
             QueryField field => GetCommandArrayParametersText(command, connection, transaction, field),
             IEnumerable<QueryField> fields => GetCommandArrayParametersText(command, connection, transaction, fields),
             QueryGroup group => GetCommandArrayParametersText(command, connection, transaction, group),
@@ -1593,7 +1593,7 @@ public static partial class DbConnectionExtension
         return commandArrayParametersText;
     }
 
-    private static CommandArrayParametersText? GetCommandArrayParametersText(DbCommand command, DbConnection connection, IDbTransaction? transaction, IDictionary<string, object> dictionary)
+    private static CommandArrayParametersText? GetCommandArrayParametersText(DbCommand command, DbConnection connection, IDbTransaction? transaction, IDictionary<string, object?> dictionary)
     {
         if (dictionary == null)
         {
