@@ -134,10 +134,12 @@ public class ExistsTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionExistsWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -146,6 +148,7 @@ public class ExistsTest
             connection.Exists<SdsCompleteTable>((object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -260,10 +263,12 @@ public class ExistsTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionExistsAsyncWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -272,6 +277,7 @@ public class ExistsTest
             await connection.ExistsAsync<SdsCompleteTable>((object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -378,10 +384,12 @@ public class ExistsTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionExistsViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -391,6 +399,7 @@ public class ExistsTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -493,10 +502,12 @@ public class ExistsTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionExistsAsyncViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -506,6 +517,7 @@ public class ExistsTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

@@ -51,8 +51,8 @@ public class AttributeTest
 
     private IEnumerable<AttributeTable> CreateAttributeTables(int count = 10)
     {
-        var random = new Random();
-        for (var i = 0; i < count; i++)
+        Random random = new Random();
+        for (int i = 0; i < count; i++)
         {
             yield return new AttributeTable
             {
@@ -73,82 +73,74 @@ public class AttributeTest
     public void TestNpgsqlConnectionForInsertForNpgsqlTypeMapAttribute()
     {
         // Setup
-        var table = CreateAttributeTables(1).First();
+        AttributeTable table = CreateAttributeTables(1).First();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Insert<AttributeTable>(table);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        connection.Insert<AttributeTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<AttributeTable>());
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<AttributeTable>());
 
-            // Query
-            var queryResult = connection.QueryAll<AttributeTable>().First();
+        // Query
+        AttributeTable queryResult = connection.QueryAll<AttributeTable>().First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
     public void TestNpgsqlConnectionForInsertAllForNpgsqlTypeMapAttribute()
     {
         // Setup
-        var tables = CreateAttributeTables(10).AsList();
+        List<AttributeTable> tables = CreateAttributeTables(10).AsList();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.InsertAll<AttributeTable>(tables);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        connection.InsertAll<AttributeTable>(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, connection.CountAll<AttributeTable>());
+        // Assert
+        Assert.AreEqual(tables.Count, connection.CountAll<AttributeTable>());
 
-            // Query
-            var queryResult = connection.QueryAll<AttributeTable>();
+        // Query
+        IEnumerable<AttributeTable> queryResult = connection.QueryAll<AttributeTable>();
 
-            // Assert
-            tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public void TestNpgsqlConnectionForQueryForNpgsqlTypeMapAttribute()
     {
         // Setup
-        var table = CreateAttributeTables(1).First();
+        AttributeTable table = CreateAttributeTables(1).First();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var id = connection.Insert<AttributeTable>(table);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object id = connection.Insert<AttributeTable>(table);
 
-            // Query
-            var queryResult = connection.Query<AttributeTable>(id).First();
+        // Query
+        AttributeTable queryResult = connection.Query<AttributeTable>(id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
     public void TestNpgsqlConnectionForQueryAllForNpgsqlTypeMapAttribute()
     {
         // Setup
-        var tables = CreateAttributeTables(10).AsList();
+        List<AttributeTable> tables = CreateAttributeTables(10).AsList();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.InsertAll<AttributeTable>(tables);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        connection.InsertAll<AttributeTable>(tables);
 
-            // Query
-            var queryResult = connection.QueryAll<AttributeTable>();
+        // Query
+        IEnumerable<AttributeTable> queryResult = connection.QueryAll<AttributeTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count, queryResult.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryResult.Count());
     }
 
     #endregion

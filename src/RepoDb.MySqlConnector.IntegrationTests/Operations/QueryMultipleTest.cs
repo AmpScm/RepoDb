@@ -218,13 +218,15 @@ public class QueryMultipleTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryMultipleWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             connection.QueryMultiple<CompleteTable, CompleteTable>(e => e.Id > 0,
@@ -234,6 +236,7 @@ public class QueryMultipleTest
                 top2: 2,
                 hints2: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -432,13 +435,15 @@ public class QueryMultipleTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryMultipleAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(e => e.Id > 0,
@@ -448,6 +453,7 @@ public class QueryMultipleTest
                 top2: 2,
                 hints2: "WhatEver");
         }
+        });
     }
 
     #endregion

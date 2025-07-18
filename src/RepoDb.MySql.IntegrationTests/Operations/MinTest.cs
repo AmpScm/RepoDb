@@ -32,15 +32,13 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min<CompleteTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -50,15 +48,13 @@ public class MinTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -67,15 +63,13 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min<CompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -84,15 +78,13 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min<CompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -106,15 +98,13 @@ public class MinTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInt,
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min<CompleteTable>(e => e.ColumnInt,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -129,30 +119,26 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min<CompleteTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionMinWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.Min<CompleteTable>(e => e.ColumnInt,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Min<CompleteTable>(e => e.ColumnInt,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -165,15 +151,13 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -183,15 +167,13 @@ public class MinTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -200,15 +182,13 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -217,15 +197,13 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -239,15 +217,13 @@ public class MinTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -262,30 +238,26 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionMinAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync<CompleteTable>(e => e.ColumnInt,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -302,16 +274,14 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -320,16 +290,14 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -338,16 +306,14 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -361,16 +327,14 @@ public class MinTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -385,32 +349,28 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionMinViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -423,16 +383,14 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -441,16 +399,14 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -459,16 +415,14 @@ public class MinTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -482,16 +436,14 @@ public class MinTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -506,32 +458,28 @@ public class MinTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionMinAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

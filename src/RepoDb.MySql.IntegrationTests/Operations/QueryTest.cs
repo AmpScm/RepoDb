@@ -32,14 +32,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query<CompleteTable>(table.Id).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -48,14 +46,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query<CompleteTable>(e => e.Id == table.Id).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query<CompleteTable>(e => e.Id == table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -64,14 +60,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query<CompleteTable>(new { table.Id }).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query<CompleteTable>(new { table.Id }).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -80,14 +74,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query<CompleteTable>(new QueryField("Id", table.Id)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query<CompleteTable>(new QueryField("Id", table.Id)).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -101,14 +93,12 @@ public class QueryTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query<CompleteTable>(queryFields).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query<CompleteTable>(queryFields).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -123,14 +113,12 @@ public class QueryTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query<CompleteTable>(queryGroup).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query<CompleteTable>(queryGroup).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -139,30 +127,26 @@ public class QueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query<CompleteTable>((object?)null,
-                top: 2);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query<CompleteTable>((object?)null,
+            top: 2);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.Query<CompleteTable>((object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query<CompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -175,14 +159,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync<CompleteTable>(table.Id)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync<CompleteTable>(table.Id)).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -191,14 +173,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync<CompleteTable>(e => e.Id == table.Id)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync<CompleteTable>(e => e.Id == table.Id)).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -207,14 +187,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync<CompleteTable>(new { table.Id })).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync<CompleteTable>(new { table.Id })).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -223,14 +201,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync<CompleteTable>(new QueryField("Id", table.Id))).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync<CompleteTable>(new QueryField("Id", table.Id))).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -244,14 +220,12 @@ public class QueryTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync<CompleteTable>(queryFields)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync<CompleteTable>(queryFields)).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -266,14 +240,12 @@ public class QueryTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync<CompleteTable>(queryGroup)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync<CompleteTable>(queryGroup)).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, result);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, result);
     }
 
     [TestMethod]
@@ -282,30 +254,26 @@ public class QueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.QueryAsync<CompleteTable>((object?)null,
-                top: 2);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.QueryAsync<CompleteTable>((object?)null,
+            top: 2);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAsyncWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.QueryAsync<CompleteTable>((object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync<CompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -322,14 +290,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), table.Id).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), table.Id).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -338,14 +304,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id }).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id }).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -354,14 +318,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id)).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -375,14 +337,12 @@ public class QueryTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), queryFields).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), queryFields).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -397,14 +357,12 @@ public class QueryTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), queryGroup).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), queryGroup).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -413,32 +371,28 @@ public class QueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                top: 2);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            top: 2);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryViaTableNameWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -451,14 +405,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), table.Id)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), table.Id)).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -467,14 +419,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id })).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id })).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -483,14 +433,12 @@ public class QueryTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id))).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id))).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -504,14 +452,12 @@ public class QueryTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields)).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -526,14 +472,12 @@ public class QueryTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup)).First();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup)).First();
 
-            // Assert
-            Helper.AssertMembersEquality(table, result);
-        }
+        // Assert
+        Helper.AssertMembersEquality(table, result);
     }
 
     [TestMethod]
@@ -542,32 +486,28 @@ public class QueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                top: 2);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            top: 2);
 
-            // Assert
-            Assert.AreEqual(2, result.Count());
-            result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
-        }
+        // Assert
+        Assert.AreEqual(2, result.Count());
+        result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.First(e => e.Id == item.Id), item));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAsyncViaTableNameWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

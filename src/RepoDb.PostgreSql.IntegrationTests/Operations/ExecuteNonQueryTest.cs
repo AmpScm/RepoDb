@@ -26,49 +26,43 @@ public class ExecuteNonQueryTest
     public void TestPostgreSqlConnectionExecuteNonQuery()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\";");
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionExecuteNonQueryWithParameters()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
-                new { tables.Last().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
+            new { tables.Last().Id });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionExecuteNonQueryWithMultipleStatement()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -79,49 +73,43 @@ public class ExecuteNonQueryTest
     public async Task TestPostgreSqlConnectionExecuteNonQueryAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\";");
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionExecuteNonQueryAsyncWithParameters()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
-                new { tables.Last().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
+            new { tables.Last().Id });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionExecuteNonQueryAsyncWithMultipleStatement()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion

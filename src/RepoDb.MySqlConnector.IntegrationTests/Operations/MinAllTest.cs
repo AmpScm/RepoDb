@@ -41,18 +41,21 @@ public class MinAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionMinAllWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             connection.MinAll<CompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -75,18 +78,21 @@ public class MinAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionMinAllAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             await connection.MinAllAsync<CompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -114,19 +120,22 @@ public class MinAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionMinAllViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             connection.MinAll(ClassMappedNameCache.Get<CompleteTable>(),
                 Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -150,19 +159,22 @@ public class MinAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionMinAllAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             await connection.MinAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

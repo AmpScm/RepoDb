@@ -225,27 +225,25 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(PostgresException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
+        var tableName = "BulkOperationIdentityTable";
 
-            // Act
-            connection.BinaryImport(
-                tableName,
-                entities: entities,
-                keepIdentity: true);
+        // Act
+        connection.BinaryImport(
+            tableName,
+            entities: entities,
+            keepIdentity: true);
 
-            // Act (Trigger)
-            connection.BinaryImport(
-                tableName,
-                entities: entities,
-                keepIdentity: true);
-        }
+        // Act (Trigger)
+        Assert.ThrowsExactly<PostgresException>(() => connection.BinaryImport(
+            tableName,
+            entities: entities,
+            keepIdentity: true));
     }
 
     #endregion
@@ -400,27 +398,30 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(PostgresException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportViaAnonymousWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<PostgresException>(() =>
         {
-            // Prepare
-            var entities = Helper.CreateBulkOperationAnonymousLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
+            using (var connection = GetConnection())
+            {
+                // Prepare
+                var entities = Helper.CreateBulkOperationAnonymousLightIdentityTables(10, true);
+                var tableName = "BulkOperationIdentityTable";
 
-            // Act
-            connection.BinaryImport(
-                tableName,
-                entities: entities,
-                keepIdentity: true);
+                // Act
+                connection.BinaryImport(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true);
 
-            // Act (Trigger)
-            connection.BinaryImport(
-                tableName,
-                entities: entities,
-                keepIdentity: true);
-        }
+                // Act (Trigger)
+                connection.BinaryImport(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true);
+            }
+        });
     }
 
     #endregion
@@ -574,27 +575,30 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(PostgresException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportViaExpandoObjectWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<PostgresException>(() =>
         {
-            // Prepare
-            var entities = Helper.CreateBulkOperationExpandoObjectLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
+            using (var connection = GetConnection())
+            {
+                // Prepare
+                var entities = Helper.CreateBulkOperationExpandoObjectLightIdentityTables(10, true);
+                var tableName = "BulkOperationIdentityTable";
 
-            // Act
-            connection.BinaryImport(
-                tableName,
-                entities: entities,
-                keepIdentity: true);
+                // Act
+                connection.BinaryImport(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true);
 
-            // Act (Trigger)
-            connection.BinaryImport(
-                tableName,
-                entities: entities,
-                keepIdentity: true);
-        }
+                // Act (Trigger)
+                connection.BinaryImport(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true);
+            }
+        });
     }
 
     #endregion
@@ -756,26 +760,29 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(PostgresException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportViaDataTableWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<PostgresException>(() =>
         {
-            // Prepare
-            var table = Helper.CreateBulkOperationDataTableLightIdentityTables(10, true);
+            using (var connection = GetConnection())
+            {
+                // Prepare
+                var table = Helper.CreateBulkOperationDataTableLightIdentityTables(10, true);
 
-            // Act
-            connection.BinaryImport(
-                table.TableName,
-                table: table,
-                keepIdentity: true);
+                // Act
+                connection.BinaryImport(
+                    table.TableName,
+                    table: table,
+                    keepIdentity: true);
 
-            // Act (Trigger)
-            connection.BinaryImport(
-                table.TableName,
-                table: table,
-                keepIdentity: true);
-        }
+                // Act (Trigger)
+                connection.BinaryImport(
+                    table.TableName,
+                    table: table,
+                    keepIdentity: true);
+            }
+        });
     }
 
     #endregion
@@ -918,33 +925,36 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(PostgresException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportViaDbDataReaderWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<PostgresException>(() =>
         {
-            // Prepare
-            var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
-
-            using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
+            using (var connection = GetConnection())
             {
-                // Act
-                connection.BinaryImport(
-                    tableName,
-                    reader: reader,
-                    keepIdentity: true);
-            }
+                // Prepare
+                var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
+                var tableName = "BulkOperationIdentityTable";
 
-            using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
-            {
-                // Act (Trigger)
-                connection.BinaryImport(
-                    tableName,
-                    reader: reader,
-                    keepIdentity: true);
+                using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
+                {
+                    // Act
+                    connection.BinaryImport(
+                        tableName,
+                        reader: reader,
+                        keepIdentity: true);
+                }
+
+                using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
+                {
+                    // Act (Trigger)
+                    connection.BinaryImport(
+                        tableName,
+                        reader: reader,
+                        keepIdentity: true);
+                }
             }
-        }
+        });
     }
 
     #endregion
@@ -1151,27 +1161,30 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportAsyncWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<AggregateException>(() =>
         {
-            // Prepare
-            var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
+            using (var connection = GetConnection())
+            {
+                // Prepare
+                var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
+                var tableName = "BulkOperationIdentityTable";
 
-            // Act
-            connection.BinaryImportAsync(
-                tableName,
-                entities: entities,
-                keepIdentity: true).Wait();
+                // Act
+                connection.BinaryImportAsync(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true).Wait();
 
-            // Act (Trigger)
-            connection.BinaryImportAsync(
-                tableName,
-                entities: entities,
-                keepIdentity: true).Wait();
-        }
+                // Act (Trigger)
+                connection.BinaryImportAsync(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true).Wait();
+            }
+        });
     }
 
     #endregion
@@ -1327,27 +1340,30 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportAsyncViaAnonymousWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<AggregateException>(() =>
         {
-            // Prepare
-            var entities = Helper.CreateBulkOperationAnonymousLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
+            using (var connection = GetConnection())
+            {
+                // Prepare
+                var entities = Helper.CreateBulkOperationAnonymousLightIdentityTables(10, true);
+                var tableName = "BulkOperationIdentityTable";
 
-            // Act
-            connection.BinaryImportAsync(
-                tableName,
-                entities: entities,
-                keepIdentity: true).Wait();
+                // Act
+                connection.BinaryImportAsync(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true).Wait();
 
-            // Act (Trigger)
-            connection.BinaryImportAsync(
-                tableName,
-                entities: entities,
-                keepIdentity: true).Wait();
-        }
+                // Act (Trigger)
+                connection.BinaryImportAsync(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true).Wait();
+            }
+        });
     }
 
     #endregion
@@ -1501,27 +1517,30 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportAsyncViaExpandoObjectWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<AggregateException>(() =>
         {
-            // Prepare
-            var entities = Helper.CreateBulkOperationExpandoObjectLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
+            using (var connection = GetConnection())
+            {
+                // Prepare
+                var entities = Helper.CreateBulkOperationExpandoObjectLightIdentityTables(10, true);
+                var tableName = "BulkOperationIdentityTable";
 
-            // Act
-            connection.BinaryImportAsync(
-                tableName,
-                entities: entities,
-                keepIdentity: true).Wait();
+                // Act
+                connection.BinaryImportAsync(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true).Wait();
 
-            // Act (Trigger)
-            connection.BinaryImportAsync(
-                tableName,
-                entities: entities,
-                keepIdentity: true).Wait();
-        }
+                // Act (Trigger)
+                connection.BinaryImportAsync(
+                    tableName,
+                    entities: entities,
+                    keepIdentity: true).Wait();
+            }
+        });
     }
 
     #endregion
@@ -1683,26 +1702,29 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportAsyncViaDataTableWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<AggregateException>(() =>
         {
-            // Prepare
-            var table = Helper.CreateBulkOperationDataTableLightIdentityTables(10, true);
+            using (var connection = GetConnection())
+            {
+                // Prepare
+                var table = Helper.CreateBulkOperationDataTableLightIdentityTables(10, true);
 
-            // Act
-            connection.BinaryImportAsync(
-                table.TableName,
-                table: table,
-                keepIdentity: true).Wait();
+                // Act
+                connection.BinaryImportAsync(
+                    table.TableName,
+                    table: table,
+                    keepIdentity: true).Wait();
 
-            // Act (Trigger)
-            connection.BinaryImportAsync(
-                table.TableName,
-                table: table,
-                keepIdentity: true).Wait();
-        }
+                // Act (Trigger)
+                connection.BinaryImportAsync(
+                    table.TableName,
+                    table: table,
+                    keepIdentity: true).Wait();
+            }
+        });
     }
 
     #endregion
@@ -1847,33 +1869,36 @@ public class BinaryImportTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(AggregateException))]
+    [TestMethod]
     public void ThrowExceptionOnBinaryImportAsyncViaDbDataReaderWithDuplicateIdentityOnKeepIdentity()
     {
-        using (var connection = GetConnection())
+        Assert.ThrowsExactly<AggregateException>(() =>
         {
-            // Prepare
-            var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
-            var tableName = "BulkOperationIdentityTable";
-
-            using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
+            using (var connection = GetConnection())
             {
-                // Act
-                connection.BinaryImportAsync(
-                    tableName,
-                    reader: reader,
-                    keepIdentity: true).Wait();
-            }
+                // Prepare
+                var entities = Helper.CreateBulkOperationLightIdentityTables(10, true);
+                var tableName = "BulkOperationIdentityTable";
 
-            using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
-            {
-                // Act (Trigger)
-                connection.BinaryImportAsync(
-                    tableName,
-                    reader: reader,
-                    keepIdentity: true).Wait();
+                using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
+                {
+                    // Act
+                    connection.BinaryImportAsync(
+                        tableName,
+                        reader: reader,
+                        keepIdentity: true).Wait();
+                }
+
+                using (var reader = new DataEntityDataReader<BulkOperationLightIdentityTable>(entities))
+                {
+                    // Act (Trigger)
+                    connection.BinaryImportAsync(
+                        tableName,
+                        reader: reader,
+                        keepIdentity: true).Wait();
+                }
             }
-        }
+        });
     }
 
     #endregion

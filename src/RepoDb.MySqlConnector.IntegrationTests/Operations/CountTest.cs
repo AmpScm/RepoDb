@@ -134,18 +134,21 @@ public class CountTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionCountWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             connection.Count<CompleteTable>((object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -260,18 +263,21 @@ public class CountTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionCountAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             await connection.CountAsync<CompleteTable>((object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -378,19 +384,22 @@ public class CountTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionCountViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -493,19 +502,22 @@ public class CountTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionCountAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

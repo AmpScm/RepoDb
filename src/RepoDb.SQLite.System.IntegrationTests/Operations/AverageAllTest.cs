@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Data.SQLite;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.SQLite.System.IntegrationTests.Models;
 using RepoDb.SQLite.System.IntegrationTests.Setup;
-using System.Data.SQLite;
 
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
@@ -41,18 +41,21 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionAverageAllWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
+            {
+                // Setup
+                var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            connection.AverageAll<SdsCompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+                // Act
+                connection.AverageAll<SdsCompleteTable>(e => e.ColumnInt,
+                    hints: "WhatEver");
+            }
+        });
     }
 
     #endregion
@@ -75,18 +78,16 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionAverageAllAsyncWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            await connection.AverageAllAsync<SdsCompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAllAsync<SdsCompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -114,19 +115,22 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionAverageAllViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
+            {
+                // Setup
+                var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            connection.AverageAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+                // Act
+                connection.AverageAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
+                    Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+                    hints: "WhatEver");
+            }
+        });
     }
 
     #endregion
@@ -150,19 +154,22 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionAverageAllAsyncViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
+            {
+                // Setup
+                var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            await connection.AverageAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+                // Act
+                await connection.AverageAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+                    Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+                    hints: "WhatEver");
+            }
+        });
     }
 
     #endregion

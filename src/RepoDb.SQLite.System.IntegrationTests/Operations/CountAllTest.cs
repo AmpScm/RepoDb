@@ -41,10 +41,12 @@ public class CountAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionCountAllWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -52,6 +54,7 @@ public class CountAllTest
             // Act
             connection.CountAll<SdsCompleteTable>(hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -74,10 +77,12 @@ public class CountAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionCountAllAsyncWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -85,6 +90,7 @@ public class CountAllTest
             // Act
             await connection.CountAllAsync<SdsCompleteTable>(hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -111,10 +117,12 @@ public class CountAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionCountAllViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -123,6 +131,7 @@ public class CountAllTest
             connection.CountAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -145,10 +154,12 @@ public class CountAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionCountAllAsyncViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -157,6 +168,7 @@ public class CountAllTest
             await connection.CountAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

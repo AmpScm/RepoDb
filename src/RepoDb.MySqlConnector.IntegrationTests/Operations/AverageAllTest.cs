@@ -41,18 +41,16 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionAverageAllWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.AverageAll<CompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.AverageAll<CompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -75,18 +73,21 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionAverageAllAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            // Act
-            await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+            using (var connection = new MySqlConnection(Database.ConnectionString))
+            {
+                // Act
+                await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInt,
+                    hints: "WhatEver");
+            }
+        });
     }
 
     #endregion
@@ -114,19 +115,22 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionAverageAllViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            // Act
-            connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+            using (var connection = new MySqlConnection(Database.ConnectionString))
+            {
+                // Act
+                connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
+                    Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+                    hints: "WhatEver");
+            }
+        });
     }
 
     #endregion
@@ -150,19 +154,22 @@ public class AverageAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionAverageAllAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            // Act
-            await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+            using (var connection = new MySqlConnection(Database.ConnectionString))
+            {
+                // Act
+                await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+                    Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+                    hints: "WhatEver");
+            }
+        });
     }
 
     #endregion

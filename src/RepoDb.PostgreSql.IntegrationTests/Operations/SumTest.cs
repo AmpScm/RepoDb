@@ -30,129 +30,115 @@ public class SumTest
     public void TestPostgreSqlConnectionSumWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var ids = new[] { tables.First().Id, tables.Last().Id };
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
-                e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionSumWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Sum<CompleteTable>(e => e.ColumnInteger,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Sum<CompleteTable>(e => e.ColumnInteger,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -163,129 +149,115 @@ public class SumTest
     public async Task TestPostgreSqlConnectionSumAsyncWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var ids = new[] { tables.First().Id, tables.Last().Id };
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
-                e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionSumAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -300,117 +272,105 @@ public class SumTest
     public void TestPostgreSqlConnectionSumViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaTableNameViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaTableNameViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaTableNameViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSumViaTableNameViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionSumViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -421,117 +381,105 @@ public class SumTest
     public async Task TestPostgreSqlConnectionSumAsyncViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaTableNameViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaTableNameViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaTableNameViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSumAsyncViaTableNameViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionSumAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

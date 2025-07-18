@@ -29,30 +29,26 @@ public class AverageAllTest
     public void TestPostgreSqlConnectionAverageAll()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.AverageAll<CompleteTable>(e => e.ColumnInteger);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.AverageAll<CompleteTable>(e => e.ColumnInteger);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionAverageAllWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.AverageAll<CompleteTable>(e => e.ColumnInteger,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.AverageAll<CompleteTable>(e => e.ColumnInteger,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -63,30 +59,26 @@ public class AverageAllTest
     public async Task TestPostgreSqlConnectionAverageAllAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInteger);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInteger);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionAverageAllAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInteger,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInteger,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -101,32 +93,28 @@ public class AverageAllTest
     public void TestPostgreSqlConnectionAverageAllViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionAverageAllViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -137,32 +125,28 @@ public class AverageAllTest
     public async Task TestPostgreSqlConnectionAverageAllAsyncViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionAverageAllAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            hints: "WhatEver"));
     }
 
     #endregion

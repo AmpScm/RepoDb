@@ -110,10 +110,12 @@ public class SkipQueryTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionSkipQueryWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -126,6 +128,7 @@ public class SkipQueryTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -216,10 +219,12 @@ public class SkipQueryTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionSkipQueryAsyncWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -232,6 +237,7 @@ public class SkipQueryTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -326,10 +332,12 @@ public class SkipQueryTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionSkipQueryViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -342,6 +350,7 @@ public class SkipQueryTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -432,10 +441,12 @@ public class SkipQueryTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionSkipQueryAsyncViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -448,6 +459,7 @@ public class SkipQueryTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

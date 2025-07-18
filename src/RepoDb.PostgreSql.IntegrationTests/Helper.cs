@@ -52,35 +52,35 @@ public static class Helper
     /// <param name="t2">The instance of second object.</param>
     public static void AssertPropertiesEquality<T1, T2>(T1 t1, T2 t2)
     {
-        var propertiesOfType1 = typeof(T1).GetProperties();
-        var propertiesOfType2 = typeof(T2).GetProperties();
+        System.Reflection.PropertyInfo[] propertiesOfType1 = typeof(T1).GetProperties();
+        System.Reflection.PropertyInfo[] propertiesOfType2 = typeof(T2).GetProperties();
         propertiesOfType1.AsList().ForEach(propertyOfType1 =>
         {
             if (propertyOfType1.Name == "Id")
             {
                 return;
             }
-            var propertyOfType2 = propertiesOfType2.FirstOrDefault(p => p.Name == propertyOfType1.Name);
+            System.Reflection.PropertyInfo propertyOfType2 = propertiesOfType2.FirstOrDefault(p => p.Name == propertyOfType1.Name);
             if (propertyOfType2 == null)
             {
                 return;
             }
-            var value1 = propertyOfType1.GetValue(t1);
-            var value2 = propertyOfType2.GetValue(t2);
+            object value1 = propertyOfType1.GetValue(t1);
+            object value2 = propertyOfType2.GetValue(t2);
             if (value1 is Array array1 && value2 is Array array2)
             {
-                for (var i = 0; i < Math.Min(array1.Length, array2.Length); i++)
+                for (int i = 0; i < Math.Min(array1.Length, array2.Length); i++)
                 {
-                    var v1 = array1.GetValue(i);
-                    var v2 = array2.GetValue(i);
+                    object v1 = array1.GetValue(i);
+                    object v2 = array2.GetValue(i);
                     Assert.AreEqual(v1, v2,
                         $"Assert failed for '{propertyOfType1.Name}'. The values are '{value1} ({propertyOfType1.PropertyType.FullName})' and '{value2} ({propertyOfType2.PropertyType.FullName})'.");
                 }
             }
             else if (value1 is DateTime dt1 || value2 is DateTime dt2)
             {
-                var dtValue1 = value1 is DateTime ? (DateTime)value1 : ((DateTimeOffset)value1).DateTime;
-                var dtValue2 = value2 is DateTime ? (DateTime)value2 : ((DateTimeOffset)value2).DateTime;
+                DateTime dtValue1 = value1 is DateTime ? (DateTime)value1 : ((DateTimeOffset)value1).DateTime;
+                DateTime dtValue2 = value2 is DateTime ? (DateTime)value2 : ((DateTimeOffset)value2).DateTime;
                 if (dtValue1.Kind != dtValue2.Kind && ToUtcKind(dtValue1) != ToUtcKind(dtValue2))
                 {
                     dtValue1 = dtValue1.ToUniversalTime();
@@ -105,8 +105,8 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, object expandoObj)
     {
-        var dictionary = new ExpandoObject() as IDictionary<string, object>;
-        foreach (var property in expandoObj.GetType().GetProperties())
+        IDictionary<string, object> dictionary = new ExpandoObject() as IDictionary<string, object>;
+        foreach (System.Reflection.PropertyInfo property in expandoObj.GetType().GetProperties())
         {
             dictionary.Add(property.Name, property.GetValue(expandoObj));
         }
@@ -121,7 +121,7 @@ public static class Helper
     /// <param name="expandoObj">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, ExpandoObject expandoObj)
     {
-        var dictionary = expandoObj as IDictionary<string, object>;
+        IDictionary<string, object> dictionary = expandoObj as IDictionary<string, object>;
         AssertMembersEquality(obj, dictionary);
     }
 
@@ -133,7 +133,7 @@ public static class Helper
     /// <param name="dictionary">The instance of second object.</param>
     public static void AssertMembersEquality(object obj, IDictionary<string, object> dictionary)
     {
-        var properties = obj.GetType().GetProperties();
+        System.Reflection.PropertyInfo[] properties = obj.GetType().GetProperties();
         properties.AsList().ForEach(property =>
         {
             if (property.Name == "Id")
@@ -142,22 +142,22 @@ public static class Helper
             }
             if (dictionary.ContainsKey(property.Name))
             {
-                var value1 = property.GetValue(obj);
-                var value2 = dictionary[property.Name];
+                object value1 = property.GetValue(obj);
+                object value2 = dictionary[property.Name];
                 if (value1 is Array array1 && value2 is Array array2)
                 {
-                    for (var i = 0; i < Math.Min(array1.Length, array2.Length); i++)
+                    for (int i = 0; i < Math.Min(array1.Length, array2.Length); i++)
                     {
-                        var v1 = array1.GetValue(i);
-                        var v2 = array2.GetValue(i);
+                        object v1 = array1.GetValue(i);
+                        object v2 = array2.GetValue(i);
                         Assert.AreEqual(v1, v2,
                             $"Assert failed for '{property.Name}'. The values are '{v1}' and '{v2}'.");
                     }
                 }
                 else if (value1 is DateTime dt1 || value2 is DateTime dt2)
                 {
-                    var dtValue1 = value1 is DateTime ? (DateTime)value1 : ((DateTimeOffset)value1).DateTime;
-                    var dtValue2 = value2 is DateTime ? (DateTime)value2 : ((DateTimeOffset)value2).DateTime;
+                    DateTime dtValue1 = value1 is DateTime ? (DateTime)value1 : ((DateTimeOffset)value1).DateTime;
+                    DateTime dtValue2 = value2 is DateTime ? (DateTime)value2 : ((DateTimeOffset)value2).DateTime;
                     if (dtValue1.Kind != dtValue2.Kind && ToUtcKind(dtValue1) != ToUtcKind(dtValue2))
                     {
                         dtValue1 = dtValue1.ToUniversalTime();
@@ -168,7 +168,7 @@ public static class Helper
                 }
                 else
                 {
-                    var propertyType = property.PropertyType.GetUnderlyingType();
+                    Type propertyType = property.PropertyType.GetUnderlyingType();
                     Assert.AreEqual(Convert.ChangeType(value1, propertyType), Convert.ChangeType(value2, propertyType),
                         $"Assert failed for '{property.Name}'. The values are '{value1}' and '{value2}'.");
                 }
@@ -187,9 +187,9 @@ public static class Helper
     /// <returns></returns>
     public static List<CompleteTable> CreateCompleteTables(int count)
     {
-        var tables = new List<CompleteTable>();
-        var now = GetCurrentUniversalTime();
-        for (var i = 0; i < count; i++)
+        List<CompleteTable> tables = new List<CompleteTable>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
         {
             tables.Add(new CompleteTable
             {
@@ -227,7 +227,7 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateCompleteTableProperties(CompleteTable table)
     {
-        var now = GetCurrentUniversalTime();
+        DateTime now = GetCurrentUniversalTime();
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
@@ -259,9 +259,9 @@ public static class Helper
     /// <returns></returns>
     public static List<dynamic> CreateCompleteTablesAsDynamics(int count)
     {
-        var tables = new List<dynamic>();
-        var now = GetCurrentUniversalTime();
-        for (var i = 0; i < count; i++)
+        List<dynamic> tables = new List<dynamic>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
         {
             tables.Add(new
             {
@@ -299,7 +299,7 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateCompleteTableAsDynamicProperties(dynamic table)
     {
-        var now = GetCurrentUniversalTime();
+        DateTime now = GetCurrentUniversalTime();
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
@@ -331,11 +331,11 @@ public static class Helper
     /// <returns></returns>
     public static List<ExpandoObject> CreateCompleteTablesAsExpandoObjects(int count)
     {
-        var tables = new List<ExpandoObject>();
-        var now = GetCurrentUniversalTime();
-        for (var i = 0; i < count; i++)
+        List<ExpandoObject> tables = new List<ExpandoObject>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object>;
+            IDictionary<string, object> item = new ExpandoObject() as IDictionary<string, object>;
             item["Id"] = (long)(i + 1);
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
@@ -370,8 +370,8 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateCompleteTableAsExpandoObjectProperties(CompleteTable table)
     {
-        var now = GetCurrentUniversalTime();
-        var item = table as IDictionary<string, object>;
+        DateTime now = GetCurrentUniversalTime();
+        IDictionary<string, object> item = table as IDictionary<string, object>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
         item["ColumnBigSerial"] = Convert.ToInt64(2);
@@ -407,9 +407,9 @@ public static class Helper
     /// <returns></returns>
     public static List<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count)
     {
-        var tables = new List<NonIdentityCompleteTable>();
-        var now = GetCurrentUniversalTime();
-        for (var i = 0; i < count; i++)
+        List<NonIdentityCompleteTable> tables = new List<NonIdentityCompleteTable>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
         {
             tables.Add(new NonIdentityCompleteTable
             {
@@ -447,7 +447,7 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateNonIdentityCompleteTableProperties(NonIdentityCompleteTable table)
     {
-        var now = GetCurrentUniversalTime();
+        DateTime now = GetCurrentUniversalTime();
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
@@ -479,9 +479,9 @@ public static class Helper
     /// <returns></returns>
     public static List<dynamic> CreateNonIdentityCompleteTablesAsDynamics(int count)
     {
-        var tables = new List<dynamic>();
-        var now = GetCurrentUniversalTime();
-        for (var i = 0; i < count; i++)
+        List<dynamic> tables = new List<dynamic>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
         {
             tables.Add(new
             {
@@ -519,7 +519,7 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateNonIdentityCompleteTableAsDynamicProperties(dynamic table)
     {
-        var now = GetCurrentUniversalTime();
+        DateTime now = GetCurrentUniversalTime();
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
@@ -551,11 +551,11 @@ public static class Helper
     /// <returns></returns>
     public static List<ExpandoObject> CreateNonIdentityCompleteTablesAsExpandoObjects(int count)
     {
-        var tables = new List<ExpandoObject>();
-        var now = GetCurrentUniversalTime();
-        for (var i = 0; i < count; i++)
+        List<ExpandoObject> tables = new List<ExpandoObject>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object>;
+            IDictionary<string, object> item = new ExpandoObject() as IDictionary<string, object>;
             item["Id"] = (i + 1);
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
@@ -590,8 +590,8 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateNonIdentityCompleteTableAsExpandoObjectProperties(CompleteTable table)
     {
-        var now = GetCurrentUniversalTime();
-        var item = table as IDictionary<string, object>;
+        DateTime now = GetCurrentUniversalTime();
+        IDictionary<string, object> item = table as IDictionary<string, object>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
         item["ColumnBigSerial"] = Convert.ToInt64(2);

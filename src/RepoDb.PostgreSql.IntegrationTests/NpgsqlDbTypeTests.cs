@@ -50,7 +50,7 @@ public class NpgsqlDbTypeTests
 
     private IEnumerable<CompleteTableForJson> GetCompleteTableForJsons(int count = 0)
     {
-        for (var i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             yield return new CompleteTableForJson
             {
@@ -62,8 +62,8 @@ public class NpgsqlDbTypeTests
 
     private IEnumerable<CompleteTableForDateTime> GetCompleteTableForDateTimes(int count = 0)
     {
-        var random = new Random();
-        for (var i = 0; i < count; i++)
+        Random random = new Random();
+        for (int i = 0; i < count; i++)
         {
             yield return new CompleteTableForDateTime
             {
@@ -81,40 +81,36 @@ public class NpgsqlDbTypeTests
     [TestMethod]
     public void TestInsertAndQueryForJson()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entity = GetCompleteTableForJsons(1).First();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        CompleteTableForJson entity = GetCompleteTableForJsons(1).First();
 
-            // Act
-            connection.Insert(entity);
+        // Act
+        connection.Insert(entity);
 
-            // Act
-            var queryResult = connection.Query<CompleteTableForJson>(entity.Id).First();
+        // Act
+        CompleteTableForJson queryResult = connection.Query<CompleteTableForJson>(entity.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     [TestMethod]
     public void TestInsertAndQueryForJsons()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entities = GetCompleteTableForJsons(10).AsList();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        List<CompleteTableForJson> entities = GetCompleteTableForJsons(10).AsList();
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTableForJson>();
+        // Act
+        IEnumerable<CompleteTableForJson> queryResult = connection.QueryAll<CompleteTableForJson>();
 
-            // Assert
-            entities.ForEach(e =>
-                Helper.AssertPropertiesEquality(e, queryResult.First(item => item.Id == e.Id)));
-        }
+        // Assert
+        entities.ForEach(e =>
+            Helper.AssertPropertiesEquality(e, queryResult.First(item => item.Id == e.Id)));
     }
 
     #endregion
@@ -124,136 +120,124 @@ public class NpgsqlDbTypeTests
     [TestMethod]
     public void TestInsertAndQueryForDateTime()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entity = GetCompleteTableForDateTimes(1).First();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        CompleteTableForDateTime entity = GetCompleteTableForDateTimes(1).First();
 
-            // Act
-            connection.Insert(entity);
+        // Act
+        connection.Insert(entity);
 
-            // Act
-            var queryResult = connection.Query<CompleteTableForDateTime>(entity.Id).First();
+        // Act
+        CompleteTableForDateTime queryResult = connection.Query<CompleteTableForDateTime>(entity.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     [TestMethod]
     public void TestInsertAndQueryForDateTimes()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entities = GetCompleteTableForDateTimes(10).AsList();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        List<CompleteTableForDateTime> entities = GetCompleteTableForDateTimes(10).AsList();
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTableForDateTime>();
+        // Act
+        IEnumerable<CompleteTableForDateTime> queryResult = connection.QueryAll<CompleteTableForDateTime>();
 
-            // Assert
-            entities.ForEach(e =>
-                Helper.AssertPropertiesEquality(e, queryResult.First(item => item.Id == e.Id)));
-        }
+        // Assert
+        entities.ForEach(e =>
+            Helper.AssertPropertiesEquality(e, queryResult.First(item => item.Id == e.Id)));
     }
 
     [TestMethod]
     public void TestInsertAndQueryForDateTimeAsWhereExpression()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entity = GetCompleteTableForDateTimes(1).First();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        CompleteTableForDateTime entity = GetCompleteTableForDateTimes(1).First();
 
-            // Act
-            connection.Insert(entity);
+        // Act
+        connection.Insert(entity);
 
-            // Setup
-            DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
-            DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
+        // Setup
+        DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
+        DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
 
-            // Act
-            var queryResult = connection.Query<CompleteTableForDateTime>(e =>
-                e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
+        // Act
+        CompleteTableForDateTime queryResult = connection.Query<CompleteTableForDateTime>(e =>
+            e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     [TestMethod]
     public void TestInsertAndQueryForDateTimeAsWhereExpressionFromVariable()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entity = GetCompleteTableForDateTimes(1).First();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        CompleteTableForDateTime entity = GetCompleteTableForDateTimes(1).First();
 
-            // Act
-            connection.Insert(entity);
+        // Act
+        connection.Insert(entity);
 
-            // Setup
-            DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
-            DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
+        // Setup
+        DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
+        DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
 
-            // Act
-            var queryResult = connection.Query<CompleteTableForDateTime>(e =>
-                e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
+        // Act
+        CompleteTableForDateTime queryResult = connection.Query<CompleteTableForDateTime>(e =>
+            e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     [TestMethod]
     public void TestInsertAndQueryForDateTimeAsWhereExpressionWithAutomaticConversion()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entity = GetCompleteTableForDateTimes(1).First();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        CompleteTableForDateTime entity = GetCompleteTableForDateTimes(1).First();
 
-            // Act
-            connection.Insert(entity);
+        // Act
+        connection.Insert(entity);
 
-            // Setup
-            DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
-            DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
+        // Setup
+        DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
+        DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
 
-            // Act
-            var queryResult = connection.Query<CompleteTableForDateTime>(e =>
-                e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
+        // Act
+        CompleteTableForDateTime queryResult = connection.Query<CompleteTableForDateTime>(e =>
+            e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     [TestMethod]
     public void TestInsertAndQueryForDateTimeAsWhereExpressionFromVariableWithAutomaticConversion()
     {
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var entity = GetCompleteTableForDateTimes(1).First();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        CompleteTableForDateTime entity = GetCompleteTableForDateTimes(1).First();
 
-            // Act
-            connection.Insert(entity);
+        // Act
+        connection.Insert(entity);
 
-            // Setup
-            DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
-            DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
+        // Setup
+        DateTimeOffset startDate = DateTimeOffset.Now.Date.AddHours(-5).ToUniversalTime();
+        DateTimeOffset endDate = DateTimeOffset.Now.Date.AddHours(5).ToUniversalTime();
 
-            // Act
-            var queryResult = connection.Query<CompleteTableForDateTime>(e =>
-                e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
+        // Act
+        CompleteTableForDateTime queryResult = connection.Query<CompleteTableForDateTime>(e =>
+            e.ColumnTimestampWithTimeZone >= startDate && e.ColumnTimestampWithTimeZone <= endDate).FirstOrDefault();
 
-            // Assert
-            Helper.AssertPropertiesEquality(entity, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(entity, queryResult);
     }
 
     #endregion

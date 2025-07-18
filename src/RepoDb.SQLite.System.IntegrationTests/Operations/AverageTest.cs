@@ -61,10 +61,12 @@ public class AverageTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void TestSqLiteConnectionAverageWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -74,6 +76,7 @@ public class AverageTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -115,10 +118,12 @@ public class AverageTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task TestSqLiteConnectionAverageAsyncWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -128,6 +133,7 @@ public class AverageTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -175,10 +181,12 @@ public class AverageTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void TestSqLiteConnectionAverageViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -189,6 +197,7 @@ public class AverageTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -232,10 +241,12 @@ public class AverageTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task TestSqLiteConnectionAverageAsyncViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -246,6 +257,7 @@ public class AverageTest
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

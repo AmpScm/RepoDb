@@ -30,26 +30,24 @@ public class UpdateAllTest
     public void TestPostgreSqlConnectionUpdateAll()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
-            // Act
-            var result = connection.UpdateAll<CompleteTable>(tables);
+        // Act
+        int result = connection.UpdateAll<CompleteTable>(tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        // Act
+        IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     #endregion
@@ -60,26 +58,24 @@ public class UpdateAllTest
     public async Task TestPostgreSqlConnectionUpdateAllAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
-            // Act
-            var result = await connection.UpdateAllAsync<CompleteTable>(tables);
+        // Act
+        int result = await connection.UpdateAllAsync<CompleteTable>(tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        // Act
+        IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     #endregion
@@ -94,54 +90,50 @@ public class UpdateAllTest
     public void TestPostgreSqlConnectionUpdateAllViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
-            // Act
-            var result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(), tables);
+        // Act
+        int result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(), tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        // Act
+        IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionUpdateAllViaTableNameAsExpandoObjects()
     {
         // Setup
-        var entities = Database.CreateCompleteTables(10).AsList();
+        List<CompleteTable> entities = Database.CreateCompleteTables(10).AsList();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-            tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
+        tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
-            // Act
-            var result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(),
-                tables);
+        // Act
+        int result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(),
+            tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        // Act
+        IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
 
     #endregion
@@ -152,54 +144,50 @@ public class UpdateAllTest
     public async Task TestPostgreSqlConnectionUpdateAllAsyncViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
-            // Act
-            var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(), tables);
+        // Act
+        int result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(), tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        // Act
+        IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionUpdateAllAsyncViaTableNameAsExpandoObjects()
     {
         // Setup
-        var entities = Database.CreateCompleteTables(10).AsList();
+        List<CompleteTable> entities = Database.CreateCompleteTables(10).AsList();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Setup
-            var tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
-            tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Setup
+        List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
+        tables.ForEach(e => ((IDictionary<string, object>)e)["Id"] = entities[tables.IndexOf(e)].Id);
 
-            // Act
-            var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                tables);
+        // Act
+        int result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        // Act
+        IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
 
     #endregion

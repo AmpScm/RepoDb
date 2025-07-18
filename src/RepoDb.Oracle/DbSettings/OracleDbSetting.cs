@@ -15,7 +15,7 @@ public sealed record OracleDbSetting : BaseDbSetting
         IsPreparable = true;
         IsUseUpsert = false;
         ParameterPrefix = ":";
-        MaxParameterCount = 32766;
+        MaxParameterCount = 8096; // 32766;
         MaxQueriesInBatchCount = 1000;
         GenerateFinalSemiColon = false;
         QuoteParameterNames = true;

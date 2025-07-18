@@ -29,48 +29,40 @@ public class MySqlDbTypeAttributeTest
     public void TestMySqlDbTypeAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new MySqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new MySqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new MySqlDbTypeAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new MySqlDbTypeAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(MySqlDbType.Geometry, parameter.MySqlDbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(MySqlDbType.Geometry, parameter.MySqlDbType);
     }
 
     [TestMethod]
     public void TestMySqlDbTypeAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new MySqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new MySqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(MySqlDbTypeAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(MySqlDbTypeAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(MySqlDbType.Geometry, parameter.MySqlDbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(MySqlDbType.Geometry, parameter.MySqlDbType);
     }
 }

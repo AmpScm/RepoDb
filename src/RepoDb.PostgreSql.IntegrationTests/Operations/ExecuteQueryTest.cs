@@ -28,35 +28,31 @@ public class ExecuteQueryTest
     public void TestPostgreSqlConnectionExecuteQuery()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM \"CompleteTable\";");
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result.Count());
-            tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result.Count());
+        tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionExecuteQueryWithParameters()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
-                new { tables.Last().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
+            new { tables.Last().Id });
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(tables.Last(), result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
     #endregion
@@ -67,35 +63,31 @@ public class ExecuteQueryTest
     public async Task TestPostgreSqlConnectionExecuteQueryAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM \"CompleteTable\";");
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result.Count());
-            tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result.Count());
+        tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionExecuteQueryAsyncWithParameters()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
-                new { tables.Last().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
+            new { tables.Last().Id });
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(tables.Last(), result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
     #endregion

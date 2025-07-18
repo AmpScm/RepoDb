@@ -41,18 +41,21 @@ public class SumAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionSumAllWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             connection.SumAll<CompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -75,18 +78,21 @@ public class SumAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionSumAllAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             await connection.SumAllAsync<CompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -114,19 +120,22 @@ public class SumAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionSumAllViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             connection.SumAll(ClassMappedNameCache.Get<CompleteTable>(),
                 Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -150,19 +159,22 @@ public class SumAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionSumAllAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
             await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

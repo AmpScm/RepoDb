@@ -32,28 +32,24 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.QueryAll<CompleteTable>(hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryAll<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -66,28 +62,24 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = await connection.QueryAllAsync<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.QueryAllAsync<CompleteTable>(hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAllAsync<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -104,30 +96,26 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllViaTableNameWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -140,30 +128,26 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncViaTableNameWithHints()
     {
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

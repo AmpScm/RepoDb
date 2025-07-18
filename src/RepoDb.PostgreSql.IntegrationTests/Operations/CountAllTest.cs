@@ -29,29 +29,25 @@ public class CountAllTest
     public void TestPostgreSqlConnectionCountAll()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.CountAll<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionCountAllWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.CountAll<CompleteTable>(hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -62,29 +58,25 @@ public class CountAllTest
     public async Task TestPostgreSqlConnectionCountAllAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAllAsync<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAllAsync<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionCountAllAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.CountAllAsync<CompleteTable>(hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -99,30 +91,26 @@ public class CountAllTest
     public void TestPostgreSqlConnectionCountAllViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionCountAllViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.CountAll(ClassMappedNameCache.Get<CompleteTable>(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll(ClassMappedNameCache.Get<CompleteTable>(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -133,30 +121,26 @@ public class CountAllTest
     public async Task TestPostgreSqlConnectionCountAllAsyncViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionCountAllAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            hints: "WhatEver"));
     }
 
     #endregion

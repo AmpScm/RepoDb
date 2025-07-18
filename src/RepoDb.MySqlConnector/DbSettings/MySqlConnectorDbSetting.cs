@@ -24,7 +24,7 @@ public sealed record MySqlConnectorDbSetting : BaseDbSetting
         OpeningQuote = "`";
         ParameterPrefix = "@";
         // MySql doesn't have a max size, but needs the query including parameters needs to fit 4MB
-        MaxParameterCount = 10000;
+        MaxParameterCount = 8096;
         // MaxQueriesInBatchCount = base.MaxQueriesInBatchCount;
     }
 }

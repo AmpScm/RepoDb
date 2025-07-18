@@ -54,76 +54,76 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateBatchQueryIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateBatchQuery("Table",
             null,
             0,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateBatchQueryIfThereAreNoOrderFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             10,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateBatchQueryIfThePageValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             -1,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateBatchQueryIfTheRowsPerBatchValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateBatchQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
             OrderField.Parse(new { Id = Order.Ascending }),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -162,16 +162,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateCountIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateCount("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateCount("Table",
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -193,15 +193,15 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateCountAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateCountAll("Table",
-            "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateCountAll("Table",
+            "WhatEver"));
     }
 
     #endregion
@@ -278,18 +278,18 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateInsertIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateInsert("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateInsert("Table",
             Field.From("Id", "Name", "Address"),
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -364,19 +364,19 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateInsertAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateInsertAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateInsertAll("Table",
             Field.From("Id", "Name", "Address"),
             3,
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -417,17 +417,17 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMaxIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMax("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMax("Table",
             new Field("Field", typeof(int)),
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -450,16 +450,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMaxAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMaxAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMaxAll("Table",
             new Field("Field", typeof(int)),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -500,17 +500,17 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMinIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMin("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMin("Table",
             new Field("Field", typeof(int)),
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -533,16 +533,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMinAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMinAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMinAll("Table",
             new Field("Field", typeof(int)),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -610,47 +610,47 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMergeIfThereIsNoPrimary()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMerge("Table",
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => builder.CreateMerge("Table",
             Field.From("Id", "Name", "Address"),
             null,
             primaryField: null,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMergeIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMerge("Table",
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => builder.CreateMerge("Table",
             Field.From("Id", "Name", "Address"),
             null,
             primaryField: null,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMergeIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMerge("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMerge("Table",
             Field.From("Id", "Name", "Address"),
             Field.From("Id", "Name"),
             new DbField("Id", true, false, false, typeof(int), null, null, null, null),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -723,50 +723,50 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMergeAllIfThereIsNoPrimary()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMergeAll("Table",
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => builder.CreateMergeAll("Table",
             Field.From("Id", "Name", "Address"),
             null,
             3,
             primaryField: null,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMergeAllIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMergeAll("Table",
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => builder.CreateMergeAll("Table",
             Field.From("Id", "Name", "Address"),
             null,
             3,
             primaryField: null,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateMergeAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateMergeAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMergeAll("Table",
             Field.From("Id", "Name", "Address"),
             Field.From("Id", "Name"),
             3,
             new DbField("Id", true, false, false, typeof(int), null, null, null, null),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -910,18 +910,18 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateQuery("Table",
             Field.From("Id", "Name", "Address"),
             null,
             null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -964,76 +964,76 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateSkipQueryIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateSkipQuery("Table",
             null,
             0,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateSkipQueryIfThereAreNoOrderFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             10,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateSkipQueryIfThePageValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             -1,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateSkipQueryIfTheRowsPerBatchValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateSkipQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
             OrderField.Parse(new { Id = Order.Ascending }),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -1074,17 +1074,17 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateSumIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateSum("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateSum("Table",
             new Field("Field", typeof(int)),
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -1107,16 +1107,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlStatementBuilderCreateSumAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<NpgsqlConnection>();
 
         // Act
-        builder.CreateSumAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateSumAll("Table",
             new Field("Field", typeof(int)),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion

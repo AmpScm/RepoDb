@@ -30,122 +30,108 @@ public class CountTest
     public void TestPostgreSqlConnectionCountWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count<CompleteTable>((object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count<CompleteTable>((object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var ids = new[] { tables.First().Id, tables.Last().Id };
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count<CompleteTable>(e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count<CompleteTable>(new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count<CompleteTable>(new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count<CompleteTable>(queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count<CompleteTable>(queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionCountWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Count<CompleteTable>((object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Count<CompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -156,122 +142,108 @@ public class CountTest
     public async Task TestPostgreSqlConnectionCountAsyncWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>((object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync<CompleteTable>((object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var ids = new[] { tables.First().Id, tables.Last().Id };
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync<CompleteTable>(new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync<CompleteTable>(queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync<CompleteTable>(queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionCountAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.CountAsync<CompleteTable>((object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync<CompleteTable>((object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -286,111 +258,99 @@ public class CountTest
     public void TestPostgreSqlConnectionCountViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaTableNameViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaTableNameViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaTableNameViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionCountViaTableNameViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionCountViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -401,111 +361,99 @@ public class CountTest
     public async Task TestPostgreSqlConnectionCountAsyncViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaTableNameViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaTableNameViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaTableNameViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionCountAsyncViaTableNameViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionCountAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

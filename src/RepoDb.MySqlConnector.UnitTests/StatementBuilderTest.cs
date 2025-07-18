@@ -54,76 +54,76 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateBatchQueryIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentNullException>(() => builder.CreateBatchQuery("Table",
             null,
             0,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateBatchQueryIfThereAreNoOrderFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             10,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateBatchQueryIfThePageValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             -1,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateBatchQueryIfTheRowsPerBatchValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateBatchQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateBatchQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateBatchQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
             OrderField.Parse(new { Id = Order.Ascending }),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -162,16 +162,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateCountIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateCount("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateCount("Table",
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -193,15 +193,15 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateCountAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateCountAll("Table",
-            "WhatEver");
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateCountAll("Table",
+            "WhatEver"));
     }
 
     #endregion
@@ -279,18 +279,18 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateInsertIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateInsert("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateInsert("Table",
             Field.From("Id", "Name", "Address"),
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -358,19 +358,19 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateInsertAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateInsertAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateInsertAll("Table",
             Field.From("Id", "Name", "Address"),
             3,
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -411,17 +411,17 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMaxIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMax("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMax("Table",
             new Field("Field", typeof(int)),
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -444,16 +444,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMaxAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMaxAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMaxAll("Table",
             new Field("Field", typeof(int)),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -494,17 +494,17 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMinIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMin("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMin("Table",
             new Field("Field", typeof(int)),
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -527,16 +527,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMinAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMinAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMinAll("Table",
             new Field("Field", typeof(int)),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -602,47 +602,47 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMergeIfThereIsNoPrimary()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMerge("Table",
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => builder.CreateMerge("Table",
             Field.From("Id", "Name", "Address"),
             null,
             primaryField: null,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(PrimaryFieldNotFoundException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMergeIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMerge("Table",
+        Assert.ThrowsExactly<PrimaryFieldNotFoundException>(() => builder.CreateMerge("Table",
             Field.From("Id", "Name", "Address"),
             null,
             primaryField: null,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMergeIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMerge("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMerge("Table",
             Field.From("Id", "Name", "Address"),
             Field.From("Id", "Name"),
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -715,20 +715,20 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateMergeAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateMergeAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateMergeAll("Table",
             Field.From("Id", "Name", "Address"),
             Field.From("Id", "Name"),
             3,
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -872,18 +872,18 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateQuery("Table",
             Field.From("Id", "Name", "Address"),
             null,
             null,
-            hints: "WhatEver");
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -926,76 +926,76 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateSkipQueryIfThereAreNoFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentNullException>(() => builder.CreateSkipQuery("Table",
             null,
             0,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(EmptyException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateSkipQueryIfThereAreNoOrderFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<EmptyException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             10,
-            null);
+            null));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateSkipQueryIfTheSkipValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             -1,
             10,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateSkipQueryIfTheTakeValueIsNullOrOutOfRange()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
-            OrderField.Parse(new { Id = Order.Ascending }));
+            OrderField.Parse(new { Id = Order.Ascending })));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateSkipQueryIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateSkipQuery("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateSkipQuery("Table",
             Field.From("Id", "Name"),
             0,
             -1,
             OrderField.Parse(new { Id = Order.Ascending }),
             null,
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -1036,17 +1036,17 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateSumIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateSum("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateSum("Table",
             new Field("Field", typeof(int)),
             QueryGroup.Parse(new { Id = 1 }),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion
@@ -1069,16 +1069,16 @@ public class StatementBuilderTest
         Assert.AreEqual(expected, query);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlStatementBuilderCreateSumAllIfThereAreHints()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<MySqlConnection>();
 
         // Act
-        builder.CreateSumAll("Table",
+        Assert.ThrowsExactly<NotSupportedException>(() => builder.CreateSumAll("Table",
             new Field("Field", typeof(int)),
-            "WhatEver");
+            "WhatEver"));
     }
 
     #endregion

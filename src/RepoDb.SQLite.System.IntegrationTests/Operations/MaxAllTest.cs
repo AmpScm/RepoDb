@@ -41,10 +41,12 @@ public class MaxAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionMaxAllWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -53,6 +55,7 @@ public class MaxAllTest
             connection.MaxAll<SdsCompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -75,10 +78,12 @@ public class MaxAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionMaxAllAsyncWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -87,6 +92,7 @@ public class MaxAllTest
             await connection.MaxAllAsync<SdsCompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -114,10 +120,12 @@ public class MaxAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnSqLiteConnectionMaxAllViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -127,6 +135,7 @@ public class MaxAllTest
                 Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -150,10 +159,12 @@ public class MaxAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnSqLiteConnectionMaxAllAsyncViaTableNameWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -163,6 +174,7 @@ public class MaxAllTest
                 Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion

@@ -37,15 +37,11 @@ public class TransactionTests
     [TestMethod]
     public void TestDbTransactionForBatchQuery()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.BatchQuery<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.BatchQuery<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -55,15 +51,11 @@ public class TransactionTests
     [TestMethod]
     public async Task TestDbTransactionForBatchQueryAsync()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.BatchQueryAsync<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.BatchQueryAsync<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -77,15 +69,11 @@ public class TransactionTests
     [TestMethod]
     public void TestDbTransactionForCount()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Count<CompleteTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.Count<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -95,15 +83,11 @@ public class TransactionTests
     [TestMethod]
     public async Task TestDbTransactionForCountAsync()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.CountAsync<CompleteTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.CountAsync<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -117,15 +101,11 @@ public class TransactionTests
     [TestMethod]
     public void TestDbTransactionForCountAll()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.CountAll<CompleteTable>(transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.CountAll<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -135,15 +115,11 @@ public class TransactionTests
     [TestMethod]
     public async Task TestDbTransactionForCountAllAsync()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.CountAllAsync<CompleteTable>(transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.CountAllAsync<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -160,24 +136,22 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<CompleteTable>(entity);
+            connection.Delete<CompleteTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Delete<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -186,24 +160,22 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<CompleteTable>(entity);
+            connection.Delete<CompleteTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Delete<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -216,24 +188,22 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<CompleteTable>(entity);
+            await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -242,24 +212,22 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<CompleteTable>(entity);
+            await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -276,24 +244,22 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<CompleteTable>(entities);
+            connection.DeleteAll<CompleteTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.DeleteAll<CompleteTable>(transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -302,24 +268,22 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<CompleteTable>(entities);
+            connection.DeleteAll<CompleteTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.DeleteAll<CompleteTable>(transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -332,24 +296,22 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<CompleteTable>(entities);
+            await connection.DeleteAllAsync<CompleteTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAllAsync<CompleteTable>(transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -358,24 +320,22 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<CompleteTable>(entities);
+            await connection.DeleteAllAsync<CompleteTable>(transaction: transaction);
 
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.DeleteAllAsync<CompleteTable>(transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -392,21 +352,19 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Insert<CompleteTable>(entity, transaction: transaction);
+            // Act
+            connection.Insert<CompleteTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -415,21 +373,19 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Insert<CompleteTable>(entity, transaction: transaction);
+            // Act
+            connection.Insert<CompleteTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -442,21 +398,19 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAsync<CompleteTable>(entity, transaction: transaction);
+            // Act
+            await connection.InsertAsync<CompleteTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -465,21 +419,19 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAsync<CompleteTable>(entity, transaction: transaction);
+            // Act
+            await connection.InsertAsync<CompleteTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -496,21 +448,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.InsertAll<CompleteTable>(entities, transaction: transaction);
+            // Act
+            connection.InsertAll<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -519,21 +469,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.InsertAll<CompleteTable>(entities, transaction: transaction);
+            // Act
+            connection.InsertAll<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -546,21 +494,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction);
+            // Act
+            await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -569,21 +515,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction);
+            // Act
+            await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -600,21 +544,19 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Merge<CompleteTable>(entity, transaction: transaction);
+            // Act
+            connection.Merge<CompleteTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -623,21 +565,19 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Merge<CompleteTable>(entity, transaction: transaction);
+            // Act
+            connection.Merge<CompleteTable>(entity, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -650,20 +590,18 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            var transaction = connection.EnsureOpen().BeginTransaction();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        var transaction = connection.EnsureOpen().BeginTransaction();
 
-            // Act
-            await connection.MergeAsync<CompleteTable>(entity, transaction: transaction);
+        // Act
+        await connection.MergeAsync<CompleteTable>(entity, transaction: transaction);
 
-            // Act
-            transaction.Commit();
+        // Act
+        transaction.Commit();
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -672,20 +610,18 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            var transaction = connection.EnsureOpen().BeginTransaction();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        var transaction = connection.EnsureOpen().BeginTransaction();
 
-            // Act
-            await connection.MergeAsync<CompleteTable>(entity, transaction: transaction);
+        // Act
+        await connection.MergeAsync<CompleteTable>(entity, transaction: transaction);
 
-            // Act
-            transaction.Rollback();
+        // Act
+        transaction.Rollback();
 
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
-        }
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -702,21 +638,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.MergeAll<CompleteTable>(entities, transaction: transaction);
+            // Act
+            connection.MergeAll<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -725,21 +659,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.MergeAll<CompleteTable>(entities, transaction: transaction);
+            // Act
+            connection.MergeAll<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -752,21 +684,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction);
+            // Act
+            await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Commit();
-            }
-
-            // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Commit();
         }
+
+        // Assert
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -775,21 +705,19 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction);
+            // Act
+            await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction);
 
-                // Act
-                transaction.Rollback();
-            }
-
-            // Assert
-            Assert.AreEqual(0, connection.CountAll<CompleteTable>());
+            // Act
+            transaction.Rollback();
         }
+
+        // Assert
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -803,15 +731,11 @@ public class TransactionTests
     [TestMethod]
     public void TestDbTransactionForQuery()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Query<CompleteTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.Query<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -821,15 +745,11 @@ public class TransactionTests
     [TestMethod]
     public async Task TestDbTransactionForQueryAsync()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryAsync<CompleteTable>(it => it.Id != 0, transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryAsync<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -843,15 +763,11 @@ public class TransactionTests
     [TestMethod]
     public void TestDbTransactionForQueryAll()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryAll<CompleteTable>(transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryAll<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -861,15 +777,11 @@ public class TransactionTests
     [TestMethod]
     public async Task TestDbTransactionForQueryAllAsync()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryAllAsync<CompleteTable>(transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryAllAsync<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -883,112 +795,88 @@ public class TransactionTests
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT2()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT3()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT4()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT5()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT6()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT7()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     #endregion
@@ -998,112 +886,88 @@ public class TransactionTests
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT2()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT3()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT4()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT5()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT6()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT7()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    it => it.Id != 0,
-                    transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            it => it.Id != 0,
+            transaction: transaction);
     }
 
     #endregion
@@ -1117,15 +981,11 @@ public class TransactionTests
     [TestMethod]
     public void TestDbTransactionForTruncate()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                connection.Truncate<CompleteTable>(transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        connection.Truncate<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -1135,15 +995,11 @@ public class TransactionTests
     [TestMethod]
     public async Task TestDbTransactionForTruncateAsync()
     {
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                // Act
-                await connection.TruncateAsync<CompleteTable>(transaction: transaction);
-            }
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Prepare
+        using var transaction = connection.EnsureOpen().BeginTransaction();
+        // Act
+        await connection.TruncateAsync<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -1160,29 +1016,27 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<CompleteTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = 0;
-
-                // Act
-                connection.Update<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entity.ColumnBit = 0;
 
             // Act
-            var queryResult = connection.Query<CompleteTable>(entity.Id);
+            connection.Update<CompleteTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual((ulong)0, queryResult.First().ColumnBit);
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual((ulong)0, queryResult.First().ColumnBit);
     }
 
     [TestMethod]
@@ -1191,29 +1045,27 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<CompleteTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = 0;
-
-                // Act
-                connection.Update<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entity.ColumnBit = 0;
 
             // Act
-            var queryResult = connection.Query<CompleteTable>(entity.Id);
+            connection.Update<CompleteTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual((ulong)1, queryResult.First().ColumnBit);
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual((ulong)1, queryResult.First().ColumnBit);
     }
 
     #endregion
@@ -1226,29 +1078,27 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<CompleteTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = 0;
-
-                // Act
-                await connection.UpdateAsync<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entity.ColumnBit = 0;
 
             // Act
-            var queryResult = connection.Query<CompleteTable>(entity.Id);
+            await connection.UpdateAsync<CompleteTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual((ulong)0, queryResult.First().ColumnBit);
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual((ulong)0, queryResult.First().ColumnBit);
     }
 
     [TestMethod]
@@ -1257,29 +1107,27 @@ public class TransactionTests
         // Setup
         var entity = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<CompleteTable>(entity);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.Insert<CompleteTable>(entity);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entity.ColumnBit = 0;
-
-                // Act
-                await connection.UpdateAsync<CompleteTable>(entity, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entity.ColumnBit = 0;
 
             // Act
-            var queryResult = connection.Query<CompleteTable>(entity.Id);
+            await connection.UpdateAsync<CompleteTable>(entity, transaction: transaction);
 
-            // Assert
-            Assert.AreEqual((ulong)1, queryResult.First().ColumnBit);
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
+
+        // Assert
+        Assert.AreEqual((ulong)1, queryResult.First().ColumnBit);
     }
 
     #endregion
@@ -1296,29 +1144,27 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<CompleteTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = 0);
-
-                // Act
-                connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entities.ForEach(entity => entity.ColumnBit = 0);
 
             // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+            connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<CompleteTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     [TestMethod]
@@ -1327,29 +1173,27 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<CompleteTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = 0);
-
-                // Act
-                connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entities.ForEach(entity => entity.ColumnBit = 0);
 
             // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+            connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<CompleteTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     #endregion
@@ -1362,29 +1206,27 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<CompleteTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = 0);
-
-                // Act
-                await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Commit();
-            }
+            entities.ForEach(entity => entity.ColumnBit = 0);
 
             // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+            await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Commit();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<CompleteTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     [TestMethod]
@@ -1393,29 +1235,27 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<CompleteTable>(entities);
+
+        // Prepare
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            // Act
-            connection.InsertAll<CompleteTable>(entities);
-
-            // Prepare
-            using (var transaction = connection.EnsureOpen().BeginTransaction())
-            {
-                entities.ForEach(entity => entity.ColumnBit = 0);
-
-                // Act
-                await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction);
-
-                // Act
-                transaction.Rollback();
-            }
+            entities.ForEach(entity => entity.ColumnBit = 0);
 
             // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+            await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction);
 
-            // Assert
-            entities.ForEach(entity => Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            // Act
+            transaction.Rollback();
         }
+
+        // Act
+        var queryResult = connection.QueryAll<CompleteTable>();
+
+        // Assert
+        entities.ForEach(entity => Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit));
     }
 
     #endregion
@@ -1434,20 +1274,18 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var transaction = new TransactionScope())
+        using var transaction = new TransactionScope();
+        using (var connection = new MySqlConnection(Database.ConnectionString))
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-            {
-                // Act
-                connection.InsertAll<CompleteTable>(entities);
+            // Act
+            connection.InsertAll<CompleteTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     [TestMethod]
@@ -1456,20 +1294,18 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new MySqlConnection(Database.ConnectionString))
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-            {
-                // Act
-                await connection.InsertAllAsync<CompleteTable>(entities);
+            // Act
+            await connection.InsertAllAsync<CompleteTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     #endregion
@@ -1482,20 +1318,18 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new MySqlConnection(Database.ConnectionString))
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-            {
-                // Act
-                connection.MergeAll<CompleteTable>(entities);
+            // Act
+            connection.MergeAll<CompleteTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     [TestMethod]
@@ -1504,20 +1338,18 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new MySqlConnection(Database.ConnectionString))
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-            {
-                // Act
-                await connection.MergeAllAsync<CompleteTable>(entities);
+            // Act
+            await connection.MergeAllAsync<CompleteTable>(entities);
 
-                // Assert
-                Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     #endregion
@@ -1530,29 +1362,27 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new MySqlConnection(Database.ConnectionString))
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-            {
-                // Act
-                connection.InsertAll<CompleteTable>(entities);
+            // Act
+            connection.InsertAll<CompleteTable>(entities);
 
-                // Prepare
-                entities.ForEach(entity => entity.ColumnBit = 0);
+            // Prepare
+            entities.ForEach(entity => entity.ColumnBit = 0);
 
-                // Act
-                connection.UpdateAll<CompleteTable>(entities);
+            // Act
+            connection.UpdateAll<CompleteTable>(entities);
 
-                // Act
-                var queryResult = connection.QueryAll<CompleteTable>();
+            // Act
+            var queryResult = connection.QueryAll<CompleteTable>();
 
-                // Assert
-                entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     [TestMethod]
@@ -1561,29 +1391,27 @@ public class TransactionTests
         // Setup
         var entities = Helper.CreateCompleteTables(10);
 
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using (var connection = new MySqlConnection(Database.ConnectionString))
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-            {
-                // Act
-                connection.InsertAll<CompleteTable>(entities);
+            // Act
+            connection.InsertAll<CompleteTable>(entities);
 
-                // Prepare
-                entities.ForEach(entity => entity.ColumnBit = 0);
+            // Prepare
+            entities.ForEach(entity => entity.ColumnBit = 0);
 
-                // Act
-                await connection.UpdateAllAsync<CompleteTable>(entities);
+            // Act
+            await connection.UpdateAllAsync<CompleteTable>(entities);
 
-                // Act
-                var queryResult = connection.QueryAll<CompleteTable>();
+            // Act
+            var queryResult = connection.QueryAll<CompleteTable>();
 
-                // Assert
-                entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
-            }
-
-            // Complete
-            transaction.Complete();
+            // Assert
+            entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
+
+        // Complete
+        transaction.Complete();
     }
 
     #endregion

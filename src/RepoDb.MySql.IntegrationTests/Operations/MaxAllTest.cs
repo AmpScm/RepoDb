@@ -31,28 +31,24 @@ public class MaxAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.MaxAll<CompleteTable>(e => e.ColumnInt);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.MaxAll<CompleteTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionMaxAllWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.MaxAll<CompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.MaxAll<CompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -65,28 +61,24 @@ public class MaxAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInt);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionMaxAllAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -103,30 +95,26 @@ public class MaxAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First());
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionMaxAllViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -139,30 +127,26 @@ public class MaxAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First());
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionMaxAllAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            hints: "WhatEver"));
     }
 
     #endregion

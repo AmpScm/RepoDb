@@ -1,11 +1,11 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Data;
+using System.Dynamic;
+using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
-using System.Data;
-using System.Dynamic;
 
 namespace RepoDb.IntegrationTests.Operations;
 
@@ -868,19 +868,6 @@ public class ExecuteQueryTest
         Assert.ThrowsExactly<InvalidParameterException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param));
     }
 
-    //[TestMethod, ExpectedException(typeof(InvalidOperationException))]
-    //public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfTheParameterIsQueryFieldAndTheOperationIsNotEqualsToEqual()
-    //{
-    //    using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        // Setup
-    //        var param = new QueryField("Id", Operation.NotEqual, 1);
-
-    //        // Act
-    //        connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param);
-    //    }
-    //}
-
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfTheParametersAreNotDefined()
     {
@@ -1197,19 +1184,6 @@ public class ExecuteQueryTest
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
-
-    //[TestMethod, ExpectedException(typeof(AggregateException))]
-    //public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfTheParameterIsQueryFieldAndTheOperationIsNotEqualsToEqual()
-    //{
-    //    using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        // Setup
-    //        var param = new QueryField("Id", Operation.NotEqual, 1);
-
-    //        // Act
-    //        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param);
-    //    }
-    //}
 
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfThereAreSqlStatementProblems()

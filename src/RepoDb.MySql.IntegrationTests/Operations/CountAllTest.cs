@@ -31,27 +31,23 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.CountAll<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionCountAllWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.CountAll<CompleteTable>(hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -64,27 +60,23 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAllAsync<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAllAsync<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionCountAllAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.CountAllAsync<CompleteTable>(hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -101,28 +93,24 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionCountAllViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.CountAll(ClassMappedNameCache.Get<CompleteTable>(),
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll(ClassMappedNameCache.Get<CompleteTable>(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -135,28 +123,24 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionCountAllAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            hints: "WhatEver"));
     }
 
     #endregion

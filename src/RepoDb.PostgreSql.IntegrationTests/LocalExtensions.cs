@@ -13,7 +13,7 @@ internal static class LocalExtensions
 
     static NpgsqlDataSource DoSetup()
     {
-        var src = new NpgsqlDataSourceBuilder(Database.ConnectionString);
+        NpgsqlDataSourceBuilder src = new NpgsqlDataSourceBuilder(Database.ConnectionString);
 
         src.MapEnum<Hands>("hand");
         return src.Build();

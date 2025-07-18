@@ -34,12 +34,10 @@ public static class Database
 
     public static void Cleanup()
     {
-        using (var connection = new NpgsqlConnection(ConnectionString))
-        {
-            connection.Truncate<CompleteTable>();
-            connection.Truncate<NonIdentityCompleteTable>();
-            connection.Truncate<EnumTable>();
-        }
+        using NpgsqlConnection connection = new NpgsqlConnection(ConnectionString);
+        connection.Truncate<CompleteTable>();
+        connection.Truncate<NonIdentityCompleteTable>();
+        connection.Truncate<EnumTable>();
     }
 
     #endregion
@@ -55,9 +53,8 @@ public static class Database
 
     private static void CreateCompleteTable()
     {
-        using (var connection = new NpgsqlConnection(ConnectionString))
-        {
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS public.""CompleteTable""
+        using NpgsqlConnection connection = new NpgsqlConnection(ConnectionString);
+        connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS public.""CompleteTable""
                     (
                         ""Id"" bigint GENERATED ALWAYS AS IDENTITY,
                         ""ColumnChar"" ""char"",
@@ -205,14 +202,12 @@ public static class Database
 
                     ALTER TABLE public.""CompleteTable""
                         OWNER to postgres;");
-        }
     }
 
     private static void CreateNonIdentityCompleteTable()
     {
-        using (var connection = new NpgsqlConnection(ConnectionString))
-        {
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS public.""NonIdentityCompleteTable""
+        using NpgsqlConnection connection = new NpgsqlConnection(ConnectionString);
+        connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS public.""NonIdentityCompleteTable""
                     (
                         ""Id"" bigint NOT NULL,
                         ""ColumnChar"" ""char"",
@@ -360,7 +355,6 @@ public static class Database
 
                     ALTER TABLE public.""NonIdentityCompleteTable""
                         OWNER to postgres;");
-        }
     }
 
     #endregion
@@ -369,12 +363,10 @@ public static class Database
 
     public static IEnumerable<CompleteTable> CreateCompleteTables(int count)
     {
-        using (var connection = new NpgsqlConnection(ConnectionString))
-        {
-            var tables = Helper.CreateCompleteTables(count);
-            connection.InsertAll(tables);
-            return tables;
-        }
+        using NpgsqlConnection connection = new NpgsqlConnection(ConnectionString);
+        List<CompleteTable> tables = Helper.CreateCompleteTables(count);
+        connection.InsertAll(tables);
+        return tables;
     }
 
     #endregion
@@ -383,12 +375,10 @@ public static class Database
 
     public static IEnumerable<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count)
     {
-        using (var connection = new NpgsqlConnection(ConnectionString))
-        {
-            var tables = Helper.CreateNonIdentityCompleteTables(count);
-            connection.InsertAll(tables);
-            return tables;
-        }
+        using NpgsqlConnection connection = new NpgsqlConnection(ConnectionString);
+        List<NonIdentityCompleteTable> tables = Helper.CreateNonIdentityCompleteTables(count);
+        connection.InsertAll(tables);
+        return tables;
     }
 
     #endregion
@@ -397,9 +387,8 @@ public static class Database
 
     private static void CreateEnumTable()
     {
-        using (var connection = new NpgsqlConnection(ConnectionString))
-        {
-            connection.ExecuteNonQuery(@"
+        using NpgsqlConnection connection = new NpgsqlConnection(ConnectionString);
+        connection.ExecuteNonQuery(@"
                     DO $$
                     BEGIN
                         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'hand') THEN
@@ -413,8 +402,7 @@ public static class Database
                         ""Id"" bigint primary key,
                         ""ColumnEnumHand"" hand null
                     );");
-            connection.ReloadTypes();
-        }
+        connection.ReloadTypes();
     }
 
     #endregion

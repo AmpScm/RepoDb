@@ -26,7 +26,7 @@ public class PostgreSqlDbInstance : DbInstance<NpgsqlConnection>
 
     protected override async Task CreateUserDatabase(DbConnection sql)
     {
-        var recordCount = await sql.ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM pg_database WHERE datname = '{DatabaseName}';");
+        int recordCount = await sql.ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM pg_database WHERE datname = '{DatabaseName}';");
         if (recordCount <= 0)
         {
             await sql.ExecuteNonQueryAsync($@"CREATE DATABASE ""{DatabaseName}""

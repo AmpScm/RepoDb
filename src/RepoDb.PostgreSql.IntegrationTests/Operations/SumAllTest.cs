@@ -29,30 +29,26 @@ public class SumAllTest
     public void TestPostgreSqlConnectionSumAll()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SumAll<CompleteTable>(e => e.ColumnInteger);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.SumAll<CompleteTable>(e => e.ColumnInteger);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionSumAllWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.SumAll<CompleteTable>(e => e.ColumnInteger,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SumAll<CompleteTable>(e => e.ColumnInteger,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -63,30 +59,26 @@ public class SumAllTest
     public async Task TestPostgreSqlConnectionSumAllAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAllAsync<CompleteTable>(e => e.ColumnInteger);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAllAsync<CompleteTable>(e => e.ColumnInteger);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionSumAllAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.SumAllAsync<CompleteTable>(e => e.ColumnInteger,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAllAsync<CompleteTable>(e => e.ColumnInteger,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -101,32 +93,28 @@ public class SumAllTest
     public void TestPostgreSqlConnectionSumAllViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SumAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.SumAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionSumAllViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.SumAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SumAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -137,32 +125,28 @@ public class SumAllTest
     public async Task TestPostgreSqlConnectionSumAllAsyncViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionSumAllAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            hints: "WhatEver"));
     }
 
     #endregion

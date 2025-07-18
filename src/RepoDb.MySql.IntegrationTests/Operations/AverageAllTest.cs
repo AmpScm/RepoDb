@@ -31,28 +31,24 @@ public class AverageAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.AverageAll<CompleteTable>(e => e.ColumnInt);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.AverageAll<CompleteTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionAverageAllWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.AverageAll<CompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.AverageAll<CompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -65,28 +61,24 @@ public class AverageAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInt);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionAverageAllAsyncWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAllAsync<CompleteTable>(e => e.ColumnInt,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -103,30 +95,26 @@ public class AverageAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First());
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnMySqlConnectionAverageAllViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.AverageAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -139,30 +127,26 @@ public class AverageAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First());
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First());
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnMySqlConnectionAverageAllAsyncViaTableNameWithHints()
     {
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            hints: "WhatEver"));
     }
 
     #endregion

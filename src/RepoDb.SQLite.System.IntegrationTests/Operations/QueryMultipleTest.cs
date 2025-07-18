@@ -218,10 +218,12 @@ public class QueryMultipleTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryMultipleWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -234,6 +236,7 @@ public class QueryMultipleTest
                 top2: 2,
                 hints2: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -432,10 +435,12 @@ public class QueryMultipleTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryMultipleAsyncWithHints()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
@@ -448,6 +453,7 @@ public class QueryMultipleTest
                 top2: 2,
                 hints2: "WhatEver");
         }
+        });
     }
 
     #endregion

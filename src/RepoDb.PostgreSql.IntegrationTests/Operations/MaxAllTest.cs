@@ -29,30 +29,26 @@ public class MaxAllTest
     public void TestPostgreSqlConnectionMaxAll()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.MaxAll<CompleteTable>(e => e.ColumnInteger);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.MaxAll<CompleteTable>(e => e.ColumnInteger);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionMaxAllWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.MaxAll<CompleteTable>(e => e.ColumnInteger,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.MaxAll<CompleteTable>(e => e.ColumnInteger,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -63,30 +59,26 @@ public class MaxAllTest
     public async Task TestPostgreSqlConnectionMaxAllAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInteger);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInteger);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionMaxAllAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInteger,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInteger,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -101,32 +93,28 @@ public class MaxAllTest
     public void TestPostgreSqlConnectionMaxAllViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionMaxAllViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.MaxAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -137,32 +125,28 @@ public class MaxAllTest
     public async Task TestPostgreSqlConnectionMaxAllAsyncViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionMaxAllAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            hints: "WhatEver"));
     }
 
     #endregion

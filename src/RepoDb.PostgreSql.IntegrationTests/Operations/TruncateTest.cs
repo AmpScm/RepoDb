@@ -29,17 +29,15 @@ public class TruncateTest
     public void TestPostgreSqlConnectionTruncate()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Truncate<CompleteTable>();
-            var countResult = connection.CountAll<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.Truncate<CompleteTable>();
+        long countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -50,17 +48,15 @@ public class TruncateTest
     public async Task TestPostgreSqlConnectionTruncateAsyncWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.TruncateAsync<CompleteTable>();
-            var countResult = connection.CountAll<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.TruncateAsync<CompleteTable>();
+        long countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -75,17 +71,15 @@ public class TruncateTest
     public void TestPostgreSqlConnectionTruncateViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Truncate(ClassMappedNameCache.Get<CompleteTable>());
-            var countResult = connection.CountAll<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.Truncate(ClassMappedNameCache.Get<CompleteTable>());
+        long countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -96,17 +90,15 @@ public class TruncateTest
     public async Task TestPostgreSqlConnectionTruncateAsyncViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>());
-            var countResult = connection.CountAll<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>());
+        long countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion

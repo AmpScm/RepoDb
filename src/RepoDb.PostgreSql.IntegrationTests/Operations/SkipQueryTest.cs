@@ -30,102 +30,92 @@ public class SkipQueryTest
     public void TestPostgreSqlConnectionSkipQueryFirstBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSkipQueryFirstBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSkipQueryThirdBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSkipQueryThirdBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionSkipQueryWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.SkipQuery<CompleteTable>(
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery<CompleteTable>(
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -136,102 +126,92 @@ public class SkipQueryTest
     public async Task TestPostgreSqlConnectionSkipQueryAsyncFirstBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSkipQueryAsyncFirstBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSkipQueryAsyncThirdBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSkipQueryAsyncThirdBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionSkipQueryAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.SkipQueryAsync<CompleteTable>(
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync<CompleteTable>(
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -246,102 +226,92 @@ public class SkipQueryTest
     public void TestPostgreSqlConnectionSkipQueryViaTableNameFirstBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSkipQueryViaTableNameFirstBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSkipQueryViaTableNameThirdBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionSkipQueryViaTableNameThirdBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionSkipQueryViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                5,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            5,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -352,102 +322,92 @@ public class SkipQueryTest
     public async Task TestPostgreSqlConnectionSkipQueryViaTableNameAsyncFirstBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSkipQueryViaTableNameAsyncFirstBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSkipQueryViaTableNameAsyncThirdBatchAscending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionSkipQueryViaTableNameAsyncThirdBatchDescending()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionSkipQueryAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

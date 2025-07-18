@@ -30,30 +30,26 @@ public class QueryAllTest
     public void TestPostgreSqlConnectionQueryAll()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllWithHints()
     {
         // Setup
-        var table = Database.CreateCompleteTables(1).First();
+        CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.QueryAll<CompleteTable>(hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryAll<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -64,30 +60,26 @@ public class QueryAllTest
     public async Task TestPostgreSqlConnectionQueryAllAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync<CompleteTable>();
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<CompleteTable> queryResult = await connection.QueryAllAsync<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncWithHints()
     {
         // Setup
-        var table = Database.CreateCompleteTables(1).First();
+        CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.QueryAllAsync<CompleteTable>(hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAllAsync<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -102,32 +94,28 @@ public class QueryAllTest
     public void TestPostgreSqlConnectionQueryAllViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllViaTableNameWithHints()
     {
         // Setup
-        var table = Database.CreateCompleteTables(1).First();
+        CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -138,32 +126,28 @@ public class QueryAllTest
     public async Task TestPostgreSqlConnectionQueryAllAsyncViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        IEnumerable<dynamic> queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncViaTableNameWithHints()
     {
         // Setup
-        var table = Database.CreateCompleteTables(1).First();
+        CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

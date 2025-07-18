@@ -28,50 +28,44 @@ public class DeleteAllTest
     public void TestPostgreSqlConnectionDeleteAll()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>();
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.DeleteAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionDeleteAllViaPrimaryKeys()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>(primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.DeleteAll<CompleteTable>(primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionDeleteAllViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>(primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.DeleteAll<CompleteTable>(primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -82,50 +76,44 @@ public class DeleteAllTest
     public async Task TestPostgreSqlConnectionDeleteAllAsync()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync<CompleteTable>();
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.DeleteAllAsync<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionDeleteAllAsyncViaPrimaryKeys()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionDeleteAllAsyncViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -140,50 +128,44 @@ public class DeleteAllTest
     public void TestPostgreSqlConnectionDeleteAllViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>());
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionDeleteAllViaTableNameViaPrimaryKeys()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionDeleteAllViaTableNameViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -194,50 +176,44 @@ public class DeleteAllTest
     public async Task TestPostgreSqlConnectionDeleteAllAsyncViaTableName()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionDeleteAllAsyncViaTableNameViaPrimaryKeys()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionDeleteAllAsyncViaTableNameViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000);
+        IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion

@@ -30,50 +30,44 @@ public class AverageTest
     public void TestPostgreSqlConnectionAverageWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Average<CompleteTable>(e => e.ColumnInteger,
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Average<CompleteTable>(e => e.ColumnInteger,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionAverageWithExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = connection.Average<CompleteTable>(e => e.ColumnInteger,
-                e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
+        object result = connection.Average<CompleteTable>(e => e.ColumnInteger,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void TestPostgreSqlConnectionAverageWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Average<CompleteTable>(e => e.ColumnInteger,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Average<CompleteTable>(e => e.ColumnInteger,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -84,50 +78,44 @@ public class AverageTest
     public async Task TestPostgreSqlConnectionAverageAsyncWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionAverageAsyncWithExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
-                e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
+        object result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task TestPostgreSqlConnectionAverageAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -142,53 +130,47 @@ public class AverageTest
     public void TestPostgreSqlConnectionAverageViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionAverageViaTableNameWithExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                new QueryField("Id", Operation.In, ids));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
+        object result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            new QueryField("Id", Operation.In, ids));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void TestPostgreSqlConnectionAverageViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -199,53 +181,47 @@ public class AverageTest
     public async Task TestPostgreSqlConnectionAverageAsyncViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionAverageAsyncViaTableNameWithExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                new QueryField("Id", Operation.In, ids));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
+        object result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            new QueryField("Id", Operation.In, ids));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task TestPostgreSqlConnectionAverageAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

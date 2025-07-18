@@ -30,48 +30,40 @@ public class NpgsqlDbTypeAttributeTest
     public void TestNpgsqlDbTypeAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new NpgsqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new NpgsqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new NpgsqlDbTypeAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new NpgsqlDbTypeAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(NpgsqlDbType.Box, parameter.NpgsqlDbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(NpgsqlDbType.Box, parameter.NpgsqlDbType);
     }
 
     [TestMethod]
     public void TestNpgsqlDbTypeAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new NpgsqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new NpgsqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(NpgsqlDbTypeAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(NpgsqlDbTypeAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(NpgsqlDbType.Box, parameter.NpgsqlDbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(NpgsqlDbType.Box, parameter.NpgsqlDbType);
     }
 }

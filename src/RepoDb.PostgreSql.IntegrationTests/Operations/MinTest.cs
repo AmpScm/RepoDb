@@ -30,129 +30,115 @@ public class MinTest
     public void TestPostgreSqlConnectionMinWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInteger,
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min<CompleteTable>(e => e.ColumnInteger,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var ids = new[] { tables.First().Id, tables.Last().Id };
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInteger,
-                e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min<CompleteTable>(e => e.ColumnInteger,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInteger,
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min<CompleteTable>(e => e.ColumnInteger,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInteger,
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min<CompleteTable>(e => e.ColumnInteger,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInteger,
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min<CompleteTable>(e => e.ColumnInteger,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min<CompleteTable>(e => e.ColumnInteger,
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min<CompleteTable>(e => e.ColumnInteger,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionMinWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Min<CompleteTable>(e => e.ColumnInteger,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Min<CompleteTable>(e => e.ColumnInteger,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -163,129 +149,115 @@ public class MinTest
     public async Task TestPostgreSqlConnectionMinAsyncWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var ids = new[] { tables.First().Id, tables.Last().Id };
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-                e => ids.Contains(e.Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionMinAsyncWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -300,117 +272,105 @@ public class MinTest
     public void TestPostgreSqlConnectionMinViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaTableNameViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaTableNameViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaTableNameViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestPostgreSqlConnectionMinViaTableNameViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionOnPostgreSqlConnectionMinViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Min(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion
@@ -421,117 +381,105 @@ public class MinTest
     public async Task TestPostgreSqlConnectionMinAsyncViaTableNameWithoutExpression()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaTableNameViaDynamic()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new { tables.First().Id });
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaTableNameViaQueryField()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaTableNameViaQueryFields()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryFields);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestPostgreSqlConnectionMinAsyncViaTableNameViaQueryGroup()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
-        var queryFields = new[]
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
+        QueryField[] queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
-        var queryGroup = new QueryGroup(queryFields);
+        QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                queryGroup);
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionOnPostgreSqlConnectionMinAsyncViaTableNameWithHints()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(10);
+        IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using (var connection = this.CreateTestConnection())
-        {
-            // Act
-            await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInteger", typeof(int)),
-                (object?)null,
-                hints: "WhatEver");
-        }
+        using NpgsqlConnection connection = this.CreateTestConnection();
+        // Act
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInteger", typeof(int)),
+            (object?)null,
+            hints: "WhatEver"));
     }
 
     #endregion

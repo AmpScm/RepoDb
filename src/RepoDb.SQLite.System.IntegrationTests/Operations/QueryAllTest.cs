@@ -43,17 +43,20 @@ public class QueryAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllWithHints()
     {
         // Setup
         var table = Database.CreateSdsCompleteTables(1).First();
 
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Act
             connection.QueryAll<SdsCompleteTable>(hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -77,17 +80,20 @@ public class QueryAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncWithHints()
     {
         // Setup
         var table = Database.CreateSdsCompleteTables(1).First();
 
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Act
             await connection.QueryAllAsync<SdsCompleteTable>(hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -115,19 +121,22 @@ public class QueryAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public void ThrowExceptionQueryAllViaTableNameWithHints()
     {
         // Setup
         var table = Database.CreateSdsCompleteTables(1).First();
 
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        Assert.ThrowsExactly<NotSupportedException>(() =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Act
             connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
@@ -151,19 +160,22 @@ public class QueryAllTest
         }
     }
 
-    [TestMethod, ExpectedException(typeof(NotSupportedException))]
+    [TestMethod]
     public async Task ThrowExceptionQueryAllAsyncViaTableNameWithHints()
     {
         // Setup
         var table = Database.CreateSdsCompleteTables(1).First();
 
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        {
+            using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Act
             await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
         }
+        });
     }
 
     #endregion
