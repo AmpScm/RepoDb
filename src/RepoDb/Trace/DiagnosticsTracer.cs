@@ -8,7 +8,7 @@ namespace RepoDb.Trace;
 /// </summary>
 public sealed class DiagnosticsTracer : ITrace
 {
-    readonly Dictionary<long, DateTime> _timeMap = new();
+    private readonly Dictionary<long, DateTime> _timeMap = new();
     /// <summary>
     ///
     /// </summary>

@@ -997,7 +997,7 @@ public static partial class DbConnectionExtension
             QueryField field => ToQueryGroup(field),
             IEnumerable<QueryField> fields => ToQueryGroup(fields),
             QueryGroup group => group,
-            _ when (TypeCache.Get(typeof(T)).UnderlyingType is { } type && (TypeCache.Get(type).IsAnonymousType || type == StaticType.Object)) => QueryGroup.Parse(what, false),
+            _ when TypeCache.Get(typeof(T)).UnderlyingType is { } type && (TypeCache.Get(type).IsAnonymousType || type == StaticType.Object) => QueryGroup.Parse(what, false),
             _ => null,
         };
     }

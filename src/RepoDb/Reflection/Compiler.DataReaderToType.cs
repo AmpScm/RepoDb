@@ -4,7 +4,7 @@ using RepoDb.Extensions;
 
 namespace RepoDb.Reflection;
 
-partial class Compiler
+internal partial class Compiler
 {
     /// <summary>
     ///
@@ -19,7 +19,7 @@ partial class Compiler
         var typeOfResult = typeof(TResult);
 
         // EntityModel/Class
-        if (TypeCache.Get(typeOfResult).IsTuple())
+        if (TypeCache.Get(typeOfResult).IsTuple)
         {
             return CompileDataReaderToTuple<TResult>(reader, dbFields);
         }

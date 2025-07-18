@@ -16,12 +16,12 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     , IReadOnlySet<DbField>
 #endif
 {
-    readonly HashSet<DbField> _fields;
+    private readonly HashSet<DbField> _fields;
     private FieldSet? _asFieldset;
     private readonly Lazy<DbField?> lazyIdentity;
     private readonly Lazy<DbFieldCollection?> lazyPrimaryFields;
     private Dictionary<string, DbField>? _nameMap;
-    int? _hashCode;
+    private int? _hashCode;
 
     public int Count => _fields.Count;
 

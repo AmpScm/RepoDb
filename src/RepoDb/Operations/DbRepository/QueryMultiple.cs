@@ -49,7 +49,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -119,7 +119,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -189,7 +189,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -259,7 +259,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -329,7 +329,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -417,7 +417,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -507,7 +507,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -597,7 +597,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -687,7 +687,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -777,7 +777,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -886,7 +886,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -997,7 +997,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1108,7 +1108,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1219,7 +1219,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1330,7 +1330,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1459,7 +1459,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1590,7 +1590,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1721,7 +1721,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1852,7 +1852,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -1983,7 +1983,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -2132,7 +2132,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -2283,7 +2283,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -2434,7 +2434,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -2585,7 +2585,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -2736,7 +2736,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -2905,7 +2905,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3076,7 +3076,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3247,7 +3247,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3418,7 +3418,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3589,7 +3589,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3699,7 +3699,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3772,7 +3772,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3845,7 +3845,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3918,7 +3918,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -3991,7 +3991,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4082,7 +4082,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4175,7 +4175,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4268,7 +4268,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4361,7 +4361,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4454,7 +4454,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4566,7 +4566,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4680,7 +4680,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4794,7 +4794,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -4908,7 +4908,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5022,7 +5022,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5154,7 +5154,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5288,7 +5288,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5422,7 +5422,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5556,7 +5556,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5690,7 +5690,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5842,7 +5842,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -5996,7 +5996,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -6150,7 +6150,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -6304,7 +6304,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -6458,7 +6458,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -6630,7 +6630,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -6804,7 +6804,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -6978,7 +6978,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7152,7 +7152,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7326,7 +7326,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7441,7 +7441,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7517,7 +7517,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7593,7 +7593,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7669,7 +7669,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7745,7 +7745,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7841,7 +7841,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -7940,7 +7940,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8039,7 +8039,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8138,7 +8138,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8237,7 +8237,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8357,7 +8357,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8480,7 +8480,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8603,7 +8603,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8726,7 +8726,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8849,7 +8849,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -8992,7 +8992,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -9138,7 +9138,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -9284,7 +9284,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -9430,7 +9430,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -9576,7 +9576,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -9742,7 +9742,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -9911,7 +9911,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -10080,7 +10080,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -10249,7 +10249,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -10418,7 +10418,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -10607,7 +10607,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -10799,7 +10799,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -10991,7 +10991,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11183,7 +11183,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11375,7 +11375,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11490,7 +11490,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11562,7 +11562,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11634,7 +11634,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11706,7 +11706,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11796,7 +11796,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11889,7 +11889,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -11982,7 +11982,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12075,7 +12075,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12187,7 +12187,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12302,7 +12302,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12417,7 +12417,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12533,7 +12533,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12666,7 +12666,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12802,7 +12802,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -12938,7 +12938,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -13075,7 +13075,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -13229,7 +13229,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -13386,7 +13386,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -13543,7 +13543,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -13701,7 +13701,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -13876,7 +13876,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14054,7 +14054,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14232,7 +14232,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14411,7 +14411,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         IDbTransaction? transaction = null)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14536,7 +14536,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14615,7 +14615,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14694,7 +14694,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14773,7 +14773,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14852,7 +14852,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T2 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -14951,7 +14951,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15053,7 +15053,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15155,7 +15155,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15257,7 +15257,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15359,7 +15359,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T3 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15482,7 +15482,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15608,7 +15608,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15734,7 +15734,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15860,7 +15860,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -15986,7 +15986,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T4 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -16132,7 +16132,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -16281,7 +16281,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -16430,7 +16430,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -16579,7 +16579,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -16728,7 +16728,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T5 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -16897,7 +16897,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -17069,7 +17069,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -17241,7 +17241,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -17413,7 +17413,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -17585,7 +17585,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T6 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -17777,7 +17777,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -17972,7 +17972,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18167,7 +18167,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18362,7 +18362,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18557,7 +18557,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         where T7 : class
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18675,7 +18675,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18750,7 +18750,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18825,7 +18825,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18900,7 +18900,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -18993,7 +18993,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19089,7 +19089,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19185,7 +19185,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19281,7 +19281,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19396,7 +19396,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19514,7 +19514,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19632,7 +19632,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19751,7 +19751,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -19887,7 +19887,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -20026,7 +20026,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -20165,7 +20165,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -20305,7 +20305,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -20462,7 +20462,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -20622,7 +20622,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -20782,7 +20782,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -20943,7 +20943,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -21121,7 +21121,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -21302,7 +21302,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -21483,7 +21483,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {
@@ -21665,7 +21665,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
         CancellationToken cancellationToken = default)
     {
         // Create a connection
-        var connection = (transaction?.Connection ?? CreateConnection());
+        var connection = transaction?.Connection ?? CreateConnection();
 
         try
         {

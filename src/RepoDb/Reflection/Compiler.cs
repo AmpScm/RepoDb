@@ -83,7 +83,7 @@ internal sealed partial class Compiler
             }
 
             // Return
-            return (descriptiveContextString = message.Trim());
+            return descriptiveContextString = message.Trim();
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ internal sealed partial class Compiler
         if (handlerInstance is null)
             return null;
 
-        Type handlerType = handlerInstance.GetType();
+        var handlerType = handlerInstance.GetType();
         var propertyHandlerInterface = handlerType
             .GetInterfaces()
             .FirstOrDefault(interfaceType =>
@@ -400,7 +400,7 @@ internal sealed partial class Compiler
         return value;
     }
 
-    static PropertyInfo GetPropertyInfo<TFrom>(Expression<Func<TFrom, object?>> expression) => (PropertyInfo)((MemberExpression)UnwrapUnary(expression.Body)).Member;
+    private static PropertyInfo GetPropertyInfo<TFrom>(Expression<Func<TFrom, object?>> expression) => (PropertyInfo)((MemberExpression)UnwrapUnary(expression.Body)).Member;
 
     /// <summary>
     ///
@@ -429,10 +429,7 @@ internal sealed partial class Compiler
 
     private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : struct, Enum
     {
-        if (Enum.TryParse<TEnum>(value, true, out var r))
-            return r;
-        else
-            return null;
+        return Enum.TryParse<TEnum>(value, true, out var r) ? r : null;
     }
 
     private static TEnum? EnumParseNullDefined<TEnum>(string value) where TEnum : struct, Enum
@@ -443,7 +440,9 @@ internal sealed partial class Compiler
 #else
             && Enum.IsDefined(typeof(TEnum), r))
 #endif
+        {
             return r;
+        }
         else
             return null;
     }
@@ -584,14 +583,14 @@ internal sealed partial class Compiler
                 result = Expression.Call(result, nameof(ToString), []);
             }
             else if (underlyingToType.IsPrimitive &&
-                (underlyingToType) == StaticType.Int16
+                (underlyingToType == StaticType.Int16
                 || underlyingToType == StaticType.Int32
                 || underlyingToType == StaticType.Int64
                 || underlyingToType == StaticType.Byte
                 || underlyingToType == StaticType.UInt16
                 || underlyingToType == StaticType.UInt32
                 || underlyingToType == StaticType.UInt64
-                || underlyingToType == StaticType.SByte)
+                || underlyingToType == StaticType.SByte))
             {
                 result = Expression.Convert(result, Enum.GetUnderlyingType(underlyingFromType));
 
@@ -607,17 +606,27 @@ internal sealed partial class Compiler
                     result = Expression.Convert(result, underlyingToType);
             }
             else
+            {
                 return result; // Will fail
+            }
         }
         else if (toType == StaticType.String && fromType == StaticType.DateTime)
+        {
             result = Expression.Call(GetMethodInfo(() => StrictToString(DateTime.MinValue)), result);
+        }
         else if (toType == StaticType.String && fromType == StaticType.DateTimeOffset)
+        {
             result = Expression.Call(GetMethodInfo(() => StrictToString(DateTimeOffset.MinValue)), result);
+        }
 #if NET
         else if (toType == StaticType.String && fromType == StaticType.DateOnly)
+        {
             result = Expression.Call(GetMethodInfo(() => StrictToString(DateOnly.MinValue)), result);
+        }
         else if (toType == StaticType.String && fromType == StaticType.TimeOnly)
+        {
             result = Expression.Call(GetMethodInfo(() => StrictToString(TimeOnly.MinValue)), result);
+        }
 #endif
         else if (underlyingToType == StaticType.DateTime && underlyingFromType == StaticType.DateTimeOffset)
         {
@@ -668,7 +677,9 @@ internal sealed partial class Compiler
             }
 #endif
             else
+            {
                 return result; // Will fail
+            }
         }
         else
         {
@@ -701,21 +712,25 @@ internal sealed partial class Compiler
         return result;
     }
 
-    static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
+    private static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
 
-    static MethodInfo GetMethodInfo<TFrom>(Expression<Action<TFrom>> call) => ((MethodCallExpression)call.Body).Method;
+    private static MethodInfo GetMethodInfo<TFrom>(Expression<Action<TFrom>> call) => ((MethodCallExpression)call.Body).Method;
 
-    static MethodInfo GetMethodInfo(Expression<Action> call)
+    private static MethodInfo GetMethodInfo(Expression<Action> call)
     {
         return ((MethodCallExpression)call.Body).Method;
     }
 
-    static bool StrictParseBoolean(string? value)
+    private static bool StrictParseBoolean(string? value)
     {
         if (value is null)
+        {
             return false;
+        }
         else if (bool.TryParse(value, out var v))
+        {
             return v;
+        }
         else if (value.Length == 1)
         {
             if (value[0] == '1')
@@ -727,33 +742,33 @@ internal sealed partial class Compiler
         throw new FormatException($"String '{value}' was not recognized as a valid Boolean");
     }
 
-    static decimal StrictParseDecimal(string value)
+    private static decimal StrictParseDecimal(string value)
     {
         return decimal.Parse(value, CultureInfo.InvariantCulture);
     }
 
-    static DateTime StrictParseDateTime(string value)
+    private static DateTime StrictParseDateTime(string value)
     {
         return DateTime.Parse(value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
     }
 
-    static string StrictToString(DateTime value)
+    private static string StrictToString(DateTime value)
     {
         return value.ToString("o", CultureInfo.InvariantCulture);
     }
 
-    static string StrictToString(DateTimeOffset value)
+    private static string StrictToString(DateTimeOffset value)
     {
         return value.ToString("o", CultureInfo.InvariantCulture);
     }
 
-    static DateTimeOffset StrictParseDateTimeOffset(string value)
+    private static DateTimeOffset StrictParseDateTimeOffset(string value)
     {
         return DateTimeOffset.Parse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.RoundtripKind); // If we have no offset assume no offset
     }
 
 #if NET
-    static DateOnly StrictParseDateOnly(string value)
+    private static DateOnly StrictParseDateOnly(string value)
     {
         try
         {
@@ -765,12 +780,12 @@ internal sealed partial class Compiler
         }
     }
 
-    static string StrictToString(DateOnly value)
+    private static string StrictToString(DateOnly value)
     {
         return value.ToString("d", CultureInfo.InvariantCulture);
     }
 
-    static TimeOnly StrictParseTimeOnly(string value)
+    private static TimeOnly StrictParseTimeOnly(string value)
     {
         try
         {
@@ -782,7 +797,7 @@ internal sealed partial class Compiler
         }
     }
 
-    static string StrictToString(TimeOnly value)
+    private static string StrictToString(TimeOnly value)
     {
         return value.ToString("o", CultureInfo.InvariantCulture);
     }
@@ -1056,7 +1071,9 @@ internal sealed partial class Compiler
                     );
             }
             else
+            {
                 expression = result;
+            }
         }
         else if (fromType == StaticType.Guid && toType == StaticType.ByteArray)
         {
@@ -1072,24 +1089,40 @@ internal sealed partial class Compiler
                     );
             }
             else
+            {
                 expression = result;
+            }
         }
         // String to Guid
         else if (fromType == StaticType.String && toType == StaticType.Guid)
+        {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToStringToGuid, expression);
+        }
         else if (fromType == StaticType.TimeSpan && toType == StaticType.DateTime)
+        {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToTimeSpanToDateTime, expression);
+        }
         else if (fromType == StaticType.DateTime && toType == StaticType.TimeSpan)
+        {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToDateTimeToTimeSpan, expression);
+        }
 #if NET
         else if (fromType == StaticType.DateTime && toType == StaticType.DateOnly)
+        {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToDateTimeToDateOnly, expression);
+        }
         else if (fromType == StaticType.DateOnly && toType == StaticType.DateTime)
+        {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToDateOnlyToDateTime, expression);
+        }
         else if (fromType == StaticType.TimeSpan && toType == StaticType.TimeOnly)
+        {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToTimeSpanToTimeOnly, expression);
+        }
         else if (fromType == StaticType.TimeOnly && toType == StaticType.TimeSpan)
+        {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToTimeOnlyToTimeSpan, expression);
+        }
 #endif
         // Others
         else if (toType != StaticType.SqlVariant)
@@ -1753,7 +1786,7 @@ internal sealed partial class Compiler
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"Compiler.Entity/Object.Property: Failed to convert the value expression from " +
-                    $"enumeration '{classProperty.PropertyInfo.PropertyType.FullName}' to type '{targetType?.GetUnderlyingType()}'. {classProperty}", ex);
+                    $"enumeration '{classProperty.PropertyInfo.PropertyType.FullName}' to type '{targetType.GetUnderlyingType()}'. {classProperty}", ex);
             }
         }
 
@@ -1864,17 +1897,9 @@ internal sealed partial class Compiler
         ClassProperty? classProperty,
         DbField dbField)
     {
-        Expression expression;
-
-        // Get the property value
-        if (propertyExpression.Type == StaticType.PropertyInfo)
-        {
-            expression = GetObjectInstancePropertyValueExpression(propertyExpression, entityExpression, dbField);
-        }
-        else
-        {
-            expression = GetEntityInstancePropertyValueExpression(entityExpression, classProperty!, dbField);
-        }
+        var expression = propertyExpression.Type == StaticType.PropertyInfo
+            ? GetObjectInstancePropertyValueExpression(propertyExpression, entityExpression, dbField)
+            : GetEntityInstancePropertyValueExpression(entityExpression, classProperty!, dbField);
 
         // Nullable? -> Convert to DBNull when necessary
         if (TypeCache.Get(expression.Type) is { } returnType && returnType.HasNullValue)

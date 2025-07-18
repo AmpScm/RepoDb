@@ -449,8 +449,8 @@ public static partial class DbConnectionExtension
         }
 
         // Validate the batch size
-        int maxBatchSize = (dbSetting.IsMultiStatementExecutable)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize), dbSetting.MaxQueriesInBatchCount)
+        int maxBatchSize = dbSetting.IsMultiStatementExecutable
+            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
@@ -693,8 +693,8 @@ public static partial class DbConnectionExtension
         }
 
         // Validate the batch size
-        int maxBatchSize = (dbSetting.IsMultiStatementExecutable)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize), dbSetting.MaxQueriesInBatchCount)
+        int maxBatchSize = dbSetting.IsMultiStatementExecutable
+            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 

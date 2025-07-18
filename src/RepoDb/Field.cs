@@ -110,7 +110,7 @@ public class Field : IEquatable<Field>
         obj switch
         {
             null => FieldSet.Empty,
-            _ when (TypeCache.Get(obj.GetType()).IsDictionaryStringObject) => ParseDictionaryStringObject((IDictionary<string, object>)obj),
+            _ when TypeCache.Get(obj.GetType()).IsDictionaryStringObject => ParseDictionaryStringObject((IDictionary<string, object>)obj),
             _ => Parse(obj.GetType())
         };
 
@@ -148,7 +148,7 @@ public class Field : IEquatable<Field>
     {
         ArgumentNullException.ThrowIfNull(obj);
 
-        return new(obj.Select(kvp => new Field(kvp.Key, (kvp.Value?.GetType() ?? StaticType.Object))));
+        return new(obj.Select(kvp => new Field(kvp.Key, kvp.Value?.GetType() ?? StaticType.Object)));
     }
 
     /// <summary>
@@ -223,7 +223,7 @@ public class Field : IEquatable<Field>
         }
         else
         {
-            return (new Field(expression.Member.Name)).AsEnumerable();
+            return new Field(expression.Member.Name).AsEnumerable();
         }
     }
 
@@ -236,7 +236,7 @@ public class Field : IEquatable<Field>
     /// <returns>An enumerable list of <see cref="Field"/> objects.</returns>
     internal static IEnumerable<Field> Parse<TEntity>(BinaryExpression expression)
         where TEntity : class =>
-        (new Field(expression.GetName())).AsEnumerable();
+        new Field(expression.GetName()).AsEnumerable();
 
     /// <summary>
     /// Parses a property from the data entity object based on the given <see cref="NewExpression"/> and converts the result

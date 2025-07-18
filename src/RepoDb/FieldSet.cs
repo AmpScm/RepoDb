@@ -10,8 +10,8 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
 #endif
 {
     private readonly HashSet<Field> _fields;
-    static readonly HashSet<Field> EmptyFields = new();
-    int? _hashCode;
+    private static readonly HashSet<Field> EmptyFields = new();
+    private int? _hashCode;
 
     private FieldSet()
     {

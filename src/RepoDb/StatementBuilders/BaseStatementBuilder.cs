@@ -267,7 +267,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         builder
             .Select()
             .TopFrom(1)
-            .WriteText($"1 AS {("ExistsValue").AsQuoted(DbSetting)}")
+            .WriteText($"1 AS {"ExistsValue".AsQuoted(DbSetting)}")
             .From()
             .TableNameFrom(tableName, DbSetting)
             .HintsFrom(hints)

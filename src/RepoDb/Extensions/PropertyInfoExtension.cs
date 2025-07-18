@@ -36,7 +36,7 @@ public static class PropertyInfoExtension
     }
 
 #if NET8_0_OR_GREATER
-    static readonly SearchValues<char> unquote = SearchValues.Create(['[', ']', '`', '\"']);
+    private static readonly SearchValues<char> unquote = SearchValues.Create(['[', ']', '`', '\"']);
 #endif
 
     /// <summary>
@@ -161,7 +161,7 @@ public static class PropertyInfoExtension
     /// <param name="declaringType">The declaring type of the <see cref="PropertyInfo"/> object. This refers to the derived class if present.</param>
     /// <returns>The generated hashcode.</returns>
     internal static int GenerateCustomizedHashCode(this PropertyInfo property, Type? declaringType = null) =>
-        HashCode.Combine((declaringType ?? property.DeclaringType), property.Name, property.PropertyType);
+        HashCode.Combine(declaringType ?? property.DeclaringType, property.Name, property.PropertyType);
 
     /// <summary>
     /// Converts an instance of <see cref="PropertyInfo"/> object into <see cref="Field"/> object.
@@ -212,7 +212,7 @@ public static class PropertyInfoExtension
             .ToHashSet();
 
         var mappedAttributes = PropertyValueAttributeMapper
-            .Get((declaringType ?? property.DeclaringType!), property)
+            .Get(declaringType ?? property.DeclaringType!, property)
             .Where(e => customAttributes?.Contains(e) != true) ?? PropertyValueAttributeMapper.Get(property.PropertyType);
 
         return customAttributes == null ? mappedAttributes : mappedAttributes == null ? customAttributes :
@@ -286,7 +286,7 @@ public static class PropertyInfoExtension
     {
         ArgumentNullException.ThrowIfNull(property);
 
-        var classProperty = PropertyCache.Get((declaringType ?? property.DeclaringType), property, true);
+        var classProperty = PropertyCache.Get(declaringType ?? property.DeclaringType, property, true);
         var propertyHandler = classProperty?.GetPropertyHandler();
         var value = property?.GetValue(entity);
         if (propertyHandler != null)

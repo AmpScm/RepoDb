@@ -113,7 +113,7 @@ public static partial class StringExtension
         AsUnquoted(value, false, dbSetting);
 
 #if NET8_0_OR_GREATER
-    static readonly SearchValues<char> unquotedChars = SearchValues.Create(['`', '"', ' ', '[']);
+    private static readonly SearchValues<char> unquotedChars = SearchValues.Create(['`', '"', ' ', '[']);
 #endif
     /// <summary>
     /// Unquotes a string.
@@ -480,8 +480,8 @@ public static partial class StringExtension
         string rightAlias,
         IDbSetting dbSetting) =>
         string.Concat(
-            (string.IsNullOrWhiteSpace(leftAlias) ? string.Empty : string.Concat(leftAlias, ".")), AsField(value, dbSetting), " = ",
-            (string.IsNullOrWhiteSpace(rightAlias) ? string.Empty : string.Concat(rightAlias, ".")), AsField(value, dbSetting));
+            string.IsNullOrWhiteSpace(leftAlias) ? string.Empty : string.Concat(leftAlias, "."), AsField(value, dbSetting), " = ",
+            string.IsNullOrWhiteSpace(rightAlias) ? string.Empty : string.Concat(rightAlias, "."), AsField(value, dbSetting));
 
     /// <summary>
     ///

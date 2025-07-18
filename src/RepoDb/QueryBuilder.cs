@@ -20,7 +20,7 @@ public sealed class QueryBuilder
     private const int INITIAL_STRINGBUILDER_CAPACITY = 256;
     private readonly StringBuilder stringBuilder = new(INITIAL_STRINGBUILDER_CAPACITY);
 
-    bool skipNextSpace;
+    private bool skipNextSpace;
 
     /// <summary>
     /// Stringify the current object.

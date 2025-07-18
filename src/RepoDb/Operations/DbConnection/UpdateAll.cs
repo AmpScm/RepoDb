@@ -1197,8 +1197,8 @@ public static partial class DbConnectionExtension
         var dbSetting = connection.GetDbSetting();
 
         // Validate the batch size
-        int maxBatchSize = (dbSetting.IsMultiStatementExecutable)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers ?? []).DistinctBy(x => x.FieldName).Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
+        int maxBatchSize = dbSetting.IsMultiStatementExecutable
+            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Concat(qualifiers ?? []).DistinctBy(x => x.FieldName).Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
@@ -1373,8 +1373,8 @@ public static partial class DbConnectionExtension
         var dbSetting = connection.GetDbSetting();
 
         // Validate the batch size
-        int maxBatchSize = (dbSetting.IsMultiStatementExecutable)
-            ? Math.Min((batchSize <= 0 ? dbSetting.MaxParameterCount / (fields.Concat(qualifiers ?? []).Select(x => x.FieldName).Distinct().Count()) : batchSize), dbSetting.MaxQueriesInBatchCount)
+        int maxBatchSize = dbSetting.IsMultiStatementExecutable
+            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Concat(qualifiers ?? []).Select(x => x.FieldName).Distinct().Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
         batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 

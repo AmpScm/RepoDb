@@ -6,7 +6,7 @@ using RepoDb.Resolvers;
 
 namespace RepoDb.Reflection;
 
-partial class Compiler
+internal partial class Compiler
 {
     /// <summary>
     ///
@@ -33,7 +33,7 @@ partial class Compiler
 
             // Variables
             var dbField = dbFields?.GetByFieldName(prop.FieldName);
-            var targetProperty = (entityProperty ?? prop);
+            var targetProperty = entityProperty ?? prop;
             var valueExpression = (Expression)Expression.Property(entityExpression, prop.PropertyInfo);
 
             // Add the value itself
@@ -81,17 +81,12 @@ partial class Compiler
                      *       except for PostgreSQL. The code written below is only to address the issue for this specific provider.
                      */
 
-                    if (!IsPostgreSqlUserDefined(dbField))
-                    {
-                        dbType = prop.DbType ??
+                    dbType = !IsPostgreSqlUserDefined(dbField)
+                        ? prop.DbType ??
                             valueType.GetDbType() ??
                             (dbField != null ? new ClientTypeToDbTypeResolver().Resolve(dbField.Type) : null) ??
-                            (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType;
-                    }
-                    else
-                    {
-                        dbType = default;
-                    }
+                            (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType
+                        : default;
                 }
                 else if (dbField?.Type != null)
                 {

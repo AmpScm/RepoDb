@@ -71,7 +71,7 @@ public partial class QueryGroup
             BinaryExpression binaryExpression => Parse<TEntity>(binaryExpression),
             UnaryExpression unaryExpression => Parse<TEntity>(unaryExpression),
             MethodCallExpression methodCallExpression => Parse<TEntity>(methodCallExpression),
-            MemberExpression memberExpression when (memberExpression.Type == StaticType.Boolean && memberExpression.Member is PropertyInfo) => ParseDirectBool<TEntity>(memberExpression),
+            MemberExpression memberExpression when memberExpression.Type == StaticType.Boolean && memberExpression.Member is PropertyInfo => ParseDirectBool<TEntity>(memberExpression),
             _ => null
         };
     }

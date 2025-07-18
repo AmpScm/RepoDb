@@ -162,7 +162,7 @@ public static class DbCommandExtension
         }
         else
         {
-            int i = 0;
+            var i = 0;
             foreach (var value in values)
             {
                 var name = string.Concat(commandArrayParameter.ParameterName, i.ToString(CultureInfo.InvariantCulture));
@@ -331,8 +331,8 @@ public static class DbCommandExtension
         InvokePropertyHandler(classProperty, parameter, ref valueType, ref value);
 
         // Automatic Conversion
-        bool converted = AutomaticConvert(dbField, ref valueType, ref value);
-        parameter.Value = (value ?? DBNull.Value);
+        var converted = AutomaticConvert(dbField, ref valueType, ref value);
+        parameter.Value = value ?? DBNull.Value;
         if (converted)
         {
             parameter.DbType = clientTypeToDbTypeResolver.Resolve(valueType!)!.Value;
@@ -377,7 +377,7 @@ public static class DbCommandExtension
         // DbType
         dbType ??= IsPostgreSqlUserDefined(dbField) ? default :
             classProperty?.DbType ??
-            valueType.GetDbType() ??
+            valueType?.GetDbType() ??
             (dbField != null ? clientTypeToDbTypeResolver.Resolve(dbField.Type) : null) ??
             (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType;
 
@@ -395,7 +395,7 @@ public static class DbCommandExtension
         InvokePropertyHandler(classProperty, parameter, ref valueType, ref value);
 
         // Set the parameter value (in case)
-        parameter.Value = (value ?? DBNull.Value);
+        parameter.Value = value ?? DBNull.Value;
 
         // Set the size
         if ((size ?? dbField?.Size) is { } paramSize)
@@ -474,7 +474,7 @@ public static class DbCommandExtension
                     name,
                     value,
                     dbField?.Size,
-                    (entityClassProperty ?? paramClassProperty),
+                    entityClassProperty ?? paramClassProperty,
                     dbField,
                     null,
                     null,
@@ -674,7 +674,7 @@ public static class DbCommandExtension
             if (!(values?.Count > 0))
                 return;
 
-            int i = 0;
+            var i = 0;
             foreach (var value in values)
             {
                 var name = string.Concat(queryField.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
@@ -691,7 +691,7 @@ public static class DbCommandExtension
                 i++;
             }
 
-            int mp = QueryField.RoundUpInLength(i);
+            var mp = QueryField.RoundUpInLength(i);
             while (i < mp)
             {
                 var name = string.Concat(queryField.Parameter.Name, "_In_", i.ToString(CultureInfo.InvariantCulture));
@@ -998,7 +998,7 @@ public static class DbCommandExtension
 
 #if NET
     private static DateTime? AutomaticConvertDateOnlyToDateTime(object? value) =>
-        (value is DateOnly dateOnly ? dateOnly.ToDateTime(default(TimeOnly)) : null);
+        value is DateOnly dateOnly ? dateOnly.ToDateTime(default(TimeOnly)) : null;
 #endif
     #endregion
 }

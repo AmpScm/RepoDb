@@ -78,7 +78,7 @@ internal abstract class BaseRequest : IEquatable<BaseRequest>
     /// <returns>True if the instances are equal.</returns>
     public bool Equals(BaseRequest? other)
     {
-        if ((other is null))
+        if (other is null)
         {
             return false;
         }

@@ -108,10 +108,10 @@ public static class ExpressionExtension
         {
             MethodCallExpression methodCallExpression => methodCallExpression.GetField(),
             MemberExpression memberExpression => memberExpression.GetField(),
-            BinaryExpression { NodeType: ExpressionType.Coalesce } b when (
+            BinaryExpression { NodeType: ExpressionType.Coalesce } b when 
                 FieldFrom(b.Left, out coalesceValue /* ignored */) is { } field
-                && b.Right.GetValue() is { } value) => (coalesceValue = value) == value ? field : throw new NotSupportedException($"Expression '{expression}' is currently not supported."),
-            UnaryExpression { NodeType: ExpressionType.Convert } un when (un.GetField(out coalesceValue) is { } cv) => cv,
+                && b.Right.GetValue() is { } value => (coalesceValue = value) == value ? field : throw new NotSupportedException($"Expression '{expression}' is currently not supported."),
+            UnaryExpression { NodeType: ExpressionType.Convert } un when un.GetField(out coalesceValue) is { } cv => cv,
             _ => throw new NotSupportedException($"Expression '{expression}' is currently not supported.")
         };
     }

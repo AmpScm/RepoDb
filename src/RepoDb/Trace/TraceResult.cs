@@ -40,7 +40,7 @@ internal sealed class TraceResult
 
     #region Methods
 
-    static long _nextSessionId = 1;
+    private static long _nextSessionId = 1;
 
     /// <summary>
     ///

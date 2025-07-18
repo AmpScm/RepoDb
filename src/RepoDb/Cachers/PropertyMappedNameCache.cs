@@ -52,7 +52,7 @@ public static class PropertyMappedNameCache
     /// <returns>The cached column name mappings of the property.</returns>
     public static string Get<TEntity>(Field field)
         where TEntity : class =>
-        Get<TEntity>((TypeExtension.GetProperty<TEntity>(field?.FieldName ?? throw new ArgumentNullException(nameof(field))) ?? throw new PropertyNotFoundException(nameof(field), "Property not found")));
+        Get<TEntity>(TypeExtension.GetProperty<TEntity>(field?.FieldName ?? throw new ArgumentNullException(nameof(field))) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
 
     /// <summary>
     /// Gets the cached column name mappings of the property.

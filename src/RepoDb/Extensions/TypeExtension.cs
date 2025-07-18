@@ -1,7 +1,5 @@
 ﻿using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
 using RepoDb.Exceptions;
@@ -18,17 +16,22 @@ public static class TypeExtension
     /// </summary>
     /// <param name="type">The target type.</param>
     /// <returns>The instance of the <see cref="DbType"/> object.</returns>
-    [return: NotNullIfNotNull(nameof(type))]
-    public static IEnumerable<PropertyValueAttribute>? GetPropertyValueAttributes(this Type type) =>
-        type != null ? PropertyValueAttributeMapper.Get(TypeCache.Get(type).UnderlyingType) : null;
+    public static IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return PropertyValueAttributeMapper.Get(TypeCache.Get(type).UnderlyingType);
+    }
 
     /// <summary>
     /// Gets the corresponding <see cref="DbType"/> object.
     /// </summary>
     /// <param name="type">The target type.</param>
     /// <returns>The instance of the <see cref="DbType"/> object.</returns>
-    public static DbType? GetDbType(this Type? type) =>
-        type != null ? TypeMapCache.Get(TypeCache.Get(type).UnderlyingType) : null;
+    public static DbType? GetDbType(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return TypeMapCache.Get(TypeCache.Get(type).UnderlyingType);
+    }
 
     /// <summary>
     /// Returns the instance of <see cref="ConstructorInfo"/> with the most argument.
@@ -50,11 +53,15 @@ public static class TypeExtension
     public static bool IsObjectType(this Type type) =>
         type == StaticType.Object;
 
-    internal static bool IsSpan(this Type type) => type.IsValueType
+    internal static bool IsSpan(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return type.IsValueType
 #if NET
         && type.IsByRefLike
 #endif
         && type.IsGenericType && type.GetGenericTypeDefinition() is { } d && (d == StaticType.ReadOnlySpan || d == StaticType.Span);
+    }
 
     /// <summary>
     /// Checks whether the current type is a class.
@@ -65,9 +72,9 @@ public static class TypeExtension
     {
         ArgumentNullException.ThrowIfNull(type);
         return type.IsClass &&
-!type.IsObjectType() &&
+            !type.IsObjectType() &&
             type != StaticType.String &&
-!StaticType.IEnumerable.IsAssignableFrom(type);
+            !StaticType.IEnumerable.IsAssignableFrom(type);
     }
 
     /// <summary>
@@ -163,19 +170,20 @@ public static class TypeExtension
     /// </summary>
     /// <param name="type">The current type to check.</param>
     /// <returns>The underlying type or the current type.</returns>
-    [return: NotNullIfNotNull(nameof(type))]
-    public static Type? GetUnderlyingType(this Type? type) =>
-        type != null ? (Nullable.GetUnderlyingType(type) ?? type) : null;
-
+    public static Type GetUnderlyingType(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return Nullable.GetUnderlyingType(type) ?? type;
+    }
 
     public static bool IsTuple(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
 #if NET
-        return typeof(ITuple).IsAssignableFrom(type);
+        return typeof(System.Runtime.CompilerServices.ITuple).IsAssignableFrom(type);
 #else
         return type.IsGenericType &&
-               type.GetGenericTypeDefinition().FullName is {} fn && (fn.StartsWith("System.ValueTuple`", StringComparison.Ordinal) || fn.StartsWith("System.Tuple`", StringComparison.Ordinal));
+               type.GetGenericTypeDefinition().FullName is { } fn && (fn.StartsWith("System.ValueTuple`", StringComparison.Ordinal) || fn.StartsWith("System.Tuple`", StringComparison.Ordinal));
 #endif
     }
 
@@ -190,11 +198,7 @@ public static class TypeExtension
     {
         ArgumentNullException.ThrowIfNull(currentType);
         var genericTypes = sourceType?.GetGenericArguments();
-        if (genericTypes?.Length == currentType.GetGenericArguments().Length)
-        {
-            return currentType.MakeGenericType(genericTypes);
-        }
-        return null;
+        return genericTypes?.Length == currentType.GetGenericArguments().Length ? currentType.MakeGenericType(genericTypes) : null;
     }
 
     /// <summary>
@@ -229,11 +233,7 @@ public static class TypeExtension
             .GetInterfaces()?
             .FirstOrDefault(item =>
                 item.Name == StaticType.IClassHandler.Name && item.Namespace == StaticType.IClassHandler.Namespace);
-        if (targetInterface != null)
-        {
-            return targetInterface.GetGenericArguments().FirstOrDefault() == targetModelType;
-        }
-        return false;
+        return targetInterface != null && targetInterface.GetGenericArguments().FirstOrDefault() == targetModelType;
     }
 
     #region Helpers
@@ -290,7 +290,7 @@ public static class TypeExtension
 
     #endregion
 
-    sealed class PropertyNameComparer : IEqualityComparer<PropertyInfo>
+    private sealed class PropertyNameComparer : IEqualityComparer<PropertyInfo>
     {
         public static readonly PropertyNameComparer Instance = new();
 

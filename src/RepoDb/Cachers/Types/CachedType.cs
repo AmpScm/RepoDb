@@ -8,12 +8,12 @@ namespace RepoDb;
 /// </summary>
 public class CachedType
 {
+    private readonly Type _type;
     private readonly Lazy<PropertyInfo[]> lazyGetProperties;
     private readonly Lazy<Type> lazyGetUnderlyingType;
     private readonly Lazy<bool> lazyIsAnonymousType;
     private readonly Lazy<bool> lazyIsClassType;
     private readonly Lazy<bool> lazyIsDictionaryStringObject;
-    private readonly Lazy<bool> lazyIsNullable;
     private readonly Lazy<bool> lazyHasNullValue;
     private readonly Lazy<bool> lazyIsTuple;
 
@@ -25,25 +25,25 @@ public class CachedType
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        lazyGetUnderlyingType = new(() => type.GetUnderlyingType());
+        _type = type;
+        lazyGetUnderlyingType = new(type.GetUnderlyingType);
         lazyGetProperties = new(type.GetProperties);
         lazyIsAnonymousType = new(type.IsAnonymousType);
         lazyIsClassType = new(type.IsClassType);
         lazyIsDictionaryStringObject = new(type.IsDictionaryStringObject);
-        lazyIsNullable = new(() => this.UnderlyingType != type);
         lazyHasNullValue = new(() => !type.IsValueType || this.IsNullable);
-        lazyIsTuple = new(() => type.IsTuple());
+        lazyIsTuple = new(type.IsTuple);
     }
 
     private CachedType()
     {
+        _type = default!;
         var lazyFalse = new Lazy<bool>(() => false);
         lazyGetUnderlyingType = new(() => null!);
         lazyGetProperties = new(() => null!);
         lazyIsAnonymousType = lazyFalse;
         lazyIsClassType = lazyFalse;
         lazyIsDictionaryStringObject = lazyFalse;
-        lazyIsNullable = lazyFalse;
         lazyHasNullValue = lazyFalse;
         lazyIsTuple = lazyFalse;
     }
@@ -87,7 +87,7 @@ public class CachedType
     /// Checks whether the current type is wrapped within a <see cref="Nullable{T}"/> object.
     /// </summary>
     /// <returns>Returns true if the current type is wrapped within a <see cref="Nullable{T}"/> object.</returns>
-    public bool IsNullable => lazyIsNullable.Value;
+    public bool IsNullable => UnderlyingType != _type;
 
     /// <summary>
     /// If null can be assigned to this type. (Reference type or nullable type)
@@ -99,5 +99,5 @@ public class CachedType
     /// Gets a boolean indictating whether this type is a tuple (typically System.Tuple or System.ValueTuple)
     /// </summary>
     /// <returns></returns>
-    public bool IsTuple() => lazyIsTuple.Value;
+    public bool IsTuple => lazyIsTuple.Value;
 }
