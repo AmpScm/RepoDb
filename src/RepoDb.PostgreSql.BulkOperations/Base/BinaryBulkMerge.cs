@@ -90,13 +90,13 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getMergeToPseudoCommandText
-            () =>
+            (identityField) =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault(),
-                    dbFields.Identity,
+                    identityField,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -187,13 +187,13 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getMergeToPseudoCommandText
-            () =>
+            (identityField) =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault(),
-                    dbFields.Identity,
+                    identityField,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -278,13 +278,13 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getMergeToPseudoCommandText
-            () =>
+            (identityField) =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault(),
-                    dbFields.Identity,
+                    identityField,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -388,13 +388,13 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getMergeToPseudoCommandText
-            () =>
+            (identityField) =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault(),
-                    dbFields.Identity,
+                    identityField,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -489,13 +489,13 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getMergeToPseudoCommandText
-            () =>
+            (identityField) =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault(),
-                    dbFields.Identity,
+                    identityField,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),
@@ -584,13 +584,13 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getMergeToPseudoCommandText
-            () =>
+            (identityField) =>
                 GetMergeCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault(),
-                    dbFields.Identity,
+                    identityField,
                     identityBehavior,
                     mergeCommandType,
                     dbSetting),

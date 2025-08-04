@@ -3,6 +3,9 @@ using System.Data.Common;
 using System.Dynamic;
 using RepoDb.Enumerations;
 using RepoDb.Interfaces;
+#if !NET9_0_OR_GREATER
+using Lock = System.Object;
+#endif
 
 namespace RepoDb;
 
@@ -15,7 +18,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
 {
     #region Fields
 
-    private static readonly object syncLock = new();
+    private static readonly Lock syncLock = new Lock();
     private TDbConnection? connection;
 
     #endregion

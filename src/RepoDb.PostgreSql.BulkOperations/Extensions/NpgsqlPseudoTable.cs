@@ -102,11 +102,12 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="transaction"></param>
     /// <returns></returns>
     private static IEnumerable<IdentityResult> MergeToPseudoTableWithIdentityResults(NpgsqlConnection connection,
-        Func<string> getMergeToPseudoCommandText,
+        Func<DbField, string> getMergeToPseudoCommandText,
+        DbField identityField,
         int bulkCopyTimeout = 0,
         NpgsqlTransaction? transaction = null)
     {
-        var commandText = getMergeToPseudoCommandText();
+        var commandText = getMergeToPseudoCommandText(identityField);
 
         return connection.ExecuteQuery<IdentityResult>(commandText,
             bulkCopyTimeout,
@@ -144,12 +145,13 @@ public static partial class NpgsqlConnectionExtension
     /// <param name="transaction"></param>
     /// <param name="cancellationToken"></param>
     private static async Task<IEnumerable<IdentityResult>> MergeToPseudoTableWithIdentityResultsAsync(NpgsqlConnection connection,
-        Func<string> getMergeToPseudoCommandText,
+        Func<DbField, string> getMergeToPseudoCommandText,
+        DbField identityField,
         int bulkCopyTimeout = 0,
         NpgsqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        var commandText = getMergeToPseudoCommandText();
+        var commandText = getMergeToPseudoCommandText(identityField);
 
         return await connection.ExecuteQueryAsync<IdentityResult>(commandText,
             bulkCopyTimeout,

@@ -40,7 +40,7 @@ public static partial class NpgsqlConnectionExtension
         Func<string> getPseudoTableName,
         Func<IEnumerable<NpgsqlBulkInsertMapItem>> getMappings,
         Func<string, int> binaryImport,
-        Func<string> getMergeToPseudoCommandText,
+        Func<DbField, string> getMergeToPseudoCommandText,
         Action<IEnumerable<IdentityResult>>? setIdentities,
         IEnumerable<Field>? qualifiers,
         bool isBinaryBulkInsert,
@@ -85,7 +85,7 @@ public static partial class NpgsqlConnectionExtension
             // Create Index
             if (isBinaryBulkInsert == false && withPseudoTable)
             {
-                qualifiers = qualifiers?.Any() == true ? qualifiers : dbFields?.PrimaryFields;
+                qualifiers = qualifiers?.Any() == true ? qualifiers : dbFields.PrimaryFields;
 
                 CreatePseudoTableIndex(connection,
                     pseudoTableName!,
@@ -100,6 +100,7 @@ public static partial class NpgsqlConnectionExtension
             {
                 var identityResults = MergeToPseudoTableWithIdentityResults(connection,
                     getMergeToPseudoCommandText,
+                    dbFields.Identity!,
                     bulkCopyTimeout,
                     transaction).AsList();
 
@@ -153,7 +154,7 @@ public static partial class NpgsqlConnectionExtension
         Func<string> getPseudoTableName,
         Func<IEnumerable<NpgsqlBulkInsertMapItem>> getMappings,
         Func<string, Task<int>> binaryImportAsync,
-        Func<string> getMergeToPseudoCommandText,
+        Func<DbField, string> getMergeToPseudoCommandText,
         Action<IEnumerable<IdentityResult>>? setIdentities,
         IEnumerable<Field>? qualifiers,
         bool isBinaryBulkInsert,
@@ -221,6 +222,7 @@ public static partial class NpgsqlConnectionExtension
             {
                 var identityResults = (await MergeToPseudoTableWithIdentityResultsAsync(connection,
                     getMergeToPseudoCommandText,
+                    dbFields.Identity!,
                     bulkCopyTimeout,
                     transaction,
                     cancellationToken)).AsList();
