@@ -65,7 +65,7 @@ jobs:
         run: dotnet test -c Release -f net8.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
 
       - name: Pack packages
-        run: dotnet pack -c Release -p Version="1.14.0-dev-${{ github.run_number }}" -p PackagePrefix=AmpScm. -o release
+        run: dotnet pack -c Release -p Version="1.15.0-dev-${{ github.run_number }}" -p PackagePrefix=AmpScm. -o release
 
       - name: Package nupkg files
         uses: actions/upload-artifact@v4
