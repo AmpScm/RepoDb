@@ -405,7 +405,7 @@ public partial class QueryGroupTest
     {
         // Setup
         var value = "ABC";
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (value ?? null));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (value != null ? value : null));
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
