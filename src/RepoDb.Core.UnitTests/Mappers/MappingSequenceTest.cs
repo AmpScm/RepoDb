@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Interfaces;
 using RepoDb.Options;
@@ -55,7 +54,7 @@ public class MappingSequenceTest
         Assert.AreEqual(DbType.String, command.Parameters["@V"].DbType);
 
         command = connection.CreateDbCommandForExecution(sql, new OriginalModel { V = OriginalEnum.B }, skipCommandArrayParametersCheck: false);
-        Assert.IsInstanceOfType(command.Parameters["@V"].Value, typeof(OriginalEnum));
+        Assert.IsInstanceOfType<OriginalEnum>(command.Parameters["@V"].Value);
         Assert.AreEqual(OriginalEnum.B, (OriginalEnum)command.Parameters["@V"].Value);
         Assert.AreEqual(DbType.String, command.Parameters["@V"].DbType);
     }
@@ -82,7 +81,7 @@ public class MappingSequenceTest
         Assert.AreEqual(DbType.Single, command.Parameters["@V"].DbType);
 
         command = connection.CreateDbCommandForExecution(sql, new WithAttributeModel { V = WithAttributeEnum.B }, skipCommandArrayParametersCheck: false);
-        Assert.IsInstanceOfType(command.Parameters["@V"].Value, typeof(WithAttributeEnum));
+        Assert.IsInstanceOfType<WithAttributeEnum>(command.Parameters["@V"].Value);
         Assert.AreEqual(WithAttributeEnum.B, (WithAttributeEnum)command.Parameters["@V"].Value);
         Assert.AreEqual(DbType.Single, command.Parameters["@V"].DbType);
     }
@@ -110,7 +109,7 @@ public class MappingSequenceTest
         Assert.AreEqual(DbType.Double, command.Parameters["@V"].DbType);
 
         command = connection.CreateDbCommandForExecution(sql, new WithPropertyModel { V = WithPropertyEnum.B }, skipCommandArrayParametersCheck: false);
-        Assert.IsInstanceOfType(command.Parameters["@V"].Value, typeof(WithPropertyEnum));
+        Assert.IsInstanceOfType<WithPropertyEnum>(command.Parameters["@V"].Value);
         Assert.AreEqual(WithPropertyEnum.B, (WithPropertyEnum)command.Parameters["@V"].Value);
         Assert.AreEqual(DbType.Double, command.Parameters["@V"].DbType);
     }
@@ -138,7 +137,7 @@ public class MappingSequenceTest
         Assert.AreEqual(DbType.Binary, command.Parameters["@V"].DbType);
 
         command = connection.CreateDbCommandForExecution(sql, new WithTypeModel { V = WithTypeEnum.B }, skipCommandArrayParametersCheck: false);
-        Assert.IsInstanceOfType(command.Parameters["@V"].Value, typeof(WithTypeEnum));
+        Assert.IsInstanceOfType<WithTypeEnum>(command.Parameters["@V"].Value);
         Assert.AreEqual(WithTypeEnum.B, (WithTypeEnum)command.Parameters["@V"].Value);
         Assert.AreEqual(DbType.Binary, command.Parameters["@V"].DbType);
     }
@@ -180,7 +179,7 @@ public class MappingSequenceTest
         Assert.AreEqual(DbType.Decimal, command.Parameters["@V"].DbType);
 
         command = connection.CreateDbCommandForExecution(sql, new WithHandlerModel { V = WithHandlerEnum.B }, skipCommandArrayParametersCheck: false);
-        Assert.IsInstanceOfType(command.Parameters["@V"].Value, typeof(decimal));
+        Assert.IsInstanceOfType<decimal>(command.Parameters["@V"].Value);
         Assert.AreEqual(200m, (decimal)command.Parameters["@V"].Value);
         Assert.AreEqual(DbType.Decimal, command.Parameters["@V"].DbType);
     }

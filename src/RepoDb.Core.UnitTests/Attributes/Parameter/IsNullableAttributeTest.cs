@@ -52,7 +52,7 @@ public class IsNullableAttributeTest
 
                 // Assert
                 var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(true, ((CustomDbParameter)parameter).IsNullable);
+                Assert.IsTrue(((CustomDbParameter)parameter).IsNullable);
             }
         }
     }
@@ -77,7 +77,7 @@ public class IsNullableAttributeTest
 
                 // Assert
                 var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(true, ((CustomDbParameter)parameter).IsNullable);
+                Assert.IsTrue(((CustomDbParameter)parameter).IsNullable);
             }
         }
     }

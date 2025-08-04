@@ -1,7 +1,6 @@
 ﻿using System.Dynamic;
 using System.Reflection;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Enumerations;
 using RepoDb.IntegrationTests.Models;
@@ -116,7 +115,7 @@ public static class Helper
     {
         var propertiesOfType1 = typeof(T1).GetProperties();
         var propertiesOfType2 = typeof(T2).GetProperties();
-        propertiesOfType1.AsList().ForEach(propertyOfType1 =>
+        propertiesOfType1.AsList().ForEach((Action<PropertyInfo>)(propertyOfType1 =>
         {
             if (propertyOfType1.Name == "Id")
             {
@@ -129,10 +128,8 @@ public static class Helper
             }
             var value1 = propertyOfType1.GetValue(t1);
             var value2 = propertyOfType2.GetValue(t2);
-            if (value1 is byte[] && value2 is byte[])
+            if (value1 is byte[] b1 && value2 is byte[] b2)
             {
-                var b1 = (byte[])value1;
-                var b2 = (byte[])value2;
                 for (var i = 0; i < Math.Min(b1.Length, b2.Length); i++)
                 {
                     var v1 = b1[i];
@@ -146,7 +143,7 @@ public static class Helper
                 Assert.AreEqual(value1, value2,
                     $"Assert failed for '{propertyOfType1.Name}'. The values are '{value1} ({propertyOfType1.PropertyType.FullName})' and '{value2} ({propertyOfType2.PropertyType.FullName})'.");
             }
-        });
+        }));
     }
 
     /// <summary>
@@ -196,10 +193,8 @@ public static class Helper
             {
                 var value1 = property.GetValue(obj);
                 var value2 = dictionary[property.Name];
-                if (value1 is byte[] && value2 is byte[])
+                if (value1 is byte[] b1 && value2 is byte[] b2)
                 {
-                    var b1 = (byte[])value1;
-                    var b2 = (byte[])value2;
                     for (var i = 0; i < Math.Min(b1.Length, b2.Length); i++)
                     {
                         var v1 = b1[i];
@@ -211,9 +206,9 @@ public static class Helper
                 else
                 {
                     var propertyType = property.PropertyType.GetUnderlyingType();
-                    if (propertyType == typeof(TimeSpan) && value2 is DateTime)
+                    if (propertyType == typeof(TimeSpan) && value2 is DateTime dt2)
                     {
-                        value2 = ((DateTime)value2).TimeOfDay;
+                        value2 = dt2.TimeOfDay;
                     }
                     Assert.AreEqual(Convert.ChangeType(value1, propertyType), Convert.ChangeType(value2, propertyType),
                         $"Assert failed for '{property.Name}'. The values are '{value1}' and '{value2}'.");

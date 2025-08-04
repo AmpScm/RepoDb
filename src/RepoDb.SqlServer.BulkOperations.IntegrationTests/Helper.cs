@@ -1,9 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Dynamic;
+using Microsoft.Data.SqlClient;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.SqlServer.BulkOperations.IntegrationTests.Models;
-using System.Dynamic;
 
 namespace RepoDb.SqlServer.BulkOperations.IntegrationTests;
 
@@ -58,10 +57,8 @@ public static class Helper
             }
             var value1 = propertyOfType1.GetValue(t1);
             var value2 = propertyOfType2.GetValue(t2);
-            if (value1 is byte[] && value2 is byte[])
+            if (value1 is byte[] b1 && value2 is byte[] b2)
             {
-                var b1 = (byte[])value1;
-                var b2 = (byte[])value2;
                 for (var i = 0; i < Math.Min(b1.Length, b2.Length); i++)
                 {
                     var v1 = b1[i];
@@ -121,14 +118,11 @@ public static class Helper
             {
                 return;
             }
-            if (dictionary.ContainsKey(property.Name))
+            if (dictionary.TryGetValue(property.Name, out var value2))
             {
                 var value1 = property.GetValue(obj);
-                var value2 = dictionary[property.Name];
-                if (value1 is byte[] && value2 is byte[])
+                if (value1 is byte[] b1 && value2 is byte[] b2)
                 {
-                    var b1 = (byte[])value1;
-                    var b2 = (byte[])value2;
                     for (var i = 0; i < Math.Min(b1.Length, b2.Length); i++)
                     {
                         var v1 = b1[i];
@@ -140,9 +134,9 @@ public static class Helper
                 else
                 {
                     var propertyType = property.PropertyType.GetUnderlyingType();
-                    if (propertyType == typeof(TimeSpan) && value2 is DateTime)
+                    if (propertyType == typeof(TimeSpan) && value2 is DateTime dt)
                     {
-                        value2 = ((DateTime)value2).TimeOfDay;
+                        value2 = dt.TimeOfDay;
                     }
                     Assert.AreEqual(Convert.ChangeType(value1, propertyType), Convert.ChangeType(value2, propertyType),
                         $"Assert failed for '{property.Name}'. The values are '{value1}' and '{value2}'.");

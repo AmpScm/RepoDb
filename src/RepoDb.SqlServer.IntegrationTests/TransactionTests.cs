@@ -1212,7 +1212,7 @@ public class TransactionTests
             var queryResult = connection.Query<CompleteTable>(entity.Id);
 
             // Assert
-            Assert.AreEqual(true, queryResult.First().ColumnBit);
+            Assert.IsTrue(queryResult.First().ColumnBit);
         }
     }
 
@@ -1278,7 +1278,7 @@ public class TransactionTests
             var queryResult = connection.Query<CompleteTable>(entity.Id);
 
             // Assert
-            Assert.AreEqual(true, queryResult.First().ColumnBit);
+            Assert.IsTrue(queryResult.First().ColumnBit);
         }
     }
 
@@ -1348,7 +1348,7 @@ public class TransactionTests
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
     }
 
@@ -1414,7 +1414,7 @@ public class TransactionTests
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
     }
 

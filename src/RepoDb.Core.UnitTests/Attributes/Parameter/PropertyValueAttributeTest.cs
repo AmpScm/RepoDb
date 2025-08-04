@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Attributes.Parameter;
+﻿using RepoDb.Attributes.Parameter;
 using RepoDb.Extensions;
 using RepoDb.UnitTests.CustomObjects;
 
@@ -28,7 +27,7 @@ public class PropertyValueAttributeTest
     private class TagAttributeTestClass : PropertyValueAttribute
     {
         public TagAttributeTestClass(string tag)
-            : base(typeof(CustomDbParameter), "Tag", tag)
+            : base(typeof(CustomDbParameter), nameof(Tag), tag)
         { }
 
         public string Tag => (string)Value;

@@ -1,8 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Dynamic;
+using System.Text;
 using RepoDb.Extensions;
 using RepoDb.MySqlConnector.IntegrationTests.Models;
-using System.Dynamic;
-using System.Text;
 
 namespace RepoDb.MySqlConnector.IntegrationTests;
 
@@ -114,10 +113,9 @@ public static class Helper
             {
                 return;
             }
-            if (dictionary.ContainsKey(property.Name))
+            if (dictionary.TryGetValue(property.Name, out var value2))
             {
                 var value1 = property.GetValue(obj);
-                var value2 = dictionary[property.Name];
                 if (value1 is byte[] b1 && value2 is byte[] b2)
                 {
                     for (var i = 0; i < Math.Min(b1.Length, b2.Length); i++)

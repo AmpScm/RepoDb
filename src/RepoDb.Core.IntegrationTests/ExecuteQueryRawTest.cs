@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Setup;
@@ -334,7 +333,7 @@ public class ExecuteQueryRawTest
 
         // Assert
         Assert.AreEqual(2, result.Count);
-        result.ForEach(item => Assert.AreEqual(default(string), item));
+        result.ForEach(item => Assert.AreEqual(default, item));
     }
 
     // Guid
@@ -364,7 +363,7 @@ public class ExecuteQueryRawTest
 
         // Assert
         Assert.AreEqual(2, result.Count);
-        result.ForEach(item => Assert.AreEqual(default(Guid), item));
+        result.ForEach(item => Assert.AreEqual(default, item));
     }
 
     // Long
@@ -391,7 +390,7 @@ public class ExecuteQueryRawTest
 
         // Assert
         Assert.AreEqual(2, result.Count);
-        result.ForEach(item => Assert.AreEqual(default(long), item));
+        result.ForEach(item => Assert.AreEqual(default, item));
     }
 
     // DateTime
@@ -421,7 +420,7 @@ public class ExecuteQueryRawTest
 
         // Assert
         Assert.AreEqual(2, result.Count);
-        result.ForEach(item => Assert.AreEqual(default(DateTime), item));
+        result.ForEach(item => Assert.AreEqual(default, item));
     }
 
     #endregion

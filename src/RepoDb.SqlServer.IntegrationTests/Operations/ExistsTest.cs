@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Enumerations;
 using RepoDb.SqlServer.IntegrationTests.Models;
 using RepoDb.SqlServer.IntegrationTests.Setup;
@@ -161,7 +160,7 @@ public class ExistsTest
         using (var connection = new SqlConnection(Database.ConnectionString))
         {
             // Checks primary key columns
-            Assert.AreEqual(true, connection.Exists(tables.FirstOrDefault(), trace: new DiagnosticsTracer()));
+            Assert.IsTrue(connection.Exists(tables.FirstOrDefault(), trace: new DiagnosticsTracer()));
         }
     }
 

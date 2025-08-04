@@ -85,7 +85,7 @@ public static partial class NpgsqlConnectionExtension
             // Create Index
             if (isBinaryBulkInsert == false && withPseudoTable)
             {
-                qualifiers = qualifiers?.Any() == true ? qualifiers :dbFields?.PrimaryFields;
+                qualifiers = qualifiers?.Any() == true ? qualifiers : dbFields?.PrimaryFields;
 
                 CreatePseudoTableIndex(connection,
                     pseudoTableName!,
@@ -222,7 +222,8 @@ public static partial class NpgsqlConnectionExtension
                 var identityResults = (await MergeToPseudoTableWithIdentityResultsAsync(connection,
                     getMergeToPseudoCommandText,
                     bulkCopyTimeout,
-                    transaction)).AsList();
+                    transaction,
+                    cancellationToken)).AsList();
 
                 if (identityBehavior == BulkImportIdentityBehavior.ReturnIdentity)
                 {

@@ -1,5 +1,4 @@
 ﻿using System.Transactions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Npgsql;
 using RepoDb.Enumerations;
 using RepoDb.PostgreSql.IntegrationTests.Models;
@@ -1065,7 +1064,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(true, queryResult.First().ColumnBoolean);
+        Assert.IsTrue(queryResult.First().ColumnBoolean);
     }
 
     #endregion
@@ -1127,7 +1126,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(true, queryResult.First().ColumnBoolean);
+        Assert.IsTrue(queryResult.First().ColumnBoolean);
     }
 
     #endregion
@@ -1193,7 +1192,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
     }
 
     #endregion
@@ -1255,7 +1254,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
     }
 
     #endregion

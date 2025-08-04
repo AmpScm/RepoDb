@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Enumerations;
 using RepoDb.Schema;
 using RepoDb.Trace;
@@ -487,7 +486,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var data = (await sql.QueryAllAsync<FieldLengthTable>()).ToArray();
 
-        Assert.AreEqual(2, data.Length);
+        Assert.HasCount(2, data);
         Assert.AreEqual(ftf[0].ID, data[0].ID);
     }
 
@@ -566,7 +565,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var data = (await sql.QueryAllAsync<MorePrimaryKeyTable>()).ToArray();
 
-        Assert.AreEqual(2, data.Length);
+        Assert.HasCount(2, data);
         Assert.AreEqual(ftf[0].ID, data[0].ID);
         Assert.AreEqual(ftf[1].ID, data[1].ID);
         Assert.AreEqual(ftf[0].ID2, data[0].ID2);
@@ -649,7 +648,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             var v1 = await sql.MergeAsync<MergeEdgeTable, int>(r, trace: new DiagnosticsTracer());
             var v2 = await sql.MergeAsync<MergeEdgeTable, int>(r);
 
-            Assert.IsTrue(v1 > 0);
+            Assert.IsGreaterThan(0, v1);
             Assert.AreEqual(v1, v2);
 
             var all = await sql.QueryAllAsync<MergeEdgeTable>();
@@ -731,7 +730,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 var v2 = sql.Merge<MergeEdgeTable, int>(r);
 
                 Assert.IsTrue(Converter.ToType<int>(v1) is int i1 && i1 > 0);
-                Assert.IsTrue(v2 > 0);
+                Assert.IsGreaterThan(0, v2);
             }
 
             var all = sql.QueryAll<MergeEdgeTable>();

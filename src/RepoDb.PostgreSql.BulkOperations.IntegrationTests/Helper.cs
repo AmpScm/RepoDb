@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Dynamic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Npgsql;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -666,7 +665,7 @@ public static class Helper
     /// <returns></returns>
     public static List<dynamic> UpdateBulkOperationExpandoObjectLightIdentityTables(List<dynamic> data)
     {
-        foreach (ExpandoObject item in data)
+        foreach (ExpandoObject item in data.Select(v => (ExpandoObject)v))
         {
             var dictionary = item as IDictionary<string, object?>;
             /*dictionary["ColumnBigInt"] = (long)dictionary["ColumnBigInt"];
@@ -796,7 +795,7 @@ public static class Helper
             foreach (var property in properties)
             {
                 var value = property.PropertyInfo.GetValue(entity);
-                row[property.PropertyInfo.Name] = value == null ? DBNull.Value : value;
+                row[property.PropertyInfo.Name] = value ?? DBNull.Value;
             }
 
             table.Rows.Add(row);

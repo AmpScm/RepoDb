@@ -13,7 +13,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1);
 
         // Act
-        var actual = parsed.QueryFields.First().Field.FieldName;
+        var actual = parsed.QueryFields[0].Field.FieldName;
         var expected = "PropertyInt";
 
         // Assert
@@ -27,7 +27,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.MappedPropertyString == "ABC");
 
         // Act
-        var actual = parsed.QueryFields.First().Field.FieldName;
+        var actual = parsed.QueryFields[0].Field.FieldName;
         var expected = "PropertyString";
 
         // Assert

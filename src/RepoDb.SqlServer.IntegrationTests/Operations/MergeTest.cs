@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.SqlServer.IntegrationTests.Models;
 using RepoDb.SqlServer.IntegrationTests.Setup;
 
@@ -261,7 +260,7 @@ public class MergeTest
     public void TestSqlConnectionMergeViaTableNameForExpandoObjectIdentityForNonEmptyTable()
     {
         // Setup
-        Database.CreateCompleteTables(1).First();
+        Database.CreateCompleteTables(1);
 
         using (var connection = new SqlConnection(Database.ConnectionString))
         {
@@ -476,7 +475,7 @@ public class MergeTest
     public async Task TestSqlConnectionMergeAsyncViaTableNameForExpandoObjectIdentityForNonEmptyTable()
     {
         // Setup
-        Database.CreateCompleteTables(1).First();
+        Database.CreateCompleteTables(1);
 
         using (var connection = new SqlConnection(Database.ConnectionString))
         {

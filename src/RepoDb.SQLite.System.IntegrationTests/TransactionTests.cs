@@ -1385,7 +1385,7 @@ public class TransactionTests
             var queryResult = connection.Query<SdsCompleteTable>(entity.Id);
 
             // Assert
-            Assert.AreEqual(true, queryResult.First().ColumnBoolean);
+            Assert.IsTrue(queryResult.First().ColumnBoolean);
         }
     }
 
@@ -1457,7 +1457,7 @@ public class TransactionTests
             var queryResult = connection.Query<SdsCompleteTable>(entity.Id);
 
             // Assert
-            Assert.AreEqual(true, queryResult.First().ColumnBoolean);
+            Assert.IsTrue(queryResult.First().ColumnBoolean);
         }
     }
 
@@ -1533,7 +1533,7 @@ public class TransactionTests
             var queryResult = connection.QueryAll<SdsCompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
         }
     }
 
@@ -1605,7 +1605,7 @@ public class TransactionTests
             var queryResult = connection.QueryAll<SdsCompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(true, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
         }
     }
 

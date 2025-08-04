@@ -1,10 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
-using System.Data;
 
 namespace RepoDb.SqlServer.IntegrationTests;
 
@@ -28,8 +27,10 @@ public class TableValueParameterTest
 
     private DataTable CreateDataTable(string tableName)
     {
-        var table = new DataTable();
-        table.TableName = tableName;
+        var table = new DataTable
+        {
+            TableName = tableName
+        };
         return table;
     }
 

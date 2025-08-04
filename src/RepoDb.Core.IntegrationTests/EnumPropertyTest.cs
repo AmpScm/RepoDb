@@ -2092,10 +2092,10 @@ public class EnumPropertyTest
         }
 
         public TEnum Get(TDbType input, PropertyHandlerGetOptions options)
-            => input == null || !dbToEnum.TryGetValue(input, out var v) ? default(TEnum) : v;
+            => input == null || !dbToEnum.TryGetValue(input, out var v) ? default: v;
 
         public TDbType Set(TEnum input, PropertyHandlerSetOptions options)
-            => input == null || !enumToDb.TryGetValue(input, out var v) ? default(TDbType) : v;
+            => input == null || !enumToDb.TryGetValue(input, out var v) ? default : v;
     }
 
     public class CustomedEnumModel<TEnum> where TEnum : struct

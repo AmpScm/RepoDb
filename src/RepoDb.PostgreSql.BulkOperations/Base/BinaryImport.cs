@@ -143,29 +143,28 @@ public static partial class NpgsqlConnectionExtension
 
             foreach (var batch in batches)
             {
-                using (var importer = GetNpgsqlBinaryImporter(connection,
+                using var importer = GetNpgsqlBinaryImporter(connection,
                     tableName,
                     mappings,
                     bulkCopyTimeout,
                     identityBehavior,
-                    dbSetting))
+                    dbSetting);
+
+                if (isDictionary)
                 {
-                    if (isDictionary)
-                    {
-                        result += BinaryImport(importer,
-                            batch.Select(entity => (IDictionary<string, object?>)entity),
-                            mappings,
-                            identityBehavior);
-                    }
-                    else
-                    {
-                        result += BinaryImport<TEntity>(importer,
-                            tableName,
-                            batch,
-                            mappings,
-                            entityType,
-                            identityBehavior);
-                    }
+                    result += BinaryImport(importer,
+                        batch.Select(entity => (IDictionary<string, object?>)entity),
+                        mappings,
+                        identityBehavior);
+                }
+                else
+                {
+                    result += BinaryImport<TEntity>(importer,
+                        tableName,
+                        batch,
+                        mappings,
+                        entityType,
+                        identityBehavior);
                 }
             }
 

@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RepoDb.TestCore;
 
@@ -32,7 +31,7 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
         var db = CreateConnection();
         try
         {
-            await db.OpenAsync();
+            await db.OpenAsync(TestContext.CancellationTokenSource.Token);
             return db;
         }
         catch

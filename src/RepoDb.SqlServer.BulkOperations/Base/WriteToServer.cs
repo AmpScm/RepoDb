@@ -76,7 +76,7 @@ public static partial class SqlConnectionExtension
             connection.EnsureOpen();
             using (var reader = new DataEntityDataReader<TEntity>(tableName, entities, connection, transaction, hasOrderingColumn))
             {
-                var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DbDataReader) });
+                var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", [typeof(DbDataReader)]);
                 writeToServerMethod?.Invoke(sqlBulkCopy, new[] { reader });
                 result = reader.RecordsAffected;
             }
@@ -149,7 +149,7 @@ public static partial class SqlConnectionExtension
 
             // Open the connection and do the operation
             connection.EnsureOpen();
-            var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DbDataReader) });
+            var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", [typeof(DbDataReader)]);
             writeToServerMethod?.Invoke(sqlBulkCopy, new[] { reader });
 
             // Set the return value
@@ -228,12 +228,12 @@ public static partial class SqlConnectionExtension
             connection.EnsureOpen();
             if (rowState.HasValue == true)
             {
-                var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DataTable), typeof(DataRowState) });
-                writeToServerMethod?.Invoke(sqlBulkCopy, new object[] { dataTable, rowState.Value });
+                var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", [typeof(DataTable), typeof(DataRowState)]);
+                writeToServerMethod?.Invoke(sqlBulkCopy, [dataTable, rowState.Value]);
             }
             else
             {
-                var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", new[] { typeof(DataTable) });
+                var writeToServerMethod = Compiler.GetParameterizedVoidMethodFunc<SqlBulkCopy>("WriteToServer", [typeof(DataTable)]);
                 writeToServerMethod?.Invoke(sqlBulkCopy, new[] { dataTable });
             }
 
@@ -316,9 +316,9 @@ public static partial class SqlConnectionExtension
             await connection.EnsureOpenAsync(cancellationToken: cancellationToken);
             using (var reader = new DataEntityDataReader<TEntity>(tableName, entities, connection, transaction, hasOrderingColumn))
             {
-                var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DbDataReader), typeof(CancellationToken) });
+                var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", [typeof(DbDataReader), typeof(CancellationToken)]);
                 if (writeToServerMethod is { })
-                    await writeToServerMethod(sqlBulkCopy, new object[] { reader, cancellationToken });
+                    await writeToServerMethod(sqlBulkCopy, [reader, cancellationToken]);
                 result = reader.RecordsAffected;
             }
 
@@ -391,9 +391,9 @@ public static partial class SqlConnectionExtension
 
             // Open the connection and do the operation
             await connection.EnsureOpenAsync(cancellationToken);
-            var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DbDataReader), typeof(CancellationToken) });
+            var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", [typeof(DbDataReader), typeof(CancellationToken)]);
             if (writeToServerMethod is { })
-                await writeToServerMethod(sqlBulkCopy, new object[] { reader, cancellationToken });
+                await writeToServerMethod(sqlBulkCopy, [reader, cancellationToken]);
 
             // Set the return value
             var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
@@ -473,15 +473,15 @@ public static partial class SqlConnectionExtension
             await connection.EnsureOpenAsync(cancellationToken);
             if (rowState.HasValue == true)
             {
-                var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DataTable), typeof(DataRowState), typeof(CancellationToken) });
+                var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", [typeof(DataTable), typeof(DataRowState), typeof(CancellationToken)]);
                 if (writeToServerMethod is { })
-                    await writeToServerMethod(sqlBulkCopy, new object[] { dataTable, rowState.Value, cancellationToken });
+                    await writeToServerMethod(sqlBulkCopy, [dataTable, rowState.Value, cancellationToken]);
             }
             else
             {
-                var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", new[] { typeof(DataTable), typeof(CancellationToken) });
+                var writeToServerMethod = Compiler.GetParameterizedMethodFunc<SqlBulkCopy, Task>("WriteToServerAsync", [typeof(DataTable), typeof(CancellationToken)]);
                 if (writeToServerMethod is { })
-                    await writeToServerMethod(sqlBulkCopy, new object[] { dataTable, cancellationToken });
+                    await writeToServerMethod(sqlBulkCopy, [dataTable, cancellationToken]);
             }
 
             // Set the result

@@ -210,7 +210,7 @@ public static partial class NpgsqlConnectionExtension
         // Qualifiers
         qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
-        ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
+        ThrowOnMissingQualifiers(fields, qualifiers);
 
         // Build the query
         var builder = new QueryBuilder();
@@ -254,8 +254,7 @@ public static partial class NpgsqlConnectionExtension
         // Set the columns
         var updatableFields = GetUpdatableFields(fields,
             qualifiers,
-            primaryField,
-            dbSetting);
+            primaryField);
         var setColumns = updatableFields
             .Select(field =>
             {
@@ -348,14 +347,14 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<Field> fields,
         IEnumerable<Field>? qualifiers,
         Field? primaryField,
-        Field identityField,
+        Field? identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
         // Qualifiers
         qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
-        ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
+        ThrowOnMissingQualifiers(fields, qualifiers);
 
         // Build the query
         var builder = new QueryBuilder();
@@ -368,8 +367,7 @@ public static partial class NpgsqlConnectionExtension
         var updatableFields = GetUpdatableFields(
             fields,
             qualifiers,
-            primaryField,
-            dbSetting);
+            primaryField);
         WriteUpdateTargetTableFromPseudoTableForMerge(builder,
             sourceTableName,
             destinationTableName,
@@ -426,7 +424,7 @@ public static partial class NpgsqlConnectionExtension
         // Qualifiers
         qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
-        ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
+        ThrowOnMissingQualifiers(fields, qualifiers);
 
         // Build the query
         var builder = new QueryBuilder();
@@ -447,8 +445,7 @@ public static partial class NpgsqlConnectionExtension
         var updatableFields = GetUpdatableFields(
             fields,
             qualifiers,
-            primaryField,
-            dbSetting);
+            primaryField);
         WriteUpdateTargetTableFromPseudoTableForMerge(builder,
             sourceTableName,
             destinationTableName,
@@ -461,8 +458,7 @@ public static partial class NpgsqlConnectionExtension
         var insertableFields = GetInsertableFields(
             fields,
             identityField,
-            identityBehavior,
-            dbSetting);
+            identityBehavior);
         WriteInsertIntoTargetTableFromPseudoTableWithReturnIdentityForMerge(builder,
             sourceTableName,
             destinationTableName,
@@ -608,7 +604,7 @@ ORDER BY ""Index"";";
         string destinationTableName,
         IEnumerable<Field> fields,
         IEnumerable<Field> qualifiers,
-        Field identityField,
+        Field? identityField,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting dbSetting)
     {
@@ -940,7 +936,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         // Qualifiers
         qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
-        ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
+        ThrowOnMissingQualifiers(fields, qualifiers);
 
         // Build the query
         var builder = new QueryBuilder();
@@ -949,8 +945,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         var updatableFields = GetUpdatableFields(
             fields,
             qualifiers,
-            primaryField,
-            dbSetting);
+            primaryField);
         builder
             .NewLine()
             .WriteText("WITH CTE AS")
@@ -1033,7 +1028,7 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
         // Qualifiers
         qualifiers = EnsurePrimaryAsQualifier(qualifiers, primaryField);
         ThrowIfNoQualifiers(qualifiers, destinationTableName);
-        ThrowOnMissingQualifiers(fields, qualifiers, dbSetting);
+        ThrowOnMissingQualifiers(fields, qualifiers);
 
         // Build the query
         var builder = new QueryBuilder();
@@ -1238,12 +1233,11 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="qualifiers"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     private static void ThrowOnMissingQualifiers(IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        IDbSetting dbSetting)
+        IEnumerable<Field> qualifiers)
     {
-        var missingQualifiers = GetMissingQualifiers(fields, qualifiers, dbSetting);
+        var missingQualifiers = GetMissingQualifiers(fields, qualifiers);
 
         if (missingQualifiers?.Any() == true)
         {
@@ -1256,11 +1250,10 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// </summary>
     /// <param name="fields"></param>
     /// <param name="qualifiers"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     /// <returns></returns>
     private static IEnumerable<Field> GetMissingQualifiers(IEnumerable<Field> fields,
-        IEnumerable<Field> qualifiers,
-        IDbSetting dbSetting) =>
+        IEnumerable<Field> qualifiers) =>
         qualifiers
             .Where(qualifier =>
                 fields?.FirstOrDefault(field => field == qualifier ||
@@ -1290,12 +1283,11 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// <param name="fields"></param>
     /// <param name="identityField"></param>
     /// <param name="identityBehavior"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     /// <returns></returns>
     private static IEnumerable<Field> GetInsertableFields(IEnumerable<Field> fields,
-        Field identityField,
-        BulkImportIdentityBehavior identityBehavior,
-        IDbSetting dbSetting) =>
+        Field? identityField,
+        BulkImportIdentityBehavior identityBehavior) =>
         fields
             .Where(field =>
             {
@@ -1310,17 +1302,15 @@ SET ""Identity"" = EXCLUDED.""Identity"";";
     /// <param name="fields"></param>
     /// <param name="qualfiers"></param>
     /// <param name="primaryField"></param>
-    /// <param name="dbSetting"></param>
+    /// 
     /// <returns></returns>
     private static IEnumerable<Field> GetUpdatableFields(IEnumerable<Field> fields,
         IEnumerable<Field> qualfiers,
-        Field? primaryField,
-        IDbSetting dbSetting) =>
+        Field? primaryField) =>
         fields
             .Where(field =>
-                !string.Equals(primaryField?.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase))
-            .Where(field =>
-                qualfiers?.FirstOrDefault(qualifier => qualifier == field ||
+                !string.Equals(primaryField?.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase)
+                && qualfiers?.FirstOrDefault(qualifier => qualifier == field ||
                     string.Equals(qualifier.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
 
     #endregion

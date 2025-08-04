@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RepoDb.UnitTests;
+﻿namespace RepoDb.UnitTests;
 
 public partial class QueryGroupTest
 {
@@ -11,7 +9,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse(new { Field1 = (object)null });
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual((object?)null, actual);
@@ -24,7 +22,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse(new { Field1 = 1 });
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(1, actual);
@@ -37,8 +35,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse(new { Field1 = 1, Field2 = 2 });
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual(1, actual1);
@@ -52,8 +50,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse(new { Field1 = Direction.West, Field2 = Direction.East });
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.West, actual1);

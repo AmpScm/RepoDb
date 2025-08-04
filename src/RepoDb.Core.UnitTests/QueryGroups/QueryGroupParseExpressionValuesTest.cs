@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RepoDb.UnitTests;
+﻿namespace RepoDb.UnitTests;
 
 public partial class QueryGroupTest
 {
@@ -47,7 +45,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == e.PropertyInt);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 0;
 
         // Assert
@@ -64,7 +62,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == value);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 1;
 
         // Assert
@@ -84,7 +82,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == item.PropertyInt);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 1;
 
         // Assert
@@ -98,7 +96,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 1;
 
         // Assert
@@ -113,7 +111,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == value);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = value;
 
         // Assert
@@ -131,7 +129,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == value.PropertyInt);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = value.PropertyInt;
 
         // Assert
@@ -145,7 +143,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == GetIntValueForParseExpression());
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = GetIntValueForParseExpression();
 
         // Assert
@@ -160,7 +158,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == value);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = value;
 
         // Assert
@@ -174,7 +172,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == (1 + 1));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 2;
 
         // Assert
@@ -188,7 +186,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == new Random().Next(int.MaxValue));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value.GetType();
+        var actual = parsed.QueryFields[0].Parameter.Value.GetType();
         var expected = typeof(int);
 
         // Assert
@@ -202,7 +200,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == Convert.ToInt32("1000"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 1000;
 
         // Assert
@@ -225,7 +223,7 @@ public partial class QueryGroupTest
         var parsed = TestParseExpressionValueWithIntArgumentParameterMethod<QueryGroupTestExpressionClass>(1);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 1;
 
         // Assert
@@ -239,7 +237,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == "ABC");
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "ABC";
 
         // Assert
@@ -254,7 +252,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == value);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = value;
 
         // Assert
@@ -272,7 +270,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == value.PropertyString);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = value.PropertyString;
 
         // Assert
@@ -286,7 +284,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == GetStringValueForParseExpression());
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value.GetType();
+        var actual = parsed.QueryFields[0].Parameter.Value.GetType();
         var expected = typeof(string);
 
         // Assert
@@ -301,7 +299,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == value);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = value;
 
         // Assert
@@ -315,7 +313,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == ("A" + "B" + "C"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "ABC";
 
         // Assert
@@ -329,7 +327,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (new QueryGroupTestExpressionClass() { PropertyString = "ABC" }).PropertyString);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "ABC";
 
         // Assert
@@ -343,7 +341,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == Convert.ToString("ABC"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "ABC";
 
         // Assert
@@ -366,7 +364,7 @@ public partial class QueryGroupTest
         var parsed = TestParseExpressionValueWithStringArgumentParameterMethod<QueryGroupTestExpressionClass>("ABC");
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "ABC";
 
         // Assert
@@ -381,7 +379,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (new QueryGroupTestExpressionClass() { Member = member }).Member.PropertyString);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "ABC";
 
         // Assert
@@ -395,7 +393,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (new QueryGroupTestExpressionClass() { Member = new QueryGroupTestExpressionClassMember() { PropertyString = "ABC" } }).Member.PropertyString);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "ABC";
 
         // Assert
@@ -407,10 +405,10 @@ public partial class QueryGroupTest
     {
         // Setup
         var value = "ABC";
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (value != null ? value : null));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (value ?? null));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = value;
 
         // Assert
@@ -425,7 +423,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (value == null ? value : "DEF"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "DEF";
 
         // Assert
@@ -439,7 +437,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == (1 == 2 ? 1 : 2));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = 2;
 
         // Assert
@@ -450,10 +448,10 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionWithDefaultValue()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == default(int));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == default);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = default(int);
 
         // Assert
@@ -471,7 +469,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.Contains("A"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "%A%";
 
         // Assert
@@ -485,7 +483,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.Contains("%A"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "%A%";
 
         // Assert
@@ -499,7 +497,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.Contains("A%"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "%A%";
 
         // Assert
@@ -513,7 +511,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.StartsWith("A"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "A%";
 
         // Assert
@@ -527,7 +525,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.StartsWith("A%"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "A%";
 
         // Assert
@@ -541,7 +539,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.EndsWith("A"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "%A";
 
         // Assert
@@ -555,7 +553,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.EndsWith("%A"));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
         var expected = "%A";
 
         // Assert
@@ -569,7 +567,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new[] { "A", "B" }).Contains(e.PropertyString));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.IsTrue(actual is Array);
@@ -584,7 +582,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(new[] { "A", "B" }).Contains(e.PropertyString));
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.IsTrue(actual is Array);
@@ -599,7 +597,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new[] { "A", "B" }).Contains(e.PropertyString) == false);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.IsTrue(actual is Array);
@@ -614,7 +612,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(new[] { "A", "B" }).Contains(e.PropertyString) == false);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.IsTrue(actual is Array);
@@ -633,8 +631,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s != p.PropertyString));
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -648,8 +646,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s != p.PropertyString) == false);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -663,8 +661,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s != p.PropertyString) == true);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -678,8 +676,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => !(new[] { "A", "B" }).All(s => s == p.PropertyString));
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -692,8 +690,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s == p.PropertyString) == false);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -707,8 +705,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s == p.PropertyString) == true);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -726,8 +724,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s != p.PropertyString));
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -741,8 +739,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s != p.PropertyString) == false);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -756,8 +754,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s != p.PropertyString) == true);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -771,8 +769,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => !(new[] { "A", "B" }).Any(s => s == p.PropertyString));
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -785,8 +783,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s == p.PropertyString) == false);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -800,8 +798,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s == p.PropertyString) == true);
 
         // Act
-        var actual1 = parsed.QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryFields.Last().Parameter.Value;
+        var actual1 = parsed.QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryFields[parsed.QueryFields.Count - 1].Parameter.Value;
 
         // Assert
         Assert.AreEqual("A", actual1);
@@ -819,7 +817,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == Direction.East);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual);
@@ -832,8 +830,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == Direction.East || p.Direction == Direction.West);
 
         // Act
-        var actual1 = parsed.QueryGroups.First().QueryFields.First().Parameter.Value;
-        var actual2 = parsed.QueryGroups.Last().QueryFields.First().Parameter.Value;
+        var actual1 = parsed.QueryGroups[0].QueryFields[0].Parameter.Value;
+        var actual2 = parsed.QueryGroups[parsed.QueryGroups.Count - 1].QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual1);
@@ -848,7 +846,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == direction);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual);
@@ -861,7 +859,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == StaticEnumClass.GetDirection());
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual);
@@ -874,7 +872,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == StaticEnumClass.Direction);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual);
@@ -887,7 +885,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == new NonStaticEnumClass().GetDirection());
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual);
@@ -900,7 +898,7 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == new NonStaticEnumClass().Direction);
 
         // Act
-        var actual = parsed.QueryFields.First().Parameter.Value;
+        var actual = parsed.QueryFields[0].Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual);

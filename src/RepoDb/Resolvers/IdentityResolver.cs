@@ -20,16 +20,8 @@ public class IdentityResolver : IResolver<Type, ClassProperty>
         }
 
         // Get the first entry with Identity attribute
-        var property = properties?
-            .FirstOrDefault(p => p.GetIdentityAttribute() != null);
-
-        // Get from the implicit mapping
-        if (property == null)
-        {
-            property = IdentityMapper.Get(entityType);
-        }
-
-        // Return the instance
-        return property;
+        return
+            properties.FirstOrDefault(p => p.GetIdentityAttribute() != null)
+            ?? IdentityMapper.Get(entityType);
     }
 }

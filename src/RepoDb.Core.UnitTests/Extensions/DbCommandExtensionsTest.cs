@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Options;
 using RepoDb.UnitTests.CustomObjects;
@@ -42,8 +41,7 @@ public class DbCommandExtensionsTest
     {
         public Guid Get(string input, PropertyHandlerGetOptions options)
         {
-            Guid.TryParse(input, out Guid output);
-            return output;
+            return Guid.TryParse(input, out Guid output) ? output : default;
         }
 
         public string Set(Guid input, PropertyHandlerSetOptions options)

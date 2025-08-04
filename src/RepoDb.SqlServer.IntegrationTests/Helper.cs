@@ -1,5 +1,4 @@
 ﻿using System.Dynamic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Extensions;
 using RepoDb.SqlServer.IntegrationTests.Models;
 
@@ -107,10 +106,9 @@ public static class Helper
             {
                 return;
             }
-            if (dictionary.ContainsKey(property.Name))
+            if (dictionary.TryGetValue(property.Name, out var value2))
             {
                 var value1 = property.GetValue(obj);
-                var value2 = dictionary[property.Name];
                 if (value1 is Array array1 && value2 is Array array2)
                 {
                     for (var i = 0; i < Math.Min(array1.Length, array2.Length); i++)

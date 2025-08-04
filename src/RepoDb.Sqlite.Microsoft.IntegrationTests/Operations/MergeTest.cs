@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Sqlite.Microsoft.IntegrationTests.Models;
 using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 using RepoDb.Trace;
@@ -342,7 +341,7 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection).First();
+        Database.CreateMdsCompleteTables(1, connection);
         var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
 
         // Act
@@ -366,7 +365,7 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection).First();
+        Database.CreateMdsCompleteTables(1, connection);
         var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
 
         // Act
@@ -541,7 +540,7 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection).First();
+        Database.CreateMdsCompleteTables(1, connection);
         var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
 
         // Act
@@ -564,7 +563,7 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection).First();
+        Database.CreateMdsCompleteTables(1, connection);
         var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
 
         // Act

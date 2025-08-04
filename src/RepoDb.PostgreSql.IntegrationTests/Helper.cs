@@ -1,7 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Dynamic;
 using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
-using System.Dynamic;
 
 namespace RepoDb.PostgreSql.IntegrationTests;
 
@@ -77,10 +76,10 @@ public static class Helper
                         $"Assert failed for '{propertyOfType1.Name}'. The values are '{value1} ({propertyOfType1.PropertyType.FullName})' and '{value2} ({propertyOfType2.PropertyType.FullName})'.");
                 }
             }
-            else if (value1 is DateTime dt1 || value2 is DateTime dt2)
+            else if (value1 is DateTime || value2 is DateTime)
             {
-                DateTime dtValue1 = value1 is DateTime ? (DateTime)value1 : ((DateTimeOffset)value1).DateTime;
-                DateTime dtValue2 = value2 is DateTime ? (DateTime)value2 : ((DateTimeOffset)value2).DateTime;
+                DateTime dtValue1 = value1 is DateTime dt1 ? dt1 : ((DateTimeOffset)value1).DateTime;
+                DateTime dtValue2 = value2 is DateTime dt2 ? dt2 : ((DateTimeOffset)value2).DateTime;
                 if (dtValue1.Kind != dtValue2.Kind && ToUtcKind(dtValue1) != ToUtcKind(dtValue2))
                 {
                     dtValue1 = dtValue1.ToUniversalTime();
@@ -140,10 +139,9 @@ public static class Helper
             {
                 return;
             }
-            if (dictionary.ContainsKey(property.Name))
+            if (dictionary.TryGetValue(property.Name, out var value2))
             {
                 object value1 = property.GetValue(obj);
-                object value2 = dictionary[property.Name];
                 if (value1 is Array array1 && value2 is Array array2)
                 {
                     for (int i = 0; i < Math.Min(array1.Length, array2.Length); i++)
@@ -154,10 +152,10 @@ public static class Helper
                             $"Assert failed for '{property.Name}'. The values are '{v1}' and '{v2}'.");
                     }
                 }
-                else if (value1 is DateTime dt1 || value2 is DateTime dt2)
+                else if (value1 is DateTime || value2 is DateTime)
                 {
-                    DateTime dtValue1 = value1 is DateTime ? (DateTime)value1 : ((DateTimeOffset)value1).DateTime;
-                    DateTime dtValue2 = value2 is DateTime ? (DateTime)value2 : ((DateTimeOffset)value2).DateTime;
+                    DateTime dtValue1 = value1 is DateTime dt1 ? dt1 : ((DateTimeOffset)value1).DateTime;
+                    DateTime dtValue2 = value2 is DateTime dt2 ? dt2 : ((DateTimeOffset)value2).DateTime;
                     if (dtValue1.Kind != dtValue2.Kind && ToUtcKind(dtValue1) != ToUtcKind(dtValue2))
                     {
                         dtValue1 = dtValue1.ToUniversalTime();

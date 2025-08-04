@@ -1,7 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Data.SQLite;
 using RepoDb.SQLite.System.IntegrationTests.Models;
 using RepoDb.SQLite.System.IntegrationTests.Setup;
-using System.Data.SQLite;
 
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
@@ -366,7 +365,7 @@ public class MergeTest
         using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
-            Database.CreateSdsCompleteTables(1, connection).First();
+            Database.CreateSdsCompleteTables(1, connection);
             var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
             // Act
@@ -392,7 +391,7 @@ public class MergeTest
         using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
-            Database.CreateSdsCompleteTables(1, connection).First();
+            Database.CreateSdsCompleteTables(1, connection);
             var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
             // Act
@@ -581,7 +580,7 @@ public class MergeTest
         using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
-            Database.CreateSdsCompleteTables(1, connection).First();
+            Database.CreateSdsCompleteTables(1, connection);
             var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
             // Act
@@ -607,7 +606,7 @@ public class MergeTest
         using (var connection = new SQLiteConnection(Database.ConnectionString))
         {
             // Setup
-            Database.CreateSdsCompleteTables(1, connection).First();
+            Database.CreateSdsCompleteTables(1, connection);
             var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
             // Act

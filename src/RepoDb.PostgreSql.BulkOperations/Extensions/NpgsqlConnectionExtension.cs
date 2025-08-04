@@ -568,7 +568,7 @@ public static partial class NpgsqlConnectionExtension
             }
             else
             {
-                if (!(data is Enum) && data != DBNull.Value)
+                if (data is not Enum && data != DBNull.Value)
                 {
                     data = Enum.ToObject(columnType, data);
                 }

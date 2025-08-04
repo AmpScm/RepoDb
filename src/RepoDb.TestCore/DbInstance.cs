@@ -1,7 +1,6 @@
 ﻿using System.Data.Common;
 using System.Reflection;
 using System.Runtime.Versioning;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RepoDb.TestCore;
 
@@ -32,7 +31,7 @@ public abstract class DbInstance : IAsyncDisposable
 #else
             using var sql = CreateAdminConnection();
 #endif
-            await sql.EnsureOpenAsync();
+            await sql.EnsureOpenAsync(context.CancellationTokenSource.Token);
 
             await CreateUserDatabase(sql);
 
