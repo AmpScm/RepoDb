@@ -67,10 +67,10 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getDeleteToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetDeleteByKeyCommandText(pseudoTableName,
                     tableName,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
                     dbSetting),
 
             // setIdentities
@@ -151,7 +151,7 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getDeleteToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetDeleteByKeyCommandText(pseudoTableName,
                     tableName,
                     dbFields.PrimaryFields?.OneOrDefault(),

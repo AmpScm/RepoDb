@@ -87,7 +87,7 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getMergeToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetInsertCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
@@ -179,11 +179,11 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getMergeToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetInsertCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
-                    dbFields.Identity?.AsField(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -269,11 +269,11 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getMergeToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetInsertCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
-                    dbFields.Identity?.AsField(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -374,11 +374,11 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getMergeToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetInsertCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
-                    dbFields.Identity?.AsField(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -470,11 +470,11 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getMergeToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetInsertCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
-                    dbFields.Identity?.AsField(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -557,11 +557,11 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getMergeToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetInsertCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
-                    dbFields.Identity?.AsField(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 

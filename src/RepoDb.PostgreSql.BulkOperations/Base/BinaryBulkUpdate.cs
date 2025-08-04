@@ -89,13 +89,13 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getUpdateToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -184,13 +184,13 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getUpdateToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -273,13 +273,13 @@ public static partial class NpgsqlConnectionExtension
                     transaction),
 
             // getUpdateToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
                     dbFields.PrimaryFields?.OneOrDefault(),
-                    dbFields.Identity,
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -381,13 +381,13 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getUpdateToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -480,13 +480,13 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getUpdateToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 
@@ -573,13 +573,13 @@ public static partial class NpgsqlConnectionExtension
                     cancellationToken),
 
             // getUpdateToPseudoCommandText
-            () =>
+            (idenityField) =>
                 GetUpdateCommandText(pseudoTableName,
                     tableName,
                     mappings!.Select(mapping => new Field(mapping.DestinationColumn)),
                     qualifiers,
-                    dbFields.PrimaryFields?.OneOrDefault()?.AsField(),
-                    dbFields.Identity?.AsField(),
+                    dbFields.PrimaryFields?.OneOrDefault(),
+                    idenityField,
                     identityBehavior,
                     dbSetting),
 

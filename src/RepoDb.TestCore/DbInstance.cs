@@ -31,7 +31,7 @@ public abstract class DbInstance : IAsyncDisposable
 #else
             using var sql = CreateAdminConnection();
 #endif
-            await sql.EnsureOpenAsync(context.CancellationTokenSource.Token);
+            await sql.EnsureOpenAsync(CancellationToken.None);
 
             await CreateUserDatabase(sql);
 
