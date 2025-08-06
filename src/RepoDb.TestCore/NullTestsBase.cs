@@ -623,12 +623,14 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (await sql.SchemaObjectExistsAsync<RelatedTable>())
+        if (!await sql.SchemaObjectExistsAsync<RelatedTable>())
         {
-            await sql.DropTableAsync<RelatedTable>();
+            await sql.CreateTableAsync<RelatedTable>();
         }
-
-        await sql.CreateTableAsync<RelatedTable>();
+        else
+        {
+            await sql.TruncateAsync<RelatedTable>();
+        }
 
         await sql.InsertAllAsync<RelatedTable>([
             new RelatedTable { ID = 1, Name = "a", Ordered = 10, Canceled = 1, Delivered = 5 },
@@ -637,15 +639,29 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             new RelatedTable { ID = 4, Name = "d", Ordered = 40, Canceled = 40, Delivered = 0 }
         ]);
 
+        // Not supported (yet). Was silent error
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+            await sql.UpdateAsync<RelatedTable>(
+                new()
+                {
+                    Status = 1
+                },
+                where: x => x.Status == 0 && x.Ordered > x.Canceled,
+                Field.Parse<RelatedTable>(x => x.Status),
+                trace: new DiagnosticsTracer())
+            );
 
-        await sql.UpdateAsync<RelatedTable>(
-            new()
-            {
-                Status = 1
-            },
-            where: x => x.Status == 0 && x.Ordered > x.Canceled,
-            Field.Parse<RelatedTable>(x => x.Status),
-            trace: new DiagnosticsTracer());
+        // Not supported (yet). Was error
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+            await sql.UpdateAsync<RelatedTable>(
+                new()
+                {
+                    Status = 1
+                },
+                where: x => x.Status == 0 && x.Ordered - x.Canceled > 0,
+                Field.Parse<RelatedTable>(x => x.Status),
+                trace: new DiagnosticsTracer())
+            );
     }
 
 

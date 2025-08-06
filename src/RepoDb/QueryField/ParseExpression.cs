@@ -151,6 +151,9 @@ public partial class QueryField
             field = property.AsField();
         }
 
+        if (expression.Right is MemberExpression mx && mx.Expression is ParameterExpression)
+            throw new NotSupportedException($"Comparing an entity to values on itself is not currently supportd in {expression}'");
+
         // Value
         var value = expression.Right.GetValue();
 
