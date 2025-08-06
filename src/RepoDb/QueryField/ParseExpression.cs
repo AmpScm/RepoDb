@@ -8,6 +8,8 @@ namespace RepoDb;
 
 public partial class QueryField
 {
+    protected internal virtual bool NoParametersNeeded => Operation is Operation.IsNotNull or Operation.IsNull;
+
     /// <summary>
     ///
     /// </summary>

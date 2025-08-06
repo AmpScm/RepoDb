@@ -17,10 +17,9 @@ namespace RepoDb.Extensions.QueryFields
         }
 
         protected ExpressionQueryField(IEnumerable<Field> fields, Operation operation)
-                    : base(fields.First(), Operation.IsNotNull /* To stop parameter generation */, null, null)
+                    : base(fields.First(), operation, null, null)
         {
             Fields = fields;
-            Operation = operation;
         }
 
         public override string GetString(int index, IDbSetting dbSetting)
@@ -35,6 +34,6 @@ namespace RepoDb.Extensions.QueryFields
 
         public abstract override string GetString(IDbSetting dbSetting);
 
-        public new Operation Operation { get; }
+        protected internal override bool NoParametersNeeded => true;
     }
 }
