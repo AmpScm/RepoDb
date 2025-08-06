@@ -639,8 +639,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             new RelatedTable { ID = 4, Name = "d", Ordered = 40, Canceled = 40, Delivered = 0 }
         ]);
 
-        // Not supported (yet). Was silent error
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
+        Assert.AreEqual(3,
             await sql.UpdateAsync<RelatedTable>(
                 new()
                 {
@@ -648,8 +647,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 },
                 where: x => x.Status == 0 && x.Ordered > x.Canceled,
                 Field.Parse<RelatedTable>(x => x.Status),
-                trace: new DiagnosticsTracer())
-            );
+                trace: new DiagnosticsTracer()));
 
         // Not supported (yet). Was error
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>

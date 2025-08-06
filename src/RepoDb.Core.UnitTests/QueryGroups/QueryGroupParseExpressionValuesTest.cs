@@ -46,7 +46,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
-        var expected = 0;
+        object expected = null;
 
         // Assert
         Assert.AreEqual(expected, actual);
