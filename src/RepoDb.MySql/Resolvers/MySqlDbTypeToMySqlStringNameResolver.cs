@@ -1,13 +1,13 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data;
+using MySql.Data.MySqlClient;
 using RepoDb.Interfaces;
-using System.Data;
 
 namespace RepoDb.Resolvers;
 
 /// <summary>
 /// A class used to resolve the <see cref="DbType"/> into its equivalent database string name.
 /// </summary>
-public class MySqlDbTypeToMySqlStringNameResolver : IResolver<MySqlDbType, string>
+public class MySqlDbTypeToMySqlStringNameResolver : IResolver<MySqlDbType, string>, IResolver<DbType, string?>
 {
     /// <summary>
     /// Returns the equivalent <see cref="DbType"/> of the .NET CLR Types.
@@ -83,7 +83,7 @@ public class MySqlDbTypeToMySqlStringNameResolver : IResolver<MySqlDbType, strin
             MySqlDbType.MediumText => "MEDIUMTEXT",
             MySqlDbType.Newdate => "DATE",
             MySqlDbType.NewDecimal => "DECIMAL",
-            MySqlDbType.String => "STRING",
+            MySqlDbType.String => "TEXT",
             MySqlDbType.Time => "TIME",
             MySqlDbType.Timestamp => "TIMESTAMP",
             MySqlDbType.TinyBlob => "TINYBLOB",
@@ -94,5 +94,18 @@ public class MySqlDbTypeToMySqlStringNameResolver : IResolver<MySqlDbType, strin
             MySqlDbType.Year => "YEAR",
             _ => "TEXT",
         };
+    }
+
+    string? IResolver<DbType, string?>.Resolve(DbType input)
+    {
+        var tp = input.ToString();
+        if (Enum.TryParse<MySqlDbType>(tp, out var mySqlDbType))
+        {
+            return Resolve(mySqlDbType);
+        }
+        else
+        {
+            return null; // or throw an exception if you prefer
+        }
     }
 }

@@ -84,7 +84,7 @@ internal partial class Compiler
                     dbType = !IsPostgreSqlUserDefined(dbField)
                         ? prop.DbType ??
                             valueType.GetDbType() ??
-                            (dbField != null ? new ClientTypeToDbTypeResolver().Resolve(dbField.Type) : null) ??
+                            (dbField != null ? ClientTypeToDbTypeResolver.Instance.Resolve(dbField.Type) : null) ??
                             (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType
                         : default;
                 }
@@ -97,7 +97,7 @@ internal partial class Compiler
                 {
                     dbType = targetProperty.DbType ??
                         valueType.GetDbType() ??
-                        new ClientTypeToDbTypeResolver().Resolve(valueType);
+                        ClientTypeToDbTypeResolver.Instance.Resolve(valueType);
                 }
                 var setDbTypeExpression = GetDbParameterDbTypeAssignmentExpression(dbParameterExpression, dbType);
                 parameterCallExpressions.AddIfNotNull(setDbTypeExpression);

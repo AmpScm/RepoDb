@@ -37,7 +37,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// <summary>
     /// Gets the resolver used to convert the <see cref="Field"/> object.
     /// </summary>
-    protected IResolver<Field, IDbSetting, string?>? ConvertFieldResolver { get; }
+    public IResolver<Field, IDbSetting, string?>? ConvertFieldResolver { get; }
 
     /// <summary>
     /// Gets the resolver that is being used to resolve the type to be averageable type.

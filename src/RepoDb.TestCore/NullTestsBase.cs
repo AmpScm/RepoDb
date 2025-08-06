@@ -1,6 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using RepoDb.Attributes;
 using RepoDb.Enumerations;
+using RepoDb.Extensions;
+using RepoDb.Interfaces;
+using RepoDb.Resolvers;
 using RepoDb.Schema;
+using RepoDb.StatementBuilders;
 using RepoDb.Trace;
 
 namespace RepoDb.TestCore;
@@ -42,7 +51,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync("CommonNullTestData"))
+        if (!await sql.SchemaObjectExistsAsync<CommonNullTestData>())
         {
             var sqlText = @$"CREATE TABLE [CommonNullTestData] (
                         [ID] int NOT NULL,
@@ -251,7 +260,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync(nameof(DateTimeOnlyTable)))
+        if (!await sql.SchemaObjectExistsAsync<DateTimeOnlyTable>())
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(DateTimeOnlyTable)}] (
                         [TOnly] {TimeOnlyDbType} NOT NULL,
@@ -295,7 +304,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync("WithComputed"))
+        if (!await sql.SchemaObjectExistsAsync<WithComputed>())
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [WithComputed] (
                         [ID] int NOT NULL,
@@ -362,7 +371,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync("WithGroupByItems"))
+        if (!await sql.SchemaObjectExistsAsync<WithGroupByItems>())
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [WithGroupByItems] (
                         [ID] int NOT NULL,
@@ -427,7 +436,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync(nameof(FieldLengthTable)))
+        if (!await sql.SchemaObjectExistsAsync<FieldLengthTable>())
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(FieldLengthTable)}] (
                     [ID] {VarCharName}(36) NOT NULL,
@@ -509,7 +518,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         if (sql.GetType().Name.Contains("iteConnection"))
             return;
 
-        if (!await sql.SchemaObjectExistsAsync(nameof(MorePrimaryKeyTable)))
+        if (!await sql.SchemaObjectExistsAsync<MorePrimaryKeyTable>())
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(MorePrimaryKeyTable)}] (
                     [ID] {VarCharName}(20) NOT NULL,
@@ -597,6 +606,48 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
 
     }
+
+    class RelatedTable
+    {
+        [Primary]
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Status { get; set; }
+        public int Ordered { get; set; }
+        public int Canceled { get; set; }
+        public int Delivered { get; set; }
+    }
+
+    [TestMethod]
+    public async Task RelatedFields()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        if (await sql.SchemaObjectExistsAsync<RelatedTable>())
+        {
+            await sql.DropTableAsync<RelatedTable>();
+        }
+
+        await sql.CreateTableAsync<RelatedTable>();
+
+        await sql.InsertAllAsync<RelatedTable>([
+            new RelatedTable { ID = 1, Name = "a", Ordered = 10, Canceled = 1, Delivered = 5 },
+            new RelatedTable { ID = 2, Name = "b", Ordered = 20, Canceled = 2, Delivered = 10 },
+            new RelatedTable { ID = 3, Name = "c", Ordered = 30, Canceled =0, Delivered =0 },
+            new RelatedTable { ID = 4, Name = "d", Ordered = 40, Canceled = 40, Delivered = 0 }
+        ]);
+
+
+        await sql.UpdateAsync<RelatedTable>(
+            new()
+            {
+                Status = 1
+            },
+            where: x => x.Status == 0 && x.Ordered > x.Canceled,
+            Field.Parse<RelatedTable>(x => x.Status),
+            trace: new DiagnosticsTracer());
+    }
+
 
     private record MergeEdgeTable
     {
@@ -767,5 +818,151 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         {
             GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
         }
+    }
+}
+
+public static class DbTestExtensions
+{
+
+    public static async Task CreateTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null) where TEntity : class
+    {
+        var tableName = ClassMappedNameCache.Get<TEntity>();
+
+        var setting = connection.GetDbSetting();
+        await CreateTableAsync<TEntity>(connection, tableName);
+    }
+
+    public static async Task CreateTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class
+    {
+        var dbSetting = sql.GetDbSetting();
+        var dbHelper = sql.GetDbHelper();
+        var stmt = (BaseStatementBuilder)sql.GetStatementBuilder();
+        var toDbField = (stmt.ConvertFieldResolver as DbConvertFieldResolver)?.StringNameResolver ?? FindResolver(sql);
+        var cp = PropertyCache.Get<TEntity>();
+
+        var qb = new QueryBuilder();
+
+        qb.WriteText("CREATE").Table()
+            .TableNameFrom(tableName, dbSetting)
+            .OpenParen()
+            .NewLine();
+
+        bool first = true;
+        foreach (var prop in cp)
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                qb.Comma()
+                    .NewLine();
+            }
+
+            var field = prop.AsField();
+
+            qb.WriteQuoted(prop.FieldName, dbSetting)
+                .WriteText(" ");
+
+            var type = (field.Type ?? prop.PropertyInfo.PropertyType).GetUnderlyingType();
+
+            var dbType =
+                prop.DbType
+                ?? type.GetDbType()
+                ?? TypeMapCache.Get(type)
+                ?? TypeMapper.Get(type)
+                ?? ClientTypeToDbTypeResolver.Instance.Resolve(type)
+                ?? System.Data.DbType.AnsiString;
+
+            string name = toDbField?.Resolve(dbType) ?? "TEXT";
+            qb.WriteText(name);
+
+            if (type == typeof(string) && !name.Contains('(') && !string.Equals(name, "text", StringComparison.OrdinalIgnoreCase))
+            {
+                qb.OpenParen().WriteText("255").CloseParen();
+            }
+        }
+
+        var primaryKeys = PrimaryCache.GetPrimaryKeys<TEntity>();
+
+        if (primaryKeys.Any())
+        {
+            qb.Comma().NewLine()
+                .WriteText("CONSTRAINT ")
+                .WriteQuoted($"PK_{tableName}", dbSetting)
+                .WriteText(" PRIMARY KEY (");
+            first = true;
+            foreach (var pk in primaryKeys)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    qb.Comma();
+                }
+                qb.WriteQuoted(pk.FieldName, dbSetting);
+            }
+            qb.WriteText(")");
+        }
+
+        // TODO: Add foreign keys, indexes, etc. if needed
+
+        qb.NewLine().CloseParen();
+
+        Debug.WriteLine(qb.ToString());
+
+        await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace);
+    }
+
+    static ConcurrentDictionary<Type, IResolver<DbType, string?>> _resolverCache = new();
+    private static IResolver<DbType, string?> FindResolver(DbConnection sql)
+    {
+        return _resolverCache.GetOrAdd(sql.GetType(), (_) =>
+        {
+            var asm = sql.GetDbHelper().GetType().Assembly;
+
+            foreach (var t in asm.GetTypes())
+            {
+                if (typeof(IResolver<DbType, string?>).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                {
+                    var inst = (IResolver<DbType, string?>)Activator.CreateInstance(t);
+                    if (inst != null)
+                    {
+                        return inst;
+                    }
+                }
+            }
+
+            return null;
+        });
+
+
+    }
+
+    public static async Task DropTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null) where TEntity : class
+    {
+        var tableName = ClassMappedNameCache.Get<TEntity>();
+
+        var setting = connection.GetDbSetting();
+        await DropTableAsync<TEntity>(connection, tableName);
+    }
+
+    public static async Task DropTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class
+    {
+        var dbSetting = sql.GetDbSetting();
+        var dbHelper = sql.GetDbHelper();
+        var stmt = (BaseStatementBuilder)sql.GetStatementBuilder();
+        var toDbField = (stmt.ConvertFieldResolver as DbConvertFieldResolver)?.StringNameResolver;
+        var cp = PropertyCache.Get<TEntity>();
+
+        var qb = new QueryBuilder();
+
+        qb.WriteText("DROP").Table()
+            .TableNameFrom(tableName, dbSetting);
+
+        await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace);
     }
 }

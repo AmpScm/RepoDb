@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySqlConnector;
+﻿using MySqlConnector;
 using RepoDb.Resolvers;
 
 namespace RepoDb.MySqlConnector.UnitTests.Resolvers;
@@ -415,7 +414,7 @@ public class MySqlDbTypeToMySqlStringNameResolverTest
         var result = resolver.Resolve(MySqlDbType.String);
 
         // Assert
-        Assert.AreEqual("STRING", result);
+        Assert.AreEqual("TEXT", result);
     }
 
     [TestMethod]

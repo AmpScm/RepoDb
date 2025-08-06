@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using RepoDb.Enumerations;
+using RepoDb.Extensions;
 
 namespace RepoDb.Schema;
 public static class DbSchemaExtensions
@@ -62,4 +63,21 @@ public static class DbSchemaExtensions
             return schemaObjects.Any(x => x.Name == name);
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <param name="connection"></param>
+    /// <param name="type"></param>
+    /// <param name="transaction"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static async ValueTask<bool> SchemaObjectExistsAsync<TEntity>(this DbConnection connection, DbSchemaType? type = null, DbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        var name = ClassMappedNameCache.Get<TEntity>();
+
+        var setting = connection.GetDbSetting();
+        return await SchemaObjectExistsAsync(connection, DataEntityExtension.GetTableName(name, setting), DataEntityExtension.GetSchema(name, setting), type, transaction, cancellationToken);
+    }
 }

@@ -18,7 +18,7 @@ public static class DbCommandExtension
 {
     #region Privates
 
-    private static readonly ClientTypeToDbTypeResolver clientTypeToDbTypeResolver = new();
+    private static readonly ClientTypeToDbTypeResolver clientTypeToDbTypeResolver = ClientTypeToDbTypeResolver.Instance;
     private static readonly DbTypeToClientTypeResolver dbTypeToClientTypeResolver = new();
 
     #endregion
