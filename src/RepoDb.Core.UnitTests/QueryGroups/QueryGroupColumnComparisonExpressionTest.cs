@@ -1,13 +1,12 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb;
-using RepoDb.Enumerations;
-using RepoDb.QueryFields;
+using RepoDb.Interfaces;
+using RepoDb.UnitTests.CustomObjects;
 
 namespace RepoDb.UnitTests.QueryGroups
 {
     [TestClass]
     public class QueryGroupColumnComparisonExpressionTest
     {
+        private readonly IDbSetting m_dbSetting = new CustomDbSetting();
         private class TestEntity
         {
             public int ColA { get; set; }
@@ -20,7 +19,7 @@ namespace RepoDb.UnitTests.QueryGroups
         public void Test_ColumnToColumn_Equal_GeneratesSql()
         {
             var group = QueryGroup.Parse<TestEntity>(x => x.ColA == x.ColB);
-            var sql = group.GetString(0, TestDbSetting.Instance);
+            var sql = group.GetString(0, m_dbSetting);
             Assert.AreEqual("([ColA] = [ColB])", sql);
         }
 
@@ -28,7 +27,7 @@ namespace RepoDb.UnitTests.QueryGroups
         public void Test_ColumnToColumn_NotEqual_GeneratesSql()
         {
             var group = QueryGroup.Parse<TestEntity>(x => x.ColA != x.ColB);
-            var sql = group.GetString(0, TestDbSetting.Instance);
+            var sql = group.GetString(0, m_dbSetting);
             Assert.AreEqual("([ColA] <> [ColB])", sql);
         }
 
@@ -36,7 +35,7 @@ namespace RepoDb.UnitTests.QueryGroups
         public void Test_ColumnToColumn_LessThan_GeneratesSql()
         {
             var group = QueryGroup.Parse<TestEntity>(x => x.ColA < x.ColB);
-            var sql = group.GetString(0, TestDbSetting.Instance);
+            var sql = group.GetString(0, m_dbSetting);
             Assert.AreEqual("([ColA] < [ColB])", sql);
         }
 
@@ -44,7 +43,7 @@ namespace RepoDb.UnitTests.QueryGroups
         public void Test_ColumnToColumn_GreaterThan_GeneratesSql()
         {
             var group = QueryGroup.Parse<TestEntity>(x => x.ColA > x.ColB);
-            var sql = group.GetString(0, TestDbSetting.Instance);
+            var sql = group.GetString(0, m_dbSetting);
             Assert.AreEqual("([ColA] > [ColB])", sql);
         }
 
@@ -52,7 +51,7 @@ namespace RepoDb.UnitTests.QueryGroups
         public void Test_ColumnToColumn_LessThanOrEqual_GeneratesSql()
         {
             var group = QueryGroup.Parse<TestEntity>(x => x.ColA <= x.ColB);
-            var sql = group.GetString(0, TestDbSetting.Instance);
+            var sql = group.GetString(0, m_dbSetting);
             Assert.AreEqual("([ColA] <= [ColB])", sql);
         }
 
@@ -60,7 +59,7 @@ namespace RepoDb.UnitTests.QueryGroups
         public void Test_ColumnToColumn_GreaterThanOrEqual_GeneratesSql()
         {
             var group = QueryGroup.Parse<TestEntity>(x => x.ColA >= x.ColB);
-            var sql = group.GetString(0, TestDbSetting.Instance);
+            var sql = group.GetString(0, m_dbSetting);
             Assert.AreEqual("([ColA] >= [ColB])", sql);
         }
     }
