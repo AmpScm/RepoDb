@@ -100,13 +100,27 @@ public partial class QueryGroup
     private static QueryGroup Parse<TEntity>(BinaryExpression expression)
         where TEntity : class
     {
-        // Check directness
+        // Check directness (column-to-value, value-to-column, etc.)
         if (IsDirect(expression))
         {
+            // Column-to-column comparison: both sides are member accesses on the parameter
+            if (expression.Left is MemberExpression leftMember && leftMember.Expression is ParameterExpression &&
+                expression.Right is MemberExpression rightMember && rightMember.Expression is ParameterExpression)
+            {
+                var leftField = new Field(leftMember.Member.Name);
+                var rightField = new Field(rightMember.Member.Name);
+                var op = QueryField.GetOperation(expression.NodeType);
+                var fieldComp = new Extensions.QueryFields.FieldComparisonQueryField(leftField, op, rightField);
+                return new QueryGroup(fieldComp);
+            }
+            // If only right is a member on the parameter, but left is not, throw (unsupported)
+            if (expression.Right is MemberExpression mx && mx.Expression is ParameterExpression)
+                throw new NotSupportedException($"Comparing an entity to values on itself is not currently supported in {expression}");
+            // Otherwise, normal column-to-value
             return QueryField.Parse<TEntity>(expression);
         }
 
-        // Variables
+        // Otherwise, recursively parse as before (for AndAlso, OrElse, etc.)
         var leftQueryGroup = Parse<TEntity>(expression.Left) ?? throw new NotSupportedException($"Expression {expression.Left} is currently not supported");
 
         // IsNot
@@ -124,7 +138,7 @@ public partial class QueryGroup
             return new QueryGroup([leftQueryGroup, rightQueryGroup], GetConjunction(expression));
         }
 
-        // Return
+        // Return the left query group, which is now modified to include the right side
         return leftQueryGroup;
     }
 

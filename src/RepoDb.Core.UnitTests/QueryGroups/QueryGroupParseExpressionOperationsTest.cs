@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RepoDb.UnitTests;
+﻿namespace RepoDb.UnitTests;
 
 public partial class QueryGroupTest
 {
@@ -103,10 +101,15 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == e.PropertyInt)).GetString(m_dbSetting);
-        var expected = "([PropertyInt] = @PropertyInt)";
+        var expected = "([PropertyInt] = [PropertyInt])";
 
         // Assert
         Assert.AreEqual(expected, actual);
+
+        QueryGroupTestExpressionClass gg = new();
+
+        actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == gg.PropertyInt)).GetString(m_dbSetting);
+        expected = "([PropertyInt] = @PropertyInt)";
     }
 
     // ExpectedException
