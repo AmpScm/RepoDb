@@ -580,7 +580,11 @@ public static class DbCommandExtension
         // Iterate the filtered query fields
         foreach (var queryField in filteredQueryFields)
         {
-            if (queryField.Operation is Operation.In or Operation.NotIn)
+            if (queryField.NoParametersNeeded)
+            {
+
+            }
+            else if (queryField.Operation is Operation.In or Operation.NotIn)
             {
                 var dbField = GetDbField(queryField.Field.FieldName, dbFields);
                 CreateParametersForInOperation(command, queryField, dbField);
@@ -590,11 +594,7 @@ public static class DbCommandExtension
                 var dbField = GetDbField(queryField.Field.FieldName, dbFields);
                 CreateParametersForBetweenOperation(command, queryField, dbField);
             }
-            else if (queryField.Operation is Operation.IsNotNull or Operation.IsNull)
-            {
-                // No value needed
-            }
-            else
+            else if (queryField.Operation is not Operation.IsNotNull and not Operation.IsNull)
             {
                 CreateParameters(command, queryField, null, entityType, dbFields);
             }
