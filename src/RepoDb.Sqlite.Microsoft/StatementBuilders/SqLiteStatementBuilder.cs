@@ -359,8 +359,15 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers and identity field from the fields to update
-        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
-);
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
+
+        var insertableFields = fields;
+
+        if (keyFields.FirstOrDefault(x => x.IsIdentity) is { } identity
+            && qualifiers.GetByFieldName(identity.FieldName) is null)
+        {
+            insertableFields = fields.Where(f => f.FieldName != identity.FieldName);
+        }
 
         // Build the query
         builder
@@ -368,14 +375,14 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             .Into()
             .TableNameFrom(tableName, DbSetting)
             .OpenParen()
-            .FieldsFrom(fields, DbSetting)
+            .FieldsFrom(insertableFields, DbSetting)
             .CloseParen();
 
         // Continue
         builder
             .Values()
             .OpenParen()
-            .ParametersFrom(fields, 0, DbSetting)
+            .ParametersFrom(insertableFields, 0, DbSetting)
             .CloseParen()
             .OnConflict(qualifiers, DbSetting);
 
