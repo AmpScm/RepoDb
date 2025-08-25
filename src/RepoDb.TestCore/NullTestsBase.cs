@@ -833,6 +833,68 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
         }
     }
+
+    private record MergeEdgeTable2
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string? Value { get; set; }
+    }
+
+    [TestMethod]
+    public async Task MergeQualifierEdgeCasesTestAsync()
+    {
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+        try
+        {
+            using var sql = await CreateOpenConnectionAsync();
+
+            if (sql.GetType().Name.Contains("Oracle"))
+                return;
+
+            if (!await sql.SchemaObjectExistsAsync(nameof(MergeEdgeTable2)))
+            {
+                await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(MergeEdgeTable2)}] (
+                    [ID] {IdentityDefinition}{(IdentityDefinition.Contains("PRIMARY") ? "" : " PRIMARY KEY")},
+                    [Name] {VarCharName}(20) NOT NULL,
+                    [Value] {VarCharName}(38) NULL
+            )");
+
+                await PerformCreateTableAsync(sql, $@"CREATE UNIQUE INDEX [IX_{nameof(MergeEdgeTable2)}] ON [{nameof(MergeEdgeTable2)}] ([Name]);
+        ");
+            }
+            else
+            {
+                await sql.TruncateAsync<MergeEdgeTable2>();
+            }
+
+            var r = await sql.MergeAsync<MergeEdgeTable2, int>(new MergeEdgeTable2
+            {
+                Name = "a",
+                Value = "c"
+            }, qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer());
+
+            Assert.AreNotEqual(0, r);
+
+            var v2 = new MergeEdgeTable2
+            {
+                Name = "d",
+                Value = "e"
+            };
+
+            await sql.MergeAllAsync([v2], qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer());
+            Assert.AreNotEqual(0, v2.ID);
+
+            v2.ID = 0;
+
+            await sql.MergeAllAsync([v2], qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer());
+            Assert.AreNotEqual(0, v2.ID);
+        }
+        finally
+        {
+            GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        }
+    }
 }
 
 public static class DbTestExtensions

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace RepoDb;
 
@@ -106,6 +107,20 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     public static bool operator !=(FieldSet? left, FieldSet? right)
     {
         return !(left == right);
+    }
+
+
+    public static FieldSet From<TEntity>()
+        where TEntity : class
+    {
+        return new FieldSet(FieldCache.Get<TEntity>());
+    }
+
+    public static FieldSet Parse<TEntity>(Expression<Func<TEntity, object?>> from)
+        where TEntity : class
+    {
+        ArgumentNullException.ThrowIfNull(from);
+        return Field.Parse<TEntity>(from);
     }
 
     private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.FieldName));

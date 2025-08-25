@@ -1,4 +1,5 @@
-﻿using RepoDb.Interfaces;
+﻿using System.Linq.Expressions;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Extensions;
 
@@ -40,6 +41,12 @@ public static class FieldExtension
     public static FieldSet AsFieldSet(this IEnumerable<Field> fields)
     {
         return fields as FieldSet ?? new FieldSet(fields);
+    }
+
+    public static FieldSet Except<TEntity>(this IEnumerable<Field> fields, Expression<Func<TEntity, object?>> value)
+        where TEntity : class
+    {
+        return fields.AsFieldSet().Except(Field.Parse<TEntity>(value)).AsFieldSet();
     }
 }
 

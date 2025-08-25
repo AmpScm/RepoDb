@@ -18,7 +18,6 @@ public sealed record SqlServerDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = true;
         IsMultiStatementExecutable = true;
         IsPreparable = true;
-        IsUseUpsert = false;
         OpeningQuote = "[";
         ParameterPrefix = "@";
 

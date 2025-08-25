@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Npgsql;
+﻿using Npgsql;
 
 namespace RepoDb.PostgreSql.UnitTests;
 
@@ -82,16 +81,6 @@ public class DbSettingTest
 
         // Assert
         Assert.IsTrue(setting.IsMultiStatementExecutable);
-    }
-
-    [TestMethod]
-    public void TestPostgreSqlDbSettingIsUseUpsertProperty()
-    {
-        // Setup
-        var setting = DbSettingMapper.Get<NpgsqlConnection>();
-
-        // Assert
-        Assert.IsFalse(setting.IsUseUpsert);
     }
 
     [TestMethod]

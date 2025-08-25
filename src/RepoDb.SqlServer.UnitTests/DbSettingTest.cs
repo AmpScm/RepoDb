@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RepoDb.SqlServer.UnitTests;
 
@@ -82,16 +81,6 @@ public class DbSettingTest
 
         // Assert
         Assert.IsTrue(setting.IsMultiStatementExecutable);
-    }
-
-    [TestMethod]
-    public void TestSqlServerDbSettingIsUseUpsertProperty()
-    {
-        // Setup
-        var setting = DbSettingMapper.Get<SqlConnection>();
-
-        // Assert
-        Assert.IsFalse(setting.IsUseUpsert);
     }
 
     [TestMethod]

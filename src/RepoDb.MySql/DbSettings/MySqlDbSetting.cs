@@ -20,7 +20,6 @@ public sealed record MySqlDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = false;
         IsMultiStatementExecutable = true;
         IsPreparable = false;
-        IsUseUpsert = false;
         OpeningQuote = "`";
         ParameterPrefix = "@";
         // MySql doesn't have a max size, but needs the query including parameters needs to fit 4MB

@@ -14,7 +14,6 @@ public sealed record CustomDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = true;
         IsMultiStatementExecutable = true;
         IsPreparable = true;
-        IsUseUpsert = false;
         OpeningQuote = "[";
         ParameterPrefix = "@";
     }
@@ -32,7 +31,6 @@ public sealed record CustomNonHintsSupportingDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = true;
         IsMultiStatementExecutable = true;
         IsPreparable = true;
-        IsUseUpsert = false;
         OpeningQuote = "[";
         ParameterPrefix = "@";
 
@@ -51,7 +49,6 @@ public sealed record CustomSingleStatementSupportDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = true;
         IsMultiStatementExecutable = false;
         IsPreparable = true;
-        IsUseUpsert = false;
         OpeningQuote = "[";
         ParameterPrefix = "@";
     }

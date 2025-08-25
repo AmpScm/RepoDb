@@ -20,7 +20,6 @@ public sealed record PostgreSqlDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = true;
         IsMultiStatementExecutable = true;
         IsPreparable = true;
-        IsUseUpsert = false;
         OpeningQuote = "\"";
         ParameterPrefix = "@";
         MaxParameterCount = 8096; // PostgreSQL allows up to 32767 parameters, but we set it lower to avoid issues with large queries and code generated for that

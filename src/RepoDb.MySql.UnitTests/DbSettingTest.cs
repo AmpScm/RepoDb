@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 
 namespace RepoDb.MySql.UnitTests;
 
@@ -82,16 +81,6 @@ public class DbSettingTest
 
         // Assert
         Assert.IsTrue(setting.IsMultiStatementExecutable);
-    }
-
-    [TestMethod]
-    public void TestMySqlDbSettingIsUseUpsertProperty()
-    {
-        // Setup
-        var setting = DbSettingMapper.Get<MySqlConnection>();
-
-        // Assert
-        Assert.IsFalse(setting.IsUseUpsert);
     }
 
     [TestMethod]

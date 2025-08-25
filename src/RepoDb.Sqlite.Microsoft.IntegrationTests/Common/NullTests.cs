@@ -1,6 +1,5 @@
 ﻿using System.Data.Common;
 using Microsoft.Data.Sqlite;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Common;
@@ -16,5 +15,5 @@ public class NullTests : RepoDb.TestCore.NullTestsBase<SqliteDbInstance>
     public override string TimeOnlyDbType => "TEXT";
 #endif
 
-    protected override string IdentityDefinition => "INT PRIMARY KEY NOT NULL";
+    protected override string IdentityDefinition => "INTEGER PRIMARY KEY NOT NULL";
 }

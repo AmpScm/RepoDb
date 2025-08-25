@@ -473,56 +473,70 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
-        var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
-        var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
-
-        GuardPrimary(primaryField);
-        GuardIdentity(identityField);
-
         // Verify the fields
         if (fields?.Any() != true)
         {
             throw new ArgumentNullException(nameof(fields), $"The list of fields cannot be null or empty.");
         }
 
-        // Validate the Primary Key
-        if (primaryField == null)
-        {
-            throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}'.");
-        }
+        // Set the qualifiers
+        if (qualifiers?.Any() != true)
+            qualifiers = keyFields;
 
-        var updateFields = fields
-            .Where(f => noUpdateFields?.GetByFieldName(f.FieldName) is null && qualifiers.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
-            .AsFieldSet();
+        // Validate the qualifiers
+        if (qualifiers?.Any() != true)
+        {
+            var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
+
+            if (primaryField == null)
+            {
+                throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
+            }
+            else
+            {
+                throw new InvalidQualifiersException($"There are no defined qualifier fields.");
+            }
+        }
 
         // Initialize the builder
         var builder = new QueryBuilder();
+
+        // Remove the qualifiers from the fields
+        var insertableFields = fields;
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
+
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+
+        if (!insertingIdentity)
+        {
+            insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).AsFieldSet();
+        }
 
         // Build the query
         builder
             .Insert();
 
-        if (updateFields.Count == 0)
+        if (updatableFields.Count == 0)
             builder.Ignore();
 
         builder
             .Into()
             .TableNameFrom(tableName, DbSetting)
             .OpenParen()
-            .FieldsFrom(fields, DbSetting)
+            .FieldsFrom(insertableFields, DbSetting)
             .CloseParen()
             .Values()
             .OpenParen()
-            .ParametersFrom(fields, 0, DbSetting)
+            .ParametersFrom(insertableFields, 0, DbSetting)
             .CloseParen();
 
-        if (updateFields.Count > 0)
+        if (updatableFields.Count > 0)
         {
             builder
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, updateFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && fields.GetByFieldName(x.FieldName) is null));
+            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && qualifiers.GetByFieldName(x.FieldName) is null));
         }
         builder
             .End();
@@ -540,7 +554,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 else
                     builder.Comma();
 
-                if (kf.IsIdentity && fields.GetByFieldName(kf.FieldName) is null)
+                if (kf.IsIdentity && qualifiers.GetByFieldName(kf.FieldName) is null)
                 {
                     builder
                         .WriteText("LAST_INSERT_ID()");
@@ -591,11 +605,37 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             throw new ArgumentNullException(nameof(fields), $"The list of fields cannot be null or empty.");
         }
 
+        // Set the qualifiers
+        if (qualifiers?.Any() != true)
+            qualifiers = keyFields;
+
+        // Validate the qualifiers
+        if (qualifiers?.Any() != true)
+        {
+            var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
+
+            if (primaryField == null)
+            {
+                throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
+            }
+            else
+            {
+                throw new InvalidQualifiersException($"There are no defined qualifier fields.");
+            }
+        }
+
         var builder = new QueryBuilder();
 
-        var updateFields = fields
-            .Where(f => noUpdateFields?.GetByFieldName(f.FieldName) is null && qualifiers?.GetByFieldName(f.FieldName) is null && keyFields?.GetByFieldName(f.FieldName) is not { IsIdentity: true })
-            .AsFieldSet();
+        // Remove the qualifiers from the fields
+        var insertableFields = fields;
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
+
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+
+        if (!insertingIdentity)
+        {
+            insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).AsFieldSet();
+        }
 
         // Iterate the indexes
         for (var index = 0; index < batchSize; index++)
@@ -615,7 +655,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, updateFields, index, keyFields.FirstOrDefault(x => x.IsIdentity));
+            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, index, keyFields.FirstOrDefault(x => x.IsIdentity && qualifiers.GetByFieldName(x.FieldName) is null));
 
             builder
                 .End(DbSetting);
@@ -633,7 +673,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                     else
                         builder.Comma();
 
-                    if (kf.IsIdentity)
+                    if (kf.IsIdentity && qualifiers.GetByFieldName(kf.FieldName) is null)
                     {
                         builder
                             .WriteText("COALESCE")
@@ -670,7 +710,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
 
             builder.FieldFrom(id, DbSetting);
             builder.WriteText("= LAST_INSERT_ID(");
-            builder.WriteText(id.FieldName.AsParameter(index, DbSetting));
+            builder.WriteText(id.FieldName.AsField(DbSetting));
             builder.CloseParen();
 
             var filteredFields = updateFields.Where(x => !string.Equals(x.FieldName, id.FieldName, StringComparison.OrdinalIgnoreCase));

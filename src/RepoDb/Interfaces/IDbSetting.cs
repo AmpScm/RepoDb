@@ -48,11 +48,6 @@ public interface IDbSetting
     bool IsPreparable { get; }
 
     /// <summary>
-    /// Gets a value that indicates whether the Insert/Update operation will be used for Merge operation.
-    /// </summary>
-    bool IsUseUpsert { get; }
-
-    /// <summary>
     /// Gets the character used for opening quote.
     /// </summary>
     string OpeningQuote { get; }

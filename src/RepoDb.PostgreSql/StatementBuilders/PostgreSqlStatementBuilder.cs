@@ -334,10 +334,6 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
-        var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
-        var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
-        GuardPrimary(primaryField);
-        GuardIdentity(identityField);
 
         // Verify the fields
         if (fields?.Any() != true)
@@ -346,14 +342,14 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         }
 
         // Set the qualifiers
-        if (qualifiers?.Any() != true && primaryField != null)
-        {
-            qualifiers = primaryField.AsField().AsEnumerable();
-        }
+        if (qualifiers?.Any() != true)
+            qualifiers = keyFields;
 
         // Validate the qualifiers
         if (qualifiers?.Any() != true)
         {
+            var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
+
             if (primaryField == null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
@@ -368,8 +364,15 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         var builder = new QueryBuilder();
 
         // Remove the qualifiers from the fields
-        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
-);
+        var insertableFields = fields;
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
+
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+
+        if (!insertingIdentity)
+        {
+            insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).AsFieldSet();
+        }
 
         // Build the query
         builder
@@ -377,11 +380,11 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             .Into()
             .TableNameFrom(tableName, DbSetting)
             .OpenParen()
-            .FieldsFrom(fields, DbSetting)
+            .FieldsFrom(insertableFields, DbSetting)
             .CloseParen();
 
         // Override the system value
-        if (identityField != null)
+        if (insertingIdentity)
         {
             builder.WriteText("OVERRIDING SYSTEM VALUE");
         }
@@ -390,7 +393,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         builder
             .Values()
             .OpenParen()
-            .ParametersFrom(fields, 0, DbSetting)
+            .ParametersFrom(insertableFields, 0, DbSetting)
             .CloseParen()
             .OnConflict(qualifiers, DbSetting);
 
@@ -445,8 +448,6 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
-        var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
-        GuardIdentity(identityField);
 
         // Verify the fields
         if (fields?.Any() != true)
@@ -456,9 +457,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
 
         // Set the qualifiers
         if (qualifiers?.Any() != true)
-        {
             qualifiers = keyFields;
-        }
 
         // Validate the qualifiers
         if (qualifiers?.Any() != true)
@@ -479,8 +478,15 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
 
         // Remove the qualifiers from the fields
 
-        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
-);
+        var insertableFields = fields;
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
+
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true });
+
+        if (!insertingIdentity)
+        {
+            insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).AsFieldSet();
+        }
 
         // Iterate the indexes
         for (var index = 0; index < batchSize; index++)
@@ -491,11 +497,11 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
                 .Into()
                 .TableNameFrom(tableName, DbSetting)
                 .OpenParen()
-                .FieldsFrom(fields, DbSetting)
+                .FieldsFrom(insertableFields, DbSetting)
                 .CloseParen();
 
             // Override the system value
-            if (identityField != null)
+            if (insertingIdentity)
             {
                 builder.WriteText("OVERRIDING SYSTEM VALUE");
             }
@@ -504,7 +510,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             builder
                 .Values()
                 .OpenParen()
-                .ParametersFrom(fields, index, DbSetting)
+                .ParametersFrom(insertableFields, index, DbSetting)
                 .CloseParen()
                 .OnConflict(qualifiers, DbSetting);
 

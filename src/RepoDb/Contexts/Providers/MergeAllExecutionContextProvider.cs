@@ -262,11 +262,13 @@ internal static class MergeAllExecutionContextProvider
             fields = dbFields.AsFields();
         }
 
+        if (qualifiers?.Any() != true)
+            qualifiers = dbFields.Where(x => x.IsPrimary || x.IsIdentity);
+
         // Filter the actual properties for input fields
         inputFields = dbFields
             .Where(dbField =>
-                fields.FirstOrDefault(field =>
-                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
+                fields.GetByFieldName(dbField.FieldName) is { } && (!dbField.IsIdentity || qualifiers.GetByFieldName(dbField.FieldName) is { }))
             .AsList();
 
         // Exclude the fields not on the actual entity
