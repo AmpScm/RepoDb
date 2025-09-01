@@ -554,7 +554,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 else
                     builder.Comma();
 
-                if (kf.IsIdentity)
+                if (kf.IsIdentity && !insertingIdentity)
                 {
                     builder
                         .WriteText("LAST_INSERT_ID()");
@@ -673,7 +673,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                     else
                         builder.Comma();
 
-                    if (kf.IsIdentity)
+                    if (kf.IsIdentity && !insertingIdentity)
                     {
                         builder
                             .WriteText("LAST_INSERT_ID()");

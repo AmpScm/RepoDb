@@ -681,7 +681,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             if (sql.GetType().Name.Contains("Oracle"))
                 return;
 
-            bool noIdentityInPrimaryKey = sql.GetType().Name.Contains("iteConnection") || sql.GetType().Name.Contains("Oracle");
+            bool noIdentityInPrimaryKey = sql.GetType().Name.Contains("SQLite", StringComparison.OrdinalIgnoreCase) || sql.GetType().Name.Contains("Oracle");
 
             if (!await sql.SchemaObjectExistsAsync(nameof(MergeEdgeTable)))
             {
@@ -695,8 +695,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                     )
             )".Replace(IdentityDefinition, noIdentityInPrimaryKey ? IntDbType + " NOT NULL" : IdentityDefinition));
 
-                await PerformCreateTableAsync(sql, $@"CREATE UNIQUE INDEX [IX_{nameof(MergeEdgeTable)}] ON [{nameof(MergeEdgeTable)}] ([Name]);
-        ");
+                await PerformCreateTableAsync(sql, $@"CREATE UNIQUE INDEX [IX_{nameof(MergeEdgeTable)}] ON [{nameof(MergeEdgeTable)}] ([Name]);");
             }
             else
             {

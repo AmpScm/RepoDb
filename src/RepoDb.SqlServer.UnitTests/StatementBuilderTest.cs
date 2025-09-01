@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
 
@@ -1922,7 +1921,7 @@ public class StatementBuilderTest
         var expected =
             "MERGE [Table] AS T " +
             "USING (SELECT @Field1 AS [Field1], @Field2 AS [Field2], @Field3 AS [Field3]) " +
-            "AS S ON ((S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
+            "AS S ON ((S.[Field2] = T.[Field2] OR (S.[Field2] IS NULL AND T.[Field2] IS NULL)) AND (S.[Field1] = T.[Field1] OR (S.[Field1] IS NULL AND T.[Field1] IS NULL))) " +
             "WHEN NOT MATCHED THEN " +
             "INSERT ([Field1], [Field3]) " +
             "VALUES (S.[Field1], S.[Field3]) " +
