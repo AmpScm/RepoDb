@@ -505,7 +505,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         var insertableFields = fields;
         var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
 
-        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true });
 
         if (!insertingIdentity)
         {
@@ -536,7 +536,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity && qualifiers.GetByFieldName(x.FieldName) is null));
+            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity));
         }
         builder
             .End();
@@ -554,7 +554,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 else
                     builder.Comma();
 
-                if (kf.IsIdentity && qualifiers.GetByFieldName(kf.FieldName) is null)
+                if (kf.IsIdentity)
                 {
                     builder
                         .WriteText("LAST_INSERT_ID()");
@@ -630,7 +630,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         var insertableFields = fields;
         var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
 
-        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true });
 
         if (!insertingIdentity)
         {
@@ -646,16 +646,16 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 .Into()
                 .TableNameFrom(tableName, DbSetting)
                 .OpenParen()
-                .FieldsFrom(fields, DbSetting)
+                .FieldsFrom(insertableFields, DbSetting)
                 .CloseParen()
                 .Values()
                 .OpenParen()
-                .ParametersFrom(fields, index, DbSetting)
+                .ParametersFrom(insertableFields, index, DbSetting)
                 .CloseParen()
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, index, keyFields.FirstOrDefault(x => x.IsIdentity && qualifiers.GetByFieldName(x.FieldName) is null));
+            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, index, keyFields.FirstOrDefault(x => x.IsIdentity));
 
             builder
                 .End(DbSetting);
@@ -673,15 +673,10 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                     else
                         builder.Comma();
 
-                    if (kf.IsIdentity && qualifiers.GetByFieldName(kf.FieldName) is null)
+                    if (kf.IsIdentity)
                     {
                         builder
-                            .WriteText("COALESCE")
-                            .OpenParen()
-                            .WriteText(kf.FieldName.AsParameter(index, DbSetting))
-                            .Comma()
-                            .WriteText("LAST_INSERT_ID()")
-                            .CloseParen();
+                            .WriteText("LAST_INSERT_ID()");
                     }
                     else
                     {
@@ -699,21 +694,20 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
 
     private void IdentityFieldsAndParametersFrom(QueryBuilder builder, IEnumerable<Field> fields, IEnumerable<Field> updateFields, int index, DbField? identityField)
     {
-        if (identityField is null || fields.GetByFieldName(identityField.FieldName) is null)
+        if (identityField is null)
         {
             builder.FieldsAndParametersFrom(updateFields, index, DbSetting);
         }
         else
         {
-            var id = identityField.AsField();
             // We want to have the LAST_INSERT_ID, and we have to set it ourselves here
 
-            builder.FieldFrom(id, DbSetting);
+            builder.FieldFrom(identityField, DbSetting);
             builder.WriteText("= LAST_INSERT_ID(");
-            builder.WriteText(id.FieldName.AsField(DbSetting));
+            builder.WriteText(identityField.FieldName.AsField(DbSetting));
             builder.CloseParen();
 
-            var filteredFields = updateFields.Where(x => !string.Equals(x.FieldName, id.FieldName, StringComparison.OrdinalIgnoreCase));
+            var filteredFields = updateFields.Where(x => !string.Equals(x.FieldName, identityField.FieldName, StringComparison.OrdinalIgnoreCase));
             if (filteredFields.Any())
             {
                 builder.Comma();

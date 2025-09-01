@@ -2,46 +2,46 @@
 
 public class CompleteTable
 {
-    public Int64? Id { get; set; }
-    public String ColumnVarchar { get; set; }
-    public Int32? ColumnInt { get; set; }
-    public Decimal? ColumnDecimal2 { get; set; }
+    public long Id { get; set; }
+    public string ColumnVarchar { get; set; }
+    public int? ColumnInt { get; set; }
+    public decimal? ColumnDecimal2 { get; set; }
     public DateTime? ColumnDateTime { get; set; }
-    public Byte[] ColumnBlob { get; set; }
-    public Byte[] ColumnBlobAsArray { get; set; }
-    public Byte[] ColumnBinary { get; set; }
-    public Byte[] ColumnLongBlob { get; set; }
-    public Byte[] ColumnMediumBlob { get; set; }
-    public Byte[] ColumnTinyBlob { get; set; }
-    public Byte[] ColumnVarBinary { get; set; }
+    public byte[] ColumnBlob { get; set; }
+    public byte[] ColumnBlobAsArray { get; set; }
+    public byte[] ColumnBinary { get; set; }
+    public byte[] ColumnLongBlob { get; set; }
+    public byte[] ColumnMediumBlob { get; set; }
+    public byte[] ColumnTinyBlob { get; set; }
+    public byte[] ColumnVarBinary { get; set; }
     public DateTime? ColumnDate { get; set; }
     public DateTime? ColumnDateTime2 { get; set; }
     public TimeSpan? ColumnTime { get; set; }
     public DateTime? ColumnTimeStamp { get; set; }
-    public Int16? ColumnYear { get; set; }
-    public Byte[] ColumnGeometry { get; set; }
-    public Byte[] ColumnLineString { get; set; }
-    public Byte[] ColumnMultiLineString { get; set; }
-    public Byte[] ColumnMultiPoint { get; set; }
-    public Byte[] ColumnMultiPolygon { get; set; }
-    public Byte[] ColumnPoint { get; set; }
-    public Byte[] ColumnPolygon { get; set; }
-    public Int64? ColumnBigint { get; set; }
-    public Decimal? ColumnDecimal { get; set; }
-    public Double? ColumnDouble { get; set; }
-    public Single? ColumnFloat { get; set; }
-    public Int32? ColumnInt2 { get; set; }
-    public Int32? ColumnMediumInt { get; set; }
-    public Double? ColumnReal { get; set; }
-    public Int16? ColumnSmallInt { get; set; }
-    public SByte? ColumnTinyInt { get; set; }
-    public String ColumnChar { get; set; }
-    public String ColumnJson { get; set; }
-    public String ColumnNChar { get; set; }
-    public String ColumnNVarChar { get; set; }
-    public String ColumnLongText { get; set; }
-    public String ColumnMediumText { get; set; }
-    public String ColumnText { get; set; }
-    public String ColumnTinyText { get; set; }
-    public UInt64? ColumnBit { get; set; }
+    public short? ColumnYear { get; set; }
+    public byte[] ColumnGeometry { get; set; }
+    public byte[] ColumnLineString { get; set; }
+    public byte[] ColumnMultiLineString { get; set; }
+    public byte[] ColumnMultiPoint { get; set; }
+    public byte[] ColumnMultiPolygon { get; set; }
+    public byte[] ColumnPoint { get; set; }
+    public byte[] ColumnPolygon { get; set; }
+    public long? ColumnBigint { get; set; }
+    public decimal? ColumnDecimal { get; set; }
+    public double? ColumnDouble { get; set; }
+    public float? ColumnFloat { get; set; }
+    public int? ColumnInt2 { get; set; }
+    public int? ColumnMediumInt { get; set; }
+    public double? ColumnReal { get; set; }
+    public short? ColumnSmallInt { get; set; }
+    public sbyte? ColumnTinyInt { get; set; }
+    public string ColumnChar { get; set; }
+    public string ColumnJson { get; set; }
+    public string ColumnNChar { get; set; }
+    public string ColumnNVarChar { get; set; }
+    public string ColumnLongText { get; set; }
+    public string ColumnMediumText { get; set; }
+    public string ColumnText { get; set; }
+    public string ColumnTinyText { get; set; }
+    public ulong? ColumnBit { get; set; }
 }

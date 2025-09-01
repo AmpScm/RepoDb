@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySqlConnector;
+﻿using MySqlConnector;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
 
@@ -556,7 +555,7 @@ public class StatementBuilderTest
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null);
         var expected = "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY " +
-            "UPDATE `Id` = @Id, `Name` = @Name, `Address` = @Address; " +
+            "UPDATE `Name` = @Name, `Address` = @Address; " +
             "SELECT @Id AS `Id`;";
 
         // Assert
@@ -596,7 +595,7 @@ public class StatementBuilderTest
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false),
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false));
         var expected = "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY " +
-            "UPDATE `Name` = @Name, `Address` = @Address; SELECT @Id AS `Id`;";
+            "UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name, `Address` = @Address; SELECT LAST_INSERT_ID() AS `Id`;";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -663,9 +662,9 @@ public class StatementBuilderTest
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null);
         var expected =
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY UPDATE `Id` = @Id, `Name` = @Name, `Address` = @Address; SELECT @Id AS `Id`; " +
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_1, @Name_1, @Address_1) ON DUPLICATE KEY UPDATE `Id` = @Id_1, `Name` = @Name_1, `Address` = @Address_1; SELECT @Id_1 AS `Id`; " +
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_2, @Name_2, @Address_2) ON DUPLICATE KEY UPDATE `Id` = @Id_2, `Name` = @Name_2, `Address` = @Address_2; SELECT @Id_2 AS `Id`;";
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY UPDATE `Name` = @Name, `Address` = @Address; SELECT @Id AS `Id`; " +
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_1, @Name_1, @Address_1) ON DUPLICATE KEY UPDATE `Name` = @Name_1, `Address` = @Address_1; SELECT @Id_1 AS `Id`; " +
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_2, @Name_2, @Address_2) ON DUPLICATE KEY UPDATE `Name` = @Name_2, `Address` = @Address_2; SELECT @Id_2 AS `Id`;";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -707,9 +706,9 @@ public class StatementBuilderTest
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false),
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false));
         var expected =
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( @Id), `Name` = @Name, `Address` = @Address; SELECT COALESCE (@Id, LAST_INSERT_ID()) AS `Id`; " +
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_1, @Name_1, @Address_1) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( @Id_1), `Name` = @Name_1, `Address` = @Address_1; SELECT COALESCE (@Id_1, LAST_INSERT_ID()) AS `Id`; " +
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_2, @Name_2, @Address_2) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( @Id_2), `Name` = @Name_2, `Address` = @Address_2; SELECT COALESCE (@Id_2, LAST_INSERT_ID()) AS `Id`;";
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name, `Address` = @Address; SELECT LAST_INSERT_ID() AS `Id`; " +
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_1, @Name_1, @Address_1) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name_1, `Address` = @Address_1; SELECT LAST_INSERT_ID() AS `Id`; " +
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_2, @Name_2, @Address_2) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name_2, `Address` = @Address_2; SELECT LAST_INSERT_ID() AS `Id`;";
 
         // Assert
         Assert.AreEqual(expected, query);

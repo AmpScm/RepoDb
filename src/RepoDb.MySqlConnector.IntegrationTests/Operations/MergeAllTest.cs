@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySqlConnector;
+﻿using MySqlConnector;
 using RepoDb.Extensions;
 using RepoDb.MySqlConnector.IntegrationTests.Models;
 using RepoDb.MySqlConnector.IntegrationTests.Setup;
+using RepoDb.Trace;
 
 namespace RepoDb.MySqlConnector.IntegrationTests.Operations;
 
@@ -35,7 +35,8 @@ public class MergeAllTest
         using (var connection = new MySqlConnection(Database.ConnectionString))
         {
             // Act
-            var result = connection.MergeAll<CompleteTable>(tables);
+            var result = connection.MergeAll<CompleteTable>(tables, trace: new DiagnosticsTracer());
+            Assert.AreEqual(10, result);
 
             // Assert
             Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());

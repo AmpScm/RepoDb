@@ -427,17 +427,19 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
 
         // Check the qualifiers
+        if (qualifiers?.Any() != true)
+            qualifiers = keyFields;
+
+        // Check the qualifiers
         if (qualifiers?.Any() == true)
         {
             // Check if the qualifiers are present in the given fields
-            var unmatchesQualifiers = qualifiers.Where(field =>
-                fields.FirstOrDefault(f =>
-                    string.Equals(field.FieldName, f.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
+            var unmatchedQualifiers = qualifiers.Where(field => fields.GetByFieldName(field.FieldName) is null);
 
-            // Throw an error we found any unmatches
-            if (unmatchesQualifiers.Any())
+            // Throw an error we found any unmatched
+            if (unmatchedQualifiers.Any())
             {
-                throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
+                throw new InvalidQualifiersException($"The qualifiers '{unmatchedQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
                     $"present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
             }
         }
@@ -446,10 +448,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             if (primaryField != null)
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
-                var isPresent = fields.FirstOrDefault(f => string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
-
-                // Throw if not present
-                if (!isPresent)
+                if (fields.GetByFieldName(primaryField.FieldName) is null)
                 {
                     throw new InvalidQualifiersException($"There are no qualifier field objects found for '{tableName}'. Ensure that the " +
                         $"primary field is present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -467,15 +466,14 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 
         // Get the insertable and updateable fields
         var insertableFields = fields;
-        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
-);
+        var updatableFields = fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).ToList();
 
-        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true });
 
         // Initialize the builder
         var builder = new QueryBuilder();
 
-        if (insertingIdentity)
+        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")
@@ -489,6 +487,9 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         else
             insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).AsFieldSet();
 
+        var parameterFields = fields;
+        if (!insertingIdentity && keyFields.FirstOrDefault(x => x.IsIdentity) is { } idField)
+            parameterFields = fields.Where(f => !string.Equals(f.FieldName, idField.FieldName, StringComparison.OrdinalIgnoreCase)).AsFieldSet();
 
         // Build the query
         builder
@@ -500,7 +501,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                 .Using()
                 .OpenParen()
                 .Select()
-                .ParametersAsFieldsFrom(fields, 0, DbSetting)
+                .ParametersAsFieldsFrom(parameterFields, 0, DbSetting)
                 .CloseParen()
                 .As("S")
                 // QUALIFIERS
@@ -548,7 +549,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         // End the builder
         builder.End();
 
-        if (insertingIdentity)
+        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")
@@ -602,14 +603,12 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         if (qualifiers.Any())
         {
             // Check if the qualifiers are present in the given fields
-            var unmatchesQualifiers = qualifiers.Where(field =>
-                fields.FirstOrDefault(f =>
-                    string.Equals(field.FieldName, f.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
+            var unmatchedQualifiers = qualifiers.Where(field => fields.GetByFieldName(field.FieldName) is null);
 
-            // Throw an error we found any unmatches
-            if (unmatchesQualifiers.Any())
+            // Throw an error we found any unmatched
+            if (unmatchedQualifiers.Any())
             {
-                throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
+                throw new InvalidQualifiersException($"The qualifiers '{unmatchedQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
                     $"present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
             }
         }
@@ -642,15 +641,14 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 
         // Get the insertable and updateable fields
         var insertableFields = fields;
-        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
-);
+        var updatableFields = EnumerableExtension.AsList(fields.Where(f => qualifiers.GetByFieldName(f.FieldName) is null && noUpdateFields?.GetByFieldName(f.FieldName) is null && keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }));
 
         // Initialize the builder
         var builder = new QueryBuilder();
 
-        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true }) && GlobalConfiguration.Options.SqlServerIdentityInsert;
+        bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true });
 
-        if (insertingIdentity)
+        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")
@@ -662,7 +660,10 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                 .WriteText("END TRY BEGIN CATCH END CATCH");
         }
         else
-            insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).AsFieldSet();
+        {
+            insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).ToList();
+            updatableFields = updatableFields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).ToList();
+        }
 
         // Iterate the indexes
         // MERGE T USING S
@@ -674,6 +675,10 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .OpenParen()
             .Values();
 
+        var parameterFields = fields;
+        if (!insertingIdentity && keyFields.FirstOrDefault(x => x.IsIdentity) is { } idField)
+            parameterFields = fields.Where(f => !string.Equals(f.FieldName, idField.FieldName, StringComparison.OrdinalIgnoreCase)).AsFieldSet();
+
         for (var index = 0; index < batchSize; index++)
         {
             if (index > 0)
@@ -681,7 +686,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 
             builder
                 .OpenParen()
-                .ParametersFrom(fields, index, DbSetting);
+                .ParametersFrom(parameterFields, index, DbSetting);
 
             if (batchSize > 1 && keyFields.Any())
             {
@@ -699,7 +704,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .CloseParen()
             .As("S")
             .OpenParen()
-            .FieldsFrom(fields, DbSetting);
+            .FieldsFrom(parameterFields, DbSetting);
 
         if (batchSize > 1 && keyFields.Any())
         {
@@ -763,7 +768,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         // End the builder
         builder.End(DbSetting);
 
-        if (insertingIdentity)
+        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")
