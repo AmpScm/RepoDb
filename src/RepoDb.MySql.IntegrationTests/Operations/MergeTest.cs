@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using RepoDb.MySql.IntegrationTests.Models;
 using RepoDb.MySql.IntegrationTests.Setup;
 using RepoDb.Trace;
@@ -211,7 +210,7 @@ public class MergeTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-        Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
+        Assert.AreEqual((long)((dynamic)table).Id, Convert.ToInt64(result));
         Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
@@ -253,7 +252,7 @@ public class MergeTest
 
         // Act
         var result = connection.Merge<long>(ClassMappedNameCache.Get<CompleteTable>(),
-            entity);
+            entity, trace: new DiagnosticsTracer());
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());

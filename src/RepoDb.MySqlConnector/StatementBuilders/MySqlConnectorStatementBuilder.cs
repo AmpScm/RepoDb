@@ -1,6 +1,7 @@
 ﻿#if MYSQLPLAIN
 using MySql.Data.MySqlClient;
 #else
+using System.Reflection;
 using MySqlConnector;
 #endif
 using RepoDb.Exceptions;
@@ -530,13 +531,14 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             .ParametersFrom(insertableFields, 0, DbSetting)
             .CloseParen();
 
+        var identityField = keyFields.FirstOrDefault(x => x.IsIdentity);
         if (updatableFields.Count > 0)
         {
             builder
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, 0, keyFields.FirstOrDefault(x => x.IsIdentity));
+            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, 0, identityField);
         }
         builder
             .End();
@@ -554,10 +556,15 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 else
                     builder.Comma();
 
-                if (kf.IsIdentity && !insertingIdentity)
+                if (kf.IsIdentity)
                 {
+                    if (insertingIdentity)
+                        builder.Case().When().WriteText(identityField!.FieldName.AsParameter(DbSetting)).WriteText("IS NULL").Then();
+
                     builder
                         .WriteText("LAST_INSERT_ID()");
+                    if (insertingIdentity)
+                        builder.Else().WriteText(identityField!.FieldName.AsParameter(DbSetting)).WriteText("END");
                 }
                 else
                 {
@@ -567,6 +574,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
 
                 builder.As(kf.FieldName, DbSetting);
             }
+
             builder
                 .End(DbSetting);
         }
@@ -637,6 +645,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
             insertableFields = fields.Where(f => keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true }).AsFieldSet();
         }
 
+        var identityField = keyFields.FirstOrDefault(x => x.IsIdentity);
         // Iterate the indexes
         for (var index = 0; index < batchSize; index++)
         {
@@ -655,7 +664,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                 .WriteText("ON DUPLICATE KEY")
                 .Update();
 
-            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, index, keyFields.FirstOrDefault(x => x.IsIdentity));
+            IdentityFieldsAndParametersFrom(builder, fields, updatableFields, index, identityField);
 
             builder
                 .End(DbSetting);
@@ -673,10 +682,15 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                     else
                         builder.Comma();
 
-                    if (kf.IsIdentity && !insertingIdentity)
+                    if (kf.IsIdentity)
                     {
+                        if (insertingIdentity)
+                            builder.Case().When().WriteText(identityField!.FieldName.AsParameter(index, DbSetting)).WriteText("IS NULL").Then();
+
                         builder
                             .WriteText("LAST_INSERT_ID()");
+                        if (insertingIdentity)
+                            builder.Else().WriteText(identityField!.FieldName.AsParameter(index, DbSetting)).WriteText("END");
                     }
                     else
                     {
@@ -684,6 +698,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
                     }
                     builder.As(kf.FieldName, DbSetting);
                 }
+
                 builder.End();
             }
         }

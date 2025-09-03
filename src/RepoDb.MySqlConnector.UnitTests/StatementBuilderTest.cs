@@ -595,7 +595,7 @@ public class StatementBuilderTest
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false),
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false));
         var expected = "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY " +
-            "UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name, `Address` = @Address; SELECT LAST_INSERT_ID() AS `Id`;";
+            "UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name, `Address` = @Address; SELECT CASE WHEN @Id IS NULL THEN LAST_INSERT_ID() ELSE @Id END AS `Id`;";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -706,9 +706,9 @@ public class StatementBuilderTest
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false),
             new DbField("Id", true, true, false, typeof(int), null, null, null, null, false));
         var expected =
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name, `Address` = @Address; SELECT LAST_INSERT_ID() AS `Id`; " +
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_1, @Name_1, @Address_1) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name_1, `Address` = @Address_1; SELECT LAST_INSERT_ID() AS `Id`; " +
-            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_2, @Name_2, @Address_2) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name_2, `Address` = @Address_2; SELECT LAST_INSERT_ID() AS `Id`;";
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id, @Name, @Address) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name, `Address` = @Address; SELECT CASE WHEN @Id IS NULL THEN LAST_INSERT_ID() ELSE @Id END AS `Id`; " +
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_1, @Name_1, @Address_1) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name_1, `Address` = @Address_1; SELECT CASE WHEN @Id_1 IS NULL THEN LAST_INSERT_ID() ELSE @Id_1 END AS `Id`; " +
+            "INSERT INTO `Table` (`Id`, `Name`, `Address`) VALUES (@Id_2, @Name_2, @Address_2) ON DUPLICATE KEY UPDATE `Id` = LAST_INSERT_ID( `Id`), `Name` = @Name_2, `Address` = @Address_2; SELECT CASE WHEN @Id_2 IS NULL THEN LAST_INSERT_ID() ELSE @Id_2 END AS `Id`;";
 
         // Assert
         Assert.AreEqual(expected, query);

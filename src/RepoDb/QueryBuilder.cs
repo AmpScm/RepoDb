@@ -998,6 +998,12 @@ public sealed class QueryBuilder
     public QueryBuilder Then() => Append("THEN");
 
     /// <summary>
+    /// Appends a word ELSE to the SQL Query Statement.
+    /// </summary>
+    /// <returns></returns>
+    public QueryBuilder Else() => Append("ELSE");
+
+    /// <summary>
     /// Appends a word CASE to the SQL Query Statement.
     /// </summary>
     /// <returns>The current instance.</returns>
