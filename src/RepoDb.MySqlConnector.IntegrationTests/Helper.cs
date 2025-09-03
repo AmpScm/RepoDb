@@ -159,6 +159,7 @@ public static class Helper
         {
             tables.Add(new CompleteTable
             {
+                Id = (i + 1),
                 ColumnVarchar = $"ColumnVarChar:{i}",
                 ColumnInt = i,
                 ColumnDecimal2 = Convert.ToDecimal(i),

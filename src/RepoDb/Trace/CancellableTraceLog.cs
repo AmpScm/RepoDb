@@ -129,6 +129,10 @@ public class CancellableTraceLog : TraceLog
         {
             return $"\"{value}\"";
         }
+        else if (value.GetType() is { IsArray: true } arrayType)
+        {
+            return $"{arrayType.GetElementType()}[{((Array)value).Length}]";
+        }
         else
             return value.ToString();
     }
