@@ -339,6 +339,47 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             trace: new DiagnosticsTracer());
     }
 
+    private record NullIdentityTest
+    {
+        public long? ID { get; set; } // NULL identity, while database has NOT NULL
+        public string Key { get; set; }
+        public string? Value { get; set; }
+    }
+
+    [TestMethod]
+    public async Task InsertMergeNullTest()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        if (sql.GetType().Name.Contains("Oracle"))
+            return;
+
+        if (!await sql.SchemaObjectExistsAsync<NullIdentityTest>())
+        {
+            await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(NullIdentityTest)}] (
+                        [ID] {IdentityDefinition} {(IdentityDefinition.Contains("PRIMARY") ? "" : " PRIMARY KEY")},
+                        [Key] {VarCharName}(128) NOT NULL,
+                        [Value] {VarCharName}(128) NULL
+            )");
+
+            await PerformCreateTableAsync(sql, $@"CREATE UNIQUE INDEX [IX_{nameof(NullIdentityTest)}] ON [{nameof(NullIdentityTest)}] ([Key]);");
+        }
+        else
+        {
+            await sql.TruncateAsync<NullIdentityTest>();
+        }
+
+
+        var r = new NullIdentityTest() { ID = 77, Key = "k1", Value = null };
+        var v1 = await sql.InsertAsync<NullIdentityTest, int>(r);
+        Assert.AreEqual(1, v1);
+        var v2 = await sql.MergeAsync<NullIdentityTest, int>(r);
+        Assert.AreEqual(1, v2);
+
+        var v3 = await sql.MergeAsync<NullIdentityTest, int>(new() { ID = null, Key = "k1", Value = null }, qualifiers: Field.Parse<NullIdentityTest>(x => x.Key));
+        Assert.AreEqual(1, v2);
+    }
+
     [TestMethod]
     public void TestReadTuple()
     {
