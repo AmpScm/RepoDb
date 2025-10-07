@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb;
@@ -93,22 +94,8 @@ public static partial class DbConnectionExtension
             // A hacky solution for other operations (i.e.: QueryMultiple)
             var traceResult = beforeExecutionCallback?.Invoke(command);
 
-            // Before Execution
-            traceResult ??= Tracer
-                .InvokeBeforeExecution(traceKey, trace, command);
-
-            // Silent cancellation
-            if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-            {
-                return null!;
-            }
-
             // Execute
-            var reader = command.ExecuteReader();
-
-            // After Execution
-            Tracer
-                .InvokeAfterExecution(traceResult, trace, reader);
+            var reader = command.ExecuteReaderInternal(trace, traceKey);
 
             // Set the output parameters
             SetOutputParameters(param);
@@ -231,22 +218,8 @@ public static partial class DbConnectionExtension
                 traceResult = await beforeExecutionCallbackAsync(command, cancellationToken).ConfigureAwait(false);
             }
 
-            // Before Execution
-            traceResult ??= await Tracer
-                .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-            // Silent cancellation
-            if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-            {
-                return null!;
-            }
-
             // Execute
-            var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
-
-            // After Execution
-            await Tracer
-                .InvokeAfterExecutionAsync(traceResult, trace, reader, cancellationToken).ConfigureAwait(false);
+            var reader = await command.ExecuteReaderInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
 
             // Set the output parameters
             SetOutputParameters(param);

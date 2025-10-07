@@ -2156,17 +2156,7 @@ public static partial class DbConnectionExtension
             // Set the values
             context.ParametersSetterFunc(command, entity);
 
-            // Before Execution
-            var traceResult = Tracer
-                .InvokeBeforeExecution(traceKey, trace, command);
-
-            // Silent cancellation
-            if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-            {
-                return result;
-            }
-
-            using var reader = command.ExecuteReader();
+            using var reader = command.ExecuteReaderInternal(trace, traceKey);
 
             if (reader.Read())
             {
@@ -2177,10 +2167,6 @@ public static partial class DbConnectionExtension
             {
                 result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
             }
-
-            // After Execution
-            Tracer
-                .InvokeAfterExecution(traceResult, trace, result);
 
             // Set the return value
             if (result != null)
@@ -2258,21 +2244,11 @@ public static partial class DbConnectionExtension
             // Set the values
             context.ParametersSetterFunc(command, entity);
 
-            // Before Execution
-            var traceResult = await Tracer
-                .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-            // Silent cancellation
-            if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-            {
-                return result;
-            }
-
             // Actual Execution
 #if NET
             await
 #endif
-            using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+            using var reader = await command.ExecuteReaderInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
 
             if (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
             {
@@ -2283,10 +2259,6 @@ public static partial class DbConnectionExtension
             {
                 result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
             }
-
-            // After Execution
-            await Tracer
-                .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
 
             // Set the return value
             if (result != null)

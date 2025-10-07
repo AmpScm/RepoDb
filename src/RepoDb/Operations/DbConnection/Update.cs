@@ -1825,22 +1825,8 @@ public static partial class DbConnectionExtension
             WhereToCommandParameters(command, where, entity.GetType(),
                 DbFieldCache.Get(connection, tableName, transaction));
 
-            // Before Execution
-            var traceResult = Tracer
-                .InvokeBeforeExecution(traceKey, trace, command);
-
-            // Silent cancellation
-            if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-            {
-                return result;
-            }
-
             // Actual Execution
-            result = command.ExecuteNonQuery();
-
-            // After Execution
-            Tracer
-                .InvokeAfterExecution(traceResult, trace, result);
+            result = command.ExecuteNonQueryInternal(trace, traceKey);
         }
 
         // Return the result
@@ -1909,22 +1895,8 @@ public static partial class DbConnectionExtension
             WhereToCommandParameters(command, where, entity.GetType(),
                 await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false));
 
-            // Before Execution
-            var traceResult = await Tracer
-                .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-            // Silent cancellation
-            if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-            {
-                return result;
-            }
-
             // Actual Execution
-            result = await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-
-            // After Execution
-            await Tracer
-                .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
+            result = await command.ExecuteNonQueryInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
         }
 
         // Return the result

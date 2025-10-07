@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb;
@@ -223,22 +224,8 @@ public static partial class DbConnectionExtension
             dbFields: dbFields,
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck);
 
-        // Before Execution
-        var traceResult = Tracer
-            .InvokeBeforeExecution(traceKey, trace, command);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return default;
-        }
-
         // Execute
-        var result = Converter.ToType<TResult>(command.ExecuteScalar());
-
-        // After Execution
-        Tracer
-            .InvokeAfterExecution(traceResult, trace, result);
+        var result = Converter.ToType<TResult>(command.ExecuteScalarInternal(trace, traceKey));
 
         // Set Cache
         if (cache != null && cacheKey != null)
@@ -372,22 +359,8 @@ public static partial class DbConnectionExtension
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        // Before Execution
-        var traceResult = await Tracer
-            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return default;
-        }
-
         // Execution
-        var result = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false) is { } v ? Converter.ToType<TResult>(v) : default;
-
-        // After Execution
-        await Tracer
-            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
+        var result = await command.ExecuteScalarInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false) is { } v ? Converter.ToType<TResult>(v) : default;
 
         // Set Cache
         if (cache != null && cacheKey != null)

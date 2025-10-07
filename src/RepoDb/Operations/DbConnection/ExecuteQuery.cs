@@ -123,24 +123,10 @@ public static partial class DbConnectionExtension
         // Variables
         IEnumerable<dynamic>? result = null;
 
-        // Before Execution
-        var traceResult = Tracer
-            .InvokeBeforeExecution(traceKey, trace, command);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return result!;
-        }
-
         // Execute
-        using (var reader = command.ExecuteReader())
+        using (var reader = command.ExecuteReaderInternal(trace, traceKey))
         {
             result = DataReader.ToEnumerable(reader, dbFields).AsList();
-
-            // After Execution
-            Tracer
-                .InvokeAfterExecution(traceResult, trace, result);
 
             // Set Cache
             if (cache != null && cacheKey != null)
@@ -279,28 +265,14 @@ public static partial class DbConnectionExtension
         // Variables
         IEnumerable<dynamic>? result = null;
 
-        // Before Execution
-        var traceResult = await Tracer
-            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return result!;
-        }
-
         // Execute
 #if NET
         await
 #endif
-        using (var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false))
+        using (var reader = await command.ExecuteReaderInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false))
         {
             result = await DataReader.ToEnumerableAsync(reader, dbFields, cancellationToken)
                 .ToListAsync(cancellationToken).ConfigureAwait(false);
-
-            // After Execution
-            await Tracer
-                .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
 
             // Set Cache
             if (cache != null && cacheKey != null)
@@ -582,24 +554,10 @@ public static partial class DbConnectionExtension
         // Variables
         IEnumerable<TResult>? result = null;
 
-        // Before Execution
-        var traceResult = Tracer
-            .InvokeBeforeExecution(traceKey, trace, command);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return null!;
-        }
-
         // Execute
-        using (var reader = command.ExecuteReader())
+        using (var reader = command.ExecuteReaderInternal(trace, traceKey))
         {
             result = DataReader.ToEnumerable<TResult>(reader, dbFields).AsList();
-
-            // After Execution
-            Tracer
-                .InvokeAfterExecution(traceResult, trace, result);
 
             // Set Cache
             if (cache != null && cacheKey != null)
@@ -896,28 +854,14 @@ public static partial class DbConnectionExtension
 
         IEnumerable<TResult>? result = null;
 
-        // Before Execution
-        var traceResult = await Tracer
-            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return result!;
-        }
-
         // Execute
 #if NET
         await
 #endif
-        using (var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false))
+        using (var reader = await command.ExecuteReaderInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false))
         {
             result = await DataReader.ToEnumerableAsync<TResult>(reader, dbFields, cancellationToken)
                 .ToListAsync(cancellationToken).ConfigureAwait(false);
-
-            // After Execution
-            await Tracer
-                .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
 
             // Set Cache
             if (cache != null && cacheKey != null)

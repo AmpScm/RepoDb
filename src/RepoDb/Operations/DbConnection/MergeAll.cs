@@ -1365,31 +1365,13 @@ public static partial class DbConnectionExtension
                     // Actual Execution
                     if (context.KeyPropertySetterFunc == null)
                     {
-                        // Before Execution
-                        var traceResult = Tracer
-                            .InvokeBeforeExecution(traceKey, trace, command);
-
-                        // Silent cancellation
-                        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-                        {
-                            return result;
-                        }
-
                         // No identity setters
-                        result += command.ExecuteNonQuery();
-
-                        // After Execution
-                        Tracer
-                            .InvokeAfterExecution(traceResult, trace, result);
+                        result += command.ExecuteNonQueryInternal(trace, traceKey);
                     }
                     else
                     {
-                        // Before Execution
-                        var traceResult = Tracer
-                            .InvokeBeforeExecution(traceKey, trace, command);
-
                         // Set the identity back
-                        using var reader = command.ExecuteReader();
+                        using var reader = command.ExecuteReaderInternal(trace, traceKey);
 
                         // Get the results
                         var position = 0;
@@ -1411,10 +1393,6 @@ public static partial class DbConnectionExtension
                         while (position < batchItems.Length && reader.NextResult());
 
                         result += batchItems.Length;
-
-                        // After Execution
-                        Tracer
-                            .InvokeAfterExecution(traceResult, trace, result);
                     }
                 }
             }
@@ -1520,22 +1498,8 @@ public static partial class DbConnectionExtension
                         await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
                     }
 
-                    // Before Execution
-                    var traceResult = await Tracer
-                        .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-                    // Silent cancellation
-                    if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-                    {
-                        return result;
-                    }
-
                     // Actual Execution
-                    var returnValue = Converter.DbNullToNull(await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false));
-
-                    // After Execution
-                    await Tracer
-                        .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
+                    var returnValue = Converter.DbNullToNull(await command.ExecuteScalarInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false));
 
                     // Set the return value
                     if (returnValue != null)
@@ -1596,34 +1560,16 @@ public static partial class DbConnectionExtension
                     // Actual Execution
                     if (context.KeyPropertySetterFunc == null)
                     {
-                        // Before Execution
-                        var traceResult = await Tracer
-                            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-                        // Silent cancellation
-                        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-                        {
-                            return result;
-                        }
-
                         // No identity setters
-                        result += await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-
-                        // After Execution
-                        await Tracer
-                            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
+                        result += await command.ExecuteNonQueryInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
                     }
                     else
                     {
-                        // Before Execution
-                        var traceResult = await Tracer
-                            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
                         // Set the identity back
 #if NET
                         await
 #endif
-                        using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+                        using var reader = await command.ExecuteReaderInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
 
                         // Get the results.
                         var position = 0;
@@ -1644,10 +1590,6 @@ public static partial class DbConnectionExtension
                         while (position < batchItems.Length && await reader.NextResultAsync(cancellationToken).ConfigureAwait(false));
 
                         result += batchItems.Length;
-
-                        // After Execution
-                        await Tracer
-                            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
                     }
                 }
             }

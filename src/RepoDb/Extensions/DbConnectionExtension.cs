@@ -220,22 +220,8 @@ public static partial class DbConnectionExtension
             dbFields: dbFields,
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck);
 
-        // Before Execution
-        var traceResult = Tracer
-            .InvokeBeforeExecution(traceKey, trace, command);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return default;
-        }
-
         // Execution
-        var result = command.ExecuteNonQuery();
-
-        // After Execution
-        Tracer
-            .InvokeAfterExecution(traceResult, trace, result);
+        var result = command.ExecuteNonQueryInternal(trace, traceKey);
 
         // Set the output parameters
         SetOutputParameters(param);
@@ -332,22 +318,8 @@ public static partial class DbConnectionExtension
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        // Before Execution
-        var traceResult = await Tracer
-            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-        // Silent cancellation
-        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-        {
-            return default;
-        }
-
         // Execution
-        var result = await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-
-        // After Execution
-        await Tracer
-            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
+        var result = await command.ExecuteNonQueryInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
 
         // Set the output parameters
         SetOutputParameters(param);

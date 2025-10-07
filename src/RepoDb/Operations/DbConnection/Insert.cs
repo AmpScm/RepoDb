@@ -2,6 +2,7 @@
 using System.Data.Common;
 using RepoDb.Contexts.Providers;
 using RepoDb.DbSettings;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb;
@@ -685,7 +686,7 @@ public static partial class DbConnectionExtension
             var fetch = ((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command);
             if (fetch is not { })
             {
-                using var rdr = command.ExecuteReader();
+                using var rdr = command.ExecuteReaderInternal(trace, traceKey);
 
                 if (rdr.Read())
                 {
@@ -694,6 +695,8 @@ public static partial class DbConnectionExtension
             }
             else
             {
+                command.ExecuteNonQueryInternal(trace, traceKey);
+
                 result = Converter.ToType<TResult>(fetch?.Invoke())!;
             }
 
@@ -768,23 +771,13 @@ public static partial class DbConnectionExtension
             // Set the values
             context.ParametersSetterFunc(command, entity);
 
-            // Before Execution
-            var traceResult = await Tracer
-                .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-            // Silent cancellation
-            if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-            {
-                return result;
-            }
-
             // Actual Execution
 
             var fetch = ((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command);
 
             if (fetch is { })
             {
-                await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+                await command.ExecuteNonQueryInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
 
                 result = Converter.ToType<TResult>(fetch())!;
             }
@@ -793,17 +786,13 @@ public static partial class DbConnectionExtension
 #if NET
                 await
 #endif
-                using var rdr = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+                using var rdr = await command.ExecuteReaderInternalAsync(trace, traceKey, cancellationToken).ConfigureAwait(false);
 
                 if (await rdr.ReadAsync(cancellationToken).ConfigureAwait(false))
                 {
                     result = Converter.ToType<TResult>(rdr.GetValue(0))!;
                 }
             }
-
-            // After Execution
-            await Tracer
-                .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
 
             // Set the return value
             if (result != null)
