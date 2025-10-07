@@ -1016,11 +1016,11 @@ public static class DbCommandExtension
         return result;
     }
 
-    internal static async Task<int> ExecuteNonQueryInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
+    internal static async ValueTask<int> ExecuteNonQueryInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
     {
         // Before Execution
-        var traceResult = Tracer
-            .InvokeBeforeExecution(traceKey, trace, command);
+        var traceResult = await Tracer
+            .InvokeBeforeExecutionAsync(traceKey, trace, command);
 
         // Silent cancellation
         if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -1031,8 +1031,8 @@ public static class DbCommandExtension
         var result = await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 
         // After Execution
-        Tracer
-            .InvokeAfterExecution(traceResult, trace, result);
+        await Tracer
+            .InvokeAfterExecutionAsync(traceResult, trace, result);
 
         return result;
     }
@@ -1054,11 +1054,11 @@ public static class DbCommandExtension
         return result;
     }
 
-    internal static async Task<object?> ExecuteScalarInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
+    internal static async ValueTask<object?> ExecuteScalarInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
     {
         // Before Execution
-        var traceResult = Tracer
-            .InvokeBeforeExecution(traceKey, trace, command);
+        var traceResult = await Tracer
+            .InvokeBeforeExecutionAsync(traceKey, trace, command);
         // Silent cancellation
         if (traceResult?.CancellableTraceLog?.IsCancelled == true)
         {
@@ -1066,8 +1066,8 @@ public static class DbCommandExtension
         }
         var result = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
         // After Execution
-        Tracer
-            .InvokeAfterExecution(traceResult, trace, result);
+        await Tracer
+            .InvokeAfterExecutionAsync(traceResult, trace, result);
 
         return result;
     }
@@ -1089,11 +1089,11 @@ public static class DbCommandExtension
         return result;
     }
 
-    internal static async Task<DbDataReader> ExecuteReaderInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
+    internal static async ValueTask<DbDataReader> ExecuteReaderInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
     {
         // Before Execution
-        var traceResult = Tracer
-            .InvokeBeforeExecution(traceKey, trace, command);
+        var traceResult = await Tracer
+            .InvokeBeforeExecutionAsync(traceKey, trace, command);
         // Silent cancellation
         if (traceResult?.CancellableTraceLog?.IsCancelled == true)
         {
@@ -1102,8 +1102,8 @@ public static class DbCommandExtension
         var result = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
         // After Execution
-        Tracer
-            .InvokeAfterExecution(traceResult, trace, result);
+        await Tracer
+            .InvokeAfterExecutionAsync(traceResult, trace, result);
         return result;
     }
 
