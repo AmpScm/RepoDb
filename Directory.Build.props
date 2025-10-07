@@ -26,6 +26,9 @@
     <TestTargetFrameworks>net9.0;net8.0;net48</TestTargetFrameworks>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(MSBuildProjectName)' != '' and $(MSBuildProjectName.Contains('Test')) ">
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
   <PropertyGroup>
     <!-- Reduce tests while running inside VS -->
     <TestTargetFrameworks Condition="'$(VisualStudioVersion)' != '' and '$(BuildingInsideVisualStudio)' == 'true'">net9.0</TestTargetFrameworks>
