@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
@@ -913,7 +914,12 @@ public static class DbCommandExtension
         }
         if (fromType == StaticType.String && targetType == StaticType.Guid)
         {
-            return AutomaticConvertStringToGuid(value);
+            if (value is string { } str
+                && Guid.TryParse(str, out var result))
+            {
+                return result;
+            }
+            return Guid.Empty;
         }
         else if (fromType == StaticType.Guid && targetType == StaticType.String)
         {
@@ -988,6 +994,119 @@ public static class DbCommandExtension
         return value;
     }
 
+
+    internal static int ExecuteNonQueryInternal(this DbCommand command, ITrace? trace, string? traceKey)
+    {
+        // Before Execution
+        var traceResult = Tracer
+            .InvokeBeforeExecution(traceKey, trace, command);
+
+        // Silent cancellation
+        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+        {
+            return default;
+        }
+
+        var result = command.ExecuteNonQuery();
+
+        // After Execution
+        Tracer
+            .InvokeAfterExecution(traceResult, trace, result);
+
+        return result;
+    }
+
+    internal static async ValueTask<int> ExecuteNonQueryInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
+    {
+        // Before Execution
+        var traceResult = await Tracer
+            .InvokeBeforeExecutionAsync(traceKey, trace, command);
+
+        // Silent cancellation
+        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+        {
+            return default;
+        }
+
+        var result = await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+
+        // After Execution
+        await Tracer
+            .InvokeAfterExecutionAsync(traceResult, trace, result);
+
+        return result;
+    }
+
+    internal static object? ExecuteScalarInternal(this DbCommand command, ITrace? trace, string? traceKey)
+    {
+        // Before Execution
+        var traceResult = Tracer
+            .InvokeBeforeExecution(traceKey, trace, command);
+        // Silent cancellation
+        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+        {
+            return default;
+        }
+        var result = command.ExecuteScalar();
+        // After Execution
+        Tracer
+            .InvokeAfterExecution(traceResult, trace, result);
+        return result;
+    }
+
+    internal static async ValueTask<object?> ExecuteScalarInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
+    {
+        // Before Execution
+        var traceResult = await Tracer
+            .InvokeBeforeExecutionAsync(traceKey, trace, command);
+        // Silent cancellation
+        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+        {
+            return default;
+        }
+        var result = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+        // After Execution
+        await Tracer
+            .InvokeAfterExecutionAsync(traceResult, trace, result);
+
+        return result;
+    }
+
+    internal static DbDataReader ExecuteReaderInternal(this DbCommand command, ITrace? trace, string? traceKey)
+    {
+        // Before Execution
+        var traceResult = Tracer
+            .InvokeBeforeExecution(traceKey, trace, command);
+        // Silent cancellation
+        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+        {
+            return new EmptyReader();
+        }
+        var result = command.ExecuteReader();
+        // After Execution
+        Tracer
+            .InvokeAfterExecution(traceResult, trace, result);
+        return result;
+    }
+
+    internal static async ValueTask<DbDataReader> ExecuteReaderInternalAsync(this DbCommand command, ITrace? trace, string? traceKey, CancellationToken cancellationToken = default)
+    {
+        // Before Execution
+        var traceResult = await Tracer
+            .InvokeBeforeExecutionAsync(traceKey, trace, command);
+        // Silent cancellation
+        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+        {
+            return new EmptyReader();
+        }
+        var result = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+
+        // After Execution
+        await Tracer
+            .InvokeAfterExecutionAsync(traceResult, trace, result);
+        return result;
+    }
+
     /// <summary>
     ///
     /// </summary>
@@ -1001,4 +1120,142 @@ public static class DbCommandExtension
         value is DateOnly dateOnly ? dateOnly.ToDateTime(default(TimeOnly)) : null;
 #endif
     #endregion
+
+    private sealed class EmptyReader : DbDataReader
+    {
+        public override object this[int ordinal] => null!;
+
+        public override object this[string name] => null!;
+
+        public override int Depth => 0;
+
+        public override int FieldCount => 0;
+
+        public override bool HasRows => false;
+
+        public override bool IsClosed => true;
+
+        public override int RecordsAffected => 0;
+
+        public override bool GetBoolean(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override byte GetByte(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override long GetBytes(int ordinal, long dataOffset, byte[]? buffer, int bufferOffset, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override char GetChar(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override long GetChars(int ordinal, long dataOffset, char[]? buffer, int bufferOffset, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetDataTypeName(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override DateTime GetDateTime(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override decimal GetDecimal(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override double GetDouble(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        //[return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)]
+        public override Type GetFieldType(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override float GetFloat(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Guid GetGuid(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override short GetInt16(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetInt32(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override long GetInt64(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetName(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetOrdinal(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetString(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object GetValue(int ordinal)
+        {
+            return null!;
+        }
+
+        public override int GetValues(object[] values)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsDBNull(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool NextResult()
+        {
+            return false;
+        }
+
+        public override bool Read()
+        {
+            return false;
+        }
+    }
 }

@@ -68,7 +68,7 @@ internal sealed class InsertRequest : BaseRequest
     /// <param name="hints">The hints for the table.</param>
     /// <param name="statementBuilder">The statement builder.</param>
     public InsertRequest(Type? type,
-        string name,
+        string? name,
         IDbConnection connection,
         IDbTransaction? transaction,
         IEnumerable<Field> fields,
