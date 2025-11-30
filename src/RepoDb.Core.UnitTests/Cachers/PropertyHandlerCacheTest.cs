@@ -6,6 +6,7 @@ using RepoDb.Options;
 namespace RepoDb.UnitTests.Caches;
 
 [TestClass]
+[DoNotParallelize]
 public partial class PropertyHandlerCacheTest
 {
     [TestInitialize]

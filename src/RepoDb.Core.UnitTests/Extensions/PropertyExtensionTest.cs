@@ -6,6 +6,7 @@ using System.Data;
 namespace RepoDb.UnitTests.Extensions;
 
 [TestClass]
+[DoNotParallelize]
 public class PropertyExtensionTest
 {
     [TestCleanup]

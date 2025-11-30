@@ -5,6 +5,7 @@ using System.Data;
 namespace RepoDb.UnitTests.Caches;
 
 [TestClass]
+[DoNotParallelize]
 public partial class TypeMapCacheTest
 {
     [TestInitialize]

@@ -16,6 +16,7 @@ namespace RepoDb.UnitTests.Mappers;
  */
 
 [TestClass]
+[DoNotParallelize]
 public class MappingSequenceTest
 {
     private class PrivateDbConnection : CustomDbConnection { }

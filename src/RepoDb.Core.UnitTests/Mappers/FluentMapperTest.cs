@@ -7,6 +7,7 @@ using System.Data;
 namespace RepoDb.UnitTests.Mappers;
 
 [TestClass]
+[DoNotParallelize]
 public partial class FluentMapperTest
 {
     [TestInitialize()]

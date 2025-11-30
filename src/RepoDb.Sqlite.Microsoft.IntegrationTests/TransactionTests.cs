@@ -9,6 +9,7 @@ namespace RepoDb.Sqlite.Microsoft.IntegrationTests;
 
 #if NET
 [TestClass]
+[DoNotParallelize]
 public class TransactionTests
 {
     [TestInitialize]

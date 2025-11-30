@@ -4,6 +4,7 @@ using RepoDb.Attributes;
 namespace RepoDb.UnitTests.Caches;
 
 [TestClass]
+[DoNotParallelize]
 public partial class ClassMappedNameCacheTest
 {
     [TestInitialize]

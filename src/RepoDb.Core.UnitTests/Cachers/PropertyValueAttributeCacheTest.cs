@@ -5,6 +5,7 @@ using System.Data;
 namespace RepoDb.UnitTests.Cachers;
 
 [TestClass]
+[DoNotParallelize]
 public partial class PropertyValueAttributeCacheTest
 {
     [TestInitialize]

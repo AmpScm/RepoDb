@@ -10,6 +10,7 @@ using RepoDb.UnitTests.CustomObjects;
 namespace RepoDb.UnitTests.PropertyHandlers;
 
 [TestClass]
+[DoNotParallelize]
 public class PropertyHandlerInvocationTest
 {
     [TestInitialize]

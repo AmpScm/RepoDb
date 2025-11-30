@@ -6,6 +6,7 @@ using RepoDb.UnitTests.CustomObjects;
 namespace RepoDb.UnitTests.Attributes;
 
 [TestClass]
+[DoNotParallelize]
 public class ColumnAttributeTest
 {
     [TestInitialize]

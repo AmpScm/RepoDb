@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 namespace RepoDb.UnitTests.PropertyHandlers;
 
 [TestClass]
+[DoNotParallelize]
 public class PropertyHandlerPrecedenceTest
 {
     [TestInitialize]

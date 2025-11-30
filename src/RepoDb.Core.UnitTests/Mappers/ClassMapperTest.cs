@@ -5,6 +5,7 @@ using RepoDb.Exceptions;
 namespace RepoDb.UnitTests.Mappers;
 
 [TestClass]
+[DoNotParallelize]
 public partial class ClassMapperTest
 {
     [TestInitialize]

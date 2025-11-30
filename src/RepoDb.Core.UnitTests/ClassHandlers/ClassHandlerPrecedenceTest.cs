@@ -10,6 +10,7 @@ using RepoDb.UnitTests.CustomObjects;
 namespace RepoDb.UnitTests.ClassHandlers;
 
 [TestClass]
+[DoNotParallelize]
 public class ClassHandlerPrecedenceTest
 {
     [TestInitialize]

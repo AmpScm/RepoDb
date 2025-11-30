@@ -9,6 +9,7 @@ using System.Data.Common;
 namespace RepoDb.UnitTests.ClassHandlers;
 
 [TestClass]
+[DoNotParallelize]
 public class ClassHandlerInvocationTest
 {
     [TestInitialize]

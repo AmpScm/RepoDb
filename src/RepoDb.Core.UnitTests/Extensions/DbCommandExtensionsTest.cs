@@ -6,6 +6,7 @@ using RepoDb.UnitTests.CustomObjects;
 namespace RepoDb.UnitTests.Extensions;
 
 [TestClass]
+[DoNotParallelize]
 public class DbCommandExtensionsTest
 {
     [TestInitialize]

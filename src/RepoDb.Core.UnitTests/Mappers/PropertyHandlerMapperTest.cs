@@ -7,6 +7,7 @@ using RepoDb.Options;
 namespace RepoDb.UnitTests.Mappers;
 
 [TestClass]
+[DoNotParallelize]
 public partial class PropertyHandlerMapperTest
 {
     [TestInitialize]

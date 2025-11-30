@@ -4,6 +4,7 @@ using RepoDb.UnitTests.CustomObjects;
 namespace RepoDb.UnitTests.Mappers;
 
 [TestClass]
+[DoNotParallelize]
 public partial class StatementBuilderMapperTest
 {
     [TestInitialize]

@@ -9,6 +9,7 @@ using RepoDb.UnitTests.CustomObjects;
 namespace RepoDb.UnitTests.DbHelpers;
 
 [TestClass]
+[DoNotParallelize]
 public class DbHelperTest
 {
     [TestInitialize]

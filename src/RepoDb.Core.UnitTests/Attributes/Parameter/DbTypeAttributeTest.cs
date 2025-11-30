@@ -7,6 +7,7 @@ using RepoDb.UnitTests.CustomObjects;
 namespace RepoDb.UnitTests.Attributes.Parameter;
 
 [TestClass]
+[DoNotParallelize]
 public class DbTypeAttributeTest
 {
     [TestInitialize]
