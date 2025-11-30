@@ -22,7 +22,7 @@ jobs:
             MYSQL_ROOT_PASSWORD: ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2
 
         oracle:
-           image: gvenzl/oracle-free:23-faststart
+           image: gvenzl/oracle-free:23-slim-faststart
            ports:
             - 127.0.0.1:41521:1521
             - 127.0.0.1:45500:5500
@@ -31,7 +31,7 @@ jobs:
              ORACLE_ALLOW_REMOTE: "true"
 
         postgresql:
-          image: postgres:latest
+          image: postgres:17-alpine
           ports:
             - 127.0.0.1:45432:5432
           env:
@@ -47,22 +47,30 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
-      - name: Setup .NET Versions
-        uses: actions/setup-dotnet@v4
+      - name: Setup DotNet Versions
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             8.0.x
             9.0.x
             10.0.x
-          dotnet-quality: preview
 
       - name: build
         run: dotnet build -c Release
-        
-      - name: test for .Net 8.0
-        run: dotnet test -c Release -f net8.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
+
+        # Workaround for DotNet 10.0 SDK issue. Use response file to run tests
+      - name: Create dotnet test response file
+        run: |
+          echo "-c Release" > test.rsp
+          echo "-f net10.0" >> test.rsp
+          echo "--no-build" >> test.rsp
+          echo "-p:TestingPlatformShowTestsFailure=true" >> test.rsp
+          echo "-p:TestingPlatformCaptureOutput=false" >> test.rsp
+
+      - name: Run tests for DotNet 10.0
+        run: dotnet test @test.rsp
 
       - name: Pack packages
         run: dotnet pack -c Release -p Version="1.15.0-dev-${{ github.run_number }}" -p PackagePrefix=AmpScm. -o release
