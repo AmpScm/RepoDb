@@ -22,7 +22,7 @@ jobs:
             MYSQL_ROOT_PASSWORD: ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2
 
         oracle:
-           image: gvenzl/oracle-free:23-faststart
+           image: gvenzl/oracle-free:23-slim-faststart
            ports:
             - 127.0.0.1:41521:1521
             - 127.0.0.1:45500:5500
@@ -31,7 +31,7 @@ jobs:
              ORACLE_ALLOW_REMOTE: "true"
 
         postgresql:
-          image: postgres:latest
+          image: postgres:17-alpine
           ports:
             - 127.0.0.1:45432:5432
           env:
@@ -47,22 +47,21 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
-      - name: Setup .NET Versions
-        uses: actions/setup-dotnet@v4
+      - name: Setup DotNet Versions
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             8.0.x
             9.0.x
             10.0.x
-          dotnet-quality: preview
 
       - name: build
         run: dotnet build -c Release
         
-      - name: test for .Net 8.0
-        run: dotnet test -c Release -f net8.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
+      - name: Run tests for .Net 9.0
+        run: dotnet test -c Release -f net9.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
 
       - name: Set version variables
         id: version
