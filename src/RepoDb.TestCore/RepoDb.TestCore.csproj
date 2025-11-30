@@ -1,16 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="MSTest.Sdk/4.0.2">
   <PropertyGroup>
     <TargetFrameworks>$(TestTargetFrameworks)</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MSTest.TestFramework" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
   </ItemGroup>
