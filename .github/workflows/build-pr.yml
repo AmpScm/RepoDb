@@ -63,7 +63,6 @@ jobs:
         # Workaround for DotNet 10.0 SDK issue. Use response file to run tests
       - name: Create dotnet test response file
         run: |
-          echo "-f net10.0" >> test.rsp
           echo "--no-build" >> test.rsp
           echo "-p:TestingPlatformShowTestsFailure=true" >> test.rsp
           echo "-p:TestingPlatformCaptureOutput=false" >> test.rsp
