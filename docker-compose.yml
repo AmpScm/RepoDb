@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2
 
   oracle:
-    image: gvenzl/oracle-free:23-faststart
+    image: gvenzl/oracle-free:23-slim-faststart
     ports:
       - 127.0.0.1:41521:1521
       - 127.0.0.1:45500:5500
@@ -18,7 +18,7 @@ services:
     shm_size: '1gb'
 
   postgresql:
-    image: postgres:latest
+    image: postgres:17-alpine
     ports:
       - 127.0.0.1:45432:5432
     environment:
