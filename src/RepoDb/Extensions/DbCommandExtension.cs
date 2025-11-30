@@ -1020,7 +1020,7 @@ public static class DbCommandExtension
     {
         // Before Execution
         var traceResult = await Tracer
-            .InvokeBeforeExecutionAsync(traceKey, trace, command);
+            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken);
 
         // Silent cancellation
         if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -1032,7 +1032,7 @@ public static class DbCommandExtension
 
         // After Execution
         await Tracer
-            .InvokeAfterExecutionAsync(traceResult, trace, result);
+            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken);
 
         return result;
     }
@@ -1058,7 +1058,7 @@ public static class DbCommandExtension
     {
         // Before Execution
         var traceResult = await Tracer
-            .InvokeBeforeExecutionAsync(traceKey, trace, command);
+            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken);
         // Silent cancellation
         if (traceResult?.CancellableTraceLog?.IsCancelled == true)
         {
@@ -1067,7 +1067,7 @@ public static class DbCommandExtension
         var result = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
         // After Execution
         await Tracer
-            .InvokeAfterExecutionAsync(traceResult, trace, result);
+            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken);
 
         return result;
     }
@@ -1093,7 +1093,7 @@ public static class DbCommandExtension
     {
         // Before Execution
         var traceResult = await Tracer
-            .InvokeBeforeExecutionAsync(traceKey, trace, command);
+            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken);
         // Silent cancellation
         if (traceResult?.CancellableTraceLog?.IsCancelled == true)
         {
@@ -1103,7 +1103,7 @@ public static class DbCommandExtension
 
         // After Execution
         await Tracer
-            .InvokeAfterExecutionAsync(traceResult, trace, result);
+            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken);
         return result;
     }
 
