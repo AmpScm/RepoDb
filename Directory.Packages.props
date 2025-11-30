@@ -29,7 +29,7 @@
     <PackageVersion Include="MSTest.TestFramework" Version="3.10.4" />
     <PackageVersion Include="MySql.Data" Version="9.4.0" />
     <PackageVersion Include="MySqlConnector" Version="2.4.0" />
-    <PackageVersion Include="NHibernate" Version="5.5.3" />
+    <PackageVersion Include="NHibernate" Version="5.6.0" />
     <PackageVersion Include="Npgsql" Version="8.0.7" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     <PackageVersion Include="Oracle.ManagedDataAccess" Version="23.9.1" />
