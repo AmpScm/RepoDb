@@ -37,7 +37,7 @@ public class InheritedTest
         var deleteResult = connection.Delete<InheritedIdentityTable>(entity);
 
         // Assert
-        Assert.IsTrue(deleteResult > 0);
+        Assert.IsGreaterThan(0, deleteResult);
         Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 
@@ -55,7 +55,7 @@ public class InheritedTest
         var deleteResult = connection.Delete<InheritedIdentityTable>(entity.Id);
 
         // Assert
-        Assert.IsTrue(deleteResult > 0);
+        Assert.IsGreaterThan(0, deleteResult);
         Assert.AreEqual(0, connection.CountAll<InheritedIdentityTable>());
     }
 
@@ -115,7 +115,7 @@ public class InheritedTest
         var insertResult = connection.Insert<InheritedIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(insertResult > 0);
+        Assert.IsGreaterThan(0, insertResult);
         Assert.AreEqual(entity.Id, insertResult);
 
         // Act
@@ -167,7 +167,7 @@ public class InheritedTest
         var mergeResult = connection.Merge<InheritedIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(entity.Id, mergeResult);
 
         // Act
@@ -188,7 +188,7 @@ public class InheritedTest
         var insertResult = connection.Merge<InheritedIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(insertResult > 0);
+        Assert.IsGreaterThan(0, insertResult);
         Assert.AreEqual(entity.Id, insertResult);
         Assert.AreEqual(1, connection.CountAll<InheritedIdentityTable>());
 
@@ -200,7 +200,7 @@ public class InheritedTest
         var mergeResult = connection.Merge<InheritedIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(entity.Id, mergeResult);
 
         // Act
@@ -312,7 +312,7 @@ public class InheritedTest
         var updateResult = connection.Update<InheritedIdentityTable>(entity);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();
@@ -340,7 +340,7 @@ public class InheritedTest
         var updateResult = connection.Update<InheritedIdentityTable>(entity, entity.Id);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<InheritedIdentityTable>(entity.Id).FirstOrDefault();

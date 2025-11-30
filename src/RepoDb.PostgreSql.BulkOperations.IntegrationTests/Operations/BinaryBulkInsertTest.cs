@@ -170,7 +170,7 @@ public class BinaryBulkInsertTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(entities.Count, queryResult.Count);
+            Assert.HasCount(entities.Count, queryResult);
             foreach (var entity in entities)
             {
                 var target = queryResult.First(item => item.Id == entity.Id);
@@ -1407,7 +1407,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -1438,7 +1438,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -1594,7 +1594,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -1637,7 +1637,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -2158,7 +2158,7 @@ public class BinaryBulkInsertTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(entities.Count, queryResult.Count);
+            Assert.HasCount(entities.Count, queryResult);
             foreach (var entity in entities)
             {
                 var target = queryResult.First(item => item.Id == entity.Id);
@@ -3395,7 +3395,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -3426,7 +3426,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -3582,7 +3582,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -3625,7 +3625,7 @@ public class BinaryBulkInsertTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert

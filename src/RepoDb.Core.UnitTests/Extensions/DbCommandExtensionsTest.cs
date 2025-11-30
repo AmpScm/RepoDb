@@ -73,7 +73,7 @@ public class DbCommandExtensionsTest
                 cmd.CreateParameters(param);
 
                 // Assert
-                Assert.AreEqual(1, cmd.Parameters.Count);
+                Assert.HasCount(1, cmd.Parameters);
                 Assert.AreEqual("9963c864-ab4f-43f8-9dc9-43038565b971", cmd.Parameters[0].Value);
             }
         }
@@ -96,7 +96,7 @@ public class DbCommandExtensionsTest
                 cmd.CreateParameters(param);
 
                 // Assert
-                Assert.AreEqual(1, cmd.Parameters.Count);
+                Assert.HasCount(1, cmd.Parameters);
                 Assert.AreEqual("9963c864-ab4f-43f8-9dc9-43038565b971", cmd.Parameters[0].Value);
             }
         }
@@ -123,7 +123,7 @@ public class DbCommandExtensionsTest
                 cmd.CreateParameters(param);
 
                 // Assert
-                Assert.AreEqual(1, cmd.Parameters.Count);
+                Assert.HasCount(1, cmd.Parameters);
                 Assert.AreEqual("9963c864-ab4f-43f8-9dc9-43038565b971", cmd.Parameters[0].Value);
             }
         }
@@ -146,7 +146,7 @@ public class DbCommandExtensionsTest
                 cmd.CreateParameters(param);
 
                 // Assert
-                Assert.AreEqual(1, cmd.Parameters.Count);
+                Assert.HasCount(1, cmd.Parameters);
                 Assert.AreEqual("9963c864-ab4f-43f8-9dc9-43038565b971", cmd.Parameters[0].Value);
             }
         }
@@ -169,7 +169,7 @@ public class DbCommandExtensionsTest
                 cmd.CreateParameters(param);
 
                 // Assert
-                Assert.AreEqual(1, cmd.Parameters.Count);
+                Assert.HasCount(1, cmd.Parameters);
                 Assert.AreEqual("9963c864-ab4f-43f8-9dc9-43038565b971", cmd.Parameters[0].Value);
             }
         }
@@ -192,7 +192,7 @@ public class DbCommandExtensionsTest
                 cmd.CreateParameters(param);
 
                 // Assert
-                Assert.AreEqual(1, cmd.Parameters.Count);
+                Assert.HasCount(1, cmd.Parameters);
                 Assert.AreEqual("9963c864-ab4f-43f8-9dc9-43038565b971", cmd.Parameters[0].Value);
             }
         }
@@ -253,7 +253,7 @@ where id in (@normalArray0, @normalArray1)
   and id in ((SELECT @concat2ArrayA WHERE 1 = 0), @concat2ArrayB0, @concat2ArrayB1)
   and id in ((SELECT @concat3ArrayA WHERE 1 = 0), (SELECT @concat3ArrayB WHERE 1 = 0))";
             Assert.AreEqual(expectedSql, command.CommandText);
-            Assert.AreEqual(13, command.Parameters.Count);
+            Assert.HasCount(13, command.Parameters);
             Assert.AreEqual(5, command.Parameters["@normalArray0"].Value);
             Assert.AreEqual(6, command.Parameters["@normalArray1"].Value);
             Assert.AreEqual(DBNull.Value, command.Parameters["@emptyArray"].Value);

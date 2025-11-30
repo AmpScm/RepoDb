@@ -49,7 +49,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -77,7 +77,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -105,7 +105,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -133,7 +133,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -158,7 +158,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -183,7 +183,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -208,7 +208,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -237,7 +237,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -265,7 +265,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -293,7 +293,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -321,7 +321,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -346,7 +346,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -371,7 +371,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -396,7 +396,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -733,7 +733,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -763,7 +763,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -793,7 +793,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -823,7 +823,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -850,7 +850,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -877,7 +877,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -904,7 +904,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -935,7 +935,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -965,7 +965,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -995,7 +995,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1025,7 +1025,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1052,7 +1052,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1079,7 +1079,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1106,7 +1106,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1445,7 +1445,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1473,7 +1473,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1501,7 +1501,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1529,7 +1529,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1554,7 +1554,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1579,7 +1579,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1604,7 +1604,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1633,7 +1633,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1661,7 +1661,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1689,7 +1689,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1717,7 +1717,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1742,7 +1742,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1767,7 +1767,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -1792,7 +1792,7 @@ public class ExecuteListParameterTest
         Assert.AreEqual(values.Count, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.ColumnInt));
+            Assert.Contains(item.ColumnInt, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }

@@ -350,7 +350,7 @@ public class MergeTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue((long)result > 0);
+        Assert.IsGreaterThan(0, (long)result);
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act

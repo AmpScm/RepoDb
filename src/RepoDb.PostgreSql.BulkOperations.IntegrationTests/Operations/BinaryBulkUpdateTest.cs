@@ -57,7 +57,7 @@ public class BinaryBulkUpdateTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -88,7 +88,7 @@ public class BinaryBulkUpdateTest
 
         // Assert
         var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-        Assert.AreEqual(10, queryResult.Count);
+        Assert.HasCount(10, queryResult);
 
         var assertCount = Helper.AssertEntitiesEquality(updatedEntities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
         Assert.AreEqual(expected: updatedEntities.Count, assertCount);
@@ -1719,7 +1719,7 @@ public class BinaryBulkUpdateTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -1750,7 +1750,7 @@ public class BinaryBulkUpdateTest
 
         // Assert
         var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-        Assert.AreEqual(10, queryResult.Count);
+        Assert.HasCount(10, queryResult);
 
         var assertCount = Helper.AssertEntitiesEquality(updatedEntities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
         Assert.AreEqual(expected: updatedEntities.Count, assertCount);

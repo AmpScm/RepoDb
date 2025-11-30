@@ -126,7 +126,7 @@ After:
 
         var cmp1 = new DateOnly(2024, 1, 1);
         Assert.AreEqual(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnly == cmp1, transaction: t)).Count());
-        Assert.IsTrue((await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnlyNullable == new DateOnly(2026, 1, 1), transaction: t)).Count() == 1);
+        Assert.AreEqual(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnlyNullable == new DateOnly(2026, 1, 1), transaction: t)).Count());
     }
 
     [TestMethod]

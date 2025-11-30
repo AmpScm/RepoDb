@@ -173,7 +173,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(entities.Count, queryResult.Count);
+            Assert.HasCount(entities.Count, queryResult);
             foreach (var entity in entities)
             {
                 var target = queryResult.First(item => item.Id == entity.Id);
@@ -678,7 +678,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -1111,7 +1111,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -1675,7 +1675,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -1868,7 +1868,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -1899,7 +1899,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -2055,7 +2055,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -2098,7 +2098,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -2191,7 +2191,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -2232,7 +2232,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -2273,7 +2273,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -2648,7 +2648,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -2878,7 +2878,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(entities.Count, queryResult.Count);
+            Assert.HasCount(entities.Count, queryResult);
             foreach (var entity in entities)
             {
                 var target = queryResult.First(item => item.Id == entity.Id);
@@ -3383,7 +3383,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -3816,7 +3816,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -4380,7 +4380,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertExpandoObjectsEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -4573,7 +4573,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -4604,7 +4604,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -4760,7 +4760,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -4803,7 +4803,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -4896,7 +4896,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -4937,7 +4937,7 @@ public class BinaryBulkMergeTest
             Assert.AreEqual(entities.Count, result);
             foreach (DataRow row in table.Rows)
             {
-                Assert.IsTrue(Convert.ToInt32(row["Id"]) > 0);
+                Assert.IsGreaterThan(0, Convert.ToInt32(row["Id"]));
             }
 
             // Assert
@@ -4978,7 +4978,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }
@@ -5353,7 +5353,7 @@ public class BinaryBulkMergeTest
 
             // Assert
             var queryResult = connection.QueryAll<BulkOperationLightIdentityTable>(tableName).ToList();
-            Assert.AreEqual(10, queryResult.Count);
+            Assert.HasCount(10, queryResult);
             var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
             Assert.AreEqual(entities.Count, assertCount);
         }

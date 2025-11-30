@@ -108,7 +108,7 @@ public class InherittanceTest
         var properties = PropertyCache.Get<DerivedClass>().AsList();
 
         // Assert
-        Assert.AreEqual<long>(4, properties.Count);
+        Assert.HasCount(4, properties);
     }
 
     #endregion

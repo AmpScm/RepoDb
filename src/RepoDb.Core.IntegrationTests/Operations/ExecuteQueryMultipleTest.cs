@@ -785,12 +785,10 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value1);
         Assert.AreEqual(typeof(DateTime), value1.GetType());
 
         // Assert
         var value2 = result.Scalar<int>();
-        Assert.IsNotNull(value2);
         Assert.AreEqual(14, value2);
 
         // Assert
@@ -820,12 +818,10 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value1);
         Assert.AreEqual(param.Value1, value1);
 
         // Assert
         var value2 = result.Scalar<int>();
-        Assert.IsNotNull(value2);
         Assert.AreEqual(param.Value2, value2);
 
         // Assert
@@ -855,17 +851,14 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value1);
         Assert.AreEqual(param.Value1, value1);
 
         // Assert
         var value2 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value2);
         Assert.AreEqual(typeof(DateTime), value2.GetType());
 
         // Assert
         var value3 = result.Scalar<int>();
-        Assert.IsNotNull(value3);
         Assert.AreEqual(6, value3);
     }
 
@@ -893,12 +886,10 @@ public class ExecuteQueryMultipleTest
 
             // Assert
             var value1 = result.Scalar<DateTime>();
-            Assert.IsNotNull(value1);
             Assert.AreEqual(param[0].Parameter.Value, value1);
 
             // Assert
             var value2 = result.Scalar<DateTime>();
-            Assert.IsNotNull(value2);
             Assert.AreEqual(typeof(DateTime), value2.GetType());
         }
 
@@ -919,13 +910,11 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>(false);
-        Assert.IsNotNull(value1);
         Assert.AreEqual(typeof(DateTime), value1.GetType());
 
         // Assert
         result.NextResult();
         var value2 = result.Scalar<int>(false);
-        Assert.IsNotNull(value2);
         Assert.AreEqual(14, value2);
 
         // Assert
@@ -1086,12 +1075,10 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value1);
         Assert.AreEqual(typeof(DateTime), value1.GetType());
 
         // Assert
         var value2 = result.Scalar<int>();
-        Assert.IsNotNull(value2);
         Assert.AreEqual(14, value2);
 
         // Assert
@@ -1121,12 +1108,10 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value1);
         Assert.AreEqual(param.Value1, value1);
 
         // Assert
         var value2 = result.Scalar<int>();
-        Assert.IsNotNull(value2);
         Assert.AreEqual(param.Value2, value2);
 
         // Assert
@@ -1156,17 +1141,14 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value1);
         Assert.AreEqual(param.Value1, value1);
 
         // Assert
         var value2 = result.Scalar<DateTime>();
-        Assert.IsNotNull(value2);
         Assert.AreEqual(typeof(DateTime), value2.GetType());
 
         // Assert
         var value3 = result.Scalar<int>();
-        Assert.IsNotNull(value3);
         Assert.AreEqual(6, value3);
     }
 
@@ -1194,12 +1176,10 @@ public class ExecuteQueryMultipleTest
 
             // Assert
             var value1 = result.Scalar<DateTime>();
-            Assert.IsNotNull(value1);
             Assert.AreEqual(param[0].Parameter.Value, value1);
 
             // Assert
             var value2 = result.Scalar<DateTime>();
-            Assert.IsNotNull(value2);
             Assert.AreEqual(typeof(DateTime), value2.GetType());
         }
 
@@ -1220,13 +1200,11 @@ public class ExecuteQueryMultipleTest
 
         // Assert
         var value1 = result.Scalar<DateTime>(false);
-        Assert.IsNotNull(value1);
         Assert.AreEqual(typeof(DateTime), value1.GetType());
 
         // Assert
         result.NextResult();
         var value2 = result.Scalar<int>(false);
-        Assert.IsNotNull(value2);
         Assert.AreEqual(14, value2);
 
         // Assert

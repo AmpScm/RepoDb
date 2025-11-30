@@ -136,7 +136,7 @@ public class ImmutableTest
         var insertResult = connection.Insert<ImmutableIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(insertResult > 0);
+        Assert.IsGreaterThan(0, insertResult);
 
         // The ID could not be set back to the entity, so it should be 0
 
@@ -183,7 +183,7 @@ public class ImmutableTest
         var mergeResult = connection.Merge<ImmutableIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(1, connection.CountAll<ImmutableIdentityTable>());
 
         // The ID could not be set back to the entities, so it should be 0
@@ -225,7 +225,7 @@ public class ImmutableTest
         // The ID could not be set back to the entities, so it should be 0
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(insertResult, mergeResult);
 
         // Act
@@ -262,7 +262,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         entities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[entities.IndexOf(entity)]));
     }
@@ -299,7 +299,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }
@@ -354,7 +354,7 @@ public class ImmutableTest
         var updateResult = connection.Update<ImmutableIdentityTable>(newEntity);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(newEntity.Id).FirstOrDefault();
@@ -389,7 +389,7 @@ public class ImmutableTest
         var updateResult = connection.Update<ImmutableIdentityTable>(newEntity, newEntity.Id);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<ImmutableIdentityTable>(newEntity.Id).FirstOrDefault();
@@ -434,7 +434,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }
@@ -499,7 +499,7 @@ public class ImmutableTest
         var insertResult = connection.Insert<ImmutableWithFewerCtorArgumentsIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(insertResult > 0);
+        Assert.IsGreaterThan(0, insertResult);
 
         // The ID could not be set back to the entity, so it should be 0
 
@@ -546,7 +546,7 @@ public class ImmutableTest
         var mergeResult = connection.Merge<ImmutableWithFewerCtorArgumentsIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(1, connection.CountAll<ImmutableWithFewerCtorArgumentsIdentityTable>());
 
         // The ID could not be set back to the entities, so it should be 0
@@ -590,7 +590,7 @@ public class ImmutableTest
         // The ID could not be set back to the entities, so it should be 0
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(insertResult, mergeResult);
 
         // Act
@@ -627,7 +627,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableWithFewerCtorArgumentsIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         entities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[entities.IndexOf(entity)]));
     }
@@ -666,7 +666,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableWithFewerCtorArgumentsIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }
@@ -723,7 +723,7 @@ public class ImmutableTest
         var updateResult = connection.Update<ImmutableWithFewerCtorArgumentsIdentityTable>(newEntity);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<ImmutableWithFewerCtorArgumentsIdentityTable>(newEntity.Id).FirstOrDefault();
@@ -760,7 +760,7 @@ public class ImmutableTest
         var updateResult = connection.Update<ImmutableWithFewerCtorArgumentsIdentityTable>(newEntity, newEntity.Id);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<ImmutableWithFewerCtorArgumentsIdentityTable>(newEntity.Id).FirstOrDefault();
@@ -807,7 +807,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableWithFewerCtorArgumentsIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }
@@ -872,7 +872,7 @@ public class ImmutableTest
         var insertResult = connection.Insert<ImmutableWithWritablePropertiesIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(insertResult > 0);
+        Assert.IsGreaterThan(0, insertResult);
         Assert.AreEqual(insertResult, entity.Id);
     }
 
@@ -913,7 +913,7 @@ public class ImmutableTest
         var mergeResult = connection.Merge<ImmutableWithWritablePropertiesIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(1, connection.CountAll<ImmutableWithWritablePropertiesIdentityTable>());
 
         // Assert
@@ -964,7 +964,7 @@ public class ImmutableTest
         // The ID could not be set back to the entities, so it should be 0
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(insertResult, mergeResult);
 
         // Act
@@ -999,7 +999,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableWithWritablePropertiesIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         entities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[entities.IndexOf(entity)]));
     }
@@ -1047,7 +1047,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableWithWritablePropertiesIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }
@@ -1113,7 +1113,7 @@ public class ImmutableTest
         var updateResult = connection.Update<ImmutableWithWritablePropertiesIdentityTable>(newEntity);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<ImmutableWithWritablePropertiesIdentityTable>(newEntity.Id).FirstOrDefault();
@@ -1159,7 +1159,7 @@ public class ImmutableTest
         var updateResult = connection.Update<ImmutableWithWritablePropertiesIdentityTable>(newEntity, newEntity.Id);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(newEntity.Id).FirstOrDefault();
@@ -1215,7 +1215,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<ImmutableWithWritablePropertiesIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }
@@ -1280,7 +1280,7 @@ public class ImmutableTest
         var insertResult = connection.Insert<MappedPropertiesImmutableIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(insertResult > 0);
+        Assert.IsGreaterThan(0, insertResult);
     }
 
     #endregion
@@ -1317,7 +1317,7 @@ public class ImmutableTest
         var mergeResult = connection.Merge<MappedPropertiesImmutableIdentityTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(1, connection.CountAll<MappedPropertiesImmutableIdentityTable>());
 
         // Act
@@ -1354,7 +1354,7 @@ public class ImmutableTest
         // The ID could not be set back to the entities, so it should be 0
 
         // Assert
-        Assert.IsTrue(mergeResult > 0);
+        Assert.IsGreaterThan(0, mergeResult);
         Assert.AreEqual(insertResult, mergeResult);
 
         // Act
@@ -1386,7 +1386,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<MappedPropertiesImmutableIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         entities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[entities.IndexOf(entity)]));
     }
@@ -1423,7 +1423,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<MappedPropertiesImmutableIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }
@@ -1478,7 +1478,7 @@ public class ImmutableTest
         var updateResult = connection.Update<MappedPropertiesImmutableIdentityTable>(newEntity);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<MappedPropertiesImmutableIdentityTable>(newEntity.Id).FirstOrDefault();
@@ -1513,7 +1513,7 @@ public class ImmutableTest
         var updateResult = connection.Update<MappedPropertiesImmutableIdentityTable>(newEntity, newEntity.Id);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var queryResult = connection.Query<MappedPropertiesImmutableIdentityTable>(newEntity.Id).FirstOrDefault();
@@ -1558,7 +1558,7 @@ public class ImmutableTest
         var queryResult = connection.QueryAll<MappedPropertiesImmutableIdentityTable>().AsList();
 
         // Assert
-        Assert.AreEqual(entities.Count, queryResult.Count);
+        Assert.HasCount(entities.Count, queryResult);
         newEntities.ForEach(entity =>
             Helper.AssertPropertiesEquality(entity, queryResult[newEntities.IndexOf(entity)]));
     }

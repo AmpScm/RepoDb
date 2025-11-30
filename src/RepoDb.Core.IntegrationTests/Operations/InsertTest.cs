@@ -36,7 +36,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -58,7 +58,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -79,7 +79,7 @@ public class InsertTest
         var id = connection.Insert<IdentityTable, long>(table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -100,7 +100,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -121,7 +121,7 @@ public class InsertTest
         var id = connection.Insert<IdentityTable, long>(item);
 
         // Assert
-        Assert.IsTrue(item.Id > 0);
+        Assert.IsGreaterThan(0, item.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -163,7 +163,7 @@ public class InsertTest
             hints: SqlServerTableHints.TabLock);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -187,7 +187,7 @@ public class InsertTest
         var id = connection.Insert<WithExtraFieldsIdentityTable, long>(table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -212,7 +212,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -234,7 +234,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -255,7 +255,7 @@ public class InsertTest
         var id = await connection.InsertAsync<IdentityTable, long>(table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -276,7 +276,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -297,7 +297,7 @@ public class InsertTest
         var id = connection.Insert<IdentityTable, long>(table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = (await connection.QueryAsync<IdentityTable>(id)).FirstOrDefault();
@@ -339,7 +339,7 @@ public class InsertTest
             hints: SqlServerTableHints.TabLock);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -363,7 +363,7 @@ public class InsertTest
         var id = await connection.InsertAsync<WithExtraFieldsIdentityTable, long>(table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -388,7 +388,7 @@ public class InsertTest
             (object)table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -410,7 +410,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -432,7 +432,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -455,7 +455,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -479,7 +479,7 @@ public class InsertTest
             (object)table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -501,7 +501,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -523,7 +523,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -546,7 +546,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -570,7 +570,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -592,7 +592,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -614,7 +614,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -656,7 +656,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>())?.FirstOrDefault();
@@ -678,7 +678,7 @@ public class InsertTest
             hints: SqlServerTableHints.TabLock);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -703,7 +703,7 @@ public class InsertTest
             (object)table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -725,7 +725,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -747,7 +747,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -770,7 +770,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -794,7 +794,7 @@ public class InsertTest
             (object)table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -816,7 +816,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -838,7 +838,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -861,7 +861,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.IsTrue(((dynamic)table).Id == id);
 
         // Act
@@ -885,7 +885,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -907,7 +907,7 @@ public class InsertTest
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -929,7 +929,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -971,7 +971,7 @@ public class InsertTest
             table);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();
@@ -993,7 +993,7 @@ public class InsertTest
             hints: SqlServerTableHints.TabLock);
 
         // Assert
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var result = connection.Query<IdentityTable>(id)?.FirstOrDefault();

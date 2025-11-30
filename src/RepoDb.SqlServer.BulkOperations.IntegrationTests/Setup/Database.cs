@@ -2,8 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.SqlServer.BulkOperations.IntegrationTests.Models;
 
-[assembly: DoNotParallelize]
-
 namespace RepoDb.SqlServer.BulkOperations.IntegrationTests;
 
 /// <summary>

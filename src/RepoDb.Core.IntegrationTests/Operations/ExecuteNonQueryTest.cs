@@ -102,7 +102,7 @@ public class ExecuteNonQueryTest
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable];");
 
         // Assert
-        Assert.AreEqual(tables.Count, 10);
+        Assert.HasCount(10, tables);
     }
 
     [TestMethod]
@@ -393,7 +393,7 @@ public class ExecuteNonQueryTest
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable];");
 
         // Assert
-        Assert.AreEqual(tables.Count, 10);
+        Assert.HasCount(10, tables);
     }
 
     [TestMethod]
