@@ -60,14 +60,8 @@ jobs:
       - name: build
         run: dotnet build -c Release
         
-        # Workaround for DotNet 10.0 SDK issue. Use response file to run tests
-      - name: Create dotnet test response file
-        run: |
-          echo "-p:TestingPlatformShowTestsFailure=true" >> test.rsp
-          echo "-p:TestingPlatformCaptureOutput=false" >> test.rsp
-
-      - name: Run tests for DotNet 10.0
-        run: dotnet test -c Release -f net10.0 --no-build @test.rsp
+      - name: Run tests for .Net 9.0
+        run: dotnet test -c Release -f net9.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
 
       - name: Set version variables
         id: version
