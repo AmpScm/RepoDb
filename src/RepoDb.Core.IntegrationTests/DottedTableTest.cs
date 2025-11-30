@@ -70,7 +70,7 @@ public class DottedTableTest
         var id = connection.Insert<DottedTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.AreEqual(1, connection.CountAll<DottedTable>());
     }
 
@@ -108,7 +108,7 @@ public class DottedTableTest
         var id = connection.Merge<DottedTable, long>(entity);
 
         // Assert
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.AreEqual(1, connection.CountAll<DottedTable>());
 
         // Setup

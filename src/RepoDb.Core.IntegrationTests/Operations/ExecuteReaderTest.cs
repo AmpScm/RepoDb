@@ -42,7 +42,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count);
+        Assert.HasCount(tables.Count, result);
         tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
@@ -63,7 +63,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
@@ -84,7 +84,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(3, result.Count);
+        Assert.HasCount(3, result);
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
@@ -104,7 +104,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
@@ -124,7 +124,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count);
+        Assert.HasCount(tables.Count, result);
         tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
@@ -146,7 +146,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(1, result.Count);
+        Assert.HasCount(1, result);
         Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
@@ -186,7 +186,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count);
+        Assert.HasCount(tables.Count, result);
         tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
@@ -207,7 +207,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
@@ -228,7 +228,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(3, result.Count);
+        Assert.HasCount(3, result);
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
@@ -248,7 +248,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.AsList().ForEach(item => Helper.AssertPropertiesEquality(tables.Where(r => r.Id == item.Id).First(), item));
     }
 
@@ -268,7 +268,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(tables.Count, result.Count);
+        Assert.HasCount(tables.Count, result);
         tables.ForEach(item => Helper.AssertPropertiesEquality(item, result.First(e => e.Id == item.Id)));
     }
 
@@ -290,7 +290,7 @@ public class ExecuteReaderTest
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
         // Assert
-        Assert.AreEqual(1, result.Count);
+        Assert.HasCount(1, result);
         Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 

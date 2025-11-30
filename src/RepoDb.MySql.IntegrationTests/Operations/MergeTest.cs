@@ -313,7 +313,7 @@ public class MergeTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
         var queryResult = connection.Query<CompleteTable>(result);
@@ -511,7 +511,7 @@ public class MergeTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
         var queryResult = connection.Query<CompleteTable>(result);

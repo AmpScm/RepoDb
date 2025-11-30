@@ -127,7 +127,7 @@ public class ExecuteQueryBuilderTest
         Assert.AreEqual(4, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsTrue(values.Contains(item.Id));
+            Assert.Contains(item.Id, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }
@@ -159,7 +159,7 @@ public class ExecuteQueryBuilderTest
         Assert.AreEqual(6, result.Count());
         result.AsList().ForEach(item =>
         {
-            Assert.IsFalse(values.Contains(item.Id));
+            Assert.DoesNotContain(item.Id, values);
             Helper.AssertPropertiesEquality(tables.First(v => v.Id == item.Id), item);
         });
     }

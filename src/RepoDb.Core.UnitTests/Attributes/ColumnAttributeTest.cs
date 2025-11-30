@@ -89,7 +89,7 @@ public class ColumnAttributeTest
                 });
 
             // Assert
-            Assert.AreEqual(1, command.Parameters.Count);
+            Assert.HasCount(1, command.Parameters);
 
             // Assert
             var parameter = command.Parameters["@PrimaryId"];
@@ -112,7 +112,7 @@ public class ColumnAttributeTest
                 typeof(TestColumnAttributeUnquotedNameClass));
 
             // Assert
-            Assert.AreEqual(1, command.Parameters.Count);
+            Assert.HasCount(1, command.Parameters);
 
             // Assert
             var parameter = command.Parameters["@PrimaryId"];
@@ -171,7 +171,7 @@ public class ColumnAttributeTest
                 });
 
             // Assert
-            Assert.AreEqual(1, command.Parameters.Count);
+            Assert.HasCount(1, command.Parameters);
 
             // Assert
             var parameter = command.Parameters["@PrimaryId"];
@@ -194,7 +194,7 @@ public class ColumnAttributeTest
                 typeof(TestColumnAttributeQuotedNameClass));
 
             // Assert
-            Assert.AreEqual(1, command.Parameters.Count);
+            Assert.HasCount(1, command.Parameters);
 
             // Assert
             var parameter = command.Parameters["@PrimaryId"];

@@ -21,7 +21,7 @@ public class ExecuteQueryRawTest
 #endif
     }
 
-    [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
+    [ClassCleanup]
     public static void ClassCleaup()
     {
         TypeMapCache.Flush();
@@ -210,7 +210,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<uint>("SELECT CONVERT(INT, 1) AS Value UNION ALL SELECT 2;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual((uint)2, result[0]);
         Assert.AreEqual((uint)4, result[1]);
     }
@@ -229,7 +229,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Gender>("SELECT 'Male' AS Value UNION ALL SELECT 'Female';").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual(Gender.Male, result[0]);
         Assert.AreEqual(Gender.Female, result[1]);
     }
@@ -242,7 +242,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Gender?>("SELECT 'Male' AS Value UNION ALL SELECT 'Female';").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual(Gender.Male, result[0]);
         Assert.AreEqual(Gender.Female, result[1]);
     }
@@ -255,7 +255,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Gender?>("SELECT CONVERT(NVARCHAR, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.IsNull(result[0]);
         Assert.IsNull(result[1]);
     }
@@ -272,7 +272,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Gender>("SELECT 1 AS Value UNION ALL SELECT 2;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual(Gender.Male, result[0]);
         Assert.AreEqual(Gender.Female, result[1]);
     }
@@ -285,7 +285,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Gender?>("SELECT 1 AS Value UNION ALL SELECT 2;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual(Gender.Male, result[0]);
         Assert.AreEqual(Gender.Female, result[1]);
     }
@@ -298,7 +298,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Gender?>("SELECT CONVERT(INT, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.IsNull(result[0]);
         Assert.IsNull(result[1]);
     }
@@ -319,7 +319,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<string>("SELECT 'ABC' AS Value UNION ALL SELECT 'DEF';").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual("ABC", result[0]);
         Assert.AreEqual("DEF", result[1]);
     }
@@ -332,7 +332,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<string>("SELECT CONVERT(NVARCHAR, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.AreEqual(default, item));
     }
 
@@ -350,7 +350,7 @@ public class ExecuteQueryRawTest
             new { value }).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.AreEqual(value, item));
     }
 
@@ -362,7 +362,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Guid>("SELECT CONVERT(UNIQUEIDENTIFIER, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.AreEqual(default, item));
     }
 
@@ -376,7 +376,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<long>("SELECT CONVERT(BIGINT, 100) AS Value UNION ALL SELECT 200;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual(100, result[0]);
         Assert.AreEqual(200, result[1]);
     }
@@ -389,7 +389,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<long>("SELECT CONVERT(BIGINT, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.AreEqual(default, item));
     }
 
@@ -407,7 +407,7 @@ public class ExecuteQueryRawTest
             new { value }).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.AreEqual(value, item));
     }
 
@@ -419,7 +419,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<DateTime>("SELECT CONVERT(DATETIME, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.AreEqual(default, item));
     }
 
@@ -441,7 +441,7 @@ public class ExecuteQueryRawTest
             new { value }).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.AreEqual(value, item));
     }
 
@@ -453,7 +453,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<Guid?>("SELECT CONVERT(UNIQUEIDENTIFIER, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.IsNull(item));
     }
 
@@ -467,7 +467,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<long?>("SELECT CONVERT(BIGINT, 100) AS Value UNION ALL SELECT 200;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual(100, result[0]);
         Assert.AreEqual(200, result[1]);
     }
@@ -480,7 +480,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<long?>("SELECT CONVERT(BIGINT, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.IsNull(item));
     }
 
@@ -499,7 +499,7 @@ public class ExecuteQueryRawTest
             new { value1, value2 }).AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         Assert.AreEqual(value1, result[0]);
         Assert.AreEqual(value2, result[1]);
     }
@@ -512,7 +512,7 @@ public class ExecuteQueryRawTest
         var result = connection.ExecuteQuery<DateTime?>("SELECT CONVERT(DATETIME, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
-        Assert.AreEqual(2, result.Count);
+        Assert.HasCount(2, result);
         result.ForEach(item => Assert.IsNull(item));
     }
 
@@ -982,7 +982,7 @@ public class ExecuteQueryRawTest
             new { Value = new StringRecord("ABC") }).AsList();
 
         // Assert
-        Assert.AreEqual(1, result.Count);
+        Assert.HasCount(1, result);
         Assert.AreEqual("ABC", result[0]);
     }
 
@@ -995,7 +995,7 @@ public class ExecuteQueryRawTest
             new { Values = new StringRecord[] { "ABC", "DEF", "GHI" } }).AsList();
 
         // Assert
-        Assert.AreEqual(3, result.Count);
+        Assert.HasCount(3, result);
         Assert.AreEqual("ABC", result[0]);
         Assert.AreEqual("DEF", result[1]);
         Assert.AreEqual("GHI", result[2]);

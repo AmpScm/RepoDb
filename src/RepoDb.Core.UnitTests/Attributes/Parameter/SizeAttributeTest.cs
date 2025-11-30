@@ -47,7 +47,7 @@ public class SizeAttributeTest
                     });
 
                 // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+                Assert.HasCount(1, command.Parameters);
 
                 // Assert
                 var parameter = command.Parameters["@ColumnName"];
@@ -72,7 +72,7 @@ public class SizeAttributeTest
                     typeof(SizeAttributeTestClass));
 
                 // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+                Assert.HasCount(1, command.Parameters);
 
                 // Assert
                 var parameter = command.Parameters["@ColumnName"];

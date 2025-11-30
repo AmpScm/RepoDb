@@ -19,7 +19,7 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryField);
 
         // Assert
-        Assert.AreEqual(1, queryGroup.QueryFields.Count);
+        Assert.HasCount(1, queryGroup.QueryFields);
     }
 
     [TestMethod]
@@ -32,8 +32,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(new QueryGroup(queryField));
 
         // Assert
-        Assert.AreEqual(null, queryGroup.QueryFields);
-        Assert.AreEqual(1, queryGroup.QueryGroups.Count);
+        Assert.IsNull(queryGroup.QueryFields);
+        Assert.HasCount(1, queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryField.AsEnumerable());
 
         // Assert
-        Assert.AreEqual(1, queryGroup.QueryFields.Count);
+        Assert.HasCount(1, queryGroup.QueryFields);
     }
 
     [TestMethod]
@@ -59,8 +59,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(new QueryGroup(queryField).AsEnumerable());
 
         // Assert
-        Assert.AreEqual(null, queryGroup.QueryFields);
-        Assert.AreEqual(1, queryGroup.QueryGroups.Count);
+        Assert.IsNull(queryGroup.QueryFields);
+        Assert.HasCount(1, queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -74,8 +74,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA, new QueryGroup(queryFieldB));
 
         // Assert
-        Assert.AreEqual(1, queryGroup.QueryFields.Count);
-        Assert.AreEqual(1, queryGroup.QueryGroups.Count);
+        Assert.HasCount(1, queryGroup.QueryFields);
+        Assert.HasCount(1, queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -89,8 +89,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA.AsEnumerable(), new QueryGroup(queryFieldB));
 
         // Assert
-        Assert.AreEqual(1, queryGroup.QueryFields.Count);
-        Assert.AreEqual(1, queryGroup.QueryGroups.Count);
+        Assert.HasCount(1, queryGroup.QueryFields);
+        Assert.HasCount(1, queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -104,8 +104,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA, new QueryGroup(queryFieldB).AsEnumerable());
 
         // Assert
-        Assert.AreEqual(1, queryGroup.QueryFields.Count);
-        Assert.AreEqual(1, queryGroup.QueryGroups.Count);
+        Assert.HasCount(1, queryGroup.QueryFields);
+        Assert.HasCount(1, queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -119,8 +119,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA.AsEnumerable(), new QueryGroup(queryFieldB).AsEnumerable());
 
         // Assert
-        Assert.AreEqual(1, queryGroup.QueryFields.Count);
-        Assert.AreEqual(1, queryGroup.QueryGroups.Count);
+        Assert.HasCount(1, queryGroup.QueryFields);
+        Assert.HasCount(1, queryGroup.QueryGroups);
     }
 
     #endregion

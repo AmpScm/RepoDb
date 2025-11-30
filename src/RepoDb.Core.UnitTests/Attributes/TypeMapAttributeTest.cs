@@ -68,7 +68,7 @@ public class TypeMapAttributeTest
                 });
 
             // Assert
-            Assert.AreEqual(1, command.Parameters.Count);
+            Assert.HasCount(1, command.Parameters);
 
             // Assert
             var parameter = command.Parameters["@ColumnString"];
@@ -91,7 +91,7 @@ public class TypeMapAttributeTest
                 typeof(TestTypeMapAttributeUnquotedNameClass));
 
             // Assert
-            Assert.AreEqual(1, command.Parameters.Count);
+            Assert.HasCount(1, command.Parameters);
 
             // Assert
             var parameter = command.Parameters["@ColumnString"];

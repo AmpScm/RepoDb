@@ -102,7 +102,7 @@ public class TableValueParameterTest
             new { Table = dataTable })?.AsList();
 
         // Assert
-        Assert.AreEqual(dataTable.Rows.Count, tables.Count);
+        Assert.HasCount(dataTable.Rows.Count, tables);
 
         // Act
         var queryResult = connection.QueryAll<IdentityTable>().AsList();
@@ -144,7 +144,7 @@ public class TableValueParameterTest
             new { Table = dataTable }))?.AsList();
 
         // Assert
-        Assert.AreEqual(dataTable.Rows.Count, tables.Count);
+        Assert.HasCount(dataTable.Rows.Count, tables);
 
         // Act
         var queryResult = connection.QueryAll<IdentityTable>().AsList();
