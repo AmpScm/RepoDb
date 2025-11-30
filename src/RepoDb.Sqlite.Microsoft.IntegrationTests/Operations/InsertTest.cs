@@ -40,8 +40,8 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var queryResult = connection.Query<MdsCompleteTable>(result);
@@ -95,8 +95,8 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
-        Assert.IsTrue(table.Id > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        Assert.IsGreaterThan(0, table.Id);
 
         // Act
         var queryResult = connection.Query<MdsCompleteTable>(result);
@@ -155,7 +155,7 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
         var queryResult = connection.Query<MdsCompleteTable>(result);
@@ -181,7 +181,7 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
@@ -208,7 +208,7 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
         var queryResult = connection.Query<MdsCompleteTable>(result);
@@ -316,7 +316,7 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
         var queryResult = connection.Query<MdsCompleteTable>(result);
@@ -342,7 +342,7 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
@@ -369,7 +369,7 @@ public class InsertTest
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
-        Assert.IsTrue(Convert.ToInt64(result) > 0);
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
         var queryResult = connection.Query<MdsCompleteTable>(result);

@@ -1181,7 +1181,7 @@ public class TransactionTests
             var queryResult = connection.Query<CompleteTable>(entity.Id);
 
             // Assert
-            Assert.AreEqual(false, queryResult.First().ColumnBit);
+            Assert.IsFalse(queryResult.First().ColumnBit);
         }
     }
 
@@ -1247,7 +1247,7 @@ public class TransactionTests
             var queryResult = connection.Query<CompleteTable>(entity.Id);
 
             // Assert
-            Assert.AreEqual(false, queryResult.First().ColumnBit);
+            Assert.IsFalse(queryResult.First().ColumnBit);
         }
     }
 
@@ -1317,7 +1317,7 @@ public class TransactionTests
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
     }
 
@@ -1383,7 +1383,7 @@ public class TransactionTests
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
         }
     }
 
@@ -1547,7 +1547,7 @@ public class TransactionTests
                 var queryResult = connection.QueryAll<CompleteTable>();
 
                 // Assert
-                entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+                entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
             }
 
             // Complete
@@ -1578,7 +1578,7 @@ public class TransactionTests
                 var queryResult = connection.QueryAll<CompleteTable>();
 
                 // Assert
-                entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+                entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBit));
             }
 
             // Complete

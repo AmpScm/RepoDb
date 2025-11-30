@@ -70,8 +70,7 @@ public class ObjectQuotationTest
         var id = connection.Insert<UnorganizedTable, long>(entity);
 
         // Assert
-        Assert.IsNotNull(id);
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.AreEqual(1, connection.CountAll<UnorganizedTable>());
     }
 
@@ -109,8 +108,7 @@ public class ObjectQuotationTest
         var id = connection.Merge<UnorganizedTable, long>(entity);
 
         // Assert
-        Assert.IsNotNull(id);
-        Assert.IsTrue(id > 0);
+        Assert.IsGreaterThan(0, id);
         Assert.AreEqual(1, connection.CountAll<UnorganizedTable>());
 
         // Setup

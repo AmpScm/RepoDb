@@ -35,8 +35,8 @@ public class DifferentPrimaryTest
 
         // Assert
         Assert.AreEqual(entity.Id, insertResult);
-        Assert.IsTrue(insertResult > 0);
-        Assert.IsTrue(entity.Id > 0);
+        Assert.IsGreaterThan(0, insertResult);
+        Assert.IsGreaterThan(0, entity.Id);
         Assert.AreEqual(1, connection.CountAll<IdentityTableWithDifferentPrimary>());
     }
 
@@ -86,7 +86,7 @@ public class DifferentPrimaryTest
         var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity);
 
         // Assert
-        Assert.IsTrue(deleteResult > 0);
+        Assert.IsGreaterThan(0, deleteResult);
         Assert.AreEqual(0, connection.CountAll<IdentityTableWithDifferentPrimary>());
     }
 
@@ -104,7 +104,7 @@ public class DifferentPrimaryTest
         var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity.RowGuid);
 
         // Assert
-        Assert.IsTrue(deleteResult > 0);
+        Assert.IsGreaterThan(0, deleteResult);
         Assert.AreEqual(0, connection.CountAll<IdentityTableWithDifferentPrimary>());
     }
 
@@ -152,7 +152,7 @@ public class DifferentPrimaryTest
         var updateResult = connection.Update<IdentityTableWithDifferentPrimary>(entity);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var data = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();
@@ -180,7 +180,7 @@ public class DifferentPrimaryTest
         var updateResult = connection.Update<IdentityTableWithDifferentPrimary>(entity, entity.RowGuid);
 
         // Assert
-        Assert.IsTrue(updateResult > 0);
+        Assert.IsGreaterThan(0, updateResult);
 
         // Act
         var data = connection.Query<IdentityTableWithDifferentPrimary>(entity.RowGuid).FirstOrDefault();

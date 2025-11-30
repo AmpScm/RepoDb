@@ -1035,7 +1035,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(false, queryResult.First().ColumnBoolean);
+        Assert.IsFalse(queryResult.First().ColumnBoolean);
     }
 
     [TestMethod]
@@ -1097,7 +1097,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
-        Assert.AreEqual(false, queryResult.First().ColumnBoolean);
+        Assert.IsFalse(queryResult.First().ColumnBoolean);
     }
 
     [TestMethod]
@@ -1163,7 +1163,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
     }
 
     [TestMethod]
@@ -1225,7 +1225,7 @@ public class TransactionTests
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
     }
 
     [TestMethod]
@@ -1379,7 +1379,7 @@ public class TransactionTests
             IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
         }
 
         // Complete
@@ -1408,7 +1408,7 @@ public class TransactionTests
             IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual(false, queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
         }
 
         // Complete

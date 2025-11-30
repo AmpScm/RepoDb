@@ -48,7 +48,7 @@ public class PrecisionAttributeTest
                     });
 
                 // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+                Assert.HasCount(1, command.Parameters);
 
                 // Assert
                 var parameter = command.Parameters["@ColumnName"];
@@ -73,7 +73,7 @@ public class PrecisionAttributeTest
                     typeof(PrecisionAttributeTestClass));
 
                 // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+                Assert.HasCount(1, command.Parameters);
 
                 // Assert
                 var parameter = command.Parameters["@ColumnName"];

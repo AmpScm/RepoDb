@@ -127,7 +127,7 @@ public class QueryGroupEqualityTest
 
         // Assert
         Assert.IsFalse(equal);
-        Assert.AreEqual(objA.QueryGroups.Count, objB.QueryGroups.Count);
+        Assert.HasCount(objA.QueryGroups.Count, objB.QueryGroups);
     }
 
     [TestMethod]
