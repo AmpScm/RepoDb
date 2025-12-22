@@ -15,7 +15,8 @@ public static class PropertyValueAttributeCache
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, IEnumerable<PropertyValueAttribute>> cache = new();
+    private static readonly ConcurrentDictionary<Type, IEnumerable<PropertyValueAttribute>> typeCache = new();
+    private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), IEnumerable<PropertyValueAttribute>> propertyCache = new();
 
     #endregion
 
@@ -80,10 +81,10 @@ public static class PropertyValueAttributeCache
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
-        return cache.GetOrAdd(key, (_) => new PropertyValueAttributePropertyLevelResolver().Resolve(propertyInfo));
+        return propertyCache.GetOrAdd(key, (_) => new PropertyValueAttributePropertyLevelResolver().Resolve(propertyInfo));
     }
 
     #endregion
@@ -107,10 +108,7 @@ public static class PropertyValueAttributeCache
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
-        return cache.GetOrAdd(key, (_) => new PropertyValueAttributeTypeLevelResolver().Resolve(type));
+        return typeCache.GetOrAdd(type, (_) => new PropertyValueAttributeTypeLevelResolver().Resolve(type));
     }
 
     #endregion
@@ -122,8 +120,11 @@ public static class PropertyValueAttributeCache
     /// <summary>
     /// Flushes all the existing cached objects.
     /// </summary>
-    public static void Flush() =>
-        cache.Clear();
+    public static void Flush()
+    {
+        propertyCache.Clear();
+        typeCache.Clear();
+    }
 
     #endregion
 }

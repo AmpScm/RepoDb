@@ -14,7 +14,7 @@ public static class PropertyMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, string> maps = new();
+    private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), string> maps = new();
 
     #endregion
 
@@ -142,7 +142,7 @@ public static class PropertyMapper
         ArgumentNullException.ThrowIfNullOrWhiteSpace(columnName);
 
         // Variables
-        var key = GenerateHashCode(typeof(TEntity), propertyInfo);
+        var key = (typeof(TEntity), propertyInfo);
 
         // Try get the cache
         if (maps.TryGetValue(key, out var value))
@@ -236,7 +236,7 @@ public static class PropertyMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
         maps.TryGetValue(key, out var value);
@@ -296,7 +296,7 @@ public static class PropertyMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = GenerateHashCode(typeof(TEntity), propertyInfo);
+        var key = (typeof(TEntity), propertyInfo);
 
         // Try get the value
         return maps.TryRemove(key, out var _);
@@ -311,20 +311,6 @@ public static class PropertyMapper
     /// </summary>
     public static void Clear() =>
         maps.Clear();
-
-    #endregion
-
-    #region Helpers
-
-    /// <summary>
-    /// Generates a hashcode for caching.
-    /// </summary>
-    /// <param name="entityType">The type of the data entity.</param>
-    /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    /// <returns>The generated hashcode.</returns>
-    private static int GenerateHashCode(Type entityType,
-        PropertyInfo propertyInfo) =>
-        TypeExtension.GenerateHashCode(entityType, propertyInfo);
 
     #endregion
 }

@@ -15,7 +15,8 @@ public static class PropertyHandlerCache
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, object?> cache = new();
+    private static readonly ConcurrentDictionary<Type, object?> typeCache = new();
+    private static readonly ConcurrentDictionary<(Type, PropertyInfo), object?> propertyCache = new();
     private static readonly PropertyHandlerPropertyLevelResolver propertyLevelResolver = new();
     private static readonly PropertyHandlerTypeLevelResolver typeLevelResolver = new();
 
@@ -44,11 +45,8 @@ public static class PropertyHandlerCache
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = GenerateHashCode(type);
-
         // Try get the value
-        var value = cache.GetOrAdd(key, (_) => typeLevelResolver.Resolve(type));
+        var value = typeCache.GetOrAdd(type, (_) => typeLevelResolver.Resolve(type));
 
         return Converter.ToType<TPropertyHandler>(value);
     }
@@ -120,10 +118,10 @@ public static class PropertyHandlerCache
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
-        var value = cache.GetOrAdd(key, (_) => propertyLevelResolver.Resolve(entityType, propertyInfo));
+        var value = propertyCache.GetOrAdd(key, (_) => propertyLevelResolver.Resolve(entityType, propertyInfo));
 
         return Converter.ToType<TPropertyHandler>(value);
     }
@@ -137,26 +135,11 @@ public static class PropertyHandlerCache
     /// <summary>
     /// Flushes all the existing cached <see cref="IPropertyHandler{TInput, TResult}"/> objects.
     /// </summary>
-    public static void Flush() =>
-        cache.Clear();
-
-    /// <summary>
-    /// Generates a hashcode for caching.
-    /// </summary>
-    /// <param name="type">The type of the data entity.</param>
-    /// <returns>The generated hashcode.</returns>
-    private static int GenerateHashCode(Type type) =>
-        TypeExtension.GenerateHashCode(type);
-
-    /// <summary>
-    /// Generates a hashcode for caching.
-    /// </summary>
-    /// <param name="entityType">The type of the data entity.</param>
-    /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    /// <returns>The generated hashcode.</returns>
-    private static int GenerateHashCode(Type entityType,
-        PropertyInfo propertyInfo) =>
-        TypeExtension.GenerateHashCode(entityType, propertyInfo);
+    public static void Flush()
+    {
+        typeCache.Clear();
+        propertyCache.Clear();
+    }
 
     #endregion
 }

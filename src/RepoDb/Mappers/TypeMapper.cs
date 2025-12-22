@@ -14,7 +14,7 @@ public static class TypeMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, DbType> maps = new();
+    private static readonly ConcurrentDictionary<Type, DbType> maps = new();
 
     #endregion
 
@@ -63,15 +63,12 @@ public static class TypeMapper
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
         // Try get the cache
-        if (maps.TryGetValue(key, out var value))
+        if (maps.TryGetValue(type, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(key, dbType, value);
+                maps.TryUpdate(type, dbType, value);
             }
             else
             {
@@ -80,7 +77,7 @@ public static class TypeMapper
         }
         else
         {
-            maps.TryAdd(key, dbType);
+            maps.TryAdd(type, dbType);
         }
     }
 
@@ -108,7 +105,7 @@ public static class TypeMapper
         // Variables
         var key = TypeExtension.GenerateHashCode(type);
 
-        if (maps.TryGetValue(key, out var value))
+        if (maps.TryGetValue(type, out var value))
             return value;
 
         return null;

@@ -14,7 +14,7 @@ public static class PropertyValueAttributeMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, IEnumerable<PropertyValueAttribute>> maps = new();
+    private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), IEnumerable<PropertyValueAttribute>> maps = new();
 
     #endregion
 
@@ -277,7 +277,7 @@ public static class PropertyValueAttributeMapper
         ArgumentNullException.ThrowIfNull(attributes);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Add to the cache
         if (maps.TryGetValue(key, out var value))
@@ -360,7 +360,7 @@ public static class PropertyValueAttributeMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
         maps.TryGetValue(key, out var value);
@@ -427,7 +427,7 @@ public static class PropertyValueAttributeMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
         return maps.TryRemove(key, out var _);

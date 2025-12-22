@@ -11,7 +11,7 @@ public static class ClassMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, string> maps = new();
+    private static readonly ConcurrentDictionary<Type, string> maps = new();
 
     #endregion
 
@@ -63,15 +63,12 @@ public static class ClassMapper
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
 
-        // Variables
-        var key = type.GetHashCode();
-
         // Try get the cache
-        if (maps.TryGetValue(key, out var value))
+        if (maps.TryGetValue(type, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(key, name, value);
+                maps.TryUpdate(type, name, value);
             }
             else
             {
@@ -105,10 +102,9 @@ public static class ClassMapper
     public static string? Get(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        var key = type.GetHashCode();
 
         // Try get the value
-        maps.TryGetValue(key, out var value);
+        maps.TryGetValue(type, out var value);
 
         // Return the value
         return value;
@@ -133,10 +129,9 @@ public static class ClassMapper
     public static bool Remove(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        var key = type.GetHashCode();
 
         // Try get the value
-        return maps.TryRemove(key, out var _);
+        return maps.TryRemove(type, out var _);
     }
 
     /*

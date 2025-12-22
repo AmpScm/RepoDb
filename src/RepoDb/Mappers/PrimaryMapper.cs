@@ -13,7 +13,7 @@ public static class PrimaryMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, ClassProperty> maps = new();
+    private static readonly ConcurrentDictionary<Type, ClassProperty> maps = new();
 
     #endregion
 
@@ -125,15 +125,12 @@ public static class PrimaryMapper
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(classProperty);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
         // Try get the cache
-        if (maps.TryGetValue(key, out var value))
+        if (maps.TryGetValue(type, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(key, classProperty, value);
+                maps.TryUpdate(type, classProperty, value);
             }
             else
             {
@@ -142,7 +139,7 @@ public static class PrimaryMapper
         }
         else
         {
-            maps.TryAdd(key, classProperty);
+            maps.TryAdd(type, classProperty);
         }
     }
 
@@ -168,11 +165,8 @@ public static class PrimaryMapper
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
         // Try get the value
-        maps.TryGetValue(key, out var value);
+        maps.TryGetValue(type, out var value);
 
         // Return the value
         return value;

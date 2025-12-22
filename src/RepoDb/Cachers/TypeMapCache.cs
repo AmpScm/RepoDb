@@ -15,7 +15,7 @@ public static class TypeMapCache
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, DbType?> cache = new();
+    private static readonly ConcurrentDictionary<Type, DbType?> cache = new();
     private static readonly TypeMapTypeLevelResolver typeResolver = new();
     private static readonly TypeMapPropertyLevelResolver propertyResolver = new();
 
@@ -42,11 +42,8 @@ public static class TypeMapCache
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = GenerateHashCode(type);
-
         // Try get the value
-        return cache.GetOrAdd(key, (_) => typeResolver.Resolve(type));
+        return cache.GetOrAdd(type, (_) => typeResolver.Resolve(type));
     }
 
     #endregion

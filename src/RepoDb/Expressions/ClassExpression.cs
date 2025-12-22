@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq.Expressions;
+using System.Reflection;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
 
@@ -69,7 +70,7 @@ public static partial class ClassExpression
     private static class GetPropertyValuesCache<TEntity, TResult>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>> cache = new();
+        private static readonly ConcurrentDictionary<PropertyInfo, Func<TEntity, TResult>> cache = new();
 
         /// <summary>
         ///
@@ -124,7 +125,7 @@ public static partial class ClassExpression
             Guard(property);
 
             // Variables needed
-            var key = property.GetHashCode();
+            var key = property.PropertyInfo;
 
             // Get from the cache
             var func = cache.GetOrAdd(key, (_) => GetFunc(property));
