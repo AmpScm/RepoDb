@@ -272,7 +272,7 @@ public class TransactionTests
             await connection.DeleteAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -392,7 +392,7 @@ public class TransactionTests
             await connection.DeleteAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -500,7 +500,7 @@ public class TransactionTests
             await connection.InsertAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -608,7 +608,7 @@ public class TransactionTests
             await connection.InsertAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -715,7 +715,7 @@ public class TransactionTests
         await connection.MergeAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
-        transaction.Rollback();
+        await transaction.RollbackAsync(TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
@@ -822,7 +822,7 @@ public class TransactionTests
             await connection.MergeAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -1308,7 +1308,7 @@ public class TransactionTests
             await connection.UpdateAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Act
@@ -1448,7 +1448,7 @@ public class TransactionTests
             await connection.UpdateAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Act

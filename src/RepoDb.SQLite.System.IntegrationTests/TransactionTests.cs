@@ -271,7 +271,7 @@ public class TransactionTests
             await connection.DeleteAsync<SdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -391,7 +391,7 @@ public class TransactionTests
             await connection.DeleteAllAsync<SdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -499,7 +499,7 @@ public class TransactionTests
             await connection.InsertAsync<SdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -607,7 +607,7 @@ public class TransactionTests
             await connection.InsertAllAsync<SdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -714,7 +714,7 @@ public class TransactionTests
         await connection.MergeAsync<SdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
-        transaction.Rollback();
+        await transaction.RollbackAsync(TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(0, connection.CountAll<SdsCompleteTable>());
@@ -821,7 +821,7 @@ public class TransactionTests
             await connection.MergeAllAsync<SdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
@@ -1307,7 +1307,7 @@ public class TransactionTests
             await connection.UpdateAsync<SdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Act
@@ -1447,7 +1447,7 @@ public class TransactionTests
             await connection.UpdateAllAsync<SdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            transaction.Rollback();
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Act
