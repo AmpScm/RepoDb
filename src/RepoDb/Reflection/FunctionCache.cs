@@ -190,7 +190,7 @@ internal static class FunctionCache
             var key = GetKey(entityType, cacheKey, inputFields, outputFields);
 
             return _cache.GetOrAdd(key, (_) =>
-                TypeCache.Get(entityType).                IsDictionaryStringObject
+                TypeCache.Get(entityType).IsDictionaryStringObject
                 ? FunctionFactory.CompileDictionaryStringObjectDbParameterSetter(inputFields, dbSetting, dbHelper)
                 : FunctionFactory.CompileDataEntityDbParameterSetter(entityType, inputFields, outputFields, dbSetting, dbHelper)
                 );
@@ -261,7 +261,7 @@ internal static class FunctionCache
     /// </summary>
     private static class DataEntityListDbParameterSetterCache
     {
-        private static readonly ConcurrentDictionary<int, Action<DbCommand, IList<object?>>> cache = new();
+        private static readonly ConcurrentDictionary<(Type, string, int), Action<DbCommand, IList<object?>>> cache = new();
 
         /// <summary>
         ///
@@ -285,7 +285,7 @@ internal static class FunctionCache
             var key = GetKey(entityType, cacheKey, inputFields, outputFields, batchSize);
 
             return cache.GetOrAdd(key, (_) =>
-                TypeCache.Get(entityType).                IsDictionaryStringObject
+                TypeCache.Get(entityType).IsDictionaryStringObject
                 ? FunctionFactory.CompileDictionaryStringObjectListDbParameterSetter(
                         inputFields,
                         batchSize,
@@ -300,13 +300,13 @@ internal static class FunctionCache
                         dbHelper));
         }
 
-        private static int GetKey(Type entityType,
+        private static (Type, string, int) GetKey(Type entityType,
             string cacheKey,
             IEnumerable<DbField>? inputFields,
             IEnumerable<DbField>? outputFields,
             int batchSize)
         {
-            var key = HashCode.Combine(entityType, batchSize, cacheKey);
+            int key = batchSize;
 
             if (inputFields?.Any() == true)
             {
@@ -322,7 +322,7 @@ internal static class FunctionCache
                     key = HashCode.Combine(key, field);
                 }
             }
-            return key;
+            return (entityType, cacheKey, key);
         }
     }
 
@@ -413,7 +413,7 @@ internal static class FunctionCache
         {
             var key = (type, field);
             return cache.GetOrAdd(key, (_) =>
-                TypeCache.Get(type).                IsDictionaryStringObject
+                TypeCache.Get(type).IsDictionaryStringObject
                 ? FunctionFactory.CompileDictionaryStringObjectItemSetter(type, field)
                 : FunctionFactory.CompileDataEntityPropertySetter(type, field)
                 );
