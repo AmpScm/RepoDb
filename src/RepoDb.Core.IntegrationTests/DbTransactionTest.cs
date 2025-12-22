@@ -427,7 +427,7 @@ public class SqlTransactionTest
             await connection.InsertAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            await transaction.RollbackAsyncsync(TestContext.CancellationToken);
+            await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert

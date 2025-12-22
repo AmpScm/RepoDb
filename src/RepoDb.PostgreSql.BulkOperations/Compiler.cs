@@ -320,7 +320,7 @@ internal static class Compiler
                 var propertyExpression = Expression.Convert(entityPropertyExpression, typeof(object));
                 var parameters = mapping.NpgsqlDbType is not null and not NpgsqlDbType.Unknown ?
                     new Expression[] { propertyExpression, Expression.Constant(mapping.NpgsqlDbType), cancellationTokenExpression } :
-                    new Expression[] { propertyExpression, cancellationTokenExpression };
+                    [propertyExpression, cancellationTokenExpression];
                 var writeMethod = mapping.NpgsqlDbType is not null and not NpgsqlDbType.Unknown ?
                     GetNpgsqlBinaryImporterWriteAsyncWithNpgsqlDbTypeMethod() : GetNpgsqlBinaryImporterWriteAsyncMethod();
 
@@ -514,7 +514,7 @@ internal static class Compiler
     /// </summary>
     /// <returns></returns>
     private static MethodInfo GetEnumParseMethod() =>
-        typeof(Enum).GetMethod("Parse", new[] { typeof(Type), typeof(string), typeof(bool) })!;
+        typeof(Enum).GetMethod("Parse", [typeof(Type), typeof(string), typeof(bool)])!;
 
     /// <summary>
     ///

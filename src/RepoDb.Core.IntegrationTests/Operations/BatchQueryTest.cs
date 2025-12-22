@@ -2083,11 +2083,11 @@ public class BatchQueryTest
             page: 0,
             rowsPerBatch: 4,
             orderBy: OrderField.Parse(new { Id = Order.Ascending }),
-            where: new[]
-            {
+            where:
+            [
                     new QueryField("ColumnInt", Operation.GreaterThan, 10),
                     new QueryField("ColumnInt", Operation.LessThanOrEqual, 20)
-            },
+            ],
             commandTimeout: 0,
             transaction: null,
             trace: null,
@@ -2113,11 +2113,11 @@ public class BatchQueryTest
             page: 0,
             rowsPerBatch: 4,
             orderBy: OrderField.Parse(new { Id = Order.Descending }),
-            where: new[]
-            {
+            where:
+            [
                     new QueryField("ColumnInt", Operation.GreaterThanOrEqual, 1),
                     new QueryField("ColumnInt", Operation.LessThanOrEqual, 10)
-            },
+            ],
             commandTimeout: 0,
             transaction: null,
             trace: null,
@@ -2173,11 +2173,11 @@ public class BatchQueryTest
             page: 1,
             rowsPerBatch: 4,
             orderBy: OrderField.Parse(new { Id = Order.Descending }),
-            where: new[]
-            {
+            where:
+            [
                     new QueryField("ColumnInt", Operation.GreaterThan, 10),
                     new QueryField("ColumnInt", Operation.LessThanOrEqual, 20)
-            },
+            ],
             commandTimeout: 0,
             transaction: null,
             trace: null,
@@ -2449,11 +2449,11 @@ public class BatchQueryTest
             page: 0,
             rowsPerBatch: 4,
             orderBy: OrderField.Parse(new { Id = Order.Ascending }),
-            where: new[]
-            {
+            where:
+            [
                     new QueryField("ColumnInt", Operation.GreaterThan, 10),
                     new QueryField("ColumnInt", Operation.LessThanOrEqual, 20)
-            },
+            ],
             commandTimeout: 0,
             transaction: null,
             trace: null,
@@ -2480,11 +2480,11 @@ public class BatchQueryTest
             page: 0,
             rowsPerBatch: 4,
             orderBy: OrderField.Parse(new { Id = Order.Descending }),
-            where: new[]
-            {
+            where:
+            [
                     new QueryField("ColumnInt", Operation.GreaterThanOrEqual, 1),
                     new QueryField("ColumnInt", Operation.LessThanOrEqual, 10)
-            },
+            ],
             commandTimeout: 0,
             transaction: null,
             trace: null,
@@ -2511,11 +2511,11 @@ public class BatchQueryTest
             page: 1,
             rowsPerBatch: 4,
             orderBy: OrderField.Parse(new { Id = Order.Ascending }),
-            where: new[]
-            {
+            where:
+            [
                     new QueryField("ColumnInt", Operation.GreaterThan, 10),
                     new QueryField("ColumnInt", Operation.LessThanOrEqual, 20)
-            },
+            ],
             commandTimeout: 0,
             transaction: null,
             trace: null,
@@ -2542,11 +2542,11 @@ public class BatchQueryTest
             page: 1,
             rowsPerBatch: 4,
             orderBy: OrderField.Parse(new { Id = Order.Descending }),
-            where: new[]
-            {
+            where:
+            [
                     new QueryField("ColumnInt", Operation.GreaterThan, 10),
                     new QueryField("ColumnInt", Operation.LessThanOrEqual, 20)
-            },
+            ],
             commandTimeout: 0,
             transaction: null,
             trace: null,

@@ -528,8 +528,8 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var ftf = new FieldLengthTable[]
         {
-            new FieldLengthTable { ID = "a12345678901234567890123456789012345", ID2 = "b12345678901234567890123456789012345", VAL3 = "c" },
-            new FieldLengthTable { ID = "d12345678901234567890123456789012345", ID2 = "e12345678901234567890123456789012345", VAL3 = null }
+            new() { ID = "a12345678901234567890123456789012345", ID2 = "b12345678901234567890123456789012345", VAL3 = "c" },
+            new() { ID = "d12345678901234567890123456789012345", ID2 = "e12345678901234567890123456789012345", VAL3 = null }
         };
 
         Assert.AreEqual(2, await sql.InsertAllAsync(ftf, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
@@ -607,8 +607,8 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var ftf = new MorePrimaryKeyTable[]
         {
-            new MorePrimaryKeyTable { ID = "A", ID2 = 0, Value = "c" },
-            new MorePrimaryKeyTable { ID = "B", ID2 = 0, Value = null }
+            new() { ID = "A", ID2 = 0, Value = "c" },
+            new() { ID = "B", ID2 = 0, Value = null }
         };
 
         Assert.AreEqual(2, await sql.InsertAllAsync(ftf, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));

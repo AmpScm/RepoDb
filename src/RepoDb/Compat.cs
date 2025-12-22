@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 
 #if !NET
 #pragma warning disable CA1018 // SpecifyAttributeUsage
+#pragma warning disable CS8777 // Compiler bug on 'public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument'
+#pragma warning disable IDE0161 // Convert to file-scoped namespace
 namespace System.Runtime.CompilerServices
 {
 

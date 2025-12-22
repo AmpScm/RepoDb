@@ -1275,7 +1275,7 @@ public class TransactionTests
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using TransactionScope transaction = new TransactionScope();
+        using var transaction = new TransactionScope();
         using (NpgsqlConnection connection = this.CreateTestConnection())
         {
             // Act
@@ -1295,7 +1295,7 @@ public class TransactionTests
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
         using (NpgsqlConnection connection = this.CreateTestConnection())
         {
             // Act
@@ -1319,7 +1319,7 @@ public class TransactionTests
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using TransactionScope transaction = new TransactionScope();
+        using var transaction = new TransactionScope();
         using (NpgsqlConnection connection = this.CreateTestConnection())
         {
             // Act
@@ -1339,7 +1339,7 @@ public class TransactionTests
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
         using (NpgsqlConnection connection = this.CreateTestConnection())
         {
             // Act
@@ -1363,7 +1363,7 @@ public class TransactionTests
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using TransactionScope transaction = new TransactionScope();
+        using var transaction = new TransactionScope();
         using (NpgsqlConnection connection = this.CreateTestConnection())
         {
             // Act

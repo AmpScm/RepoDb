@@ -18,7 +18,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
 {
     #region Fields
 
-    private static readonly Lock syncLock = new Lock();
+    private static readonly Lock syncLock = new();
     private TDbConnection? connection;
 
     #endregion

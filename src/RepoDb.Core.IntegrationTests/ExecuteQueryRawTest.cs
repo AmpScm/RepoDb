@@ -155,7 +155,7 @@ public class ExecuteQueryRawTest
     public sealed record StringRecord(string Value) : IConvertible
     {
         public static implicit operator string(StringRecord source) => source.Value;
-        public static implicit operator StringRecord(string source) => new StringRecord(source);
+        public static implicit operator StringRecord(string source) => new(source);
 
         public TypeCode GetTypeCode() => throw new NotImplementedException();
 
