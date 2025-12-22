@@ -241,23 +241,18 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
         return result;
     }
 
-    /// <summary>
-    /// Extract the <see cref="DbDataReader"/> object into an enumerable of dynamic objects in an asynchronous way.
-    /// </summary>
-    /// <param name="isMoveToNextResult">A flag to use whether the operation would call the <see cref="System.Data.IDataReader.NextResult()"/> method.</param>
-    /// <returns>An enumerable of extracted data entity.</returns>
-    public async Task<IEnumerable<dynamic>> ExtractAsync(bool isMoveToNextResult = true)
+    public async Task<IEnumerable<dynamic>> ExtractAsync(bool isMoveToNextResult = true, CancellationToken cancellationToken=default)
     {
         if (!TryGetCacheItem<IEnumerable<dynamic>>(out var result))
         {
-            result = await DataReader.ToEnumerableAsync(_reader!, cancellationToken: CancellationToken)
-                .ToListAsync(CancellationToken).ConfigureAwait(false);
+            result = await DataReader.ToEnumerableAsync(_reader!, cancellationToken: cancellationToken)
+                .ToListAsync(cancellationToken).ConfigureAwait(false);
             AddToCache(result);
         }
 
         if (isMoveToNextResult)
         {
-            await NextResultAsync().ConfigureAwait(false);
+            await NextResultAsync(cancellationToken).ConfigureAwait(false);
         }
         return result;
     }

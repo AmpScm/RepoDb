@@ -3,8 +3,8 @@ using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-#pragma warning disable CA1018 // SpecifyAttributeUsage
 #if !NET
+#pragma warning disable CA1018 // SpecifyAttributeUsage
 namespace System.Runtime.CompilerServices
 {
 

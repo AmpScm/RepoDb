@@ -510,7 +510,7 @@ public static partial class DbConnectionExtension
             );
     }
 
-    public static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>> ExecuteQueryMultiple<T1, T2, T3, T4, T5>(
+    public static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>>> ExecuteQueryMultipleAsync<T1, T2, T3, T4, T5>(
         this IDbConnection connection,
         string commandText,
         object? param = null,
@@ -552,7 +552,7 @@ public static partial class DbConnectionExtension
             );
     }
 
-    public static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>> ExecuteQueryMultiple<T1, T2, T3, T4, T5, T6>(
+    public static async ValueTask<Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>>> ExecuteQueryMultipleAsync<T1, T2, T3, T4, T5, T6>(
         this IDbConnection connection,
         string commandText,
         object? param = null,
