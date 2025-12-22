@@ -14,7 +14,7 @@ public static class PropertyMappedNameCache
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, string> cache = new();
+    private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), string> cache = new();
     private static readonly PropertyMappedNameResolver resolver = new();
 
     #endregion
@@ -84,7 +84,7 @@ public static class PropertyMappedNameCache
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
         return cache.GetOrAdd(key, (_) => resolver.Resolve(propertyInfo, entityType));

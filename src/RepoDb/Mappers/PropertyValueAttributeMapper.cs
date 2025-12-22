@@ -14,7 +14,8 @@ public static class PropertyValueAttributeMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, IEnumerable<PropertyValueAttribute>> maps = new();
+    private static readonly ConcurrentDictionary<Type, IEnumerable<PropertyValueAttribute>> typeMaps = new();
+    private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), IEnumerable<PropertyValueAttribute>> propertyMaps = new();
 
     #endregion
 
@@ -277,14 +278,14 @@ public static class PropertyValueAttributeMapper
         ArgumentNullException.ThrowIfNull(attributes);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Add to the cache
-        if (maps.TryGetValue(key, out var value))
+        if (propertyMaps.TryGetValue(key, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(key, attributes, value);
+                propertyMaps.TryUpdate(key, attributes, value);
             }
             else
             {
@@ -293,7 +294,7 @@ public static class PropertyValueAttributeMapper
         }
         else
         {
-            maps.TryAdd(key, attributes);
+            propertyMaps.TryAdd(key, attributes);
         }
     }
 
@@ -360,10 +361,10 @@ public static class PropertyValueAttributeMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
-        maps.TryGetValue(key, out var value);
+        propertyMaps.TryGetValue(key, out var value);
 
         // Return the value
         return value ?? [];
@@ -427,10 +428,10 @@ public static class PropertyValueAttributeMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
-        return maps.TryRemove(key, out var _);
+        return propertyMaps.TryRemove(key, out var _);
     }
 
     #endregion
@@ -485,15 +486,12 @@ public static class PropertyValueAttributeMapper
     {
         ArgumentNullException.ThrowIfNull(attributes);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
         // Add to the cache
-        if (maps.TryGetValue(key, out var value))
+        if (typeMaps.TryGetValue(type, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(key, attributes, value);
+                typeMaps.TryUpdate(type, attributes, value);
             }
             else
             {
@@ -502,7 +500,7 @@ public static class PropertyValueAttributeMapper
         }
         else
         {
-            maps.TryAdd(key, attributes);
+            typeMaps.TryAdd(type, attributes);
         }
     }
 
@@ -527,11 +525,8 @@ public static class PropertyValueAttributeMapper
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
         // Try get the value
-        maps.TryGetValue(key, out var value);
+        typeMaps.TryGetValue(type, out var value);
 
         // Return the value
         return value ?? [];
@@ -548,8 +543,11 @@ public static class PropertyValueAttributeMapper
     /// <summary>
     /// Clear all the existing cached mappings.
     /// </summary>
-    public static void Clear() =>
-        maps.Clear();
+    public static void Clear()
+    {
+        typeMaps.Clear();
+        propertyMaps.Clear();
+    }
 
     #endregion
 

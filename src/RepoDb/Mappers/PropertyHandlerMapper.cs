@@ -15,7 +15,8 @@ public static class PropertyHandlerMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, object> maps = new();
+    private static readonly ConcurrentDictionary<Type, object> typeMaps = new();
+    private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), object> propertyMaps = new();
 
     #endregion
 
@@ -62,16 +63,13 @@ public static class PropertyHandlerMapper
         ArgumentNullException.ThrowIfNull(type);
         Guard(propertyHandler?.GetType());
 
-        // Variables for cache
-        var key = GenerateHashCode(type);
-
         // Try get the mappings
-        if (maps.TryGetValue(key, out var value))
+        if (typeMaps.TryGetValue(type, out var value))
         {
             if (force)
             {
                 // Override the existing one
-                maps.TryUpdate(key, propertyHandler, value);
+                typeMaps.TryUpdate(type, propertyHandler, value);
             }
             else
             {
@@ -82,7 +80,7 @@ public static class PropertyHandlerMapper
         else
         {
             // Add to mapping
-            maps.TryAdd(key, propertyHandler);
+            typeMaps.TryAdd(type, propertyHandler);
         }
     }
 
@@ -110,7 +108,7 @@ public static class PropertyHandlerMapper
         ArgumentNullException.ThrowIfNull(type);
 
         // Get the value
-        maps.TryGetValue(GenerateHashCode(type), out var value);
+        typeMaps.TryGetValue(type, out var value);
 
         // Check the result
         if (value is null or TPropertyHandler)
@@ -141,11 +139,8 @@ public static class PropertyHandlerMapper
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables for cache
-        var key = GenerateHashCode(type);
-
         // Try get the value
-        maps.TryRemove(key, out var _);
+        typeMaps.TryRemove(type, out var _);
     }
 
     #endregion
@@ -399,15 +394,15 @@ public static class PropertyHandlerMapper
         }
 
         // Variables
-        var key = GenerateHashCode(entityType, propertyInfo!);
+        var key = (entityType, propertyInfo!);
 
         // Try get the cache
-        if (maps.TryGetValue(key, out var value))
+        if (propertyMaps.TryGetValue(key, out var value))
         {
             if (force)
             {
                 // Update the existing one
-                maps.TryUpdate(key, propertyHandler, value);
+                propertyMaps.TryUpdate(key, propertyHandler, value);
             }
             else
             {
@@ -418,7 +413,7 @@ public static class PropertyHandlerMapper
         else
         {
             // Add the mapping
-            maps.TryAdd(key, propertyHandler);
+            propertyMaps.TryAdd(key, propertyHandler);
         }
     }
 
@@ -489,11 +484,11 @@ public static class PropertyHandlerMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
         var result = default(TPropertyHandler);
 
         // Try get the value
-        if (maps.TryGetValue(key, out var value))
+        if (propertyMaps.TryGetValue(key, out var value))
         {
             result = Converter.ToType<TPropertyHandler>(value);
         }
@@ -571,10 +566,10 @@ public static class PropertyHandlerMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try to remove the value
-        return maps.TryRemove(key, out var _);
+        return propertyMaps.TryRemove(key, out var _);
     }
 
     #endregion
@@ -586,8 +581,11 @@ public static class PropertyHandlerMapper
     /// <summary>
     /// Clears all the existing cached <see cref="IPropertyHandler{TInput, TResult}"/> objects.
     /// </summary>
-    public static void Clear() =>
-        maps.Clear();
+    public static void Clear()
+    {
+        typeMaps.Clear();
+        propertyMaps.Clear();
+    }
 
     #region Helpers
 

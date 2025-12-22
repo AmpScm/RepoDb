@@ -12,7 +12,7 @@ public static class ClassHandlerMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<int, object> maps = new();
+    private static readonly ConcurrentDictionary<Type, object> maps = new();
 
     #endregion
 
@@ -64,15 +64,12 @@ public static class ClassHandlerMapper
             throw new InvalidTypeException($"The type '{type.FullName}' must implement the '{StaticType.IClassHandler.FullName}' interface.");
         }
 
-        // Variables for cache
-        var key = GenerateHashCode(type);
-
         // Try get the mappings
-        if (maps.TryGetValue(key, out var value))
+        if (maps.TryGetValue(type, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(key, classHandler, value);
+                maps.TryUpdate(type, classHandler, value);
             }
             else
             {
@@ -81,7 +78,7 @@ public static class ClassHandlerMapper
         }
         else
         {
-            maps.TryAdd(key, classHandler);
+            maps.TryAdd(type, classHandler);
         }
     }
 
@@ -110,7 +107,7 @@ public static class ClassHandlerMapper
         ArgumentNullException.ThrowIfNull(type);
 
         // get the value
-        maps.TryGetValue(GenerateHashCode(type), out var value);
+        maps.TryGetValue(type, out var value);
 
         // Check the result
         return value switch
@@ -143,11 +140,8 @@ public static class ClassHandlerMapper
         // Check the presence
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables for cache
-        var key = GenerateHashCode(type);
-
         // Try get the value
-        maps.TryRemove(key, out var _);
+        maps.TryRemove(type, out var _);
     }
 
     #endregion
@@ -163,18 +157,6 @@ public static class ClassHandlerMapper
     {
         maps.Clear();
     }
-
-    #region Helpers
-
-    /// <summary>
-    /// Generates a hashcode for caching.
-    /// </summary>
-    /// <param name="type">The type of the data entity.</param>
-    /// <returns>The generated hashcode.</returns>
-    private static int GenerateHashCode(Type type) =>
-        TypeExtension.GenerateHashCode(type);
-
-    #endregion
 
     #endregion
 }
