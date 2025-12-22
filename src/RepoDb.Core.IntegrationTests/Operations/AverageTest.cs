@@ -280,7 +280,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable>(e => e.ColumnInt,
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -298,7 +298,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable>(e => e.ColumnInt,
-            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -316,7 +316,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable>(e => e.ColumnInt,
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -335,7 +335,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable>(e => e.ColumnInt,
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -358,7 +358,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable>(e => e.ColumnInt,
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -382,7 +382,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable>(e => e.ColumnInt,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -400,7 +400,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable, double?>(e => e.ColumnInt,
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), result);
@@ -418,7 +418,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable, double?>(e => e.ColumnInt,
-            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), result);
@@ -436,7 +436,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable, double?>(e => e.ColumnInt,
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Average(t => t.ColumnInt), result);
@@ -455,7 +455,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable, double?>(e => e.ColumnInt,
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Average(t => t.ColumnInt), result);
@@ -478,7 +478,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable, double?>(e => e.ColumnInt,
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), result);
@@ -502,7 +502,7 @@ public class AverageTest
 
         // Act
         var result = await connection.AverageAsync<IdentityTable, double?>(e => e.ColumnInt,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), result);
@@ -743,7 +743,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -762,7 +762,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -782,7 +782,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -806,7 +806,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -831,7 +831,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -850,7 +850,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync<double?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), result);
@@ -869,7 +869,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync<double?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Average(t => t.ColumnInt), result);
@@ -889,7 +889,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync<double?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Average(t => t.ColumnInt), result);
@@ -913,7 +913,7 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync<double?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), result);
@@ -938,11 +938,13 @@ public class AverageTest
         // Act
         var result = await connection.AverageAsync<double?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Average(t => t.ColumnInt), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -72,7 +72,7 @@ public class CountAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAllAsync<IdentityTable>();
+        var result = await connection.CountAllAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
@@ -89,7 +89,7 @@ public class CountAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock);
+        var result = await connection.CountAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
@@ -149,7 +149,7 @@ public class CountAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
@@ -167,11 +167,13 @@ public class CountAllTest
 
         // Act
         var result = await connection.CountAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

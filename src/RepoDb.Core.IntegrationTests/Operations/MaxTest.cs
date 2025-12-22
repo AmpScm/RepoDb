@@ -280,7 +280,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable>(e => e.ColumnInt,
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -298,7 +298,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable>(e => e.ColumnInt,
-            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -316,7 +316,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable>(e => e.ColumnInt,
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -335,7 +335,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable>(e => e.ColumnInt,
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -358,7 +358,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable>(e => e.ColumnInt,
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -382,7 +382,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable>(e => e.ColumnInt,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -400,7 +400,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable, int?>(e => e.ColumnInt,
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
@@ -418,7 +418,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable, int?>(e => e.ColumnInt,
-            item => item.ColumnInt > 5 && item.ColumnInt <= 8);
+            item => item.ColumnInt > 5 && item.ColumnInt <= 8, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), result);
@@ -436,7 +436,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable, int?>(e => e.ColumnInt,
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Max(t => t.ColumnInt), result);
@@ -455,7 +455,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable, int?>(e => e.ColumnInt,
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Max(t => t.ColumnInt), result);
@@ -478,7 +478,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable, int?>(e => e.ColumnInt,
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), result);
@@ -502,7 +502,7 @@ public class MaxTest
 
         // Act
         var result = await connection.MaxAsync<IdentityTable, int?>(e => e.ColumnInt,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), result);
@@ -743,7 +743,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -762,7 +762,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -782,7 +782,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -806,7 +806,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -831,7 +831,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -850,7 +850,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
@@ -869,7 +869,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            new { ColumnInt = 1 });
+            new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt == 1).Max(t => t.ColumnInt), result);
@@ -889,7 +889,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5).Max(t => t.ColumnInt), result);
@@ -913,7 +913,7 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), result);
@@ -938,11 +938,13 @@ public class MaxTest
         // Act
         var result = await connection.MaxAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

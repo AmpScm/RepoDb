@@ -63,7 +63,7 @@ public class SumAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.SumAllAsync<CompleteTable>(e => e.ColumnInt);
+        var result = await connection.SumAllAsync<CompleteTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
@@ -78,7 +78,7 @@ public class SumAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAllAsync<CompleteTable>(e => e.ColumnInt,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class SumAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            Field.Parse<CompleteTable>(e => e.ColumnInt).First());
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
@@ -146,8 +146,10 @@ public class SumAllTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -81,7 +81,7 @@ public class DeleteAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAllAsync<CompleteTable>();
+        var result = await connection.DeleteAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -96,7 +96,7 @@ public class DeleteAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString).EnsureOpen();
         // Act
-        var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+        var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -111,7 +111,7 @@ public class DeleteAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString).EnsureOpen();
         // Act
-        var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+        var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -181,7 +181,7 @@ public class DeleteAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -196,7 +196,7 @@ public class DeleteAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString).EnsureOpen();
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -211,11 +211,13 @@ public class DeleteAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString).EnsureOpen();
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

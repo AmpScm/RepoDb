@@ -328,7 +328,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -360,7 +360,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -392,7 +392,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -424,7 +424,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -456,7 +456,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -488,7 +488,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -522,7 +522,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -552,7 +552,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -582,7 +582,7 @@ public class ICacheForDbConnectionTest
             commandTimeout: 0,
             transaction: null,
             cache: cache.Object,
-            trace: null);
+            trace: null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         cache.Verify(c => c.GetAsync<IEnumerable<CacheEntity>>(It.Is<string>(s => s == cacheKey),
@@ -594,6 +594,8 @@ public class ICacheForDbConnectionTest
             It.IsAny<bool>(),
             It.IsAny<CancellationToken>()), Times.Once);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

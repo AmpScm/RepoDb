@@ -32,19 +32,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery<CompleteTable>(
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -53,19 +51,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery<CompleteTable>(
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -74,19 +70,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery<CompleteTable>(
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -95,19 +89,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery<CompleteTable>(
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -116,20 +108,18 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery<CompleteTable>(
-                skip: 0,
-                rowsPerBatch: 3,
-                orderBy: OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                where: (object?)null,
-                hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery<CompleteTable>(
+            skip: 0,
+            rowsPerBatch: 3,
+            orderBy: OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            where: (object?)null,
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     #endregion
@@ -142,19 +132,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync<CompleteTable>(
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -163,19 +151,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync<CompleteTable>(
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -184,19 +170,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync<CompleteTable>(
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -205,19 +189,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync<CompleteTable>(
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -226,20 +208,18 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync<CompleteTable>(
-                skip: 0,
-                rowsPerBatch: 3,
-                orderBy: OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                where: (object?)null,
-                hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync<CompleteTable>(
+            skip: 0,
+            rowsPerBatch: 3,
+            orderBy: OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            where: (object?)null,
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     #endregion
@@ -256,19 +236,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -277,19 +255,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -298,19 +274,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -319,19 +293,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -340,20 +312,18 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                where: (object?)null,
-                hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            where: (object?)null,
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     #endregion
@@ -366,19 +336,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -387,19 +355,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(7), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -408,19 +374,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(8), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -429,19 +393,17 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                6,
-                3,
-                OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            6,
+            3,
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(1), result.ElementAt(2));
     }
 
     [TestMethod]
@@ -450,21 +412,21 @@ public class SkipQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                0,
-                3,
-                OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
-                where: (object?)null,
-                hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            0,
+            3,
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
+            where: (object?)null,
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
-            Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
-        }
+        // Assert
+        Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
+        Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

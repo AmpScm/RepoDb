@@ -181,7 +181,7 @@ public class ExecuteReaderTest
         connection.InsertAll(tables);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable];");
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
         // Act
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
@@ -202,7 +202,7 @@ public class ExecuteReaderTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-            new { From = 3, To = 4 });
+            new { From = 3, To = 4 }, cancellationToken: TestContext.CancellationToken);
         // Act
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
@@ -223,7 +223,7 @@ public class ExecuteReaderTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-            new { ColumnInt = new[] { 5, 6, 7 } });
+            new { ColumnInt = new[] { 5, 6, 7 } }, cancellationToken: TestContext.CancellationToken);
         // Act
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
@@ -243,7 +243,7 @@ public class ExecuteReaderTest
         connection.InsertAll(tables);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT TOP (@Top) * FROM [sc].[IdentityTable];", new { Top = 2 });
+        using var reader = await connection.ExecuteReaderAsync("SELECT TOP (@Top) * FROM [sc].[IdentityTable];", new { Top = 2 }, cancellationToken: TestContext.CancellationToken);
         // Act
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
@@ -263,7 +263,7 @@ public class ExecuteReaderTest
         connection.InsertAll(tables);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("[dbo].[sp_get_identity_tables]", commandType: CommandType.StoredProcedure);
+        using var reader = await connection.ExecuteReaderAsync("[dbo].[sp_get_identity_tables]", commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
         // Act
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
@@ -285,7 +285,7 @@ public class ExecuteReaderTest
         // Act
         using var reader = await connection.ExecuteReaderAsync("[dbo].[sp_get_identity_table_by_id]",
             param: new { tables.Last().Id },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
         // Act
         var result = Reflection.DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader).AsList();
 
@@ -299,7 +299,7 @@ public class ExecuteReaderTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -307,8 +307,10 @@ public class ExecuteReaderTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

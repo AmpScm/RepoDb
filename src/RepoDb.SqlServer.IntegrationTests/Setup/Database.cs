@@ -35,12 +35,10 @@ public static class Database
 
     public static void Cleanup()
     {
-        using (var connection = new SqlConnection(ConnectionString))
-        {
-            connection.Truncate<CompleteTable>();
-            connection.Truncate<NonIdentityCompleteTable>();
-            connection.Truncate<MultiKeyTable>();
-        }
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Truncate<CompleteTable>();
+        connection.Truncate<NonIdentityCompleteTable>();
+        connection.Truncate<MultiKeyTable>();
     }
 
     #endregion
@@ -153,10 +151,8 @@ public static class Database
         CREATE TYPE RepoDB_TVP_uuid_NULL AS TABLE (Value uniqueidentifier);
     END
     ";
-        using (var connection = new SqlConnection(ConnectionString).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionString).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     private static void CreateNonIdentityCompleteTable()
@@ -206,10 +202,8 @@ public static class Database
                         )
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionString).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionString).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     private static void CreateMultiKeyTable()
@@ -228,10 +222,8 @@ public static class Database
                         )
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new SqlConnection(ConnectionString).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new SqlConnection(ConnectionString).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     #endregion
@@ -240,12 +232,10 @@ public static class Database
 
     public static IEnumerable<CompleteTable> CreateCompleteTables(int count)
     {
-        using (var connection = new SqlConnection(ConnectionString))
-        {
-            var tables = Helper.CreateCompleteTables(count);
-            connection.InsertAll(tables);
-            return tables;
-        }
+        using var connection = new SqlConnection(ConnectionString);
+        var tables = Helper.CreateCompleteTables(count);
+        connection.InsertAll(tables);
+        return tables;
     }
 
     #endregion
@@ -254,12 +244,10 @@ public static class Database
 
     public static IEnumerable<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count)
     {
-        using (var connection = new SqlConnection(ConnectionString))
-        {
-            var tables = Helper.CreateNonIdentityCompleteTables(count);
-            connection.InsertAll(tables);
-            return tables;
-        }
+        using var connection = new SqlConnection(ConnectionString);
+        var tables = Helper.CreateNonIdentityCompleteTables(count);
+        connection.InsertAll(tables);
+        return tables;
     }
 
     #endregion
@@ -267,12 +255,10 @@ public static class Database
     #region MultiKeyTable
     public static IEnumerable<MultiKeyTable> CreateMultiKeyTables(int count)
     {
-        using (var connection = new SqlConnection(ConnectionString))
-        {
-            var tables = Helper.CreateMultiKeyTables(count);
-            connection.InsertAll(tables);
-            return tables;
-        }
+        using var connection = new SqlConnection(ConnectionString);
+        var tables = Helper.CreateMultiKeyTables(count);
+        connection.InsertAll(tables);
+        return tables;
     }
     #endregion
 }

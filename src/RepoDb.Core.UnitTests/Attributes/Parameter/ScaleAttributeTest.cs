@@ -38,48 +38,40 @@ public class ScaleAttributeTest
     public void TestScaleAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new ScaleAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new ScaleAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1, ((CustomDbParameter)parameter).Scale);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1, ((CustomDbParameter)parameter).Scale);
     }
 
     [TestMethod]
     public void TestScaleAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(ScaleAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(ScaleAttributeTestClass));
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1, ((CustomDbParameter)parameter).Scale);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1, ((CustomDbParameter)parameter).Scale);
     }
 }

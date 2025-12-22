@@ -66,7 +66,7 @@ public class DbHelperTest
         }
     }
 
-    private Mock<MyDbHelper> GetMockedDbHelper()
+    private static Mock<MyDbHelper> GetMockedDbHelper()
     {
         var dbHelper = new Mock<MyDbHelper>();
         dbHelper

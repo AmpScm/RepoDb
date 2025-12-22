@@ -109,7 +109,7 @@ public class AverageAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.AverageAllAsync<IdentityTable>(e => e.ColumnInt);
+        var result = await connection.AverageAllAsync<IdentityTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -129,7 +129,7 @@ public class AverageAllTest
 
         // Act
         var result = await connection.AverageAllAsync<IdentityTable>(e => e.ColumnInt,
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -147,7 +147,7 @@ public class AverageAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.AverageAllAsync<IdentityTable, double?>(e => e.ColumnInt);
+        var result = await connection.AverageAllAsync<IdentityTable, double?>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), result);
@@ -165,7 +165,7 @@ public class AverageAllTest
 
         // Act
         var result = await connection.AverageAllAsync<IdentityTable, double?>(e => e.ColumnInt,
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), result);
@@ -265,7 +265,7 @@ public class AverageAllTest
 
         // Act
         var result = await connection.AverageAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            new Field("ColumnInt"));
+            new Field("ColumnInt"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -284,7 +284,7 @@ public class AverageAllTest
         // Act
         var result = await connection.AverageAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), Convert.ToDouble(result));
@@ -302,7 +302,7 @@ public class AverageAllTest
 
         // Act
         var result = await connection.AverageAllAsync<double?>(ClassMappedNameCache.Get<IdentityTable>(),
-            new Field("ColumnInt"));
+            new Field("ColumnInt"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), result);
@@ -321,11 +321,13 @@ public class AverageAllTest
         // Act
         var result = await connection.AverageAllAsync<double?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(t => t.ColumnInt), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -62,7 +62,7 @@ public class ExecuteScalarTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM `CompleteTable`;");
+        var result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
@@ -76,11 +76,13 @@ public class ExecuteScalarTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM `CompleteTable`;");
+        var result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

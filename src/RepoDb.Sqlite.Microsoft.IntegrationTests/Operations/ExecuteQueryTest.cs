@@ -67,7 +67,7 @@ public class ExecuteQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<MdsCompleteTable>("SELECT * FROM [MdsCompleteTable];");
+        var result = await connection.ExecuteQueryAsync<MdsCompleteTable>("SELECT * FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result.Count());
@@ -83,12 +83,14 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<MdsCompleteTable>("SELECT * FROM [MdsCompleteTable] WHERE Id = @Id;",
-            new { tables.Last().Id });
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
         Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

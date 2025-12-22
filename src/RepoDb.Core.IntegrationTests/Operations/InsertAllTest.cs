@@ -271,7 +271,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -295,7 +295,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             tables,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -318,7 +318,7 @@ public class InsertAllTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync<IdentityTable>(tables);
+        await connection.InsertAllAsync<IdentityTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -341,7 +341,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<IdentityTable>(tables,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -365,7 +365,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<IdentityTable>(tables,
-            1);
+            1, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -387,7 +387,7 @@ public class InsertAllTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync<NonIdentityTable>(tables);
+        await connection.InsertAllAsync<NonIdentityTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<NonIdentityTable>().AsList();
@@ -410,7 +410,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<NonIdentityTable>(tables,
-            1);
+            1, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<NonIdentityTable>().AsList();
@@ -433,7 +433,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<IdentityTable>(tables,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -459,7 +459,7 @@ public class InsertAllTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync<WithExtraFieldsIdentityTable>(tables);
+        await connection.InsertAllAsync<WithExtraFieldsIdentityTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -482,7 +482,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<WithExtraFieldsIdentityTable>(tables,
-            1);
+            1, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -886,7 +886,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<object>(ClassMappedNameCache.Get<IdentityTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -910,7 +910,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync<object>(ClassMappedNameCache.Get<IdentityTable>(),
             tables,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -934,7 +934,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync<object>(ClassMappedNameCache.Get<IdentityTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         tables.ForEach(table => Assert.IsTrue(((dynamic)table).Id > 0));
@@ -962,7 +962,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync<object>(ClassMappedNameCache.Get<IdentityTable>(),
             tables,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         tables.ForEach(table => Assert.IsTrue(((dynamic)table).Id > 0));
@@ -990,7 +990,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -1014,7 +1014,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             tables,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -1039,7 +1039,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             tables,
-            1);
+            1, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -1063,7 +1063,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             tables.Item1,
-            fields: tables.Item2);
+            fields: tables.Item2, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -1088,7 +1088,7 @@ public class InsertAllTest
         await connection.InsertAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             tables.Item1,
             1,
-            fields: tables.Item2);
+            fields: tables.Item2, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -1111,7 +1111,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll(ClassMappedNameCache.Get<NonIdentityTable>()).AsList();
@@ -1135,7 +1135,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             tables,
-            1);
+            1, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll(ClassMappedNameCache.Get<NonIdentityTable>()).AsList();
@@ -1159,7 +1159,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             tables.Item1,
-            fields: tables.Item2);
+            fields: tables.Item2, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll(ClassMappedNameCache.Get<NonIdentityTable>()).AsList();
@@ -1184,7 +1184,7 @@ public class InsertAllTest
         await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             tables.Item1,
             1,
-            fields: tables.Item2);
+            fields: tables.Item2, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<NonIdentityTable>().AsList();
@@ -1212,7 +1212,7 @@ public class InsertAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var insertAllResult = await connection.InsertAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>()).AsList();
@@ -1236,7 +1236,7 @@ public class InsertAllTest
         // Act
         await connection.InsertAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             tables,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.QueryAll<IdentityTable>().AsList();
@@ -1249,6 +1249,8 @@ public class InsertAllTest
             Helper.AssertPropertiesEquality(table, entity);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

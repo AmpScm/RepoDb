@@ -108,7 +108,7 @@ public class MaxAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.MaxAllAsync<IdentityTable>(e => e.ColumnInt);
+        var result = await connection.MaxAllAsync<IdentityTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -126,7 +126,7 @@ public class MaxAllTest
 
         // Act
         var result = await connection.MaxAllAsync<IdentityTable>(e => e.ColumnInt,
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -143,7 +143,7 @@ public class MaxAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.MaxAllAsync<IdentityTable, int?>(e => e.ColumnInt);
+        var result = await connection.MaxAllAsync<IdentityTable, int?>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
@@ -161,7 +161,7 @@ public class MaxAllTest
 
         // Act
         var result = await connection.MaxAllAsync<IdentityTable, int?>(e => e.ColumnInt,
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
@@ -261,7 +261,7 @@ public class MaxAllTest
 
         // Act
         var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            new Field("ColumnInt"));
+            new Field("ColumnInt"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -280,7 +280,7 @@ public class MaxAllTest
         // Act
         var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), Convert.ToInt32(result));
@@ -298,7 +298,7 @@ public class MaxAllTest
 
         // Act
         var result = await connection.MaxAllAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
-            new Field("ColumnInt"));
+            new Field("ColumnInt"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
@@ -317,11 +317,13 @@ public class MaxAllTest
         // Act
         var result = await connection.MaxAllAsync<int?>(ClassMappedNameCache.Get<IdentityTable>(),
             new Field("ColumnInt"),
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(t => t.ColumnInt), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

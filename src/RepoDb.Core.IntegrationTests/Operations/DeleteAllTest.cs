@@ -189,7 +189,7 @@ public class DeleteAllTest
 
         // Act
         var result = await connection.DeleteAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -209,7 +209,7 @@ public class DeleteAllTest
         // Act
         var keys = new object[] { tables.First().Id, tables.Last().Id };
         var result = await connection.DeleteAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            keys);
+            keys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result);
@@ -229,7 +229,7 @@ public class DeleteAllTest
         // Act
         var keys = tables.Select(e => e.Id);
         var result = await connection.DeleteAllAsync<IdentityTable, long>(ClassMappedNameCache.Get<IdentityTable>(),
-            keys);
+            keys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
@@ -247,7 +247,7 @@ public class DeleteAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAllAsync<IdentityTable>();
+        var result = await connection.DeleteAllAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -265,7 +265,7 @@ public class DeleteAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAllAsync<IdentityTable>(hints: SqlServerTableHints.TabLock);
+        var result = await connection.DeleteAllAsync<IdentityTable>(hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -283,7 +283,7 @@ public class DeleteAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAllAsync<IdentityTable>(tables);
+        var result = await connection.DeleteAllAsync<IdentityTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -302,7 +302,7 @@ public class DeleteAllTest
         connection.InsertAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
 
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(), tables);
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -322,7 +322,7 @@ public class DeleteAllTest
 
         // Act
         var keys = new object[] { tables.First().Id, tables.Last().Id };
-        var result = await connection.DeleteAllAsync<IdentityTable>(keys);
+        var result = await connection.DeleteAllAsync<IdentityTable>(keys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result);
@@ -424,7 +424,7 @@ public class DeleteAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -443,7 +443,7 @@ public class DeleteAllTest
 
         // Act
         var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -462,7 +462,7 @@ public class DeleteAllTest
 
         // Act
         var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            tables.Select(e => (object)e.Id));
+            tables.Select(e => (object)e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -482,12 +482,14 @@ public class DeleteAllTest
         // Act
         var keys = new object[] { tables.First().Id, tables.Last().Id };
         var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            keys);
+            keys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result);
         Assert.AreEqual(8, connection.CountAll<NonIdentityTable>());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -28,18 +28,16 @@ public class TruncateTest
     [TestMethod]
     public void TestSqLiteConnectionTruncate()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Truncate<SdsCompleteTable>();
-            var countResult = connection.CountAll<SdsCompleteTable>();
+        // Act
+        var result = connection.Truncate<SdsCompleteTable>();
+        var countResult = connection.CountAll<SdsCompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -49,18 +47,16 @@ public class TruncateTest
     [TestMethod]
     public async Task TestSqLiteConnectionTruncateAsyncWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.TruncateAsync<SdsCompleteTable>();
-            var countResult = connection.CountAll<SdsCompleteTable>();
+        // Act
+        var result = await connection.TruncateAsync<SdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
+        var countResult = connection.CountAll<SdsCompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -74,18 +70,16 @@ public class TruncateTest
     [TestMethod]
     public void TestSqLiteConnectionTruncateViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Truncate(ClassMappedNameCache.Get<SdsCompleteTable>());
-            var countResult = connection.CountAll<SdsCompleteTable>();
+        // Act
+        var result = connection.Truncate(ClassMappedNameCache.Get<SdsCompleteTable>());
+        var countResult = connection.CountAll<SdsCompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -95,19 +89,19 @@ public class TruncateTest
     [TestMethod]
     public async Task TestSqLiteConnectionTruncateAsyncViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.TruncateAsync(ClassMappedNameCache.Get<SdsCompleteTable>());
-            var countResult = connection.CountAll<SdsCompleteTable>();
+        // Act
+        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
+        var countResult = connection.CountAll<SdsCompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

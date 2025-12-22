@@ -1067,7 +1067,7 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
-            new { Value = new SqlParameter("_", 100) })).FirstOrDefault();
+            new { Value = new SqlParameter("_", 100) }, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Assert.AreEqual(100, result);
@@ -1079,7 +1079,7 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
-            new QueryField("Value", new SqlParameter("_", 100)))).FirstOrDefault();
+            new QueryField("Value", new SqlParameter("_", 100)), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Assert.AreEqual(100, result);
@@ -1091,7 +1091,7 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
-            new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable())).FirstOrDefault();
+            new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Assert.AreEqual(100, result);
@@ -1103,7 +1103,7 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
-            new QueryGroup(new QueryField("Value", new SqlParameter("_", 100))))).FirstOrDefault();
+            new QueryGroup(new QueryField("Value", new SqlParameter("_", 100))), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Assert.AreEqual(100, result);
@@ -1488,9 +1488,9 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
-            new { Value = new SqlParameter("_", 100) }))
+            new { Value = new SqlParameter("_", 100) }, cancellationToken: TestContext.CancellationToken))
         {
-            var value = (await result.ExtractAsync<int>()).FirstOrDefault();
+            var value = (await result.ExtractAsync<int>(cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
             // Assert
             Assert.AreEqual(100, value);
@@ -1504,9 +1504,9 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
-            new QueryField("Value", new SqlParameter("_", 100))))
+            new QueryField("Value", new SqlParameter("_", 100)), cancellationToken: TestContext.CancellationToken))
         {
-            var value = (await result.ExtractAsync<int>()).FirstOrDefault();
+            var value = (await result.ExtractAsync<int>(cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
             // Assert
             Assert.AreEqual(100, value);
@@ -1520,9 +1520,9 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
-            new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable()))
+            new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable(), cancellationToken: TestContext.CancellationToken))
         {
-            var value = (await result.ExtractAsync<int>()).FirstOrDefault();
+            var value = (await result.ExtractAsync<int>(cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
             // Assert
             Assert.AreEqual(100, value);
@@ -1536,15 +1536,17 @@ public class ExecuteQueryRawTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
-            new QueryGroup(new QueryField("Value", new SqlParameter("_", 100)))))
+            new QueryGroup(new QueryField("Value", new SqlParameter("_", 100))), cancellationToken: TestContext.CancellationToken))
         {
-            var value = (await result.ExtractAsync<int>()).FirstOrDefault();
+            var value = (await result.ExtractAsync<int>(cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
             // Assert
             Assert.AreEqual(100, value);
         }
         ;
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

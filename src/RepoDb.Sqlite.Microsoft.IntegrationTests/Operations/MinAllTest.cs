@@ -63,7 +63,7 @@ public class MinAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.MinAllAsync<MdsCompleteTable>(e => e.ColumnInt);
+        var result = await connection.MinAllAsync<MdsCompleteTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
@@ -78,7 +78,7 @@ public class MinAllTest
 
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAllAsync<MdsCompleteTable>(e => e.ColumnInt,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class MinAllTest
 
         // Act
         var result = await connection.MinAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First());
+            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
@@ -146,8 +146,10 @@ public class MinAllTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

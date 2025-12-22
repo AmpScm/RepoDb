@@ -28,14 +28,12 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\";");
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -44,15 +42,13 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
-                new { tables.Last().Id });
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
+            new { tables.Last().Id });
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -61,14 +57,12 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -81,14 +75,12 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\";");
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -97,15 +89,13 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
-                new { tables.Last().Id });
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
-        }
+        // Assert
+        Assert.AreEqual(1, result);
     }
 
     [TestMethod]
@@ -114,15 +104,15 @@ public class ExecuteNonQueryTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

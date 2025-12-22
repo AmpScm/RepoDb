@@ -26,11 +26,9 @@ public static class Database
 
     public static void Cleanup()
     {
-        using (var connection = new SQLiteConnection(ConnectionString))
-        {
-            connection.DeleteAll<SdsCompleteTable>();
-            connection.DeleteAll<SdsNonIdentityCompleteTable>();
-        }
+        using var connection = new SQLiteConnection(ConnectionString);
+        connection.DeleteAll<SdsCompleteTable>();
+        connection.DeleteAll<SdsNonIdentityCompleteTable>();
     }
 
     #region SdsCompleteTable
@@ -191,10 +189,8 @@ public static class Database
     {
         Initialize();
         //throw new NotImplementedException();
-        using (var db = new SQLiteConnection(GetConnectionString(testContext)))
-        {
-            db.EnsureOpen();
-        }
+        using var db = new SQLiteConnection(GetConnectionString(testContext));
+        db.EnsureOpen();
     }
 
     internal static string GetConnectionString(TestContext testContext)

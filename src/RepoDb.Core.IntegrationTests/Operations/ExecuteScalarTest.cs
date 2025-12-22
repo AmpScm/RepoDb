@@ -200,7 +200,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT * FROM (SELECT 1 AS Column1) TMP WHERE 1 = 0;");
+        var result = await connection.ExecuteScalarAsync("SELECT * FROM (SELECT 1 AS Column1) TMP WHERE 1 = 0;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsNull(result);
@@ -211,7 +211,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT 1;");
+        var result = await connection.ExecuteScalarAsync("SELECT 1;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -222,7 +222,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT 2 UNION ALL SELECT 1;");
+        var result = await connection.ExecuteScalarAsync("SELECT 2 UNION ALL SELECT 1;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result);
@@ -233,7 +233,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT 1 AS Value1, 2 AS Value2;");
+        var result = await connection.ExecuteScalarAsync("SELECT 1 AS Value1, 2 AS Value2;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -250,7 +250,7 @@ public class ExecuteScalarTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT @Value1;", param);
+        var result = await connection.ExecuteScalarAsync("SELECT @Value1;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(param.Value1, result);
@@ -268,7 +268,7 @@ public class ExecuteScalarTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT @Value1, @Value2;", param);
+        var result = await connection.ExecuteScalarAsync("SELECT @Value1, @Value2;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(param.Value1, result);
@@ -286,7 +286,7 @@ public class ExecuteScalarTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync("SELECT @Value1 AS Value1 UNION ALL SELECT @Value2;", param);
+        var result = await connection.ExecuteScalarAsync("SELECT @Value1 AS Value1 UNION ALL SELECT @Value2;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(param.Value1, result);
@@ -305,7 +305,7 @@ public class ExecuteScalarTest
         // Act
         var result = await connection.ExecuteScalarAsync("[dbo].[sp_get_identity_table_by_id]",
             param: new { tables.Last().Id },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Last().Id, result);
@@ -318,7 +318,7 @@ public class ExecuteScalarTest
         // Act
         var result = await connection.ExecuteScalarAsync("[dbo].[sp_multiply]",
             param: new { Value1 = 100, Value2 = 200 },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(20000, result);
@@ -340,7 +340,7 @@ public class ExecuteScalarTest
         // Act
         var result = await connection.ExecuteScalarAsync("[dbo].[sp_multiply_with_output]",
             param: param,
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(20000, result);
@@ -352,7 +352,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -360,7 +360,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -521,7 +521,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync<object>("SELECT * FROM (SELECT 1 AS Column1) TMP WHERE 1 = 0;");
+        var result = await connection.ExecuteScalarAsync<object>("SELECT * FROM (SELECT 1 AS Column1) TMP WHERE 1 = 0;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsNull(result);
@@ -532,7 +532,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync<int>("SELECT 1;");
+        var result = await connection.ExecuteScalarAsync<int>("SELECT 1;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -543,7 +543,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync<int>("SELECT 2 UNION ALL SELECT 1;");
+        var result = await connection.ExecuteScalarAsync<int>("SELECT 2 UNION ALL SELECT 1;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result);
@@ -554,7 +554,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync<int>("SELECT 1 AS Value1, 2 AS Value2;");
+        var result = await connection.ExecuteScalarAsync<int>("SELECT 1 AS Value1, 2 AS Value2;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -571,7 +571,7 @@ public class ExecuteScalarTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync<DateTime>("SELECT @Value1;", param);
+        var result = await connection.ExecuteScalarAsync<DateTime>("SELECT @Value1;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(param.Value1, result);
@@ -589,7 +589,7 @@ public class ExecuteScalarTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync<DateTime>("SELECT @Value1, @Value2;", param);
+        var result = await connection.ExecuteScalarAsync<DateTime>("SELECT @Value1, @Value2;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(param.Value1, result);
@@ -607,7 +607,7 @@ public class ExecuteScalarTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteScalarAsync<DateTime>("SELECT @Value1 AS Value1 UNION ALL SELECT @Value2;", param);
+        var result = await connection.ExecuteScalarAsync<DateTime>("SELECT @Value1 AS Value1 UNION ALL SELECT @Value2;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(param.Value1, result);
@@ -626,7 +626,7 @@ public class ExecuteScalarTest
         // Act
         var result = await connection.ExecuteScalarAsync<long>("[dbo].[sp_get_identity_table_by_id]",
             param: new { tables.Last().Id },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Last().Id, result);
@@ -639,7 +639,7 @@ public class ExecuteScalarTest
         // Act
         var result = await connection.ExecuteScalarAsync<int>("[dbo].[sp_multiply]",
             param: new { Value1 = 100, Value2 = 200 },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(20000, result);
@@ -650,7 +650,7 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync<object>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync<object>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -658,8 +658,10 @@ public class ExecuteScalarTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync<object>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync<object>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

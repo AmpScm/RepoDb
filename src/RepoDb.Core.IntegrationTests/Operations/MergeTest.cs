@@ -753,7 +753,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            entity);
+            entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -776,7 +776,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             entity,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -797,7 +797,7 @@ public class MergeTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var mergeResult = await connection.MergeAsync<IdentityTable>(entity);
+        var mergeResult = await connection.MergeAsync<IdentityTable>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -819,7 +819,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable>(entity,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -840,7 +840,7 @@ public class MergeTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity);
+        var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -862,7 +862,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity,
-            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -884,7 +884,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable>(entity,
-            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -906,7 +906,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity,
-            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -928,7 +928,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable>(entity,
-            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -950,7 +950,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -971,7 +971,7 @@ public class MergeTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity);
+        var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -992,7 +992,7 @@ public class MergeTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity);
+        var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1014,7 +1014,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity,
-            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1036,7 +1036,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity,
-            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1058,7 +1058,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity,
-            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1080,7 +1080,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1104,7 +1104,7 @@ public class MergeTest
         connection.Insert<IdentityTable>(entity);
 
         // Act
-        var mergeResult = await connection.MergeAsync<IdentityTable>(entity);
+        var mergeResult = await connection.MergeAsync<IdentityTable>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1128,7 +1128,7 @@ public class MergeTest
         connection.Insert<NonIdentityTable>(entity);
 
         // Act
-        var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity);
+        var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1153,7 +1153,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable>(entity,
-            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1178,7 +1178,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity,
-            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1203,7 +1203,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable>(entity,
-            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1228,7 +1228,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable>(entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1252,7 +1252,7 @@ public class MergeTest
         connection.Insert<IdentityTable>(entity);
 
         // Act
-        var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity);
+        var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1276,7 +1276,7 @@ public class MergeTest
         connection.Insert<NonIdentityTable>(entity);
 
         // Act
-        var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity);
+        var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1301,7 +1301,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity,
-            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(IdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1326,7 +1326,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity,
-            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1351,7 +1351,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<IdentityTable, long>(entity,
-            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1376,7 +1376,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<NonIdentityTable, Guid>(entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1397,7 +1397,7 @@ public class MergeTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var mergeResult = await connection.MergeAsync<IdentityTable>(entity, hints: SqlServerTableHints.TabLock);
+        var mergeResult = await connection.MergeAsync<IdentityTable>(entity, hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1422,7 +1422,7 @@ public class MergeTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var mergeResult = await connection.MergeAsync<WithExtraFieldsIdentityTable>(entity);
+        var mergeResult = await connection.MergeAsync<WithExtraFieldsIdentityTable>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -1446,7 +1446,7 @@ public class MergeTest
         connection.Insert<WithExtraFieldsIdentityTable>(entity);
 
         // Act
-        var mergeResult = await connection.MergeAsync<WithExtraFieldsIdentityTable>(entity);
+        var mergeResult = await connection.MergeAsync<WithExtraFieldsIdentityTable>(entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2002,7 +2002,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (object)entity);
+            (object)entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2025,7 +2025,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2047,7 +2047,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (object)entity);
+            (object)entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2070,7 +2070,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2092,7 +2092,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            entity);
+            entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityTable>());
@@ -2115,7 +2115,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             entity,
-            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityTable>());
@@ -2138,7 +2138,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2160,7 +2160,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (object)entity);
+            (object)entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2183,7 +2183,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2206,7 +2206,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2232,7 +2232,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (object)entity);
+            (object)entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2259,7 +2259,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2289,7 +2289,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityTable>());
@@ -2320,7 +2320,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             table,
-            qualifiers: Field.From(nameof(NonIdentityTable.Id)));
+            qualifiers: Field.From(nameof(NonIdentityTable.Id)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityTable>());
@@ -2347,7 +2347,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2373,7 +2373,7 @@ public class MergeTest
 
         // Act
         var mergeResult = await connection.MergeAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (object)entity);
+            (object)entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2400,7 +2400,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)));
+            qualifiers: Field.From(nameof(NonIdentityTable.ColumnInt)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2427,7 +2427,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }));
+            qualifiers: Field.From(new[] { nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal) }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2449,7 +2449,7 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            entity);
+            entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2472,7 +2472,7 @@ public class MergeTest
         // Act
         var mergeResult = await connection.MergeAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             (object)entity,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entity.Id, mergeResult);
@@ -2494,8 +2494,10 @@ public class MergeTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await Assert.ThrowsExactlyAsync<InvalidQualifiersException>(async () => await connection.MergeAsync(ClassMappedNameCache.Get<NonKeyedTable>(),
-            (object)entity));
+            (object)entity, cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

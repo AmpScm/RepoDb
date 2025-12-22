@@ -52,7 +52,7 @@ public partial class PropertyValueAttributeResolverTest
 
     #region Helpers
 
-    private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
+    private static IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
         [
             // Different Values
             new NameAttribute("ColumnString"),

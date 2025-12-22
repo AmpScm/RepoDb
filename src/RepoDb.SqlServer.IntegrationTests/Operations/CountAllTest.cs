@@ -31,14 +31,12 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.CountAll<CompleteTable>();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -47,14 +45,12 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.CountAll<CompleteTable>(SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.CountAll<CompleteTable>(SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -67,14 +63,12 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAllAsync<CompleteTable>();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -83,14 +77,12 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAllAsync<CompleteTable>(SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAllAsync<CompleteTable>(SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -107,14 +99,12 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -123,15 +113,13 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>(),
-                SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>(),
+            SqlServerTableHints.NoLock);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -144,14 +132,12 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -160,16 +146,16 @@ public class CountAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

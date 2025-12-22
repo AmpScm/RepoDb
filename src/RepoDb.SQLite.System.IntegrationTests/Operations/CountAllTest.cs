@@ -28,17 +28,15 @@ public class CountAllTest
     [TestMethod]
     public void TestSqLiteConnectionCountAll()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.CountAll<SdsCompleteTable>();
+        // Act
+        var result = connection.CountAll<SdsCompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -46,14 +44,12 @@ public class CountAllTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             connection.CountAll<SdsCompleteTable>(hints: "WhatEver");
-        }
         });
     }
 
@@ -64,17 +60,15 @@ public class CountAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionCountAllAsync()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.CountAllAsync<SdsCompleteTable>();
+        // Act
+        var result = await connection.CountAllAsync<SdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -82,14 +76,12 @@ public class CountAllTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
-            await connection.CountAllAsync<SdsCompleteTable>(hints: "WhatEver");
-        }
+            await connection.CountAllAsync<SdsCompleteTable>(hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -104,17 +96,15 @@ public class CountAllTest
     [TestMethod]
     public void TestSqLiteConnectionCountAllViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.CountAll(ClassMappedNameCache.Get<SdsCompleteTable>());
+        // Act
+        var result = connection.CountAll(ClassMappedNameCache.Get<SdsCompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -122,15 +112,13 @@ public class CountAllTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             connection.CountAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -141,17 +129,15 @@ public class CountAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionCountAllAsyncViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.CountAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>());
+        // Act
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -159,17 +145,17 @@ public class CountAllTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             await connection.CountAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

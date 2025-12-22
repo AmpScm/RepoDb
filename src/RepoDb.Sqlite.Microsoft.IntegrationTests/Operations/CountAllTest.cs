@@ -62,7 +62,7 @@ public class CountAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAllAsync<MdsCompleteTable>();
+        var result = await connection.CountAllAsync<MdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -76,7 +76,7 @@ public class CountAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<MdsCompleteTable>(hints: "WhatEver"));
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<MdsCompleteTable>(hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -125,7 +125,7 @@ public class CountAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>());
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -140,8 +140,10 @@ public class CountAllTest
 
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

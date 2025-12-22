@@ -613,7 +613,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -643,7 +643,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -671,7 +671,7 @@ public class UpdateTest
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table);
+        var affectedRows = await connection.UpdateAsync<IdentityTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -700,7 +700,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -729,7 +729,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            table.Id);
+            table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -758,7 +758,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            new { table.Id });
+            new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -787,7 +787,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            c => c.Id == table.Id);
+            c => c.Id == table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -815,7 +815,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar);
+            c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -846,7 +846,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -883,7 +883,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -921,7 +921,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -951,7 +951,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -985,7 +985,7 @@ public class UpdateTest
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
         var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-            entity.Id);
+            entity.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1015,7 +1015,7 @@ public class UpdateTest
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
         var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-            new { entity.Id });
+            new { entity.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1045,7 +1045,7 @@ public class UpdateTest
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
         var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-            c => c.Id == entity.Id);
+            c => c.Id == entity.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1077,7 +1077,7 @@ public class UpdateTest
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
         var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1115,7 +1115,7 @@ public class UpdateTest
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
         var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1154,7 +1154,7 @@ public class UpdateTest
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
         var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1380,7 +1380,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             data,
-            table.Id);
+            table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1690,7 +1690,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            data);
+            data, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1726,7 +1726,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             data,
-            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1757,7 +1757,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            data);
+            data, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1786,7 +1786,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             data,
-            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1822,7 +1822,7 @@ public class UpdateTest
 
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            data);
+            data, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1850,7 +1850,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             data,
-            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
+            fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1878,7 +1878,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync<object>(ClassMappedNameCache.Get<NonIdentityTable>(),
             data,
-            table.Id);
+            table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1902,7 +1902,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
         table,
-        table.Id);
+        table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1926,7 +1926,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            new { table.Id });
+            new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1958,7 +1958,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -1996,7 +1996,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -2035,7 +2035,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -2060,7 +2060,7 @@ public class UpdateTest
 
         // Act
         var updateResult = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, updateResult);
@@ -2095,7 +2095,7 @@ public class UpdateTest
         // Act
         var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             data,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -2111,7 +2111,7 @@ public class UpdateTest
             ColumnDecimal = 2
         };
         await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            data));
+            data, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -2124,8 +2124,10 @@ public class UpdateTest
             AnyField = 1
         };
         await Assert.ThrowsExactlyAsync<EmptyException>(async () => await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            data));
+            data, cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

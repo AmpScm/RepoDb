@@ -108,7 +108,7 @@ public class MergeTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        object result = await connection.MergeAsync<CompleteTable>(table);
+        object result = await connection.MergeAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
@@ -127,7 +127,7 @@ public class MergeTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        object result = await connection.MergeAsync<CompleteTable>(table);
+        object result = await connection.MergeAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -158,7 +158,7 @@ public class MergeTest
 
         // Act
         object result = await connection.MergeAsync<CompleteTable>(table,
-            qualifiers: qualifiers);
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -387,7 +387,7 @@ public class MergeTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
@@ -404,7 +404,7 @@ public class MergeTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
@@ -425,7 +425,7 @@ public class MergeTest
 
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -451,7 +451,7 @@ public class MergeTest
 
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            entity);
+            entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -481,7 +481,7 @@ public class MergeTest
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table,
-            qualifiers: qualifiers);
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -503,7 +503,7 @@ public class MergeTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            (object)table);
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -528,7 +528,7 @@ public class MergeTest
 
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -558,7 +558,7 @@ public class MergeTest
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table,
-            qualifiers: qualifiers);
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -570,6 +570,8 @@ public class MergeTest
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

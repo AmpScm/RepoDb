@@ -30,48 +30,40 @@ public class CompareInfoAttributeTest
     public void TestCompareInfoAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new CompareInfoAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new CompareInfoAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(SqlCompareOptions.IgnoreCase, parameter.CompareInfo);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(SqlCompareOptions.IgnoreCase, parameter.CompareInfo);
     }
 
     [TestMethod]
     public void TestCompareInfoAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(CompareInfoAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(CompareInfoAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(SqlCompareOptions.IgnoreCase, parameter.CompareInfo);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(SqlCompareOptions.IgnoreCase, parameter.CompareInfo);
     }
 }

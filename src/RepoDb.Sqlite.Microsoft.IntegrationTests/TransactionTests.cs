@@ -80,7 +80,7 @@ public class TransactionTests
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.BatchQueryAsync<MdsCompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
+        await connection.BatchQueryAsync<MdsCompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -118,7 +118,7 @@ public class TransactionTests
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.CountAsync<MdsCompleteTable>(it => it.Id != 0, transaction: transaction);
+        await connection.CountAsync<MdsCompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -156,7 +156,7 @@ public class TransactionTests
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.CountAllAsync<MdsCompleteTable>(transaction: transaction);
+        await connection.CountAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -242,7 +242,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAsync<MdsCompleteTable>(entity, transaction: transaction);
+            await connection.DeleteAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -269,7 +269,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAsync<MdsCompleteTable>(entity, transaction: transaction);
+            await connection.DeleteAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -362,7 +362,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAllAsync<MdsCompleteTable>(transaction: transaction);
+            await connection.DeleteAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -389,7 +389,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAllAsync<MdsCompleteTable>(transaction: transaction);
+            await connection.DeleteAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -473,7 +473,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAsync<MdsCompleteTable>(entity, transaction: transaction);
+            await connection.InsertAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -497,7 +497,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAsync<MdsCompleteTable>(entity, transaction: transaction);
+            await connection.InsertAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -581,7 +581,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAllAsync<MdsCompleteTable>(entities, transaction: transaction);
+            await connection.InsertAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -605,7 +605,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAllAsync<MdsCompleteTable>(entities, transaction: transaction);
+            await connection.InsertAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -689,7 +689,7 @@ public class TransactionTests
         var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
-        await connection.MergeAsync<MdsCompleteTable>(entity, transaction: transaction);
+        await connection.MergeAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
         transaction.Commit();
@@ -712,7 +712,7 @@ public class TransactionTests
         var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
-        await connection.MergeAsync<MdsCompleteTable>(entity, transaction: transaction);
+        await connection.MergeAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
         transaction.Rollback();
@@ -795,7 +795,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.MergeAllAsync<MdsCompleteTable>(entities, transaction: transaction);
+            await connection.MergeAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -819,7 +819,7 @@ public class TransactionTests
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.MergeAllAsync<MdsCompleteTable>(entities, transaction: transaction);
+            await connection.MergeAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -864,7 +864,7 @@ public class TransactionTests
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryAsync<MdsCompleteTable>(it => it.Id != 0, transaction: transaction);
+        await connection.QueryAsync<MdsCompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -902,7 +902,7 @@ public class TransactionTests
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryAllAsync<MdsCompleteTable>(transaction: transaction);
+        await connection.QueryAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -1034,7 +1034,7 @@ public class TransactionTests
         // Act
         await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -1050,7 +1050,7 @@ public class TransactionTests
         await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -1067,7 +1067,7 @@ public class TransactionTests
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -1085,7 +1085,7 @@ public class TransactionTests
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -1104,7 +1104,7 @@ public class TransactionTests
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -1124,7 +1124,7 @@ public class TransactionTests
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -1273,7 +1273,7 @@ public class TransactionTests
             entity.ColumnBoolean = "false";
 
             // Act
-            await connection.UpdateAsync<MdsCompleteTable>(entity, transaction: transaction);
+            await connection.UpdateAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -1305,7 +1305,7 @@ public class TransactionTests
             entity.ColumnBoolean = "false";
 
             // Act
-            await connection.UpdateAsync<MdsCompleteTable>(entity, transaction: transaction);
+            await connection.UpdateAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -1413,7 +1413,7 @@ public class TransactionTests
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            await connection.UpdateAllAsync<MdsCompleteTable>(entities, transaction: transaction);
+            await connection.UpdateAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -1445,7 +1445,7 @@ public class TransactionTests
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            await connection.UpdateAllAsync<MdsCompleteTable>(entities, transaction: transaction);
+            await connection.UpdateAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -1504,7 +1504,7 @@ public class TransactionTests
             Database.CreateMdsCompleteTable(connection);
 
             // Act
-            await connection.InsertAllAsync<MdsCompleteTable>(entities);
+            await connection.InsertAllAsync<MdsCompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
@@ -1554,7 +1554,7 @@ public class TransactionTests
             Database.CreateMdsCompleteTable(connection);
 
             // Act
-            await connection.MergeAllAsync<MdsCompleteTable>(entities);
+            await connection.MergeAllAsync<MdsCompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
@@ -1619,7 +1619,7 @@ public class TransactionTests
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            await connection.UpdateAllAsync<MdsCompleteTable>(entities);
+            await connection.UpdateAllAsync<MdsCompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Act
             var queryResult = connection.QueryAll<MdsCompleteTable>();
@@ -1631,6 +1631,8 @@ public class TransactionTests
         // Complete
         transaction.Complete();
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

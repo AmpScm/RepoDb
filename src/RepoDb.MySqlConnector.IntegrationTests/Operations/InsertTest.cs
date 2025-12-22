@@ -31,24 +31,22 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert<CompleteTable>(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert<CompleteTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
-            Assert.IsNotNull(table.Id);
-            Assert.IsGreaterThan(0, table.Id.Value);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        Assert.IsNotNull(table.Id);
+        Assert.IsGreaterThan(0, table.Id.Value);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -57,22 +55,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert<NonIdentityCompleteTable>(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert<NonIdentityCompleteTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     #endregion
@@ -85,24 +81,22 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync<CompleteTable>(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
-            Assert.IsNotNull(table.Id);
-            Assert.IsGreaterThan(0, table.Id.Value);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        Assert.IsNotNull(table.Id);
+        Assert.IsGreaterThan(0, table.Id.Value);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -111,22 +105,20 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync<NonIdentityCompleteTable>(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync<NonIdentityCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     #endregion
@@ -143,23 +135,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -168,23 +158,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
-                (object)table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
+            (object)table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -193,24 +181,22 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
-            Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -219,23 +205,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -244,23 +228,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTablesAsDynamics(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-                (object)table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
+            (object)table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -269,23 +251,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     #endregion
@@ -298,23 +278,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -323,23 +301,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object)table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -348,24 +324,22 @@ public class InsertTest
         // Setup
         var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
-            Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -374,23 +348,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -399,23 +371,21 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTablesAsDynamics(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-                (object)table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -424,24 +394,24 @@ public class InsertTest
         // Setup
         var table = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-                table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<NonIdentityCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

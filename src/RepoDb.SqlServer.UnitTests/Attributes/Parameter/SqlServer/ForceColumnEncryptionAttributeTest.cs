@@ -29,48 +29,40 @@ public class ForceColumnEncryptionAttributeTest
     public void TestForceColumnEncryptionAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new ForceColumnEncryptionAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new ForceColumnEncryptionAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.IsTrue(parameter.ForceColumnEncryption);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.IsTrue(parameter.ForceColumnEncryption);
     }
 
     [TestMethod]
     public void TestForceColumnEncryptionAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(ForceColumnEncryptionAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(ForceColumnEncryptionAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.IsTrue(parameter.ForceColumnEncryption);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.IsTrue(parameter.ForceColumnEncryption);
     }
 }

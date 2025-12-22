@@ -146,7 +146,7 @@ public class CountTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync<MdsCompleteTable>((object?)null);
+        var result = await connection.CountAsync<MdsCompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -161,7 +161,7 @@ public class CountTest
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = await connection.CountAsync<MdsCompleteTable>(e => ids.Contains(e.Id));
+        var result = await connection.CountAsync<MdsCompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
@@ -175,7 +175,7 @@ public class CountTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync<MdsCompleteTable>(new { tables.First().Id });
+        var result = await connection.CountAsync<MdsCompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -189,7 +189,7 @@ public class CountTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync<MdsCompleteTable>(new QueryField("Id", tables.First().Id));
+        var result = await connection.CountAsync<MdsCompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -208,7 +208,7 @@ public class CountTest
             };
 
         // Act
-        var result = await connection.CountAsync<MdsCompleteTable>(queryFields);
+        var result = await connection.CountAsync<MdsCompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -228,7 +228,7 @@ public class CountTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.CountAsync<MdsCompleteTable>(queryGroup);
+        var result = await connection.CountAsync<MdsCompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -243,7 +243,7 @@ public class CountTest
 
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync<MdsCompleteTable>((object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -366,7 +366,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -381,7 +381,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            new { tables.First().Id });
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -396,7 +396,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            new QueryField("Id", tables.First().Id));
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -416,7 +416,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            queryFields);
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -437,7 +437,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -453,8 +453,10 @@ public class CountTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

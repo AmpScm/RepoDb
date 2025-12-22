@@ -29,25 +29,23 @@ public class UpdateAllTest
     [TestMethod]
     public void TestSqLiteConnectionUpdateAll()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
 
-            // Act
-            var result = connection.UpdateAll<SdsCompleteTable>(tables);
+        // Act
+        var result = connection.UpdateAll<SdsCompleteTable>(tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<SdsCompleteTable>();
+        // Act
+        var queryResult = connection.QueryAll<SdsCompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     #endregion
@@ -57,25 +55,23 @@ public class UpdateAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionUpdateAllAsync()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
 
-            // Act
-            var result = await connection.UpdateAllAsync<SdsCompleteTable>(tables);
+        // Act
+        var result = await connection.UpdateAllAsync<SdsCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<SdsCompleteTable>();
+        // Act
+        var queryResult = connection.QueryAll<SdsCompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     #endregion
@@ -89,50 +85,46 @@ public class UpdateAllTest
     [TestMethod]
     public void TestSqLiteConnectionUpdateAllViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
 
-            // Act
-            var result = connection.UpdateAll(ClassMappedNameCache.Get<SdsCompleteTable>(), tables);
+        // Act
+        var result = connection.UpdateAll(ClassMappedNameCache.Get<SdsCompleteTable>(), tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<SdsCompleteTable>();
+        // Act
+        var queryResult = connection.QueryAll<SdsCompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionUpdateAllAsExpandoObjectViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            Database.CreateSdsCompleteTables(10, connection);
-            var tables = Helper.CreateSdsCompleteTablesAsExpandoObjects(10);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        Database.CreateSdsCompleteTables(10, connection);
+        var tables = Helper.CreateSdsCompleteTablesAsExpandoObjects(10);
 
-            // Act
-            var result = connection.UpdateAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                tables);
+        // Act
+        var result = connection.UpdateAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            tables);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<SdsCompleteTable>();
+        // Act
+        var queryResult = connection.QueryAll<SdsCompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
 
     #endregion
@@ -142,51 +134,49 @@ public class UpdateAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionUpdateAllAsyncViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
 
-            // Act
-            var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), tables);
+        // Act
+        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<SdsCompleteTable>();
+        // Act
+        var queryResult = connection.QueryAll<SdsCompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionUpdateAllAsyncAsExpandoObjectViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            Database.CreateSdsCompleteTables(10, connection);
-            var tables = Helper.CreateSdsCompleteTablesAsExpandoObjects(10);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        Database.CreateSdsCompleteTables(10, connection);
+        var tables = Helper.CreateSdsCompleteTablesAsExpandoObjects(10);
 
-            // Act
-            var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                tables);
+        // Act
+        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            tables, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(10, result);
+        // Assert
+        Assert.AreEqual(10, result);
 
-            // Act
-            var queryResult = connection.QueryAll<SdsCompleteTable>();
+        // Act
+        var queryResult = connection.QueryAll<SdsCompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

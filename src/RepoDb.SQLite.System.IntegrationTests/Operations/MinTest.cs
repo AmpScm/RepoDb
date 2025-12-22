@@ -29,115 +29,103 @@ public class MinTest
     [TestMethod]
     public void TestSqLiteConnectionMinWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var ids = new[] { tables.First().Id, tables.Last().Id };
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var ids = new[] { tables.First().Id, tables.Last().Id };
 
-            // Act
-            var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        // Act
+        var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        // Act
+        var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
-                queryFields);
+        // Act
+        var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = connection.Min<SdsCompleteTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -145,8 +133,7 @@ public class MinTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -154,7 +141,6 @@ public class MinTest
             connection.Min<SdsCompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -165,115 +151,103 @@ public class MinTest
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var ids = new[] { tables.First().Id, tables.Last().Id };
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var ids = new[] { tables.First().Id, tables.Last().Id };
 
-            // Act
-            var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        // Act
+        var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        // Act
+        var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
-                queryFields);
+        // Act
+        var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -281,16 +255,14 @@ public class MinTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             await connection.MinAsync<SdsCompleteTable>(e => e.ColumnInt,
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -305,102 +277,92 @@ public class MinTest
     [TestMethod]
     public void TestSqLiteConnectionMinViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaTableNameViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaTableNameViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaTableNameViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMinViaTableNameViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        // Act
+        var result = connection.Min(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -408,8 +370,7 @@ public class MinTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -418,7 +379,6 @@ public class MinTest
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -429,102 +389,92 @@ public class MinTest
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaTableNameViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaTableNameViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaTableNameViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMinAsyncViaTableNameViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        // Act
+        var result = await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -532,8 +482,7 @@ public class MinTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -541,10 +490,11 @@ public class MinTest
             await connection.MinAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -34,12 +34,10 @@ public static class Database
 
     public static void Cleanup()
     {
-        using (var connection = new OracleConnection(ConnectionString))
-        {
-            //connection.Truncate<CompleteTable>();
-            //connection.Truncate<NonIdentityCompleteTable>();
-            //connection.Truncate<MultiKeyTable>();
-        }
+        using var connection = new OracleConnection(ConnectionString);
+        //connection.Truncate<CompleteTable>();
+        //connection.Truncate<NonIdentityCompleteTable>();
+        //connection.Truncate<MultiKeyTable>();
     }
 
     #endregion
@@ -128,11 +126,9 @@ EXCEPTION
             RAISE;
         END IF;
 END;" };
-        using (var connection = new OracleConnection(ConnectionString).EnsureOpen())
-        {
-            foreach (var commandText in commandTexts)
-                connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new OracleConnection(ConnectionString).EnsureOpen();
+        foreach (var commandText in commandTexts)
+            connection.ExecuteNonQuery(commandText);
     }
 
     private static void CreateNonIdentityCompleteTable()
@@ -182,10 +178,8 @@ END;" };
                         )
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new OracleConnection(ConnectionString).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new OracleConnection(ConnectionString).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     private static void CreateMultiKeyTable()
@@ -204,10 +198,8 @@ END;" };
                         )
                     ) ON [PRIMARY];
                 END";
-        using (var connection = new OracleConnection(ConnectionString).EnsureOpen())
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new OracleConnection(ConnectionString).EnsureOpen();
+        connection.ExecuteNonQuery(commandText);
     }
 
     #endregion

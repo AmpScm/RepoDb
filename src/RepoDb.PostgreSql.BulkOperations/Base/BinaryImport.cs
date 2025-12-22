@@ -297,18 +297,16 @@ public static partial class NpgsqlConnectionExtension
 
             foreach (var batch in batches)
             {
-                using (var importer = GetNpgsqlBinaryImporter(connection,
+                using var importer = GetNpgsqlBinaryImporter(connection,
                     tableName ?? table.TableName,
                     mappings,
                     bulkCopyTimeout,
                     identityBehavior,
-                    dbSetting))
-                {
-                    result += BinaryImport(importer,
-                        batch,
-                        mappings,
-                        identityBehavior);
-                }
+                    dbSetting);
+                result += BinaryImport(importer,
+                    batch,
+                    mappings,
+                    identityBehavior);
             }
 
             return result;
@@ -555,32 +553,30 @@ public static partial class NpgsqlConnectionExtension
 
             foreach (var batch in batches)
             {
-                using (var importer = await GetNpgsqlBinaryImporterAsync(connection,
+                using var importer = await GetNpgsqlBinaryImporterAsync(connection,
                     tableName,
                     mappings,
                     bulkCopyTimeout,
                     identityBehavior,
                     dbSetting,
-                    cancellationToken))
+                    cancellationToken);
+                if (isDictionary)
                 {
-                    if (isDictionary)
-                    {
-                        result += await BinaryImportExplicitAsync(importer,
-                            batch.Select(entity => (IDictionary<string, object?>)entity),
-                            mappings,
-                            identityBehavior,
-                            cancellationToken);
-                    }
-                    else
-                    {
-                        result += await BinaryImportAsync<TEntity>(importer,
-                            tableName,
-                            batch,
-                            mappings,
-                            entityType,
-                            identityBehavior,
-                            cancellationToken);
-                    }
+                    result += await BinaryImportExplicitAsync(importer,
+                        batch.Select(entity => (IDictionary<string, object?>)entity),
+                        mappings,
+                        identityBehavior,
+                        cancellationToken);
+                }
+                else
+                {
+                    result += await BinaryImportAsync<TEntity>(importer,
+                        tableName,
+                        batch,
+                        mappings,
+                        entityType,
+                        identityBehavior,
+                        cancellationToken);
                 }
             }
 
@@ -721,20 +717,18 @@ public static partial class NpgsqlConnectionExtension
 
             foreach (var batch in batches)
             {
-                using (var importer = await GetNpgsqlBinaryImporterAsync(connection,
+                using var importer = await GetNpgsqlBinaryImporterAsync(connection,
                     tableName ?? table.TableName,
                     mappings,
                     bulkCopyTimeout,
                     identityBehavior,
                     dbSetting,
-                    cancellationToken))
-                {
-                    result += await BinaryImportAsync(importer,
-                        batch,
-                        mappings,
-                        identityBehavior,
-                        cancellationToken);
-                }
+                    cancellationToken);
+                result += await BinaryImportAsync(importer,
+                    batch,
+                    mappings,
+                    identityBehavior,
+                    cancellationToken);
             }
 
             return result;

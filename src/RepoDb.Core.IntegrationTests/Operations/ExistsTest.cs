@@ -153,7 +153,7 @@ public class ExistsTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExistsAsync<IdentityTable>((object?)null);
+        var result = await connection.ExistsAsync<IdentityTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -170,7 +170,7 @@ public class ExistsTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExistsAsync<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8);
+        var result = await connection.ExistsAsync<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -187,7 +187,7 @@ public class ExistsTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 });
+        var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -205,7 +205,7 @@ public class ExistsTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExistsAsync<IdentityTable>(field);
+        var result = await connection.ExistsAsync<IdentityTable>(field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -227,7 +227,7 @@ public class ExistsTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExistsAsync<IdentityTable>(fields);
+        var result = await connection.ExistsAsync<IdentityTable>(fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -250,7 +250,7 @@ public class ExistsTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExistsAsync<IdentityTable>(queryGroup);
+        var result = await connection.ExistsAsync<IdentityTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -378,7 +378,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -395,7 +395,7 @@ public class ExistsTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 });
+        var result = await connection.ExistsAsync<IdentityTable>(new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -414,7 +414,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -437,7 +437,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -461,11 +461,13 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

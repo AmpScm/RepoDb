@@ -62,7 +62,7 @@ public class CountAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.CountAllAsync<CompleteTable>();
+        var result = await connection.CountAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -76,7 +76,7 @@ public class CountAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<CompleteTable>(hints: "WhatEver"));
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<CompleteTable>(hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -125,7 +125,7 @@ public class CountAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        var result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -140,8 +140,10 @@ public class CountAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

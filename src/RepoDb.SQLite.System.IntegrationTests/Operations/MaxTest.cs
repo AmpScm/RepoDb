@@ -29,115 +29,103 @@ public class MaxTest
     [TestMethod]
     public void TestSqLiteConnectionMaxWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var ids = new[] { tables.First().Id, tables.Last().Id };
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var ids = new[] { tables.First().Id, tables.Last().Id };
 
-            // Act
-            var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        // Act
+        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        // Act
+        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
-                queryFields);
+        // Act
+        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -145,8 +133,7 @@ public class MaxTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -154,7 +141,6 @@ public class MaxTest
             connection.Max<SdsCompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -165,115 +151,103 @@ public class MaxTest
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var ids = new[] { tables.First().Id, tables.Last().Id };
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var ids = new[] { tables.First().Id, tables.Last().Id };
 
-            // Act
-            var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        // Act
+        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        // Act
+        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
-                queryFields);
+        // Act
+        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -281,16 +255,14 @@ public class MaxTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -305,102 +277,92 @@ public class MaxTest
     [TestMethod]
     public void TestSqLiteConnectionMaxViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        // Act
+        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaTableNameViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        // Act
+        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaTableNameViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaTableNameViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        // Act
+        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionMaxViaTableNameViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        // Act
+        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -408,8 +370,7 @@ public class MaxTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -418,7 +379,6 @@ public class MaxTest
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -429,102 +389,92 @@ public class MaxTest
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        // Act
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaTableNameViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        // Act
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaTableNameViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaTableNameViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        // Act
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAsyncViaTableNameViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        // Act
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -532,8 +482,7 @@ public class MaxTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -541,10 +490,11 @@ public class MaxTest
             await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

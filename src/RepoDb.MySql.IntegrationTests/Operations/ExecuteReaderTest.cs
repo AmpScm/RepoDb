@@ -121,7 +121,7 @@ public class ExecuteReaderTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM `CompleteTable`;");
+        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
         while (reader.Read())
         {
             // Act
@@ -145,7 +145,7 @@ public class ExecuteReaderTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM `CompleteTable`; SELECT Id, ColumnInt, ColumnDateTime FROM `CompleteTable`;");
+        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM `CompleteTable`; SELECT Id, ColumnInt, ColumnDateTime FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
         do
         {
             while (reader.Read())
@@ -172,7 +172,7 @@ public class ExecuteReaderTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM `CompleteTable`;");
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
         // Act
         var result = DataReader.ToEnumerable<CompleteTable>((DbDataReader)reader).AsList();
 
@@ -188,13 +188,15 @@ public class ExecuteReaderTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM `CompleteTable`;");
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
         // Act
         var result = DataReader.ToEnumerable((DbDataReader)reader).AsList();
 
         // Assert
         tables.AsList().ForEach(table => Helper.AssertMembersEquality(table, result.First(e => e.Id == table.Id)));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

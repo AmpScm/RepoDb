@@ -101,7 +101,7 @@ public class DbHelperTests
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
         // Act
-        DbFieldCollection fields = await helper.GetFieldsAsync(connection, "CompleteTable", null);
+        DbFieldCollection fields = await helper.GetFieldsAsync(connection, "CompleteTable", null, TestContext.CancellationToken);
 
         // Assert
         using System.Data.IDataReader reader = connection.ExecuteReader(@"SELECT COLUMN_NAME AS ColumnName
@@ -134,7 +134,7 @@ public class DbHelperTests
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
         // Act
-        DbFieldCollection fields = await helper.GetFieldsAsync(connection, "CompleteTable", null);
+        DbFieldCollection fields = await helper.GetFieldsAsync(connection, "CompleteTable", null, TestContext.CancellationToken);
         DbField primary = fields.FirstOrDefault(f => f.IsPrimary == true);
 
         // Assert
@@ -150,13 +150,15 @@ public class DbHelperTests
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
         // Act
-        DbFieldCollection fields = await helper.GetFieldsAsync(connection, "CompleteTable", null);
+        DbFieldCollection fields = await helper.GetFieldsAsync(connection, "CompleteTable", null, TestContext.CancellationToken);
         DbField primary = fields.FirstOrDefault(f => f.IsIdentity == true);
 
         // Assert
         Assert.IsNotNull(primary);
         Assert.AreEqual("Id", primary.FieldName);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

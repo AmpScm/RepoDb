@@ -133,49 +133,45 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkInsertForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkInsertForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -185,53 +181,49 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkDeleteForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public void TestBinaryBulkDeleteForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -241,49 +233,45 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkMergeForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkMergeForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -293,55 +281,51 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkUpdateForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkUpdateForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -355,49 +339,45 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkInsertForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkInsertForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -407,53 +387,49 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkDeleteForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public void TestBinaryBulkDeleteForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -463,49 +439,45 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkMergeForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkMergeForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -515,55 +487,51 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkUpdateForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkUpdateForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -577,49 +545,45 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkInsertForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkInsertForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -629,53 +593,49 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkDeleteForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public void TestBinaryBulkDeleteForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -685,49 +645,45 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkMergeForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkMergeForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -737,55 +693,51 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkUpdateForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public void TestBinaryBulkUpdateForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                entities: entities);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            entities: entities);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -799,46 +751,42 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkInsertForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, result);
     }
 
     [TestMethod]
     public void TestBinaryBulkInsertForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkInsert(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkInsert(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -848,55 +796,51 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkDeleteForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public void TestBinaryBulkDeleteForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkDelete(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkDelete(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -906,49 +850,45 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkMergeForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(entities.Count, result);
     }
 
     [TestMethod]
     public void TestBinaryBulkMergeForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkMerge(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkMerge(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(entities.Count, result);
     }
 
     #endregion
@@ -958,47 +898,43 @@ public class EnumTest
     [TestMethod]
     public void TestBinaryBulkUpdateForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, result);
     }
 
     [TestMethod]
     public void TestBinaryBulkUpdateForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = connection.BinaryBulkUpdate(
-                tableName,
-                table);
+        // Act
+        var result = connection.BinaryBulkUpdate(
+            tableName,
+            table);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, result);
     }
 
     #endregion
@@ -1016,49 +952,45 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1068,53 +1000,49 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -1124,49 +1052,45 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1176,55 +1100,51 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnum()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnumWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(entities);
+        // Act
+        connection.InsertAll(entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1238,49 +1158,45 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1290,53 +1206,49 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -1346,49 +1258,45 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1398,55 +1306,51 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnumForAnonymous()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableAnonymousTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableAnonymousTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnumForAnonymousWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForAnonymousWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1460,49 +1364,45 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1512,53 +1412,49 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -1568,49 +1464,45 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, false);
+        var tableName = "EnumTable";
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1620,55 +1512,51 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnumForExpandoObject()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = Helper.CreateEnumTableExpandoObjectTables(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnumForExpandoObjectWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
-            var tableName = "EnumTable";
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForExpandoObjectWithNullValues(10, true);
+        var tableName = "EnumTable";
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                entities: entities);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1682,46 +1570,42 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, result);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkInsertAsyncForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkInsertAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkInsertAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
-            var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
-            Assert.AreEqual(entities.Count, assertCount);
-        }
+        // Assert
+        var queryResult = connection.QueryAll<EnumTable>(tableName).ToList();
+        var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2));
+        Assert.AreEqual(entities.Count, assertCount);
     }
 
     #endregion
@@ -1731,55 +1615,51 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkDeleteAsyncForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkDeleteAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkDeleteAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -1789,49 +1669,45 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(entities.Count, result);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkMergeAsyncForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, false);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkMergeAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkMergeAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
+        // Assert
+        Assert.AreEqual(entities.Count, result);
 
-            // Assert
-            var countResult = connection.CountAll<EnumTable>();
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        var countResult = connection.CountAll<EnumTable>();
+        Assert.AreEqual(entities.Count, result);
     }
 
     #endregion
@@ -1841,48 +1717,46 @@ public class EnumTest
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnumForDataTable()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTable(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTable(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, result);
     }
 
     [TestMethod]
     public async Task TestBinaryBulkUpdateAsyncForEnumForDataTableWithNullValues()
     {
-        using (var connection = GetConnection())
-        {
-            // Prepare
-            var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
-            var tableName = "EnumTable";
-            var table = Helper.ToDataTable(tableName, entities);
+        using var connection = GetConnection();
+        // Prepare
+        var entities = CreateEnumTablesForDataTableWithNullValues(10, true);
+        var tableName = "EnumTable";
+        var table = Helper.ToDataTable(tableName, entities);
 
-            // Act
-            connection.InsertAll(tableName, entities);
+        // Act
+        connection.InsertAll(tableName, entities);
 
-            // Act
-            var result = await connection.BinaryBulkUpdateAsync(
-                tableName,
-                table);
+        // Act
+        var result = await connection.BinaryBulkUpdateAsync(
+            tableName,
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(entities.Count, result);
-        }
+        // Assert
+        Assert.AreEqual(entities.Count, result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -154,7 +154,7 @@ public class MinTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -170,7 +170,7 @@ public class MinTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-            e => ids.Contains(e.Id));
+            e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -185,7 +185,7 @@ public class MinTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-            new { tables.First().Id });
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -200,7 +200,7 @@ public class MinTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-            new QueryField("Id", tables.First().Id));
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -220,7 +220,7 @@ public class MinTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-            queryFields);
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -241,7 +241,7 @@ public class MinTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -257,7 +257,7 @@ public class MinTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync<CompleteTable>(e => e.ColumnInteger,
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -387,7 +387,7 @@ public class MinTest
         // Act
         object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -403,7 +403,7 @@ public class MinTest
         // Act
         object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
-            new { tables.First().Id });
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -419,7 +419,7 @@ public class MinTest
         // Act
         object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
-            new QueryField("Id", tables.First().Id));
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -440,7 +440,7 @@ public class MinTest
         // Act
         object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
-            queryFields);
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -462,7 +462,7 @@ public class MinTest
         // Act
         object result = await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Min(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -479,8 +479,10 @@ public class MinTest
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

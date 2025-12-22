@@ -161,7 +161,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>((object?)null);
+        var result = await connection.DeleteAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -175,7 +175,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(tables.First().Id);
+        var result = await connection.DeleteAsync<CompleteTable>(tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -189,7 +189,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(tables.First());
+        var result = await connection.DeleteAsync<CompleteTable>(tables.First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -203,7 +203,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(e => e.Id == tables.First().Id);
+        var result = await connection.DeleteAsync<CompleteTable>(e => e.Id == tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -217,7 +217,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(new { Id = tables.First().Id });
+        var result = await connection.DeleteAsync<CompleteTable>(new { Id = tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -231,7 +231,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(new QueryField("Id", tables.First().Id));
+        var result = await connection.DeleteAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -250,7 +250,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(queryFields);
+        var result = await connection.DeleteAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -270,7 +270,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(queryGroup);
+        var result = await connection.DeleteAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -391,7 +391,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), (object?)null);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -405,7 +405,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync<CompleteTable>(tables.First().Id);
+        var result = await connection.DeleteAsync<CompleteTable>(tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -419,7 +419,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), new { Id = tables.First().Id });
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), new { Id = tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -433,7 +433,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", tables.First().Id));
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -452,7 +452,7 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -472,11 +472,13 @@ public class DeleteTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

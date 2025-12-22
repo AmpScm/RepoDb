@@ -51,7 +51,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync<CommonNullTestData>())
+        if (!await sql.SchemaObjectExistsAsync<CommonNullTestData>(cancellationToken: TestContext.CancellationToken))
         {
             var sqlText = @$"CREATE TABLE [CommonNullTestData] (
                         [ID] int NOT NULL,
@@ -68,42 +68,42 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             if (set.ClosingQuote != "]")
                 sqlText = sqlText.Replace("]", set.ClosingQuote);
 
-            await sql.ExecuteNonQueryAsync(sqlText);
+            await sql.ExecuteNonQueryAsync(sqlText, cancellationToken: TestContext.CancellationToken);
         }
 
-        var t = await sql.BeginTransactionAsync();
+        var t = await sql.BeginTransactionAsync(TestContext.CancellationToken);
 
         await sql.InsertAllAsync(
             [
                 new CommonNullTestData(){ ID = 1, Txt = "t1", TxtNull = "t2", Nr = 10, NrNull = 11},
                 new CommonNullTestData(){ ID = 2, Txt = "t5", TxtNull = null, Nr = 15, NrNull = null}
-            ], transaction: t);
+            ], transaction: t, cancellationToken: TestContext.CancellationToken);
 
         var all = sql.QueryAll<CommonNullTestData>(transaction: t);
         Assert.AreEqual(2, all.Count());
 
 
-        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Txt != "t1", transaction: t, trace: new DiagnosticsTracer()));
-        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Nr != 10, transaction: t));
+        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Txt != "t1", transaction: t, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Nr != 10, transaction: t, cancellationToken: TestContext.CancellationToken));
 
-        Assert.AreEqual(0, await sql.CountAsync<CommonNullTestData>(where: x => x.TxtNull != "t2", transaction: t, trace: new DiagnosticsTracer()));
-        Assert.AreEqual(0, await sql.CountAsync<CommonNullTestData>(where: x => x.NrNull != 11, transaction: t));
+        Assert.AreEqual(0, await sql.CountAsync<CommonNullTestData>(where: x => x.TxtNull != "t2", transaction: t, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.AreEqual(0, await sql.CountAsync<CommonNullTestData>(where: x => x.NrNull != 11, transaction: t, cancellationToken: TestContext.CancellationToken));
 
         GlobalConfiguration.Setup(GlobalConfiguration.Options with { ExpressionNullSemantics = ExpressionNullSemantics.NullNotEqual });
 
-        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.TxtNull != "t2", transaction: t, trace: new DiagnosticsTracer()));
-        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.NrNull != 11, transaction: t, trace: new DiagnosticsTracer()));
+        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.TxtNull != "t2", transaction: t, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.NrNull != 11, transaction: t, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
         var storeQueries = new StoreQueryTracer();
 
-        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Txt != "t1", transaction: t, trace: storeQueries));
-        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Nr != 10, transaction: t, trace: storeQueries));
+        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Txt != "t1", transaction: t, trace: storeQueries, cancellationToken: TestContext.CancellationToken));
+        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Nr != 10, transaction: t, trace: storeQueries, cancellationToken: TestContext.CancellationToken));
 
 
         Assert.IsFalse(storeQueries.Traces.Any(x => x.Contains("NULL")), string.Join(Environment.NewLine, storeQueries.Traces));
 
 
-        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.ID == 1 && !(x.Txt == "t5" && x.Nr == 22), transaction: t, trace: new DiagnosticsTracer()));
+        Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.ID == 1 && !(x.Txt == "t5" && x.Nr == 22), transaction: t, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
 
         sql.Insert(new EnumNullTestData(), trace: new DiagnosticsTracer(), transaction: t);
@@ -112,7 +112,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         var toDel = new int[] { 1, 2 };
         sql.Delete<CommonNullTestData>(x => toDel.Contains(x.NrNull.Value), transaction: t, trace: new DiagnosticsTracer());
 
-        await t.RollbackAsync();
+        await t.RollbackAsync(TestContext.CancellationToken);
     }
 
     public record GuidNullData
@@ -140,7 +140,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         // Regression test. Failed on sqlite and sqlserver before this commit
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync("GuidNullData"))
+        if (!await sql.SchemaObjectExistsAsync("GuidNullData", cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [GuidNullData] (
                         [ID] int NOT NULL,
@@ -153,15 +153,15 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 )");
         }
 
-        var t = await sql.BeginTransactionAsync();
+        var t = await sql.BeginTransactionAsync(TestContext.CancellationToken);
 
         await sql.InsertAllAsync(
             [
                 new GuidNullData(){ ID = 1, Txt = Guid.NewGuid(), TxtNull = Guid.NewGuid(), Uuid = Guid.NewGuid(), UuidNull=Guid.NewGuid(), BlobData = " "u8.ToArray(), BlobDataNull = "A"u8.ToArray() },
                 new GuidNullData(){ ID = 2, Txt = Guid.NewGuid(), Uuid = Guid.NewGuid(), BlobData = "a"u8.ToArray() },
-            ], transaction: t);
+            ], transaction: t, cancellationToken: TestContext.CancellationToken);
 
-        await t.RollbackAsync();
+        await t.RollbackAsync(TestContext.CancellationToken);
     }
 
     [Table("CommonDateTimeNullTestData")]
@@ -190,7 +190,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         if (sql.GetType().Name is { } name && (name.Contains("Postgre") || name.Contains("Npgsql")))
             return;
 
-        if (!await sql.SchemaObjectExistsAsync("CommonDateTimeNullTestData"))
+        if (!await sql.SchemaObjectExistsAsync("CommonDateTimeNullTestData", cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [CommonDateTimeNullTestData] (
                         [ID] int NOT NULL,
@@ -200,10 +200,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
         else
         {
-            await sql.TruncateAsync(tableName: "CommonDateTimeNullTestData");
+            await sql.TruncateAsync(tableName: "CommonDateTimeNullTestData", cancellationToken: TestContext.CancellationToken);
         }
 
-        var t = await sql.BeginTransactionAsync();
+        var t = await sql.BeginTransactionAsync(TestContext.CancellationToken);
 
         await sql.InsertAllAsync(
             [
@@ -211,12 +211,12 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 new DateTestData(){ ID = 2, Txt =null, Date = null }
             ],
             trace: new DiagnosticsTracer(),
-            transaction: t);
+            transaction: t, cancellationToken: TestContext.CancellationToken);
         await sql.InsertAllAsync(
             [
                 new DateOffsetTestData(){ ID = 3, Txt = new DateTimeOffset(2003, 1,3,3,3,3, TimeSpan.Zero), Date = new DateTimeOffset(2004, 1,4,4,4,4, TimeSpan.Zero)},
                 new DateOffsetTestData(){ ID = 4, Txt =null, Date = null }
-            ], transaction: t);
+            ], transaction: t, cancellationToken: TestContext.CancellationToken);
 
         var all = sql.QueryAll<DateTestData>(transaction: t);
         Assert.AreEqual(4, all.Count());
@@ -238,7 +238,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var l = sql.Query<DateOffsetTestData>(where: x => x.Date < DateTimeOffset.Now, transaction: t);
 
-        await t.RollbackAsync();
+        await t.RollbackAsync(TestContext.CancellationToken);
     }
 
     public virtual string DateTimeOffsetDbType => "datetimeoffset";
@@ -260,7 +260,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync<DateTimeOnlyTable>())
+        if (!await sql.SchemaObjectExistsAsync<DateTimeOnlyTable>(cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(DateTimeOnlyTable)}] (
                         [TOnly] {TimeOnlyDbType} NOT NULL,
@@ -270,23 +270,23 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
         else
         {
-            await sql.TruncateAsync<DateTimeOnlyTable>();
+            await sql.TruncateAsync<DateTimeOnlyTable>(cancellationToken: TestContext.CancellationToken);
         }
 
-        await sql.InsertAsync(new DateTimeOnlyTable() { DOnly = new DateOnly(2021, 1, 1), TOnly = new TimeOnly(1, 2, 3), DOffset = new DateTimeOffset(2023, 1, 1, 1, 1, 1, TimeSpan.Zero) });
+        await sql.InsertAsync(new DateTimeOnlyTable() { DOnly = new DateOnly(2021, 1, 1), TOnly = new TimeOnly(1, 2, 3), DOffset = new DateTimeOffset(2023, 1, 1, 1, 1, 1, TimeSpan.Zero) }, cancellationToken: TestContext.CancellationToken);
 
-        Assert.IsNotEmpty(await sql.QueryAllAsync<DateTimeOnlyTable>());
+        Assert.IsNotEmpty(await sql.QueryAllAsync<DateTimeOnlyTable>(cancellationToken: TestContext.CancellationToken));
 
-        Assert.IsNotEmpty(await sql.ExecuteQueryAsync<DateTimeOnlyTable>(ApplySqlRules(sql, "SELECT * FROM [DateTimeOnlyTable]")));
+        Assert.IsNotEmpty(await sql.ExecuteQueryAsync<DateTimeOnlyTable>(ApplySqlRules(sql, "SELECT * FROM [DateTimeOnlyTable]"), cancellationToken: TestContext.CancellationToken));
 
         var today = DateOnly.FromDateTime(DateTime.Now);
-        await sql.QueryAsync<DateTimeOnlyTable>(where: x => x.DOnly < today, trace: new DiagnosticsTracer());
+        await sql.QueryAsync<DateTimeOnlyTable>(where: x => x.DOnly < today, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
         if (sql.GetType().Name is { } name && (name.Contains("Postgre") || name.Contains("Npgsql")))
             return; // Limitations of PostgreSQL DateTimeOffset
 
-        await sql.QueryAsync<DateTimeOnlyTable>(where: x => x.DOffset < DateTime.Now);
-        await sql.QueryAsync<DateTimeOnlyTable>(where: x => x.DOffset < DateTimeOffset.Now);
+        await sql.QueryAsync<DateTimeOnlyTable>(where: x => x.DOffset < DateTime.Now, cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<DateTimeOnlyTable>(where: x => x.DOffset < DateTimeOffset.Now, cancellationToken: TestContext.CancellationToken);
     }
 #endif
 
@@ -304,7 +304,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync<WithComputed>())
+        if (!await sql.SchemaObjectExistsAsync<WithComputed>(cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [WithComputed] (
                         [ID] int NOT NULL,
@@ -314,21 +314,21 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
         else
         {
-            await sql.TruncateAsync<WithComputed>(trace: new DiagnosticsTracer());
+            await sql.TruncateAsync<WithComputed>(trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         }
 
-        var fields = await DbFieldCache.GetAsync(sql, nameof(WithComputed), transaction: null);
+        var fields = await DbFieldCache.GetAsync(sql, nameof(WithComputed), transaction: null, TestContext.CancellationToken);
         Assert.IsTrue(fields.First(x => x.FieldName == "Computed").IsGenerated);
 
-        await sql.InsertAsync(new WithComputed() { ID = 1, Writable = "a" });
+        await sql.InsertAsync(new WithComputed() { ID = 1, Writable = "a" }, cancellationToken: TestContext.CancellationToken);
 
-        var r = (await sql.QueryAllAsync<WithComputed>()).FirstOrDefault();
+        var r = (await sql.QueryAllAsync<WithComputed>(cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         Assert.AreEqual(1, r.ID);
         Assert.AreEqual("a", r.Writable);
         Assert.AreEqual("--a", r.Computed);
 
-        await sql.QueryAllAsync<WithComputed>(orderBy: [OrderField.Parse<WithComputed>(x => x.Computed, Order.Ascending)]);
+        await sql.QueryAllAsync<WithComputed>(orderBy: [OrderField.Parse<WithComputed>(x => x.Computed, Order.Ascending)], cancellationToken: TestContext.CancellationToken);
 
         await sql.UpdateAsync<WithComputed>(
             new()
@@ -336,7 +336,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 Writable = "b"
             },
             where: x => x.Computed == "--a",
-            trace: new DiagnosticsTracer());
+            trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
     }
 
     private record NullIdentityTest
@@ -354,7 +354,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         if (sql.GetType().Name.Contains("Oracle"))
             return;
 
-        if (!await sql.SchemaObjectExistsAsync<NullIdentityTest>())
+        if (!await sql.SchemaObjectExistsAsync<NullIdentityTest>(cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(NullIdentityTest)}] (
                         [ID] {IdentityDefinition} {(IdentityDefinition.Contains("PRIMARY") ? "" : " PRIMARY KEY")},
@@ -366,17 +366,17 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
         else
         {
-            await sql.TruncateAsync<NullIdentityTest>();
+            await sql.TruncateAsync<NullIdentityTest>(cancellationToken: TestContext.CancellationToken);
         }
 
 
         var r = new NullIdentityTest() { ID = 77, Key = "k1", Value = null };
-        var v1 = await sql.InsertAsync<NullIdentityTest, int>(r);
+        var v1 = await sql.InsertAsync<NullIdentityTest, int>(r, cancellationToken: TestContext.CancellationToken);
         Assert.AreEqual(1, v1);
-        var v2 = await sql.MergeAsync<NullIdentityTest, int>(r);
+        var v2 = await sql.MergeAsync<NullIdentityTest, int>(r, cancellationToken: TestContext.CancellationToken);
         Assert.AreEqual(1, v2);
 
-        var v3 = await sql.MergeAsync<NullIdentityTest, int>(new() { ID = null, Key = "k1", Value = null }, qualifiers: Field.Parse<NullIdentityTest>(x => x.Key));
+        var v3 = await sql.MergeAsync<NullIdentityTest, int>(new() { ID = null, Key = "k1", Value = null }, qualifiers: Field.Parse<NullIdentityTest>(x => x.Key), cancellationToken: TestContext.CancellationToken);
         Assert.AreEqual(1, v2);
     }
 
@@ -412,7 +412,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync<WithGroupByItems>())
+        if (!await sql.SchemaObjectExistsAsync<WithGroupByItems>(cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [WithGroupByItems] (
                         [ID] int NOT NULL,
@@ -424,8 +424,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         // This used to trigger an escaping issue between @a and @aa (which starts with '@a')
         var s = await sql.ExecuteQueryAsync<WithGroupByItems>(
             ApplySqlRules(sql, "SELECT [Txt] from [WithGroupByItems] WHERE [Txt] IN (@a) GROUP BY [Txt] HAVING COUNT(1) = @aa"),
-            new { a = new string[] { "a" }, aa = 1 }
-            );
+            new { a = new string[] { "a" }, aa = 1 });
     }
 
     private class Id2record
@@ -446,7 +445,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync(nameof(IntNotNullable)))
+        if (!await sql.SchemaObjectExistsAsync(nameof(IntNotNullable), cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{IntNotNullable}] (
                         [ID] int NOT NULL,
@@ -454,10 +453,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             )");
         }
 
-        await sql.InsertAsync(tableName: IntNotNullable, new Id2record { ID = 1, ID2 = 2 });
+        await sql.InsertAsync(tableName: IntNotNullable, new Id2record { ID = 1, ID2 = 2 }, cancellationToken: TestContext.CancellationToken);
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await sql.InsertAsync(tableName: IntNotNullable, new Id2recordNullable { ID = 3, ID2 = null }),
+            await sql.InsertAsync(tableName: IntNotNullable, new Id2recordNullable { ID = 3, ID2 = null }, cancellationToken: TestContext.CancellationToken),
             "Required Nullable<Int32> property ID2 evaluated to null.");
     }
 
@@ -477,7 +476,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync<FieldLengthTable>())
+        if (!await sql.SchemaObjectExistsAsync<FieldLengthTable>(cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(FieldLengthTable)}] (
                     [ID] {VarCharName}(36) NOT NULL,
@@ -491,10 +490,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
         else
         {
-            await sql.TruncateAsync<FieldLengthTable>();
+            await sql.TruncateAsync<FieldLengthTable>(cancellationToken: TestContext.CancellationToken);
         }
 
-        var fd = await sql.GetDbHelper().GetFieldsAsync(sql, nameof(FieldLengthTable));
+        var fd = await sql.GetDbHelper().GetFieldsAsync(sql, nameof(FieldLengthTable), cancellationToken: TestContext.CancellationToken);
 
         var id1 = fd.First(x => x.FieldName == "ID");
         var id2 = fd.First(x => x.FieldName == "ID2");
@@ -532,9 +531,9 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             new FieldLengthTable { ID = "d12345678901234567890123456789012345", ID2 = "e12345678901234567890123456789012345", VAL3 = null }
         };
 
-        Assert.AreEqual(2, await sql.InsertAllAsync(ftf, trace: new DiagnosticsTracer()));
+        Assert.AreEqual(2, await sql.InsertAllAsync(ftf, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
-        var data = (await sql.QueryAllAsync<FieldLengthTable>()).ToArray();
+        var data = (await sql.QueryAllAsync<FieldLengthTable>(cancellationToken: TestContext.CancellationToken)).ToArray();
 
         Assert.HasCount(2, data);
         Assert.AreEqual(ftf[0].ID, data[0].ID);
@@ -559,7 +558,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         if (sql.GetType().Name.Contains("iteConnection"))
             return;
 
-        if (!await sql.SchemaObjectExistsAsync<MorePrimaryKeyTable>())
+        if (!await sql.SchemaObjectExistsAsync<MorePrimaryKeyTable>(cancellationToken: TestContext.CancellationToken))
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(MorePrimaryKeyTable)}] (
                     [ID] {VarCharName}(20) NOT NULL,
@@ -573,10 +572,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         }
         else
         {
-            await sql.TruncateAsync<MorePrimaryKeyTable>();
+            await sql.TruncateAsync<MorePrimaryKeyTable>(cancellationToken: TestContext.CancellationToken);
         }
 
-        var fd = await sql.GetDbHelper().GetFieldsAsync(sql, nameof(MorePrimaryKeyTable));
+        var fd = await sql.GetDbHelper().GetFieldsAsync(sql, nameof(MorePrimaryKeyTable), cancellationToken: TestContext.CancellationToken);
 
         var id1 = fd.First(x => x.FieldName == "ID");
         var id2 = fd.First(x => x.FieldName == "ID2");
@@ -611,9 +610,9 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             new MorePrimaryKeyTable { ID = "B", ID2 = 0, Value = null }
         };
 
-        Assert.AreEqual(2, await sql.InsertAllAsync(ftf, trace: new DiagnosticsTracer()));
+        Assert.AreEqual(2, await sql.InsertAllAsync(ftf, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
-        var data = (await sql.QueryAllAsync<MorePrimaryKeyTable>()).ToArray();
+        var data = (await sql.QueryAllAsync<MorePrimaryKeyTable>(cancellationToken: TestContext.CancellationToken)).ToArray();
 
         Assert.HasCount(2, data);
         Assert.AreEqual(ftf[0].ID, data[0].ID);
@@ -627,7 +626,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         // More smoke tests // TODO: Create separate tests
         Assert.IsTrue(sql.Exists<MorePrimaryKeyTable>(where: x => x.ID == "A" && x.ID2 == data[0].ID2));
 
-        await sql.MergeAsync(ftf[0]);
+        await sql.MergeAsync(ftf[0], cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -635,7 +634,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        var info = await DbRuntimeSettingCache.GetAsync(sql, null);
+        var info = await DbRuntimeSettingCache.GetAsync(sql, null, TestContext.CancellationToken);
 
         Assert.IsNotNull(info);
     }
@@ -664,13 +663,13 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         using var sql = await CreateOpenConnectionAsync();
 
-        if (!await sql.SchemaObjectExistsAsync<RelatedTable>())
+        if (!await sql.SchemaObjectExistsAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken))
         {
             await sql.CreateTableAsync<RelatedTable>();
         }
         else
         {
-            await sql.TruncateAsync<RelatedTable>();
+            await sql.TruncateAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
         }
 
         await sql.InsertAllAsync<RelatedTable>([
@@ -678,7 +677,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             new RelatedTable { ID = 2, Name = "b", Ordered = 20, Canceled = 2, Delivered = 10 },
             new RelatedTable { ID = 3, Name = "c", Ordered = 30, Canceled =0, Delivered =0 },
             new RelatedTable { ID = 4, Name = "d", Ordered = 40, Canceled = 40, Delivered = 0 }
-        ]);
+        ], cancellationToken: TestContext.CancellationToken);
 
         Assert.AreEqual(3,
             await sql.UpdateAsync<RelatedTable>(
@@ -688,7 +687,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 },
                 where: x => x.Status == 0 && x.Ordered > x.Canceled,
                 Field.Parse<RelatedTable>(x => x.Status),
-                trace: new DiagnosticsTracer()));
+                trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
         // Not supported (yet). Was error
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
@@ -699,7 +698,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 },
                 where: x => x.Status == 0 && x.Ordered - x.Canceled > 0,
                 Field.Parse<RelatedTable>(x => x.Status),
-                trace: new DiagnosticsTracer())
+                trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken)
             );
     }
 
@@ -724,7 +723,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
             bool noIdentityInPrimaryKey = sql.GetType().Name.Contains("SQLite", StringComparison.OrdinalIgnoreCase) || sql.GetType().Name.Contains("Oracle");
 
-            if (!await sql.SchemaObjectExistsAsync(nameof(MergeEdgeTable)))
+            if (!await sql.SchemaObjectExistsAsync(nameof(MergeEdgeTable), cancellationToken: TestContext.CancellationToken))
             {
                 await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(MergeEdgeTable)}] (
                     [ID] {IdentityDefinition},
@@ -740,7 +739,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             }
             else
             {
-                await sql.TruncateAsync<MergeEdgeTable>();
+                await sql.TruncateAsync<MergeEdgeTable>(cancellationToken: TestContext.CancellationToken);
             }
 
             var r = new MergeEdgeTable()
@@ -750,20 +749,20 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 Value = "b"
             };
 
-            var v1 = await sql.MergeAsync<MergeEdgeTable, int>(r, trace: new DiagnosticsTracer());
-            var v2 = await sql.MergeAsync<MergeEdgeTable, int>(r);
+            var v1 = await sql.MergeAsync<MergeEdgeTable, int>(r, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
+            var v2 = await sql.MergeAsync<MergeEdgeTable, int>(r, cancellationToken: TestContext.CancellationToken);
 
             Assert.IsGreaterThan(0, v1);
             Assert.AreEqual(v1, v2);
 
-            var all = await sql.QueryAllAsync<MergeEdgeTable>();
+            var all = await sql.QueryAllAsync<MergeEdgeTable>(cancellationToken: TestContext.CancellationToken);
             Assert.AreEqual(1, all.Count());
 
             // Still doing the same thing
-            Assert.AreEqual(v2, await sql.MergeAsync<MergeEdgeTable, int>(r, qualifiers: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer()));
+            Assert.AreEqual(v2, await sql.MergeAsync<MergeEdgeTable, int>(r, qualifiers: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
             // Now just update the first two fields. No-op
-            Assert.AreEqual(v2, await sql.MergeAsync<MergeEdgeTable, int>(r, fields: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer()));
+            Assert.AreEqual(v2, await sql.MergeAsync<MergeEdgeTable, int>(r, fields: Field.Parse<MergeEdgeTable>(x => new { x.ID, x.Name }), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
             var r2 = new MergeEdgeTable()
             {
@@ -772,16 +771,16 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 Value = "c"
             };
 
-            await sql.MergeAsync(r2);
-            await sql.MergeAsync(r2);
+            await sql.MergeAsync(r2, cancellationToken: TestContext.CancellationToken);
+            await sql.MergeAsync(r2, cancellationToken: TestContext.CancellationToken);
 
-            all = await sql.QueryAllAsync<MergeEdgeTable>();
+            all = await sql.QueryAllAsync<MergeEdgeTable>(cancellationToken: TestContext.CancellationToken);
             Assert.AreEqual(2, all.Count());
 
-            await sql.DeleteAsync(r);
-            await sql.MergeAsync(r, trace: new DiagnosticsTracer());
+            await sql.DeleteAsync(r, cancellationToken: TestContext.CancellationToken);
+            await sql.MergeAsync(r, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
-            all = await sql.QueryAllAsync<MergeEdgeTable>();
+            all = await sql.QueryAllAsync<MergeEdgeTable>(cancellationToken: TestContext.CancellationToken);
             Assert.AreEqual(2, all.Count());
 
             Assert.IsTrue(all.Any(x => x.ID == 1 || x.ID == 2));
@@ -892,7 +891,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             if (sql.GetType().Name.Contains("Oracle"))
                 return;
 
-            if (!await sql.SchemaObjectExistsAsync(nameof(MergeEdgeTable2)))
+            if (!await sql.SchemaObjectExistsAsync(nameof(MergeEdgeTable2), cancellationToken: TestContext.CancellationToken))
             {
                 await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(MergeEdgeTable2)}] (
                     [ID] {IdentityDefinition}{(IdentityDefinition.Contains("PRIMARY") ? "" : " PRIMARY KEY")},
@@ -905,14 +904,14 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             }
             else
             {
-                await sql.TruncateAsync<MergeEdgeTable2>();
+                await sql.TruncateAsync<MergeEdgeTable2>(cancellationToken: TestContext.CancellationToken);
             }
 
             var r = await sql.MergeAsync<MergeEdgeTable2, int>(new MergeEdgeTable2
             {
                 Name = "a",
                 Value = "c"
-            }, qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer());
+            }, qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
             Assert.AreNotEqual(0, r);
 
@@ -922,12 +921,12 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
                 Value = "e"
             };
 
-            await sql.MergeAllAsync([v2], qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer());
+            await sql.MergeAllAsync([v2], qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
             Assert.AreNotEqual(0, v2.ID);
 
             v2.ID = 0;
 
-            await sql.MergeAllAsync([v2], qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer());
+            await sql.MergeAllAsync([v2], qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
             Assert.AreNotEqual(0, v2.ID);
         }
         finally
@@ -935,6 +934,8 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
         }
     }
+
+    public TestContext TestContext { get; set; }
 }
 
 public static class DbTestExtensions
@@ -945,7 +946,7 @@ public static class DbTestExtensions
         var tableName = ClassMappedNameCache.Get<TEntity>();
 
         var setting = connection.GetDbSetting();
-        await CreateTableAsync<TEntity>(connection, tableName);
+        await CreateTableAsync<TEntity>(connection, tableName, trace);
     }
 
     public static async Task CreateTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class
@@ -1033,7 +1034,7 @@ public static class DbTestExtensions
         await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace);
     }
 
-    static ConcurrentDictionary<Type, IResolver<DbType, string?>> _resolverCache = new();
+    static readonly ConcurrentDictionary<Type, IResolver<DbType, string?>> _resolverCache = new();
     private static IResolver<DbType, string?> FindResolver(DbConnection sql)
     {
         return _resolverCache.GetOrAdd(sql.GetType(), (_) =>
@@ -1063,7 +1064,7 @@ public static class DbTestExtensions
         var tableName = ClassMappedNameCache.Get<TEntity>();
 
         var setting = connection.GetDbSetting();
-        await DropTableAsync<TEntity>(connection, tableName);
+        await DropTableAsync<TEntity>(connection, tableName, trace);
     }
 
     public static async Task DropTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class

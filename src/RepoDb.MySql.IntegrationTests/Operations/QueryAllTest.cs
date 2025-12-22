@@ -64,7 +64,7 @@ public class QueryAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var queryResult = await connection.QueryAllAsync<CompleteTable>();
+        var queryResult = await connection.QueryAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -79,7 +79,7 @@ public class QueryAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAllAsync<CompleteTable>(hints: "WhatEver"));
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAllAsync<CompleteTable>(hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class QueryAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -147,8 +147,10 @@ public class QueryAllTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

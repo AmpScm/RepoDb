@@ -52,7 +52,7 @@ public class TruncateTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.TruncateAsync<CompleteTable>();
+        int result = await connection.TruncateAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
         long countResult = connection.CountAll<CompleteTable>();
 
         // Assert
@@ -94,12 +94,14 @@ public class TruncateTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>());
+        int result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
         long countResult = connection.CountAll<CompleteTable>();
 
         // Assert
         Assert.AreEqual(0, countResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

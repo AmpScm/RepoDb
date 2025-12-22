@@ -39,48 +39,40 @@ public class DbTypeAttributeTest
     public void TestDbTypeAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new DbTypeAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new DbTypeAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(DbType.AnsiStringFixedLength, ((CustomDbParameter)parameter).DbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(DbType.AnsiStringFixedLength, ((CustomDbParameter)parameter).DbType);
     }
 
     [TestMethod]
     public void TestDbTypeAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(DbTypeAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(DbTypeAttributeTestClass));
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(DbType.AnsiStringFixedLength, ((CustomDbParameter)parameter).DbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(DbType.AnsiStringFixedLength, ((CustomDbParameter)parameter).DbType);
     }
 }

@@ -237,7 +237,7 @@ public class QueryMultipleTest
         var result = await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
-            top2: 2);
+            top2: 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Item1.Count());
@@ -259,7 +259,7 @@ public class QueryMultipleTest
             e => e.Id > 0,
             top1: 1,
             top2: 2,
-            top3: 3);
+            top3: 3, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Item1.Count());
@@ -285,7 +285,7 @@ public class QueryMultipleTest
             top1: 1,
             top2: 2,
             top3: 3,
-            top4: 4);
+            top4: 4, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Item1.Count());
@@ -315,7 +315,7 @@ public class QueryMultipleTest
             top2: 2,
             top3: 3,
             top4: 4,
-            top5: 5);
+            top5: 5, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Item1.Count());
@@ -349,7 +349,7 @@ public class QueryMultipleTest
             top3: 3,
             top4: 4,
             top5: 5,
-            top6: 6);
+            top6: 6, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Item1.Count());
@@ -387,7 +387,7 @@ public class QueryMultipleTest
             top4: 4,
             top5: 5,
             top6: 6,
-            top7: 7);
+            top7: 7, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Item1.Count());
@@ -419,8 +419,10 @@ public class QueryMultipleTest
             top1: 1,
             hints1: "WhatEver",
             top2: 2,
-            hints2: "WhatEver"));
+            hints2: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -29,48 +29,40 @@ public class OffsetAttributeTest
     public void TestOffsetAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new OffsetAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new OffsetAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1000, parameter.Offset);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1000, parameter.Offset);
     }
 
     [TestMethod]
     public void TestOffsetAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(OffsetAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(OffsetAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1000, parameter.Offset);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1000, parameter.Offset);
     }
 }

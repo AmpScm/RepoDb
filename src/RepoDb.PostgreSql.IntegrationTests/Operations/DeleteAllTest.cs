@@ -80,7 +80,7 @@ public class DeleteAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.DeleteAllAsync<CompleteTable>();
+        int result = await connection.DeleteAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -95,7 +95,7 @@ public class DeleteAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -110,7 +110,7 @@ public class DeleteAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -180,7 +180,7 @@ public class DeleteAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -195,7 +195,7 @@ public class DeleteAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -210,11 +210,13 @@ public class DeleteAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

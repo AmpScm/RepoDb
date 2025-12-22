@@ -1609,7 +1609,7 @@ public class ImmutableTest
         var sql = "SELECT 1 AS [Id], @Value AS [Value];";
 
         // Act
-        var queryResult = (await connection.ExecuteQueryAsync<ImmutableWithMatchedCtorArguments>(sql, param)).FirstOrDefault();
+        var queryResult = (await connection.ExecuteQueryAsync<ImmutableWithMatchedCtorArguments>(sql, param, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Assert.AreEqual(1, queryResult.Id);
@@ -1661,7 +1661,7 @@ public class ImmutableTest
         var sql = "SELECT 1 AS [Id], @Value AS [Value];";
 
         // Act
-        var queryResult = (await connection.ExecuteQueryAsync<ImmutableWithMatchedCtorArgumentsFromMultipleCtors>(sql, param)).FirstOrDefault();
+        var queryResult = (await connection.ExecuteQueryAsync<ImmutableWithMatchedCtorArgumentsFromMultipleCtors>(sql, param, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Assert.AreEqual(1, queryResult.Id);
@@ -1712,8 +1712,10 @@ public class ImmutableTest
         var sql = "SELECT 1 AS [Id], @Value AS [Value];";
 
         // Act
-        await Assert.ThrowsExactlyAsync<MissingMemberException>(async () => await connection.ExecuteQueryAsync<ImmutableWithUnmatchedCtorArgumentsFromMultipleCtors>(sql, param));
+        await Assert.ThrowsExactlyAsync<MissingMemberException>(async () => await connection.ExecuteQueryAsync<ImmutableWithUnmatchedCtorArgumentsFromMultipleCtors>(sql, param, cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

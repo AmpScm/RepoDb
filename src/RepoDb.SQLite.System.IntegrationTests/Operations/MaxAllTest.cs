@@ -28,17 +28,15 @@ public class MaxAllTest
     [TestMethod]
     public void TestSqLiteConnectionMaxAll()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.MaxAll<SdsCompleteTable>(e => e.ColumnInt);
+        // Act
+        var result = connection.MaxAll<SdsCompleteTable>(e => e.ColumnInt);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -46,15 +44,13 @@ public class MaxAllTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             connection.MaxAll<SdsCompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -65,17 +61,15 @@ public class MaxAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAllAsync()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAllAsync<SdsCompleteTable>(e => e.ColumnInt);
+        // Act
+        var result = await connection.MaxAllAsync<SdsCompleteTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -83,15 +77,13 @@ public class MaxAllTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             await connection.MaxAllAsync<SdsCompleteTable>(e => e.ColumnInt,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -106,18 +98,16 @@ public class MaxAllTest
     [TestMethod]
     public void TestSqLiteConnectionMaxAllViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.MaxAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First());
+        // Act
+        var result = connection.MaxAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First());
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -125,8 +115,7 @@ public class MaxAllTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -134,7 +123,6 @@ public class MaxAllTest
             connection.MaxAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -145,18 +133,16 @@ public class MaxAllTest
     [TestMethod]
     public async Task TestSqLiteConnectionMaxAllAsyncViaTableName()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First());
+        // Act
+        var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -164,18 +150,18 @@ public class MaxAllTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             await connection.MaxAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

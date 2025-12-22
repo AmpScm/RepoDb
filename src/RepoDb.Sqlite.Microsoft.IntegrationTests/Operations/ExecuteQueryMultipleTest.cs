@@ -116,7 +116,7 @@ public class ExecuteQueryMultipleTest
 
         // Act
         using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [MdsCompleteTable];
-                    SELECT * FROM [MdsCompleteTable];");
+                    SELECT * FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
         var list = new List<IEnumerable<MdsCompleteTable>>
                 {
                     // Act
@@ -146,7 +146,7 @@ public class ExecuteQueryMultipleTest
             {
                 Id1 = tables.First().Id,
                 Id2 = tables.Last().Id
-            });
+            }, cancellationToken: TestContext.CancellationToken);
         var list = new List<IEnumerable<MdsCompleteTable>>
                 {
                     // Act
@@ -171,7 +171,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [MdsCompleteTable] WHERE Id = @Id;
                     SELECT * FROM [MdsCompleteTable] WHERE Id = @Id;",
-            new { Id = tables.Last().Id });
+            new { Id = tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
         var list = new List<IEnumerable<MdsCompleteTable>>
                 {
                     // Act
@@ -185,6 +185,8 @@ public class ExecuteQueryMultipleTest
             item.AsList().ForEach(current => Helper.AssertPropertiesEquality(current, tables.First(e => e.Id == current.Id)));
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -31,16 +31,14 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Merge<CompleteTable>(table);
-            var queryResult = connection.Query<CompleteTable>(result);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Merge<CompleteTable>(table);
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -49,24 +47,22 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Merge<CompleteTable>(table);
+        // Act
+        var result = connection.Merge<CompleteTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -79,27 +75,25 @@ public class MergeTest
             new Field("Id", typeof(long))
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
-            table.ColumnInt = 0;
-            table.ColumnChar = "C";
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
+        table.ColumnInt = 0;
+        table.ColumnChar = "C";
 
-            // Act
-            var result = connection.Merge<CompleteTable>(table,
-                qualifiers: qualifiers);
+        // Act
+        var result = connection.Merge<CompleteTable>(table,
+            qualifiers: qualifiers);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     #endregion
@@ -112,16 +106,14 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MergeAsync<CompleteTable>(table);
-            var queryResult = connection.Query<CompleteTable>(result);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MergeAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -130,24 +122,22 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync<CompleteTable>(table);
+        // Act
+        var result = await connection.MergeAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -160,27 +150,25 @@ public class MergeTest
             new Field("Id", typeof(long))
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
-            table.ColumnInt = 0;
-            table.ColumnChar = "C";
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
+        table.ColumnInt = 0;
+        table.ColumnChar = "C";
 
-            // Act
-            var result = await connection.MergeAsync<CompleteTable>(table,
-                qualifiers: qualifiers);
+        // Act
+        var result = await connection.MergeAsync<CompleteTable>(table,
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     #endregion
@@ -197,17 +185,15 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
-            var queryResult = connection.Query<CompleteTable>(result);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
+            table);
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -216,18 +202,16 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
-            var queryResult = connection.Query<CompleteTable>(result);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
+            table);
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -236,25 +220,23 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -263,27 +245,25 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-            ((IDictionary<string, object?>)entity)["Id"] = table.Id;
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
-            // Act
-            var result = connection.Merge<long>(ClassMappedNameCache.Get<CompleteTable>(),
-                entity);
+        // Act
+        var result = connection.Merge<long>(ClassMappedNameCache.Get<CompleteTable>(),
+            entity);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, result);
-            Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, result);
+        Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertMembersEquality(queryResult.First(), entity);
-        }
+        // Assert
+        Helper.AssertMembersEquality(queryResult.First(), entity);
     }
 
     [TestMethod]
@@ -296,28 +276,26 @@ public class MergeTest
             new Field("Id", typeof(long))
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
-            table.ColumnInt = 0;
-            table.ColumnChar = "C";
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
+        table.ColumnInt = 0;
+        table.ColumnChar = "C";
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            qualifiers: qualifiers);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -326,22 +304,20 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
-                (object)table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
+            (object)table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -350,25 +326,23 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -381,26 +355,24 @@ public class MergeTest
             new Field("Id", typeof(long))
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            qualifiers: qualifiers);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     #endregion
@@ -413,17 +385,15 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
-            var queryResult = connection.Query<CompleteTable>(result);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -432,18 +402,16 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
-            var queryResult = connection.Query<CompleteTable>(result);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
@@ -452,25 +420,23 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -479,27 +445,25 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
-            ((IDictionary<string, object?>)entity)["Id"] = table.Id;
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
+        ((IDictionary<string, object?>)entity)["Id"] = table.Id;
 
-            // Act
-            var result = await connection.MergeAsync<long>(ClassMappedNameCache.Get<CompleteTable>(),
-                entity);
+        // Act
+        var result = await connection.MergeAsync<long>(ClassMappedNameCache.Get<CompleteTable>(),
+            entity, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, result);
-            Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, result);
+        Assert.IsTrue(((dynamic)table).Id == Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertMembersEquality(queryResult.First(), entity);
-        }
+        // Assert
+        Helper.AssertMembersEquality(queryResult.First(), entity);
     }
 
     [TestMethod]
@@ -512,26 +476,24 @@ public class MergeTest
             new Field("Id", typeof(long))
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -540,22 +502,20 @@ public class MergeTest
         // Setup
         var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object)table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.IsGreaterThan(0, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -564,25 +524,23 @@ public class MergeTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
@@ -595,27 +553,27 @@ public class MergeTest
             new Field("Id", typeof(long))
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<CompleteTable>());
-            Assert.AreEqual(table.Id, Convert.ToInt64(result));
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
+        Assert.AreEqual(table.Id, Convert.ToInt64(result));
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<CompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

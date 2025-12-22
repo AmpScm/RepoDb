@@ -29,115 +29,103 @@ public class SumTest
     [TestMethod]
     public void TestSqLiteConnectionSumWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var ids = new[] { tables.First().Id, tables.Last().Id };
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var ids = new[] { tables.First().Id, tables.Last().Id };
 
-            // Act
-            var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        // Act
+        var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        // Act
+        var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
-                queryFields);
+        // Act
+        var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -145,8 +133,7 @@ public class SumTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -154,7 +141,6 @@ public class SumTest
             connection.Sum<SdsCompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -165,115 +151,103 @@ public class SumTest
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        // Act
+        var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var ids = new[] { tables.First().Id, tables.Last().Id };
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var ids = new[] { tables.First().Id, tables.Last().Id };
 
-            // Act
-            var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        // Act
+        var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        // Act
+        var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
-                queryFields);
+        // Act
+        var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        // Act
+        var result = await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -281,16 +255,14 @@ public class SumTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
             // Act
             await connection.SumAsync<SdsCompleteTable>(e => e.ColumnInt,
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -305,102 +277,92 @@ public class SumTest
     [TestMethod]
     public void TestSqLiteConnectionSumViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaTableNameViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaTableNameViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaTableNameViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionSumViaTableNameViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -408,8 +370,7 @@ public class SumTest
     {
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -418,7 +379,6 @@ public class SumTest
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -429,102 +389,92 @@ public class SumTest
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaTableNameWithoutExpression()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaTableNameViaDynamic()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaTableNameViaQueryField()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaTableNameViaQueryFields()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
 
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionSumAsyncViaTableNameViaQueryGroup()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var queryFields = new[]
         {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
-            var queryFields = new[]
-            {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
                 new QueryField("Id", Operation.LessThan, tables.Last().Id)
             };
-            var queryGroup = new QueryGroup(queryFields);
+        var queryGroup = new QueryGroup(queryFields);
 
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -532,8 +482,7 @@ public class SumTest
     {
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
+            using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
             var tables = Database.CreateSdsCompleteTables(10, connection);
 
@@ -541,10 +490,11 @@ public class SumTest
             await connection.SumAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

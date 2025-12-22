@@ -314,7 +314,7 @@ public class QueryAllTest
 
         // Act
         var result = await connection.QueryAllAsync<string>(ClassMappedNameCache.Get<IdentityTable>(),
-            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -332,7 +332,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -354,7 +354,7 @@ public class QueryAllTest
 
         // Act
         var result = await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -376,7 +376,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<IdentityTable>();
+        var result = await connection.QueryAllAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -397,7 +397,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -418,7 +418,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -439,7 +439,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -460,7 +460,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<IdentityTable>(fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+        var result = await connection.QueryAllAsync<IdentityTable>(fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -483,7 +483,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy);
+        var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -504,7 +504,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock);
+        var result = await connection.QueryAllAsync<IdentityTable>(hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -527,7 +527,7 @@ public class QueryAllTest
 
         // Act
         var result = await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy,
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -545,7 +545,7 @@ public class QueryAllTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy.AsEnumerable()));
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAllAsync<IdentityTable>(orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -563,7 +563,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<WithExtraFieldsIdentityTable>();
+        var result = await connection.QueryAllAsync<WithExtraFieldsIdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         result.AsList().ForEach(item =>
@@ -801,7 +801,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -831,7 +831,7 @@ public class QueryAllTest
 
         // Act
         var result = await connection.QueryAllAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
-            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -854,7 +854,7 @@ public class QueryAllTest
 
         // Act
         var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -876,7 +876,7 @@ public class QueryAllTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -907,7 +907,7 @@ public class QueryAllTest
 
         // Act
         var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            orderBy: orderBy);
+            orderBy: orderBy, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -937,7 +937,7 @@ public class QueryAllTest
 
         // Act
         var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -969,7 +969,7 @@ public class QueryAllTest
         // Act
         var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             orderBy: orderBy,
-            hints: SqlServerTableHints.NoLock);
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -996,8 +996,10 @@ public class QueryAllTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            orderBy: orderBy.AsEnumerable()));
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

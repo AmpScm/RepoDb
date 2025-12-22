@@ -32,36 +32,32 @@ public class EnumerableTest
     [TestMethod]
     public void TestSQLiteConnectionQueryListContains()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
-            var ids = tables.Select(e => e.Id).AsList();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
+        var ids = tables.Select(e => e.Id).AsList();
 
-            // Act
-            var result = connection.Query<SdsNonIdentityCompleteTable>(e => ids.Contains(e.Id));
+        // Act
+        var result = connection.Query<SdsNonIdentityCompleteTable>(e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-                Helper.AssertPropertiesEquality(table, result.First(item => item.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
+            Helper.AssertPropertiesEquality(table, result.First(item => item.Id == table.Id)));
     }
 
     [TestMethod]
     public void TestSQLiteConnectionQueryEmptyList()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
 
-            // Act
-            var result = connection.Query<SdsNonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id));
+        // Act
+        var result = connection.Query<SdsNonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(0, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(0, result.Count());
     }
 
     #endregion
@@ -71,37 +67,35 @@ public class EnumerableTest
     [TestMethod]
     public async Task TestSQLiteConnectionQueryAsyncListContains()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
-            var ids = tables.Select(e => e.Id).AsList();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
+        var ids = tables.Select(e => e.Id).AsList();
 
-            // Act
-            var result = await connection.QueryAsync<SdsNonIdentityCompleteTable>(e => ids.Contains(e.Id));
+        // Act
+        var result = await connection.QueryAsync<SdsNonIdentityCompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count, result.Count());
-            tables.ForEach(table =>
-                Helper.AssertPropertiesEquality(table, result.First(item => item.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, result.Count());
+        tables.ForEach(table =>
+            Helper.AssertPropertiesEquality(table, result.First(item => item.Id == table.Id)));
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionQueryAsyncEmptyList()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsNonIdentityCompleteTables(10, connection).AsList();
 
-            // Act
-            var result = await connection.QueryAsync<SdsNonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id));
+        // Act
+        var result = await connection.QueryAsync<SdsNonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(0, result.Count());
-        }
+        // Assert
+        Assert.AreEqual(0, result.Count());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

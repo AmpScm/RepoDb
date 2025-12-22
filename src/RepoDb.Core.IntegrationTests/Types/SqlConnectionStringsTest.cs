@@ -171,11 +171,11 @@ public class SqlConnectionStringsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(entity);
+        var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id);
+        var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -205,11 +205,11 @@ public class SqlConnectionStringsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(entity);
+        var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id);
+        var queryResult = await connection.QueryAsync<StringsClass>(e => e.SessionId == (Guid)id, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -240,11 +240,11 @@ public class SqlConnectionStringsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(entity);
+        var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id);
+        var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -274,11 +274,11 @@ public class SqlConnectionStringsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(entity);
+        var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id);
+        var queryResult = await connection.QueryAsync<StringsMapClass>(e => e.SessionId == (Guid)id, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -378,11 +378,11 @@ public class SqlConnectionStringsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity);
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id });
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id }, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -412,11 +412,11 @@ public class SqlConnectionStringsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity);
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id });
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<StringsClass>(), new { SessionId = (Guid)id }, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -428,6 +428,8 @@ public class SqlConnectionStringsTest
         Assert.IsNull(data.ColumnText);
         Assert.IsNull(data.ColumnVarChar);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -38,23 +38,19 @@ public class NameAttributeTest
     public void TestNameAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new NameAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new NameAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@TableColumnName"];
-                Assert.IsNotNull(parameter);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@TableColumnName"];
+        Assert.IsNotNull(parameter);
     }
 }

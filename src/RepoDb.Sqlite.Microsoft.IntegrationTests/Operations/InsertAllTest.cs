@@ -95,7 +95,7 @@ public class InsertAllTest
         var tables = Helper.CreateMdsCompleteTables(10);
 
         // Act
-        var result = await connection.InsertAllAsync<MdsCompleteTable>(tables);
+        var result = await connection.InsertAllAsync<MdsCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
@@ -123,7 +123,7 @@ public class InsertAllTest
         var tables = Helper.CreateMdsNonIdentityCompleteTables(10);
 
         // Act
-        var result = await connection.InsertAllAsync<MdsNonIdentityCompleteTable>(tables);
+        var result = await connection.InsertAllAsync<MdsNonIdentityCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
@@ -332,7 +332,7 @@ public class InsertAllTest
 
         // Act
         var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
@@ -360,7 +360,7 @@ public class InsertAllTest
 
         // Act
         var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
@@ -389,7 +389,7 @@ public class InsertAllTest
 
         // Act
         var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
@@ -417,7 +417,7 @@ public class InsertAllTest
 
         // Act
         var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
@@ -445,7 +445,7 @@ public class InsertAllTest
 
         // Act
         var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
@@ -473,7 +473,7 @@ public class InsertAllTest
 
         // Act
         var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
@@ -488,6 +488,8 @@ public class InsertAllTest
             Helper.AssertMembersEquality(table, queryResult.ElementAt((int)tables.IndexOf(table)));
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

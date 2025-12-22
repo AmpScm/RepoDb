@@ -77,7 +77,7 @@ public class ExecuteNonQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable];");
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -92,7 +92,7 @@ public class ExecuteNonQueryTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable] WHERE Id = @Id;",
-            new { tables.Last().Id });
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -106,11 +106,13 @@ public class ExecuteNonQueryTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable]; VACUUM;");
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable]; VACUUM;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual((tables.Count() * 2), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

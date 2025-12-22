@@ -153,7 +153,7 @@ public class CountTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAsync<IdentityTable>((object?)null);
+        var result = await connection.CountAsync<IdentityTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
@@ -170,7 +170,7 @@ public class CountTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAsync<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8);
+        var result = await connection.CountAsync<IdentityTable>(item => item.ColumnInt >= 2 && item.ColumnInt <= 8, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(7, result);
@@ -187,7 +187,7 @@ public class CountTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAsync<IdentityTable>(new { ColumnInt = 1 });
+        var result = await connection.CountAsync<IdentityTable>(new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -205,7 +205,7 @@ public class CountTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAsync<IdentityTable>(field);
+        var result = await connection.CountAsync<IdentityTable>(field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(5, result);
@@ -227,7 +227,7 @@ public class CountTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAsync<IdentityTable>(fields);
+        var result = await connection.CountAsync<IdentityTable>(fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result);
@@ -250,7 +250,7 @@ public class CountTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAsync<IdentityTable>(queryGroup);
+        var result = await connection.CountAsync<IdentityTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result);
@@ -378,7 +378,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
@@ -395,7 +395,7 @@ public class CountTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.CountAsync<IdentityTable>(new { ColumnInt = 1 });
+        var result = await connection.CountAsync<IdentityTable>(new { ColumnInt = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -414,7 +414,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(5, result);
@@ -437,7 +437,7 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result);
@@ -461,11 +461,13 @@ public class CountTest
 
         // Act
         var result = await connection.CountAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

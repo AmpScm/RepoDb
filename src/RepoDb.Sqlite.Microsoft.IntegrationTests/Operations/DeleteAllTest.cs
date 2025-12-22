@@ -83,7 +83,7 @@ public class DeleteAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAllAsync<MdsCompleteTable>();
+        var result = await connection.DeleteAllAsync<MdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -98,7 +98,7 @@ public class DeleteAllTest
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<MdsCompleteTable, object>(tables, e => e.Id);
 
         // Act
-        var result = await connection.DeleteAllAsync<MdsCompleteTable>(primaryKeys);
+        var result = await connection.DeleteAllAsync<MdsCompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -187,7 +187,7 @@ public class DeleteAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>());
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -202,11 +202,13 @@ public class DeleteAllTest
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<MdsCompleteTable, object>(tables, e => e.Id);
 
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), primaryKeys);
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     //[TestMethod]
     //public async Task TestSqLiteConnectionDeleteAllAsyncViaTableNameViaPrimaryKeysBeyondLimits()

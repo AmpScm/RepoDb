@@ -52,7 +52,7 @@ public class TruncateTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.TruncateAsync<CompleteTable>();
+        var result = await connection.TruncateAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
         var countResult = connection.CountAll<CompleteTable>();
 
         // Assert
@@ -94,12 +94,14 @@ public class TruncateTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>());
+        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
         var countResult = connection.CountAll<CompleteTable>();
 
         // Assert
         Assert.AreEqual(0, countResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

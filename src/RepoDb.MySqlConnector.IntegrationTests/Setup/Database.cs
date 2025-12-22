@@ -35,11 +35,9 @@ public static class Database
 
     public static void Cleanup()
     {
-        using (var connection = new MySqlConnection(ConnectionString))
-        {
-            connection.Truncate<CompleteTable>();
-            connection.Truncate<NonIdentityCompleteTable>();
-        }
+        using var connection = new MySqlConnection(ConnectionString);
+        connection.Truncate<CompleteTable>();
+        connection.Truncate<NonIdentityCompleteTable>();
     }
 
     #endregion
@@ -48,12 +46,10 @@ public static class Database
 
     public static IEnumerable<CompleteTable> CreateCompleteTables(int count)
     {
-        using (var connection = new MySqlConnection(ConnectionString))
-        {
-            var tables = Helper.CreateCompleteTables(count);
-            connection.InsertAll(tables);
-            return tables;
-        }
+        using var connection = new MySqlConnection(ConnectionString);
+        var tables = Helper.CreateCompleteTables(count);
+        connection.InsertAll(tables);
+        return tables;
     }
 
     #endregion
@@ -62,12 +58,10 @@ public static class Database
 
     public static IEnumerable<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count)
     {
-        using (var connection = new MySqlConnection(ConnectionString))
-        {
-            var tables = Helper.CreateNonIdentityCompleteTables(count);
-            connection.InsertAll(tables);
-            return tables;
-        }
+        using var connection = new MySqlConnection(ConnectionString);
+        var tables = Helper.CreateNonIdentityCompleteTables(count);
+        connection.InsertAll(tables);
+        return tables;
     }
 
     #endregion
@@ -82,9 +76,8 @@ public static class Database
 
     private static void CreateCompleteTable()
     {
-        using (var connection = new MySqlConnection(ConnectionString))
-        {
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS `CompleteTable`
+        using var connection = new MySqlConnection(ConnectionString);
+        connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS `CompleteTable`
                     (
                         `Id` bigint(20) NOT NULL AUTO_INCREMENT,
                         `ColumnVarchar` varchar(256) DEFAULT NULL,
@@ -130,14 +123,12 @@ public static class Database
                         `ColumnBit` bit(1) DEFAULT NULL,
                         PRIMARY KEY (`Id`)
                     ) ENGINE=InnoDB;");
-        }
     }
 
     private static void CreateNonIdentityCompleteTable()
     {
-        using (var connection = new MySqlConnection(ConnectionString))
-        {
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS `NonIdentityCompleteTable`
+        using var connection = new MySqlConnection(ConnectionString);
+        connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS `NonIdentityCompleteTable`
                     (
                         `Id` bigint(20) NOT NULL,
                         `ColumnVarchar` varchar(256) DEFAULT NULL,
@@ -183,7 +174,6 @@ public static class Database
                         `ColumnBit` bit(1) DEFAULT NULL,
                         PRIMARY KEY(`Id`)
                     ) ENGINE = InnoDB;");
-        }
     }
 
     #endregion

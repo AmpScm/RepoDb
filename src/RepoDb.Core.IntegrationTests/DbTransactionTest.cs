@@ -55,7 +55,7 @@ public class SqlTransactionTest
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.BatchQueryAsync<IdentityTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
+        await connection.BatchQueryAsync<IdentityTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -87,7 +87,7 @@ public class SqlTransactionTest
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.CountAsync<IdentityTable>(it => it.Id != 0, transaction: transaction);
+        await connection.CountAsync<IdentityTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -119,7 +119,7 @@ public class SqlTransactionTest
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.CountAllAsync<IdentityTable>(transaction: transaction);
+        await connection.CountAllAsync<IdentityTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -196,7 +196,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction);
+            await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -220,7 +220,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction);
+            await connection.DeleteAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -304,7 +304,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAllAsync<IdentityTable>(transaction: transaction);
+            await connection.DeleteAllAsync<IdentityTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -328,7 +328,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAllAsync<IdentityTable>(transaction: transaction);
+            await connection.DeleteAllAsync<IdentityTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -403,7 +403,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAsync<IdentityTable>(entity, transaction: transaction);
+            await connection.InsertAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -424,7 +424,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAsync<IdentityTable>(entity, transaction: transaction);
+            await connection.InsertAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -499,7 +499,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction);
+            await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -520,7 +520,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction);
+            await connection.InsertAllAsync<IdentityTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -595,7 +595,7 @@ public class SqlTransactionTest
         var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
-        await connection.MergeAsync<IdentityTable>(entity, transaction: transaction);
+        await connection.MergeAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
         transaction.Commit();
@@ -615,7 +615,7 @@ public class SqlTransactionTest
         var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
-        await connection.MergeAsync<IdentityTable>(entity, transaction: transaction);
+        await connection.MergeAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
         transaction.Rollback();
@@ -689,7 +689,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction);
+            await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -710,7 +710,7 @@ public class SqlTransactionTest
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction);
+            await connection.MergeAllAsync<IdentityTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -749,7 +749,7 @@ public class SqlTransactionTest
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryAsync<IdentityTable>(it => it.Id != 0, transaction: transaction);
+        await connection.QueryAsync<IdentityTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -781,7 +781,7 @@ public class SqlTransactionTest
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryAllAsync<IdentityTable>(transaction: transaction);
+        await connection.QueryAllAsync<IdentityTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -892,7 +892,7 @@ public class SqlTransactionTest
         // Act
         await connection.QueryMultipleAsync<IdentityTable, IdentityTable>(it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -905,7 +905,7 @@ public class SqlTransactionTest
         await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -919,7 +919,7 @@ public class SqlTransactionTest
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -934,7 +934,7 @@ public class SqlTransactionTest
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -950,7 +950,7 @@ public class SqlTransactionTest
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -967,7 +967,7 @@ public class SqlTransactionTest
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
-            transaction: transaction);
+            transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -999,7 +999,7 @@ public class SqlTransactionTest
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.TruncateAsync<IdentityTable>(transaction: transaction);
+        await connection.TruncateAsync<IdentityTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -1088,7 +1088,7 @@ public class SqlTransactionTest
             entity.ColumnBit = false;
 
             // Act
-            await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction);
+            await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -1117,7 +1117,7 @@ public class SqlTransactionTest
             entity.ColumnBit = false;
 
             // Act
-            await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction);
+            await connection.UpdateAsync<IdentityTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -1216,7 +1216,7 @@ public class SqlTransactionTest
             entities.ForEach(entity => entity.ColumnBit = false);
 
             // Act
-            await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction);
+            await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
@@ -1245,7 +1245,7 @@ public class SqlTransactionTest
             entities.ForEach(entity => entity.ColumnBit = false);
 
             // Act
-            await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction);
+            await connection.UpdateAllAsync<IdentityTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Rollback();
@@ -1298,7 +1298,7 @@ public class SqlTransactionTest
         using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
             // Act
-            await connection.InsertAllAsync<IdentityTable>(entities);
+            await connection.InsertAllAsync<IdentityTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
@@ -1342,7 +1342,7 @@ public class SqlTransactionTest
         using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
         {
             // Act
-            await connection.MergeAllAsync<IdentityTable>(entities);
+            await connection.MergeAllAsync<IdentityTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(entities.Count, connection.CountAll<IdentityTable>());
@@ -1401,7 +1401,7 @@ public class SqlTransactionTest
             entities.ForEach(entity => entity.ColumnBit = false);
 
             // Act
-            await connection.UpdateAllAsync<IdentityTable>(entities);
+            await connection.UpdateAllAsync<IdentityTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Act
             var queryResult = connection.QueryAll<IdentityTable>();
@@ -1413,6 +1413,8 @@ public class SqlTransactionTest
         // Complete
         transaction.Complete();
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

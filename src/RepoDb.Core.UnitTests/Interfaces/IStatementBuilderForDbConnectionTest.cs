@@ -3304,7 +3304,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.AverageAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3320,7 +3321,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.AverageAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3343,7 +3345,7 @@ public class IStatementBuilderForDbConnectionTest
         await connection.AverageAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3360,7 +3362,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.AverageAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3382,7 +3385,7 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.AverageAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3399,7 +3402,7 @@ public class IStatementBuilderForDbConnectionTest
         await connection.AverageAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3424,7 +3427,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.AverageAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3438,7 +3442,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.AverageAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3459,7 +3464,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.AverageAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3474,7 +3480,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.AverageAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3494,7 +3501,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.AverageAllAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3509,7 +3517,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.AverageAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3536,7 +3545,7 @@ public class IStatementBuilderForDbConnectionTest
             rowsPerBatch: 10,
             orderBy: OrderField.Parse(new { Id = Order.Ascending }),
             where: (QueryGroup)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3557,7 +3566,8 @@ public class IStatementBuilderForDbConnectionTest
             rowsPerBatch: 10,
             orderBy: OrderField.Parse(new { Id = Order.Ascending }),
             where: (QueryGroup)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3585,7 +3595,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.CountAsync<StatementBuilderEntity>((object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3599,7 +3610,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.CountAsync<StatementBuilderEntity>((object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3620,7 +3632,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.CountAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3635,7 +3648,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.CountAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3655,7 +3669,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.CountAsync<StatementBuilderEntityForCrossCall>((object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3670,7 +3685,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.CountAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3693,7 +3709,7 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.CountAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object);
+        await connection.CountAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3705,7 +3721,8 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.CountAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object);
+        await connection.CountAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3724,7 +3741,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.CountAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3737,7 +3755,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.CountAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3755,7 +3774,7 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.CountAllAsync<StatementBuilderEntityForCrossCall>(statementBuilder: statementBuilder.Object);
+        await connection.CountAllAsync<StatementBuilderEntityForCrossCall>(statementBuilder: statementBuilder.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3768,7 +3787,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.CountAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3791,7 +3811,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.DeleteAsync<StatementBuilderEntity>(e => e.Id == 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3805,7 +3826,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.DeleteAsync<StatementBuilderEntity>(e => e.Id == 1,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3829,7 +3851,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Id = 1
             },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3847,7 +3870,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Id = 1
             },
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3867,7 +3891,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.DeleteAsync<StatementBuilderEntityForCrossCall>(e => e.Id == 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3885,7 +3910,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Id = 1
             },
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3908,7 +3934,7 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.DeleteAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object);
+        await connection.DeleteAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3920,7 +3946,7 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.DeleteAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object);
+        await connection.DeleteAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3939,7 +3965,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.DeleteAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3952,7 +3979,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.DeleteAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -3970,7 +3998,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.DeleteAllAsync<StatementBuilderEntityForCrossCall>(statementBuilder: statementBuilder.Object);
+        await connection.DeleteAllAsync<StatementBuilderEntityForCrossCall>(statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -3983,7 +4012,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.DeleteAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-             statementBuilder: statementBuilderNever.Object);
+             statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4006,7 +4036,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.ExistsAsync<StatementBuilderEntity>((object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4020,7 +4051,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.ExistsAsync<StatementBuilderEntity>((object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4041,7 +4073,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.ExistsAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4056,7 +4089,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.ExistsAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4076,7 +4110,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.ExistsAsync<StatementBuilderEntityForCrossCall>((object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4091,7 +4126,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.ExistsAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4120,7 +4156,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Name = "Name"
             },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4139,7 +4176,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Name = "Name"
             },
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4165,7 +4203,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Name = "Name"
             },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4184,7 +4223,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Name = "Name"
             },
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4210,7 +4250,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Name = "Name"
             },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4230,7 +4271,8 @@ public class IStatementBuilderForDbConnectionTest
                 Id = 1,
                 Name = "Name"
             },
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4261,7 +4303,8 @@ public class IStatementBuilderForDbConnectionTest
             new StatementBuilderEntity{ Name = "Name2" },
             new StatementBuilderEntity{ Name = "Name3" }
         ],
-        statementBuilder: statementBuilder.Object);
+        statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4282,7 +4325,8 @@ public class IStatementBuilderForDbConnectionTest
             new StatementBuilderEntity{ Name = "Name2" },
             new StatementBuilderEntity{ Name = "Name3" }
         ],
-        statementBuilder: statementBuilderNever.Object);
+        statementBuilder: statementBuilderNever.Object,
+        cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4309,7 +4353,8 @@ public class IStatementBuilderForDbConnectionTest
             new StatementBuilderEntity{ Name = "Name" }
         ],
         batchSize: 1,
-        statementBuilder: statementBuilder.Object);
+        statementBuilder: statementBuilder.Object,
+        cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4324,11 +4369,12 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.InsertAllAsync<StatementBuilderEntity>(
-        [
-            new StatementBuilderEntity{ Name = "Name" }
-        ],
-        batchSize: 1,
-        statementBuilder: statementBuilderNever.Object);
+            [
+                new StatementBuilderEntity{ Name = "Name" }
+            ],
+            batchSize: 1,
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4356,7 +4402,8 @@ public class IStatementBuilderForDbConnectionTest
                 new { Name = "Name3" }
             ],
             fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4378,7 +4425,8 @@ public class IStatementBuilderForDbConnectionTest
                 new { Name = "Name3" }
             ],
             fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4406,7 +4454,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4426,7 +4475,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4453,7 +4503,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntityForCrossCall { Name = "Name2" },
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
             ],
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4475,7 +4526,8 @@ public class IStatementBuilderForDbConnectionTest
                 new { Name = "Name3" }
             ],
             fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4502,7 +4554,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntityForCrossCall { Name = "Name" }
             ],
             batchSize: 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4522,7 +4575,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             fields: [new Field("Id", typeof(int)), new Field("Name", typeof(string))],
             batchSize: 1,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4548,7 +4602,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.MaxAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4564,7 +4619,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.MaxAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4587,7 +4643,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.MaxAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4604,7 +4661,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.MaxAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4626,7 +4684,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.MaxAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4643,7 +4702,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.MaxAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4668,7 +4728,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.MaxAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4682,7 +4743,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.MaxAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4703,7 +4765,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.MaxAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4718,7 +4781,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.MaxAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4738,7 +4802,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.MaxAllAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4753,7 +4818,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.MaxAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4783,7 +4849,8 @@ public class IStatementBuilderForDbConnectionTest
                 Name = "Name"
             },
             new Field(nameof(StatementBuilderEntity.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4804,7 +4871,8 @@ public class IStatementBuilderForDbConnectionTest
                 Name = "Name"
             },
             new Field(nameof(StatementBuilderEntity.Id)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4832,7 +4900,8 @@ public class IStatementBuilderForDbConnectionTest
                 Name = "Name"
             },
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4853,7 +4922,8 @@ public class IStatementBuilderForDbConnectionTest
                 Name = "Name"
             },
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4881,7 +4951,8 @@ public class IStatementBuilderForDbConnectionTest
                 Name = "Name"
             },
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4903,7 +4974,8 @@ public class IStatementBuilderForDbConnectionTest
                 Name = "Name"
             },
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4936,7 +5008,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntity { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntity.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -4960,7 +5033,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntity { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntity.Id)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -4989,7 +5063,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             new Field(nameof(StatementBuilderEntity.Id)),
             batchSize: 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5010,7 +5085,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             new Field(nameof(StatementBuilderEntity.Id)),
             batchSize: 1,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5039,7 +5115,8 @@ public class IStatementBuilderForDbConnectionTest
                 new { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5063,7 +5140,8 @@ public class IStatementBuilderForDbConnectionTest
                 new { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5093,7 +5171,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             batchSize: 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5114,7 +5193,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
             batchSize: 1,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5143,7 +5223,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5167,7 +5248,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5198,7 +5280,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             batchSize: 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5222,7 +5305,8 @@ public class IStatementBuilderForDbConnectionTest
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             batchSize: 1,
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5249,7 +5333,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.MinAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5265,7 +5350,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.MinAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5288,7 +5374,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.MinAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5305,7 +5392,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.MinAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5327,7 +5415,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.MinAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5344,7 +5433,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.MinAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5369,7 +5459,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.MinAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5383,7 +5474,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.MinAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5404,7 +5496,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.MinAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5419,7 +5512,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.MinAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5439,7 +5533,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.MinAllAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5454,7 +5549,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.MinAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5477,7 +5573,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.QueryAsync<StatementBuilderEntity>(e => e.Id == 1, statementBuilder: statementBuilder.Object);
+        await connection.QueryAsync<StatementBuilderEntity>(e => e.Id == 1, statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5493,7 +5590,8 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.QueryAsync<StatementBuilderEntity>(e => e.Id == 1, statementBuilder: statementBuilderNever.Object);
+        await connection.QueryAsync<StatementBuilderEntity>(e => e.Id == 1, statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5517,7 +5615,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.QueryAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(),
             new { Id = 1 },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5535,7 +5634,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.QueryAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(),
             new { Id = 1 },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5557,7 +5657,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.QueryAsync<StatementBuilderEntity>(e => e.Id == 1, statementBuilder: statementBuilder.Object);
+        await connection.QueryAsync<StatementBuilderEntity>(e => e.Id == 1, statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5575,7 +5676,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.QueryAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(),
             new { Id = 1 },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5601,7 +5703,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.QueryAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object);
+        await connection.QueryAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5615,7 +5718,8 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.QueryAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object);
+        await connection.QueryAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5635,7 +5739,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.QueryAllAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(), statementBuilder: statementBuilder.Object);
+        await connection.QueryAllAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(), statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5649,7 +5754,8 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.QueryAllAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(), statementBuilder: statementBuilder.Object);
+        await connection.QueryAllAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(), statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5669,7 +5775,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.QueryAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object);
+        await connection.QueryAllAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5683,7 +5790,8 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.QueryAllAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(), statementBuilder: statementBuilder.Object);
+        await connection.QueryAllAsync(ClassMappedNameCache.Get<StatementBuilderEntity>(), statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5719,7 +5827,8 @@ public class IStatementBuilderForDbConnectionTest
             e => e.Id == 1,
             e => e.Id == 1,
             e => e.Id == 1,
-            e => e.Id == 1, statementBuilder: statementBuilder.Object);
+            e => e.Id == 1, statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5795,7 +5904,8 @@ public class IStatementBuilderForDbConnectionTest
             e => e.Id == 1,
             e => e.Id == 1,
             e => e.Id == 1,
-            e => e.Id == 1, statementBuilder: statementBuilderNever.Object);
+            e => e.Id == 1, statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5871,7 +5981,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.SumAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5887,7 +5998,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.SumAsync<StatementBuilderEntity>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5910,7 +6022,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.SumAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5927,7 +6040,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.SumAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5949,7 +6063,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.SumAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
             (object?)null,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -5966,7 +6081,8 @@ public class IStatementBuilderForDbConnectionTest
         await connection.SumAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
             (object?)null,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -5991,7 +6107,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.SumAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6005,7 +6122,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.SumAllAsync<StatementBuilderEntity>(e => e.Id,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6026,7 +6144,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.SumAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6041,7 +6160,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.SumAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
             new Field("Id"),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6061,7 +6181,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.SumAllAsync<StatementBuilderEntityForCrossCall>(e => e.Id,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6076,7 +6197,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.SumAllAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
             new Field("Id", typeof(int)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6099,7 +6221,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.TruncateAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object);
+        await connection.TruncateAsync<StatementBuilderEntity>(statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6110,7 +6233,8 @@ public class IStatementBuilderForDbConnectionTest
         var statementBuilderNever = new Mock<IStatementBuilder>();
 
         // Act
-        await connection.TruncateAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object);
+        await connection.TruncateAsync<StatementBuilderEntity>(statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6128,7 +6252,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         CommandTextCache.Flush();
         await connection.TruncateAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6140,7 +6265,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.TruncateAsync(ClassMappedNameCache.Get<StatementBuilderEntityForTableName>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6157,7 +6283,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         CommandTextCache.Flush();
-        await connection.TruncateAsync<StatementBuilderEntityForCrossCall>(statementBuilder: statementBuilder.Object);
+        await connection.TruncateAsync<StatementBuilderEntityForCrossCall>(statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6169,7 +6296,8 @@ public class IStatementBuilderForDbConnectionTest
 
         // Act
         await connection.TruncateAsync(ClassMappedNameCache.Get<StatementBuilderEntityForCrossCall>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6193,7 +6321,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.UpdateAsync<StatementBuilderEntity>(new StatementBuilderEntity { Name = "Update" },
             e => e.Id == 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6210,7 +6339,8 @@ public class IStatementBuilderForDbConnectionTest
         // Act
         await connection.UpdateAsync<StatementBuilderEntity>(new StatementBuilderEntity { Name = "Update" },
             e => e.Id == 1,
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6241,7 +6371,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Id = 1
             },
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6265,7 +6396,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Id = 1
             },
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6289,7 +6421,8 @@ public class IStatementBuilderForDbConnectionTest
         CommandTextCache.Flush();
         await connection.UpdateAsync<StatementBuilderEntityForCrossCall>(new StatementBuilderEntityForCrossCall { Name = "Update" },
             e => e.Id == 1,
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6314,7 +6447,8 @@ public class IStatementBuilderForDbConnectionTest
             {
                 Id = 1
             },
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6347,7 +6481,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntity { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntity.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6370,7 +6505,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntity { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntity.Id)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6400,7 +6536,8 @@ public class IStatementBuilderForDbConnectionTest
                 new { Id = 0, Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6423,7 +6560,8 @@ public class IStatementBuilderForDbConnectionTest
                 new { Id = 0, Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntityForTableName.Id)),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6453,7 +6591,8 @@ public class IStatementBuilderForDbConnectionTest
                 new StatementBuilderEntityForCrossCall { Name = "Name3" }
             ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
-            statementBuilder: statementBuilder.Object);
+            statementBuilder: statementBuilder.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilder.Verify(builder =>
@@ -6477,7 +6616,8 @@ public class IStatementBuilderForDbConnectionTest
             ],
             new Field(nameof(StatementBuilderEntityForCrossCall.Id)),
             fields: FieldCache.Get<StatementBuilderEntityForCrossCall>(),
-            statementBuilder: statementBuilderNever.Object);
+            statementBuilder: statementBuilderNever.Object,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert
         statementBuilderNever.Verify(builder =>
@@ -6489,6 +6629,8 @@ public class IStatementBuilderForDbConnectionTest
                 It.IsAny<IEnumerable<DbField>>(),
                 It.IsAny<string>()), Times.Exactly(0));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

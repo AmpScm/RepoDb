@@ -82,7 +82,7 @@ public class InsertTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.InsertAsync<CompleteTable>(table);
+        var result = await connection.InsertAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -105,7 +105,7 @@ public class InsertTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.InsertAsync<NonIdentityCompleteTable>(table);
+        var result = await connection.InsertAsync<NonIdentityCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
@@ -279,7 +279,7 @@ public class InsertTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -302,7 +302,7 @@ public class InsertTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            (object)table);
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -325,7 +325,7 @@ public class InsertTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<CompleteTable>());
@@ -349,7 +349,7 @@ public class InsertTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
@@ -372,7 +372,7 @@ public class InsertTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            (object)table);
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
@@ -395,7 +395,7 @@ public class InsertTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
@@ -408,6 +408,8 @@ public class InsertTest
         Assert.AreEqual(1, queryResult?.Count());
         Helper.AssertMembersEquality(queryResult.First(), table);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

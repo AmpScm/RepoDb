@@ -62,7 +62,7 @@ public class ExecuteScalarTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        object result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM \"CompleteTable\";");
+        object result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
@@ -76,11 +76,13 @@ public class ExecuteScalarTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM \"CompleteTable\";");
+        int result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

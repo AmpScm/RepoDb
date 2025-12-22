@@ -415,14 +415,14 @@ public class ExecuteQueryMultipleTest
                     SELECT TOP 2 * FROM [sc].[IdentityTable];
                     SELECT TOP 3 * FROM [sc].[IdentityTable];
                     SELECT TOP 4 * FROM [sc].[IdentityTable];
-                    SELECT TOP 5 * FROM [sc].[IdentityTable];");
+                    SELECT TOP 5 * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync<IdentityTable>();
+            var items = await result.ExtractAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(index, items.Count());
@@ -451,14 +451,14 @@ public class ExecuteQueryMultipleTest
                     SELECT TOP (@Top3) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top4) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top5) * FROM [sc].[IdentityTable];",
-            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5 });
+            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5 }, cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync<IdentityTable>();
+            var items = await result.ExtractAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(index, items.Count());
@@ -479,7 +479,7 @@ public class ExecuteQueryMultipleTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync(tables);
+        await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT TOP (@Top1) * FROM [sc].[IdentityTable];
@@ -487,14 +487,14 @@ public class ExecuteQueryMultipleTest
                     SELECT TOP (@Top3) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top4) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top5) * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5, ColumnInt = new[] { 1, 2, 3, 4, 5 } });
+            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5, ColumnInt = new[] { 1, 2, 3, 4, 5 } }, cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync<IdentityTable>();
+            var items = await result.ExtractAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(index, items.Count());
@@ -515,29 +515,29 @@ public class ExecuteQueryMultipleTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync(tables);
+        await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT TOP (@Top1) * FROM [sc].[IdentityTable];
                     EXEC [dbo].[sp_get_identity_tables];
                     EXEC [dbo].[sp_get_identity_table_by_id] @Id",
-            new { Top1 = 1, tables.Last().Id }, CommandType.Text);
+            new { Top1 = 1, tables.Last().Id }, CommandType.Text, cancellationToken: TestContext.CancellationToken);
         // Act
-        var value1 = await result.ExtractAsync<IdentityTable>();
+        var value1 = await result.ExtractAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, value1.Count());
         Helper.AssertPropertiesEquality(tables.Where(t => t.Id == value1.First().Id).First(), value1.First());
 
         // Act
-        var value2 = await result.ExtractAsync<IdentityTable>();
+        var value2 = await result.ExtractAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, value2.Count());
         tables.ForEach(item => Helper.AssertPropertiesEquality(item, value2.ElementAt(tables.IndexOf(item))));
 
         // Act
-        var value3 = await result.ExtractAsync<IdentityTable>();
+        var value3 = await result.ExtractAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, value3.Count());
@@ -552,21 +552,21 @@ public class ExecuteQueryMultipleTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync(tables);
+        await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT TOP 1 * FROM [sc].[IdentityTable];
                     SELECT TOP 2 * FROM [sc].[IdentityTable];
                     SELECT TOP 3 * FROM [sc].[IdentityTable];
                     SELECT TOP 4 * FROM [sc].[IdentityTable];
-                    SELECT TOP 5 * FROM [sc].[IdentityTable];");
+                    SELECT TOP 5 * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync<IdentityTable>(false);
+            var items = await result.ExtractAsync<IdentityTable>(false, TestContext.CancellationToken);
             await result.NextResultAsync();
 
             // Assert
@@ -592,21 +592,21 @@ public class ExecuteQueryMultipleTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync(tables);
+        await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT TOP 1 * FROM [sc].[IdentityTable];
                     SELECT TOP 2 * FROM [sc].[IdentityTable];
                     SELECT TOP 3 * FROM [sc].[IdentityTable];
                     SELECT TOP 4 * FROM [sc].[IdentityTable];
-                    SELECT TOP 5 * FROM [sc].[IdentityTable];");
+                    SELECT TOP 5 * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync();
+            var items = await result.ExtractAsync(cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(index, items.Count());
@@ -627,7 +627,7 @@ public class ExecuteQueryMultipleTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync(tables);
+        await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT TOP (@Top1) * FROM [sc].[IdentityTable];
@@ -635,14 +635,14 @@ public class ExecuteQueryMultipleTest
                     SELECT TOP (@Top3) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top4) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top5) * FROM [sc].[IdentityTable];",
-            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5 });
+            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5 }, cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync();
+            var items = await result.ExtractAsync(cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(index, items.Count());
@@ -663,7 +663,7 @@ public class ExecuteQueryMultipleTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await connection.InsertAllAsync(tables);
+        await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT TOP (@Top1) * FROM [sc].[IdentityTable];
@@ -671,14 +671,14 @@ public class ExecuteQueryMultipleTest
                     SELECT TOP (@Top3) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top4) * FROM [sc].[IdentityTable];
                     SELECT TOP (@Top5) * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5, ColumnInt = new[] { 1, 2, 3, 4, 5 } });
+            new { Top1 = 1, Top2 = 2, Top3 = 3, Top4 = 4, Top5 = 5, ColumnInt = new[] { 1, 2, 3, 4, 5 } }, cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync();
+            var items = await result.ExtractAsync(cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(index, items.Count());
@@ -705,23 +705,23 @@ public class ExecuteQueryMultipleTest
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT TOP (@Top1) * FROM [sc].[IdentityTable];
                     EXEC [dbo].[sp_get_identity_tables];
                     EXEC [dbo].[sp_get_identity_table_by_id] @Id",
-            new { Top1 = 1, tables.Last().Id }, CommandType.Text);
+            new { Top1 = 1, tables.Last().Id }, CommandType.Text, cancellationToken: TestContext.CancellationToken);
         // Act
-        var value1 = await result.ExtractAsync();
+        var value1 = await result.ExtractAsync(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, value1.Count());
         Helper.AssertMembersEquality(tables.Where(t => t.Id == value1.First().Id).First(), value1.First());
 
         // Act
-        var value2 = await result.ExtractAsync();
+        var value2 = await result.ExtractAsync(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, value2.Count());
         tables.ForEach(item => Helper.AssertPropertiesEquality(item, value2.ElementAt(tables.IndexOf(item))));
 
         // Act
-        var value3 = await result.ExtractAsync();
+        var value3 = await result.ExtractAsync(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, value3.Count());
@@ -743,14 +743,14 @@ public class ExecuteQueryMultipleTest
                     SELECT TOP 2 * FROM [sc].[IdentityTable];
                     SELECT TOP 3 * FROM [sc].[IdentityTable];
                     SELECT TOP 4 * FROM [sc].[IdentityTable];
-                    SELECT TOP 5 * FROM [sc].[IdentityTable];");
+                    SELECT TOP 5 * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
         while (result.Position >= 0)
         {
             // Index
             var index = result.Position + 1;
 
             // Act
-            var items = await result.ExtractAsync(false);
+            var items = await result.ExtractAsync(false, TestContext.CancellationToken);
             await result.NextResultAsync();
 
             // Assert
@@ -1069,7 +1069,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
-                    SELECT 'USER';");
+                    SELECT 'USER';", cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1102,7 +1102,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     SELECT @Value2;
-                    SELECT @Value3;", param);
+                    SELECT @Value3;", param, cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1135,7 +1135,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
-                    EXEC [dbo].[sp_multiply] @Value2, @Value3;", param);
+                    EXEC [dbo].[sp_multiply] @Value2, @Value3;", param, cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1169,7 +1169,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
-                    EXEC [dbo].[sp_multiply_with_output] @Value2, @Value3, @Output OUT;", param))
+                    EXEC [dbo].[sp_multiply_with_output] @Value2, @Value3, @Output OUT;", param, cancellationToken: TestContext.CancellationToken))
         {
             // Index
             var index = result.Position + 1;
@@ -1194,7 +1194,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
-                    SELECT 'USER';");
+                    SELECT 'USER';", cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1225,7 +1225,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
-                    SELECT 'USER';");
+                    SELECT 'USER';", cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1260,7 +1260,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     SELECT @Value2;
-                    SELECT @Value3;", param);
+                    SELECT @Value3;", param, cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1295,7 +1295,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
-                    EXEC [dbo].[sp_multiply] @Value2, @Value3;", param);
+                    EXEC [dbo].[sp_multiply] @Value2, @Value3;", param, cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1322,7 +1322,7 @@ public class ExecuteQueryMultipleTest
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
-                    SELECT 'USER';");
+                    SELECT 'USER';", cancellationToken: TestContext.CancellationToken);
         // Index
         var index = result.Position + 1;
 
@@ -1391,17 +1391,17 @@ public class ExecuteQueryMultipleTest
         var identityTables = Helper.CreateIdentityTables(10).AsList();
         var nonIdentityTables = Helper.CreateNonIdentityTables(10).AsList();
 
-        using var connection = await new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpenAsync();
+        using var connection = await new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpenAsync(TestContext.CancellationToken);
         // Act
         connection.InsertAll(identityTables);
         connection.InsertAll(nonIdentityTables);
 
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [sc].[IdentityTable];
-                    SELECT * FROM [dbo].[NonIdentityTable];");
+                    SELECT * FROM [dbo].[NonIdentityTable];", cancellationToken: TestContext.CancellationToken);
         // Act
-        var identityTablesResult = await result.ExtractAsync<IdentityTable>();
-        var nonIdentityTablesResult = await result.ExtractAsync<NonIdentityTable>();
+        var identityTablesResult = await result.ExtractAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
+        var nonIdentityTablesResult = await result.ExtractAsync<NonIdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(identityTables.Count, identityTablesResult.Count());
@@ -1413,6 +1413,8 @@ public class ExecuteQueryMultipleTest
         nonIdentityTables.ForEach(table =>
             Helper.AssertPropertiesEquality(table, nonIdentityTablesResult.First(e => e.Id == table.Id)));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

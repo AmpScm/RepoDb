@@ -189,7 +189,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync<CompleteTable>(table);
+        int result = await connection.UpdateAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -212,7 +212,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync<CompleteTable>(table, e => e.Id == table.Id);
+        int result = await connection.UpdateAsync<CompleteTable>(table, e => e.Id == table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -235,7 +235,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync<CompleteTable>(table, new { table.Id });
+        int result = await connection.UpdateAsync<CompleteTable>(table, new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -258,7 +258,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync<CompleteTable>(table, new QueryField("Id", table.Id));
+        int result = await connection.UpdateAsync<CompleteTable>(table, new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -286,7 +286,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync<CompleteTable>(table, queryFields);
+        int result = await connection.UpdateAsync<CompleteTable>(table, queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -315,7 +315,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync<CompleteTable>(table, queryGroup);
+        int result = await connection.UpdateAsync<CompleteTable>(table, queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -512,7 +512,7 @@ public class UpdateTest
 
         // Act
         int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            entity);
+            entity, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -535,7 +535,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table);
+        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -558,7 +558,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new { table.Id });
+        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -581,7 +581,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new QueryField("Id", table.Id));
+        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -609,7 +609,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryFields);
+        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -638,7 +638,7 @@ public class UpdateTest
         Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryGroup);
+        int result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -649,6 +649,8 @@ public class UpdateTest
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

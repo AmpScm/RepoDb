@@ -191,7 +191,7 @@ public class MergeAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.MergeAllAsync<CompleteTable>(tables, trace: new DiagnosticsTracer());
+        var result = await connection.MergeAllAsync<CompleteTable>(tables, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -216,7 +216,7 @@ public class MergeAllTest
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
         // Act
-        var result = await connection.MergeAllAsync<CompleteTable>(tables);
+        var result = await connection.MergeAllAsync<CompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -246,7 +246,7 @@ public class MergeAllTest
 
         // Act
         var result = await connection.MergeAllAsync<CompleteTable>(tables,
-            qualifiers);
+            qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -268,7 +268,7 @@ public class MergeAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.MergeAllAsync<NonIdentityCompleteTable>(tables);
+        var result = await connection.MergeAllAsync<NonIdentityCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -293,7 +293,7 @@ public class MergeAllTest
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
         // Act
-        var result = await connection.MergeAllAsync<NonIdentityCompleteTable>(tables);
+        var result = await connection.MergeAllAsync<NonIdentityCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -322,7 +322,7 @@ public class MergeAllTest
 
         // Act
         var result = await connection.MergeAllAsync<NonIdentityCompleteTable>(tables,
-            qualifiers);
+            qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -722,7 +722,7 @@ public class MergeAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -744,7 +744,7 @@ public class MergeAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -771,7 +771,7 @@ public class MergeAllTest
 
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -797,7 +797,7 @@ public class MergeAllTest
 
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
@@ -828,7 +828,7 @@ public class MergeAllTest
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables,
-            qualifiers);
+            qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -850,7 +850,7 @@ public class MergeAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -875,7 +875,7 @@ public class MergeAllTest
 
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -905,7 +905,7 @@ public class MergeAllTest
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables,
-            qualifiers);
+            qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -927,7 +927,7 @@ public class MergeAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -952,7 +952,7 @@ public class MergeAllTest
 
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -982,7 +982,7 @@ public class MergeAllTest
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables,
-            qualifiers);
+            qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -1004,7 +1004,7 @@ public class MergeAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -1029,7 +1029,7 @@ public class MergeAllTest
 
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -1059,7 +1059,7 @@ public class MergeAllTest
         // Act
         var result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables,
-            qualifiers);
+            qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -1071,6 +1071,8 @@ public class MergeAllTest
         Assert.AreEqual(tables.Count, queryResult.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

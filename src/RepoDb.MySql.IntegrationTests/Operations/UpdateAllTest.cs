@@ -65,7 +65,7 @@ public class UpdateAllTest
         tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
         // Act
-        var result = await connection.UpdateAllAsync<CompleteTable>(tables);
+        var result = await connection.UpdateAllAsync<CompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -151,7 +151,7 @@ public class UpdateAllTest
         tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
         // Act
-        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(), tables);
+        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -177,7 +177,7 @@ public class UpdateAllTest
 
         // Act
         var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -189,6 +189,8 @@ public class UpdateAllTest
         tables.AsList().ForEach(table =>
             Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

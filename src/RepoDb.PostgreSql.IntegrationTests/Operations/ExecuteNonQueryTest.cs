@@ -77,7 +77,7 @@ public class ExecuteNonQueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\";");
+        int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -92,7 +92,7 @@ public class ExecuteNonQueryTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
-            new { tables.Last().Id });
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -106,11 +106,13 @@ public class ExecuteNonQueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
+        int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

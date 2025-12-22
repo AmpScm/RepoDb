@@ -29,48 +29,40 @@ public class SqliteTypeAttributeTest
     public void TestSqliteTypeAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new SqliteConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqliteConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new SqliteTypeAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new SqliteTypeAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(SqliteType.Real, parameter.SqliteType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(SqliteType.Real, parameter.SqliteType);
     }
 
     [TestMethod]
     public void TestSqliteTypeAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new SqliteConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqliteConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(SqliteTypeAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(SqliteTypeAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(SqliteType.Real, parameter.SqliteType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(SqliteType.Real, parameter.SqliteType);
     }
 }

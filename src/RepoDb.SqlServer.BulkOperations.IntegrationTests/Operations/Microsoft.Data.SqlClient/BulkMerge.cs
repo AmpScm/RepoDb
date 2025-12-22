@@ -1664,7 +1664,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1688,7 +1688,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1717,7 +1717,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         connection.InsertAll(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1744,7 +1744,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         connection.InsertAll(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1777,7 +1777,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         // Act
         var bulkMergeResult = await connection.BulkMergeAsync(tables,
-            qualifiers: e => new { e.RowGuid, e.ColumnInt });
+            qualifiers: e => new { e.RowGuid, e.ColumnInt }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1808,7 +1808,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         // Act
         var bulkMergeResult = await connection.BulkMergeAsync(tables,
-            usePhysicalPseudoTempTable: true);
+            usePhysicalPseudoTempTable: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1848,7 +1848,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         connection.InsertAll(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables, mappings: mappings);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, mappings: mappings, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1872,7 +1872,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1896,7 +1896,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1928,7 +1928,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateBulkOperationMappedIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1958,7 +1958,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateBulkOperationMappedIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -1991,7 +1991,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         // Act
         var bulkMergeResult = await connection.BulkMergeAsync(tables,
-            qualifiers: e => new { e.RowGuidMapped, e.ColumnIntMapped });
+            qualifiers: e => new { e.RowGuidMapped, e.ColumnIntMapped }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2022,7 +2022,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         // Act
         var bulkMergeResult = await connection.BulkMergeAsync(tables,
-            usePhysicalPseudoTempTable: true);
+            usePhysicalPseudoTempTable: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2065,7 +2065,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateBulkOperationMappedIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables, mappings: mappings);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, mappings: mappings, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2102,7 +2102,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await connection.BulkMergeAsync(tables,
-            mappings: mappings));
+            mappings: mappings, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -2124,7 +2124,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>((DbDataReader)reader);
+        var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>((DbDataReader)reader, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2163,7 +2163,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>((DbDataReader)reader,
-            mappings: mappings);
+            mappings: mappings, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2202,7 +2202,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>((DbDataReader)reader,
-            mappings: mappings));
+            mappings: mappings, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -2227,7 +2227,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>(table);
+        var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2255,7 +2255,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>(table, isReturnIdentity: true);
+        var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>(table, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2308,7 +2308,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var bulkMergeResult = await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>(table,
-            mappings: mappings);
+            mappings: mappings, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2350,7 +2350,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkMergeAsync<BulkOperationIdentityTable>(table,
-            mappings: mappings));
+            mappings: mappings, cancellationToken: TestContext.CancellationToken));
     }
 
     //[TestMethod, ExpectedException(typeof(AggregateException))]
@@ -2376,7 +2376,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         Assert.ThrowsExactly<AggregateException>(() => connection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DbDataReader)null).Wait());
+            (DbDataReader)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -2384,7 +2384,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         Assert.ThrowsExactly<AggregateException>(() => connection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DataTable)null).Wait());
+            (DataTable)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
     }
 
     #endregion
@@ -2405,7 +2405,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateWithExtraFieldsBulkOperationIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2447,7 +2447,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateWithExtraFieldsBulkOperationIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2475,7 +2475,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2499,7 +2499,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2530,7 +2530,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         var entities = Helper.CreateBulkOperationExpandoObjectIdentityTables(10, true);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2560,7 +2560,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         var entities = Helper.CreateBulkOperationExpandoObjectIdentityTables(10, true);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2585,7 +2585,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2609,7 +2609,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2640,7 +2640,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         var entities = Helper.CreateBulkOperationAnonymousObjectIdentityTables(10, true);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), entities, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2670,7 +2670,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         var entities = Helper.CreateBulkOperationAnonymousObjectIdentityTables(10, true);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2695,7 +2695,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2719,7 +2719,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2751,7 +2751,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateBulkOperationIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2781,7 +2781,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateBulkOperationIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2813,7 +2813,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateBulkOperationIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2843,7 +2843,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         Helper.UpdateBulkOperationIdentityTables(tables);
 
         // Act
-        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true);
+        var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), tables, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
         Assert.IsFalse(tables.Any(e => e.Id <= 0));
 
         // Assert
@@ -2877,7 +2877,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Act
         var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             tables,
-            qualifiers: e => new { e.RowGuid, e.ColumnInt });
+            qualifiers: e => new { e.RowGuid, e.ColumnInt }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2909,7 +2909,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Act
         var bulkMergeResult = await connection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             tables,
-            usePhysicalPseudoTempTable: true);
+            usePhysicalPseudoTempTable: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2944,7 +2944,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader);
+        var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), (DbDataReader)reader, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -2984,7 +2984,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Act
         var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             (DbDataReader)reader,
-            mappings: mappings);
+            mappings: mappings, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -3024,7 +3024,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Act
         await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             (DbDataReader)reader,
-            mappings: mappings));
+            mappings: mappings, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -3046,7 +3046,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkMergeAsync("InvalidTable", (DbDataReader)reader));
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkMergeAsync("InvalidTable", (DbDataReader)reader, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -3068,7 +3068,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
 
-        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkMergeAsync("MissingTable", (DbDataReader)reader));
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkMergeAsync("MissingTable", (DbDataReader)reader, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -3093,7 +3093,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table);
+        var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -3121,7 +3121,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table, isReturnIdentity: true);
+        var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(), table, isReturnIdentity: true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -3175,7 +3175,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Act
         var bulkMergeResult = await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             table,
-            mappings: mappings);
+            mappings: mappings, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, bulkMergeResult);
@@ -3218,7 +3218,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Act
         await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkMergeAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
             table,
-            mappings: mappings));
+            mappings: mappings, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -3243,7 +3243,7 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         // Open the destination connection
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkMergeAsync("InvalidTable", table));
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkMergeAsync("InvalidTable", table, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -3269,8 +3269,10 @@ public class MicrosoftSqlConnectionBulkMergeOperationsTest
         using var destinationConnection = new SqlConnection(Database.ConnectionStringForRepoDb);
 
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkMergeAsync("MissingTable",
-            table));
+            table, cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

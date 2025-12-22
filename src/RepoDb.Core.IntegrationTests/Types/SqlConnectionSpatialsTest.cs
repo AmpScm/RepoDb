@@ -164,11 +164,11 @@ public class SqlConnectionSpatialsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(entity);
+        var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync<SpatialsClass>(e => e.SessionId == (Guid)id);
+        var queryResult = await connection.QueryAsync<SpatialsClass>(e => e.SessionId == (Guid)id, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -218,11 +218,11 @@ public class SqlConnectionSpatialsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(entity);
+        var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync<SpatialsMapClass>(e => e.SessionId == (Guid)id);
+        var queryResult = await connection.QueryAsync<SpatialsMapClass>(e => e.SessionId == (Guid)id, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -326,11 +326,11 @@ public class SqlConnectionSpatialsTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act Insert
-        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<SpatialsClass>(), entity);
+        var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<SpatialsClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
 
         // Act Query
-        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<SpatialsClass>(), new { SessionId = (Guid)id });
+        var queryResult = await connection.QueryAsync(ClassMappedNameCache.Get<SpatialsClass>(), new { SessionId = (Guid)id }, cancellationToken: TestContext.CancellationToken);
         var data = queryResult.FirstOrDefault();
 
         // Assert
@@ -338,6 +338,8 @@ public class SqlConnectionSpatialsTest
         Assert.IsNull(data.ColumnGeography);
         Assert.IsNull(data.ColumnGeometry);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

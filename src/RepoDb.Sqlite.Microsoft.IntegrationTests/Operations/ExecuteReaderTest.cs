@@ -121,7 +121,7 @@ public class ExecuteReaderTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];");
+        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
         while (reader.Read())
         {
             // Act
@@ -145,7 +145,7 @@ public class ExecuteReaderTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable]; SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];");
+        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable]; SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
         do
         {
             while (reader.Read())
@@ -172,7 +172,7 @@ public class ExecuteReaderTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [MdsCompleteTable];");
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
         // Act
         var result = DataReader.ToEnumerable<MdsCompleteTable>((DbDataReader)reader).AsList();
 
@@ -188,13 +188,15 @@ public class ExecuteReaderTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT *, 'MDS' AS MDS FROM [MdsCompleteTable];");
+        using var reader = await connection.ExecuteReaderAsync("SELECT *, 'MDS' AS MDS FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
         // Act
         var result = DataReader.ToEnumerable((DbDataReader)reader).AsList();
 
         // Assert
         tables.AsList().ForEach(table => Helper.AssertMembersEquality(table, result.First(e => e.Id == table.Id)));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

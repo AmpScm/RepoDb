@@ -29,48 +29,40 @@ public class LocaleIdAttributeTest
     public void TestLocaleIdAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new LocaleIdAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new LocaleIdAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1000, parameter.LocaleId);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1000, parameter.LocaleId);
     }
 
     [TestMethod]
     public void TestLocaleIdAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(LocaleIdAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(LocaleIdAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1000, parameter.LocaleId);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1000, parameter.LocaleId);
     }
 }

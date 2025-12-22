@@ -146,7 +146,7 @@ public class CountTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        long result = await connection.CountAsync<CompleteTable>((object?)null);
+        long result = await connection.CountAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -161,7 +161,7 @@ public class CountTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        long result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id));
+        long result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
@@ -175,7 +175,7 @@ public class CountTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        long result = await connection.CountAsync<CompleteTable>(new { tables.First().Id });
+        long result = await connection.CountAsync<CompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -189,7 +189,7 @@ public class CountTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        long result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id));
+        long result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -208,7 +208,7 @@ public class CountTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        long result = await connection.CountAsync<CompleteTable>(queryFields);
+        long result = await connection.CountAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -228,7 +228,7 @@ public class CountTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        long result = await connection.CountAsync<CompleteTable>(queryGroup);
+        long result = await connection.CountAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -243,7 +243,7 @@ public class CountTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync<CompleteTable>((object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -366,7 +366,7 @@ public class CountTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -381,7 +381,7 @@ public class CountTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            new { tables.First().Id });
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -396,7 +396,7 @@ public class CountTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            new QueryField("Id", tables.First().Id));
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -416,7 +416,7 @@ public class CountTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            queryFields);
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -437,7 +437,7 @@ public class CountTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -453,8 +453,10 @@ public class CountTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

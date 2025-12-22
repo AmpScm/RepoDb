@@ -32,23 +32,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update<CompleteTable>(table);
+        // Act
+        var result = connection.Update<CompleteTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -57,23 +55,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update<CompleteTable>(table, e => e.Id == table.Id);
+        // Act
+        var result = connection.Update<CompleteTable>(table, e => e.Id == table.Id);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -82,23 +78,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update<CompleteTable>(table, new { table.Id });
+        // Act
+        var result = connection.Update<CompleteTable>(table, new { table.Id });
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -107,23 +101,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update<CompleteTable>(table, new QueryField("Id", table.Id));
+        // Act
+        var result = connection.Update<CompleteTable>(table, new QueryField("Id", table.Id));
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -137,23 +129,21 @@ public class UpdateTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update<CompleteTable>(table, queryFields);
+        // Act
+        var result = connection.Update<CompleteTable>(table, queryFields);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -168,23 +158,21 @@ public class UpdateTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update<CompleteTable>(table, queryGroup);
+        // Act
+        var result = connection.Update<CompleteTable>(table, queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -193,14 +181,12 @@ public class UpdateTest
         // Setup
         var tables = Database.CreateMultiKeyTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            var item1 = tables.First();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        var item1 = tables.First();
 
-            item1.ColumnVarChar = "Updated";
+        item1.ColumnVarChar = "Updated";
 
-            Assert.AreEqual(1, connection.Update(item1, trace: new DiagnosticsTracer()));
-        }
+        Assert.AreEqual(1, connection.Update(item1, trace: new DiagnosticsTracer()));
     }
 
     #endregion
@@ -213,23 +199,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync<CompleteTable>(table);
+        // Act
+        var result = await connection.UpdateAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -238,23 +222,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync<CompleteTable>(table, e => e.Id == table.Id);
+        // Act
+        var result = await connection.UpdateAsync<CompleteTable>(table, e => e.Id == table.Id, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -263,23 +245,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync<CompleteTable>(table, new { table.Id });
+        // Act
+        var result = await connection.UpdateAsync<CompleteTable>(table, new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -288,23 +268,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync<CompleteTable>(table, new QueryField("Id", table.Id));
+        // Act
+        var result = await connection.UpdateAsync<CompleteTable>(table, new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -318,23 +296,21 @@ public class UpdateTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync<CompleteTable>(table, queryFields);
+        // Act
+        var result = await connection.UpdateAsync<CompleteTable>(table, queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -349,23 +325,21 @@ public class UpdateTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync<CompleteTable>(table, queryGroup);
+        // Act
+        var result = await connection.UpdateAsync<CompleteTable>(table, queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     #endregion
@@ -382,24 +356,22 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-            // Act
-            var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
-                entity);
+        // Act
+        var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
+            entity);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(queryResult, entity);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(queryResult, entity);
     }
 
     [TestMethod]
@@ -408,24 +380,22 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
-                table);
+        // Act
+        var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -434,25 +404,23 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                new { table.Id });
+        // Act
+        var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            new { table.Id });
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -461,25 +429,23 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                new QueryField("Id", table.Id));
+        // Act
+        var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            new QueryField("Id", table.Id));
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -493,25 +459,23 @@ public class UpdateTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                queryFields);
+        // Act
+        var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -526,25 +490,23 @@ public class UpdateTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
-                table,
-                queryGroup);
+        // Act
+        var result = connection.Update(ClassMappedNameCache.Get<CompleteTable>(),
+            table,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     #endregion
@@ -557,24 +519,22 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        var entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-            // Act
-            var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                entity);
+        // Act
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            entity, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(queryResult, entity);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(queryResult, entity);
     }
 
     [TestMethod]
@@ -583,23 +543,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table);
+        // Act
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -608,23 +566,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new { table.Id });
+        // Act
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -633,23 +589,21 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new QueryField("Id", table.Id));
+        // Act
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -663,23 +617,21 @@ public class UpdateTest
             new QueryField("ColumnInt", table.ColumnInt)
         };
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryFields);
+        // Act
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -694,24 +646,24 @@ public class UpdateTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Setup
-            Helper.UpdateCompleteTableProperties(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Setup
+        Helper.UpdateCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryGroup);
+        // Act
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<CompleteTable>(), table, queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result);
+        // Assert
+        Assert.AreEqual(1, result);
 
-            // Act
-            var queryResult = connection.Query<CompleteTable>(table.Id).First();
+        // Act
+        var queryResult = connection.Query<CompleteTable>(table.Id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

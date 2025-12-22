@@ -39,48 +39,40 @@ public class DirectionAttributeTest
     public void TestDirectionAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new DirectionAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new DirectionAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(ParameterDirection.Output, ((CustomDbParameter)parameter).Direction);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(ParameterDirection.Output, ((CustomDbParameter)parameter).Direction);
     }
 
     [TestMethod]
     public void TestDirectionAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(DirectionAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(DirectionAttributeTestClass));
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(ParameterDirection.Output, ((CustomDbParameter)parameter).Direction);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(ParameterDirection.Output, ((CustomDbParameter)parameter).Direction);
     }
 }

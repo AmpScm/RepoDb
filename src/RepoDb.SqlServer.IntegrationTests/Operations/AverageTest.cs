@@ -32,15 +32,13 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Average<CompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Average<CompleteTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -49,16 +47,14 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Average<CompleteTable>(e => e.ColumnInt,
-                (object?)null,
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Average<CompleteTable>(e => e.ColumnInt,
+            (object?)null,
+            SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -67,16 +63,14 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = connection.Average<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = connection.Average<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -85,17 +79,15 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = connection.Average<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id),
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = connection.Average<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id),
+            SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     #endregion
@@ -108,15 +100,13 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -125,16 +115,14 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
-                (object?)null,
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
+            (object?)null,
+            SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -143,16 +131,14 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -161,17 +147,15 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id),
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id),
+            SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     #endregion
@@ -188,16 +172,14 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -206,17 +188,15 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                (object?)null,
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            (object?)null,
+            SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -225,17 +205,15 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                new QueryField("Id", Operation.In, ids));
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            new QueryField("Id", Operation.In, ids));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -244,18 +222,16 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                new QueryField("Id", Operation.In, ids),
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            new QueryField("Id", Operation.In, ids),
+            SqlServerTableHints.TabLock);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     #endregion
@@ -268,16 +244,14 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                (object?)null);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -286,17 +260,15 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                (object?)null,
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            (object?)null,
+            SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -305,17 +277,15 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                new QueryField("Id", Operation.In, ids));
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            new QueryField("Id", Operation.In, ids), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
 
     [TestMethod]
@@ -324,19 +294,19 @@ public class AverageTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var ids = new[] { tables.First().Id, tables.Last().Id };
-            var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-                new QueryField("Id", Operation.In, ids),
-                SqlServerTableHints.TabLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var ids = new[] { tables.First().Id, tables.Last().Id };
+        var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
+            new QueryField("Id", Operation.In, ids),
+            SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

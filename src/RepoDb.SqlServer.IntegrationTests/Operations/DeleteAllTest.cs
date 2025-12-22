@@ -32,14 +32,12 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.DeleteAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -49,14 +47,12 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(10);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>(primaryKeys);
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = connection.DeleteAll<CompleteTable>(primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -66,14 +62,12 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(5000);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>(primaryKeys, trace: new DiagnosticsTracer());
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = connection.DeleteAll<CompleteTable>(primaryKeys, trace: new DiagnosticsTracer());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -82,14 +76,12 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>(tables.Take(5), trace: new DiagnosticsTracer());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.DeleteAll<CompleteTable>(tables.Take(5), trace: new DiagnosticsTracer());
 
-            // Assert
-            Assert.AreEqual(5, result);
-        }
+        // Assert
+        Assert.AreEqual(5, result);
     }
 
     [TestMethod]
@@ -98,14 +90,12 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateCompleteTables(15);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>(tables.Take(10), trace: new DiagnosticsTracer());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.DeleteAll<CompleteTable>(tables.Take(10), trace: new DiagnosticsTracer());
 
-            // Assert
-            Assert.AreEqual(10, result);
-        }
+        // Assert
+        Assert.AreEqual(10, result);
     }
 
     [TestMethod]
@@ -114,14 +104,12 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateCompleteTables(30);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.DeleteAll<CompleteTable>(tables.Take(20), trace: new DiagnosticsTracer());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.DeleteAll<CompleteTable>(tables.Take(20), trace: new DiagnosticsTracer());
 
-            // Assert
-            Assert.AreEqual(20, result);
-        }
+        // Assert
+        Assert.AreEqual(20, result);
     }
 
     [TestMethod]
@@ -130,10 +118,8 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateMultiKeyTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            Assert.AreEqual(5, connection.DeleteAll(tables.Take(5), trace: new DiagnosticsTracer()));
-        }
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        Assert.AreEqual(5, connection.DeleteAll(tables.Take(5), trace: new DiagnosticsTracer()));
     }
 
 
@@ -147,14 +133,12 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.DeleteAllAsync<CompleteTable>();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.DeleteAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -164,14 +148,12 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(10);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys);
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -181,14 +163,12 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(5000);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, trace: new DiagnosticsTracer());
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -205,14 +185,12 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -222,14 +200,12 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(10);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -239,14 +215,12 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(5000);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -259,14 +233,12 @@ public class DeleteAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -276,14 +248,12 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(10);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -293,15 +263,15 @@ public class DeleteAllTest
         var tables = Database.CreateCompleteTables(5000);
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using (var connection = new SqlConnection(Database.ConnectionString).EnsureOpen())
-        {
-            // Act
-            var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
+        using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
+        // Act
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -83,21 +83,19 @@ public class MaxSizesTest
         // Setup
         var entities = GetMaxNVarCharClasses(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll(entities);
+
+        // Act
+        var result = connection.QueryAll<MaxNVarCharClass>();
+
+        // Assert
+        entities.ForEach(entity =>
         {
-            // Act
-            connection.InsertAll(entities);
-
-            // Act
-            var result = connection.QueryAll<MaxNVarCharClass>();
-
-            // Assert
-            entities.ForEach(entity =>
-            {
-                var item = result.First(e => e.SessionId == entity.SessionId);
-                Helper.AssertPropertiesEquality(entity, item);
-            });
-        }
+            var item = result.First(e => e.SessionId == entity.SessionId);
+            Helper.AssertPropertiesEquality(entity, item);
+        });
     }
 
     [TestMethod]
@@ -106,20 +104,18 @@ public class MaxSizesTest
         // Setup
         var entities = GetMaxVarBinaryClasses(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll(entities);
+
+        // Act
+        var result = connection.QueryAll<MaxVarBinaryClass>();
+
+        // Assert
+        entities.ForEach(entity =>
         {
-            // Act
-            connection.InsertAll(entities);
-
-            // Act
-            var result = connection.QueryAll<MaxVarBinaryClass>();
-
-            // Assert
-            entities.ForEach(entity =>
-            {
-                var item = result.First(e => e.SessionId == entity.SessionId);
-                Helper.AssertPropertiesEquality(entity, item);
-            });
-        }
+            var item = result.First(e => e.SessionId == entity.SessionId);
+            Helper.AssertPropertiesEquality(entity, item);
+        });
     }
 }

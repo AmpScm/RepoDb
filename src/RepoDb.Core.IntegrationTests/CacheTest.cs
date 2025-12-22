@@ -170,7 +170,7 @@ public class CacheTest
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable];",
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
-            cache: cache);
+            cache: cache, cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IdentityTable>>(cacheKey);
 
         // Assert
@@ -196,7 +196,7 @@ public class CacheTest
         var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable];",
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
-            cache: cache);
+            cache: cache, cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<dynamic>>(cacheKey);
 
         // Assert
@@ -222,7 +222,7 @@ public class CacheTest
         var result = await connection.ExecuteQueryAsync<ExpandoObject>("SELECT * FROM [sc].[IdentityTable];",
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
-            cache: cache);
+            cache: cache, cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<ExpandoObject>>(cacheKey);
 
         // Assert
@@ -248,7 +248,7 @@ public class CacheTest
         var result = await connection.ExecuteQueryAsync<IDictionary<string, object?>>("SELECT * FROM [sc].[IdentityTable];",
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
-            cache: cache);
+            cache: cache, cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
@@ -299,7 +299,7 @@ public class CacheTest
         var result = await connection.ExecuteScalarAsync<DateTime>("SELECT GETUTCDATE();",
             cacheKey: cacheKey,
             cacheItemExpiration: cacheItemExpiration,
-            cache: cache);
+            cache: cache, cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<DateTime>(cacheKey);
 
         // Assert
@@ -925,7 +925,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: Helper.StatementBuilder);
+            statementBuilder: Helper.StatementBuilder,
+            cancellationToken: TestContext.CancellationToken);
 
         var item = cache.Get<IEnumerable<IdentityTable>>(cacheKey);
 
@@ -958,7 +959,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IdentityTable>>(cacheKey);
 
         // Assert
@@ -990,7 +992,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IdentityTable>>(cacheKey);
 
         // Assert
@@ -1022,7 +1025,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IdentityTable>>(cacheKey);
 
         // Assert
@@ -1054,7 +1058,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IdentityTable>>(cacheKey);
 
         // Assert
@@ -1092,7 +1097,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: Helper.StatementBuilder);
+            statementBuilder: Helper.StatementBuilder,
+            cancellationToken: TestContext.CancellationToken);
 
         var item = cache.Get<IEnumerable<dynamic>>(cacheKey);
 
@@ -1127,7 +1133,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<dynamic>>(cacheKey);
 
         // Assert
@@ -1160,7 +1167,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<dynamic>>(cacheKey);
 
         // Assert
@@ -1193,7 +1201,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<dynamic>>(cacheKey);
 
         // Assert
@@ -1231,7 +1240,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: Helper.StatementBuilder);
+            statementBuilder: Helper.StatementBuilder,
+            cancellationToken: TestContext.CancellationToken);
 
         var item = cache.Get<IEnumerable<ExpandoObject>>(cacheKey);
 
@@ -1266,7 +1276,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<ExpandoObject>>(cacheKey);
 
         // Assert
@@ -1299,7 +1310,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<ExpandoObject>>(cacheKey);
 
         // Assert
@@ -1332,7 +1344,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<ExpandoObject>>(cacheKey);
 
         // Assert
@@ -1370,7 +1383,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: Helper.StatementBuilder);
+            statementBuilder: Helper.StatementBuilder,
+            cancellationToken: TestContext.CancellationToken);
 
         var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
@@ -1405,7 +1419,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
@@ -1438,7 +1453,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
@@ -1471,7 +1487,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
@@ -1639,7 +1656,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IdentityTable>>(cacheKey);
 
         // Assert
@@ -1671,7 +1689,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<dynamic>>(cacheKey);
 
         // Assert
@@ -1703,7 +1722,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<ExpandoObject>>(cacheKey);
 
         // Assert
@@ -1735,7 +1755,8 @@ public class CacheTest
             transaction: null,
             cache: cache,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
         var item = cache.Get<IEnumerable<IDictionary<string, object?>>>(cacheKey);
 
         // Assert
@@ -1743,6 +1764,8 @@ public class CacheTest
         Assert.IsNotNull(item);
         Assert.AreEqual(cacheItemExpiration, (item.Expiration - item.CreatedDate).TotalMinutes);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

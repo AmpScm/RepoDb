@@ -30,48 +30,40 @@ public class SqlDbTypeAttributeTest
     public void TestSqlDbTypeAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new SqlDbTypeAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new SqlDbTypeAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(SqlDbType.DateTime2, parameter.SqlDbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(SqlDbType.DateTime2, parameter.SqlDbType);
     }
 
     [TestMethod]
     public void TestSqlDbTypeAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(SqlDbTypeAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(SqlDbTypeAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(SqlDbType.DateTime2, parameter.SqlDbType);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(SqlDbType.DateTime2, parameter.SqlDbType);
     }
 }

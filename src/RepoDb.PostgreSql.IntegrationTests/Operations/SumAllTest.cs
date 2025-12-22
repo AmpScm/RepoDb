@@ -63,7 +63,7 @@ public class SumAllTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        object result = await connection.SumAllAsync<CompleteTable>(e => e.ColumnInteger);
+        object result = await connection.SumAllAsync<CompleteTable>(e => e.ColumnInteger, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -78,7 +78,7 @@ public class SumAllTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAllAsync<CompleteTable>(e => e.ColumnInteger,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class SumAllTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -146,8 +146,10 @@ public class SumAllTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

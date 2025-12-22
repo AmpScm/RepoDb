@@ -996,7 +996,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (0, 3)
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
@@ -1021,7 +1022,8 @@ public class BatchQueryTest
             where: (object?)null,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (9, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -1047,7 +1049,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (4, 7)
         Helper.AssertPropertiesEquality(tables.ElementAt(4), result.ElementAt(0));
@@ -1073,7 +1076,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (5, 2)
         Helper.AssertPropertiesEquality(tables.ElementAt(5), result.ElementAt(0));
@@ -1099,7 +1103,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1125,7 +1130,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (9, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -1151,7 +1157,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (14, 17)
         Helper.AssertPropertiesEquality(tables.ElementAt(14), result.ElementAt(0));
@@ -1177,7 +1184,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (15, 12)
         Helper.AssertPropertiesEquality(tables.ElementAt(15), result.ElementAt(0));
@@ -1204,7 +1212,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (2)
         Assert.AreEqual(tables.ElementAt(2).ColumnNVarChar, result.ElementAt(0).ColumnNVarChar);
@@ -1229,7 +1238,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (3, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(0));
@@ -1255,7 +1265,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (3, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
@@ -1286,7 +1297,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1318,7 +1330,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1344,7 +1357,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (0, 3)
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
@@ -1369,7 +1383,8 @@ public class BatchQueryTest
             where: (object?)null,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (9, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -1395,7 +1410,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (4, 7)
         Helper.AssertPropertiesEquality(tables.ElementAt(4), result.ElementAt(0));
@@ -1421,7 +1437,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (5, 2)
         Helper.AssertPropertiesEquality(tables.ElementAt(5), result.ElementAt(0));
@@ -1447,7 +1464,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1473,7 +1491,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (9, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -1499,7 +1518,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (14, 17)
         Helper.AssertPropertiesEquality(tables.ElementAt(14), result.ElementAt(0));
@@ -1525,7 +1545,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (15, 12)
         Helper.AssertPropertiesEquality(tables.ElementAt(15), result.ElementAt(0));
@@ -1551,7 +1572,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (2)
         Assert.AreEqual(tables.ElementAt(2).ColumnNVarChar, result.ElementAt(0).ColumnNVarChar);
@@ -1576,7 +1598,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (3, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(0));
@@ -1602,7 +1625,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (3, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
@@ -1633,7 +1657,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1665,7 +1690,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1687,7 +1713,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null));
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken));
     }
 
 
@@ -1714,7 +1741,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (2)
         Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(0));
@@ -1740,7 +1768,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (3, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
@@ -1771,7 +1800,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1803,7 +1833,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1829,7 +1860,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (2)
         Helper.AssertPropertiesEquality(tables.ElementAt(2), result.ElementAt(0));
@@ -1855,7 +1887,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (3, 6)
         Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
@@ -1886,7 +1919,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -1918,7 +1952,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertPropertiesEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -2310,7 +2345,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (0, 3)
         Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
@@ -2336,7 +2372,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (9, 6)
         Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -2362,7 +2399,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (4, 7)
         Helper.AssertMembersEquality(tables.ElementAt(4), result.ElementAt(0));
@@ -2388,7 +2426,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (5, 2)
         Helper.AssertMembersEquality(tables.ElementAt(5), result.ElementAt(0));
@@ -2418,7 +2457,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertMembersEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -2448,7 +2488,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (9, 6)
         Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -2478,7 +2519,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (14, 17)
         Helper.AssertMembersEquality(tables.ElementAt(14), result.ElementAt(0));
@@ -2508,7 +2550,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (15, 12)
         Helper.AssertMembersEquality(tables.ElementAt(15), result.ElementAt(0));
@@ -2534,7 +2577,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (2)
         Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(0));
@@ -2560,7 +2604,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (3, 6)
         Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
@@ -2591,7 +2636,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertMembersEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -2623,7 +2669,8 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null);
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken);
 
         // Assert (10, 13)
         Helper.AssertMembersEquality(tables.ElementAt(10), result.ElementAt(0));
@@ -2646,8 +2693,11 @@ public class BatchQueryTest
             commandTimeout: 0,
             transaction: null,
             trace: null,
-            statementBuilder: null));
+            statementBuilder: null,
+            cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

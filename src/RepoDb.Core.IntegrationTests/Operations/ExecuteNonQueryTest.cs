@@ -320,7 +320,7 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var result = await connection.ExecuteNonQueryAsync("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;");
+        var result = await connection.ExecuteNonQueryAsync("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(-1, result);
@@ -337,7 +337,7 @@ public class ExecuteNonQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 10;");
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 10;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -355,7 +355,7 @@ public class ExecuteNonQueryTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt;",
-            new { ColumnInt = 10 });
+            new { ColumnInt = 10 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -373,7 +373,7 @@ public class ExecuteNonQueryTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
-            new { ColumnInt = 10, ColumnBit = true });
+            new { ColumnInt = 10, ColumnBit = true }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -390,7 +390,7 @@ public class ExecuteNonQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable];");
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.HasCount(10, tables);
@@ -407,7 +407,7 @@ public class ExecuteNonQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;");
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -425,7 +425,7 @@ public class ExecuteNonQueryTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt;",
-            new { ColumnInt = 10 });
+            new { ColumnInt = 10 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -443,7 +443,7 @@ public class ExecuteNonQueryTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @ColumnInt AND ColumnBit = @ColumnBit;",
-            new { ColumnInt = 10, ColumnBit = true });
+            new { ColumnInt = 10, ColumnBit = true }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -460,7 +460,7 @@ public class ExecuteNonQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100;");
+        var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result);
@@ -479,7 +479,7 @@ public class ExecuteNonQueryTest
         // Act
         var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = 10;" +
             "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = 9;" +
-            "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 1;");
+            "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = 1;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result);
@@ -499,7 +499,7 @@ public class ExecuteNonQueryTest
         var result = await connection.ExecuteNonQueryAsync("UPDATE [sc].[IdentityTable] SET ColumnInt = 100 WHERE ColumnInt = @Value1;" +
             "UPDATE [sc].[IdentityTable] SET ColumnInt = 90 WHERE ColumnInt = @Value2;" +
             "DELETE FROM [sc].[IdentityTable] WHERE ColumnInt = @Value3;",
-            new { Value1 = 10, Value2 = 9, Value3 = 1 });
+            new { Value1 = 10, Value2 = 9, Value3 = 1 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result);
@@ -518,7 +518,7 @@ public class ExecuteNonQueryTest
         // Act
         var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_get_identity_table_by_id]",
             param: new { tables.Last().Id },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(-1, result);
@@ -531,7 +531,7 @@ public class ExecuteNonQueryTest
         // Act
         var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_multiply]",
             param: new { Value1 = 100, Value2 = 200 },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(-1, result);
@@ -553,7 +553,7 @@ public class ExecuteNonQueryTest
         // Act
         var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_multiply_with_output]",
             param: param,
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(-1, result);
@@ -565,7 +565,7 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -573,8 +573,10 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

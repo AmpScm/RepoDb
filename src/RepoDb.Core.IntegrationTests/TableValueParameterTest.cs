@@ -141,7 +141,7 @@ public class TableValueParameterTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var tables = (await connection.ExecuteQueryAsync<IdentityTable>("EXEC [sp_identity_table_type] @Table = @Table;",
-            new { Table = dataTable }))?.AsList();
+            new { Table = dataTable }, cancellationToken: TestContext.CancellationToken))?.AsList();
 
         // Assert
         Assert.HasCount(dataTable.Rows.Count, tables);
@@ -163,12 +163,14 @@ public class TableValueParameterTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var result = await connection.ExecuteNonQueryAsync("EXEC [sp_identity_table_type] @Table = @Table;",
-            new { Table = dataTable });
+            new { Table = dataTable }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(dataTable.Rows.Count, result);
         Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

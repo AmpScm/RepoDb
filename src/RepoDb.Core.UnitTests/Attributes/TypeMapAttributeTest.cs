@@ -59,45 +59,41 @@ public class TypeMapAttributeTest
     public void TestTypeMapAttributeUnquotedNameViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            var command = connection.CreateCommand();
-            DbCommandExtension
-                .CreateParameters(command, new TestTypeMapAttributeUnquotedNameClass
-                {
-                    ColumnString = "ColumnStringValue"
-                });
+        using var connection = new CustomDbConnection();
+        var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new TestTypeMapAttributeUnquotedNameClass
+            {
+                ColumnString = "ColumnStringValue"
+            });
 
-            // Assert
-            Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-            // Assert
-            var parameter = command.Parameters["@ColumnString"];
-            Assert.AreEqual(DbType.StringFixedLength, parameter.DbType);
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnString"];
+        Assert.AreEqual(DbType.StringFixedLength, parameter.DbType);
     }
 
     [TestMethod]
     public void TestTypeMapAttributeUnquotedNameViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            var command = connection.CreateCommand();
-            DbCommandExtension
-                .CreateParameters(command, new
-                {
-                    ColumnString = "ColumnStringValue"
-                },
-                typeof(TestTypeMapAttributeUnquotedNameClass));
+        using var connection = new CustomDbConnection();
+        var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
+            {
+                ColumnString = "ColumnStringValue"
+            },
+            typeof(TestTypeMapAttributeUnquotedNameClass));
 
-            // Assert
-            Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-            // Assert
-            var parameter = command.Parameters["@ColumnString"];
-            Assert.AreEqual(DbType.StringFixedLength, parameter.DbType);
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnString"];
+        Assert.AreEqual(DbType.StringFixedLength, parameter.DbType);
     }
 
 }

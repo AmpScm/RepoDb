@@ -32,15 +32,13 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -50,15 +48,13 @@ public class SumTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -67,15 +63,13 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -84,15 +78,13 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -106,15 +98,13 @@ public class SumTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -129,15 +119,13 @@ public class SumTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum<CompleteTable>(e => e.ColumnInt,
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -148,13 +136,11 @@ public class SumTest
 
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             connection.Sum<CompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -168,15 +154,13 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -186,15 +170,13 @@ public class SumTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
-                e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
+            e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -203,15 +185,13 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -220,15 +200,13 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -242,15 +220,13 @@ public class SumTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -265,15 +241,13 @@ public class SumTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -284,13 +258,11 @@ public class SumTest
 
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             await connection.SumAsync<CompleteTable>(e => e.ColumnInt,
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -308,16 +280,14 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -326,16 +296,14 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -344,16 +312,14 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -367,16 +333,14 @@ public class SumTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -391,16 +355,14 @@ public class SumTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -411,14 +373,12 @@ public class SumTest
 
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -432,16 +392,14 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -450,16 +408,14 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -468,16 +424,14 @@ public class SumTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -491,16 +445,14 @@ public class SumTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -515,16 +467,14 @@ public class SumTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new Field("ColumnInt", typeof(int)),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new Field("ColumnInt", typeof(int)),
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Sum(e => e.ColumnInt), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -535,16 +485,16 @@ public class SumTest
 
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

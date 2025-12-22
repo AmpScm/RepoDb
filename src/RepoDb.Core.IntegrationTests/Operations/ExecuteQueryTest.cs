@@ -302,7 +302,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable];");
+        var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -334,7 +334,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-            new { From = 3, To = 4 });
+            new { From = 3, To = 4 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -366,7 +366,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-            new { ColumnInt = new[] { 5, 6, 7 } });
+            new { ColumnInt = new[] { 5, 6, 7 } }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result.Count());
@@ -398,7 +398,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
-            new { Top = 2 });
+            new { Top = 2 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -430,7 +430,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync("[dbo].[sp_get_identity_tables]",
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -463,7 +463,7 @@ public class ExecuteQueryTest
         // Act
         var result = await connection.ExecuteQueryAsync("[dbo].[sp_get_identity_table_by_id]",
             param: new { tables.Last().Id },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -496,7 +496,7 @@ public class ExecuteQueryTest
         // Act
         var result = (await connection.ExecuteQueryAsync("[dbo].[sp_multiply]",
             param: new { Value1 = 100, Value2 = 200 },
-            commandType: CommandType.StoredProcedure)).FirstOrDefault();
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         var kvp = result as IDictionary<string, object?>;
@@ -524,7 +524,7 @@ public class ExecuteQueryTest
         // Act
         var result = (await connection.ExecuteQueryAsync("[dbo].[sp_multiply_with_output]",
             param: param,
-            commandType: CommandType.StoredProcedure)).FirstOrDefault();
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         var kvp = result as IDictionary<string, object?>;
@@ -540,7 +540,7 @@ public class ExecuteQueryTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -548,7 +548,7 @@ public class ExecuteQueryTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -899,7 +899,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable];");
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -918,7 +918,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt BETWEEN @From AND @To;",
-            new { From = 3, To = 4 });
+            new { From = 3, To = 4 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -937,7 +937,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnInt IN (@ColumnInt);",
-            new { ColumnInt = new[] { 5, 6, 7 } });
+            new { ColumnInt = new[] { 5, 6, 7 } }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result.Count());
@@ -956,7 +956,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT TOP (@Top) * FROM [sc].[IdentityTable];",
-            new { Top = 2 });
+            new { Top = 2 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -975,7 +975,7 @@ public class ExecuteQueryTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("[dbo].[sp_get_identity_tables]",
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -995,7 +995,7 @@ public class ExecuteQueryTest
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("[dbo].[sp_get_identity_table_by_id]",
             param: new { tables.Last().Id },
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1013,7 +1013,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<LiteIdentityTable>("SELECT * FROM [sc].[IdentityTable];");
+        var result = await connection.ExecuteQueryAsync<LiteIdentityTable>("SELECT * FROM [sc].[IdentityTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result.Count());
@@ -1043,7 +1043,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1067,7 +1067,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1091,7 +1091,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", (object)param);
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", (object)param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1115,7 +1115,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1139,7 +1139,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param);
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat AND ColumnInt = @ColumnInt;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1159,7 +1159,7 @@ public class ExecuteQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat;", param);
+        var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE ColumnFloat = @ColumnFloat;", param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1174,7 +1174,7 @@ public class ExecuteQueryTest
         var param = new Dictionary<string, int>();
 
         // Act
-        await Assert.ThrowsExactlyAsync<InvalidParameterException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param));
+        await Assert.ThrowsExactlyAsync<InvalidParameterException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", param, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -1182,7 +1182,7 @@ public class ExecuteQueryTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -1190,8 +1190,10 @@ public class ExecuteQueryTest
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
+        await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -54,97 +54,81 @@ public class PropertyValueAttributeTest
     public void TestPropertyValueAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new PropertyValueAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new PropertyValueAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
     }
 
     [TestMethod]
     public void TestPropertyValueAttributeViaDerivedClassViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
-            {
-                DbCommandExtension
-                   .CreateParameters(command, new PropertyValueAttributeViaDerivedTestClass
-                   {
-                       ColumnName = "Test"
-                   });
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+           .CreateParameters(command, new PropertyValueAttributeViaDerivedTestClass
+           {
+               ColumnName = "Test"
+           });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
     }
 
     [TestMethod]
     public void TestPropertyValueAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(PropertyValueAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(PropertyValueAttributeTestClass));
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
     }
 
     [TestMethod]
     public void TestPropertyValueAttributeViaDerivedClassViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(PropertyValueAttributeViaDerivedTestClass));
+                ColumnName = "Test"
+            },
+            typeof(PropertyValueAttributeViaDerivedTestClass));
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual("ValueOfTag", ((CustomDbParameter)parameter).Tag);
     }
 }

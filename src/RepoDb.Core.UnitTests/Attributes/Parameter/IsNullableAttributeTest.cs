@@ -38,48 +38,40 @@ public class IsNullableAttributeTest
     public void TestIsNullableAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new IsNullableAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new IsNullableAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.IsTrue(((CustomDbParameter)parameter).IsNullable);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.IsTrue(((CustomDbParameter)parameter).IsNullable);
     }
 
     [TestMethod]
     public void TestIsNullableAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(IsNullableAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(IsNullableAttributeTestClass));
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.IsTrue(((CustomDbParameter)parameter).IsNullable);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.IsTrue(((CustomDbParameter)parameter).IsNullable);
     }
 }

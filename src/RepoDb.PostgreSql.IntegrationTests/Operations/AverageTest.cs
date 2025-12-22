@@ -83,7 +83,7 @@ public class AverageTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
@@ -99,7 +99,7 @@ public class AverageTest
         // Act
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
         object result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
-            e => ids.Contains(e.Id));
+            e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
@@ -115,7 +115,7 @@ public class AverageTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -187,7 +187,7 @@ public class AverageTest
         // Act
         object result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(e => e.ColumnInteger), Convert.ToDouble(result));
@@ -204,7 +204,7 @@ public class AverageTest
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
         object result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-            new QueryField("Id", Operation.In, ids));
+            new QueryField("Id", Operation.In, ids), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Average(e => e.ColumnInteger), Convert.ToDouble(result));
@@ -221,8 +221,10 @@ public class AverageTest
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

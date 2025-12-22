@@ -161,7 +161,7 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<MdsCompleteTable>(table.Id)).First();
+        var result = (await connection.QueryAsync<MdsCompleteTable>(table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -175,7 +175,7 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<MdsCompleteTable>(e => e.Id == table.Id)).First();
+        var result = (await connection.QueryAsync<MdsCompleteTable>(e => e.Id == table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -189,7 +189,7 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<MdsCompleteTable>(new { table.Id })).First();
+        var result = (await connection.QueryAsync<MdsCompleteTable>(new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -203,7 +203,7 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<MdsCompleteTable>(new QueryField("Id", table.Id))).First();
+        var result = (await connection.QueryAsync<MdsCompleteTable>(new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -222,7 +222,7 @@ public class QueryTest
             };
 
         // Act
-        var result = (await connection.QueryAsync<MdsCompleteTable>(queryFields)).First();
+        var result = (await connection.QueryAsync<MdsCompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -242,7 +242,7 @@ public class QueryTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = (await connection.QueryAsync<MdsCompleteTable>(queryGroup)).First();
+        var result = (await connection.QueryAsync<MdsCompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -257,7 +257,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<MdsCompleteTable>((object?)null,
-            top: 2);
+            top: 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -273,7 +273,7 @@ public class QueryTest
 
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync<MdsCompleteTable>((object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -407,7 +407,7 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table.Id)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -421,7 +421,7 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), new { table.Id })).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -435,7 +435,7 @@ public class QueryTest
         var table = Database.CreateMdsCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), new QueryField("Id", table.Id))).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -454,7 +454,7 @@ public class QueryTest
             };
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), queryFields)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), queryFields, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -474,7 +474,7 @@ public class QueryTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), queryGroup)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), queryGroup, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -490,7 +490,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            top: 2);
+            top: 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -507,8 +507,10 @@ public class QueryTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

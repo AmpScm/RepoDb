@@ -79,20 +79,18 @@ public class AttributeTest
         // Setup
         var table = CreateMdsAttributeTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.Insert<MdsAttributeTable>(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        connection.Insert<MdsAttributeTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<MdsAttributeTable>());
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<MdsAttributeTable>());
 
-            // Query
-            var queryResult = connection.QueryAll<MdsAttributeTable>().First();
+        // Query
+        var queryResult = connection.QueryAll<MdsAttributeTable>().First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -101,20 +99,18 @@ public class AttributeTest
         // Setup
         var tables = CreateMdsAttributeTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.InsertAll<MdsAttributeTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<MdsAttributeTable>(tables);
 
-            // Assert
-            Assert.AreEqual(tables.Count, connection.CountAll<MdsAttributeTable>());
+        // Assert
+        Assert.AreEqual(tables.Count, connection.CountAll<MdsAttributeTable>());
 
-            // Query
-            var queryResult = connection.QueryAll<MdsAttributeTable>();
+        // Query
+        var queryResult = connection.QueryAll<MdsAttributeTable>();
 
-            // Assert
-            tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
@@ -123,17 +119,15 @@ public class AttributeTest
         // Setup
         var table = CreateMdsAttributeTables(1).First();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var id = connection.Insert<MdsAttributeTable>(table);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var id = connection.Insert<MdsAttributeTable>(table);
 
-            // Query
-            var queryResult = connection.Query<MdsAttributeTable>(id).First();
+        // Query
+        var queryResult = connection.Query<MdsAttributeTable>(id).First();
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult);
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult);
     }
 
     [TestMethod]
@@ -142,17 +136,15 @@ public class AttributeTest
         // Setup
         var tables = CreateMdsAttributeTables(10).AsList();
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            connection.InsertAll<MdsAttributeTable>(tables);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        connection.InsertAll<MdsAttributeTable>(tables);
 
-            // Query
-            var queryResult = connection.QueryAll<MdsAttributeTable>();
+        // Query
+        var queryResult = connection.QueryAll<MdsAttributeTable>();
 
-            // Assert
-            Assert.AreEqual(tables.Count, queryResult.Count());
-        }
+        // Assert
+        Assert.AreEqual(tables.Count, queryResult.Count());
     }
 
     #endregion

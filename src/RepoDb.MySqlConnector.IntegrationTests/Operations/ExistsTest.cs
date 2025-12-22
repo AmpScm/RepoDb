@@ -32,14 +32,12 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists<CompleteTable>((object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists<CompleteTable>((object?)null);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -49,14 +47,12 @@ public class ExistsTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists<CompleteTable>(e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists<CompleteTable>(e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -65,14 +61,12 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists<CompleteTable>(new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists<CompleteTable>(new { tables.First().Id });
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -81,14 +75,12 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists<CompleteTable>(new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists<CompleteTable>(new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -102,14 +94,12 @@ public class ExistsTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists<CompleteTable>(queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists<CompleteTable>(queryFields);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -124,14 +114,12 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists<CompleteTable>(queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists<CompleteTable>(queryGroup);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -142,12 +130,10 @@ public class ExistsTest
 
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             connection.Exists<CompleteTable>((object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -161,14 +147,12 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync<CompleteTable>((object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -178,14 +162,12 @@ public class ExistsTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync<CompleteTable>(e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync<CompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -194,14 +176,12 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync<CompleteTable>(new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync<CompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -210,14 +190,12 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync<CompleteTable>(new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -231,14 +209,12 @@ public class ExistsTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync<CompleteTable>(queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -253,14 +229,12 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync<CompleteTable>(queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -271,12 +245,10 @@ public class ExistsTest
 
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             await connection.ExistsAsync<CompleteTable>((object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -294,15 +266,13 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -311,15 +281,13 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -328,15 +296,13 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -350,15 +316,13 @@ public class ExistsTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
+            queryFields);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -373,15 +337,13 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -392,13 +354,11 @@ public class ExistsTest
 
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -412,15 +372,13 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -429,15 +387,13 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -446,15 +402,13 @@ public class ExistsTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -468,15 +422,13 @@ public class ExistsTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -491,15 +443,13 @@ public class ExistsTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -510,15 +460,15 @@ public class ExistsTest
 
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

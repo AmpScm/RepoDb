@@ -231,7 +231,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -259,7 +259,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            (object)param);
+            (object)param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -287,7 +287,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -315,7 +315,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -340,7 +340,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -365,7 +365,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -390,7 +390,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -572,7 +572,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -595,7 +595,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            (object)param);
+            (object)param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -618,7 +618,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -641,7 +641,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -661,7 +661,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -681,7 +681,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -701,7 +701,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -927,7 +927,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
         // Extract the reader
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
@@ -957,7 +957,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            (object)param);
+            (object)param, cancellationToken: TestContext.CancellationToken);
         // Extract the reader
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
@@ -987,7 +987,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
         // Extract the reader
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
@@ -1017,7 +1017,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
         // Extract the reader
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
@@ -1044,7 +1044,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
         // Extract the reader
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
@@ -1071,7 +1071,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
         // Extract the reader
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
@@ -1098,7 +1098,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
         // Extract the reader
         var result = DataReader.ToEnumerable<IdentityTable>((DbDataReader)reader);
 
@@ -1282,7 +1282,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1305,7 +1305,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            (object)param);
+            (object)param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1328,7 +1328,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1351,7 +1351,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1371,7 +1371,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1391,7 +1391,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1411,7 +1411,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1627,7 +1627,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -1655,7 +1655,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            (object)param);
+            (object)param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -1683,7 +1683,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -1711,7 +1711,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -1736,7 +1736,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -1761,7 +1761,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -1786,7 +1786,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result.Count());
@@ -1968,7 +1968,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -1991,7 +1991,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            (object)param);
+            (object)param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2014,7 +2014,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2037,7 +2037,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2057,7 +2057,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2077,7 +2077,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2097,7 +2097,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values));",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2274,7 +2274,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2297,7 +2297,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            (object)param);
+            (object)param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2320,7 +2320,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2343,7 +2343,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2363,7 +2363,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2383,7 +2383,7 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
@@ -2403,11 +2403,13 @@ public class ExecuteArrayParameterTest
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt IN (@Values)); SELECT @@ROWCOUNT;",
-            param);
+            param, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(values.Length, result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

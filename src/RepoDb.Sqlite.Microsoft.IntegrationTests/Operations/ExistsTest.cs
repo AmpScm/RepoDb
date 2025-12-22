@@ -146,7 +146,7 @@ public class ExistsTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync<MdsCompleteTable>((object?)null);
+        var result = await connection.ExistsAsync<MdsCompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -161,7 +161,7 @@ public class ExistsTest
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = await connection.ExistsAsync<MdsCompleteTable>(e => ids.Contains(e.Id));
+        var result = await connection.ExistsAsync<MdsCompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -175,7 +175,7 @@ public class ExistsTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync<MdsCompleteTable>(new { tables.First().Id });
+        var result = await connection.ExistsAsync<MdsCompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -189,7 +189,7 @@ public class ExistsTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync<MdsCompleteTable>(new QueryField("Id", tables.First().Id));
+        var result = await connection.ExistsAsync<MdsCompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -208,7 +208,7 @@ public class ExistsTest
             };
 
         // Act
-        var result = await connection.ExistsAsync<MdsCompleteTable>(queryFields);
+        var result = await connection.ExistsAsync<MdsCompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -228,7 +228,7 @@ public class ExistsTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.ExistsAsync<MdsCompleteTable>(queryGroup);
+        var result = await connection.ExistsAsync<MdsCompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -243,7 +243,7 @@ public class ExistsTest
 
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.ExistsAsync<MdsCompleteTable>((object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -366,7 +366,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -381,7 +381,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            new { tables.First().Id });
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -396,7 +396,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            new QueryField("Id", tables.First().Id));
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -416,7 +416,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            queryFields);
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -437,7 +437,7 @@ public class ExistsTest
 
         // Act
         var result = await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -453,8 +453,10 @@ public class ExistsTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.ExistsAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -174,7 +174,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync<MdsCompleteTable>(table);
+        var result = await connection.UpdateAsync<MdsCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -195,7 +195,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync<MdsCompleteTable>(table, e => e.Id == table.Id);
+        var result = await connection.UpdateAsync<MdsCompleteTable>(table, e => e.Id == table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -216,7 +216,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync<MdsCompleteTable>(table, new { table.Id });
+        var result = await connection.UpdateAsync<MdsCompleteTable>(table, new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -237,7 +237,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync<MdsCompleteTable>(table, new QueryField("Id", table.Id));
+        var result = await connection.UpdateAsync<MdsCompleteTable>(table, new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -263,7 +263,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync<MdsCompleteTable>(table, queryFields);
+        var result = await connection.UpdateAsync<MdsCompleteTable>(table, queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -290,7 +290,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync<MdsCompleteTable>(table, queryGroup);
+        var result = await connection.UpdateAsync<MdsCompleteTable>(table, queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -462,7 +462,7 @@ public class UpdateTest
 
         // Act
         var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -483,7 +483,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table);
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -504,7 +504,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, new { table.Id });
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, new { table.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -525,7 +525,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, new QueryField("Id", table.Id));
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -551,7 +551,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, queryFields);
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -578,7 +578,7 @@ public class UpdateTest
         Helper.UpdateMdsCompleteTableProperties(table);
 
         // Act
-        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, queryGroup);
+        var result = await connection.UpdateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), table, queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -589,6 +589,8 @@ public class UpdateTest
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

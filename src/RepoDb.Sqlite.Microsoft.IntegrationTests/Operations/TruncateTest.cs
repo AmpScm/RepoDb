@@ -52,7 +52,7 @@ public class TruncateTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.TruncateAsync<MdsCompleteTable>();
+        var result = await connection.TruncateAsync<MdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
         var countResult = connection.CountAll<MdsCompleteTable>();
 
         // Assert
@@ -94,12 +94,14 @@ public class TruncateTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<MdsCompleteTable>());
+        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
         var countResult = connection.CountAll<MdsCompleteTable>();
 
         // Assert
         Assert.AreEqual(0, countResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

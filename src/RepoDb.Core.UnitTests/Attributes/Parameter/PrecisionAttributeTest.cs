@@ -38,48 +38,40 @@ public class PrecisionAttributeTest
     public void TestPrecisionAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new PrecisionAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new PrecisionAttributeTestClass
-                    {
-                        ColumnName = 1.2
-                    });
+                ColumnName = 1.2
+            });
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1, ((CustomDbParameter)parameter).Precision);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1, ((CustomDbParameter)parameter).Precision);
     }
 
     [TestMethod]
     public void TestPrecisionAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new CustomDbConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = 1.2
-                    },
-                    typeof(PrecisionAttributeTestClass));
+                ColumnName = 1.2
+            },
+            typeof(PrecisionAttributeTestClass));
 
-                // Assert
-                Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual(1, ((CustomDbParameter)parameter).Precision);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual(1, ((CustomDbParameter)parameter).Precision);
     }
 }

@@ -63,7 +63,7 @@ public class MaxAllTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        object result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInteger);
+        object result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInteger, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -78,7 +78,7 @@ public class MaxAllTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInteger,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class MaxAllTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         object result = await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
+            Field.Parse<CompleteTable>(e => e.ColumnInteger).First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(e => e.ColumnInteger), Convert.ToInt32(result));
@@ -146,8 +146,10 @@ public class MaxAllTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

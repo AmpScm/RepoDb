@@ -32,15 +32,13 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = connection.QueryAll<CompleteTable>();
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
@@ -49,15 +47,13 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = connection.QueryAll<CompleteTable>(hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = connection.QueryAll<CompleteTable>(hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     #endregion
@@ -70,15 +66,13 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync<CompleteTable>();
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = await connection.QueryAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
@@ -87,15 +81,13 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync<CompleteTable>(hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = await connection.QueryAllAsync<CompleteTable>(hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     #endregion
@@ -112,15 +104,13 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>());
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
@@ -129,16 +119,14 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>(),
-                hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>(),
+            hints: SqlServerTableHints.NoLock);
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     #endregion
@@ -151,15 +139,13 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>());
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
@@ -168,17 +154,17 @@ public class QueryAllTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new SqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                hints: SqlServerTableHints.NoLock);
+        using var connection = new SqlConnection(Database.ConnectionString);
+        // Act
+        var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            hints: SqlServerTableHints.NoLock, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            tables.AsList().ForEach(table =>
-                Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        tables.AsList().ForEach(table =>
+            Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

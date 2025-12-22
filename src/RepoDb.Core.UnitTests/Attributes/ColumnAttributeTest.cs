@@ -80,45 +80,41 @@ public class ColumnAttributeTest
     public void TestColumnAttributeUnquotedNameViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            var command = connection.CreateCommand();
-            DbCommandExtension
-                .CreateParameters(command, new TestColumnAttributeUnquotedNameClass
-                {
-                    Id = 1
-                });
+        using var connection = new CustomDbConnection();
+        var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new TestColumnAttributeUnquotedNameClass
+            {
+                Id = 1
+            });
 
-            // Assert
-            Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-            // Assert
-            var parameter = command.Parameters["@PrimaryId"];
-            Assert.IsNotNull(parameter);
-        }
+        // Assert
+        var parameter = command.Parameters["@PrimaryId"];
+        Assert.IsNotNull(parameter);
     }
 
     [TestMethod]
     public void TestColumnAttributeUnquotedNameViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            var command = connection.CreateCommand();
-            DbCommandExtension
-                .CreateParameters(command, new
-                {
-                    PrimaryId = 1
-                },
-                typeof(TestColumnAttributeUnquotedNameClass));
+        using var connection = new CustomDbConnection();
+        var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
+            {
+                PrimaryId = 1
+            },
+            typeof(TestColumnAttributeUnquotedNameClass));
 
-            // Assert
-            Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-            // Assert
-            var parameter = command.Parameters["@PrimaryId"];
-            Assert.IsNotNull(parameter);
-        }
+        // Assert
+        var parameter = command.Parameters["@PrimaryId"];
+        Assert.IsNotNull(parameter);
     }
 
     /*
@@ -162,44 +158,40 @@ public class ColumnAttributeTest
     public void TestColumnAttributeQuotedNameViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            var command = connection.CreateCommand();
-            DbCommandExtension
-                .CreateParameters(command, new TestColumnAttributeQuotedNameClass
-                {
-                    Id = 1
-                });
+        using var connection = new CustomDbConnection();
+        var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new TestColumnAttributeQuotedNameClass
+            {
+                Id = 1
+            });
 
-            // Assert
-            Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-            // Assert
-            var parameter = command.Parameters["@PrimaryId"];
-            Assert.IsNotNull(parameter);
-        }
+        // Assert
+        var parameter = command.Parameters["@PrimaryId"];
+        Assert.IsNotNull(parameter);
     }
 
     [TestMethod]
     public void TestColumnAttributeQuotedNameViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new CustomDbConnection())
-        {
-            var command = connection.CreateCommand();
-            DbCommandExtension
-                .CreateParameters(command, new
-                {
-                    PrimaryId = 1
-                },
-                typeof(TestColumnAttributeQuotedNameClass));
+        using var connection = new CustomDbConnection();
+        var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
+            {
+                PrimaryId = 1
+            },
+            typeof(TestColumnAttributeQuotedNameClass));
 
-            // Assert
-            Assert.HasCount(1, command.Parameters);
+        // Assert
+        Assert.HasCount(1, command.Parameters);
 
-            // Assert
-            var parameter = command.Parameters["@PrimaryId"];
-            Assert.IsNotNull(parameter);
-        }
+        // Assert
+        var parameter = command.Parameters["@PrimaryId"];
+        Assert.IsNotNull(parameter);
     }
 }

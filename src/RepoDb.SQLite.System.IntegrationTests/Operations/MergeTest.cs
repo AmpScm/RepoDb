@@ -27,80 +27,74 @@ public class MergeTest
     [TestMethod]
     public void TestSQLiteConnectionMergeForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
 
-            // Act
-            var result = connection.Merge<SdsCompleteTable>(table);
+        // Act
+        var result = connection.Merge<SdsCompleteTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
 
-            // Setup
-            Helper.UpdateSdsCompleteTableProperties(table);
+        // Setup
+        Helper.UpdateSdsCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Merge<SdsCompleteTable>(table);
+        // Act
+        var result = connection.Merge<SdsCompleteTable>(table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeForIdentityForNonEmptyTableWithQualifiers()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var qualifiers = new[]
         {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            var qualifiers = new[]
-            {
                 new Field("Id", typeof(long))
             };
-            Helper.UpdateSdsCompleteTableProperties(table);
-            table.ColumnInt = 0;
-            table.ColumnChar = "C";
+        Helper.UpdateSdsCompleteTableProperties(table);
+        table.ColumnInt = 0;
+        table.ColumnChar = "C";
 
-            // Act
-            var result = connection.Merge<SdsCompleteTable>(table,
-                qualifiers: qualifiers);
+        // Act
+        var result = connection.Merge<SdsCompleteTable>(table,
+            qualifiers: qualifiers);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     #endregion
@@ -110,81 +104,75 @@ public class MergeTest
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
 
-            // Act
-            var result = await connection.MergeAsync<SdsCompleteTable>(table);
+        // Act
+        var result = await connection.MergeAsync<SdsCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
 
-            // Setup
-            Helper.UpdateSdsCompleteTableProperties(table);
+        // Setup
+        Helper.UpdateSdsCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync<SdsCompleteTable>(table);
+        // Act
+        var result = await connection.MergeAsync<SdsCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncForIdentityForNonEmptyTableWithQualifiers()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var qualifiers = new[]
         {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            var qualifiers = new[]
-            {
                 new Field("Id", typeof(long))
             };
-            Helper.UpdateSdsCompleteTableProperties(table);
-            table.ColumnInt = 0;
-            table.ColumnChar = "C";
+        Helper.UpdateSdsCompleteTableProperties(table);
+        table.ColumnInt = 0;
+        table.ColumnChar = "C";
 
-            // Act
-            var result = await connection.MergeAsync<SdsCompleteTable>(table,
-                qualifiers: qualifiers);
+        // Act
+        var result = await connection.MergeAsync<SdsCompleteTable>(table,
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     #endregion
@@ -198,216 +186,200 @@ public class MergeTest
     [TestMethod]
     public void TestSQLiteConnectionMergeViaTableNameForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeViaTableNameForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            Helper.UpdateSdsCompleteTableProperties(table);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        Helper.UpdateSdsCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeViaTableNameForIdentityForNonEmptyTableWithQualifiers()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var qualifiers = new[]
         {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            var qualifiers = new[]
-            {
                 new Field("Id", typeof(long))
             };
-            Helper.UpdateSdsCompleteTableProperties(table);
-            table.ColumnInt = 0;
-            table.ColumnChar = "C";
+        Helper.UpdateSdsCompleteTableProperties(table);
+        table.ColumnInt = 0;
+        table.ColumnChar = "C";
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table,
+            qualifiers: qualifiers);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeAsDynamicViaTableNameForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Create the tables
-            Database.CreateSdsTables(connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Create the tables
+        Database.CreateSdsTables(connection);
 
-            // Setup
-            var table = Helper.CreateSdsCompleteTablesAsDynamics(1).First();
+        // Setup
+        var table = Helper.CreateSdsCompleteTablesAsDynamics(1).First();
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                (object)table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            (object)table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, queryResult?.Count());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, queryResult?.Count());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeAsDynamicViaTableNameForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            Helper.UpdateSdsCompleteTableProperties(table);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        Helper.UpdateSdsCompleteTableProperties(table);
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeAsDynamicViaTableNameForIdentityForNonEmptyTableWithQualifiers()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        Helper.UpdateSdsCompleteTableProperties(table);
+        var qualifiers = new[]
         {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            Helper.UpdateSdsCompleteTableProperties(table);
-            var qualifiers = new[]
-            {
                 new Field("Id", typeof(long))
             };
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table,
+            qualifiers: qualifiers);
 
-            // Assert
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeViaTableNameAsExpandoObjectForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            Database.CreateSdsCompleteTables(1, connection);
-            var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        Database.CreateSdsCompleteTables(1, connection);
+        var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.IsGreaterThan(0, (long)result);
-            Assert.AreEqual(((dynamic)table).Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.IsGreaterThan(0, (long)result);
+        Assert.AreEqual(((dynamic)table).Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
     public void TestSQLiteConnectionMergeViaTableNameAsExpandoObjectForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            Database.CreateSdsCompleteTables(1, connection);
-            var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        Database.CreateSdsCompleteTables(1, connection);
+        var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
-            // Act
-            var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = connection.Merge(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(((dynamic)table).Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(((dynamic)table).Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     #endregion
@@ -417,213 +389,199 @@ public class MergeTest
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncViaTableNameForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncViaTableNameForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            Helper.UpdateSdsCompleteTableProperties(table);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        Helper.UpdateSdsCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncViaTableNameForIdentityForNonEmptyTableWithQualifiers()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var qualifiers = new[]
         {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            var qualifiers = new[]
-            {
                 new Field("Id", typeof(long))
             };
-            Helper.UpdateSdsCompleteTableProperties(table);
+        Helper.UpdateSdsCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table,
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncAsDynamicViaTableNameForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Create the tables
-            Database.CreateSdsTables(connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Create the tables
+        Database.CreateSdsTables(connection);
 
-            // Setup
-            var table = Helper.CreateSdsCompleteTablesAsDynamics(1).First();
+        // Setup
+        var table = Helper.CreateSdsCompleteTablesAsDynamics(1).First();
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                (object)table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncAsDynamicViaTableNameForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            Helper.UpdateSdsCompleteTableProperties(table);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        Helper.UpdateSdsCompleteTableProperties(table);
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncAsDynamicViaTableNameForIdentityForNonEmptyTableWithQualifiers()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        Helper.UpdateSdsCompleteTableProperties(table);
+        var qualifiers = new[]
         {
-            // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
-            Helper.UpdateSdsCompleteTableProperties(table);
-            var qualifiers = new[]
-            {
                 new Field("Id", typeof(long))
             };
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table,
-                qualifiers: qualifiers);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table,
+            qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(table.Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(table.Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertPropertiesEquality(table, queryResult.First());
-        }
+        // Assert
+        Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncViaTableNameAsExpandoObjectForIdentityForEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            Database.CreateSdsCompleteTables(1, connection);
-            var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        Database.CreateSdsCompleteTables(1, connection);
+        var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.IsGreaterThan(0, (long)result);
-            Assert.AreEqual(((dynamic)table).Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.IsGreaterThan(0, (long)result);
+        Assert.AreEqual(((dynamic)table).Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
 
     [TestMethod]
     public async Task TestSQLiteConnectionMergeAsyncViaTableNameAsExpandoObjectForIdentityForNonEmptyTable()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            Database.CreateSdsCompleteTables(1, connection);
-            var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        Database.CreateSdsCompleteTables(1, connection);
+        var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
 
-            // Act
-            var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                table);
+        // Act
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            table, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
-            Assert.AreEqual(((dynamic)table).Id, result);
+        // Assert
+        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(((dynamic)table).Id, result);
 
-            // Act
-            var queryResult = connection.Query<SdsCompleteTable>(result);
+        // Act
+        var queryResult = connection.Query<SdsCompleteTable>(result);
 
-            // Assert
-            Helper.AssertMembersEquality(queryResult.First(), table);
-        }
+        // Assert
+        Helper.AssertMembersEquality(queryResult.First(), table);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

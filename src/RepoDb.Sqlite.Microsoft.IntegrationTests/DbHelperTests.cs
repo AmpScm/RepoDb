@@ -101,7 +101,7 @@ public class DbHelperTests
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null);
+        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null, TestContext.CancellationToken);
 
         // Assert
         using var reader = connection.ExecuteReader("pragma table_info([MdsCompleteTable]);");
@@ -131,7 +131,7 @@ public class DbHelperTests
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null);
+        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null, TestContext.CancellationToken);
         var primary = fields.FirstOrDefault(f => f.IsPrimary == true);
 
         // Assert
@@ -148,7 +148,7 @@ public class DbHelperTests
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null);
+        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null, TestContext.CancellationToken);
         var primary = fields.FirstOrDefault(f => f.IsIdentity == true);
 
         // Assert
@@ -175,9 +175,9 @@ public class DbHelperTests
 
         // ID must be ident
         using var connection = new SqliteConnection(Database.ConnectionString);
-        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV1"));
-        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV2").Replace('[', '"').Replace(']', '"'));
-        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV3").Replace("[", "").Replace("]", ""));
+        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV1"), cancellationToken: TestContext.CancellationToken);
+        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV2").Replace('[', '"').Replace(']', '"'), cancellationToken: TestContext.CancellationToken);
+        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV3").Replace("[", "").Replace("]", ""), cancellationToken: TestContext.CancellationToken);
 
         // Setup
         var helper = connection.GetDbHelper();
@@ -227,9 +227,9 @@ public class DbHelperTests
 
         // ID must be ident
         using var connection = new SqliteConnection(Database.ConnectionString);
-        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV4"));
-        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV5").Replace('[', '"').Replace(']', '"'));
-        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV6").Replace("[", "").Replace("]", ""));
+        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV4"), cancellationToken: TestContext.CancellationToken);
+        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV5").Replace('[', '"').Replace(']', '"'), cancellationToken: TestContext.CancellationToken);
+        await connection.ExecuteNonQueryAsync(td.Replace("Articles", "ArtV6").Replace("[", "").Replace("]", ""), cancellationToken: TestContext.CancellationToken);
 
         // Setup
         var helper = connection.GetDbHelper();
@@ -261,6 +261,8 @@ public class DbHelperTests
         Assert.IsNotNull(v2Fields.FirstOrDefault(x => x.IsIdentity));
         Assert.IsNotNull(v3Fields.FirstOrDefault(x => x.IsIdentity));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

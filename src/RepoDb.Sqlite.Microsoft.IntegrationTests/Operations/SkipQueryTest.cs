@@ -134,7 +134,7 @@ public class SkipQueryTest
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.ElementAt(0));
@@ -153,7 +153,7 @@ public class SkipQueryTest
             0,
             3,
             OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -172,7 +172,7 @@ public class SkipQueryTest
             6,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(6), result.ElementAt(0));
@@ -191,7 +191,7 @@ public class SkipQueryTest
             6,
             3,
             OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(3), result.ElementAt(0));
@@ -211,7 +211,7 @@ public class SkipQueryTest
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -330,7 +330,7 @@ public class SkipQueryTest
             0,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
@@ -349,7 +349,7 @@ public class SkipQueryTest
             0,
             3,
             OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertMembersEquality(tables.ElementAt(9), result.ElementAt(0));
@@ -368,7 +368,7 @@ public class SkipQueryTest
             6,
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertMembersEquality(tables.ElementAt(6), result.ElementAt(0));
@@ -387,7 +387,7 @@ public class SkipQueryTest
             6,
             3,
             OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertMembersEquality(tables.ElementAt(3), result.ElementAt(0));
@@ -407,8 +407,10 @@ public class SkipQueryTest
             3,
             OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -27,36 +27,32 @@ public class ExecuteQueryTest
     [TestMethod]
     public void TestSqLiteConnectionExecuteQuery()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.ExecuteQuery<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable];");
+        // Act
+        var result = connection.ExecuteQuery<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable];");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result.Count());
-            tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result.Count());
+        tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public void TestSqLiteConnectionExecuteQueryWithParameters()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = connection.ExecuteQuery<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
-                new { tables.Last().Id });
+        // Act
+        var result = connection.ExecuteQuery<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
+            new { tables.Last().Id });
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(tables.Last(), result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
 
     #endregion
@@ -66,37 +62,35 @@ public class ExecuteQueryTest
     [TestMethod]
     public async Task TestSqLiteConnectionExecuteQueryAsync()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable];");
+        // Act
+        var result = await connection.ExecuteQueryAsync<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result.Count());
-            tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result.Count());
+        tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
     }
 
     [TestMethod]
     public async Task TestSqLiteConnectionExecuteQueryAsyncWithParameters()
     {
-        using (var connection = new SQLiteConnection(Database.ConnectionString))
-        {
-            // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+        using var connection = new SQLiteConnection(Database.ConnectionString);
+        // Setup
+        var tables = Database.CreateSdsCompleteTables(10, connection);
 
-            // Act
-            var result = await connection.ExecuteQueryAsync<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
-                new { tables.Last().Id });
+        // Act
+        var result = await connection.ExecuteQueryAsync<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(1, result.Count());
-            Helper.AssertPropertiesEquality(tables.Last(), result.First());
-        }
+        // Assert
+        Assert.AreEqual(1, result.Count());
+        Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

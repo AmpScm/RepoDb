@@ -86,7 +86,7 @@ public partial class FluentMapperTest
 
     #region Helpers
 
-    private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
+    private static IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
         [
             // Different Values
             new NameAttribute("ColumnString"),
@@ -99,7 +99,7 @@ public partial class FluentMapperTest
             new ScaleAttribute(2)
         ];
 
-    private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributesForOverriding() =>
+    private static IEnumerable<PropertyValueAttribute> GetPropertyValueAttributesForOverriding() =>
         [
             // Different Values
             new NameAttribute("OverridingColumnString"),

@@ -161,7 +161,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        CompleteTable result = (await connection.QueryAsync<CompleteTable>(table.Id)).First();
+        CompleteTable result = (await connection.QueryAsync<CompleteTable>(table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -175,7 +175,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        CompleteTable result = (await connection.QueryAsync<CompleteTable>(e => e.Id == table.Id)).First();
+        CompleteTable result = (await connection.QueryAsync<CompleteTable>(e => e.Id == table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -189,7 +189,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        CompleteTable result = (await connection.QueryAsync<CompleteTable>(new { table.Id })).First();
+        CompleteTable result = (await connection.QueryAsync<CompleteTable>(new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -203,7 +203,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        CompleteTable result = (await connection.QueryAsync<CompleteTable>(new QueryField("Id", table.Id))).First();
+        CompleteTable result = (await connection.QueryAsync<CompleteTable>(new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -222,7 +222,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        CompleteTable result = (await connection.QueryAsync<CompleteTable>(queryFields)).First();
+        CompleteTable result = (await connection.QueryAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -242,7 +242,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        CompleteTable result = (await connection.QueryAsync<CompleteTable>(queryGroup)).First();
+        CompleteTable result = (await connection.QueryAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -257,7 +257,7 @@ public class QueryTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.QueryAsync<CompleteTable>((object?)null,
-            top: 2);
+            top: 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -273,7 +273,7 @@ public class QueryTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync<CompleteTable>((object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -407,7 +407,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), table.Id)).First();
+        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -421,7 +421,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id })).First();
+        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -435,7 +435,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id))).First();
+        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -454,7 +454,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields)).First();
+        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -474,7 +474,7 @@ public class QueryTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup)).First();
+        dynamic result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -490,7 +490,7 @@ public class QueryTest
         // Act
         IEnumerable<dynamic> result = await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
-            top: 2);
+            top: 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -507,8 +507,10 @@ public class QueryTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

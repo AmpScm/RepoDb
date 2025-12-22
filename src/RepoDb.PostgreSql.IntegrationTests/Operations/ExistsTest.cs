@@ -146,7 +146,7 @@ public class ExistsTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        bool result = await connection.ExistsAsync<CompleteTable>((object?)null);
+        bool result = await connection.ExistsAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -161,7 +161,7 @@ public class ExistsTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        bool result = await connection.ExistsAsync<CompleteTable>(e => ids.Contains(e.Id));
+        bool result = await connection.ExistsAsync<CompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -175,7 +175,7 @@ public class ExistsTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        bool result = await connection.ExistsAsync<CompleteTable>(new { tables.First().Id });
+        bool result = await connection.ExistsAsync<CompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -189,7 +189,7 @@ public class ExistsTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        bool result = await connection.ExistsAsync<CompleteTable>(new QueryField("Id", tables.First().Id));
+        bool result = await connection.ExistsAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -208,7 +208,7 @@ public class ExistsTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        bool result = await connection.ExistsAsync<CompleteTable>(queryFields);
+        bool result = await connection.ExistsAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -228,7 +228,7 @@ public class ExistsTest
 
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        bool result = await connection.ExistsAsync<CompleteTable>(queryGroup);
+        bool result = await connection.ExistsAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -243,7 +243,7 @@ public class ExistsTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.ExistsAsync<CompleteTable>((object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -366,7 +366,7 @@ public class ExistsTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         bool result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -381,7 +381,7 @@ public class ExistsTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         bool result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            new { tables.First().Id });
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -396,7 +396,7 @@ public class ExistsTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         bool result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            new QueryField("Id", tables.First().Id));
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -416,7 +416,7 @@ public class ExistsTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         bool result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            queryFields);
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -437,7 +437,7 @@ public class ExistsTest
         using NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         bool result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -453,8 +453,10 @@ public class ExistsTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

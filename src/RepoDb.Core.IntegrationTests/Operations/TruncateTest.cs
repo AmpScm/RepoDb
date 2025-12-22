@@ -58,7 +58,7 @@ public class TruncateTest
         connection.InsertAll(tables);
 
         // Act
-        var task = connection.TruncateAsync<IdentityTable>();
+        var task = connection.TruncateAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
         await task;
 
         // Act
@@ -107,7 +107,7 @@ public class TruncateTest
         connection.InsertAll(tables);
 
         // Act
-        var task = connection.TruncateAsync(ClassMappedNameCache.Get<IdentityTable>());
+        var task = connection.TruncateAsync(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
         await task;
 
         // Act
@@ -116,6 +116,8 @@ public class TruncateTest
         // Assert
         Assert.AreEqual(0, result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

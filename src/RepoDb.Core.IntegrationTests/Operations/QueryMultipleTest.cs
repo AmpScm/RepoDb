@@ -394,7 +394,7 @@ public class QueryMultipleTest
         // Act
         var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable>(
             where1: item => item.ColumnInt == 1,
-            where2: item => item.ColumnInt == 2);
+            where2: item => item.ColumnInt == 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -419,7 +419,7 @@ public class QueryMultipleTest
         var result = await connection.QueryMultipleAsync<IdentityTable, IdentityTable, IdentityTable>(
             where1: item => item.ColumnInt == 1,
             where2: item => item.ColumnInt == 2,
-            where3: item => item.ColumnInt == 3);
+            where3: item => item.ColumnInt == 3, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -446,7 +446,7 @@ public class QueryMultipleTest
             where1: item => item.ColumnInt == 1,
             where2: item => item.ColumnInt == 2,
             where3: item => item.ColumnInt == 3,
-            where4: item => item.ColumnInt == 4);
+            where4: item => item.ColumnInt == 4, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -475,7 +475,7 @@ public class QueryMultipleTest
             where2: item => item.ColumnInt == 2,
             where3: item => item.ColumnInt == 3,
             where4: item => item.ColumnInt == 4,
-            where5: item => item.ColumnInt == 5);
+            where5: item => item.ColumnInt == 5, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -506,7 +506,7 @@ public class QueryMultipleTest
             where3: item => item.ColumnInt == 3,
             where4: item => item.ColumnInt == 4,
             where5: item => item.ColumnInt == 5,
-            where6: item => item.ColumnInt == 6);
+            where6: item => item.ColumnInt == 6, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -539,7 +539,7 @@ public class QueryMultipleTest
             where4: item => item.ColumnInt == 4,
             where5: item => item.ColumnInt == 5,
             where6: item => item.ColumnInt == 6,
-            where7: item => item.ColumnInt == 7);
+            where7: item => item.ColumnInt == 7, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -572,7 +572,7 @@ public class QueryMultipleTest
         // Act
         var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
             where1: item => item.ColumnInt == 1,
-            where2: item => item.ColumnInt == 2);
+            where2: item => item.ColumnInt == 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -597,7 +597,7 @@ public class QueryMultipleTest
         var result = await connection.QueryMultipleAsync<WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable, WithExtraFieldsIdentityTable>(
             where1: item => item.ColumnInt == 1,
             where2: item => item.ColumnInt == 2,
-            where3: item => item.ColumnInt == 3);
+            where3: item => item.ColumnInt == 3, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -624,7 +624,7 @@ public class QueryMultipleTest
             where1: item => item.ColumnInt == 1,
             where2: item => item.ColumnInt == 2,
             where3: item => item.ColumnInt == 3,
-            where4: item => item.ColumnInt == 4);
+            where4: item => item.ColumnInt == 4, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -653,7 +653,7 @@ public class QueryMultipleTest
             where2: item => item.ColumnInt == 2,
             where3: item => item.ColumnInt == 3,
             where4: item => item.ColumnInt == 4,
-            where5: item => item.ColumnInt == 5);
+            where5: item => item.ColumnInt == 5, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -684,7 +684,7 @@ public class QueryMultipleTest
             where3: item => item.ColumnInt == 3,
             where4: item => item.ColumnInt == 4,
             where5: item => item.ColumnInt == 5,
-            where6: item => item.ColumnInt == 6);
+            where6: item => item.ColumnInt == 6, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -717,7 +717,7 @@ public class QueryMultipleTest
             where4: item => item.ColumnInt == 4,
             where5: item => item.ColumnInt == 5,
             where6: item => item.ColumnInt == 6,
-            where7: item => item.ColumnInt == 7);
+            where7: item => item.ColumnInt == 7, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(0), result.Item1.First());
@@ -728,6 +728,8 @@ public class QueryMultipleTest
         Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
         Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

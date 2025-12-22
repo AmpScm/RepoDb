@@ -28,14 +28,12 @@ public class ExecuteScalarTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.ExecuteScalar("SELECT COUNT(*) FROM `CompleteTable`;");
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.ExecuteScalar("SELECT COUNT(*) FROM `CompleteTable`;");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -44,14 +42,12 @@ public class ExecuteScalarTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM `CompleteTable`;");
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM `CompleteTable`;");
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     #endregion
@@ -64,14 +60,12 @@ public class ExecuteScalarTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM `CompleteTable`;");
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), Convert.ToInt32(result));
     }
 
     [TestMethod]
@@ -80,15 +74,15 @@ public class ExecuteScalarTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM `CompleteTable`;");
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

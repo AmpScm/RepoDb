@@ -67,7 +67,7 @@ public class ExecuteQueryTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM `CompleteTable`;");
+        var result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM `CompleteTable`;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result.Count());
@@ -83,12 +83,14 @@ public class ExecuteQueryTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM `CompleteTable` WHERE Id = @Id;",
-            new { tables.Last().Id });
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
         Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

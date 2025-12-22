@@ -29,11 +29,11 @@ public class BatchExecutionTest
         {
             var identityTables = Helper.CreateIdentityTables(i);
             connection.InsertAll(identityTables);
-            await connection.InsertAllAsync(identityTables);
+            await connection.InsertAllAsync(identityTables, cancellationToken: TestContext.CancellationToken);
             connection.UpdateAll(identityTables);
-            await connection.UpdateAllAsync(identityTables);
+            await connection.UpdateAllAsync(identityTables, cancellationToken: TestContext.CancellationToken);
             connection.MergeAll(identityTables);
-            await connection.MergeAllAsync(identityTables);
+            await connection.MergeAllAsync(identityTables, cancellationToken: TestContext.CancellationToken);
         }
     }
 
@@ -46,7 +46,7 @@ public class BatchExecutionTest
             var identityTables = Helper.CreateIdentityTables(i);
             connection.InsertAll(identityTables);
             connection.UpdateAll(identityTables);
-            await connection.UpdateAllAsync(identityTables);
+            await connection.UpdateAllAsync(identityTables, cancellationToken: TestContext.CancellationToken);
         }
     }
 
@@ -58,7 +58,7 @@ public class BatchExecutionTest
         {
             var identityTables = Helper.CreateIdentityTables(i);
             connection.MergeAll(identityTables);
-            await connection.MergeAllAsync(identityTables);
+            await connection.MergeAllAsync(identityTables, cancellationToken: TestContext.CancellationToken);
         }
     }
 
@@ -71,7 +71,9 @@ public class BatchExecutionTest
             var identityTables = Helper.CreateIdentityTables(i);
             connection.InsertAll(identityTables);
             connection.MergeAll(identityTables);
-            await connection.MergeAllAsync(identityTables);
+            await connection.MergeAllAsync(identityTables, cancellationToken: TestContext.CancellationToken);
         }
     }
+
+    public TestContext TestContext { get; set; }
 }

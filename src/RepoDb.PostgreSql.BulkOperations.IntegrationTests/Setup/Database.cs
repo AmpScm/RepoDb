@@ -49,11 +49,9 @@ public static class Database
     /// </summary>
     public static void Cleanup()
     {
-        using (var connection = new NpgsqlConnection(ConnectionStringForRepoDb))
-        {
-            connection.Truncate("BulkOperationIdentityTable");
-            connection.Truncate("EnumTable");
-        }
+        using var connection = new NpgsqlConnection(ConnectionStringForRepoDb);
+        connection.Truncate("BulkOperationIdentityTable");
+        connection.Truncate("EnumTable");
     }
 
     #endregion
@@ -92,10 +90,8 @@ public static class Database
 
                     ALTER TABLE public.""BulkOperationIdentityTable""
                         OWNER to postgres;";
-        using (var connection = new NpgsqlConnection(ConnectionStringForRepoDb))
-        {
-            connection.ExecuteNonQuery(commandText);
-        }
+        using var connection = new NpgsqlConnection(ConnectionStringForRepoDb);
+        connection.ExecuteNonQuery(commandText);
     }
 
     #endregion
@@ -104,9 +100,8 @@ public static class Database
 
     private static void CreateEnumTable()
     {
-        using (var connection = new NpgsqlConnection(ConnectionStringForRepoDb))
-        {
-            connection.ExecuteNonQuery(@"
+        using var connection = new NpgsqlConnection(ConnectionStringForRepoDb);
+        connection.ExecuteNonQuery(@"
                     DO $$
                     BEGIN
                         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'hand') THEN
@@ -123,8 +118,7 @@ public static class Database
                         ""ColumnEnumHand"" hand null,
                         CONSTRAINT ""EnumTable_PrimaryKey"" PRIMARY KEY (""Id"")
                     );");
-            connection.ReloadTypes();
-        }
+        connection.ReloadTypes();
     }
 
     #endregion

@@ -63,7 +63,7 @@ public class AverageAllTest
         var tables = Database.CreateMdsCompleteTables(10, connection);
 
         // Act
-        var result = await connection.AverageAllAsync<MdsCompleteTable>(e => e.ColumnInt);
+        var result = await connection.AverageAllAsync<MdsCompleteTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(e => e.ColumnInt), result);
@@ -78,7 +78,7 @@ public class AverageAllTest
 
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAllAsync<MdsCompleteTable>(e => e.ColumnInt,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class AverageAllTest
 
         // Act
         var result = await connection.AverageAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
-            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First());
+            Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Average(e => e.ColumnInt), result);
@@ -146,8 +146,10 @@ public class AverageAllTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
             Field.Parse<MdsCompleteTable>(e => e.ColumnInt).First(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

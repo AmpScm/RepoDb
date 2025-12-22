@@ -209,7 +209,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, table.Id);
@@ -231,7 +231,7 @@ public class InsertTest
         // Act
         var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, table.Id);
@@ -252,7 +252,7 @@ public class InsertTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var id = await connection.InsertAsync<IdentityTable, long>(table);
+        var id = await connection.InsertAsync<IdentityTable, long>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, table.Id);
@@ -273,7 +273,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<IdentityTable>(table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, table.Id);
@@ -300,7 +300,7 @@ public class InsertTest
         Assert.IsGreaterThan(0, table.Id);
 
         // Act
-        var result = (await connection.QueryAsync<IdentityTable>(id)).FirstOrDefault();
+        var result = (await connection.QueryAsync<IdentityTable>(id, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -314,7 +314,7 @@ public class InsertTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var id = await connection.InsertAsync<NonIdentityTable, Guid>(table);
+        var id = await connection.InsertAsync<NonIdentityTable, Guid>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreNotEqual(Guid.Empty, table.Id);
@@ -336,7 +336,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<IdentityTable, long>(table,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, table.Id);
@@ -360,7 +360,7 @@ public class InsertTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        var id = await connection.InsertAsync<WithExtraFieldsIdentityTable, long>(table);
+        var id = await connection.InsertAsync<WithExtraFieldsIdentityTable, long>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, table.Id);
@@ -700,7 +700,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
-            (object)table);
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -722,7 +722,7 @@ public class InsertTest
         // Act
         var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -744,7 +744,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -767,7 +767,7 @@ public class InsertTest
         // Act
         var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -791,7 +791,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-            (object)table);
+            (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -813,7 +813,7 @@ public class InsertTest
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -835,7 +835,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -858,7 +858,7 @@ public class InsertTest
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -882,7 +882,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -904,7 +904,7 @@ public class InsertTest
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -926,7 +926,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -947,7 +947,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreNotEqual(Guid.Empty, table.Id);
@@ -968,7 +968,7 @@ public class InsertTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
-            table);
+            table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, id);
@@ -990,7 +990,7 @@ public class InsertTest
         // Act
         var id = await connection.InsertAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsGreaterThan(0, table.Id);
@@ -1001,6 +1001,8 @@ public class InsertTest
         // Assert
         Helper.AssertPropertiesEquality(table, result);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

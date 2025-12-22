@@ -337,7 +337,7 @@ public class DeleteTest
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable>(item.Id);
+            var result = await connection.DeleteAsync<IdentityTable>(item.Id, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -360,7 +360,7 @@ public class DeleteTest
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable>((object)item.Id);
+            var result = await connection.DeleteAsync<IdentityTable>((object)item.Id, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -383,7 +383,7 @@ public class DeleteTest
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable, long>(item.Id);
+            var result = await connection.DeleteAsync<IdentityTable, long>(item.Id, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -406,7 +406,7 @@ public class DeleteTest
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable, object>(item.Id);
+            var result = await connection.DeleteAsync<IdentityTable, object>(item.Id, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -430,7 +430,7 @@ public class DeleteTest
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable>(item);
+            var result = await connection.DeleteAsync<IdentityTable>(item, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -451,7 +451,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>((object?)null);
+        var result = await connection.DeleteAsync<IdentityTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -469,7 +469,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>(Enumerable.Empty<QueryField>());
+        var result = await connection.DeleteAsync<IdentityTable>(Enumerable.Empty<QueryField>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -488,7 +488,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>(last.Id);
+        var result = await connection.DeleteAsync<IdentityTable>(last.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -506,7 +506,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>(new { ColumnInt = 6 });
+        var result = await connection.DeleteAsync<IdentityTable>(new { ColumnInt = 6 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -525,7 +525,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>(c => c.ColumnInt == last.Id);
+        var result = await connection.DeleteAsync<IdentityTable>(c => c.ColumnInt == last.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -544,7 +544,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>(field);
+        var result = await connection.DeleteAsync<IdentityTable>(field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -567,7 +567,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>(fields);
+        var result = await connection.DeleteAsync<IdentityTable>(fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(4, result);
@@ -591,7 +591,7 @@ public class DeleteTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAsync<IdentityTable>(queryGroup);
+        var result = await connection.DeleteAsync<IdentityTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(4, result);
@@ -612,7 +612,7 @@ public class DeleteTest
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable>(item, hints: SqlServerTableHints.TabLock);
+            var result = await connection.DeleteAsync<IdentityTable>(item, hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -832,7 +832,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            (object)tables.First().Id);
+            (object)tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -851,7 +851,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            tables.First().Id);
+            tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -870,7 +870,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            tables.First());
+            tables.First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -889,7 +889,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -908,7 +908,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            new { ColumnInt = 6 });
+            new { ColumnInt = 6 }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -928,7 +928,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            field);
+            field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -952,7 +952,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(4, result);
@@ -977,7 +977,7 @@ public class DeleteTest
 
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(4, result);
@@ -997,7 +997,7 @@ public class DeleteTest
         // Act
         var result = await connection.DeleteAsync(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            hints: SqlServerTableHints.TabLock);
+            hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -1008,8 +1008,10 @@ public class DeleteTest
     public async Task ThrowExceptionOnSqlConnectionDeleteAsyncViaTableNameIfThereIsNoKeyField()
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.DeleteAsync(ClassMappedNameCache.Get<NonKeyedTable>(), 1));
+        await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.DeleteAsync(ClassMappedNameCache.Get<NonKeyedTable>(), 1, cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 }

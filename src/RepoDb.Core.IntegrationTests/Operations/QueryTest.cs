@@ -1195,7 +1195,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync<string>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1214,7 +1214,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1238,7 +1238,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1262,7 +1262,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1286,7 +1286,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1310,7 +1310,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1332,7 +1332,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>((object?)null);
+        var result = await connection.QueryAsync<IdentityTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1355,7 +1355,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>((object?)null,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1377,7 +1377,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(Enumerable.Empty<QueryField>());
+        var result = await connection.QueryAsync<IdentityTable>(Enumerable.Empty<QueryField>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1401,7 +1401,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(what: null,
-            top: top);
+            top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(top, result.Count());
@@ -1425,7 +1425,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(what: null,
-            orderBy: orderBy.AsEnumerable());
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.First(), result.Last());
@@ -1447,7 +1447,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync<IdentityTable>(what: null,
             top: top,
-            orderBy: orderBy.AsEnumerable());
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(result.Count(), top);
@@ -1467,7 +1467,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(last.Id);
+        var result = await connection.QueryAsync<IdentityTable>(last.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1486,7 +1486,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(new { last.Id });
+        var result = await connection.QueryAsync<IdentityTable>(new { last.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1505,7 +1505,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.Id == last.Id);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.Id == last.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1524,7 +1524,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar == null);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar == null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(0, result.Count());
@@ -1542,7 +1542,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(new QueryField(nameof(IdentityTable.Id), last.Id));
+        var result = await connection.QueryAsync<IdentityTable>(new QueryField(nameof(IdentityTable.Id), last.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1565,7 +1565,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(fields);
+        var result = await connection.QueryAsync<IdentityTable>(fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(4, result.Count());
@@ -1593,7 +1593,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(fields, top: top);
+        var result = await connection.QueryAsync<IdentityTable>(fields, top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -1621,7 +1621,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(fields, orderBy: orderBy.AsEnumerable());
+        var result = await connection.QueryAsync<IdentityTable>(fields, orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(7), result.First());
@@ -1646,7 +1646,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(fields, orderBy: orderBy.AsEnumerable(), top: top);
+        var result = await connection.QueryAsync<IdentityTable>(fields, orderBy: orderBy.AsEnumerable(), top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(top, result.Count());
@@ -1672,7 +1672,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(queryGroup);
+        var result = await connection.QueryAsync<IdentityTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -1701,7 +1701,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(queryGroup, top: top);
+        var result = await connection.QueryAsync<IdentityTable>(queryGroup, top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -1730,7 +1730,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(queryGroup, orderBy: orderBy.AsEnumerable());
+        var result = await connection.QueryAsync<IdentityTable>(queryGroup, orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(7), result.First());
@@ -1756,7 +1756,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(queryGroup, orderBy: orderBy.AsEnumerable(), top: top);
+        var result = await connection.QueryAsync<IdentityTable>(queryGroup, orderBy: orderBy.AsEnumerable(), top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(top, result.Count());
@@ -1776,7 +1776,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(new { Id = new SqlParameter("_", 1) },
-            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1794,7 +1794,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(new QueryField("Id", new SqlParameter("_", 1)),
-            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1812,7 +1812,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(new QueryField("Id", new SqlParameter("_", 1)).AsEnumerable(),
-            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1830,7 +1830,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(new QueryGroup(new QueryField("Id", new SqlParameter("_", 1))),
-            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar));
+            fields: Field.Parse<IdentityTable>(e => e.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1844,7 +1844,7 @@ public class QueryTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAsync<IdentityTable>(what: null, orderBy: orderBy.AsEnumerable()));
+        await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAsync<IdentityTable>(what: null, orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -1862,7 +1862,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<WithExtraFieldsIdentityTable>((object?)null);
+        var result = await connection.QueryAsync<WithExtraFieldsIdentityTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1889,7 +1889,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar));
+        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -1907,7 +1907,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9"));
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1925,7 +1925,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("NVAR"));
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("NVAR"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -1943,7 +1943,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9"));
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -1962,7 +1962,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.Contains("4"));
+        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.Contains("4"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result.Count());
@@ -1981,7 +1981,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.StartsWith("NVAR"));
+        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.StartsWith("NVAR"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -2000,7 +2000,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.EndsWith("4"));
+        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) || c.ColumnNVarChar.EndsWith("4"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(3, result.Count());
@@ -2019,7 +2019,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) == true);
+        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) == true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -2038,7 +2038,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) == false);
+        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) == false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result.Count());
@@ -2057,7 +2057,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) != false);
+        var result = await connection.QueryAsync<IdentityTable>(c => values.Contains(c.ColumnNVarChar) != false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -2076,7 +2076,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => !values.Contains(c.ColumnNVarChar));
+        var result = await connection.QueryAsync<IdentityTable>(c => !values.Contains(c.ColumnNVarChar), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result.Count());
@@ -2094,7 +2094,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") || c.ColumnNVarChar.StartsWith("NVAR"));
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") || c.ColumnNVarChar.StartsWith("NVAR"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result.Count());
@@ -2112,7 +2112,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") || c.ColumnNVarChar.EndsWith("8"));
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") || c.ColumnNVarChar.EndsWith("8"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -2130,7 +2130,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") == true);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") == true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -2148,7 +2148,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") == false);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") == false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(9, result.Count());
@@ -2166,7 +2166,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") != false);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.Contains("9") != false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -2184,7 +2184,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => !c.ColumnNVarChar.Contains("9"));
+        var result = await connection.QueryAsync<IdentityTable>(c => !c.ColumnNVarChar.Contains("9"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(9, result.Count());
@@ -2202,7 +2202,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") == true);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") == true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -2220,7 +2220,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") == false);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") == false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(0, result.Count());
@@ -2237,7 +2237,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") != false);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.StartsWith("NVAR") != false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -2255,7 +2255,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => !c.ColumnNVarChar.StartsWith("NVAR"));
+        var result = await connection.QueryAsync<IdentityTable>(c => !c.ColumnNVarChar.StartsWith("NVAR"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(0, result.Count());
@@ -2272,7 +2272,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9") == true);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9") == true, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -2290,7 +2290,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9") == false);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9") == false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(9, result.Count());
@@ -2308,7 +2308,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9") != false);
+        var result = await connection.QueryAsync<IdentityTable>(c => c.ColumnNVarChar.EndsWith("9") != false, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -2326,7 +2326,7 @@ public class QueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAsync<IdentityTable>(c => !c.ColumnNVarChar.EndsWith("9"));
+        var result = await connection.QueryAsync<IdentityTable>(c => !c.ColumnNVarChar.EndsWith("9"), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(9, result.Count());
@@ -2869,7 +2869,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -2900,7 +2900,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync<dynamic>(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -2923,7 +2923,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -2954,7 +2954,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)));
+            fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -2978,7 +2978,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             (object?)null,
-            Field.From(new[] { "Id", "RowGuid", "ColumnFloat" }));
+            Field.From(new[] { "Id", "RowGuid", "ColumnFloat" }), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -3005,7 +3005,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             what: null,
-            top: top);
+            top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(top, result.Count());
@@ -3030,7 +3030,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             what: null,
-            orderBy: orderBy.AsEnumerable());
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.First(), result.Last());
@@ -3053,7 +3053,7 @@ public class QueryTest
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             what: null,
             top: top,
-            orderBy: orderBy.AsEnumerable());
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(result.Count(), top);
@@ -3074,7 +3074,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
-            last.Id);
+            last.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -3094,7 +3094,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            new { last.Id });
+            new { last.Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -3114,7 +3114,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            new QueryField(nameof(IdentityTable.Id), last.Id));
+            new QueryField(nameof(IdentityTable.Id), last.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
@@ -3138,7 +3138,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            fields);
+            fields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(4, result.Count());
@@ -3168,7 +3168,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             fields,
-            top: top);
+            top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -3198,7 +3198,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             fields,
-            orderBy: orderBy.AsEnumerable());
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(7), result.First());
@@ -3225,7 +3225,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             fields,
-            orderBy: orderBy.AsEnumerable(), top: top);
+            orderBy: orderBy.AsEnumerable(), top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(top, result.Count());
@@ -3252,7 +3252,7 @@ public class QueryTest
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -3283,7 +3283,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             queryGroup,
-            top: top);
+            top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -3314,7 +3314,7 @@ public class QueryTest
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             queryGroup,
-            orderBy: orderBy.AsEnumerable());
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Helper.AssertPropertiesEquality(tables.ElementAt(7), result.First());
@@ -3343,7 +3343,7 @@ public class QueryTest
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
             queryGroup,
             orderBy: orderBy.AsEnumerable(),
-            top: top);
+            top: top, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(top, result.Count());
@@ -3357,7 +3357,7 @@ public class QueryTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
         await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<NonKeyedTable>(),
-            1));
+            1, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
@@ -3370,7 +3370,7 @@ public class QueryTest
         // Act
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             what: null,
-            orderBy: orderBy.AsEnumerable()));
+            orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -3414,4 +3414,6 @@ public class QueryTest
         Assert.AreEqual("([DateTime] < @DateTime)", QueryGroup.Parse<DateTimeItems>(x => x.DateTime < dto).GetString(connection.GetDbSetting()));
         Assert.AreEqual("([DateTimeOffset] < @DateTimeOffset)", QueryGroup.Parse<DateTimeItems>(x => x.DateTimeOffset < dt).GetString(connection.GetDbSetting()));
     }
+
+    public TestContext TestContext { get; set; }
 }

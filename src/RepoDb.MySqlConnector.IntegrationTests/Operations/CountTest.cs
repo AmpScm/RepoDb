@@ -32,14 +32,12 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count<CompleteTable>((object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count<CompleteTable>((object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -49,14 +47,12 @@ public class CountTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count<CompleteTable>(e => ids.Contains(e.Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
     }
 
     [TestMethod]
@@ -65,14 +61,12 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count<CompleteTable>(new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -81,14 +75,12 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count<CompleteTable>(new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -102,14 +94,12 @@ public class CountTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count<CompleteTable>(queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -124,14 +114,12 @@ public class CountTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count<CompleteTable>(queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count<CompleteTable>(queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -142,12 +130,10 @@ public class CountTest
 
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             connection.Count<CompleteTable>((object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -161,14 +147,12 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>((object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -178,14 +162,12 @@ public class CountTest
         var tables = Database.CreateCompleteTables(10);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
     }
 
     [TestMethod]
@@ -194,14 +176,12 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync<CompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -210,14 +190,12 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -231,14 +209,12 @@ public class CountTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -253,14 +229,12 @@ public class CountTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync<CompleteTable>(queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -271,12 +245,10 @@ public class CountTest
 
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             await connection.CountAsync<CompleteTable>((object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
 
@@ -294,15 +266,13 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -311,15 +281,13 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            new { tables.First().Id });
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -328,15 +296,13 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            new QueryField("Id", tables.First().Id));
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -350,15 +316,13 @@ public class CountTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            queryFields);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -373,15 +337,13 @@ public class CountTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
+            queryGroup);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -392,13 +354,11 @@ public class CountTest
 
         Assert.ThrowsExactly<NotSupportedException>(() =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
-        }
         });
     }
 
@@ -412,15 +372,13 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                (object?)null);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Count(), result);
     }
 
     [TestMethod]
@@ -429,15 +387,13 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new { tables.First().Id });
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -446,15 +402,13 @@ public class CountTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                new QueryField("Id", tables.First().Id));
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
     }
 
     [TestMethod]
@@ -468,15 +422,13 @@ public class CountTest
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                queryFields);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            queryFields, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -491,15 +443,13 @@ public class CountTest
         };
         var queryGroup = new QueryGroup(queryFields);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
-                queryGroup);
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
-            // Assert
-            Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
-        }
+        // Assert
+        Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
     }
 
     [TestMethod]
@@ -510,15 +460,15 @@ public class CountTest
 
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () =>
         {
-            using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
+            using var connection = new MySqlConnection(Database.ConnectionString);
             // Act
             await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
-                hints: "WhatEver");
-        }
+                hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

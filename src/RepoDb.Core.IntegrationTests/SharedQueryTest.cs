@@ -153,7 +153,7 @@ public class SharedQueryTest
 
         // Act
         var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -176,7 +176,7 @@ public class SharedQueryTest
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            e => e.ColumnDecimal == tables.Last().ColumnDecimal)).FirstOrDefault();
+            e => e.ColumnDecimal == tables.Last().ColumnDecimal, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -194,7 +194,7 @@ public class SharedQueryTest
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            new { tables.Last().Id })).FirstOrDefault();
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -212,7 +212,7 @@ public class SharedQueryTest
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            (new QueryField("Id", tables.Last().Id)).AsEnumerable())).FirstOrDefault();
+            (new QueryField("Id", tables.Last().Id)).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -238,7 +238,7 @@ public class SharedQueryTest
 
         // Act
         var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -381,7 +381,7 @@ public class SharedQueryTest
 
         // Act
         var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (object?)null);
+            (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -404,7 +404,7 @@ public class SharedQueryTest
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            e => e.ColumnDecimal == tables.Last().ColumnDecimal)).FirstOrDefault();
+            e => e.ColumnDecimal == tables.Last().ColumnDecimal, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -422,7 +422,7 @@ public class SharedQueryTest
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            new { tables.Last().Id })).FirstOrDefault();
+            new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -440,7 +440,7 @@ public class SharedQueryTest
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (new QueryField("Id", tables.Last().Id)).AsEnumerable())).FirstOrDefault();
+            (new QueryField("Id", tables.Last().Id)).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -466,7 +466,7 @@ public class SharedQueryTest
 
         // Act
         var result = await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            queryGroup);
+            queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(2, result.Count());
@@ -526,7 +526,7 @@ public class SharedQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>());
+        var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -582,7 +582,7 @@ public class SharedQueryTest
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>());
+        var result = await connection.QueryAllAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -592,6 +592,8 @@ public class SharedQueryTest
             Helper.AssertPropertiesEquality(target, item);
         });
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

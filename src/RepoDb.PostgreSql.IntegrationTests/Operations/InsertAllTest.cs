@@ -79,7 +79,7 @@ public class InsertAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.InsertAllAsync<CompleteTable>(tables);
+        int result = await connection.InsertAllAsync<CompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -101,7 +101,7 @@ public class InsertAllTest
 
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
-        int result = await connection.InsertAllAsync<NonIdentityCompleteTable>(tables);
+        int result = await connection.InsertAllAsync<NonIdentityCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -269,7 +269,7 @@ public class InsertAllTest
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         int result = await connection.InsertAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -291,7 +291,7 @@ public class InsertAllTest
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         int result = await connection.InsertAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -313,7 +313,7 @@ public class InsertAllTest
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         int result = await connection.InsertAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
@@ -336,7 +336,7 @@ public class InsertAllTest
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         int result = await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -358,7 +358,7 @@ public class InsertAllTest
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         int result = await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -380,7 +380,7 @@ public class InsertAllTest
         using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
         // Act
         int result = await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
-            tables);
+            tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
@@ -392,6 +392,8 @@ public class InsertAllTest
         // Assert
         tables.ForEach(table => Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

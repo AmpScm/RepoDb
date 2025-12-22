@@ -63,7 +63,7 @@ public class MaxAllTest
 
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
-        var result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInt);
+        var result = await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
@@ -78,7 +78,7 @@ public class MaxAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync<CompleteTable>(e => e.ColumnInt,
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class MaxAllTest
         using var connection = new MySqlConnection(Database.ConnectionString);
         // Act
         var result = await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
-            Field.Parse<CompleteTable>(e => e.ColumnInt).First());
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
@@ -146,8 +146,10 @@ public class MaxAllTest
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MaxAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
-            hints: "WhatEver"));
+            hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

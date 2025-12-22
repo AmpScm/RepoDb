@@ -59,8 +59,8 @@ public class AdditionalDbTypesTests
     public async Task TestDateTimeOnlyInsertQuery()
     {
         await using var connection = new SqlConnection(Database.ConnectionString);
-        await connection.OpenAsync();
-        await using var t = await connection.BeginTransactionAsync();
+        await connection.OpenAsync(TestContext.CancellationToken);
+        await using var t = await connection.BeginTransactionAsync(TestContext.CancellationToken);
 
         await connection.InsertAllAsync(
             new DateOnlyTestData[] {
@@ -115,26 +115,26 @@ After:
                     DateOnlyNullable = new DateOnly(2026,1,1),
                 }
             },
-            transaction: t);
+            transaction: t, cancellationToken: TestContext.CancellationToken);
 
 
-        var all = await connection.QueryAllAsync<DateOnlyTestData>(transaction: t);
+        var all = await connection.QueryAllAsync<DateOnlyTestData>(transaction: t, cancellationToken: TestContext.CancellationToken);
 
         Assert.IsTrue(all.Any(x => x.DateOnly == new DateOnly(2024, 1, 1)), "Found DateOnly");
         Assert.IsTrue(all.Any(x => x.DateOnlyNullable == new DateOnly(2026, 1, 1)), "Found nullable DateOnly");
         Assert.IsTrue(all.Any(x => x.DateOnlyNullable == null), "Found null DateOnly?");
 
         var cmp1 = new DateOnly(2024, 1, 1);
-        Assert.AreEqual(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnly == cmp1, transaction: t)).Count());
-        Assert.AreEqual(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnlyNullable == new DateOnly(2026, 1, 1), transaction: t)).Count());
+        Assert.AreEqual(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnly == cmp1, transaction: t, cancellationToken: TestContext.CancellationToken)).Count());
+        Assert.AreEqual(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnlyNullable == new DateOnly(2026, 1, 1), transaction: t, cancellationToken: TestContext.CancellationToken)).Count());
     }
 
     [TestMethod]
     public async Task CompareValuesTests()
     {
         await using var connection = new SqlConnection(Database.ConnectionString);
-        await connection.OpenAsync();
-        await using var t = await connection.BeginTransactionAsync();
+        await connection.OpenAsync(TestContext.CancellationToken);
+        await using var t = await connection.BeginTransactionAsync(TestContext.CancellationToken);
 
         await connection.InsertAllAsync(
             new DateOnlyTestData[] {
@@ -149,7 +149,7 @@ After:
                     DateOnlyNullable = new DateOnly(2026,1,1),
                 }
             },
-            transaction: t, trace: new DiagnosticsTracer());
+            transaction: t, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
 
         // This one used to fail with NotSupportedException as '!' was not interpreted correctly
@@ -161,7 +161,7 @@ After:
             },
             where: QueryGroup.Parse<DateOnlyTestData>(x => !(x.DateOnly == notEqualValue)),
             fields: Field.Parse<DateOnlyTestData>(x => x.DateOnly),
-            transaction: t);
+            transaction: t, cancellationToken: TestContext.CancellationToken);
 
         Assert.AreEqual(1, n);
 
@@ -174,7 +174,7 @@ After:
             },
             where: QueryGroup.Parse<DateOnlyTestData>(x => x.DateOnlyNullable == null || !(x.DateOnlyNullable == notEqualValue2)),
             fields: Field.Parse<DateOnlyTestData>(x => x.DateOnly),
-            transaction: t);
+            transaction: t, cancellationToken: TestContext.CancellationToken);
         Assert.AreEqual(2, n2);
     }
 
@@ -186,5 +186,7 @@ After:
         public DateOnly DateOnly { get; set; }
         public DateOnly? DateOnlyNullable { get; set; }
     }
+
+    public TestContext TestContext { get; set; }
 }
 #endif

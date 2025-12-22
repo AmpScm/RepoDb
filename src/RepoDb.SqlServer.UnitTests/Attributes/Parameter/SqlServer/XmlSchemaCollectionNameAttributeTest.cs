@@ -29,48 +29,40 @@ public class XmlSchemaCollectionNameAttributeTest
     public void TestXmlSchemaCollectionNameAttributeViaEntityViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new XmlSchemaCollectionNameAttributeTestClass
             {
-                DbCommandExtension
-                    .CreateParameters(command, new XmlSchemaCollectionNameAttributeTestClass
-                    {
-                        ColumnName = "Test"
-                    });
+                ColumnName = "Test"
+            });
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual("XmlSchemaCollectionName", parameter.XmlSchemaCollectionName);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual("XmlSchemaCollectionName", parameter.XmlSchemaCollectionName);
     }
 
     [TestMethod]
     public void TestXmlSchemaCollectionNameAttributeViaAnonymousViaCreateParameters()
     {
         // Act
-        using (var connection = new SqlConnection())
-        {
-            using (var command = connection.CreateCommand())
+        using var connection = new SqlConnection();
+        using var command = connection.CreateCommand();
+        DbCommandExtension
+            .CreateParameters(command, new
             {
-                DbCommandExtension
-                    .CreateParameters(command, new
-                    {
-                        ColumnName = "Test"
-                    },
-                    typeof(XmlSchemaCollectionNameAttributeTestClass));
+                ColumnName = "Test"
+            },
+            typeof(XmlSchemaCollectionNameAttributeTestClass));
 
-                // Assert
-                Assert.AreEqual(1, command.Parameters.Count);
+        // Assert
+        Assert.AreEqual(1, command.Parameters.Count);
 
-                // Assert
-                var parameter = command.Parameters["@ColumnName"];
-                Assert.AreEqual("XmlSchemaCollectionName", parameter.XmlSchemaCollectionName);
-            }
-        }
+        // Assert
+        var parameter = command.Parameters["@ColumnName"];
+        Assert.AreEqual("XmlSchemaCollectionName", parameter.XmlSchemaCollectionName);
     }
 }

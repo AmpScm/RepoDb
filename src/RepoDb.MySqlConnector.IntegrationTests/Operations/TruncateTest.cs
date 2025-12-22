@@ -31,15 +31,13 @@ public class TruncateTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Truncate<CompleteTable>();
-            var countResult = connection.CountAll<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Truncate<CompleteTable>();
+        var countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -52,15 +50,13 @@ public class TruncateTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.TruncateAsync<CompleteTable>();
-            var countResult = connection.CountAll<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.TruncateAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
+        var countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -77,15 +73,13 @@ public class TruncateTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = connection.Truncate(ClassMappedNameCache.Get<CompleteTable>());
-            var countResult = connection.CountAll<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = connection.Truncate(ClassMappedNameCache.Get<CompleteTable>());
+        var countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
 
     #endregion
@@ -98,16 +92,16 @@ public class TruncateTest
         // Setup
         var tables = Database.CreateCompleteTables(10);
 
-        using (var connection = new MySqlConnection(Database.ConnectionString))
-        {
-            // Act
-            var result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>());
-            var countResult = connection.CountAll<CompleteTable>();
+        using var connection = new MySqlConnection(Database.ConnectionString);
+        // Act
+        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
+        var countResult = connection.CountAll<CompleteTable>();
 
-            // Assert
-            Assert.AreEqual(0, countResult);
-        }
+        // Assert
+        Assert.AreEqual(0, countResult);
     }
+
+    public TestContext TestContext { get; set; }
 
     #endregion
 

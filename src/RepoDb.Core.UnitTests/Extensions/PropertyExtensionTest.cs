@@ -33,23 +33,6 @@ public class PropertyExtensionTest
 
     #endregion
 
-    #region Helpers
-
-    private IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes() =>
-        [
-            // Different Values
-            new NameAttribute("MappedColumnString"),
-            new DbTypeAttribute(DbType.StringFixedLength),
-            new DirectionAttribute(ParameterDirection.ReturnValue),
-            new SizeAttribute(512),
-            // Same Values
-            new IsNullableAttribute(true),
-            new PrecisionAttribute(100),
-            new ScaleAttribute(2)
-        ];
-
-    #endregion
-
     [TestMethod]
     public void TestPropertyInfoGetPropertyValueAttributesMethod()
     {
