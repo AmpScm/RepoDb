@@ -199,7 +199,6 @@ namespace RepoDb
                 {
                     Throw(new ArgumentNullException(paramName, "Argument cannot be null or whitespace."));
                 }
-                argument = ""; // Suppress stupid warning
             }
 
             public static void ThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
@@ -208,7 +207,6 @@ namespace RepoDb
                 {
                     Throw(new ArgumentNullException(paramName, "Argument cannot be null or empty."));
                 }
-                argument = ""; // Suppress stupid warning
             }
         }
 

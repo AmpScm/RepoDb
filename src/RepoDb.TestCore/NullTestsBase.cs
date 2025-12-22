@@ -424,7 +424,8 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         // This used to trigger an escaping issue between @a and @aa (which starts with '@a')
         var s = await sql.ExecuteQueryAsync<WithGroupByItems>(
             ApplySqlRules(sql, "SELECT [Txt] from [WithGroupByItems] WHERE [Txt] IN (@a) GROUP BY [Txt] HAVING COUNT(1) = @aa"),
-            new { a = new string[] { "a" }, aa = 1 });
+            new { a = new string[] { "a" }, aa = 1 },
+            cancellationToken: TestContext.CancellationToken);
     }
 
     private class Id2record
@@ -934,8 +935,6 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
         }
     }
-
-    public TestContext TestContext { get; set; }
 }
 
 public static class DbTestExtensions
@@ -945,14 +944,12 @@ public static class DbTestExtensions
     {
         var tableName = ClassMappedNameCache.Get<TEntity>();
 
-        var setting = connection.GetDbSetting();
         await CreateTableAsync<TEntity>(connection, tableName, trace);
     }
 
     public static async Task CreateTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class
     {
         var dbSetting = sql.GetDbSetting();
-        var dbHelper = sql.GetDbHelper();
         var stmt = (BaseStatementBuilder)sql.GetStatementBuilder();
         var toDbField = (stmt.ConvertFieldResolver as DbConvertFieldResolver)?.StringNameResolver ?? FindResolver(sql);
         var cp = PropertyCache.Get<TEntity>();
@@ -1063,17 +1060,12 @@ public static class DbTestExtensions
     {
         var tableName = ClassMappedNameCache.Get<TEntity>();
 
-        var setting = connection.GetDbSetting();
         await DropTableAsync<TEntity>(connection, tableName, trace);
     }
 
     public static async Task DropTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class
     {
         var dbSetting = sql.GetDbSetting();
-        var dbHelper = sql.GetDbHelper();
-        var stmt = (BaseStatementBuilder)sql.GetStatementBuilder();
-        var toDbField = (stmt.ConvertFieldResolver as DbConvertFieldResolver)?.StringNameResolver;
-        var cp = PropertyCache.Get<TEntity>();
 
         var qb = new QueryBuilder();
 
