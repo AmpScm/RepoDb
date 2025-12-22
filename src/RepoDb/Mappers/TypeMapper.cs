@@ -14,7 +14,8 @@ public static class TypeMapper
 {
     #region Privates
 
-    private static readonly ConcurrentDictionary<Type, DbType> maps = new();
+    private static readonly ConcurrentDictionary<Type, DbType> typeMaps = new();
+    private static readonly ConcurrentDictionary<(Type, PropertyInfo PropertyInfo), DbType> propertyMaps = new();
 
     #endregion
 
@@ -64,11 +65,11 @@ public static class TypeMapper
         ArgumentNullException.ThrowIfNull(type);
 
         // Try get the cache
-        if (maps.TryGetValue(type, out var value))
+        if (typeMaps.TryGetValue(type, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(type, dbType, value);
+                typeMaps.TryUpdate(type, dbType, value);
             }
             else
             {
@@ -77,7 +78,7 @@ public static class TypeMapper
         }
         else
         {
-            maps.TryAdd(type, dbType);
+            typeMaps.TryAdd(type, dbType);
         }
     }
 
@@ -102,10 +103,7 @@ public static class TypeMapper
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
-        if (maps.TryGetValue(type, out var value))
+        if (typeMaps.TryGetValue(type, out var value))
             return value;
 
         return null;
@@ -129,10 +127,9 @@ public static class TypeMapper
     public static bool Remove(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        var key = type.GetHashCode();
 
         // Try get the value
-        return maps.TryRemove(key, out var _);
+        return typeMaps.TryRemove(type, out var _);
     }
 
     #endregion
@@ -267,14 +264,14 @@ public static class TypeMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the cache
-        if (maps.TryGetValue(key, out var value))
+        if (propertyMaps.TryGetValue(key, out var value))
         {
             if (force)
             {
-                maps.TryUpdate(key, dbType, value);
+                propertyMaps.TryUpdate(key, dbType, value);
             }
             else
             {
@@ -283,7 +280,7 @@ public static class TypeMapper
         }
         else
         {
-            maps.TryAdd(key, dbType);
+            propertyMaps.TryAdd(key, dbType);
         }
     }
 
@@ -339,14 +336,14 @@ public static class TypeMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value via the property
-        if (maps.TryGetValue(key, out var value))
+        if (propertyMaps.TryGetValue(key, out var value))
             return value;
 
         // Try get the value via the type
-        if (maps.TryGetValue(TypeExtension.GenerateHashCode(propertyInfo.PropertyType), out value))
+        if (typeMaps.TryGetValue(propertyInfo.PropertyType, out value))
             return value;
 
         return null;
@@ -404,10 +401,10 @@ public static class TypeMapper
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
-        var key = TypeExtension.GenerateHashCode(entityType, propertyInfo);
+        var key = (entityType, propertyInfo);
 
         // Try get the value
-        return maps.TryRemove(key, out var _);
+        return propertyMaps.TryRemove(key, out var _);
     }
 
     /*
@@ -417,8 +414,11 @@ public static class TypeMapper
     /// <summary>
     /// Clear all the existing cached mappings.
     /// </summary>
-    public static void Clear() =>
-        maps.Clear();
+    public static void Clear()
+    {
+        propertyMaps.Clear();
+        typeMaps.Clear();
+    }
 
     #endregion
 }

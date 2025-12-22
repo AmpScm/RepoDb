@@ -192,11 +192,8 @@ public static class PrimaryMapper
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        // Variables
-        var key = TypeExtension.GenerateHashCode(type);
-
         // Try get the value
-        maps.TryRemove(key, out var _);
+        maps.TryRemove(type, out var _);
     }
 
     /*

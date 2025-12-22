@@ -77,7 +77,7 @@ public static class ClassMapper
         }
         else
         {
-            maps.TryAdd(key, name);
+            maps.TryAdd(type, name);
         }
     }
 
