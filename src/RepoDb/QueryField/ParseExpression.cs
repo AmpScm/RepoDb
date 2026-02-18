@@ -270,14 +270,15 @@ public partial class QueryField
     ExpressionType? unaryNodeType = null)
     where TEntity : class
     {
+        IEnumerable<QueryField>? result;
         if (expression.Method.Name == "Equals")
         {
-            return ParseEquals<TEntity>(expression)?.AsEnumerable();
+            result = ParseEquals<TEntity>(expression)?.AsEnumerable();
         }
         else if (expression.Method.Name == "CompareString")
         {
             // Usual case for VB.Net (Microsoft.VisualBasic.CompilerServices.Operators.CompareString #767)
-            return ParseCompareString<TEntity>(expression)?.AsEnumerable();
+            result = ParseCompareString<TEntity>(expression)?.AsEnumerable();
         }
         else if (expression.Method.Name == "Contains")
         {
@@ -296,7 +297,13 @@ public partial class QueryField
         {
             return ParseAny<TEntity>(expression, unaryNodeType);
         }
-        return null;
+        else
+            result = null;
+
+        if (result is { } && unaryNodeType == ExpressionType.Not)
+            result = result.Select(qf => qf.ApplyNot());
+
+        return result;
     }
 
     /// <summary>
@@ -309,18 +316,29 @@ public partial class QueryField
     internal static QueryField ParseEquals<TEntity>(MethodCallExpression expression)
         where TEntity : class
     {
-        // Property
-        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
-
-        // Value
-        if (expression?.Object?.Type == StaticType.String)
+        if (expression.Object is null
+            && expression.Method.DeclaringType == typeof(string)
+            && expression.Arguments.Count == 2)
         {
-            var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
-            return new QueryField(property.AsField(), value);
+            var property = GetProperty<TEntity>(expression.Arguments[0]) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+
+            return new QueryField(property.AsField(), Converter.ToType<string>(expression.Arguments[1].GetValue()));
         }
         else
         {
-            throw new InvalidOperationException($"Can't parse '{expression}' to query");
+            // Property
+            var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
+
+            // Value
+            if (expression?.Object?.Type == StaticType.String)
+            {
+                var value = Converter.ToType<string>(expression.Arguments.First().GetValue());
+                return new QueryField(property.AsField(), value);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Can't parse '{expression}' to query");
+            }
         }
     }
 

@@ -100,15 +100,5 @@ public static class PropertyMappedNameCache
     public static void Flush() =>
         cache.Clear();
 
-    /// <summary>
-    /// Generates a hashcode for caching.
-    /// </summary>
-    /// <param name="entityType">The type of the data entity.</param>
-    /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    /// <returns>The generated hashcode.</returns>
-    private static int GenerateHashCode(Type entityType,
-        PropertyInfo propertyInfo) =>
-        TypeExtension.GenerateHashCode(entityType, propertyInfo);
-
     #endregion
 }
