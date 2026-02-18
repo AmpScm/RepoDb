@@ -91,6 +91,11 @@ public partial class QueryGroup
      * Binary
      */
 
+    static readonly Lazy<MemberInfo?> VBCompareString = new(() =>
+        (Type.GetType("Microsoft.VisualBasic.CompilerServices.Operators, Microsoft.VisualBasic.Core", false)
+            ?? Type.GetType("Microsoft.VisualBasic.CompilerServices.Operators, Microsoft.VisualBasic", false)
+        )?.GetMethod("CompareString", BindingFlags.Static | BindingFlags.Public));
+
     /// <summary>
     ///
     /// </summary>
@@ -131,6 +136,20 @@ public partial class QueryGroup
                 (expression.NodeType == ExpressionType.NotEqual && rightValue);
 
             leftQueryGroup.SetIsNot(isNot);
+        }
+        else if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual && expression.Right is ConstantExpression c && c.Value is int intVal && intVal == 0
+            && expression.Left is MethodCallExpression m && m.Method == VBCompareString.Value)
+        {
+#pragma warning disable CA1309 // Use ordinal string comparison
+            Expression<Func<bool>> v = () => string.Equals("a", "b");
+#pragma warning restore CA1309 // Use ordinal string comparison
+
+            Expression expr = Expression.Call(((MethodCallExpression)v.Body).Method, m.Arguments[0], m.Arguments[1]);
+
+            if (expression.NodeType == ExpressionType.NotEqual)
+                expr = Expression.Not(expr);
+
+            return Parse<TEntity>(expr) ?? throw new NotSupportedException($"Expression {expr} is currently not supported");             
         }
         else
         {

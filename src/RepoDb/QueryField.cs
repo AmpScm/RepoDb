@@ -408,4 +408,36 @@ public partial class QueryField : IEquatable<QueryField>
     }
 
     #endregion
+
+
+    internal QueryField ApplyNot()
+    {
+        if (GetType() != typeof(QueryField))
+            throw new InvalidOperationException();
+
+        return new QueryField(
+            this.Field,
+            this.Operation switch
+            {
+                Operation.Equal => Operation.NotEqual,
+                Operation.NotEqual => Operation.Equal,
+                Operation.Between => Operation.NotBetween,
+                Operation.NotBetween => Operation.Between,
+                Operation.In => Operation.NotIn,
+                Operation.NotIn => Operation.In,
+                Operation.IsNull => Operation.IsNotNull,
+                Operation.IsNotNull => Operation.IsNull,
+                Operation.Like => Operation.NotLike,
+                Operation.NotLike => Operation.Like,
+                Operation.LessThan => Operation.GreaterThanOrEqual,
+                Operation.LessThanOrEqual => Operation.GreaterThan,
+                Operation.GreaterThan => Operation.LessThanOrEqual,
+                Operation.GreaterThanOrEqual => Operation.LessThan,
+                _ => throw new NotSupportedException($"The '{Operation.GetText()}' operation is not invertable.")
+            },
+            this.Parameter.Value,
+            this.Parameter.DbType,
+            false);
+    }
+
 }
