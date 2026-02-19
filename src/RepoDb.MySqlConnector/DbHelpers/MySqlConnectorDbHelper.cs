@@ -52,7 +52,12 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
                 , NUMERIC_SCALE AS Scale
                 , DATA_TYPE AS DatabaseType
                 , CASE WHEN COLUMN_DEFAULT IS NOT NULL THEN 1 ELSE 0 END AS HasDefaultValue
-                , CASE WHEN EXTRA LIKE '%VIRTUAL%' OR EXTRA LIKE '%STORED%' THEN 1 ELSE 0 END AS IsComputed
+                , CASE
+                    WHEN EXTRA LIKE '%VIRTUAL%' THEN 1
+                    WHEN EXTRA LIKE '%STORED%' THEN 1
+                    WHEN EXTRA LIKE '%ON UPDATE%' THEN 1
+                    ELSE 0
+                END AS IsComputed
             FROM INFORMATION_SCHEMA.COLUMNS
             WHERE TABLE_SCHEMA = @TableSchema
                 AND TABLE_NAME = @TableName
