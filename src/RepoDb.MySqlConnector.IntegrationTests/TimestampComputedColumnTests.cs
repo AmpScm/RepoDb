@@ -192,9 +192,9 @@ public class TimestampComputedColumnTests
         Assert.IsTrue(results.ContainsKey("OnUpdateOnly"), "Should find OnUpdateOnly column");
 
         // Log the EXTRA values for debugging
-        Console.WriteLine($"CreatedAt EXTRA: '{results["CreatedAt"].Extra}', DEFAULT: '{results["CreatedAt"].ColumnDefault}'");
-        Console.WriteLine($"UpdatedAt EXTRA: '{results["UpdatedAt"].Extra}', DEFAULT: '{results["UpdatedAt"].ColumnDefault}'");
-        Console.WriteLine($"OnUpdateOnly EXTRA: '{results["OnUpdateOnly"].Extra}', DEFAULT: '{results["OnUpdateOnly"].ColumnDefault}'");
+        TestContext.WriteLine($"CreatedAt EXTRA: '{results["CreatedAt"].Extra}', DEFAULT: '{results["CreatedAt"].ColumnDefault}'");
+        TestContext.WriteLine($"UpdatedAt EXTRA: '{results["UpdatedAt"].Extra}', DEFAULT: '{results["UpdatedAt"].ColumnDefault}'");
+        TestContext.WriteLine($"OnUpdateOnly EXTRA: '{results["OnUpdateOnly"].Extra}', DEFAULT: '{results["OnUpdateOnly"].ColumnDefault}'");
 
         // CreatedAt should NOT have "ON UPDATE" in EXTRA
         Assert.IsFalse(results["CreatedAt"].Extra.Contains("ON UPDATE", StringComparison.OrdinalIgnoreCase),
