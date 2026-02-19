@@ -2,7 +2,11 @@
 using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
+#if MYSQLPLAIN
+using MySql.Data.MySqlClient;
+#else
 using MySqlConnector;
+#endif
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -14,25 +18,49 @@ namespace RepoDb.DbHelpers;
 /// <summary>
 /// A helper class for database specially for the direct access. This class is only meant for MySql.
 /// </summary>
+#if MYSQLPLAIN
+public sealed class MySqlDbHelper : BaseDbHelper
+#else
 public sealed class MySqlConnectorDbHelper : BaseDbHelper
+#endif
 {
-    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<MySqlConnection>() ?? throw new InvalidOperationException();
+    private readonly IDbSetting m_dbSetting = DbSettingMapper.Get<MySqlConnection>()!;
 
+#if MYSQLPLAIN
     /// <summary>
-    /// Creates a new instance of <see cref="MySqlConnectorDbHelper"/> class.
+    /// Creates a new instance of <see cref="MySqlDbHelper"/> class.
+    /// </summary>
+    public MySqlDbHelper()
+        : this(new MySqlDbTypeNameToClientTypeResolver())
+    { }
+#else
+   /// <summary>
+    /// Creates a new instance of <see cref="MySqlDbHelper"/> class.
     /// </summary>
     public MySqlConnectorDbHelper()
         : this(new MySqlConnectorDbTypeNameToClientTypeResolver())
     { }
+#endif
 
+#if MYSQLPLAIN
     /// <summary>
-    /// Creates a new instance of <see cref="MySqlConnectorDbHelper"/> class.
+    /// Creates a new instance of <see cref="MySqlDbHelper"/> class.
+    /// </summary>
+    /// <param name="dbTypeResolver">The type resolver to be used.</param>
+    public MySqlDbHelper(IResolver<string, Type> dbTypeResolver)
+        : base(dbTypeResolver)
+    {
+    }
+#else
+ /// <summary>
+    /// Creates a new instance of <see cref="MySqlDbHelper"/> class.
     /// </summary>
     /// <param name="dbTypeResolver">The type resolver to be used.</param>
     public MySqlConnectorDbHelper(IResolver<string, Type> dbTypeResolver)
         : base(dbTypeResolver)
     {
     }
+#endif
 
     #region Helpers
 
@@ -40,45 +68,44 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
     /// 
     /// </summary>
     /// <returns></returns>
-    private static string GetCommandText()
-    {
-        return $@"SELECT COLUMN_NAME AS ColumnName
-                , CASE WHEN COLUMN_KEY = 'PRI' THEN 1 ELSE 0 END AS IsPrimary
-                , CASE WHEN EXTRA LIKE '%auto_increment%' THEN 1 ELSE 0 END AS IsIdentity
-                , CASE WHEN IS_NULLABLE = 'YES' THEN 1 ELSE 0 END AS IsNullable
-                , DATA_TYPE AS ColumnType /*COLUMN_TYPE AS ColumnType*/
-                , CHARACTER_MAXIMUM_LENGTH AS Size
-                , COALESCE(NUMERIC_PRECISION, DATETIME_PRECISION) AS `Precision`
-                , NUMERIC_SCALE AS Scale
-                , DATA_TYPE AS DatabaseType
-                , CASE WHEN COLUMN_DEFAULT IS NOT NULL THEN 1 ELSE 0 END AS HasDefaultValue
-                , CASE
-                    WHEN EXTRA LIKE '%VIRTUAL%' THEN 1
-                    WHEN EXTRA LIKE '%STORED%' THEN 1
-                    WHEN EXTRA LIKE '%ON UPDATE%' THEN 1
-                    ELSE 0
-                END AS IsComputed
-            FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_SCHEMA = @TableSchema
-                AND TABLE_NAME = @TableName
-            ORDER BY ORDINAL_POSITION;";
-    }
+    private const string FieldCommandText = @"
+        SELECT
+            COLUMN_NAME AS ColumnName,
+            CASE WHEN COLUMN_KEY = 'PRI' THEN 1 ELSE 0 END AS IsPrimary,
+            CASE WHEN EXTRA LIKE '%auto_increment%' THEN 1 ELSE 0 END AS IsIdentity,
+            CASE WHEN IS_NULLABLE = 'YES' THEN 1 ELSE 0 END AS IsNullable,
+            DATA_TYPE AS ColumnType,
+            CHARACTER_MAXIMUM_LENGTH AS Size,
+            COALESCE(NUMERIC_PRECISION, DATETIME_PRECISION) AS `Precision`,
+            NUMERIC_SCALE AS Scale,
+            DATA_TYPE AS DatabaseType,
+            CASE WHEN COLUMN_DEFAULT IS NOT NULL THEN 1 ELSE 0 END AS HasDefaultValue,
+            CASE
+                WHEN EXTRA LIKE '%VIRTUAL%' THEN 1
+                WHEN EXTRA LIKE '%STORED%' THEN 1
+                WHEN EXTRA LIKE '%ON UPDATE%' THEN 1
+                ELSE 0
+            END AS IsComputed
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = @TableSchema
+            AND TABLE_NAME = @TableName
+        ORDER BY ORDINAL_POSITION";
 
     /// <summary>
     /// 
     /// </summary>
     /// <returns></returns>
     private static readonly HashSet<string> BlobTypes = new([
-            "blob",
-            "blobasarray",
-            "binary",
-            "longtext",
-            "mediumtext",
-            "longblob",
-            "mediumblob",
-            "tinyblob",
-            "varbinary"
-        ], StringComparer.OrdinalIgnoreCase);
+        "blob",
+        "blobasarray",
+        "binary",
+        "longtext",
+        "mediumtext",
+        "longblob",
+        "mediumblob",
+        "tinyblob",
+        "varbinary"
+    ], StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// 
@@ -95,15 +122,20 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
             reader.GetBoolean(3),
             DbTypeResolver.Resolve(columnType)!,
             size,
-            reader.IsDBNull(6) ? (byte?)null : byte.Parse(reader.GetInt32(6).ToString()),
-            reader.IsDBNull(7) ? (byte?)null : byte.Parse(reader.GetInt32(7).ToString()),
+            reader.IsDBNull(6) ? null : byte.Parse(reader.GetInt32(6).ToString()),
+            reader.IsDBNull(7) ? null : byte.Parse(reader.GetInt32(7).ToString()),
             reader.GetString(8),
             reader.GetBoolean(9),
             reader.GetBoolean(10),
-            "MYSQLC");
+#if MYSQLPLAIN
+            "MYSQL"
+#else
+            "MYSQLC"
+#endif
+            );
     }
 
-    #endregion
+#endregion
 
     #region Methods
 
@@ -121,7 +153,7 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
         IDbTransaction? transaction = null)
     {
         // Variables
-        var commandText = GetCommandText();
+        var commandText = FieldCommandText;
         var param = new
         {
             TableSchema = connection.Database,
@@ -159,7 +191,7 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
         cancellationToken.ThrowIfCancellationRequested();
 
         // Variables
-        var commandText = GetCommandText();
+        var commandText = FieldCommandText;
         var param = new
         {
             TableSchema = connection.Database,
@@ -175,6 +207,10 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
         // Iterate the list of the fields
         while (await reader.ReadAsync(cancellationToken))
         {
+            // The 'ReaderToDbFieldAsync' is having a bad behavior on different versions
+            // of MySQL for this driver (from Oracle). Also, the 'CAST' and 'CONVERT' is
+            // not working on our DEVENV.
+            // dbFields.Add(await ReaderToDbFieldAsync(reader, cancellationToken));
             dbFields.Add(ReaderToDbField(reader));
         }
 

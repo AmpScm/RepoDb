@@ -18,6 +18,9 @@
     <Compile Include="..\RepoDb.MySqlConnector\StatementBuilders\MySqlConnectorStatementBuilder.cs">
       <Link>StatementBuilders\MySqlStatementBuilder.cs</Link>
     </Compile>
+    <Compile Include="..\RepoDb.MySqlConnector\DbHelpers\MySqlConnectorDbHelper.cs">
+      <Link>DbHelpers\MySqlDbHelper.cs</Link>
+    </Compile>
     <Compile Include="..\RepoDb\Compat.cs" />
     <None Include="README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
