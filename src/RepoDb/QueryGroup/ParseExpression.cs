@@ -137,7 +137,8 @@ public partial class QueryGroup
 
             leftQueryGroup.SetIsNot(isNot);
         }
-        else if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual && expression.Right is ConstantExpression c && c.Value is int intVal && intVal == 0
+        else if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual
+            && expression.Right is ConstantExpression c && c.Value is int intVal && intVal == 0
             && expression.Left is MethodCallExpression m && m.Method == VBCompareString.Value)
         {
 #pragma warning disable CA1309 // Use ordinal string comparison
@@ -153,7 +154,7 @@ public partial class QueryGroup
         }
         else
         {
-            var rightQueryGroup = Parse<TEntity>(expression.Right) ?? throw new NotSupportedException($"Expression {expression.Right} is currently not supported");
+            var rightQueryGroup = Parse<TEntity>(expression.Right) ?? throw new NotSupportedException($"Expression {expression.Right} in {expression} is currently not supported");
             return new QueryGroup([leftQueryGroup, rightQueryGroup], GetConjunction(expression));
         }
 

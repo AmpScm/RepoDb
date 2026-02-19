@@ -270,15 +270,22 @@ public partial class QueryField
     ExpressionType? unaryNodeType = null)
     where TEntity : class
     {
-        IEnumerable<QueryField>? result;
         if (expression.Method.Name == "Equals")
         {
-            result = ParseEquals<TEntity>(expression)?.AsEnumerable();
+            var r = ParseEquals<TEntity>(expression);
+            if (unaryNodeType == ExpressionType.Not)
+                r = r.ApplyNot();
+
+            return r.AsEnumerable();
         }
         else if (expression.Method.Name == "CompareString")
         {
             // Usual case for VB.Net (Microsoft.VisualBasic.CompilerServices.Operators.CompareString #767)
-            result = ParseCompareString<TEntity>(expression)?.AsEnumerable();
+            var r = ParseCompareString<TEntity>(expression);
+            if (unaryNodeType == ExpressionType.Not)
+                r = r.ApplyNot();
+
+            return r.AsEnumerable();
         }
         else if (expression.Method.Name == "Contains")
         {
@@ -298,12 +305,7 @@ public partial class QueryField
             return ParseAny<TEntity>(expression, unaryNodeType);
         }
         else
-            result = null;
-
-        if (result is { } && unaryNodeType == ExpressionType.Not)
-            result = result.Select(qf => qf.ApplyNot());
-
-        return result;
+            return null;
     }
 
     /// <summary>
