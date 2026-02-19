@@ -1,6 +1,12 @@
 name: MSBuild (Push)
-on: 
-  push
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+    paths:
+    - '**.cs'
+    - '**.csproj'
 
 env:
   REPODB_MYSQL_CONSTR_SYS: "Server=127.0.0.1;Port=43306;Database=sys;User ID=root;Password=ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2;"
