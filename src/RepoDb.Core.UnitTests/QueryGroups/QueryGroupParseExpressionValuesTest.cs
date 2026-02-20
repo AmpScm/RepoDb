@@ -53,10 +53,8 @@ public partial class QueryGroupTest
     }
 
     [TestMethod]
-    public void TestQueryGroupParseExpressionValueIntParameter() =>
-        TestQueryGroupParseExpressionValueIntParameterMethod(1);
-
-    public void TestQueryGroupParseExpressionValueIntParameterMethod(int value)
+    [DataRow(1)]
+    public void TestQueryGroupParseExpressionValueIntParameter(int value)
     {
         // Setup
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == value);
@@ -76,7 +74,7 @@ public partial class QueryGroupTest
             PropertyInt = 1
         });
 
-    public void TestQueryGroupParseExpressionValueIntClassParameterMethod(QueryGroupTestExpressionClass item)
+    private static void TestQueryGroupParseExpressionValueIntClassParameterMethod(QueryGroupTestExpressionClass item)
     {
         // Setup
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == item.PropertyInt);
@@ -466,7 +464,9 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForStringPropertyContains()
     {
         // Setup
+#pragma warning disable CA1847 // Use char literal for a single character lookup
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.Contains("A"));
+#pragma warning restore CA1847 // Use char literal for a single character lookup
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
@@ -475,6 +475,24 @@ public partial class QueryGroupTest
         // Assert
         Assert.AreEqual(expected, actual);
     }
+
+#if NET
+    [TestMethod]
+    public void TestQueryGroupParseExpressionValueForStringPropertyContains2()
+    {
+        // Setup
+#pragma warning disable CA1847 // Use char literal for a single character lookup
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.Contains("A", StringComparison.Ordinal));
+#pragma warning restore CA1847 // Use char literal for a single character lookup
+
+        // Act
+        var actual = parsed.QueryFields[0].Parameter.Value;
+        var expected = "%A%";
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+#endif
 
     [TestMethod]
     public void TestQueryGroupParseExpressionValueForStringPropertyContainsWhereValueHasWildcardsAtLeft()
@@ -508,7 +526,9 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForStringPropertyStartsWith()
     {
         // Setup
+#pragma warning disable CA1866 // Use char overload
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.StartsWith("A"));
+#pragma warning restore CA1866 // Use char overload
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
@@ -517,6 +537,22 @@ public partial class QueryGroupTest
         // Assert
         Assert.AreEqual(expected, actual);
     }
+
+#if NET
+    [TestMethod]
+    public void TestQueryGroupParseExpressionValueForStringPropertyStartsWith2()
+    {
+        // Setup
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.StartsWith("A", StringComparison.Ordinal));
+
+        // Act
+        var actual = parsed.QueryFields[0].Parameter.Value;
+        var expected = "A%";
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+#endif
 
     [TestMethod]
     public void TestQueryGroupParseExpressionValueForStringPropertyStartsWithWhereValueHasWildcardsAtRight()
@@ -536,7 +572,9 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForStringPropertyEndsWith()
     {
         // Setup
+#pragma warning disable CA1866 // Use char overload
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.EndsWith("A"));
+#pragma warning restore CA1866 // Use char overload
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
@@ -545,6 +583,24 @@ public partial class QueryGroupTest
         // Assert
         Assert.AreEqual(expected, actual);
     }
+
+#if NET
+    [TestMethod]
+    public void TestQueryGroupParseExpressionValueForStringPropertyEndsWith2()
+    {
+        // Setup
+#pragma warning disable CA1865 // Use char overload
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.EndsWith("A", StringComparison.Ordinal));
+#pragma warning restore CA1865 // Use char overload
+
+        // Act
+        var actual = parsed.QueryFields[0].Parameter.Value;
+        var expected = "%A";
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+#endif
 
     [TestMethod]
     public void TestQueryGroupParseExpressionValueForStringPropertyEndsWithWhereValueHasWildcardsAtLeft()

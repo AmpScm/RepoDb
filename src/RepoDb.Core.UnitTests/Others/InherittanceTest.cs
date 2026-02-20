@@ -86,6 +86,7 @@ public class InherittanceTest
     {
         // Act
         var queryGroup = QueryGroup.Parse<DerivedModel>(e => e.Id == 1);
+        Assert.AreEqual("(PrimaryId = @PrimaryId)", queryGroup.GetString(null));
 
         // Assert
         Assert.AreEqual(1, queryGroup.GetFields(true).Count());

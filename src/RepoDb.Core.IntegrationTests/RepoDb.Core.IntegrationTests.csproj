@@ -4,6 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <OutputType>$(TestTargetOutputType)</OutputType>
   </PropertyGroup>
   <PropertyGroup>
     <NoWarn>$(NoWarn);REPDB002;REPDB003</NoWarn>

@@ -59,7 +59,7 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// <param name="dbSetting">The database setting currently in used.</param>
     /// <returns>The string representations of the current <see cref="QueryField"/> object using the LOWER function.</returns>
     public override string GetString(int index,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         base.GetString(index, Format, dbSetting);
 
     #endregion
