@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SqlServer.Types" />
     <PackageReference Include="MSTest" />
-    <PackageReference Include="MSTest.TestAdapter" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
