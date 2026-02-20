@@ -343,7 +343,7 @@ public partial class QueryField
             }
         }
 
-        ClassProperty? MyGetProperty(MethodCallExpression expression) =>
+        static ClassProperty? MyGetProperty(MethodCallExpression expression) =>
             expression.Object?.Type == StaticType.String ?
             GetProperty<TEntity>(expression.Object.ToMember()) :
             GetProperty<TEntity>(expression.Arguments.Last());
@@ -457,7 +457,7 @@ public partial class QueryField
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
         return ToQueryFields(property.AsField(), enumerable!, unaryNodeType);
 
-        ClassProperty? MyGetProperty(MethodCallExpression expression) =>
+        static ClassProperty? MyGetProperty(MethodCallExpression expression) =>
             expression.Object?.Type == StaticType.String ?
             GetProperty<TEntity>(expression.Object.ToMember()) :
             GetProperty<TEntity>(expression.Arguments.Last());
@@ -481,7 +481,7 @@ public partial class QueryField
         var enumerable = Converter.ToType<System.Collections.IEnumerable>(expression.Arguments.First().GetValue());
         return ToQueryFields(property.AsField(), enumerable!, unaryNodeType);
 
-        ClassProperty? MyGetProperty(MethodCallExpression expression) =>
+        static ClassProperty? MyGetProperty(MethodCallExpression expression) =>
             expression.Object?.Type == StaticType.String ?
             GetProperty<TEntity>(expression.Object.ToMember()) :
             GetProperty<TEntity>(expression.Arguments.Last());
@@ -508,7 +508,7 @@ public partial class QueryField
         };
 
 
-        ClassProperty? MethodGetProperty(MethodCallExpression expression) =>
+        static ClassProperty? MethodGetProperty(MethodCallExpression expression) =>
             expression.Object?.Type == StaticType.String ?
             GetProperty<TEntity>(expression.Object.ToMember()) :
             GetProperty<TEntity>(expression.Arguments.Last());

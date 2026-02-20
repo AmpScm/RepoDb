@@ -243,9 +243,11 @@ namespace RepoDb
 
         public static async ValueTask CommitAsync(this IDbTransaction dbTransaction, CancellationToken cancellationToken = default)
         {
+#if NET
             if (dbTransaction is DbTransaction dbTransaction1)
                 await dbTransaction1.CommitAsync(cancellationToken).ConfigureAwait(false);
             else
+#endif
                 dbTransaction.Commit();
         }
 

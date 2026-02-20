@@ -22,17 +22,17 @@ public abstract class ExpressionQueryField : QueryField
         Fields = fields;
     }
 
-    public override string GetString(int index, IDbSetting dbSetting)
+    public override string GetString(int index, IDbSetting? dbSetting)
     {
         return GetString(dbSetting);
     }
 
-    protected override string GetString(int index, string? functionFormat, IDbSetting dbSetting)
+    protected override string GetString(int index, string? functionFormat, IDbSetting? dbSetting)
     {
         return GetString(dbSetting);
     }
 
-    public abstract override string GetString(IDbSetting dbSetting);
+    public abstract override string GetString(IDbSetting? dbSetting);
 
     protected internal override bool NoParametersNeeded => true;
 }

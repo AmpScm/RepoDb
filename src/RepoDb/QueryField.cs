@@ -147,7 +147,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="dbSetting">The database setting currently in used.</param>
     /// <returns>The string representations of the current <see cref="QueryField"/> object.</returns>
     public virtual string GetString(int index,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         GetString(index, null, dbSetting);
 
     /// <summary>
@@ -159,7 +159,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <returns>The string representations of the current <see cref="QueryField"/> object using the LOWER function.</returns>
     protected virtual string GetString(int index,
         string? functionFormat,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         // = AND NULL
         if (Operation == Operation.IsNull || (Operation == Operation.Equal && Parameter.Value == null))

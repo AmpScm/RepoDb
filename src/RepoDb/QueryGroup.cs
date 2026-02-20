@@ -793,7 +793,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>A stringified formatted-text of the current instance.</returns>
     public string GetString(int index,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         // Fix first the parameters
         Fix();
