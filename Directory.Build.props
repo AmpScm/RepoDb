@@ -37,4 +37,7 @@
       <GenerateDocumentationFile Condition="'$(IsPackable)' != 'false'">true</GenerateDocumentationFile>
     </PropertyGroup>
   </Target>
+  <ItemGroup Condition=" '$(MSBuildProjectName)' != '' and $(MSBuildProjectName.Contains('Test'))  and '$(BuildingInsideVisualStudio)' != 'true'">
+    <PackageReference Include="GitHubActionsTestLogger" />
+  </ItemGroup>
 </Project>

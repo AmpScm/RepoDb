@@ -68,7 +68,7 @@ jobs:
         run: dotnet build -c Release
 
       - name: Run tests for .Net 10.0
-        run: dotnet test -c Release -f net10.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
+        run: dotnet test -c Release -f net10.0 --no-build --report-github --report-github-summary-include-passed=false
 
       - name: Set version variables
         id: version
