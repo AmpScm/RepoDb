@@ -73,9 +73,9 @@ jobs:
       - name: Set version variables
         id: version
         run: |
-          DATE=$(date +'%y%m.%d')
-          BUILD_NUM=$(printf "%03d" $(( ${{ github.run_number }} % 1000 )))
-          echo "version=1.15.${DATE}${BUILD_NUM}" >> $GITHUB_OUTPUT
+          DATE=$(date +'%Y.%02m%02d')
+          BUILD_NUM=$(printf "%d" $(( ${{ github.run_number }} % 60000 )))
+          echo "version=1.${DATE}.${BUILD_NUM}" >> $GITHUB_OUTPUT
 
       - name: Pack packages
         run: dotnet pack -c Release -p:Version="${{ steps.version.outputs.version }}" -p:PackagePrefix=AmpScm. -o release
