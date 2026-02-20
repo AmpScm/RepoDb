@@ -4,6 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <OutputType>$(TestTargetOutputType)</OutputType>
   </PropertyGroup>
   <PropertyGroup>
     <NoWarn>$(NoWarn);REPDB002;REPDB003</NoWarn>
@@ -11,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SqlServer.Types" />
     <PackageReference Include="MSTest" />
+    <PackageReference Include="MSTest.TestAdapter" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RepoDb\RepoDb.csproj" />

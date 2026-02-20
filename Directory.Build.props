@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <Authors>Michael Camara Pendon and others</Authors>
+    <Authors>AmpScm, Michael Camara Pendon and others</Authors>
     <Company>RepoDb</Company>
     <Product>RepoDb</Product>
     <Version Condition="'$(Version)' == ''">0.0.1-dev</Version>
     <LangVersion>default</LangVersion>
-    <Copyright>Copyright © 2020-2025</Copyright>
+    <Copyright>Copyright © 2020-2026</Copyright>
     <PackageProjectUrl>https://repodb.net/</PackageProjectUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -21,15 +21,15 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
-    <TestTargetFrameworks>net9.0;net8.0;net48</TestTargetFrameworks>
+    <EnableMSTestRunner>true</EnableMSTestRunner>
+    <TestTargetFrameworks>net10.0;net9.0;net8.0;net48</TestTargetFrameworks>
+    <TestTargetOutputType>Exe</TestTargetOutputType>
+    <TestingPlatformDotnetTestRunner>true</TestingPlatformDotnetTestRunner>
     <LangVersion>preview</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(MSBuildProjectName)' != '' and $(MSBuildProjectName.Contains('Test')) ">
-    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Reduce tests while running inside VS -->
-    <TestTargetFrameworks Condition="'$(VisualStudioVersion)' != '' and '$(BuildingInsideVisualStudio)' == 'true'">net9.0</TestTargetFrameworks>
+    <TestTargetFrameworks Condition="'$(VisualStudioVersion)' != '' and '$(BuildingInsideVisualStudio)' == 'true'">net10.0</TestTargetFrameworks>
   </PropertyGroup>
   <Target Name="SetGenerateBeforeBuild" BeforeTargets="Build">
     <!-- IsPackable is set in project files, so delay evaluating this -->

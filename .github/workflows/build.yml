@@ -2,11 +2,12 @@ name: MSBuild (Push)
 
 on:
   push:
-  pull_request:
     branches: [ main ]
     paths:
     - '**.cs'
     - '**.csproj'
+
+  pull_request:
 
 env:
   REPODB_MYSQL_CONSTR_SYS: "Server=127.0.0.1;Port=43306;Database=sys;User ID=root;Password=ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2;"
@@ -65,9 +66,9 @@ jobs:
 
       - name: build
         run: dotnet build -c Release
-        
+
       - name: Run tests for .Net 10.0
-        run: dotnet test -c Release -f net10.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
+        run: dotnet test -c Release -f net10.0 --no-build
 
       - name: Set version variables
         id: version
