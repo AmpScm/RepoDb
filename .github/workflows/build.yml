@@ -1,6 +1,13 @@
 name: MSBuild (Push)
-on: 
-  push
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - '**.cs'
+    - '**.csproj'
+
+  pull_request:
 
 env:
   REPODB_MYSQL_CONSTR_SYS: "Server=127.0.0.1;Port=43306;Database=sys;User ID=root;Password=ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2;"
@@ -59,16 +66,16 @@ jobs:
 
       - name: build
         run: dotnet build -c Release
-        
-      - name: Run tests for .Net 9.0
-        run: dotnet test -c Release -f net9.0 --no-build -p:TestingPlatformShowTestsFailure=true -p:TestingPlatformCaptureOutput=false
+
+      - name: Run tests for .Net 10.0
+        run: dotnet test -c Release -f net10.0 --no-build --report-github --report-github-summary-include-passed=false
 
       - name: Set version variables
         id: version
         run: |
-          DATE=$(date +'%y%m.%d')
-          BUILD_NUM=$(printf "%03d" $(( ${{ github.run_number }} % 1000 )))
-          echo "version=1.15.${DATE}${BUILD_NUM}" >> $GITHUB_OUTPUT
+          DATE=$(date +'%Y.%02m%02d')
+          BUILD_NUM=$(printf "%d" $(( ${{ github.run_number }} % 60000 )))
+          echo "version=1.${DATE}.${BUILD_NUM}" >> $GITHUB_OUTPUT
 
       - name: Pack packages
         run: dotnet pack -c Release -p:Version="${{ steps.version.outputs.version }}" -p:PackagePrefix=AmpScm. -o release

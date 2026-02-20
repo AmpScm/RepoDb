@@ -17,7 +17,7 @@ public sealed class FieldComparisonQueryField : ExpressionQueryField
         Right = right;
     }
 
-    public override string GetString(IDbSetting dbSetting)
+    public override string GetString(IDbSetting? dbSetting)
     {
         // Example: [Left] = [Right]
         return $"{Left.FieldName.AsField(dbSetting)} {Operation.GetText()} {Right.FieldName.AsField(dbSetting)}";

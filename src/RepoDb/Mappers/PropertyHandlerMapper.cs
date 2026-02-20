@@ -590,24 +590,6 @@ public static class PropertyHandlerMapper
     #region Helpers
 
     /// <summary>
-    /// Generates a hashcode for caching.
-    /// </summary>
-    /// <param name="type">The type of the data entity.</param>
-    /// <returns>The generated hashcode.</returns>
-    private static int GenerateHashCode(Type type) =>
-        TypeExtension.GenerateHashCode(type);
-
-    /// <summary>
-    /// Generates a hashcode for caching.
-    /// </summary>
-    /// <param name="entityType">The type of the data entity.</param>
-    /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
-    /// <returns>The generated hashcode.</returns>
-    private static int GenerateHashCode(Type entityType,
-        PropertyInfo propertyInfo) =>
-        TypeExtension.GenerateHashCode(entityType, propertyInfo);
-
-    /// <summary>
     /// Throws an exception if the type does not implemented the <see cref="IPropertyHandler{TInput, TResult}"/> interface.
     /// </summary>
     private static void Guard([NotNull] Type? type)

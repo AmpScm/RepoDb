@@ -59,7 +59,7 @@ public static class QueryFieldExtension
     /// <returns></returns>
     internal static string AsField(this QueryField queryField,
         string? functionFormat,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         queryField.Field.FieldName.AsField(functionFormat, dbSetting);
 
     /// <summary>
@@ -96,7 +96,7 @@ public static class QueryFieldExtension
     /// <returns></returns>
     internal static string AsBetweenParameter(this QueryField queryField,
         int index,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         AsBetweenParameter(queryField, index, null, dbSetting);
 
     /// <summary>
@@ -110,7 +110,7 @@ public static class QueryFieldExtension
     internal static string AsBetweenParameter(this QueryField queryField,
         int index,
         string? functionFormat,
-        IDbSetting dbSetting,
+        IDbSetting? dbSetting,
         bool quote = false) =>
         string.IsNullOrWhiteSpace(functionFormat) ?
             string.Concat(
@@ -131,7 +131,7 @@ public static class QueryFieldExtension
     /// <returns></returns>
     internal static string AsInParameter(this QueryField queryField,
         int index,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         var enumerable = ((System.Collections.IEnumerable)queryField.Parameter.Value!).AsTypedSet();
 
@@ -139,7 +139,7 @@ public static class QueryFieldExtension
         {
             int count = QueryField.RoundUpInLength(enumerable.Count);
 
-            if (count >= dbSetting.UseInValuesTreshold)
+            if (count >= dbSetting?.UseInValuesTreshold)
             {
                 StringBuilder sb = new();
 
@@ -205,7 +205,7 @@ public static class QueryFieldExtension
     internal static string AsFieldAndParameterForBetween(this QueryField queryField,
         int index,
         string? functionFormat,
-        IDbSetting dbSetting) =>
+        IDbSetting? dbSetting) =>
         string.Concat(queryField.AsField(functionFormat, dbSetting), " ",
             queryField.Operation.GetText(), " ", queryField.AsBetweenParameter(index /*, functionFormat */, dbSetting));
 
@@ -232,7 +232,7 @@ public static class QueryFieldExtension
     internal static string AsFieldAndParameterForIn(this QueryField queryField,
         int index,
         string? functionFormat,
-        IDbSetting dbSetting)
+        IDbSetting? dbSetting)
     {
         var enumerable = (queryField.Parameter.Value as System.Collections.IEnumerable)?.WithType<object>();
         if (enumerable?.Any() != true)

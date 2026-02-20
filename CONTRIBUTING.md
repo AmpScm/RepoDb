@@ -1,16 +1,27 @@
-Please refer to our [Contributions](https://github.com/mikependon/RepoDb#contributions) page for further information.
+Please refer to our [Contributions](https://github.com/ampscm/RepoDb#contributions) page for further information.
 
-=== Building RepoDB ===
+# Building RepoDB
 
 Call
      `$ dotnet build`
 
-=== Test RepoDB ===
+## Test RepoDB
 
-    `$ ./test-docker.ps1`
+```
+# Start database engines in docker
+$ docker compose up -d
+# Run testsuite
+$ dotnet test
+
+# Stop docker containers
+$ docker compose down
+
+# To Remove all docker state
+$ docker compose down -v
+```
 Requires docker, and diskspace and some memory to run all engines.
 
-= Release RepoDb:
+## Release RepoDb:
 
     `$ ./dotnet pack -c release -p Version=1.2.3 -o release`
 

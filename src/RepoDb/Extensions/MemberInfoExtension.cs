@@ -57,18 +57,6 @@ internal static class MemberInfoExtension
         }
     }
 
-    #region Identification and Conversion
-
-    /// <summary>
-    /// Converts the current instance of <see cref="MemberInfo"/> object into <see cref="PropertyInfo"/> object.
-    /// </summary>
-    /// <param name="member">The instance of the <see cref="MemberInfo"/> object.</param>
-    /// <returns>A converted instance of <see cref="PropertyInfo"/> object.</returns>
-    public static PropertyInfo ToPropertyInfo(this MemberInfo member) =>
-        (PropertyInfo)member;
-
-    #endregion
-
     #region Helpers
 
     /// <summary>

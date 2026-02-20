@@ -100,7 +100,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.Nr != 10, transaction: t, trace: storeQueries, cancellationToken: TestContext.CancellationToken));
 
 
-        Assert.IsFalse(storeQueries.Traces.Any(x => x.Contains("NULL")), string.Join(Environment.NewLine, storeQueries.Traces));
+        Assert.DoesNotContain(x => x.Contains("NULL"), storeQueries.Traces, string.Join(Environment.NewLine, storeQueries.Traces));
 
 
         Assert.AreEqual(1, await sql.CountAsync<CommonNullTestData>(where: x => x.ID == 1 && !(x.Txt == "t5" && x.Nr == 22), transaction: t, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
@@ -784,7 +784,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             all = await sql.QueryAllAsync<MergeEdgeTable>(cancellationToken: TestContext.CancellationToken);
             Assert.AreEqual(2, all.Count());
 
-            Assert.IsTrue(all.Any(x => x.ID == 1 || x.ID == 2));
+            Assert.Contains(x => x.ID == 1 || x.ID == 2, all);
         }
         finally
         {
@@ -866,7 +866,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             all = sql.QueryAll<MergeEdgeTable>();
             Assert.AreEqual(2, all.Count());
 
-            Assert.IsTrue(all.Any(x => x.ID == 1 || x.ID == 2));
+            Assert.Contains(x => x.ID == 1 || x.ID == 2, all);
         }
         finally
         {
