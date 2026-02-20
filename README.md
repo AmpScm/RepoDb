@@ -180,9 +180,9 @@ To avoid the bias, you as well should exclude the first execution of the other O
 
 We would like to make RepoDB the mainstream hybrid-ORM library for .NET technology. Please help us build and realize the solution.
 
-To contribute, please find a [for-grabs](https://github.com/mikependon/RepoDb/issues?q=is%3Aissue+is%3Aopen+label%3A%22for+grabs%22) item and issue a PR. Otherwise, you may create a [new issue](https://github.com/mikependon/RepoDb/issues/new) for us to look-at and discuss.
+To contribute, please find a [for-grabs](https://github.com/ampscm/RepoDb/issues?q=is%3Aissue+is%3Aopen+label%3A%22for+grabs%22) item and issue a PR. Otherwise, you may create a [new issue](https://github.com/ampscm/RepoDb/issues/new) for us to look-at and discuss.
 
-If you wish to contribute to the documentation site, it is hosted in the [RepoDb.NET](https://github.com/mikependon/RepoDb.NET) repository. Your expertise is needed to correct the forms, if needed.
+If you wish to contribute to the documentation site, it is hosted in the [RepoDb.NET](https://github.com/ampscm/RepoDb.NET) repository. Your expertise is needed to correct the forms, if needed.
 
 Your biggest contribution is to utilize and share this library to the other developers.
 
@@ -198,7 +198,7 @@ Or, show your support by simply giving a :star: on this project.
 
 Please get in touch with us via:
 
-- [GitHub](https://github.com/mikependon/RepoDb/issues) - for any issues, requests and problems.
+- [GitHub](https://github.com/ampscm/RepoDb/issues) - for any issues, requests and problems.
 - [StackOverflow](https://stackoverflow.com/search?tab=newest&q=RepoDB) - for any technical questions.
 - [Twitter](https://twitter.com/search?q=%23repodb) - for the latest news.
 - [Gitter Chat](https://gitter.im/RepoDb/community) - for direct and live Q&A.
@@ -207,14 +207,14 @@ Ensure to visit our [Support Policy](docs/support-policy.md) to get more details
 
 ### Hints
 
-- [Building the Solutions](https://github.com/mikependon/RepoDb/tree/master/RepoDb.Docs/building-the-solutions.md) - let us build your copies.
-- [Coding Standards](https://github.com/mikependon/RepoDb/tree/master/RepoDb.Docs/coding-standards.md) - let us be uniformed.
-- [Issuing a Pull-Request](https://github.com/mikependon/RepoDb/tree/master/RepoDb.Docs/issuing-a-pull-request.md) - let us be aligned and notified.
-- [Reporting an Issue](https://github.com/mikependon/RepoDb/tree/master/RepoDb.Docs/reporting-an-issue.md) - let us be organized for easy tracking and fixing.
+- [Building the Solutions](https://github.com/ampscm/RepoDb/tree/master/RepoDb.Docs/building-the-solutions.md) - let us build your copies.
+- [Coding Standards](https://github.com/ampscm/RepoDb/tree/master/RepoDb.Docs/coding-standards.md) - let us be uniformed.
+- [Issuing a Pull-Request](https://github.com/ampscm/RepoDb/tree/master/RepoDb.Docs/issuing-a-pull-request.md) - let us be aligned and notified.
+- [Reporting an Issue](https://github.com/ampscm/RepoDb/tree/master/RepoDb.Docs/reporting-an-issue.md) - let us be organized for easy tracking and fixing.
 
 ## Credits
 
-Thanks to all the [contributors](https://github.com/mikependon/RepoDb/graphs/contributors) of this project, and to [Scott Hanselman](https://www.hanselman.com/) for [Exploring the .NET open source hybrid ORM library RepoDB](https://www.hanselman.com/blog/ExploringTheNETOpenSourceHybridORMLibraryRepoDB.aspx).
+Thanks to all the [contributors](https://github.com/ampscm/RepoDb/graphs/contributors) of this project, and to [Scott Hanselman](https://www.hanselman.com/) for [Exploring the .NET open source hybrid ORM library RepoDB](https://www.hanselman.com/blog/ExploringTheNETOpenSourceHybridORMLibraryRepoDB.aspx).
 
 And also, thanks to these awesome OSS projects.
 
