@@ -2,21 +2,21 @@
 [![Version](https://img.shields.io/nuget/v/AmpScm.RepoDb?&logo=nuget)](https://www.nuget.org/packages/AmpScm.RepoDb)
 [![GitterChat](https://img.shields.io/gitter/room/mikependon/RepoDb?&logo=gitter&color=48B293)](https://gitter.im/RepoDb/community)
 
-# [RepoDB](https://repodb.net) - a hybrid ORM Library for .NET.
+# [RepoDb](https://repodb.net) - a hybrid ORM Library for .NET.
 
-RepoDB is an open-source .NET ORM library that bridges the gaps of micro-ORMs and full-ORMs. It helps you simplify the switch-over of when to use the BASIC and ADVANCE operations during the development.
+RepoDb is an open-source .NET ORM library that bridges the gaps of micro-ORMs and full-ORMs. It helps you simplify the switch-over of when to use the BASIC and ADVANCE operations during the development.
 
 **This is a fork of the now mostly inactive original repository**
 
 ## Benefits/Advantages
 
-Like with any other ORMs, RepoDB does provide the preliminary [methods](https://repodb.net/docs#operations) needed for your basic operations. The good thing is, it also does provide the operations that is needed to cater your edge-cases like [2nd-Layer Cache](https://repodb.net/feature/caching), [Tracing](https://repodb.net/feature/tracing), [Repositories](https://repodb.net/feature/repositories), [Property Handlers](https://repodb.net/feature/propertyhandlers) and [Batch](https://repodb.net/feature/batchoperations)/[Bulk Operations](https://repodb.net/feature/bulkoperations).
+Like with any other ORMs, RepoDb does provide the preliminary [methods](https://repodb.net/docs#operations) needed for your basic operations. The good thing is, it also does provide the operations that is needed to cater your edge-cases like [2nd-Layer Cache](https://repodb.net/feature/caching), [Tracing](https://repodb.net/feature/tracing), [Repositories](https://repodb.net/feature/repositories), [Property Handlers](https://repodb.net/feature/propertyhandlers) and [Batch](https://repodb.net/feature/batchoperations)/[Bulk Operations](https://repodb.net/feature/bulkoperations).
 
-If you are to use [RepoDB](docs/development-experience.md#repodb), your [development experience](docs/development-experience.md) is as simple as opening a connection and calling the advance operations with a very minimal code. It is the reason that makes this library the simpliest ORM to use.
+If you are to use [RepoDb](docs/development-experience.md#repodb), your [development experience](docs/development-experience.md) is as simple as opening a connection and calling the advance operations with a very minimal code. It is the reason that makes this library the simpliest ORM to use.
 
 When you do the [bulk operations](https://repodb.net/feature/bulkoperations), the generated value of the [identity columns](docs/bulk-operation-edge-cases.md#identity-columns) will be set back to the data models, just right after your execution. It is an important use-case that is/may needed by you and/or most developers, and both the [BulkInsert](https://repodb.net/operation/bulkinsert) and [BulkMerge](https://repodb.net/operation/bulkmerge) operations addressed this need.
 
-RepoDB also does support the different way-of-executions (the [atomic](docs/atomic-batch-bulk.md#atomic-operation), the [batch](docs/atomic-batch-bulk.md#batch-operation) and the [bulk](docs/atomic-batch-bulk.md#bulk-operation)). Through this, it is easy for you to establish your repository that can process the smallest-to-the-largest datasets without even affecting the efficiency and the performance of your application.
+RepoDb also does support the different way-of-executions (the [atomic](docs/atomic-batch-bulk.md#atomic-operation), the [batch](docs/atomic-batch-bulk.md#batch-operation) and the [bulk](docs/atomic-batch-bulk.md#bulk-operation)). Through this, it is easy for you to establish your repository that can process the smallest-to-the-largest datasets without even affecting the efficiency and the performance of your application.
 
 <details>
 <summary><b>Important Attributes</b></summary>
@@ -47,7 +47,7 @@ Please click any of the link below to fast-track your learnings.
 - [SqLite](https://repodb.net/tutorial/get-started-sqlite)
 - [MySql](https://repodb.net/tutorial/get-started-mysql)
 - [PostgreSql](https://repodb.net/tutorial/get-started-postgresql)
-- [Oracle](https://github.com/AmpScm/RepoDB/tree/master/src/RepoDb.Oracle/)
+- [Oracle](https://github.com/AmpScm/RepoDb/tree/master/src/RepoDb.Oracle/)
 
 Or, learn a specific feature.
 
@@ -106,9 +106,9 @@ You can always target the version when installing the library, even it is on a s
 
 ## .NET Type Coercion
 
-By default, RepoDB does not do the automatic .NET CLR Type conversion during the serialization and deserialization process. The coercion support is completely dependent to the ADO.NET coercion capability. But when types like enums are used
+By default, RepoDb does not do the automatic .NET CLR Type conversion during the serialization and deserialization process. The coercion support is completely dependent to the ADO.NET coercion capability. But when types like enums are used
 additional handling is generated in the entity layer to 'do the right thing'. What the right thing is in your case can be configured using the `EnumHandling` property when initializing using the `GlobalConfigurationOptions` instance
-passed to `GlobalConfiguration.Setup()` when initializing RepoDB. Whether strings or integers are used in the database is usually found by identifying the schema on first use, but when using custom queries the `EnumDefaultDatabaseType` setting
+passed to `GlobalConfiguration.Setup()` when initializing RepoDb. Whether strings or integers are used in the database is usually found by identifying the schema on first use, but when using custom queries the `EnumDefaultDatabaseType` setting
 is used first.
 
 If needed the library allows you to register custom conversion classes. For recently added .Net classes the AmpScm fork adds DateOnly and TimeOnly support out of the box, and also improves quite a few
@@ -120,7 +120,7 @@ of the standard conversions (e.g. enums) with proper `NULL` support.
 
 As the compiler exception is a bit low-level and is not descriptive for the native language, therefore, when compiling the process of hydration from/to the database and the application, a customized exception is being thrown to provide a detailed exception messages to the callers.
 
-On the other hand, as part of the standard when writing code in RepoDB (i.e.: respect the default exception handling of .NET, ensure an unharmonized exception when bubbling up the exception messages), RepoDB does not contain a single line of code that catches and rethrowing any exception (try-catch statement). Any exception happens within the library whether it is an ADO.NET exception and/or whatever will be bubble up natively back to the callers.
+On the other hand, as part of the standard when writing code in RepoDb (i.e.: respect the default exception handling of .NET, ensure an unharmonized exception when bubbling up the exception messages), RepoDb does not contain a single line of code that catches and rethrowing any exception (try-catch statement). Any exception happens within the library whether it is an ADO.NET exception and/or whatever will be bubble up natively back to the callers.
 
 ## System.Data.SqlClient
 
@@ -168,17 +168,17 @@ Below is the actual recent official execution [result](https://github.com/FransB
 
 <img src="https://raw.githubusercontent.com/mikependon/RepoDb.NET/master/assets/backgrounds/statistics.png" />
 
-RepoDB shows an impressive performance and memory-efficiency if being compared with other ORMs available in the .NET ecosystem. It has positioned itself just right behind the logic-less hand-coded materializer if being benchmark with .NET Core and .NET Framework. However, RepoDB is the fastest and the most-efficient ORM if being benchmark with .NET 5, even beating the hand-coded materializer.
+RepoDb shows an impressive performance and memory-efficiency if being compared with other ORMs available in the .NET ecosystem. It has positioned itself just right behind the logic-less hand-coded materializer if being benchmark with .NET Core and .NET Framework. However, RepoDb is the fastest and the most-efficient ORM if being benchmark with .NET 5, even beating the hand-coded materializer.
 
 ### Important Note
 
-The AOT compilation (IL/Expression) has some degree of performance impact, even just for milliseconds, therefore, if you are to materialize RepoDB, it is highly recommended to always eliminate the first execution.
+The AOT compilation (IL/Expression) has some degree of performance impact, even just for milliseconds, therefore, if you are to materialize RepoDb, it is highly recommended to always eliminate the first execution.
 
 To avoid the bias, you as well should exclude the first execution of the other ORMs during the benchmarking.
 
 ## Contributions
 
-We would like to make RepoDB the mainstream hybrid-ORM library for .NET technology. Please help us build and realize the solution.
+We would like to make RepoDb the mainstream hybrid-ORM library for .NET technology. Please help us build and realize the solution.
 
 To contribute, please find a [for-grabs](https://github.com/ampscm/RepoDb/issues?q=is%3Aissue+is%3Aopen+label%3A%22for+grabs%22) item and issue a PR. Otherwise, you may create a [new issue](https://github.com/ampscm/RepoDb/issues/new) for us to look-at and discuss.
 
@@ -199,7 +199,7 @@ Or, show your support by simply giving a :star: on this project.
 Please get in touch with us via:
 
 - [GitHub](https://github.com/ampscm/RepoDb/issues) - for any issues, requests and problems.
-- [StackOverflow](https://stackoverflow.com/search?tab=newest&q=RepoDB) - for any technical questions.
+- [StackOverflow](https://stackoverflow.com/search?tab=newest&q=RepoDb) - for any technical questions.
 - [Twitter](https://twitter.com/search?q=%23repodb) - for the latest news.
 - [Gitter Chat](https://gitter.im/RepoDb/community) - for direct and live Q&A.
 
