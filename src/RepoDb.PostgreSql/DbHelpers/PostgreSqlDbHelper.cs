@@ -43,39 +43,37 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     private static string GetCommandText()
     {
         return @"
-                SELECT C.column_name,
-                       CAST((CASE WHEN C.column_name = TMP.column_name THEN 1 ELSE 0 END) AS BOOLEAN) AS IsPrimary,
-                       CASE WHEN C.is_identity = 'YES' OR POSITION('NEXTVAL' IN UPPER(C.column_default)) >= 1 THEN
-                            true
-                            ELSE
-                            false
-                            END AS IsIdentity,
-                       CAST(C.is_nullable AS BOOLEAN) AS IsNullable,
-                       C.data_type AS DataType,
-                       C.character_maximum_length AS Size,
-                       CASE WHEN C.column_default IS NOT NULL THEN
-                            true
-                            ELSE
-                            false
-                            END AS HasDefaultValue,
-                       CAST((CASE WHEN C.is_generated = 'ALWAYS' THEN 1 ELSE 0 END) AS BOOLEAN) AS IsComputed
+                SELECT 
+                    C.column_name,
+                    (PK.column_name IS NOT NULL) AS IsPrimary,
+                    (
+                        C.is_identity = 'YES'
+                        OR POSITION('NEXTVAL' IN UPPER(C.column_default)) >= 1
+                    ) AS IsIdentity,
+                    CAST(C.is_nullable AS BOOLEAN) AS IsNullable,
+                    C.data_type AS DataType,
+                    C.character_maximum_length AS Size,
+                    (C.column_default IS NOT NULL) AS HasDefaultValue,
+                    (C.is_generated = 'ALWAYS') AS IsComputed
                 FROM information_schema.columns C
                 LEFT JOIN (
-                    SELECT C.table_schema,
-                           C.table_name,
-                           C.column_name,
-                           C.column_default
+                    SELECT 
+                        KU.table_schema,
+                        KU.table_name,
+                        KU.column_name
                     FROM information_schema.table_constraints TC
-                    JOIN information_schema.constraint_column_usage AS CCU USING (constraint_schema, constraint_name)
-                    JOIN information_schema.columns AS C ON C.table_schema = TC.constraint_schema
-                                                          AND TC.table_name = C.table_name
-                                                          AND CCU.column_name = C.column_name
+                    JOIN information_schema.key_column_usage KU
+                         ON KU.constraint_name = TC.constraint_name
+                        AND KU.constraint_schema = TC.constraint_schema
                     WHERE TC.constraint_type = 'PRIMARY KEY'
-                ) TMP ON TMP.table_schema = C.table_schema
-                       AND TMP.table_name = C.table_name
-                       AND TMP.column_name = C.column_name
+                ) PK
+                    ON PK.table_schema = C.table_schema
+                   AND PK.table_name  = C.table_name
+                   AND PK.column_name = C.column_name
                 WHERE C.table_name = @TableName
-                AND C.table_schema = @Schema;";
+                  AND C.table_schema = @Schema
+                ORDER BY C.ordinal_position;
+";
     }
 
     /// <summary>
