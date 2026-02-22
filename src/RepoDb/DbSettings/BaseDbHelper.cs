@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Data;
 using System.Data.Common;
+using System.Linq.Expressions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.DbSettings;
@@ -68,4 +69,12 @@ public abstract class BaseDbHelper : IDbHelper
 
     /// <inheritdoc />
     public virtual Func<object?>? PrepareForIdentityOutput(DbCommand command) => null;
+
+    public virtual Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
+    {
+        var method = StaticType.IDbHelper.GetMethod(nameof(IDbHelper.DynamicHandler))!
+            .MakeGenericMethod(dbParameterExpression.Type);
+        return Expression.Call(Expression.Constant(this),
+            method, dbParameterExpression, Expression.Constant("RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]"));
+    }
 }

@@ -1,6 +1,7 @@
 #nullable enable
 using System.Data;
 using System.Data.Common;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Npgsql;
 using RepoDb.DbSettings;
@@ -248,6 +249,14 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         {
             HandleDbParameterPostCreation(parameter);
         }
+    }
+
+    public override Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
+    {
+        // Shortcut the DynamicHandler to allow inlining
+        return Expression.IfThen(Expression.TypeIs(dbParameterExpression, typeof(NpgsqlParameter)),
+            Expression.Call(typeof(PostgreSqlDbHelper).GetMethod(nameof(HandleDbParameterPostCreation), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!,
+                Expression.Convert(dbParameterExpression, typeof(NpgsqlParameter))));
     }
 
     #region Handlers
