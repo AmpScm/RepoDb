@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Linq.Expressions;
+using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
@@ -78,7 +79,10 @@ internal partial class Compiler
         }
 
         // Compiler.DbParameterPostCreation
-        var dbParameterPostCreationExpression = GetCompilerDbParameterPostCreationExpression(dbParameterExpression, dbHelper);
+        var dbParameterPostCreationExpression =
+            dbHelper is BaseDbHelper bh
+            ? bh.GetParameterPostCreationExpression(dbParameterExpression, null, dbField)
+            : GetCompilerDbParameterPostCreationExpression(dbParameterExpression, dbHelper);
         parameterAssignmentExpressions.AddIfNotNull(dbParameterPostCreationExpression);
 
         // DbCommand.Parameters.Add

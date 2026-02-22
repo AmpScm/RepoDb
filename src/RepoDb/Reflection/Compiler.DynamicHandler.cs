@@ -8,15 +8,15 @@ internal partial class Compiler
     /// <summary>
     ///
     /// </summary>
-    /// <param name="dbCommandExpression"></param>
+    /// <param name="dbParameterExpression"></param>
     /// <param name="dbHelper"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetCompilerDbParameterPostCreationExpression(ParameterExpression dbCommandExpression,
+    private static MethodCallExpression GetCompilerDbParameterPostCreationExpression(ParameterExpression dbParameterExpression,
         IDbHelper? dbHelper)
     {
         var method = StaticType.IDbHelper.GetMethod(nameof(IDbHelper.DynamicHandler))!
-            .MakeGenericMethod(dbCommandExpression.Type);
+            .MakeGenericMethod(dbParameterExpression.Type);
         return Expression.Call(Expression.Constant(dbHelper),
-            method, dbCommandExpression, Expression.Constant("RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]"));
+            method, dbParameterExpression, Expression.Constant("RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]"));
     }
 }
