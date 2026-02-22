@@ -1,6 +1,8 @@
 ﻿#nullable enable
 using System.Data;
 using System.Data.Common;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text.RegularExpressions;
 #if MYSQLPLAIN
 using MySql.Data.MySqlClient;
@@ -135,7 +137,7 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
             );
     }
 
-#endregion
+    #endregion
 
     #region Methods
 
@@ -295,6 +297,43 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
             //CompatibilityVersion = null, // Not really applicable for MySQL
             ParameterTypeMap = null // No TVPs
         };
+    }
+
+    public override Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
+    {
+        Expression? expr = null;
+        if (string.Equals(dbField.DatabaseType, "TIMESTAMP", StringComparison.OrdinalIgnoreCase))
+        {
+            // MySQL's TIMESTAMP used to have the special behavior where it defaults to the current timestamp if not provided or when provided NULL, but this is not the
+            // case anymore in newer versions of MySQL. This means that if the user tries to insert a DateTime.MinValue or DateTimeOffset.MinValue, it will actually try
+            // to insert that value and cause an hard error
+            //
+            // In the past we could handle this edgecase by just inserting null, to trigger the expected default but in
+            // newer versions of MySQL, things are closer to the SQL standard and inserting null will not trigger the default value,
+            // but instead will actually try to insert null.
+            // To handle this, we need to check if the value is DateTime.MinValue or DateTimeOffset.MinValue and if so, replace it with the current timestamp
+            // on the client side. If the clock is properly synchronized this is exactly expected.
+            var valueExpression = Expression.Property(dbParameterExpression, "Value");
+
+
+            // .UtcNow? Probably not because MySQL has magic handling of timestamp
+            expr = Expression.IfThenElse(
+                Expression.AndAlso(
+                    Expression.TypeIs(valueExpression, typeof(DateTime)),
+                    Expression.Equal(Expression.Convert(valueExpression, typeof(DateTime)), Expression.Constant(DateTime.MinValue))
+                ),
+                Expression.Assign(valueExpression, Expression.Convert(Expression.Property(null, typeof(DateTime).GetProperty(nameof(DateTime.Now), BindingFlags.Static | BindingFlags.Public)!), typeof(object))),
+
+                Expression.IfThen(
+                    Expression.AndAlso(
+                        Expression.TypeIs(valueExpression, typeof(DateTimeOffset)),
+                        Expression.Equal(Expression.Convert(valueExpression, typeof(DateTimeOffset)), Expression.Constant(DateTimeOffset.MinValue))
+                    ),
+                    Expression.Assign(valueExpression, Expression.Convert(Expression.Property(null, typeof(DateTimeOffset).GetProperty(nameof(DateTimeOffset.Now), BindingFlags.Static | BindingFlags.Public)!), typeof(object)))
+                )
+            );
+        }
+        return expr;
     }
 
 }
