@@ -421,4 +421,87 @@ public partial class QueryGroupTest
     }
 
     #endregion
+
+    #region less-than, greater-than
+    [TestMethod]
+    public void TestQueryGroupParseStringGreaterThan()
+    {
+        var compareTo = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => string.Compare(e.PropertyString, compareTo) > 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] > @PropertyString)", actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseStringGreaterThanOrEqual()
+    {
+        var compareTo = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => string.Compare(e.PropertyString, compareTo) >= 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] >= @PropertyString)", actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseStringLessThan()
+    {
+        var compareTo = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => string.Compare(e.PropertyString, compareTo) < 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] < @PropertyString)", actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseStringLessThanOrEqual()
+    {
+        var compareTo = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => string.Compare(e.PropertyString, compareTo) <= 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] <= @PropertyString)", actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseStringGreaterThanInstance()
+    {
+        var what = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.CompareTo(what) > 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] > @PropertyString)", actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseStringGreaterThanOrEqualInstance()
+    {
+        var what = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.CompareTo(what) >= 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] >= @PropertyString)", actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseStringLessThanInstance()
+    {
+        var what = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.CompareTo(what) < 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] < @PropertyString)", actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseStringLessThanOrEqualInstance()
+    {
+        var what = "A";
+
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString.CompareTo(what) <= 0).GetString(m_dbSetting);
+
+        Assert.AreEqual("([PropertyString] <= @PropertyString)", actual);
+    }
+    #endregion
 }
+

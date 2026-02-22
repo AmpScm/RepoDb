@@ -124,6 +124,27 @@ public partial class QueryGroup
             // Otherwise, normal column-to-value
             return QueryField.Parse<TEntity>(expression);
         }
+        else if (expression.Left is MethodCallExpression m
+            && expression.Right is ConstantExpression c && c.Value is int intVal && intVal == 0
+            && expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual or ExpressionType.LessThan or ExpressionType.LessThanOrEqual or ExpressionType.GreaterThan or ExpressionType.GreaterThanOrEqual
+            && ((m.Method.Name is nameof(string.Compare) or nameof(string.CompareTo) && m.Method.DeclaringType == StaticType.String) || m.Method == VBCompareString.Value))
+        {
+            var propExpr = m.Object is { } ob ? ob : m.Arguments[0];
+            var property = QueryField.GetProperty<TEntity>(propExpr) ?? throw new NotSupportedException($"Expression {propExpr} in {expression} is currently not supported");
+            var value = m.Object is { } ? m.Arguments[0].GetValue() : m.Arguments[1].GetValue();
+
+            return new QueryGroup(new QueryField(property.AsField(),
+                expression.NodeType switch
+                {
+                    ExpressionType.Equal => Operation.Equal,
+                    ExpressionType.NotEqual => Operation.NotEqual,
+                    ExpressionType.LessThan => Operation.LessThan,
+                    ExpressionType.LessThanOrEqual => Operation.LessThanOrEqual,
+                    ExpressionType.GreaterThan => Operation.GreaterThan,
+                    ExpressionType.GreaterThanOrEqual => Operation.GreaterThanOrEqual,
+                    _ => throw new InvalidOperationException()
+                }, value, dbType: null).AsEnumerable());
+        }
 
         // Otherwise, recursively parse as before (for AndAlso, OrElse, etc.)
         var leftQueryGroup = Parse<TEntity>(expression.Left) ?? throw new NotSupportedException($"Expression {expression.Left} is currently not supported");
@@ -136,21 +157,6 @@ public partial class QueryGroup
                 (expression.NodeType == ExpressionType.NotEqual && rightValue);
 
             leftQueryGroup.SetIsNot(isNot);
-        }
-        else if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual
-            && expression.Right is ConstantExpression c && c.Value is int intVal && intVal == 0
-            && expression.Left is MethodCallExpression m && m.Method == VBCompareString.Value)
-        {
-#pragma warning disable CA1309 // Use ordinal string comparison
-            Expression<Func<bool>> v = () => string.Equals("a", "b");
-#pragma warning restore CA1309 // Use ordinal string comparison
-
-            Expression expr = Expression.Call(((MethodCallExpression)v.Body).Method, m.Arguments[0], m.Arguments[1]);
-
-            if (expression.NodeType == ExpressionType.NotEqual)
-                expr = Expression.Not(expr);
-
-            return Parse<TEntity>(expr) ?? throw new NotSupportedException($"Expression {expr} is currently not supported");             
         }
         else
         {

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
+﻿using System.Text;
 
 namespace RepoDb.UnitTests;
 
@@ -11,7 +10,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionByteArray()
     {
         // Act
-        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyBytes == new[] { byte.Parse("0") }).GetString(m_dbSetting);
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyBytes == new[] { (byte)0 }).GetString(m_dbSetting);
         var expected = "([PropertyBytes] = @PropertyBytes)";
 
         // Assert
@@ -33,7 +32,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionByteVariable()
     {
         // Setup
-        var value = new[] { byte.Parse("0") };
+        var value = new[] { (byte)0 };
 
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyBytes == value).GetString(m_dbSetting);
@@ -49,7 +48,7 @@ public partial class QueryGroupTest
         // Setup
         var value = new QueryGroupTestExpressionClass
         {
-            PropertyBytes = [byte.Parse("0")]
+            PropertyBytes = new[] { (byte)0 }
         };
 
         // Act

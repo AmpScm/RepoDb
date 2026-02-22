@@ -220,7 +220,7 @@ public static class Helper
         table.ColumnBigInt = long.MaxValue;
         table.ColumnBlob = Encoding.UTF32.GetBytes(Guid.NewGuid().ToString());
         table.ColumnBoolean = true;
-        table.ColumnChar = char.Parse("C").ToString();
+        table.ColumnChar = "C";
         table.ColumnDate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified).Date;
         table.ColumnDateTime = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
         table.ColumnDecimal = Randomizer.Next(1000000);
@@ -283,7 +283,7 @@ public static class Helper
             ColumnBigInt = long.MaxValue,
             ColumnBlob = Encoding.UTF32.GetBytes(Guid.NewGuid().ToString()),
             ColumnBoolean = true,
-            ColumnChar = char.Parse("C").ToString(),
+            ColumnChar = "C",
             ColumnDate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified).Date,
             ColumnDateTime = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
             ColumnDecimal = Convert.ToDecimal(Randomizer.Next(1000000)),
@@ -409,7 +409,7 @@ public static class Helper
         table.ColumnBigInt = long.MaxValue;
         table.ColumnBlob = Encoding.UTF32.GetBytes(Guid.NewGuid().ToString());
         table.ColumnBoolean = true;
-        table.ColumnChar = char.Parse("C").ToString();
+        table.ColumnChar = "C";
         table.ColumnDate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified).Date;
         table.ColumnDateTime = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
         table.ColumnDecimal = Randomizer.Next(1000000);
@@ -472,7 +472,7 @@ public static class Helper
             ColumnBigInt = long.MaxValue,
             ColumnBlob = Encoding.UTF32.GetBytes(Guid.NewGuid().ToString()),
             ColumnBoolean = true,
-            ColumnChar = char.Parse("C").ToString(),
+            ColumnChar = "C",
             ColumnDate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified).Date,
             ColumnDateTime = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
             ColumnDecimal = Convert.ToDecimal(Randomizer.Next(1000000)),

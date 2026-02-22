@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
 #if MYSQLPLAIN
@@ -115,15 +114,15 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
     private DbField ReaderToDbField(DbDataReader reader)
     {
         var columnType = reader.GetString(4);
-        int? size = BlobTypes.Contains(columnType) ? null : reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5);
+
         return new DbField(reader.GetString(0),
             reader.GetBoolean(1),
             reader.GetBoolean(2),
             reader.GetBoolean(3),
-            DbTypeResolver.Resolve(columnType)!,
-            size,
-            reader.IsDBNull(6) ? null : byte.Parse(reader.GetInt32(6).ToString()),
-            reader.IsDBNull(7) ? null : byte.Parse(reader.GetInt32(7).ToString()),
+            DbTypeResolver.Resolve(columnType) ?? typeof(object),
+            (BlobTypes.Contains(columnType) || reader.IsDBNull(5)) ? null : reader.GetInt32(5),
+            reader.IsDBNull(6) ? null : (byte)reader.GetInt32(6),
+            reader.IsDBNull(7) ? null : (byte)reader.GetInt32(7),
             reader.GetString(8),
             reader.GetBoolean(9),
             reader.GetBoolean(10),
