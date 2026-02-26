@@ -11,6 +11,7 @@ namespace RepoDb.StatementBuilders;
 /// </summary>
 public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 {
+    private const bool tryNoOutput = false;
     /// <summary>
     /// Creates a new instance of <see cref="SqlServerStatementBuilder"/> object.
     /// </summary>
@@ -62,9 +63,9 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         GuardHints(hints);
 
         // There should be fields
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
-            throw new MissingFieldsException(fields?.Select(f => f.FieldName));
+            throw new MissingFieldsException();
         }
 
         // Validate order by
@@ -192,7 +193,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     /// <param name="hints">The table hints to be used.</param>
     /// <returns>A sql statement for insert operation.</returns>
     public override string CreateInsert(string tableName,
-        IEnumerable<Field>? fields,
+        IEnumerable<Field> fields,
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
@@ -200,7 +201,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         GuardHints(hints);
 
         // Verify the fields
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
             throw new EmptyException(nameof(fields), $"The list of insertable fields must not be null or empty for '{tableName}'.");
         }
@@ -233,7 +234,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .FieldsFrom(insertableFields, DbSetting)
             .CloseParen();
 
-        if (keyFields?.Any() == true)
+        if (keyFields.Any(c => !tryNoOutput || c.IsIdentity || c.IsGenerated || c.HasDefaultValue))
         {
             builder
                 .Output()
@@ -276,7 +277,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         // Validate the multiple statement execution
         ValidateMultipleStatementExecution(batchSize);
 
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
             throw new EmptyException(nameof(fields), "The list of fields cannot be null or empty.");
         }
@@ -312,7 +313,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                 .FieldsFrom(insertableFields, DbSetting)
                 .CloseParen();
 
-            if (keyFields.Any())
+            if (keyFields.Any(c => !tryNoOutput || c.IsGenerated || c.IsIdentity || c.HasDefaultValue))
             {
                 builder
                     .Output()
@@ -377,7 +378,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                 .AsAliasFieldsFrom(insertableFields, "S", DbSetting)
                 .CloseParen();
 
-            if (keyFields.Any())
+            if (keyFields.Any(c => c.IsIdentity || c.IsGenerated || c.HasDefaultValue))
             {
                 builder
                     .WriteText("OUTPUT")
@@ -421,7 +422,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         GuardIdentity(identityField);
 
         // Verify the fields
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
             throw new MissingFieldsException();
         }
@@ -591,7 +592,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         GuardHints(hints);
 
         // Verify the fields
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
             throw new MissingFieldsException();
         }
@@ -813,9 +814,9 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         GuardHints(hints);
 
         // There should be fields
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
-            throw new MissingFieldsException(fields?.Select(f => f.FieldName));
+            throw new MissingFieldsException();
         }
 
         // Validate order by
@@ -895,7 +896,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 
         ValidateMultipleStatementExecution(batchSize);
 
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
             throw new EmptyException(nameof(fields), "The list of fields cannot be null or empty.");
         }
@@ -950,4 +951,5 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         return builder.ToString();
     }
 
+    public override string? JsonColumnType => "VARCHAR(max)";
 }

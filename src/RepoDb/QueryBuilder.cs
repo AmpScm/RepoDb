@@ -666,7 +666,7 @@ public sealed class QueryBuilder
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>The current instance.</returns>
     public QueryBuilder ParametersFrom(IEnumerable<Field> fields, int index, IDbSetting dbSetting) =>
-        AppendJoin(fields?.Select(field => field.FieldName.AsParameter(index, true, dbSetting)));
+        AppendJoin(fields?.Select(field => field.FieldName.AsParameter(index, dbSetting)));
 
     /// <summary>
     /// Append the stringified parameter as fields to the SQL Query Statement.

@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Reflection;
+using System.Text.Json.Nodes;
 using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
 using RepoDb.Exceptions;
@@ -53,7 +54,12 @@ public static class TypeExtension
     public static bool IsObjectType(this Type type) =>
         type == StaticType.Object;
 
-    internal static bool IsSpan(this Type type)
+    /// <summary>
+    /// Checks whether the current type is a span type.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public static bool IsSpan(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
         return type.IsValueType
@@ -61,6 +67,17 @@ public static class TypeExtension
         && type.IsByRefLike
 #endif
         && type.IsGenericType && type.GetGenericTypeDefinition() is { } d && (d == StaticType.ReadOnlySpan || d == StaticType.Span);
+    }
+
+    /// <summary>
+    /// Determines whether the specified type represents a System.Text.Json.Nodes.JsonNode or one of its derived types.
+    /// </summary>
+    /// <param name="type">The type to evaluate for compatibility with JsonNode, JsonObject, or JsonArray.</param>
+    /// <returns>true if the specified type is JsonNode, JsonObject, or JsonArray; otherwise, false.</returns>
+    public static bool IsJsonNode(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        return type == typeof(JsonNode) || type == typeof(JsonObject) || type == typeof(JsonArray);
     }
 
     /// <summary>

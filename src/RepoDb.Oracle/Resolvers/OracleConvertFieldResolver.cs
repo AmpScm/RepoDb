@@ -13,7 +13,7 @@ public class OracleConvertFieldResolver : DbConvertFieldResolver
     /// Creates a new instance of <see cref="PostgreSqlConvertFieldResolver"/> class.
     /// </summary>
     public OracleConvertFieldResolver()
-        : this(new ClientTypeToDbTypeResolver(),
+        : this(ClientTypeToDbTypeResolver.Instance,
              new DbTypeToOracleStringNameResolver())
     { }
 

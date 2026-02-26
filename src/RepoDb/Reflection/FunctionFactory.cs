@@ -130,6 +130,11 @@ internal static class FunctionFactory
         Field field) =>
         Compiler.CompileDictionaryStringObjectItemSetter(entityType, field);
 
+
+    public static Func<object, object?> CompileDictionaryStringObjectItemGetter(Type entityType,
+        Field field) =>
+        Compiler.CompileDictionaryStringObjectItemGetter(entityType, field);
+
     #endregion
 
     #region CompileDbCommandToProperty
@@ -163,6 +168,16 @@ internal static class FunctionFactory
     public static Action<object, object?> CompileDataEntityPropertySetter(Type entityType,
         Field field) =>
         Compiler.CompileDataEntityPropertySetter(entityType, field);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="entityType"></param>
+    /// <param name="field"></param>
+    /// <returns></returns>
+    public static Func<object, object?> CompileDataEntityPropertyGetter(Type entityType,
+        Field field) =>
+        Compiler.CompileDataEntityPropertyGetter(entityType, field);
 
     #endregion
 

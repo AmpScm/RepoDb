@@ -12,7 +12,7 @@ public class SqLiteConvertFieldResolver : DbConvertFieldResolver
     /// Creates a new instance of <see cref="SqLiteConvertFieldResolver"/> class.
     /// </summary>
     public SqLiteConvertFieldResolver()
-        : this(new ClientTypeToDbTypeResolver(),
+        : this(ClientTypeToDbTypeResolver.Instance,
              new DbTypeToSqLiteStringNameResolver())
     { }
 

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;

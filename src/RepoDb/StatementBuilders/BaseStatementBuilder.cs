@@ -43,6 +43,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// Gets the resolver that is being used to resolve the type to be averageable type.
     /// </summary>
     protected IResolver<Type, Type?>? AverageableClientTypeResolver { get; }
+    public virtual string? JsonColumnType => null;
 
     #endregion
 

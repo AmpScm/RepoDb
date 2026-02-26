@@ -13,7 +13,7 @@ public class PostgreSqlConvertFieldResolver : DbConvertFieldResolver
     /// Creates a new instance of <see cref="PostgreSqlConvertFieldResolver"/> class.
     /// </summary>
     public PostgreSqlConvertFieldResolver()
-        : this(new ClientTypeToDbTypeResolver(),
+        : this(ClientTypeToDbTypeResolver.Instance,
              new DbTypeToPostgreSqlStringNameResolver())
     { }
 

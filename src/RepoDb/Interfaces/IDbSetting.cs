@@ -73,11 +73,6 @@ public interface IDbSetting
     /// </summary>
     bool GenerateFinalSemiColon { get; }
 
-    /// <summary>
-    /// Quote parameter names
-    /// </summary>
-    bool QuoteParameterNames { get; }
-
     int? UseInValuesTreshold { get; }
 
     /// <summary>

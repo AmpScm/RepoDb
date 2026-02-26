@@ -328,7 +328,7 @@ public static partial class StringExtension
     /// <param name="value">The string to be converted.</param>
     /// <returns>The string value represented as database parameter.</returns>
     public static string AsParameter(this string value) =>
-        AsParameter(value, 0, false, null);
+        AsParameter(value, 0, null);
 
     /// <summary>
     /// Returns the string as a parameter name in the database.
@@ -338,14 +338,14 @@ public static partial class StringExtension
     /// <returns>The string value represented as database parameter.</returns>
     public static string AsParameter(this string value,
         IDbSetting? dbSetting) =>
-        AsParameter(value, 0, false, dbSetting);
+        AsParameter(value, 0, dbSetting);
 
     public static string AsParameter(this string value, bool quoteParameters, IDbSetting? dbSetting) =>
-        AsParameter(value, 0, quoteParameters, dbSetting);
+        AsParameter(value, 0, dbSetting);
 
     public static string AsParameter(this string value,
         int index,
-        IDbSetting? dbSetting) => AsParameter(value, index, false, dbSetting);
+        IDbSetting? dbSetting) => AsParameter(value, index, dbSetting, suffix: null);
 
     /// <summary>
     /// Returns the string as a parameter name in the database.
@@ -356,24 +356,18 @@ public static partial class StringExtension
     /// <returns>The string value represented as database parameter.</returns>
     public static string AsParameter(this string value,
         int index,
-        bool quote,
         IDbSetting? dbSetting,
         string? suffix = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(value);
         Debug.Assert(!value.Contains('@', StringComparison.Ordinal));
         var parameterPrefix = dbSetting?.ParameterPrefix ?? "@";
-        quote = quote && dbSetting?.QuoteParameterNames == true;
-
-        if (quote)
-            parameterPrefix += dbSetting!.OpeningQuote;
 
         value = string.Concat(
             parameterPrefix,
             value.AsAlphaNumeric(),
             index > 0 ? "_" + index.ToString(CultureInfo.InvariantCulture) : "",
-            suffix,
-            quote ? dbSetting!.ClosingQuote : "");
+            suffix);
 
         return value;
     }
@@ -452,7 +446,7 @@ public static partial class StringExtension
         int index,
         bool quote,
         IDbSetting dbSetting) =>
-        string.Concat(AsParameter(value, index, quote, dbSetting), " AS ", AsField(value, dbSetting));
+        string.Concat(AsParameter(value, index, dbSetting), " AS ", AsField(value, dbSetting));
 
     /// <summary>
     ///
@@ -465,7 +459,7 @@ public static partial class StringExtension
         int index,
         bool quote,
         IDbSetting dbSetting) =>
-        string.Concat(AsField(value, dbSetting), " = ", AsParameter(value, index, quote, dbSetting));
+        string.Concat(AsField(value, dbSetting), " = ", AsParameter(value, index, dbSetting));
 
     /// <summary>
     ///

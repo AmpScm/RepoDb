@@ -59,7 +59,7 @@ public static class DbCommandExtension
         var parameter = command.CreateParameter();
 
         // Set the values
-        parameter.ParameterName = name.AsParameter(index: 0, quote: false, DbSettingMapper.Get(command.Connection!));
+        parameter.ParameterName = name.AsParameter(index: 0, dbSetting: DbSettingMapper.Get(command.Connection!));
 
         if (DbHelperMapper.Get(command.Connection!) is BaseDbHelper dbh)
         {
@@ -263,7 +263,7 @@ public static class DbCommandExtension
         if (value is IDbDataParameter parameter)
         {
             // If the value is already a parameter, just set the name and return it
-            parameter.ParameterName = name.AsParameter(index: 0, quote: false, DbSettingMapper.Get(command.Connection!));
+            parameter.ParameterName = name.AsParameter(index: 0, dbSetting: DbSettingMapper.Get(command.Connection!));
             return parameter;
         }
 
@@ -712,7 +712,7 @@ public static class DbCommandExtension
         else
         {
             var connection = command.Connection ?? throw new InvalidOperationException("The command connection cannot be null.");
-            var param = connection.GetDbHelper().CreateTableParameter(command.Connection!, null, null, enumerable ?? Enumerable.Empty<object>(), queryField.Parameter.Name.AsParameter(0, false, connection.GetDbSetting(), suffix: "_In_"));
+            var param = connection.GetDbHelper().CreateTableParameter(command.Connection!, null, null, enumerable ?? Enumerable.Empty<object>(), queryField.Parameter.Name.AsParameter(0, connection.GetDbSetting(), suffix: "_In_"));
             command.Parameters.Add(param);
         }
     }

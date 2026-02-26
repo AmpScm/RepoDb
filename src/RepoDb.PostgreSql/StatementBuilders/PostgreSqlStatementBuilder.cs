@@ -776,4 +776,6 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         return builder.ToString();
     }
     #endregion
+
+    public override string? JsonColumnType => "json";
 }

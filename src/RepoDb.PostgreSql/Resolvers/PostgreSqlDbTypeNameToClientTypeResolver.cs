@@ -1,4 +1,5 @@
-﻿using RepoDb.Interfaces;
+﻿using System.Text.Json.Nodes;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
 
@@ -157,7 +158,8 @@ public class PostgreSqlDbTypeNameToClientTypeResolver : IResolver<string, Type>
             "bigint" => typeof(Int64),
             "char" or "\"char\"" => typeof(Char),
             "array" => typeof(Array),
-            "character" or "character varying" or "json" or "jsonb" or "jsonpath" or "name" or "pg_dependencies" or "pg_lsn" or "pg_mcv_list" or "pg_ndistinct" or "pg_node_tree" or "refcursor" or "regclass" or "regdictionary" or "regnamespace" or "regoper" or "regoperator" or "regproc" or "regprocedure" or "regrole" or "text" or "txid_snapshot" or "xml" => typeof(String),
+            "character" or "character varying" or "jsonpath" or "name" or "pg_dependencies" or "pg_lsn" or "pg_mcv_list" or "pg_ndistinct" or "pg_node_tree" or "refcursor" or "regclass" or "regdictionary" or "regnamespace" or "regoper" or "regoperator" or "regproc" or "regprocedure" or "regrole" or "text" or "txid_snapshot" or "xml" => typeof(String),
+            "json" or "jsonb" => typeof(JsonNode),
             "bit" or "boolean" => typeof(Boolean),
             "bit varying" => typeof(System.Collections.BitArray),
             "box" => typeof(NpgsqlTypes.NpgsqlBox),

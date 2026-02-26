@@ -188,9 +188,9 @@ internal static class UpdateExecutionContextProvider
 
         // Filter the actual properties for input fields
         inputFields = dbFields
-            .Where(dbField => !dbField.IsIdentity)
+            .Where(dbField => !dbField.IsReadOnly && !dbField.IsPrimary)
             .Where(dbField =>
-                fields.FirstOrDefault(field => string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
+                fields.Any(field => string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)))
             .AsList();
 
         // Return the value

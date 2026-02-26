@@ -13,7 +13,7 @@ public class ClientTypeToDbTypeResolverTest
      * https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql-server-data-type-mappings
      */
 
-    private readonly ClientTypeToDbTypeResolver m_resolver = new ClientTypeToDbTypeResolver();
+    private readonly ClientTypeToDbTypeResolver m_resolver = ClientTypeToDbTypeResolver.Instance;
 
     [TestMethod]
     public void TestClientTypeToDbTypeResolverForBigInt()

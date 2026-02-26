@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Text.Json;
 
 namespace RepoDb;
 
@@ -189,4 +190,9 @@ public static class Converter
 #endif
 
     #endregion
+
+    public static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        WriteIndented = false,
+    };
 }

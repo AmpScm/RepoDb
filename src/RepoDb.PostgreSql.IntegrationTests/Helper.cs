@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using System.Text.Json.Nodes;
 using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 
@@ -86,12 +87,17 @@ public static class Helper
                     dtValue2 = dtValue2.ToUniversalTime();
                 }
                 Assert.AreEqual(dtValue1, dtValue2,
-                    $"Assert failed for '{propertyOfType1.Name}'. The values are '{value1} ({propertyOfType1.PropertyType.FullName})' and '{value2} ({propertyOfType2.PropertyType.FullName})'.");
+                    $"Assert failed for '{propertyOfType1.Name}'.");
+            }
+            else if (value1 is JsonNode jn1 && value2 is JsonNode jn2)
+            {
+                Assert.AreEqual(jn1.ToJsonString(), jn2.ToJsonString(),
+                    $"Assert failed for '{propertyOfType1.Name}'.");
             }
             else
             {
                 Assert.AreEqual(value1, value2,
-                    $"Assert failed for '{propertyOfType1.Name}'. The values are '{value1} ({propertyOfType1.PropertyType.FullName})' and '{value2} ({propertyOfType2.PropertyType.FullName})'.");
+                    $"Assert failed for '{propertyOfType1.Name}'.");
             }
         });
     }

@@ -73,7 +73,7 @@ public static class QueryFieldExtension
     internal static string AsParameter(this QueryField queryField,
         int index,
         bool quote, IDbSetting? dbSetting) =>
-        queryField.Parameter.Name.AsParameter(index, quote, dbSetting);
+        queryField.Parameter.Name.AsParameter(index, dbSetting);
 
     /// <summary>
     ///
@@ -97,28 +97,10 @@ public static class QueryFieldExtension
     internal static string AsBetweenParameter(this QueryField queryField,
         int index,
         IDbSetting? dbSetting) =>
-        AsBetweenParameter(queryField, index, null, dbSetting);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="queryField"></param>
-    /// <param name="index"></param>
-    /// <param name="functionFormat"></param>
-    /// <param name="dbSetting"></param>
-    /// <returns></returns>
-    internal static string AsBetweenParameter(this QueryField queryField,
-        int index,
-        string? functionFormat,
-        IDbSetting? dbSetting,
-        bool quote = false) =>
-        string.IsNullOrWhiteSpace(functionFormat) ?
             string.Concat(
-                queryField.Parameter.Name.AsParameter(index, quote, dbSetting, suffix: "_Left"), " AND ", queryField.Parameter.Name.AsParameter(index, quote, dbSetting, suffix: "_Right")) :
-            string.Concat(
-                string.Format(CultureInfo.InvariantCulture, functionFormat, string.Concat(queryField.Parameter.Name.AsParameter(index, true, dbSetting, "_Left"))),
-                " AND ",
-                string.Format(CultureInfo.InvariantCulture, functionFormat, string.Concat(queryField.Parameter.Name.AsParameter(index, true, dbSetting, "_Right"))));
+                queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_Left"),
+                " AND ", queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_Right")
+            );
 
 
     /// <summary>
@@ -178,7 +160,7 @@ public static class QueryFieldExtension
         }
         else
         {
-            return $"(SELECT * FROM {queryField.Parameter.Name.AsParameter(0, true, dbSetting, suffix: "_In_")})";
+            return $"(SELECT * FROM {queryField.Parameter.Name.AsParameter(0, dbSetting, suffix: "_In_")})";
         }
     }
 

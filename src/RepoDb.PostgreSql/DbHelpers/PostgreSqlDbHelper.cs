@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Npgsql;
 using RepoDb.DbSettings;
@@ -254,9 +255,8 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     public override Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
     {
         // Shortcut the DynamicHandler to allow inlining
-        return Expression.IfThen(Expression.TypeIs(dbParameterExpression, typeof(NpgsqlParameter)),
-            Expression.Call(typeof(PostgreSqlDbHelper).GetMethod(nameof(HandleDbParameterPostCreation), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!,
-                Expression.Convert(dbParameterExpression, typeof(NpgsqlParameter))));
+        return Expression.Call(typeof(PostgreSqlDbHelper).GetMethod(nameof(HandleDbParameterPostCreation), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!,
+                Expression.Convert(dbParameterExpression, typeof(NpgsqlParameter)));
     }
 
     #region Handlers
@@ -270,6 +270,11 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         if (parameter.Value is Enum)
         {
             parameter.DbType = DbType.Object;
+        }
+        else if (parameter.Value is JsonNode jn)
+        {
+            parameter.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Json;
+            parameter.Value = jn.ToJsonString(Converter.JsonSerializerOptions);
         }
     }
 

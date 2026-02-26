@@ -221,7 +221,7 @@ internal static class UpdateAllExecutionContextProvider
             var entityFields = Field.Parse(entities?.FirstOrDefault());
             inputFields = inputFields
                 .Where(field =>
-                    entityFields.FirstOrDefault(f => string.Equals(f.FieldName.AsUnquoted(true, dbSetting), field.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)) != null)
+                    entityFields.Any(f => string.Equals(f.FieldName.AsUnquoted(true, dbSetting), field.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)))
                 .AsList();
         }
 

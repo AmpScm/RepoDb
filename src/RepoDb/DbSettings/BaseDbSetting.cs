@@ -124,7 +124,6 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
         hashCode = HashCode.Combine(hashCode,
             MaxParameterCount,
             GenerateFinalSemiColon,
-            QuoteParameterNames,
             MaxQueriesInBatchCount,
             UseArrayParameterTreshold,
             UseInValuesTreshold);

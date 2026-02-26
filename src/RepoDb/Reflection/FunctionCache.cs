@@ -393,6 +393,10 @@ internal static class FunctionCache
         Field field) =>
         DataEntityPropertySetterCache.Get(entityType, field);
 
+    internal static Func<object, object?> GetDataEntityPropertyGetterCompiledFunction(Type entityType,
+        Field field) =>
+        DataEntityPropertyGetterCache.Get(entityType, field);
+
     #region DataEntityPropertySetterCache
 
     /// <summary>
@@ -416,6 +420,35 @@ internal static class FunctionCache
                 TypeCache.Get(type).IsDictionaryStringObject
                 ? FunctionFactory.CompileDictionaryStringObjectItemSetter(type, field)
                 : FunctionFactory.CompileDataEntityPropertySetter(type, field)
+                );
+        }
+    }
+
+    #endregion
+
+    #region DataEntityPropertySetterCache
+
+    /// <summary>
+    ///
+    /// </summary>
+    private static class DataEntityPropertyGetterCache
+    {
+        private static readonly ConcurrentDictionary<(Type Type, Field Field), Func<object, object?>> cache = new();
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        internal static Func<object, object?> Get(Type type,
+            Field field)
+        {
+            var key = (type, field);
+            return cache.GetOrAdd(key, (_) =>
+                TypeCache.Get(type).IsDictionaryStringObject
+                ? FunctionFactory.CompileDictionaryStringObjectItemGetter(type, field)
+                : FunctionFactory.CompileDataEntityPropertyGetter(type, field)
                 );
         }
     }

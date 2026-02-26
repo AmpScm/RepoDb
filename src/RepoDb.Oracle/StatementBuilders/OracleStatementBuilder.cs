@@ -274,4 +274,6 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         // Return the query
         return builder.ToString();
     }
+
+    public override string? JsonColumnType => "JSON";
 }

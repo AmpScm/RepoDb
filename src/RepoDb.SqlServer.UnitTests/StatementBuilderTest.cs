@@ -270,7 +270,7 @@ public class StatementBuilderTest
 
         // Act/Assert
         Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateBatchQuery(tableName: tableName,
-            fields: null,
+            fields: [],
             page: 0,
             rowsPerBatch: 10,
             orderBy: orderBy,
@@ -1431,7 +1431,7 @@ public class StatementBuilderTest
 
         // Act
         Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateMergeAll(tableName: tableName,
-            fields: null,
+            fields: [],
             qualifiers: qualifiers,
             batchSize: 1,
             primaryField: null,
@@ -1973,7 +1973,7 @@ public class StatementBuilderTest
 
         // Act
         Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateMerge(tableName: tableName,
-            fields: null,
+            fields: [],
             qualifiers: qualifiers,
             primaryField: null,
             identityField: null));
@@ -2399,7 +2399,7 @@ public class StatementBuilderTest
 
         // Act/Assert
         Assert.ThrowsExactly<MissingFieldsException>(() => statementBuilder.CreateSkipQuery(tableName: tableName,
-            fields: null,
+            fields: [],
             skip: 0,
             take: 10,
             orderBy: orderBy,

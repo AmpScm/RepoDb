@@ -227,8 +227,8 @@ internal static class InsertAllExecutionContextProvider
         inputFields = dbFields
             .Where(dbField => !dbField.IsIdentity)
             .Where(dbField =>
-                fields.FirstOrDefault(field =>
-                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
+                fields.Any(field =>
+                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)))
             .AsList();
 
         // Variables for the context

@@ -13,10 +13,9 @@ public sealed record OracleDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = false;
         IsMultiStatementExecutable = true;
         IsPreparable = true;
-        ParameterPrefix = ":";
+        ParameterPrefix = ":p";
         MaxParameterCount = 8096; // 32766;
         MaxQueriesInBatchCount = 1000;
         GenerateFinalSemiColon = false;
-        QuoteParameterNames = true;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Text.Json.Nodes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Resolvers;
 
 namespace RepoDb.PostgreSql.UnitTests.Resolvers;
@@ -102,7 +103,7 @@ public class PostgreSqlDbTypeNameToClientTypeResolverTest
         var result = resolver.Resolve("JSON");
 
         // Assert
-        Assert.AreEqual(typeof(string), result);
+        Assert.AreEqual(typeof(JsonNode), result);
     }
 
     [TestMethod]
@@ -115,7 +116,7 @@ public class PostgreSqlDbTypeNameToClientTypeResolverTest
         var result = resolver.Resolve("JSONB");
 
         // Assert
-        Assert.AreEqual(typeof(string), result);
+        Assert.AreEqual(typeof(JsonNode), result);
     }
 
     [TestMethod]

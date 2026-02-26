@@ -192,8 +192,8 @@ internal static class MergeExecutionContextProvider
         var dbHelper = connection.GetDbHelper();
         var inputFields = dbFields
             .Where(dbField =>
-                fields.FirstOrDefault(field =>
-                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)) != null)
+                fields.Any(field =>
+                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)))
             .AsList();
 
         // Variables for the entity action

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Text.Json.Nodes;
 using RepoDb.Attributes;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -981,18 +982,30 @@ public static class DbTestExtensions
 
             var type = (field.Type ?? prop.PropertyInfo.PropertyType).GetUnderlyingType();
 
-            var dbType =
-                prop.DbType
-                ?? type.GetDbType()
-                ?? TypeMapCache.Get(type)
-                ?? TypeMapper.Get(type)
-                ?? ClientTypeToDbTypeResolver.Instance.Resolve(type)
-                ?? System.Data.DbType.AnsiString;
 
-            string name = toDbField?.Resolve(dbType) ?? "TEXT";
-            qb.WriteText(name);
+            string? columnTypeName = null;
+            if ((type == typeof(JsonNode) || type == typeof(JsonObject) || type == typeof(JsonArray))
+                && sql.GetStatementBuilder() is BaseStatementBuilder bs
+                && bs.JsonColumnType is { } jsonColumnType)
+            {
+                columnTypeName = jsonColumnType;
+            }
+            else
+            {
+                var dbType =
+                    prop.DbType
+                    ?? type.GetDbType()
+                    ?? TypeMapCache.Get(type)
+                    ?? TypeMapper.Get(type)
+                    ?? ClientTypeToDbTypeResolver.Instance.Resolve(type)
+                    ?? System.Data.DbType.AnsiString;
 
-            if (type == typeof(string) && !name.Contains('(') && !string.Equals(name, "text", StringComparison.OrdinalIgnoreCase))
+                columnTypeName = toDbField?.Resolve(dbType) ?? "TEXT";
+            }
+
+            qb.WriteText(columnTypeName);
+
+            if (type == typeof(string) && !columnTypeName.Contains('(') && !string.Equals(columnTypeName, "text", StringComparison.OrdinalIgnoreCase))
             {
                 qb.OpenParen().WriteText("255").CloseParen();
             }
@@ -1056,14 +1069,14 @@ public static class DbTestExtensions
 
     }
 
-    public static async Task DropTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null) where TEntity : class
+    public static async Task DropTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null, CancellationToken cancellationToken = default) where TEntity : class
     {
         var tableName = ClassMappedNameCache.Get<TEntity>();
 
-        await DropTableAsync<TEntity>(connection, tableName, trace);
+        await DropTableAsync<TEntity>(connection, tableName, trace, cancellationToken: cancellationToken);
     }
 
-    public static async Task DropTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class
+    public static async Task DropTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null, CancellationToken cancellationToken = default) where TEntity : class
     {
         var dbSetting = sql.GetDbSetting();
 
@@ -1072,6 +1085,6 @@ public static class DbTestExtensions
         qb.WriteText("DROP").Table()
             .TableNameFrom(tableName, dbSetting);
 
-        await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace);
+        await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace, cancellationToken: cancellationToken);
     }
 }
