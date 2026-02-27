@@ -54,7 +54,7 @@ public sealed class DbField : Field, IEquatable<DbField>
         string? provider = null)
         : base(name, type)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         // Set the properties
         IsPrimary = isPrimary;

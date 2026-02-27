@@ -175,9 +175,7 @@ internal static class InsertExecutionContextProvider
         var dbHelper = connection.GetDbHelper();
         var inputFields = dbFields
             .Where(dbField => !dbField.IsIdentity)
-            .Where(dbField =>
-                fields.Any(field =>
-                    string.Equals(field.FieldName.AsUnquoted(true, dbSetting), dbField.FieldName, StringComparison.OrdinalIgnoreCase)))
+            .Where(dbField => fields.ContainsFieldName(dbField.FieldName))
             .AsList();
 
         // Variables for the entity action

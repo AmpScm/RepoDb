@@ -99,7 +99,7 @@ internal partial class Compiler
         Expression? classPropertyExpression)
     {
         // Get the 'Create' method
-        var method = StaticType.PropertyHandlerSetOptions.GetMethod(nameof(Options.PropertyHandlerSetOptions.Create),
+        var method = StaticType.PropertyHandlerSetOptions.GetMethod(nameof(PropertyHandlerSetOptions.Create),
             BindingFlags.Static | BindingFlags.NonPublic)!;
 
         // Set to default

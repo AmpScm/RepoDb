@@ -42,7 +42,7 @@ public static partial class SqlConnectionExtension
         where TEntity : class
     {
         ArgumentNullException.ThrowIfNull(connection);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(entities);
 
         // Variables needed

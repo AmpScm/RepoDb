@@ -87,7 +87,7 @@ public sealed partial class JsonExtractQueryField : FunctionalQueryField
         if (dbSetting is BaseDbSetting bs
             && bs.CreateJsonExtract(Path, Parameter) is string v)
         {
-            return base.GetString(index, v, dbSetting);
+            return GetString(index, v, dbSetting);
         }
         else
             return base.GetString(index, dbSetting).Replace("@@path@@", string.Concat("'", ToJsonPath(Path).Replace("'", "''"), "'"));

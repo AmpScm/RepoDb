@@ -59,7 +59,7 @@ public class FunctionalQueryField : QueryField
     /// <returns>The string representations of the current <see cref="QueryField"/> object using the LOWER function.</returns>
     public override string GetString(int index,
         IDbSetting? dbSetting) =>
-        base.GetString(index, (Format is { } && dbSetting is BaseDbSetting db) ? db.TranslateFunctionalFormat(Format) : Format, dbSetting);
+        GetString(index, (Format is { } && dbSetting is BaseDbSetting db) ? db.TranslateFunctionalFormat(Format) : Format, dbSetting);
 
     #endregion
 

@@ -223,9 +223,9 @@ public class PropertyHandlerImplicitTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     private class ImmutableEntityModelForClass
@@ -249,9 +249,9 @@ public class PropertyHandlerImplicitTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     private class EntityModelForIntToStringType
@@ -268,9 +268,9 @@ public class PropertyHandlerImplicitTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     private class EntityModelForNumberPropertiesToLongType
@@ -289,9 +289,9 @@ public class PropertyHandlerImplicitTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     private class EntityModelForDateTimeKind

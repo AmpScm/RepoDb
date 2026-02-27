@@ -53,7 +53,7 @@ public static class PropertyInfoExtension
             GetCustomAttribute<NameAttribute>(property)?.Name;
 
 #if NET8_0_OR_GREATER
-        if (mappedName is { } && mappedName.IndexOfAny(unquote) >= 0)
+        if (mappedName is { } && mappedName.ContainsAny(unquote))
 #else
         if (mappedName is { })
 #endif

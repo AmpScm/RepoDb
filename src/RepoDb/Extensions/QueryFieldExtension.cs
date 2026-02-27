@@ -75,33 +75,6 @@ public static class QueryFieldExtension
         bool quote, IDbSetting? dbSetting) =>
         queryField.Parameter.Name.AsParameter(index, dbSetting);
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="queryField"></param>
-    /// <param name="index"></param>
-    /// <param name="dbSetting"></param>
-    /// <returns></returns>
-    internal static string AsParameterAsField(this QueryField queryField,
-        int index,
-        IDbSetting dbSetting) =>
-        string.Concat(queryField.AsParameter(index, true, dbSetting), " AS ", queryField.AsField(dbSetting));
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="queryField"></param>
-    /// <param name="index"></param>
-    /// <param name="dbSetting"></param>
-    /// <returns></returns>
-    internal static string AsBetweenParameter(this QueryField queryField,
-        int index,
-        IDbSetting? dbSetting) =>
-            string.Concat(
-                queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_Left"),
-                " AND ", queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_Right")
-            );
-
 
     /// <summary>
     ///
@@ -169,39 +142,24 @@ public static class QueryFieldExtension
     /// </summary>
     /// <param name="queryField"></param>
     /// <param name="index"></param>
-    /// <param name="dbSetting"></param>
-    /// <returns></returns>
-    internal static string AsFieldAndParameterForBetween(this QueryField queryField,
-        int index,
-        IDbSetting dbSetting) =>
-        AsFieldAndParameterForBetween(queryField, index, dbSetting);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="queryField"></param>
-    /// <param name="index"></param>
     /// <param name="functionFormat"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    internal static string AsFieldAndParameterForBetween(this QueryField queryField,
+    internal static string AsFieldAndParameterForBetween(
+        this QueryField queryField,
         int index,
         string? functionFormat,
-        IDbSetting? dbSetting) =>
-        string.Concat(queryField.AsField(functionFormat, dbSetting), " ",
-            queryField.Operation.GetText(), " ", queryField.AsBetweenParameter(index /*, functionFormat */, dbSetting));
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="queryField"></param>
-    /// <param name="index"></param>
-    /// <param name="dbSetting"></param>
-    /// <returns></returns>
-    internal static string AsFieldAndParameterForIn(this QueryField queryField,
-        int index,
-        IDbSetting dbSetting) =>
-        AsFieldAndParameterForIn(queryField, index, null, dbSetting);
+        IDbSetting? dbSetting)
+    {
+        return string.Concat(
+            queryField.AsField(functionFormat, dbSetting), " ",
+            queryField.Operation.GetText(),
+            " ",
+            queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_Left"),
+            " AND ",
+            queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_Right")
+        );
+    }
 
     /// <summary>
     ///

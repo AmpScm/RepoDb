@@ -276,9 +276,7 @@ internal static class MergeAllExecutionContextProvider
         {
             var entityFields = Field.Parse(entities?.FirstOrDefault());
             inputFields = inputFields
-                .Where(field =>
-                    entityFields.Any(f =>
-                        string.Equals(f.FieldName.AsUnquoted(true, dbSetting), field.FieldName.AsUnquoted(true, dbSetting), StringComparison.OrdinalIgnoreCase)))
+                .Where(field => entityFields.ContainsFieldName(field.FieldName))
                 .AsList();
         }
 

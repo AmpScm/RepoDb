@@ -27,5 +27,5 @@ public class NameAttribute : PropertyValueAttribute
     ///
     /// </summary>
     /// <returns></returns>
-    internal override object GetValue() => Name.AsParameter();
+    internal override object GetValue() => Name.AsParameter(null);
 }

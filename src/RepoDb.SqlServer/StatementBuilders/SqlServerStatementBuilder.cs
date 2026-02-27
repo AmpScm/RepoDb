@@ -57,7 +57,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -121,7 +121,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -157,7 +157,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     public override string CreateCountAll(string tableName,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -197,7 +197,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -271,7 +271,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Validate the multiple statement execution
@@ -414,7 +414,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         IEnumerable<Field>? qualifiers, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
@@ -588,7 +588,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -621,10 +621,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             if (primaryField != null)
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
-                var isPresent = fields.FirstOrDefault(f => string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
-
-                // Throw if not present
-                if (!isPresent)
+                if (!fields.ContainsFieldName(primaryField.FieldName))
                 {
                     throw new InvalidQualifiersException($"There are no qualifier field objects found for '{tableName}'. Ensure that the " +
                         $"primary field is present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");
@@ -808,7 +805,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -889,7 +886,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             return base.CreateUpdateAll(tableName, fields, qualifiers, batchSize, keyFields, hints);
         }
 
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);

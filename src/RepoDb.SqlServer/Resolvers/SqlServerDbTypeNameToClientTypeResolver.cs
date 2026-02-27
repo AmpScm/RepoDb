@@ -20,7 +20,7 @@ public class SqlServerDbTypeNameToClientTypeResolver : IResolver<string, Type>
     /// <returns>The equivalent .NET CLR type.</returns>
     public virtual Type Resolve(string dbTypeName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(dbTypeName);
 
         return dbTypeName.ToLowerInvariant() switch
         {

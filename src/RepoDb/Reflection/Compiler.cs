@@ -854,8 +854,8 @@ internal sealed partial class Compiler
         var options = GlobalConfiguration.Options.EnumHandling;
         var parseMethod = (
             options is InvalidEnumValueHandling.Cast || toEnumType.GetCustomAttribute<FlagsAttribute>() is not null
-                ? GetMethodInfo<Compiler>((x) => Compiler.EnumParseNull<DbType>(default!)).GetGenericMethodDefinition()
-                : GetMethodInfo<Compiler>((x) => Compiler.EnumParseNullDefined<DbType>(default!)).GetGenericMethodDefinition()
+                ? GetMethodInfo<Compiler>((x) => EnumParseNull<DbType>(default!)).GetGenericMethodDefinition()
+                : GetMethodInfo<Compiler>((x) => EnumParseNullDefined<DbType>(default!)).GetGenericMethodDefinition()
         ).MakeGenericMethod(toEnumType);
 
         var parseCall = Expression.Call(parseMethod, expression);

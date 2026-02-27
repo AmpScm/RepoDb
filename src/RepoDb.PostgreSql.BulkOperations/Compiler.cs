@@ -1029,7 +1029,7 @@ internal static class Compiler
         object value)
         where TEntity : class
     {
-        var propertySetter = Compiler.GetPropertySetterFunc<TEntity>(propertyName);
+        var propertySetter = GetPropertySetterFunc<TEntity>(propertyName);
         propertySetter?.Invoke(instance, value);
     }
 

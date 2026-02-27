@@ -22,7 +22,7 @@ public sealed partial class OracleDbTypeToClientTypeResolver : IResolver<string,
     /// <inheritdoc/>
     public Type Resolve(string dbTypeName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(dbTypeName);
 
         return dbTypeName.ToLowerInvariant() switch
         {

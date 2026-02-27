@@ -139,7 +139,7 @@ public static class PropertyMapper
         where TEntity : class
     {
         ArgumentNullException.ThrowIfNull(propertyInfo);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(columnName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(columnName);
 
         // Variables
         var key = (typeof(TEntity), propertyInfo);
@@ -269,7 +269,7 @@ public static class PropertyMapper
     public static bool Remove<TEntity>(string propertyName)
         where TEntity : class
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(propertyName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(propertyName);
         return Remove<TEntity>(TypeExtension.GetProperty<TEntity>(propertyName));
     }
 

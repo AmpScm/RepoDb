@@ -1069,11 +1069,7 @@ public static class CommandTextCache
         if (qualifiers?.Any() == true)
         {
             // Check if the qualifiers are present in the given fields
-            var unmatchesQualifiers = qualifiers.Where(field =>
-                fields?.FirstOrDefault(f =>
-                    string.Equals(field.FieldName, f.FieldName, StringComparison.OrdinalIgnoreCase)) == null);
-
-            // Throw an error we found any unmatches
+            var unmatchesQualifiers = qualifiers.Where(field => !fields.ContainsFieldName(field.FieldName));
             if (unmatchesQualifiers.Any())
             {
                 throw new InvalidQualifiersException($"The qualifiers '{unmatchesQualifiers.Select(field => field.FieldName).Join(", ")}' are not " +
@@ -1087,11 +1083,7 @@ public static class CommandTextCache
             if (primaryField != null)
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
-                var isPresent = fields.FirstOrDefault(f =>
-                    string.Equals(f.FieldName, primaryField.FieldName, StringComparison.OrdinalIgnoreCase)) != null;
-
-                // Throw if not present
-                if (!isPresent)
+                if (!fields.ContainsFieldName(primaryField.FieldName))
                 {
                     throw new InvalidQualifiersException($"There are no qualifier field objects found for '{request.Name}'. Ensure that the " +
                         $"primary field is present at the given fields '{fields.Select(field => field.FieldName).Join(", ")}'.");

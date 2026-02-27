@@ -58,7 +58,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
@@ -95,7 +95,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
@@ -131,7 +131,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -163,7 +163,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string tableName,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -195,7 +195,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -225,7 +225,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string tableName,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -255,7 +255,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -289,7 +289,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(keyFields);
         GuardHints(hints);
 
@@ -348,7 +348,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(keyFields);
         GuardHints(hints);
 
@@ -437,7 +437,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -473,7 +473,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
@@ -507,7 +507,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
@@ -541,7 +541,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
@@ -577,7 +577,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         int top = 0,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -618,7 +618,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<OrderField>? orderBy = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -657,7 +657,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
@@ -691,7 +691,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         Field field,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(field);
 
         // Validate the hints
@@ -725,7 +725,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// <returns>A sql statement for truncate operation.</returns>
     public virtual string CreateTruncate(string tableName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -753,7 +753,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         keyFields = keyFields.AsList();
@@ -814,7 +814,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
         string? hints = null)
     {
         // Ensure with guards
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Validate the multiple statement execution

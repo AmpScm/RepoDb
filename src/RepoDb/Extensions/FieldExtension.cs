@@ -35,14 +35,44 @@ public static class FieldExtension
         return field.FieldName.AsJoinQualifier(leftAlias, rightAlias, considerNulls, dbSetting);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="name"></param>
+    /// <param name="stringComparison"></param>
+    /// <returns></returns>
     public static Field? GetByFieldName(this IEnumerable<Field> source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         => source.FirstOrDefault(p => string.Equals(p.FieldName, name, stringComparison));
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="name"></param>
+    /// <param name="stringComparison"></param>
+    /// <returns></returns>
+    public static bool ContainsFieldName(this IEnumerable<Field> source, string? name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        => source.Any(p => string.Equals(p.FieldName, name, stringComparison));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="fields"></param>
+    /// <returns></returns>
     public static FieldSet AsFieldSet(this IEnumerable<Field> fields)
     {
         return fields as FieldSet ?? new FieldSet(fields);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <param name="fields"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static FieldSet Except<TEntity>(this IEnumerable<Field> fields, Expression<Func<TEntity, object?>> value)
         where TEntity : class
     {

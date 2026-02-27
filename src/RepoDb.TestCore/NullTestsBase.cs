@@ -1016,7 +1016,7 @@ public static class DbTestExtensions
                     ?? TypeMapCache.Get(type)
                     ?? TypeMapper.Get(type)
                     ?? ClientTypeToDbTypeResolver.Instance.Resolve(type)
-                    ?? System.Data.DbType.AnsiString;
+                    ?? DbType.AnsiString;
 
                 columnTypeName = toDbField?.Resolve(dbType) ?? "TEXT";
             }

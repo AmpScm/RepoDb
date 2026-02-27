@@ -37,7 +37,7 @@ public static class Converter
     [return: NotNullIfNotNull(nameof(value))] // Except when DBNull
     public static T? ToType<T>(object? value)
     {
-        value = Converter.DbNullToNull(value);
+        value = DbNullToNull(value);
 
         if (value is null)
         {

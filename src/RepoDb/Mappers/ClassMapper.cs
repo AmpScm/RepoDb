@@ -61,7 +61,7 @@ public static class ClassMapper
         bool force)
     {
         ArgumentNullException.ThrowIfNull(type);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         // Try get the cache
         if (maps.TryGetValue(type, out var value))

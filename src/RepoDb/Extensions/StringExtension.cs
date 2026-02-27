@@ -1,9 +1,11 @@
-﻿using System.Buffers;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using RepoDb.Interfaces;
+#if NET8_0_OR_GREATER
+using System.Buffers;
+#endif
 
 namespace RepoDb.Extensions;
 
@@ -130,7 +132,7 @@ public static partial class StringExtension
         }
 
 #if NET8_0_OR_GREATER
-        if (value.IndexOfAny(unquotedChars) < 0)
+        if (!value.ContainsAny(unquotedChars))
         {
             return value;
         }
@@ -318,17 +320,9 @@ public static partial class StringExtension
     /// <param name="functionFormat"></param>
     /// <param name="dbSetting"></param>
     /// <returns></returns>
-    public static string AsField(this string value, string? functionFormat, IDbSetting? dbSetting) =>
+    internal static string AsField(this string value, string? functionFormat, IDbSetting? dbSetting) =>
         string.IsNullOrWhiteSpace(functionFormat) ? value.AsQuoted(true, true, dbSetting) :
             string.Format(CultureInfo.InvariantCulture, functionFormat, value.AsQuoted(true, true, dbSetting));
-
-    /// <summary>
-    /// Returns the string as a parameter name in the database.
-    /// </summary>
-    /// <param name="value">The string to be converted.</param>
-    /// <returns>The string value represented as database parameter.</returns>
-    public static string AsParameter(this string value) =>
-        AsParameter(value, 0, null);
 
     /// <summary>
     /// Returns the string as a parameter name in the database.
@@ -338,9 +332,6 @@ public static partial class StringExtension
     /// <returns>The string value represented as database parameter.</returns>
     public static string AsParameter(this string value,
         IDbSetting? dbSetting) =>
-        AsParameter(value, 0, dbSetting);
-
-    public static string AsParameter(this string value, bool quoteParameters, IDbSetting? dbSetting) =>
         AsParameter(value, 0, dbSetting);
 
     public static string AsParameter(this string value,
@@ -354,12 +345,12 @@ public static partial class StringExtension
     /// <param name="index">The parameter index.</param>
     /// <param name="dbSetting">The <see cref="IDbSetting"/> object to be used.</param>
     /// <returns>The string value represented as database parameter.</returns>
-    public static string AsParameter(this string value,
+    internal static string AsParameter(this string value,
         int index,
         IDbSetting? dbSetting,
         string? suffix = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(value);
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
         Debug.Assert(!value.Contains('@', StringComparison.Ordinal));
         var parameterPrefix = dbSetting?.ParameterPrefix ?? "@";
 

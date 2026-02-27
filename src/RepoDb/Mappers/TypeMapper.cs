@@ -373,7 +373,7 @@ public static class TypeMapper
     public static bool Remove<TEntity>(string propertyName)
         where TEntity : class
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(propertyName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(propertyName);
         return Remove(typeof(TEntity), TypeExtension.GetProperty<TEntity>(propertyName));
     }
 

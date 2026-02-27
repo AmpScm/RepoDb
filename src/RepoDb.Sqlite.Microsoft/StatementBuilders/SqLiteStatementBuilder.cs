@@ -64,7 +64,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -130,7 +130,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -164,7 +164,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -228,7 +228,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
@@ -323,7 +323,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         IEnumerable<Field> qualifiers, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
@@ -435,7 +435,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -532,7 +532,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         int top = 0,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -588,7 +588,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -647,7 +647,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for truncate operation.</returns>
     public override string CreateTruncate(string tableName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Initialize the builder
         var builder = new QueryBuilder();

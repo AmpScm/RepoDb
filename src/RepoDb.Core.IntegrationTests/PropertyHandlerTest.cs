@@ -214,9 +214,9 @@ public class PropertyHandlerTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     [Map("[dbo].[PropertyHandler]")]
@@ -242,9 +242,9 @@ public class PropertyHandlerTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     [Map("[dbo].[PropertyHandler]")]
@@ -264,9 +264,9 @@ public class PropertyHandlerTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     [Map("[dbo].[PropertyHandler]")]
@@ -288,9 +288,9 @@ public class PropertyHandlerTest
 
         public short ColumnFloatNotNull { get; set; } = 0;
 
-        public DateTime ColumnDateTimeNotNull { get; set; } = System.DateTime.UtcNow.Date;
+        public DateTime ColumnDateTimeNotNull { get; set; } = DateTime.UtcNow.Date;
 
-        public DateTime ColumnDateTime2NotNull { get; set; } = System.DateTime.UtcNow;
+        public DateTime ColumnDateTime2NotNull { get; set; } = DateTime.UtcNow;
     }
 
     [Map("[dbo].[PropertyHandler]")]
