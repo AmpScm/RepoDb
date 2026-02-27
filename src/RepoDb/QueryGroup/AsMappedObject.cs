@@ -233,7 +233,7 @@ public partial class QueryGroup
                 if (queryGroupTypeMap.MappedType != null)
                 {
                     dictionary.Add(parameterName,
-                        new CommandParameter(queryField.Field, null, queryGroupTypeMap.MappedType));
+                        new CommandParameter(queryField.Field, value: null, queryGroupTypeMap.MappedType));
                 }
                 else
                 {
@@ -274,7 +274,7 @@ public partial class QueryGroup
         if (queryGroupTypeMap.MappedType != null)
         {
             dictionary.Add(queryField.Parameter.Name,
-                new CommandParameter(queryField.Field, queryField.Parameter.Value, queryGroupTypeMap.MappedType));
+                new CommandParameter(queryField.Field, queryField.Parameter, queryGroupTypeMap.MappedType));
         }
         else
         {

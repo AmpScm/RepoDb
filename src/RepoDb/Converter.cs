@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Text.Json;
 
 namespace RepoDb;
 
@@ -36,7 +37,7 @@ public static class Converter
     [return: NotNullIfNotNull(nameof(value))] // Except when DBNull
     public static T? ToType<T>(object? value)
     {
-        value = Converter.DbNullToNull(value);
+        value = DbNullToNull(value);
 
         if (value is null)
         {
@@ -189,4 +190,9 @@ public static class Converter
 #endif
 
     #endregion
+
+    public static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        WriteIndented = false,
+    };
 }

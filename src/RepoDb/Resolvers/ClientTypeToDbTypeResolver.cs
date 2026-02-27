@@ -113,6 +113,12 @@ public class ClientTypeToDbTypeResolver : IResolver<Type, DbType?>
         {
             return DbType.Guid;
         }
+#if NET
+        else if (type == StaticType.Char)
+        {
+            return DbType.StringFixedLength;
+        }
+#endif
         // XML must be defaulted to String, defaulted by .NET for DbType
         /*else if (type == typeof(Xml))
         {

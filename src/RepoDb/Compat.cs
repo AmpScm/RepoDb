@@ -15,7 +15,7 @@ namespace System.Runtime.CompilerServices
     {
     }
 
-    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Field | System.AttributeTargets.Property | System.AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
+    [System.AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
     internal sealed class RequiredMemberAttribute : Attribute
     {
         public RequiredMemberAttribute()
@@ -23,7 +23,7 @@ namespace System.Runtime.CompilerServices
         }
     }
 
-    [System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = true, Inherited = false)]
+    [System.AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
     internal sealed class CompilerFeatureRequiredAttribute : Attribute
     {
         public CompilerFeatureRequiredAttribute(string featureName)
@@ -34,7 +34,7 @@ namespace System.Runtime.CompilerServices
         public string FeatureName { get; }
     }
 
-    [System.AttributeUsage(System.AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+    [System.AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
     internal sealed class CallerArgumentExpressionAttribute : Attribute
     {
         public CallerArgumentExpressionAttribute(string parameterName)
@@ -116,7 +116,7 @@ namespace System
 
 namespace System.Diagnostics.CodeAnalysis
 {
-    [System.AttributeUsage(System.AttributeTargets.Field | System.AttributeTargets.Parameter | System.AttributeTargets.Property | System.AttributeTargets.ReturnValue, Inherited=false)]
+    [System.AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue, Inherited=false)]
     internal sealed class NotNullAttribute : Attribute
     {
     }
@@ -194,7 +194,10 @@ namespace RepoDb
                     Throw(new ArgumentNullException(paramName));
                 }
             }
+        }
 
+        extension(ArgumentException)
+        {
             public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
             {
                 if (string.IsNullOrWhiteSpace(argument))

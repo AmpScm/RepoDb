@@ -56,7 +56,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -121,7 +121,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -162,7 +162,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -236,7 +236,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         IEnumerable<DbField> keyFields,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
         var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
@@ -332,7 +332,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         IEnumerable<Field>? qualifiers,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -446,7 +446,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         int batchSize,
         IEnumerable<DbField> keyFields, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         // Verify the fields
@@ -563,7 +563,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         int top = 0,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -618,7 +618,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         QueryGroup? where = null,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -676,7 +676,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     /// <returns>A sql statement for truncate operation.</returns>
     public override string CreateTruncate(string tableName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Initialize the builder
         var builder = new QueryBuilder();
@@ -711,7 +711,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
             return base.CreateUpdateAll(tableName, fields, qualifiers, batchSize, keyFields, hints);
         }
 
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
@@ -776,4 +776,6 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         return builder.ToString();
     }
     #endregion
+
+    public override string? JsonColumnType => "json";
 }

@@ -157,11 +157,10 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="functionFormat">The properly constructed format of the target function to be used.</param>
     /// <param name="dbSetting">The database setting currently in used.</param>
     /// <returns>The string representations of the current <see cref="QueryField"/> object using the LOWER function.</returns>
-    protected virtual string GetString(int index,
+    protected string GetString(int index,
         string? functionFormat,
         IDbSetting? dbSetting)
     {
-        // = AND NULL
         if (Operation == Operation.IsNull || (Operation == Operation.Equal && Parameter.Value == null))
         {
             return string.Concat(this.AsField(functionFormat, dbSetting), " IS NULL");
@@ -311,7 +310,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// </summary>
     /// <param name="other">The object to be compared to the current object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public bool Equals(QueryField? other)
+    public virtual bool Equals(QueryField? other)
     {
         // This just checks the generated query string, not the actual values set in the query parameters
         // Equal/NotEqual change to 'IS NULL'

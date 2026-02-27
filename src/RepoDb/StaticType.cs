@@ -380,6 +380,8 @@ internal static class StaticType
     /// </summary>
     public static Type SByte => typeof(sbyte);
 
+    internal static Type Char => typeof(char);
+
     internal static Type ReadOnlySpan => typeof(ReadOnlySpan<>);
 
     internal static Type Span => typeof(Span<>);

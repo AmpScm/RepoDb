@@ -24,25 +24,29 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// Creates a new instance of <see cref="QueryGroup"/> object.
     /// </summary>
     /// <param name="queryField">The field to be grouped for the query expression.</param>
-    public QueryGroup(QueryField? queryField) :
-        this(queryField?.AsEnumerable(),
+    public QueryGroup(QueryField queryField) :
+        this([queryField],
             (IEnumerable<QueryGroup>?)null,
             Conjunction.And,
             false)
-    { }
+    {
+        ArgumentNullException.ThrowIfNull(queryField);
+    }
 
     /// <summary>
     /// Creates a new instance of <see cref="QueryGroup"/> object.
     /// </summary>
     /// <param name="queryField">The field to be grouped for the query expression.</param>
     /// <param name="queryGroup">The child query group to be grouped for the query expression.</param>
-    public QueryGroup(QueryField? queryField,
-        QueryGroup queryGroup) :
+    public QueryGroup(QueryField queryField,
+        QueryGroup? queryGroup) :
         this(queryField?.AsEnumerable(),
             queryGroup?.AsEnumerable(),
             Conjunction.And,
             false)
-    { }
+    {
+        ArgumentNullException.ThrowIfNull(queryField);
+    }
 
     /// <summary>
     /// Creates a new instance of <see cref="QueryGroup"/> object.
@@ -823,7 +827,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         }
 
         // Return the value
-        return IsNot ? string.Concat("NOT (", groupList.Join(conjunction), ")") : string.Concat("(", groupList.Join(separator), ")");
+        return string.Concat(IsNot ? "NOT (" :"(", groupList.Join(separator), ")");
     }
 
     /// <summary>

@@ -20,7 +20,7 @@ public class OrderField : IEquatable<OrderField>
     public OrderField(string name,
         Order order)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         // Set the properties
         Name = name;

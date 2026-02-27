@@ -59,4 +59,17 @@ public class RightTrimQueryFieldTest
         // Assert
         Assert.AreEqual("RTRIM([FieldName]) = @FieldName_1", text);
     }
+
+    class EntityClass
+    {
+        public string StringValue { get; set; }
+    }
+
+    [TestMethod]
+    public void TestParseRightTrimQueryField()
+    {
+        var qg = QueryGroup.Parse<EntityClass>(x => x.StringValue.TrimEnd() == "b");
+
+        Assert.AreEqual("(RTRIM([StringValue]) = @StringValue)", qg.GetString(new CustomDbSetting()));
+    }
 }

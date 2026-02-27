@@ -3,6 +3,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
+using RepoDb.Extensions.QueryFields;
+using RepoDb.Resolvers;
 
 namespace RepoDb;
 
@@ -21,7 +23,7 @@ public partial class QueryGroup
         (
             expression.Left.NodeType == ExpressionType.Constant ||
             expression.Left.NodeType == ExpressionType.Convert ||
-            expression.Left.NodeType == ExpressionType.MemberAccess
+            (expression.Left is MemberExpression meLeft && meLeft.NodeType == ExpressionType.MemberAccess && meLeft.Expression?.Type.IsClassType() == true)
         )
         &&
         (
@@ -70,10 +72,31 @@ public partial class QueryGroup
             LambdaExpression lambdaExpression => Parse<TEntity>(lambdaExpression.Body),
             BinaryExpression binaryExpression => Parse<TEntity>(binaryExpression),
             UnaryExpression unaryExpression => Parse<TEntity>(unaryExpression),
-            MethodCallExpression methodCallExpression => Parse<TEntity>(methodCallExpression),
+            MethodCallExpression methodCallExpression => ParseMCE(methodCallExpression),
             MemberExpression memberExpression when memberExpression.Type == StaticType.Boolean && memberExpression.Member is PropertyInfo => ParseDirectBool<TEntity>(memberExpression),
             _ => null
         };
+
+
+        static QueryGroup? ParseMCE(MethodCallExpression expression)
+        {
+            var unaryNodeType = (expression.Object?.Type == StaticType.String) ? expression.Object.ToMember().NodeType :
+                GetNodeType(expression.Arguments.LastOrDefault());
+            return Parse<TEntity>(expression, unaryNodeType);
+        }
+
+        static ExpressionType? GetNodeType(Expression? expression)
+        {
+            return expression switch
+            {
+                null => null,
+                LambdaExpression lambdaExpression => lambdaExpression.Body.NodeType,
+                BinaryExpression binaryExpression => binaryExpression.NodeType,
+                MethodCallExpression methodCallExpression => methodCallExpression.NodeType,
+                MemberExpression memberExpression => memberExpression.NodeType,
+                _ => null
+            };
+        }
     }
 
     private static QueryGroup? ParseDirectBool<TEntity>(MemberExpression memberExpression)
@@ -145,9 +168,48 @@ public partial class QueryGroup
                     _ => throw new InvalidOperationException()
                 }, value, dbType: null).AsEnumerable());
         }
+        else if (expression.Left is MethodCallExpression m2
+            && m2.Method.Name is nameof(JsonQueryExtensions.ExtractValue) && m2.Method.DeclaringType == typeof(JsonQueryExtensions)
+            && QueryField.GetProperty<TEntity>(m2.Arguments[0]) is { } propExpr)
+        {
+            var pathArg = m2.Arguments[1];
+            var jsonPath =  pathArg is { NodeType: ExpressionType.Quote } ? JsonExtractQueryField.ParsePath(((UnaryExpression)pathArg).Operand) : pathArg.GetValue() as string;
+            ArgumentNullException.ThrowIfNull(jsonPath);
+            var vv = QueryField.Parse<TEntity>(expression).GetFields(false)!.Single();
+
+            return new QueryGroup([new JsonExtractQueryField(vv.Field!.FieldName, jsonPath, QueryField.GetOperation(expression.NodeType), vv.GetValue(), dbType: ClientTypeToDbTypeResolver.Instance.Resolve(expression.Right.Type))]);
+        }
+        else if (expression.Left is MethodCallExpression m3
+            && m3.Object is { }
+            && m3.Method.DeclaringType == StaticType.String
+            && m3.Method.Name is nameof(string.Trim) or nameof(string.TrimStart) or nameof(string.TrimEnd) or nameof(string.ToUpper) or nameof(string.ToLower) or nameof(string.ToUpperInvariant) or nameof(string.ToLowerInvariant)
+            && QueryField.GetProperty<TEntity>(m3.Object) is { } propExpr3)
+        {
+            var value = expression.Right.GetValue();
+
+            QueryField qf = m3.Method.Name switch
+            {
+                nameof(string.Trim) => new TrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
+                nameof(string.TrimStart) => new LeftTrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
+                nameof(string.TrimEnd) => new RightTrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
+                nameof(string.ToUpper) or nameof(string.ToUpperInvariant) => new UpperQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
+                nameof(string.ToLower) or nameof(string.ToLowerInvariant) => new LowerQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
+                _ => throw new NotImplementedException()
+            };
+
+            return new QueryGroup(qf.AsEnumerable());
+        }
+        else if (expression.Left is MemberExpression m4
+            && m4.Expression is { }
+            && m4.Member.DeclaringType == StaticType.String
+            && m4.Member.Name is nameof(string.Length)
+            && QueryField.GetProperty<TEntity>(m4.Expression) is { } propExpr4)
+        {
+            return new QueryGroup(new LengthQueryField(propExpr4.AsField().FieldName, QueryField.GetOperation(expression.NodeType), expression.Right.GetValue()).AsEnumerable());
+        }
 
         // Otherwise, recursively parse as before (for AndAlso, OrElse, etc.)
-        var leftQueryGroup = Parse<TEntity>(expression.Left) ?? throw new NotSupportedException($"Expression {expression.Left} is currently not supported");
+        var leftQueryGroup = Parse<TEntity>(expression.Left) ?? throw new NotSupportedException($"Expression {expression.Left} in {expression} is currently not supported");
 
         // IsNot
         if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual
@@ -184,7 +246,7 @@ public partial class QueryGroup
         if (expression.NodeType == ExpressionType.Not || expression.NodeType == ExpressionType.Convert)
         {
             // These two handle
-            if (expression.Operand is MemberExpression memberExpression && Parse<TEntity>(memberExpression, expression.NodeType) is { } r1)
+            if (expression.Operand is MemberExpression memberExpression && ParseME(memberExpression, expression.NodeType) is { } r1)
                 return r1;
             else if (expression.Operand is MethodCallExpression methodCallExpression && Parse<TEntity>(methodCallExpression, expression.NodeType) is { } r2)
                 return r2;
@@ -204,43 +266,12 @@ public partial class QueryGroup
         {
             throw new NotSupportedException($"Unary operation '{expression.NodeType}' is currently not supported.");
         }
-    }
 
-    /*
-     * Member
-     */
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <param name="expression"></param>
-    /// <param name="unaryNodeType"></param>
-    /// <returns></returns>
-    private static QueryGroup? Parse<TEntity>(MemberExpression expression,
-        ExpressionType? unaryNodeType = null)
-        where TEntity : class
-    {
-        var queryFields = QueryField.Parse<TEntity>(expression, unaryNodeType);
-        return queryFields != null ? new QueryGroup(queryFields) : null;
-    }
-
-    /*
-     * MethodCall
-     */
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <param name="expression"></param>
-    /// <returns></returns>
-    private static QueryGroup? Parse<TEntity>(MethodCallExpression expression)
-        where TEntity : class
-    {
-        var unaryNodeType = (expression.Object?.Type == StaticType.String) ? GetNodeType(expression.Object.ToMember()) :
-            GetNodeType(expression.Arguments.LastOrDefault());
-        return Parse<TEntity>(expression, unaryNodeType);
+        static QueryGroup? ParseME(MemberExpression expression, ExpressionType unaryNodeType)
+        {
+            var queryFields = QueryField.Parse<TEntity>(expression, unaryNodeType);
+            return queryFields != null ? new QueryGroup(queryFields) : null;
+        }
     }
 
     /// <summary>
@@ -279,60 +310,6 @@ public partial class QueryGroup
     /// <returns></returns>
     private static Conjunction GetConjunction(MethodCallExpression expression) =>
         expression.Method.Name == "Any" ? Conjunction.Or : Conjunction.And;
-
-    #endregion
-
-    #region GetNodeType
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <returns></returns>
-    internal static ExpressionType? GetNodeType(Expression? expression)
-    {
-        return expression switch
-        {
-            null => null,
-            LambdaExpression lambdaExpression => GetNodeType(lambdaExpression),
-            BinaryExpression binaryExpression => GetNodeType(binaryExpression),
-            MethodCallExpression methodCallExpression => GetNodeType(methodCallExpression),
-            MemberExpression memberExpression => GetNodeType(memberExpression),
-            _ => null
-        };
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <returns></returns>
-    internal static ExpressionType? GetNodeType(LambdaExpression expression) =>
-        GetNodeType(expression.Body);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <returns></returns>
-    internal static ExpressionType? GetNodeType(BinaryExpression expression) =>
-        expression.NodeType;
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <returns></returns>
-    internal static ExpressionType? GetNodeType(MemberExpression expression) =>
-        expression.NodeType;
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <returns></returns>
-    internal static ExpressionType? GetNodeType(MethodCallExpression expression) =>
-        expression.NodeType;
 
     #endregion
 }

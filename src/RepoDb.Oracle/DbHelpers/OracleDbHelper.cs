@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
@@ -33,10 +35,8 @@ public sealed class OracleDbHelper : BaseDbHelper
 
     public override Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
     {
-        // Shortcut the DynamicHandler to allow inlining
-        return Expression.IfThen(Expression.TypeIs(dbParameterExpression, typeof(OracleParameter)),
-            Expression.Call(typeof(OracleDbHelper).GetMethod(nameof(HandleDbParameterPostCreation), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!,
-                Expression.Convert(dbParameterExpression, typeof(OracleParameter))));
+        return Expression.Call(typeof(OracleDbHelper).GetMethod(nameof(HandleDbParameterPostCreation), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!,
+                Expression.Convert(dbParameterExpression, typeof(OracleParameter)));
     }
 
     static void HandleDbParameterPostCreation(OracleParameter oracleParameter)

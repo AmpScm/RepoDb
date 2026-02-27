@@ -77,9 +77,6 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     public bool GenerateFinalSemiColon { get; protected init; }
 
     /// <inheritdoc />
-    public bool QuoteParameterNames { get; protected init; }
-
-    /// <inheritdoc />
     public int? UseArrayParameterTreshold { get; protected init; }
 
     /// <inheritdoc />
@@ -88,6 +85,27 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     public int MaxArrayParameterValueCount { get; protected init; } = ushort.MaxValue;
 
     #endregion
+
+    /// <summary>
+    /// Called by <see cref="FunctionalQueryField"/> to translate the format of the functional query field. By default, it returns the same format. This can be overridden by derived classes to provide specific translations for different RDBMS data providers.
+    /// </summary>
+    /// <param name="format"></param>
+    /// <returns></returns>
+    protected internal virtual string TranslateFunctionalFormat(string format)
+    {
+        return format;
+    }
+
+    /// <summary>
+    /// Called by <see cref="JsonExtractQueryField"/> to create a JSON extract expression. By default, it returns null. This can be overridden by derived classes to provide specific implementations for different RDBMS data providers.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    protected internal virtual string? CreateJsonExtract(string path, Parameter parameter)
+    {
+        return null;
+    }
+
 
     #region Equality and comparers
 
@@ -124,7 +142,6 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
         hashCode = HashCode.Combine(hashCode,
             MaxParameterCount,
             GenerateFinalSemiColon,
-            QuoteParameterNames,
             MaxQueriesInBatchCount,
             UseArrayParameterTreshold,
             UseInValuesTreshold);

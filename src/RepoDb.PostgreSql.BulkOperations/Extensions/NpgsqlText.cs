@@ -50,7 +50,7 @@ public static partial class NpgsqlConnectionExtension
         {
             fields = fields
                 .Where(field =>
-                    !string.Equals(field.FieldName, identityField?.FieldName, System.StringComparison.OrdinalIgnoreCase));
+                    !string.Equals(field.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase));
         }
 
         // Build the query
@@ -612,7 +612,7 @@ ORDER BY ""Index"";";
         {
             fields = fields
                 .Where(field =>
-                    !string.Equals(field.FieldName, identityField?.FieldName, System.StringComparison.OrdinalIgnoreCase));
+                    !string.Equals(field.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase));
         }
 
         // Insert

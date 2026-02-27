@@ -276,7 +276,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null)
     {
         ArgumentNullException.ThrowIfNull(reader);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         return BulkDeleteInternal(connection: connection,
             tableName: tableName,

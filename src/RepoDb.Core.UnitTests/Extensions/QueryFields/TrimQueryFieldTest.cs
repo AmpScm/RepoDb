@@ -59,4 +59,18 @@ public class TrimQueryFieldTest
         // Assert
         Assert.AreEqual("TRIM([FieldName]) = @FieldName_1", text);
     }
+
+
+    class EntityClass
+    {
+        public string StringValue { get; set; }
+    }
+
+    [TestMethod]
+    public void TestParseTrimQueryField()
+    {
+        var qg = QueryGroup.Parse<EntityClass>(x => x.StringValue.Trim() == "b");
+
+        Assert.AreEqual("(TRIM([StringValue]) = @StringValue)", qg.GetString(new CustomDbSetting()));
+    }
 }

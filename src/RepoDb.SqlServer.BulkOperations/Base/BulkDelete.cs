@@ -319,7 +319,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null)
     {
         ArgumentNullException.ThrowIfNull(connection);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(dataTable);
 
         if (dataTable.Rows.Count <= 0)
@@ -783,7 +783,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(connection);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(dataTable);
 
         if (dataTable.Rows.Count <= 0)

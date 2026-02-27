@@ -59,4 +59,17 @@ public class LeftTrimQueryFieldTest
         // Assert
         Assert.AreEqual("LTRIM([FieldName]) = @FieldName_1", text);
     }
+
+    class EntityClass
+    {
+        public string StringValue { get; set; }
+    }
+
+    [TestMethod]
+    public void TestParseLeftTrimQueryField()
+    {
+        var qg = QueryGroup.Parse<EntityClass>(x => x.StringValue.TrimStart() == "b");
+
+        Assert.AreEqual("(LTRIM([StringValue]) = @StringValue)", qg.GetString(new CustomDbSetting()));
+    }
 }

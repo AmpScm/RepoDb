@@ -59,4 +59,17 @@ public class LengthQueryFieldTest
         // Assert
         Assert.AreEqual("LENGTH([FieldName]) = @FieldName_1", text);
     }
+
+    class EntityClass
+    {
+        public string StringValue { get; set; }
+    }
+
+    [TestMethod]
+    public void TestParseLengthQueryField()
+    {
+        var qg = QueryGroup.Parse<EntityClass>(x => x.StringValue.Length == 12);
+
+        Assert.AreEqual("(LENGTH([StringValue]) = @StringValue)", qg.GetString(new CustomDbSetting()));
+    }
 }

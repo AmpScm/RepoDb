@@ -6,6 +6,9 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
@@ -548,7 +551,8 @@ internal sealed partial class Compiler
 
     private static Expression ConvertExpressionToTimeOnlyToTimeSpan(Expression expression) =>
         Expression.Call(expression, GetMethodInfo<TimeOnly>((x) => x.ToTimeSpan()));
-#endif
+#endif    
+
     /// <summary>
     ///
     /// </summary>
@@ -617,6 +621,17 @@ internal sealed partial class Compiler
         else if (toType == StaticType.String && fromType == StaticType.DateTimeOffset)
         {
             result = Expression.Call(GetMethodInfo(() => StrictToString(DateTimeOffset.MinValue)), result);
+        }
+        else if (toType == StaticType.String && fromType.IsJsonNode())
+        {
+            result = Expression.Call(result, GetMethodInfo<JsonNode>(x => x.ToJsonString(null)), Expression.Constant(Converter.JsonSerializerOptions));
+        }
+        else if (fromType == typeof(string) && toType.IsJsonNode())
+        {
+            result = Expression.Call(GetMethodInfo(() => JsonNode.Parse("", nodeOptions: null, documentOptions: default)), [result, Expression.Default(typeof(JsonNodeOptions?)), Expression.Default(typeof(JsonDocumentOptions))]);
+
+            if (result.Type != toType)
+                result = Expression.Convert(result, toType);
         }
 #if NET
         else if (toType == StaticType.String && fromType == StaticType.DateOnly)
@@ -839,8 +854,8 @@ internal sealed partial class Compiler
         var options = GlobalConfiguration.Options.EnumHandling;
         var parseMethod = (
             options is InvalidEnumValueHandling.Cast || toEnumType.GetCustomAttribute<FlagsAttribute>() is not null
-                ? GetMethodInfo<Compiler>((x) => Compiler.EnumParseNull<DbType>(default!)).GetGenericMethodDefinition()
-                : GetMethodInfo<Compiler>((x) => Compiler.EnumParseNullDefined<DbType>(default!)).GetGenericMethodDefinition()
+                ? GetMethodInfo<Compiler>((x) => EnumParseNull<DbType>(default!)).GetGenericMethodDefinition()
+                : GetMethodInfo<Compiler>((x) => EnumParseNullDefined<DbType>(default!)).GetGenericMethodDefinition()
         ).MakeGenericMethod(toEnumType);
 
         var parseCall = Expression.Call(parseMethod, expression);
@@ -1895,7 +1910,8 @@ internal sealed partial class Compiler
         Expression entityExpression,
         ParameterExpression propertyExpression,
         ClassProperty? classProperty,
-        DbField dbField)
+        DbField dbField,
+        IDbHelper? dbHelper)
     {
         var expression = propertyExpression.Type == StaticType.PropertyInfo
             ? GetObjectInstancePropertyValueExpression(propertyExpression, entityExpression, dbField)

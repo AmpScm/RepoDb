@@ -31,7 +31,7 @@ public class Field : IEquatable<Field>
     public Field(string name,
         Type? type)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         // Set the name
         FieldName = name;
@@ -79,7 +79,7 @@ public class Field : IEquatable<Field>
     /// <returns>An enumerable of <see cref="Field"/> object.</returns>
     public static FieldSet From(string name)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         return new([new Field(name)]);
     }
@@ -255,7 +255,7 @@ public class Field : IEquatable<Field>
                 .WithType<PropertyInfo>();
             var classProperties = PropertyCache.Get<TEntity>()?
                 .Where(classProperty =>
-                    properties?.FirstOrDefault(property => string.Equals(property.Name, classProperty.PropertyInfo.Name, StringComparison.OrdinalIgnoreCase)) != null)
+                    properties?.Any(property => string.Equals(property.Name, classProperty.PropertyInfo.Name, StringComparison.OrdinalIgnoreCase)) != false)
                 .Select(classProperty => classProperty.PropertyInfo);
             return (classProperties ?? properties).Select(property => property.AsField());
         }

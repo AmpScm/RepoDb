@@ -5,6 +5,9 @@ namespace RepoDb.TestCore;
 public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, new()
 {
     public TestContext TestContext { get; set; }
+    public virtual string VarCharName => "varchar";
+
+    public virtual string AltVarChar => "varchar";
 
     public TDbInstance DbInstance = new();
 

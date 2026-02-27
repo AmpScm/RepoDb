@@ -15,7 +15,7 @@ public class PostgreSqlDbTypeNameToNpgsqlDbTypeResolver : IResolver<string, Npgs
     /// <returns>The equivalent <see cref="NpgsqlDbType"/>.</returns>
     public virtual NpgsqlDbType? Resolve(string dbTypeName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(dbTypeName);
 
         // Try parse
         if (Enum.TryParse<NpgsqlDbType>(dbTypeName, true, out var result))

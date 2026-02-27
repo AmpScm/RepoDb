@@ -9,6 +9,8 @@ namespace RepoDb.Extensions.QueryFields;
 /// </summary>
 public sealed class LengthQueryField : FunctionalQueryField
 {
+    public static readonly string LengthFormat = "LENGTH({0})";
+
     #region Constructors
 
     /// <summary>
@@ -56,7 +58,7 @@ public sealed class LengthQueryField : FunctionalQueryField
         Operation operation,
         object? value,
         DbType? dbType)
-        : base(fieldName, operation, value, dbType, "LENGTH({0})")
+        : base(fieldName, operation, value, dbType ?? DbType.Int32, LengthFormat)
     { }
 
     #endregion

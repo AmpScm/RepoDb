@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System.Data;
+using System.Data.Common;
 
 namespace RepoDb;
 
@@ -23,6 +24,22 @@ internal sealed record class CommandParameter
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="field"></param>
+    /// <param name="parameter"></param>
+    /// <param name="mappedToType"></param>
+    public CommandParameter(Field field,
+        Parameter? parameter,
+        Type mappedToType)
+    {
+        Field = field;
+        Value = parameter?.Value;
+        DbType = parameter?.DbType;
+        MappedToType = mappedToType;
+    }
+
+    /// <summary>
     /// The field that is connected.
     /// </summary>
     public Field Field { get; }
@@ -36,4 +53,6 @@ internal sealed record class CommandParameter
     /// The parent type where this parameter is mapped.
     /// </summary>
     public Type MappedToType { get; }
+
+    public DbType? DbType { get; }
 }

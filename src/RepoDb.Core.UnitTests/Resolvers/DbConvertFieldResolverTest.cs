@@ -7,7 +7,7 @@ namespace RepoDb.UnitTests.Resolvers;
 [TestClass]
 public class DbConvertFieldResolverTest
 {
-    private readonly DbConvertFieldResolver m_resolver = new DbConvertFieldResolver(new ClientTypeToDbTypeResolver(), new DbTypeToSqlServerStringNameResolver());
+    private readonly DbConvertFieldResolver m_resolver = new DbConvertFieldResolver(ClientTypeToDbTypeResolver.Instance, new DbTypeToSqlServerStringNameResolver());
 
     [TestMethod]
     public void TestDbConvertFieldResolverForColumnName()

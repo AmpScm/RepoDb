@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Interfaces;
 
@@ -15,10 +16,8 @@ namespace RepoDb.Extensions.QueryFields;
 ///     var result = connection.Query&lt;Entity&gt;(where);
 /// </code>
 /// </example>
-public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
+public class FunctionalQueryField : QueryField
 {
-    private int? hashCode;
-
     #region Constructors
 
     /// <summary>
@@ -60,7 +59,7 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// <returns>The string representations of the current <see cref="QueryField"/> object using the LOWER function.</returns>
     public override string GetString(int index,
         IDbSetting? dbSetting) =>
-        base.GetString(index, Format, dbSetting);
+        GetString(index, (Format is { } && dbSetting is BaseDbSetting db) ? db.TranslateFunctionalFormat(Format) : Format, dbSetting);
 
     #endregion
 
@@ -72,70 +71,15 @@ public class FunctionalQueryField : QueryField, IEquatable<FunctionalQueryField>
     /// <returns>The hashcode value.</returns>
     public override int GetHashCode()
     {
-        if (this.hashCode != null)
-        {
-            return this.hashCode.Value;
-        }
-
-        // FullName: This is to ensure that even the user has created an identical formatting
-        //  on the derived class with the existing classes, the Type.FullName could still
-        // differentiate the instances
-        // Base
-        var hashCode = HashCode.Combine(GetType(), base.GetHashCode());
-
-        // Format
-        if (Format != null)
-        {
-            hashCode = HashCode.Combine(hashCode, Format);
-        }
-
-        // Return
-        return this.hashCode ??= hashCode;
+        return HashCode.Combine(base.GetHashCode(), Format);
     }
 
-    /// <summary>
-    /// Compares the <see cref="FunctionalQueryField"/> object equality against the given target object.
-    /// </summary>
-    /// <param name="obj">The object to be compared to the current object.</param>
-    /// <returns>True if the instances are equals.</returns>
-    public override bool Equals(object? obj)
+    public override bool Equals(QueryField? other)
     {
-        return Equals(obj as FunctionalQueryField);
+        return other is FunctionalQueryField fqf
+            && base.Equals(fqf)
+            && fqf.Format == Format;
     }
-
-    /// <summary>
-    /// Compares the <see cref="FunctionalQueryField"/> object equality against the given target object.
-    /// </summary>
-    /// <param name="other">The object to be compared to the current object.</param>
-    /// <returns>True if the instances are equal.</returns>
-    public bool Equals(FunctionalQueryField? other)
-    {
-        return other is not null
-            && other.GetType() == GetType()
-            && other.Format == Format;
-    }
-
-    /// <summary>
-    /// Compares the equality of the two <see cref="FunctionalQueryField"/> objects.
-    /// </summary>
-    /// <param name="objA">The first <see cref="FunctionalQueryField"/> object.</param>
-    /// <param name="objB">The second <see cref="FunctionalQueryField"/> object.</param>
-    /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(FunctionalQueryField? objA,
-        FunctionalQueryField? objB)
-    {
-        return objA is null ? objB is null : objA.Equals(objB);
-    }
-
-    /// <summary>
-    /// Compares the inequality of the two <see cref="FunctionalQueryField"/> objects.
-    /// </summary>
-    /// <param name="objA">The first <see cref="FunctionalQueryField"/> object.</param>
-    /// <param name="objB">The second <see cref="FunctionalQueryField"/> object.</param>
-    /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(FunctionalQueryField? objA,
-        FunctionalQueryField? objB) =>
-        !(objA == objB);
 
     #endregion
 }

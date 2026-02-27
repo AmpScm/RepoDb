@@ -25,9 +25,7 @@ internal partial class Compiler
         }
 
         // Return the function
-        return CompileDataEntityPropertySetter(entityType,
-            property,
-            property.PropertyType);
+        return CompileDataEntityPropertySetter(entityType, property);
     }
 
     /// <summary>
@@ -38,8 +36,7 @@ internal partial class Compiler
     /// <param name="targetType"></param>
     /// <returns></returns>
     private static Action<object, object?> CompileDataEntityPropertySetter(Type entityType,
-        PropertyInfo property,
-        Type targetType)
+        PropertyInfo property)
     {
         // Make sure we can write
         if (!property.CanWrite)
@@ -49,6 +46,7 @@ internal partial class Compiler
 
         // Variables for argument
         var valueParameter = Expression.Parameter(StaticType.Object, "value");
+        Type targetType = property.PropertyType;
 
         // Get the converter
         var toTypeMethod = StaticType
@@ -75,5 +73,60 @@ internal partial class Compiler
         // Return function
         return Expression.Lambda<Action<object, object?>>(propertyAssignment,
             entityParameter, valueParameter).Compile();
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="entityType"></param>
+    /// <param name="field"></param>
+    /// <returns></returns>
+    public static Func<object, object?> CompileDataEntityPropertyGetter(Type entityType,
+        Field field)
+    {
+        // Get the entity property
+        var property = PropertyCache.Get(entityType).GetByFieldName(field.FieldName)?.PropertyInfo;
+
+        if (property == null)
+        {
+            // If the property is not found, then return a no-op function
+            return (_) => null;
+        }
+
+        // Return the function
+        return CompileDataEntityPropertyGetter(entityType, property);
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="entityType"></param>
+    /// <param name="property"></param>
+    /// <param name="targetType"></param>
+    /// <returns></returns>
+    private static Func<object, object?> CompileDataEntityPropertyGetter(Type entityType,
+        PropertyInfo property)
+    {
+        // Make sure we can write
+        if (!property.CanWrite)
+        {
+            return (_) => null;
+        }
+
+        var entityParameter = Expression.Parameter(StaticType.Object, "entity");
+        var propertyValue = Expression.Property(Expression.Convert(entityParameter, entityType), property);
+        Type targetType = property.PropertyType;
+
+        // Get the converter
+        var toTypeMethod = StaticType
+            .Converter
+            .GetMethod("ToType", [StaticType.Object])!
+            .MakeGenericMethod(TypeCache.Get(targetType).UnderlyingType);
+
+        // Conversion (if needed)
+        var valueExpression = ConvertExpressionToTypeExpression(Expression.Call(toTypeMethod, propertyValue), targetType);
+
+        // Return function
+        return Expression.Lambda<Func<object, object?>>(valueExpression, entityParameter).Compile();
     }
 }

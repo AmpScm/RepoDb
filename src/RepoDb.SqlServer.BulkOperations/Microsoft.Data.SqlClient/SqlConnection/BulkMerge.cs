@@ -184,7 +184,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null)
     {
         ArgumentNullException.ThrowIfNull(reader);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         return BulkMergeInternal(connection: connection,
             tableName: tableName,
@@ -281,7 +281,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null)
     {
         ArgumentNullException.ThrowIfNull(dataTable);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         return BulkMergeInternal(connection: connection,
             tableName: tableName,

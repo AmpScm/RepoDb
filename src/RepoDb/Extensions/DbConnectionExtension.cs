@@ -966,8 +966,8 @@ public static partial class DbConnectionExtension
         }
         if (TypeCache.Get(type).IsClassType)
         {
-            var classProperty = PropertyCache.Get(typeof(T), field, true);
-            return new QueryGroup(classProperty?.PropertyInfo.AsQueryField(what));
+            var classProperty = PropertyCache.Get(typeof(T), field, true) ?? throw new InvalidOperationException();
+            return new QueryGroup(classProperty.PropertyInfo.AsQueryField(what));
         }
         else
         {

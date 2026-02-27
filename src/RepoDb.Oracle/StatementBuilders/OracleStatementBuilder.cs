@@ -44,7 +44,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
                                    IEnumerable<DbField> keyFields,
                                    IEnumerable<Field>? qualifiers, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(fields);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
@@ -61,7 +61,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
             throw new InvalidOperationException("Qualifiers must be specified for MERGE operation in Oracle.");
 
         // Create SELECT :param AS Col1, :param AS Col2 ...
-        var sourceColumns = string.Join(", ", fieldList.Select(f => $"{f.FieldName.AsParameter(true, DbSetting)} AS {f.FieldName.AsQuoted(DbSetting)}"));
+        var sourceColumns = string.Join(", ", fieldList.Select(f => $"{f.FieldName.AsParameter(DbSetting)} AS {f.FieldName.AsQuoted(DbSetting)}"));
 
         // ON condition
         var onConditions = string.Join(" AND ", qualifierList.Select(q =>
@@ -174,7 +174,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
 
     public override string CreateInsertAll(string tableName, IEnumerable<Field>? fields, int batchSize, IEnumerable<DbField> keyFields, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         GuardHints(hints);
 
         var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
@@ -218,7 +218,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         int top = 0,
         string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -253,7 +253,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
 
     public override string CreateExists(string tableName, QueryGroup? where = null, string? hints = null)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         // Validate the hints
         GuardHints(hints);
@@ -274,4 +274,6 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         // Return the query
         return builder.ToString();
     }
+
+    public override string? JsonColumnType => "JSON";
 }

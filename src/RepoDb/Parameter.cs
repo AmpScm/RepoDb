@@ -46,7 +46,7 @@ public sealed class Parameter : IEquatable<Parameter>
         DbType? dbType,
         bool prependUnderscore)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         // Set the properties
         OriginalName = name.AsAlphaNumeric();

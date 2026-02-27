@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
@@ -21,7 +22,7 @@ public sealed partial class OracleDbTypeToClientTypeResolver : IResolver<string,
     /// <inheritdoc/>
     public Type Resolve(string dbTypeName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(dbTypeName);
 
         return dbTypeName.ToLowerInvariant() switch
         {

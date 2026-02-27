@@ -14,7 +14,7 @@ public class SqLiteDbTypeNameToClientTypeResolver : IResolver<string, Type>
     /// <returns>The equivalent .NET CLR type.</returns>
     public Type Resolve(string dbTypeName)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(dbTypeName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(dbTypeName);
 
         return dbTypeName.ToLowerInvariant() switch
         {

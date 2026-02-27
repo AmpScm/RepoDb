@@ -1,4 +1,6 @@
-﻿namespace RepoDb.DbSettings;
+﻿using RepoDb.Extensions.QueryFields;
+
+namespace RepoDb.DbSettings;
 
 /// <summary>
 /// A setting class used for SQL Server data provider.
@@ -29,5 +31,15 @@ public sealed record SqlServerDbSetting : BaseDbSetting
         MaxParameterCount = 2100 - 2;
         UseArrayParameterTreshold = 15;
         UseInValuesTreshold = 5;
+    }
+
+    protected override string TranslateFunctionalFormat(string format)
+    {
+        if (format == LengthQueryField.LengthFormat)
+            return "LEN({0})";
+        else if (format == JsonExtractQueryField.JsonExtractFormat)
+            return "JSON_VALUE({0}, @@path@@)";
+
+        return base.TranslateFunctionalFormat(format);
     }
 }

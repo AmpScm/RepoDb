@@ -13,7 +13,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
     /// Creates a new instance of <see cref="SqlServerConvertFieldResolver"/> class.
     /// </summary>
     public SqlServerConvertFieldResolver()
-        : this(new ClientTypeToDbTypeResolver(),
+        : this(ClientTypeToDbTypeResolver.Instance,
              new DbTypeToSqlServerStringNameResolver())
     { }
 

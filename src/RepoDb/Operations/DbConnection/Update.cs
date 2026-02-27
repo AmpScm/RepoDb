@@ -1366,7 +1366,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
     {
         ArgumentNullException.ThrowIfNull(connection);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
         ArgumentNullException.ThrowIfNull(entity);
 
         var key = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction, entity.GetType());
@@ -1576,7 +1576,7 @@ public static partial class DbConnectionExtension
     {
         ArgumentNullException.ThrowIfNull(connection);
         ArgumentNullException.ThrowIfNull(entity);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction,
             entity.GetType(), cancellationToken).ConfigureAwait(false);

@@ -59,4 +59,17 @@ public class UpperQueryFieldTest
         // Assert
         Assert.AreEqual("UPPER([FieldName]) = @FieldName_1", text);
     }
+
+    class EntityClass
+    {
+        public string StringValue { get; set; }
+    }
+
+    [TestMethod]
+    public void TestParseUpperQueryField()
+    {
+        var qg = QueryGroup.Parse<EntityClass>(x => x.StringValue.ToUpper() == "b");
+
+        Assert.AreEqual("(UPPER([StringValue]) = @StringValue)", qg.GetString(new CustomDbSetting()));
+    }
 }

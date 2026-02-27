@@ -59,4 +59,17 @@ public class LowerQueryFieldTest
         // Assert
         Assert.AreEqual("LOWER([FieldName]) = @FieldName_1", text);
     }
+
+    class EntityClass
+    {
+        public string StringValue { get; set; }
+    }
+
+    [TestMethod]
+    public void TestParseLowerQueryField()
+    {
+        var qg = QueryGroup.Parse<EntityClass>(x => x.StringValue.ToLower() == "b");
+
+        Assert.AreEqual("(LOWER([StringValue]) = @StringValue)", qg.GetString(new CustomDbSetting()));
+    }
 }

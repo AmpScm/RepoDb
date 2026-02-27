@@ -21,11 +21,12 @@
     <InternalsVisibleTo Include="RepoDb.Core.UnitTests" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net48'">
-    <PackageReference Include="System.ComponentModel.Annotations" />
-    <PackageReference Include="System.Dynamic.Runtime" />
     <PackageReference Include="Microsoft.Bcl.HashCode" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
+    <PackageReference Include="System.ComponentModel.Annotations" />
+    <PackageReference Include="System.Dynamic.Runtime" />
     <PackageReference Include="System.Memory" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
     <Reference Include="System.Transactions" />

@@ -171,7 +171,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null)
     {
         ArgumentNullException.ThrowIfNull(reader);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         return BulkUpdateInternal(connection: connection,
             tableName: tableName,
@@ -259,7 +259,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null)
     {
         ArgumentNullException.ThrowIfNull(dataTable);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
 
         return BulkUpdateInternal(connection: connection,
             tableName: tableName,

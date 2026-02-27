@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Text.Json.Nodes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Npgsql;
 using NpgsqlTypes;
 using RepoDb.Attributes;
@@ -31,7 +32,7 @@ public class NpgsqlDbTypeTests
     {
         public System.Int64 Id { get; set; }
         [NpgsqlDbType(NpgsqlDbType.Json)]
-        public System.String ColumnJson { get; set; }
+        public JsonNode ColumnJson { get; set; }
     }
 
     [Map("CompleteTable")]
