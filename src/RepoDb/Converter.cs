@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace RepoDb;
 
@@ -179,6 +180,16 @@ public static class Converter
         }
     }
 
+    internal static JsonNode? ToJsonObject<T>(T? value)
+    {
+        return JsonSerializer.SerializeToNode(value, JsonSerializerOptions);
+    }
+
+    internal static T FromJsonToObject<T>(JsonNode? json)
+    {
+        return JsonSerializer.Deserialize<T>(json, Converter.JsonSerializerOptions)!;
+    }
+
 #if !NET
     private static object? EnumTryParse<TEnum>(string value)
         where TEnum : struct, Enum
@@ -191,8 +202,14 @@ public static class Converter
 
     #endregion
 
-    public static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    public static readonly JsonSerializerOptions DefaultJsonSerializerOptions = new()
     {
         WriteIndented = false,
     };
+
+    public static JsonSerializerOptions JsonSerializerOptions => GlobalConfiguration.Options?.JsonSerializerOptions ?? DefaultJsonSerializerOptions;
+
+
+    internal static JsonNodeOptions? JsonNodeOptions => null;
+    internal static JsonDocumentOptions JsonDocumentOptions => default;
 }

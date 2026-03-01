@@ -276,6 +276,11 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
             parameter.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Json;
             parameter.Value = jn.ToJsonString(Converter.JsonSerializerOptions);
         }
+        else if (parameter.Value is IDbJsonValue jv)
+        {
+            parameter.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Json;
+            parameter.Value = jv.JsonNode?.ToJsonString(Converter.JsonSerializerOptions);
+        }
     }
 
     #endregion

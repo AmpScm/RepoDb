@@ -19,11 +19,11 @@ public partial class QueryGroup
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    private static bool IsDirect(BinaryExpression expression) =>
+    private static bool IsDirect<TEntity>(BinaryExpression expression) =>
         (
             expression.Left.NodeType == ExpressionType.Constant ||
             expression.Left.NodeType == ExpressionType.Convert ||
-            (expression.Left is MemberExpression meLeft && meLeft.NodeType == ExpressionType.MemberAccess && meLeft.Expression?.Type.IsClassType() == true)
+            (expression.Left is MemberExpression meLeft && meLeft.NodeType == ExpressionType.MemberAccess && meLeft.Expression is ParameterExpression && meLeft.Expression?.Type == typeof(TEntity))
         )
         &&
         (
@@ -129,7 +129,10 @@ public partial class QueryGroup
         where TEntity : class
     {
         // Check directness (column-to-value, value-to-column, etc.)
-        if (IsDirect(expression))
+
+        bool isSimpleCheck = expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual or ExpressionType.LessThan or ExpressionType.LessThanOrEqual or ExpressionType.GreaterThan or ExpressionType.GreaterThanOrEqual;
+
+        if (IsDirect<TEntity>(expression))
         {
             // Column-to-column comparison: both sides are member accesses on the parameter
             if (expression.Left is MemberExpression leftMember && leftMember.Expression is ParameterExpression &&
@@ -149,7 +152,7 @@ public partial class QueryGroup
         }
         else if (expression.Left is MethodCallExpression m
             && expression.Right is ConstantExpression c && c.Value is int intVal && intVal == 0
-            && expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual or ExpressionType.LessThan or ExpressionType.LessThanOrEqual or ExpressionType.GreaterThan or ExpressionType.GreaterThanOrEqual
+            && isSimpleCheck
             && ((m.Method.Name is nameof(string.Compare) or nameof(string.CompareTo) && m.Method.DeclaringType == StaticType.String) || m.Method == VBCompareString.Value))
         {
             var propExpr = m.Object is { } ob ? ob : m.Arguments[0];
@@ -170,10 +173,11 @@ public partial class QueryGroup
         }
         else if (expression.Left is MethodCallExpression m2
             && m2.Method.Name is nameof(JsonQueryExtensions.ExtractValue) && m2.Method.DeclaringType == typeof(JsonQueryExtensions)
+            && isSimpleCheck
             && QueryField.GetProperty<TEntity>(m2.Arguments[0]) is { } propExpr)
         {
             var pathArg = m2.Arguments[1];
-            var jsonPath =  pathArg is { NodeType: ExpressionType.Quote } ? JsonExtractQueryField.ParsePath(((UnaryExpression)pathArg).Operand) : pathArg.GetValue() as string;
+            var jsonPath = pathArg is { NodeType: ExpressionType.Quote } ? JsonExtractQueryField.ParsePath(((UnaryExpression)pathArg).Operand) : pathArg.GetValue() as string;
             ArgumentNullException.ThrowIfNull(jsonPath);
             var vv = QueryField.Parse<TEntity>(expression).GetFields(false)!.Single();
 
@@ -183,6 +187,7 @@ public partial class QueryGroup
             && m3.Object is { }
             && m3.Method.DeclaringType == StaticType.String
             && m3.Method.Name is nameof(string.Trim) or nameof(string.TrimStart) or nameof(string.TrimEnd) or nameof(string.ToUpper) or nameof(string.ToLower) or nameof(string.ToUpperInvariant) or nameof(string.ToLowerInvariant)
+            && isSimpleCheck
             && QueryField.GetProperty<TEntity>(m3.Object) is { } propExpr3)
         {
             var value = expression.Right.GetValue();
@@ -203,9 +208,15 @@ public partial class QueryGroup
             && m4.Expression is { }
             && m4.Member.DeclaringType == StaticType.String
             && m4.Member.Name is nameof(string.Length)
+            && isSimpleCheck
             && QueryField.GetProperty<TEntity>(m4.Expression) is { } propExpr4)
         {
             return new QueryGroup(new LengthQueryField(propExpr4.AsField().FieldName, QueryField.GetOperation(expression.NodeType), expression.Right.GetValue()).AsEnumerable());
+        }
+        else if (isSimpleCheck
+            && GetJsonExtractFromPath<TEntity>(expression.Left) is { FieldName: not null, Path: not null } jsonExtract)
+        {
+            return new QueryGroup([new JsonExtractQueryField(jsonExtract.FieldName, jsonExtract.Path, expression.Right.GetValue(), dbType: ClientTypeToDbTypeResolver.Instance.Resolve(expression.Right.Type))]);
         }
 
         // Otherwise, recursively parse as before (for AndAlso, OrElse, etc.)
@@ -229,6 +240,54 @@ public partial class QueryGroup
         // Return the left query group, which is now modified to include the right side
         return leftQueryGroup;
     }
+
+    sealed class ReplaceVisitor : ExpressionVisitor
+    {
+        private readonly Expression _from;
+        private readonly Expression _to;
+
+        public ReplaceVisitor(Expression from, Expression to)
+        {
+            _from = from;
+            _to = to;
+        }
+
+        public override Expression? Visit(Expression? node)
+        {
+            return node == _from ? _to : base.Visit(node);
+        }
+    }
+
+
+    private static (string? FieldName, string? Path) GetJsonExtractFromPath<TEntity>(Expression left) where TEntity : class
+    {
+        var e = left;
+        Expression path;
+
+        while (e != null)
+        {
+            Expression? next;
+            if (e is MemberExpression me)
+                next = me.Expression;
+            else if (e is BinaryExpression be && be.NodeType == ExpressionType.ArrayIndex)
+                next = be.Left;
+            else
+                return (null, null);
+
+            if (next is MemberExpression p && p.Member.DeclaringType?.IsGenericType == true && p.Member.DeclaringType.GetGenericTypeDefinition() == typeof(DbJsonValue<>))
+            {
+                var arg = Expression.Parameter(p.Member.DeclaringType.GetGenericArguments()[0], "e");
+                path = new ReplaceVisitor(next, arg).Visit(left)!;
+
+                return (p.Expression is { } ? QueryField.GetProperty<TEntity>(p.Expression)?.FieldName : null, JsonExtractQueryField.ParsePath(Expression.Lambda(path, arg)));
+            }
+            e = next;
+        }
+
+        return (null, null);
+    }
+
+
 
     /*
      * Unary

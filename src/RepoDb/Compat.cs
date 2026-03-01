@@ -146,6 +146,32 @@ namespace System.Diagnostics.CodeAnalysis
         public bool ReturnValue { get; }
     }
 
+    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+    internal sealed class MaybeNullWhenAttribute : Attribute
+    {
+        //
+        // Summary:
+        //     Initializes the attribute with the specified return value condition.
+        //
+        // Parameters:
+        //   returnValue:
+        //     The return value condition. If the method returns this value, the associated
+        //     parameter will not be null.
+        public MaybeNullWhenAttribute(bool returnValue)
+        {
+            ReturnValue = returnValue;
+        }
+
+        //
+        // Summary:
+        //     Gets the return value condition.
+        //
+        // Returns:
+        //     The return value condition. If the method returns this value, the associated
+        //     parameter will not be null.
+        public bool ReturnValue { get; }
+    }
+
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     internal sealed class DoesNotReturnAttribute : Attribute
     {

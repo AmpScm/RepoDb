@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using RepoDb.DbSettings;
@@ -599,7 +600,9 @@ internal sealed partial class Compiler
                 result = Expression.Convert(result, Enum.GetUnderlyingType(underlyingFromType));
 
                 if (result.Type != underlyingToType)
+                {
                     result = Expression.Convert(result, underlyingToType);
+                }
             }
             else if (underlyingToType == StaticType.Decimal)
             {
@@ -607,20 +610,24 @@ internal sealed partial class Compiler
                 result = Expression.Convert(result, Enum.GetUnderlyingType(underlyingFromType));
 
                 if (result.Type != underlyingToType)
+                {
                     result = Expression.Convert(result, underlyingToType);
+                }
             }
             else
             {
                 return result; // Will fail
             }
         }
-        else if (toType == StaticType.String && fromType == StaticType.DateTime)
+        else if (toType == StaticType.String && underlyingFromType == StaticType.DateTime)
         {
-            result = Expression.Call(GetMethodInfo(() => StrictToString(DateTime.MinValue)), result);
+            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+            result = Expression.Call(GetMethodInfo(() => StrictToString(DateTime.MinValue)), expr);
         }
-        else if (toType == StaticType.String && fromType == StaticType.DateTimeOffset)
+        else if (toType == StaticType.String && underlyingFromType == StaticType.DateTimeOffset)
         {
-            result = Expression.Call(GetMethodInfo(() => StrictToString(DateTimeOffset.MinValue)), result);
+            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+            result = Expression.Call(GetMethodInfo(() => StrictToString(DateTimeOffset.MinValue)), expr);
         }
         else if (toType == StaticType.String && fromType.IsJsonNode())
         {
@@ -631,16 +638,22 @@ internal sealed partial class Compiler
             result = Expression.Call(GetMethodInfo(() => JsonNode.Parse("", nodeOptions: null, documentOptions: default)), [result, Expression.Default(typeof(JsonNodeOptions?)), Expression.Default(typeof(JsonDocumentOptions))]);
 
             if (result.Type != toType)
+            {
                 result = Expression.Convert(result, toType);
+            }
         }
 #if NET
-        else if (toType == StaticType.String && fromType == StaticType.DateOnly)
+        else if (toType == StaticType.String && underlyingFromType == StaticType.DateOnly)
         {
-            result = Expression.Call(GetMethodInfo(() => StrictToString(DateOnly.MinValue)), result);
+            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+
+            result = Expression.Call(GetMethodInfo(() => StrictToString(DateOnly.MinValue)), expr);
         }
-        else if (toType == StaticType.String && fromType == StaticType.TimeOnly)
+        else if (toType == StaticType.String && underlyingFromType == StaticType.TimeOnly)
         {
-            result = Expression.Call(GetMethodInfo(() => StrictToString(TimeOnly.MinValue)), result);
+            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+
+            result = Expression.Call(GetMethodInfo(() => StrictToString(TimeOnly.MinValue)), expr);
         }
 #endif
         else if (underlyingToType == StaticType.DateTime && underlyingFromType == StaticType.DateTimeOffset)
@@ -651,9 +664,49 @@ internal sealed partial class Compiler
         {
             result = Expression.New(typeof(DateTimeOffset).GetConstructor([typeof(DateTime)])!, [result]);
         }
-        else if (underlyingToType == StaticType.Boolean && underlyingFromType == StaticType.String)
+        else if (underlyingToType == StaticType.Boolean && fromType == StaticType.String)
         {
             result = Expression.Call(GetMethodInfo(() => StrictParseBoolean(null)), expression);
+        }
+        else if (fromType == StaticType.String && underlyingToType == StaticType.Decimal)
+        {
+            result = Expression.Call(GetMethodInfo(() => StrictParseDecimal(null!)), expression);
+        }
+        else if (fromType == StaticType.String && underlyingToType == StaticType.DateTime)
+        {
+            result = Expression.Call(GetMethodInfo(() => StrictParseDateTime(null!)), expression);
+        }
+        else if (fromType == StaticType.String && underlyingToType == StaticType.DateTimeOffset)
+        {
+            result = Expression.Call(GetMethodInfo(() => StrictParseDateTimeOffset(null!)), expression);
+        }
+#if NET
+        else if (fromType == StaticType.String && underlyingToType == typeof(DateOnly))
+        {
+            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+            result = Expression.Call(GetMethodInfo(() => StrictParseDateOnly(null!)), expr);
+        }
+        else if (fromType == StaticType.String && underlyingToType == typeof(TimeOnly))
+        {
+            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+            result = Expression.Call(GetMethodInfo(() => StrictParseTimeOnly(null!)), expr);
+        }
+        else if (fromType == typeof(string) && underlyingToType.IsAssignableTo(typeof(IParsable<>).MakeGenericType(underlyingToType)))
+#else
+        else if (fromType == typeof(string) && underlyingToType.IsGenericType && underlyingToType.GetGenericTypeDefinition() == typeof(DbJsonValue<>))
+#endif
+        {
+            var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, binder: null, callConvention: default, [typeof(string), typeof(IFormatProvider)], null)!;
+            result = Expression.Call(parseMethod, expression, Expression.Constant(CultureInfo.InvariantCulture));
+        }
+        else if (toType == typeof(string) && typeof(IFormattable).IsAssignableFrom(underlyingFromType))
+        {
+            var toStringMethod = GetMethodInfo<IFormattable>(x => x.ToString(null, null));
+
+            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+            expr = Expression.Convert(expr, typeof(IFormattable));
+
+            result = Expression.Call(expr, toStringMethod, Expression.Constant(null, typeof(string)), Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider)));
         }
         else if (GetSystemConvertToTypeMethod(underlyingFromType, underlyingToType) is { } methodInfo)
         {
@@ -666,35 +719,6 @@ internal sealed partial class Compiler
                 ConvertExpressionToTypeExpression(result, StaticType.Object),
                 Expression.Constant(TypeCache.Get(underlyingToType).UnderlyingType)
             ]);
-        }
-        else if (underlyingFromType == StaticType.String)
-        {
-            if (underlyingToType == StaticType.Decimal)
-            {
-                result = Expression.Call(GetMethodInfo(() => StrictParseDecimal(null!)), expression);
-            }
-            else if (underlyingToType == StaticType.DateTime)
-            {
-                result = Expression.Call(GetMethodInfo(() => StrictParseDateTime(null!)), expression);
-            }
-            else if (underlyingToType == StaticType.DateTimeOffset)
-            {
-                result = Expression.Call(GetMethodInfo(() => StrictParseDateTimeOffset(null!)), expression);
-            }
-#if NET
-            else if (underlyingToType == typeof(DateOnly))
-            {
-                result = Expression.Call(GetMethodInfo(() => StrictParseDateOnly(null!)), expression);
-            }
-            else if (underlyingToType == typeof(TimeOnly))
-            {
-                result = Expression.Call(GetMethodInfo(() => StrictParseTimeOnly(null!)), expression);
-            }
-#endif
-            else
-            {
-                return result; // Will fail
-            }
         }
         else
         {
