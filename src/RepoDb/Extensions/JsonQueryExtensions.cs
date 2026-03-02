@@ -37,9 +37,14 @@ public static partial class JsonQueryExtensions
         }
     }
 
-    public static TResult? ExtractValue<TEntity, TResult>(this JsonNode jsonNode, Expression<Func<TEntity, TResult>> mapping) where TResult: notnull
+    public static TResult? ExtractValue<TEntity, TResult>(this JsonNode jsonNode, Expression<Func<TEntity, TResult>> mapping) where TResult: notnull where TEntity : notnull
     {
         return ExtractValue<TResult>(jsonNode, JsonExtractQueryField.ParsePath(mapping));
+    }
+
+    public static TResult? ExtractValue<TEntity, TResult>(this DbJsonValue<TEntity> jsonNode, Expression<Func<TEntity, TResult>> mapping) where TResult : notnull where TEntity : notnull
+    {
+        return ExtractValue<TResult>(jsonNode.Json, JsonExtractQueryField.ParsePath(mapping));
     }
 
     private static JsonNode? NavigateJsonPath(JsonNode node, string path)

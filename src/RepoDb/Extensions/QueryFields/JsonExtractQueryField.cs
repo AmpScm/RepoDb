@@ -214,6 +214,9 @@ public sealed partial class JsonExtractQueryField : FunctionalQueryField
             if (string.IsNullOrEmpty(name))
                 return;
 
+            if (Converter.JsonSerializerOptions.PropertyNamingPolicy is {} cn)
+                name = cn.ConvertName(name);
+
             if (sb.Length > 0)
                 sb.Append('.');
             sb.Append(name);

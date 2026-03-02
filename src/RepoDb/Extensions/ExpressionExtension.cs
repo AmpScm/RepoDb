@@ -371,6 +371,8 @@ public static class ExpressionExtension
 #endif
 
                 return Convert.ChangeType(value, toType, CultureInfo.InvariantCulture);
+            case ExpressionType.Quote:
+                return expression.Operand; // The inner expression is the value
             default:
                 throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
         }
