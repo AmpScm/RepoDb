@@ -1178,7 +1178,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             entityType: request.Type,
-            dbFields: DbFieldCache.Get(connection, request.Name, transaction, true),
+            dbFields: null,
             skipCommandArrayParametersCheck: true);
 
         // Result
@@ -1222,7 +1222,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             entityType: request.Type,
-            dbFields: await DbFieldCache.GetAsync(connection, request.Name, transaction, true, cancellationToken).ConfigureAwait(false),
+            dbFields: null,
             skipCommandArrayParametersCheck: true,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 

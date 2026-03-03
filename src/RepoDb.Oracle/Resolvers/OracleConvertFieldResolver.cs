@@ -40,7 +40,7 @@ public class OracleConvertFieldResolver : DbConvertFieldResolver
         if (field?.Type != null)
         {
             var dbType = DbTypeResolver.Resolve(field.Type);
-            if (dbType != null)
+            if (dbType is not null)
             {
                 var dbTypeName = StringNameResolver.Resolve(dbType.Value)?.ToUpper();
                 return string.Concat("CAST(", field.FieldName.AsField(dbSetting), " AS ", dbTypeName, ")");

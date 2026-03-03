@@ -18,7 +18,7 @@ internal partial class Compiler
         // Get the entity property
         var property = PropertyCache.Get(entityType).GetByFieldName(field.FieldName)?.PropertyInfo;
 
-        if (property == null)
+        if (property is null)
         {
             // If the property is not found, then return a no-op function
             return (_, _) => { };
@@ -51,7 +51,7 @@ internal partial class Compiler
         // Get the converter
         var toTypeMethod = StaticType
             .Converter
-            .GetMethod("ToType", [StaticType.Object])!
+            .GetMethod(nameof(Converter.ToType), [StaticType.Object])!
             .MakeGenericMethod(TypeCache.Get(targetType).UnderlyingType);
 
         // Conversion (if needed)
@@ -67,8 +67,8 @@ internal partial class Compiler
 
         // Assign the value into DataEntity.Property
         var entityParameter = Expression.Parameter(StaticType.Object, "entity");
-        var propertyAssignment = Expression.Call(Expression.Convert(entityParameter, entityType), property.SetMethod!,
-            valueExpression);
+        var propExpr = Expression.Property(Expression.Convert(entityParameter, entityType), property);
+        var propertyAssignment = Expression.Assign(propExpr, valueExpression);
 
         // Return function
         return Expression.Lambda<Action<object, object?>>(propertyAssignment,
@@ -87,7 +87,7 @@ internal partial class Compiler
         // Get the entity property
         var property = PropertyCache.Get(entityType).GetByFieldName(field.FieldName)?.PropertyInfo;
 
-        if (property == null)
+        if (property is null)
         {
             // If the property is not found, then return a no-op function
             return (_) => null;
@@ -120,7 +120,7 @@ internal partial class Compiler
         // Get the converter
         var toTypeMethod = StaticType
             .Converter
-            .GetMethod("ToType", [StaticType.Object])!
+            .GetMethod(nameof(Converter.ToType), [StaticType.Object])!
             .MakeGenericMethod(TypeCache.Get(targetType).UnderlyingType);
 
         // Conversion (if needed)

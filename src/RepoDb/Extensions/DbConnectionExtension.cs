@@ -46,7 +46,7 @@ public static partial class DbConnectionExtension
         {
             command.CommandTimeout = commandTimeout;
         }
-        if (transaction != null)
+        if (transaction is not null)
         {
             command.Transaction = transaction;
         }
@@ -71,7 +71,7 @@ public static partial class DbConnectionExtension
         {
             command.CommandTimeout = commandTimeout;
         }
-        if (transaction != null)
+        if (transaction is not null)
         {
             command.Transaction = transaction;
         }
@@ -321,7 +321,7 @@ public static partial class DbConnectionExtension
 #if NET
         await
 #endif
-            using var command = await CreateDbCommandForExecutionAsync(connection: connection,
+        using var command = await CreateDbCommandForExecutionAsync(connection: connection,
             commandText: commandText,
             param: param,
             commandType: commandType,
@@ -373,7 +373,7 @@ public static partial class DbConnectionExtension
         var setting = DbSettingMapper.Get(connection);
 
         // Check the presence
-        if (setting == null)
+        if (setting is null)
         {
             ThrowMissingMappingException("setting", connection.GetType());
         }
@@ -395,7 +395,7 @@ public static partial class DbConnectionExtension
         var helper = DbHelperMapper.Get(connection);
 
         // Check the presence
-        if (helper == null)
+        if (helper is null)
         {
             ThrowMissingMappingException("helper", connection.GetType());
         }
@@ -442,7 +442,7 @@ public static partial class DbConnectionExtension
         var statementBuilder = StatementBuilderMapper.Get(connection);
 
         // Check the presence
-        if (statementBuilder == null)
+        if (statementBuilder is null)
         {
             ThrowMissingMappingException("statement builder", connection.GetType());
         }
@@ -458,7 +458,7 @@ public static partial class DbConnectionExtension
         // Get the runtime setting
         var runtimeSetting = DbRuntimeSettingCache.Get(connection, transaction);
         // Check the presence
-        if (runtimeSetting == null)
+        if (runtimeSetting is null)
         {
             ThrowMissingMappingException("runtime setting", connection.GetType());
         }
@@ -536,7 +536,7 @@ public static partial class DbConnectionExtension
     /// <param name="queryField"></param>
     internal static void SetOutputParameter(QueryField queryField)
     {
-        if (queryField == null)
+        if (queryField is null)
         {
             return;
         }
@@ -574,7 +574,7 @@ public static partial class DbConnectionExtension
         Type entityType)
     {
         var dbFields = DbFieldCache.Get(connection, tableName, transaction, true);
-        var key = GetAndGuardPrimaryKeyOrIdentityKey(entityType, dbFields) ?? GetPrimaryOrIdentityKey(entityType);
+        var key = GetAndGuardPrimaryKeyOrIdentityKey(entityType, dbFields) ?? PrimaryCache.GetPrimaryKeys(entityType)?.AsFields() ?? IdentityCache.Get(entityType)?.AsField().AsEnumerable();
         return GetAndGuardPrimaryKeyOrIdentityKey(tableName, key);
     }
 
@@ -625,7 +625,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
     {
         var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
-        var properties = GetAndGuardPrimaryKeyOrIdentityKey(entityType, dbFields) ?? GetPrimaryOrIdentityKey(entityType);
+        var properties = GetAndGuardPrimaryKeyOrIdentityKey(entityType, dbFields) ?? PrimaryCache.GetPrimaryKeys(entityType)?.AsFields() ?? IdentityCache.Get(entityType)?.AsField().AsEnumerable();
         return GetAndGuardPrimaryKeyOrIdentityKey(tableName, properties);
     }
 
@@ -756,12 +756,12 @@ public static partial class DbConnectionExtension
         T what,
         IDbTransaction? transaction) where T : notnull
     {
-        if (what == null)
+        if (what is null)
         {
             return null;
         }
         var queryGroup = WhatToQueryGroup(what);
-        if (queryGroup == null)
+        if (queryGroup is null)
         {
             var whatType = what.GetType();
             var cachedType = TypeCache.Get(whatType);
@@ -802,12 +802,12 @@ public static partial class DbConnectionExtension
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default) where T : notnull
     {
-        if (what == null)
+        if (what is null)
         {
             return null;
         }
         var queryGroup = WhatToQueryGroup(what);
-        if (queryGroup == null)
+        if (queryGroup is null)
         {
             var whatType = what.GetType();
             var cachedType = TypeCache.Get(whatType);
@@ -840,7 +840,7 @@ public static partial class DbConnectionExtension
         IEnumerable<DbField> dbFields) where T : notnull
     {
         var key = dbFields?.FirstOrDefault(p => p.IsPrimary) ?? dbFields?.FirstOrDefault(p => p.IsIdentity);
-        if (key == null)
+        if (key is null)
         {
             throw new KeyFieldNotFoundException($"No primary key and identity key found at the table '{tableName}'.");
         }
@@ -863,13 +863,13 @@ public static partial class DbConnectionExtension
         object? what,
         IDbTransaction? transaction)
     {
-        if (what == null)
+        if (what is null)
         {
             return null;
         }
 
         var queryGroup = WhatToQueryGroup(what);
-        if (queryGroup != null)
+        if (queryGroup is not null)
         {
             return queryGroup;
         }
@@ -902,12 +902,12 @@ public static partial class DbConnectionExtension
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default)
     {
-        if (what == null)
+        if (what is null)
         {
             return null;
         }
         var queryGroup = WhatToQueryGroup(what);
-        if (queryGroup != null)
+        if (queryGroup is not null)
         {
             return queryGroup;
         }
@@ -925,7 +925,7 @@ public static partial class DbConnectionExtension
     internal static QueryGroup? WhatToQueryGroup<T>(DbField dbField,
         T what) where T : notnull
     {
-        if (what == null)
+        if (what is null)
         {
             return null;
         }
@@ -960,7 +960,7 @@ public static partial class DbConnectionExtension
         T what) where T : notnull
     {
         var type = typeof(T);
-        if (field == null)
+        if (field is null)
         {
             throw new KeyFieldNotFoundException($"No primary key and identity key found at the type '{type.FullName}'.");
         }
@@ -1037,11 +1037,11 @@ public static partial class DbConnectionExtension
     internal static QueryGroup? ToQueryGroup(DbField dbField,
         object entity)
     {
-        if (entity == null)
+        if (entity is null)
         {
             return null;
         }
-        if (dbField != null)
+        if (dbField is not null)
         {
             var type = entity.GetType();
             if (TypeCache.Get(type).IsClassType)
@@ -1069,7 +1069,7 @@ public static partial class DbConnectionExtension
     internal static QueryGroup? ToQueryGroup<TEntity>(this IDbConnection connection, Expression<Func<TEntity, bool>>? where, IDbTransaction? transaction, string? tableName = null)
         where TEntity : class
     {
-        if (where == null)
+        if (where is null)
         {
             return null;
         }
@@ -1136,7 +1136,7 @@ public static partial class DbConnectionExtension
     /// <returns></returns>
     internal static QueryGroup? ToQueryGroup(QueryField? queryField)
     {
-        if (queryField == null)
+        if (queryField is null)
         {
             return null;
         }
@@ -1150,7 +1150,7 @@ public static partial class DbConnectionExtension
     /// <returns></returns>
     internal static QueryGroup? ToQueryGroup(IEnumerable<QueryField>? queryFields)
     {
-        if (queryFields == null)
+        if (queryFields is null)
         {
             return null;
         }
@@ -1158,14 +1158,6 @@ public static partial class DbConnectionExtension
     }
 
     #endregion
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <returns></returns>
-    internal static IEnumerable<Field>? GetPrimaryOrIdentityKey(Type entityType) =>
-        entityType != null ? (PrimaryCache.Get(entityType) ?? IdentityCache.Get(entityType))?.AsField()?.AsEnumerable() : null;
 
     /// <summary>
     ///
@@ -1458,10 +1450,10 @@ public static partial class DbConnectionExtension
             .CreateCommand(commandText, commandType, commandTimeout, (DbTransaction?)transaction);
 
         // Func
-        if (param != null)
+        if (param is not null)
         {
             var func = FunctionCache.GetPlainTypeToDbParametersCompiledFunction(param.GetType(), entityType, dbFields);
-            if (func != null)
+            if (func is not null)
             {
                 var cmd = command;
                 func(cmd, param);
@@ -1478,7 +1470,7 @@ public static partial class DbConnectionExtension
         }
 
         // Check
-        if (commandArrayParametersText != null)
+        if (commandArrayParametersText is not null)
         {
             // CommandText
             command.CommandText = commandArrayParametersText.CommandText;
@@ -1488,7 +1480,7 @@ public static partial class DbConnectionExtension
         }
 
         // Normal parameters
-        if (param != null)
+        if (param is not null)
         {
             var propertiesToSkip = commandArrayParametersText?.CommandArrayParameters?
                 .Select(cap => cap.ParameterName)
@@ -1535,7 +1527,7 @@ public static partial class DbConnectionExtension
         IDbTransaction? transaction,
         object param)
     {
-        if (param == null)
+        if (param is null)
         {
             return null;
         }
@@ -1564,7 +1556,7 @@ public static partial class DbConnectionExtension
                 property.GetValue(param));
 
             // Skip
-            if (commandArrayParameter == null)
+            if (commandArrayParameter is null)
             {
                 continue;
             }
@@ -1595,7 +1587,7 @@ public static partial class DbConnectionExtension
 
     private static CommandArrayParametersText? GetCommandArrayParametersText(DbCommand command, DbConnection connection, IDbTransaction? transaction, IDictionary<string, object?> dictionary)
     {
-        if (dictionary == null)
+        if (dictionary is null)
         {
             return null;
         }
@@ -1616,7 +1608,7 @@ public static partial class DbConnectionExtension
                 kvp.Value);
 
             // Skip
-            if (commandArrayParameter == null)
+            if (commandArrayParameter is null)
             {
                 continue;
             }
@@ -1654,7 +1646,7 @@ public static partial class DbConnectionExtension
     /// <returns></returns>
     private static CommandArrayParametersText? GetCommandArrayParametersText(DbCommand command, DbConnection dbConnection, IDbTransaction? transaction, QueryField queryField)
     {
-        if (queryField == null)
+        if (queryField is null)
         {
             return null;
         }
@@ -1675,7 +1667,7 @@ public static partial class DbConnectionExtension
             queryField.Parameter.Value);
 
         // Check
-        if (commandArrayParameter == null)
+        if (commandArrayParameter is null)
         {
             return null;
         }
@@ -1711,7 +1703,7 @@ public static partial class DbConnectionExtension
         IDbTransaction? transaction,
         IEnumerable<QueryField>? queryFields)
     {
-        if (queryFields == null)
+        if (queryFields is null)
         {
             return null;
         }
@@ -1738,7 +1730,7 @@ public static partial class DbConnectionExtension
                 queryField.Parameter.Value);
 
             // Skip
-            if (commandArrayParameter == null)
+            if (commandArrayParameter is null)
             {
                 continue;
             }

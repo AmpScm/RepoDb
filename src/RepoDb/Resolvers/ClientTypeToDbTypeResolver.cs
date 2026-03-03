@@ -23,101 +23,57 @@ public class ClientTypeToDbTypeResolver : IResolver<Type, DbType?>
         ArgumentNullException.ThrowIfNull(type);
 
         if (type.IsEnum)
-        {
             return null; // TODO: Maybe use GlobalSettings to return string/int ?
-        }
 
         type = TypeCache.Get(type).UnderlyingType;
 
         if (type == StaticType.Int64)
-        {
             return DbType.Int64;
-        }
         else if (type == StaticType.Byte)
-        {
             return DbType.Byte;
-        }
         else if (type == StaticType.ByteArray)
-        {
             return DbType.Binary;
-        }
         else if (type == StaticType.Boolean)
-        {
             return DbType.Boolean;
-        }
         else if (type == StaticType.String)
-        {
             return DbType.String;
-        }
         else if (type == StaticType.DateTime)
-        {
             return DbType.DateTime;
-        }
         else if (type == StaticType.DateTimeOffset)
-        {
             return DbType.DateTimeOffset;
-        }
 #if NET
         else if (type == StaticType.DateOnly)
-        {
             return DbType.Date;
-        }
         else if (type == StaticType.TimeOnly)
-        {
             return DbType.Time;
-        }
 #endif
         else if (type == StaticType.Decimal)
-        {
             return DbType.Decimal;
-        }
         else if (type == StaticType.Double)
-        {
             return DbType.Double;
-        }
         else if (type == StaticType.Int32)
-        {
             return DbType.Int32;
-        }
         else if (type == StaticType.Single)
-        {
             return DbType.Single;
-        }
         else if (type == StaticType.Int16)
-        {
             return DbType.Int16;
-        }
         else if (type == StaticType.SqlVariant)
-        {
             return DbType.Object;
-        }
         // Object must be defaulted to String, defaulted by .NET for DbType
         else if (type == StaticType.Object)
-        {
             //return DbType.Object;
             return DbType.String;
-        }
         else if (type == StaticType.CharArray)
-        {
             return DbType.String;
-        }
         else if (type == StaticType.TimeSpan)
-        {
             return DbType.Time;
-        }
         else if (type == StaticType.Byte)
-        {
             return DbType.Byte;
-        }
         else if (type == StaticType.Guid)
-        {
             return DbType.Guid;
-        }
 #if NET
         else if (type == StaticType.Char)
-        {
             return DbType.StringFixedLength;
-        }
 #endif
         // XML must be defaulted to String, defaulted by .NET for DbType
         /*else if (type == typeof(Xml))

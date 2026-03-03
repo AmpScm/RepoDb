@@ -47,7 +47,7 @@ public static partial class SqlConnectionExtension
         else
         {
             var func = Compiler.GetPropertySetterFunc<TEntity>(identityField.FieldName);
-            if (func != null)
+            if (func is not null)
             {
                 while (reader.Read())
                 {
@@ -262,7 +262,7 @@ public static partial class SqlConnectionExtension
     /// <returns></returns>
     private static void AddOrderColumn(DataTable dataTable)
     {
-        if (dataTable == null)
+        if (dataTable is null)
         {
             return;
         }
@@ -371,7 +371,7 @@ public static partial class SqlConnectionExtension
         where T : DbTransaction
     {
         // Check the transaction
-        if (transaction == null)
+        if (transaction is null)
         {
             // Add the transaction if not present
             return (T)connection.EnsureOpen().BeginTransaction();
@@ -389,7 +389,7 @@ public static partial class SqlConnectionExtension
         where T : DbTransaction
     {
         // Check the transaction
-        if (transaction == null)
+        if (transaction is null)
         {
             // Add the transaction if not present
             return (T)(await connection.EnsureOpenAsync(cancellationToken)).BeginTransaction();

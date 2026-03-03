@@ -185,7 +185,7 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
     //                    var dataType = (Type)row["DataType"];
     //                    var providerType = Convert.ToInt32(row["ProviderType"]);
     //                    var npgsqlDbType = Enum.GetName(typeof(NpgsqlDbType), providerType);
-    //                    if (npgsqlDbType == null)
+    //                    if (npgsqlDbType is null)
     //                    {
     //                        continue;
     //                    }

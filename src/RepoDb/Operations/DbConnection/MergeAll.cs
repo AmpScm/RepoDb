@@ -1310,7 +1310,7 @@ public static partial class DbConnectionExtension
                         .InvokeAfterExecution(traceResult, trace, result);
 
                     // Set the return value
-                    if (returnValue != null)
+                    if (returnValue is not null)
                     {
                         context.KeyPropertySetterFunc?.Invoke(entity, returnValue);
                     }
@@ -1398,7 +1398,7 @@ public static partial class DbConnectionExtension
                             while (position < batchItems.Length && reader.Read())
                             {
                                 var value = Converter.DbNullToNull(reader.GetValue(0));
-                                if (value != null)
+                                if (value is not null)
                                 {
                                     positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
 
@@ -1538,7 +1538,7 @@ public static partial class DbConnectionExtension
                         .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
 
                     // Set the return value
-                    if (returnValue != null)
+                    if (returnValue is not null)
                     {
                         context.KeyPropertySetterFunc?.Invoke(entity, returnValue);
                     }
@@ -1632,7 +1632,7 @@ public static partial class DbConnectionExtension
                             while (position < batchItems.Length && await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
                             {
                                 var value = Converter.DbNullToNull(reader.GetValue(0));
-                                if (value != null)
+                                if (value is not null)
                                 {
                                     positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
                                     var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;

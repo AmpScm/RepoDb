@@ -348,7 +348,7 @@ public static partial class DbConnectionExtension
             commandTimeout: commandTimeout,
             transaction: transaction,
             entityType: request.Type,
-            dbFields: DbFieldCache.Get(connection, request.Name, transaction, true),
+            dbFields: param is { } ? DbFieldCache.Get(connection, request.Name, transaction, true) : null,
             trace: trace,
             traceKey: traceKey);
 
@@ -393,7 +393,7 @@ public static partial class DbConnectionExtension
             commandTimeout: commandTimeout,
             transaction: transaction,
             entityType: request.Type,
-            dbFields: await DbFieldCache.GetAsync(connection, request.Name, transaction, true, cancellationToken).ConfigureAwait(false),
+            dbFields: param is { } ? await DbFieldCache.GetAsync(connection, request.Name, transaction, true, cancellationToken).ConfigureAwait(false) : null,
             trace: trace,
             traceKey: traceKey,
             cancellationToken: cancellationToken).ConfigureAwait(false);

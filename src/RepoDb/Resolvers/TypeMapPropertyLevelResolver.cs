@@ -25,7 +25,7 @@ public class TypeMapPropertyLevelResolver : IResolver<PropertyInfo, DbType?>
         // Attribute Level
         var attribute = propertyInfo.GetCustomAttribute<TypeMapAttribute>() ??
             propertyInfo.GetCustomAttribute<DbTypeAttribute>();
-        if (attribute != null)
+        if (attribute is not null)
         {
             dbType = attribute.DbType;
         }

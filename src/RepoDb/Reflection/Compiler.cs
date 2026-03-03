@@ -6,10 +6,8 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
@@ -66,7 +64,7 @@ internal sealed partial class Compiler
         /// <returns></returns>
         public string GetDescriptiveContextString()
         {
-            if (descriptiveContextString != null)
+            if (descriptiveContextString is not null)
             {
                 return descriptiveContextString;
             }
@@ -75,7 +73,7 @@ internal sealed partial class Compiler
             var message = $"Context :: TargetType: {GetTargetType()} ";
 
             // ParameterInfo
-            if (ParameterInfo != null)
+            if (ParameterInfo is not null)
             {
                 message = string.Concat(descriptiveContextString, $"Parameter: {ParameterInfo.Name} ({ParameterInfo.ParameterType}) ");
             }
@@ -193,16 +191,9 @@ internal sealed partial class Compiler
     private static MethodInfo? GetSystemConvertToTypeMethod(Type fromType,
         Type toType) =>
         StaticType.Convert.GetMethod(string.Concat("To", TypeCache.Get(toType).UnderlyingType.Name),
-            [TypeCache.Get(fromType).UnderlyingType])!;
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="conversionType"></param>
-    /// <returns></returns>
-    private static MethodInfo? GetSystemConvertChangeTypeMethod(Type conversionType) =>
-        StaticType.Convert.GetMethod(nameof(Convert.ChangeType),
-            [StaticType.Object, TypeCache.Get(conversionType).UnderlyingType]);
+            [TypeCache.Get(fromType).UnderlyingType, typeof(IFormatProvider)])
+        ?? StaticType.Convert.GetMethod(string.Concat("To", TypeCache.Get(toType).UnderlyingType.Name),
+            [TypeCache.Get(fromType).UnderlyingType]);
 
     /// <summary>
     ///
@@ -269,20 +260,6 @@ internal sealed partial class Compiler
                 interfaceType.IsInterfacedTo(StaticType.IPropertyHandler));
         return propertyHandlerInterface?.GetMethod(nameof(IPropertyHandler<,>.Get));
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <returns></returns>
-    private static MethodInfo GetDbCommandCreateParameterMethod() =>
-        GetMethodInfo(() => DbCommandExtension.CreateParameter(null!, null!, null, null));
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <returns></returns>
-    private static MethodInfo GetDbParameterCollectionAddMethod() =>
-        StaticType.DbParameterCollection.GetMethod("Add")!;
 
     /// <summary>
     ///
@@ -391,7 +368,7 @@ internal sealed partial class Compiler
     private static object? GetHandlerInstance(ClassProperty? classProperty,
         DataReaderField readerField)
     {
-        if (classProperty == null)
+        if (classProperty is null)
         {
             return null;
         }
@@ -420,16 +397,8 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="readerField"></param>
     /// <returns></returns>
-    private static MethodInfo GetDbReaderGetValueOrDefaultMethod(DataReaderField readerField, Type readerType) =>
-        GetDbReaderGetValueOrDefaultMethod(readerField.Type, readerType);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="targetType"></param>
-    /// <returns></returns>
-    private static MethodInfo GetDbReaderGetValueOrDefaultMethod(Type targetType, Type readerType) =>
-        GetDbReaderGetValueMethod(targetType, readerType) ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default));
+    private static MethodInfo GetDbReaderGetValueOrDefaultMethod(DataReaderField readerField, Type readerType)
+        => GetDbReaderGetValueMethod(readerField.Type, readerType) ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default));
 
     private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : struct, Enum
     {
@@ -552,204 +521,8 @@ internal sealed partial class Compiler
 
     private static Expression ConvertExpressionToTimeOnlyToTimeSpan(Expression expression) =>
         Expression.Call(expression, GetMethodInfo<TimeOnly>((x) => x.ToTimeSpan()));
-#endif    
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <param name="toType"></param>
-    /// <returns></returns>
-    private static Expression ConvertExpressionToSystemConvertExpression(Expression expression,
-        Type toType)
-    {
-        var fromType = expression.Type;
-        var underlyingFromType = TypeCache.Get(fromType).UnderlyingType;
-        var underlyingToType = TypeCache.Get(toType).UnderlyingType;
-
-        if (fromType == toType)
-        {
-            return expression;
-        }
-
-        // Identify
-        if (underlyingToType.IsAssignableFrom(fromType))
-        {
-            return ConvertExpressionToTypeExpression(expression, underlyingToType);
-        }
-
-        var result = ConvertExpressionToNullableValue(expression);
-
-        // Convert.To<Type>()
-        if (underlyingFromType.IsEnum)
-        {
-            if (underlyingToType == StaticType.String)
-            {
-                result = Expression.Call(result, nameof(ToString), []);
-            }
-            else if (underlyingToType.IsPrimitive &&
-                (underlyingToType == StaticType.Int16
-                || underlyingToType == StaticType.Int32
-                || underlyingToType == StaticType.Int64
-                || underlyingToType == StaticType.Byte
-                || underlyingToType == StaticType.UInt16
-                || underlyingToType == StaticType.UInt32
-                || underlyingToType == StaticType.UInt64
-                || underlyingToType == StaticType.SByte))
-            {
-                result = Expression.Convert(result, Enum.GetUnderlyingType(underlyingFromType));
-
-                if (result.Type != underlyingToType)
-                {
-                    result = Expression.Convert(result, underlyingToType);
-                }
-            }
-            else if (underlyingToType == StaticType.Decimal)
-            {
-                // Oracle loves decimal
-                result = Expression.Convert(result, Enum.GetUnderlyingType(underlyingFromType));
-
-                if (result.Type != underlyingToType)
-                {
-                    result = Expression.Convert(result, underlyingToType);
-                }
-            }
-            else
-            {
-                return result; // Will fail
-            }
-        }
-        else if (toType == StaticType.String && underlyingFromType == StaticType.DateTime)
-        {
-            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
-            result = Expression.Call(GetMethodInfo(() => StrictToString(DateTime.MinValue)), expr);
-        }
-        else if (toType == StaticType.String && underlyingFromType == StaticType.DateTimeOffset)
-        {
-            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
-            result = Expression.Call(GetMethodInfo(() => StrictToString(DateTimeOffset.MinValue)), expr);
-        }
-        else if (toType == StaticType.String && fromType.IsJsonNode())
-        {
-            result = Expression.Call(result, GetMethodInfo<JsonNode>(x => x.ToJsonString(null)), Expression.Constant(Converter.JsonSerializerOptions));
-        }
-        else if (fromType == typeof(string) && toType.IsJsonNode())
-        {
-            result = Expression.Call(GetMethodInfo(() => JsonNode.Parse("", nodeOptions: null, documentOptions: default)), [result, Expression.Default(typeof(JsonNodeOptions?)), Expression.Default(typeof(JsonDocumentOptions))]);
-
-            if (result.Type != toType)
-            {
-                result = Expression.Convert(result, toType);
-            }
-        }
-#if NET
-        else if (toType == StaticType.String && underlyingFromType == StaticType.DateOnly)
-        {
-            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
-
-            result = Expression.Call(GetMethodInfo(() => StrictToString(DateOnly.MinValue)), expr);
-        }
-        else if (toType == StaticType.String && underlyingFromType == StaticType.TimeOnly)
-        {
-            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
-
-            result = Expression.Call(GetMethodInfo(() => StrictToString(TimeOnly.MinValue)), expr);
-        }
 #endif
-        else if (underlyingToType == StaticType.DateTime && underlyingFromType == StaticType.DateTimeOffset)
-        {
-            result = Expression.Property(result, nameof(DateTimeOffset.DateTime));
-        }
-        else if (underlyingToType == StaticType.DateTimeOffset && underlyingFromType == StaticType.DateTime)
-        {
-            result = Expression.New(typeof(DateTimeOffset).GetConstructor([typeof(DateTime)])!, [result]);
-        }
-        else if (underlyingToType == StaticType.Boolean && fromType == StaticType.String)
-        {
-            result = Expression.Call(GetMethodInfo(() => StrictParseBoolean(null)), expression);
-        }
-        else if (fromType == StaticType.String && underlyingToType == StaticType.Decimal)
-        {
-            result = Expression.Call(GetMethodInfo(() => StrictParseDecimal(null!)), expression);
-        }
-        else if (fromType == StaticType.String && underlyingToType == StaticType.DateTime)
-        {
-            result = Expression.Call(GetMethodInfo(() => StrictParseDateTime(null!)), expression);
-        }
-        else if (fromType == StaticType.String && underlyingToType == StaticType.DateTimeOffset)
-        {
-            result = Expression.Call(GetMethodInfo(() => StrictParseDateTimeOffset(null!)), expression);
-        }
-#if NET
-        else if (fromType == StaticType.String && underlyingToType == typeof(DateOnly))
-        {
-            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
-            result = Expression.Call(GetMethodInfo(() => StrictParseDateOnly(null!)), expr);
-        }
-        else if (fromType == StaticType.String && underlyingToType == typeof(TimeOnly))
-        {
-            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
-            result = Expression.Call(GetMethodInfo(() => StrictParseTimeOnly(null!)), expr);
-        }
-        else if (fromType == typeof(string) && underlyingToType.IsAssignableTo(typeof(IParsable<>).MakeGenericType(underlyingToType)))
-#else
-        else if (fromType == typeof(string) && underlyingToType.IsGenericType && underlyingToType.GetGenericTypeDefinition() == typeof(DbJsonValue<>))
-#endif
-        {
-            var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, binder: null, callConvention: default, [typeof(string), typeof(IFormatProvider)], null)!;
-            result = Expression.Call(parseMethod, expression, Expression.Constant(CultureInfo.InvariantCulture));
-        }
-        else if (toType == typeof(string) && typeof(IFormattable).IsAssignableFrom(underlyingFromType))
-        {
-            var toStringMethod = GetMethodInfo<IFormattable>(x => x.ToString(null, null));
 
-            var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
-            expr = Expression.Convert(expr, typeof(IFormattable));
-
-            result = Expression.Call(expr, toStringMethod, Expression.Constant(null, typeof(string)), Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider)));
-        }
-        else if (GetSystemConvertToTypeMethod(underlyingFromType, underlyingToType) is { } methodInfo)
-        {
-            result = Expression.Call(methodInfo, Expression.Convert(result, methodInfo.GetParameters()[0].ParameterType));
-        }
-        else if (GetSystemConvertChangeTypeMethod(underlyingToType) is { } systemChangeType)
-        {
-            result = Expression.Call(systemChangeType,
-            [
-                ConvertExpressionToTypeExpression(result, StaticType.Object),
-                Expression.Constant(TypeCache.Get(underlyingToType).UnderlyingType)
-            ]);
-        }
-        else
-        {
-            return result; // Will fail!
-        }
-
-        // Do we need manual NULL handling?
-        if ((!underlyingToType.IsValueType || underlyingToType != toType)
-            && (!underlyingFromType.IsValueType || underlyingFromType != fromType))
-        {
-            Expression condition;
-            if (underlyingFromType != fromType)
-            {
-                // E.g. Nullable<System.Int32> -> string
-                condition = Expression.Property(expression, nameof(Nullable<>.HasValue));
-            }
-            else
-            {
-                // E.g. String -> Nullable<System.Int32>
-                condition = Expression.NotEqual(expression, Expression.Constant(null, expression.Type));
-            }
-
-            return Expression.Condition(
-                condition,
-                (result.Type != toType) ? Expression.Convert(result, toType) : result,
-                Expression.Constant(null, toType));
-        }
-
-        // Return
-        return result;
-    }
 
     private static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
 
@@ -1087,20 +860,48 @@ internal sealed partial class Compiler
     ///
     /// </summary>
     /// <param name="expression"></param>
-    /// <param name="trueToType"></param>
+    /// <param name="toType"></param>
     /// <returns></returns>
     private static Expression ConvertExpressionWithAutomaticConversion(Expression expression,
-        Type trueToType)
+        Type toType)
     {
-        var fromType = TypeCache.Get(expression.Type).UnderlyingType;
-        var toType = TypeCache.Get(trueToType)?.UnderlyingType;
+        var fromType = expression.Type;
+        var underlyingFromType = TypeCache.Get(expression.Type).UnderlyingType;
+        var underlyingToType = TypeCache.Get(toType).UnderlyingType;
 
+        if (fromType == toType)
+        {
+            // NO-OP
+        }
+        else if (underlyingFromType == underlyingToType)
+        {
+            // Just nullable handling
+            if (underlyingFromType == fromType)
+            {
+                return Expression.Convert(expression, toType); // Make nullable
+            }
+            else
+            {
+                return ConvertExpressionToNullableValue(expression);
+            }
+        }
+        else if (underlyingFromType.IsBinaryInteger() && underlyingToType.IsBinaryInteger())
+        {
+            var result = Expression.Convert((underlyingFromType == expression.Type) ? expression : Expression.Convert(expression, underlyingFromType), underlyingToType);
+
+            if (toType != underlyingToType && underlyingFromType != expression.Type)
+            {
+                expression = Expression.Condition(Expression.Property(expression, nameof(Nullable<>.HasValue)), Expression.Convert(result, toType), Expression.Constant(null, toType));
+            }
+            else
+                expression = result;
+        }
         // Guid to String
-        if (fromType == StaticType.Guid && toType == StaticType.String)
+        else if (underlyingFromType == StaticType.Guid && underlyingToType == StaticType.String)
         {
             var result = Expression.Call(ConvertExpressionToNullableValue(expression), GetMethodInfo<Guid>(x => x.ToString()));
 
-            if (fromType != expression.Type)
+            if (underlyingFromType != expression.Type)
             {
                 // Handle nullability
                 expression = Expression.Condition(
@@ -1110,15 +911,13 @@ internal sealed partial class Compiler
                     );
             }
             else
-            {
                 expression = result;
-            }
         }
-        else if (fromType == StaticType.Guid && toType == StaticType.ByteArray)
+        else if (underlyingFromType == StaticType.Guid && underlyingToType == StaticType.ByteArray)
         {
             var result = Expression.Call(ConvertExpressionToNullableValue(expression), GetMethodInfo<Guid>(x => x.ToByteArray()));
 
-            if (fromType != expression.Type)
+            if (underlyingFromType != expression.Type)
             {
                 // Handle nullability
                 expression = Expression.Condition(
@@ -1128,50 +927,260 @@ internal sealed partial class Compiler
                     );
             }
             else
-            {
                 expression = result;
-            }
         }
         // String to Guid
-        else if (fromType == StaticType.String && toType == StaticType.Guid)
+        else if (underlyingFromType == StaticType.String && underlyingToType == StaticType.Guid)
         {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToStringToGuid, expression);
         }
-        else if (fromType == StaticType.TimeSpan && toType == StaticType.DateTime)
+        else if (underlyingFromType == StaticType.TimeSpan && underlyingToType == StaticType.DateTime)
         {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToTimeSpanToDateTime, expression);
         }
-        else if (fromType == StaticType.DateTime && toType == StaticType.TimeSpan)
+        else if (underlyingFromType == StaticType.DateTime && underlyingToType == StaticType.TimeSpan)
         {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToDateTimeToTimeSpan, expression);
         }
 #if NET
-        else if (fromType == StaticType.DateTime && toType == StaticType.DateOnly)
+        else if (underlyingFromType == StaticType.DateTime && underlyingToType == StaticType.DateOnly)
         {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToDateTimeToDateOnly, expression);
         }
-        else if (fromType == StaticType.DateOnly && toType == StaticType.DateTime)
+        else if (underlyingFromType == StaticType.DateOnly && underlyingToType == StaticType.DateTime)
         {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToDateOnlyToDateTime, expression);
         }
-        else if (fromType == StaticType.TimeSpan && toType == StaticType.TimeOnly)
+        else if (underlyingFromType == StaticType.TimeSpan && underlyingToType == StaticType.TimeOnly)
         {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToTimeSpanToTimeOnly, expression);
         }
-        else if (fromType == StaticType.TimeOnly && toType == StaticType.TimeSpan)
+        else if (underlyingFromType == StaticType.TimeOnly && underlyingToType == StaticType.TimeSpan)
         {
             expression = ConvertExpressionToNullableGetValueOrDefaultExpression(ConvertExpressionToTimeOnlyToTimeSpan, expression);
         }
 #endif
-        // Others
-        else if (toType != StaticType.SqlVariant)
+        else if (underlyingToType == StaticType.SqlVariant || underlyingToType == typeof(object))
         {
-            expression = ConvertExpressionToSystemConvertExpression(expression, trueToType);
+            // NO-OP
+        }
+        else if (underlyingToType.IsAssignableFrom(fromType))
+        {
+            return Expression.Convert(expression, underlyingToType);
+        }
+        else
+        {
+            return ConvertExpressionToSystemConvertExpression();
         }
 
         // Return
         return expression;
+
+        Expression ConvertExpressionToSystemConvertExpression()
+        {
+            var result = ConvertExpressionToNullableValue(expression);
+
+            // Convert.To<Type>()
+            if (underlyingFromType.IsEnum)
+            {
+                if (underlyingToType == StaticType.String)
+                {
+                    result = Expression.Call(result, nameof(ToString), []);
+                }
+                else if (underlyingToType.IsBinaryInteger())
+                {
+                    result = Expression.Convert(result, Enum.GetUnderlyingType(underlyingFromType));
+
+                    if (result.Type != underlyingToType)
+                    {
+                        result = Expression.Convert(result, underlyingToType);
+                    }
+                }
+                else if (underlyingToType == StaticType.Decimal)
+                {
+                    // Oracle loves decimal
+                    result = Expression.Convert(result, Enum.GetUnderlyingType(underlyingFromType));
+
+                    if (result.Type != underlyingToType)
+                    {
+                        result = Expression.Convert(result, underlyingToType);
+                    }
+                }
+                else
+                {
+                    return result; // Will fail
+                }
+            }
+            else if (toType == StaticType.String && underlyingFromType == StaticType.DateTime)
+            {
+                var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+                result = Expression.Call(GetMethodInfo(() => StrictToString(DateTime.MinValue)), expr);
+            }
+            else if (toType == StaticType.String && underlyingFromType == StaticType.DateTimeOffset)
+            {
+                var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+                result = Expression.Call(GetMethodInfo(() => StrictToString(DateTimeOffset.MinValue)), expr);
+            }
+            else if (toType == StaticType.String && fromType.IsJsonNode())
+            {
+                result = Expression.Call(result, GetMethodInfo<JsonNode>(x => x.ToJsonString(null)), Expression.Constant(Converter.JsonSerializerOptions));
+            }
+            else if (fromType == typeof(string) && toType.IsJsonNode())
+            {
+                result = Expression.Call(GetMethodInfo(() => JsonNode.Parse("", nodeOptions: null, documentOptions: default)), [result, Expression.Default(typeof(JsonNodeOptions?)), Expression.Default(typeof(JsonDocumentOptions))]);
+
+                if (result.Type != toType)
+                {
+                    result = Expression.Convert(result, toType);
+                }
+            }
+#if NET
+            else if (toType == StaticType.String && underlyingFromType == StaticType.DateOnly)
+            {
+                var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+
+                result = Expression.Call(GetMethodInfo(() => StrictToString(DateOnly.MinValue)), expr);
+            }
+            else if (toType == StaticType.String && underlyingFromType == StaticType.TimeOnly)
+            {
+                var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+
+                result = Expression.Call(GetMethodInfo(() => StrictToString(TimeOnly.MinValue)), expr);
+            }
+#endif
+            else if (underlyingToType == StaticType.DateTime && underlyingFromType == StaticType.DateTimeOffset)
+            {
+                result = Expression.Property(result, nameof(DateTimeOffset.DateTime));
+            }
+            else if (underlyingToType == StaticType.DateTimeOffset && underlyingFromType == StaticType.DateTime)
+            {
+                result = Expression.New(typeof(DateTimeOffset).GetConstructor([typeof(DateTime)])!, [result]);
+            }
+            else if (underlyingToType == StaticType.Boolean && fromType == StaticType.String)
+            {
+                result = Expression.Call(GetMethodInfo(() => StrictParseBoolean(null)), expression);
+            }
+            else if (fromType == StaticType.String && underlyingToType == StaticType.Decimal)
+            {
+                result = Expression.Call(GetMethodInfo(() => StrictParseDecimal(null!)), expression);
+            }
+            else if (fromType == StaticType.String && underlyingToType == StaticType.DateTime)
+            {
+                result = Expression.Call(GetMethodInfo(() => StrictParseDateTime(null!)), expression);
+            }
+            else if (fromType == StaticType.String && underlyingToType == StaticType.DateTimeOffset)
+            {
+                result = Expression.Call(GetMethodInfo(() => StrictParseDateTimeOffset(null!)), expression);
+            }
+#if NET
+            else if (fromType == StaticType.String && underlyingToType == typeof(DateOnly))
+            {
+                var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+                result = Expression.Call(GetMethodInfo(() => StrictParseDateOnly(null!)), expr);
+            }
+            else if (fromType == StaticType.String && underlyingToType == typeof(TimeOnly))
+            {
+                var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+                result = Expression.Call(GetMethodInfo(() => StrictParseTimeOnly(null!)), expr);
+            }
+#endif
+            else if (fromType == typeof(string) && underlyingToType.ImplementsIParsable())
+            {
+                var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, binder: null, callConvention: default, [typeof(string), typeof(IFormatProvider)], null)!;
+                result = Expression.Call(parseMethod, expression, Expression.Constant(CultureInfo.InvariantCulture));
+            }
+            else if (toType == typeof(string) && typeof(IFormattable).IsAssignableFrom(underlyingFromType) && fromType.HandleAsStringForDB())
+            {
+                var toStringMethod = GetMethodInfo<IFormattable>(x => x.ToString(null, null));
+
+                var expr = (fromType == underlyingFromType) ? expression : Expression.Convert(expression, underlyingFromType);
+                expr = Expression.Convert(expr, typeof(IFormattable));
+
+                result = Expression.Call(expr, toStringMethod, Expression.Constant(null, typeof(string)), Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider)));
+
+                if (underlyingFromType != fromType)
+                    result = Expression.Condition(Expression.Property(expr, nameof(Nullable<>.HasValue)), result, Expression.Constant(null, typeof(string)));
+            }
+            else if (toType.IsJsonNode() && typeof(IDbJsonValue).IsAssignableFrom(underlyingFromType))
+            {
+                var expr = (fromType == underlyingFromType) ? expression : result;
+
+                result = Expression.Property(expr, GetPropertyInfo<IDbJsonValue>(x => x.JsonNode));
+
+                if (result.Type != toType)
+                    result = Expression.Convert(result, toType);
+            }
+            else if (GetSystemConvertToTypeMethod(underlyingFromType, underlyingToType) is { } methodInfo)
+            {
+                var param = methodInfo.GetParameters();
+                if (param.Length == 1)
+                    result = Expression.Call(methodInfo, Expression.Convert(result, param[0].ParameterType));
+                else
+                    result = Expression.Call(methodInfo, Expression.Convert(result, param[0].ParameterType), Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider)));
+            }
+            else
+            {
+                var systemChangeType = GetMethodInfo(() => WrapConvertChangeType(default!, (Type)null!, (Type)null!));
+
+                // PostgreSql somehow does a lot of System.Object -> System.Array. Check this cheap return first to avoid a lot of reflection
+                result = Expression.Condition(
+                    Expression.TypeIs(expression, underlyingToType),
+                    // This case happens in PostgreSql bulktests
+                    Expression.Convert(expression, underlyingToType),
+                    // And this case is currently not triggered in tests. Ultimate fallback but **SLOW** as it does runtime reflection. Not compiletime
+                    Expression.Convert(
+                        Expression.Call(systemChangeType,
+                        [
+                            ConvertExpressionToTypeExpression(result, StaticType.Object),
+                            Expression.Constant(fromType, typeof(Type)),
+                            Expression.Constant(underlyingToType, typeof(Type)),
+                        ]),
+                        underlyingToType)
+                    );
+            }
+
+            // Do we need manual NULL handling?
+            if ((!underlyingToType.IsValueType || underlyingToType != toType)
+                && (!underlyingFromType.IsValueType || underlyingFromType != fromType))
+            {
+                Expression condition;
+                if (underlyingFromType != fromType)
+                {
+                    // E.g. Nullable<System.Int32> -> string
+                    condition = Expression.Property(expression, nameof(Nullable<>.HasValue));
+                }
+                else
+                {
+                    // E.g. String -> Nullable<System.Int32>
+                    condition = Expression.NotEqual(expression, Expression.Constant(null, expression.Type));
+                }
+
+                return Expression.Condition(
+                    condition,
+                    (result.Type != toType) ? Expression.Convert(result, toType) : result,
+                    Expression.Constant(null, toType));
+            }
+
+            // Return
+            return result;
+        }
     }
+
+    static object? WrapConvertChangeType(object? value, Type fromType, Type conversionType)
+    {
+        try
+        {
+            return Convert.ChangeType(value, conversionType, CultureInfo.InvariantCulture);
+        }
+        catch (Exception ex)
+        {
+            throw MakeException(value?.GetType(), conversionType, fromType, ex);
+        }
+
+        static InvalidOperationException MakeException(Type? valueType, Type conversionType, Type fromType, Exception innerException)
+            => new InvalidOperationException($"No declared converter found to convert value of type '{valueType?.FullName ?? "null"}' (declared as'{fromType.FullName}') to type '{conversionType.FullName}', even via final reflection fallback.", innerException);
+    }
+
 
     /// <summary>
     ///
@@ -1187,7 +1196,7 @@ internal sealed partial class Compiler
         ClassPropertyParameterInfo classPropertyParameterInfo)
     {
         // Return if null
-        if (handlerInstance == null)
+        if (handlerInstance is null)
         {
             return expression;
         }
@@ -1221,7 +1230,7 @@ internal sealed partial class Compiler
 
         // Check the handler
         var handlerInstance = GetClassHandler(typeOfResult);
-        if (handlerInstance == null)
+        if (handlerInstance is null)
         {
             return entityExpression;
         }
@@ -1272,7 +1281,7 @@ internal sealed partial class Compiler
             (targetType is { } tt ? PropertyHandlerCache.Get<object>(tt) : null);
 
         // Check
-        if (handlerInstance == null)
+        if (handlerInstance is null)
         {
             return (expression, null);
         }
@@ -1309,13 +1318,8 @@ internal sealed partial class Compiler
         Type resultType,
         Expression entityOrEntitiesExpression)
     {
-        // Check the handler
-        var handlerInstance = GetClassHandler(resultType);
-        if (handlerInstance == null)
-
-        {
+        if (GetClassHandler(resultType) is not { } handlerInstance)
             return entityOrEntitiesExpression;
-        }
 
         // Validate
         var handlerType = handlerInstance.GetType();
@@ -1342,38 +1346,15 @@ internal sealed partial class Compiler
 
     #region Common
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <param name="enumType"></param>
-    /// <returns></returns>
     private static MethodCallExpression GetEnumIsDefinedExpression(Expression expression,
         Type enumType)
     {
-        var parameters = new Expression[]
-        {
-            Expression.Constant(enumType),
-            ConvertExpressionToTypeExpression(expression, StaticType.Object)
-        };
-        return Expression.Call(GetMethodInfo<Enum>((x) => Enum.IsDefined(default!, default!)), parameters);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <param name="enumType"></param>
-    /// <returns></returns>
-    private static MethodCallExpression GetEnumGetNameExpression(Expression expression,
-        Type enumType)
-    {
-        var parameters = new Expression[]
-        {
-            Expression.Constant(enumType),
-            ConvertExpressionToTypeExpression(expression, StaticType.Object)
-        };
-        return Expression.Call(GetMethodInfo<Enum>((x) => Enum.GetName(default!, default!)), parameters);
+        return Expression.Call(
+            GetMethodInfo<Enum>((x) => Enum.IsDefined(default!, default!)),
+            [
+                Expression.Constant(enumType),
+                ConvertExpressionToTypeExpression(expression, StaticType.Object)
+            ]);
     }
 
     /// <summary>
@@ -1488,7 +1469,7 @@ internal sealed partial class Compiler
         {
             // If it has a PropertyHandler and the parameter type is matching, then, skip the auto conversion.
             var autoConvertEnum = true;
-            if (handlerInstance != null)
+            if (handlerInstance is not null)
             {
                 var getParameter = GetPropertyHandlerGetParameter(GetPropertyHandlerGetMethod(handlerInstance))!;
                 autoConvertEnum = !(TypeCache.Get(getParameter.ParameterType).UnderlyingType == readerField.Type);
@@ -1590,7 +1571,7 @@ internal sealed partial class Compiler
                 var classProperty = classProperties.
                     FirstOrDefault(property =>
                         string.Equals(property.PropertyInfo.Name, parameterInfo.Name, StringComparison.OrdinalIgnoreCase));
-                if (classProperty != null)
+                if (classProperty is not null)
                 {
                     list.Add(new ClassPropertyParameterInfo
                     {
@@ -1608,7 +1589,7 @@ internal sealed partial class Compiler
             .ForEach(property =>
             {
                 var listItem = list.FirstOrDefault(item => item.ClassProperty == property);
-                if (listItem != null)
+                if (listItem is not null)
                 {
                     return;
                 }
@@ -1747,7 +1728,7 @@ internal sealed partial class Compiler
     {
         // Initialize variables
         var elementInits = new List<ElementInit>();
-        var addMethod = StaticType.IDictionaryStringObject.GetMethod("Add", [StaticType.String, StaticType.Object])!;
+        var addMethod = StaticType.IDictionaryStringObject.GetMethod(nameof(IDictionary<,>.Add), [StaticType.String, StaticType.Object])!;
 
         // Iterate each properties
         for (var ordinal = 0; ordinal < readerFields.Count; ordinal++)
@@ -1935,6 +1916,7 @@ internal sealed partial class Compiler
         ParameterExpression propertyExpression,
         ClassProperty? classProperty,
         DbField dbField,
+        ParameterExpression dbCommandExpression,
         IDbHelper? dbHelper)
     {
         var expression = propertyExpression.Type == StaticType.PropertyInfo
@@ -1948,7 +1930,7 @@ internal sealed partial class Compiler
         }
 
         // Create the method call to set the parameter
-        var setValueCall = Expression.Assign(Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.Value)), expression);
+        var setValueCall = GetDbParameterValueAssignmentExpression(dbParameterExpression, expression, dbCommandExpression);
 
         // Use a static helper to throw the exception (to avoid closure allocation)
         var exceptionHelperMethod = GetMethodInfo(() => ThrowParameterAssignmentException("", default, default!));
@@ -2005,7 +1987,7 @@ internal sealed partial class Compiler
         DbField dbField)
     {
         var dbType = IsPostgreSqlUserDefined(dbField) ? DbType.Object : classProperty?.DbType;
-        if (dbType == null)
+        if (dbType is null)
         {
             var underlyingType = TypeCache.Get(dbField?.Type).UnderlyingType;
             dbType = TypeMapper.Get(underlyingType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(underlyingType);
@@ -2019,16 +2001,16 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="dbType"></param>
     /// <returns></returns>
-    private static MethodCallExpression? GetDbParameterDbTypeAssignmentExpression(ParameterExpression dbParameterExpression,
+    private static BinaryExpression? GetDbParameterDbTypeAssignmentExpression(ParameterExpression dbParameterExpression,
         DbType? dbType)
     {
-        MethodCallExpression? expression = null;
+        BinaryExpression? expression = null;
 
         // Set the DB Type
-        if (dbType != null)
+        if (dbType is { } type)
         {
-            var dbParameterDbTypeSetMethod = StaticType.DbParameter.GetProperty(nameof(DbParameter.DbType))!.SetMethod!;
-            expression = Expression.Call(dbParameterExpression, dbParameterDbTypeSetMethod, Expression.Constant(dbType));
+            var dbParameterDbType = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.DbType));
+            expression = Expression.Assign(dbParameterDbType, Expression.Constant(type));
         }
 
         // Return the expression
@@ -2054,7 +2036,7 @@ internal sealed partial class Compiler
     /// <param name="dbField"></param>
     /// <param name="entityIndex"></param>
     /// <param name="dbSetting"></param>
-    private static MethodCallExpression GetDbParameterNameAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterNameAssignmentExpression(Expression dbParameterExpression,
         DbField dbField,
         int entityIndex,
         IDbSetting dbSetting)
@@ -2070,7 +2052,7 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="dbParameterExpression"></param>
     /// <param name="parameterName"></param>
-    private static MethodCallExpression GetDbParameterNameAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterNameAssignmentExpression(Expression dbParameterExpression,
         string parameterName) =>
         GetDbParameterNameAssignmentExpression(dbParameterExpression, Expression.Constant(parameterName));
 
@@ -2079,22 +2061,12 @@ internal sealed partial class Compiler
     /// </summary>
     /// <param name="dbParameterExpression"></param>
     /// <param name="paramaterNameExpression"></param>
-    private static MethodCallExpression GetDbParameterNameAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterNameAssignmentExpression(Expression dbParameterExpression,
         Expression paramaterNameExpression)
     {
-        var dbParameterValueNameMethod = GetPropertyInfo<DbParameter>(x => x.ParameterName).SetMethod!;
-        return Expression.Call(dbParameterExpression, dbParameterValueNameMethod, paramaterNameExpression);
+        var dbParameterValueName = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.ParameterName));
+        return Expression.Assign(dbParameterValueName, paramaterNameExpression);
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="dbParameterExpression"></param>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    private static MethodCallExpression GetDbParameterValueAssignmentExpression(Expression dbParameterExpression,
-        object? value) =>
-        GetDbParameterValueAssignmentExpression(dbParameterExpression, Expression.Constant(value));
 
     /// <summary>
     ///
@@ -2102,14 +2074,27 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="valueExpression"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterValueAssignmentExpression(Expression dbParameterExpression,
-        Expression valueExpression)
+    private static Expression GetDbParameterValueAssignmentExpression(Expression dbParameterExpression,
+        Expression valueExpression,
+        ParameterExpression? dbCommandExpression = null)
     {
-        var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterValueSetMethod = GetPropertyInfo<DbParameter>(x => x.Value).SetMethod!;
-        var convertToDbNullMethod = GetMethodInfo(() => Converter.NullToDbNull(null));
-        return Expression.Call(parameterExpression, dbParameterValueSetMethod,
-            Expression.Call(convertToDbNullMethod, ConvertExpressionToTypeExpression(valueExpression, StaticType.Object)));
+        if (dbCommandExpression is null)
+        {
+            var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
+            var dbParameterValueSet = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.Value));
+            var convertToDbNullMethod = GetMethodInfo(() => Converter.NullToDbNull(null));
+            return Expression.Assign(dbParameterValueSet,
+                Expression.Call(convertToDbNullMethod, ConvertExpressionToTypeExpression(valueExpression, StaticType.Object)));
+        }
+        else
+        {
+            return Expression.Call(
+                GetMethodInfo<DbCommand>(x => x.SetValue(null!, null)),
+                dbCommandExpression,
+                dbParameterExpression,
+                Expression.Convert(valueExpression, typeof(Object))
+                );
+        }
     }
 
     /// <summary>
@@ -2118,7 +2103,7 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="direction"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterDirectionAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterDirectionAssignmentExpression(Expression dbParameterExpression,
         ParameterDirection direction) =>
         GetDbParameterDirectionAssignmentExpression(dbParameterExpression, Expression.Constant(direction));
 
@@ -2128,12 +2113,12 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="directionExpression"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterDirectionAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterDirectionAssignmentExpression(Expression dbParameterExpression,
         Expression directionExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterDirectionSetMethod = GetPropertyInfo<DbParameter>(x => x.Direction).SetMethod!;
-        return Expression.Call(parameterExpression, dbParameterDirectionSetMethod, directionExpression);
+        var dbParameterDirection = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.Direction));
+        return Expression.Assign(dbParameterDirection, directionExpression);
     }
 
     /// <summary>
@@ -2142,7 +2127,7 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="size"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterSizeAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterSizeAssignmentExpression(Expression dbParameterExpression,
         int size) =>
         GetDbParameterSizeAssignmentExpression(dbParameterExpression, Expression.Constant(size));
 
@@ -2152,12 +2137,12 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="sizeExpression"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterSizeAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterSizeAssignmentExpression(Expression dbParameterExpression,
         Expression sizeExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterSizeSetMethod = GetPropertyInfo<DbParameter>(x => x.Size).SetMethod!;
-        return Expression.Call(parameterExpression, dbParameterSizeSetMethod, sizeExpression);
+        var dbParameterSize = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.Size));
+        return Expression.Assign(dbParameterSize, sizeExpression);
     }
 
     /// <summary>
@@ -2166,7 +2151,7 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterPrecisionAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterPrecisionAssignmentExpression(Expression dbParameterExpression,
         byte precision) =>
         GetDbParameterPrecisionAssignmentExpression(dbParameterExpression, Expression.Constant(precision));
 
@@ -2176,12 +2161,12 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="precisionExpression"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterPrecisionAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterPrecisionAssignmentExpression(Expression dbParameterExpression,
         Expression precisionExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterPrecisionSetMethod = GetPropertyInfo<DbParameter>(x => x.Precision).SetMethod!;
-        return Expression.Call(parameterExpression, dbParameterPrecisionSetMethod, precisionExpression);
+        var dbParameterPrecision = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.Precision));
+        return Expression.Assign(dbParameterPrecision, precisionExpression);
     }
 
     /// <summary>
@@ -2190,7 +2175,7 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="scale"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterScaleAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterScaleAssignmentExpression(Expression dbParameterExpression,
         byte scale) =>
         GetDbParameterScaleAssignmentExpression(dbParameterExpression, Expression.Constant(scale));
 
@@ -2200,23 +2185,12 @@ internal sealed partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="scaleExpression"></param>
     /// <returns></returns>
-    private static MethodCallExpression GetDbParameterScaleAssignmentExpression(Expression dbParameterExpression,
+    private static BinaryExpression GetDbParameterScaleAssignmentExpression(Expression dbParameterExpression,
         Expression scaleExpression)
     {
         var parameterExpression = ConvertExpressionToTypeExpression(dbParameterExpression, StaticType.DbParameter);
-        var dbParameterScaleSetMethod = GetPropertyInfo<DbParameter>(p => p.Scale).SetMethod!;
-        return Expression.Call(parameterExpression, dbParameterScaleSetMethod, scaleExpression);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="dbParameterExpression"></param>
-    /// <returns></returns>
-    private static MethodCallExpression EnsureTableValueParameterExpression(Expression dbParameterExpression)
-    {
-        var method = GetMethodInfo(() => DbCommandExtension.EnsureTableValueParameter(default!));
-        return Expression.Call(method, dbParameterExpression);
+        var dbParameterScale = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(p => p.Scale));
+        return Expression.Assign(dbParameterScale, scaleExpression);
     }
 
     /// <summary>
@@ -2287,7 +2261,7 @@ internal sealed partial class Compiler
             var entityProperties = PropertyCache.Get(entityExpression.Type);
             classProperty = entityProperties.GetByFieldName(fieldName);
 
-            if (classProperty != null)
+            if (classProperty is not null)
             {
                 propertyVariableExpression = Expression.Variable(classProperty.PropertyInfo.PropertyType, string.Concat("propertyVariable", fieldName));
                 propertyInstanceExpression = Expression.Property(entityExpression, classProperty.PropertyInfo);

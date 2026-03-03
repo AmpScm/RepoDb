@@ -9,7 +9,6 @@ namespace RepoDb;
 public static class IdentityCache
 {
     private static readonly ConcurrentDictionary<Type, ClassProperty?> cache = new();
-    private static readonly IdentityResolver resolver = new();
 
     /// <summary>
     /// Gets the cached identity property of the data entity.
@@ -26,7 +25,7 @@ public static class IdentityCache
     /// <param name="entityType">The type of the data entity.</param>
     /// <returns>The cached identity property.</returns>
     public static ClassProperty? Get(Type entityType)
-        => cache.GetOrAdd(entityType, resolver.Resolve);
+        => cache.GetOrAdd(entityType, IdentityResolver.Instance.Resolve);
 
     /// <summary>
     /// Flushes all the existing cached identity <see cref="ClassProperty"/> objects.

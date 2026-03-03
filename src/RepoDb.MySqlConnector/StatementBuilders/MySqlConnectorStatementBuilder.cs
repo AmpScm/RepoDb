@@ -489,7 +489,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         {
             var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
 
-            if (primaryField == null)
+            if (primaryField is null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
             }
@@ -622,7 +622,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
         {
             var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
 
-            if (primaryField == null)
+            if (primaryField is null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
             }
@@ -954,4 +954,7 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     }
 
     #endregion
+
+    public override string? JsonColumnType => base.JsonColumnType;
+    public override string IdentityDefinition => "AUTO_INCREMENT";
 }

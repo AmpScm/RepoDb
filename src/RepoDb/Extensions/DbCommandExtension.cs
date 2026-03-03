@@ -2,6 +2,7 @@ using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
+using System.Reflection;
 using RepoDb.Attributes.Parameter;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
@@ -61,51 +62,36 @@ public static class DbCommandExtension
         // Set the values
         parameter.ParameterName = name.AsParameter(index: 0, dbSetting: DbSettingMapper.Get(command.Connection!));
 
-        if (DbHelperMapper.Get(command.Connection!) is BaseDbHelper dbh)
-        {
-            value = dbh.ParameterValueToDb(value);
-        }
-
-        parameter.Value = value ?? DBNull.Value;
+        command.SetValue(parameter, value);
 
         // The DB Type is auto set when setting the values
-        if (dbType != null)
+        if (dbType is { } type)
         {
-            // Prepare() requires an explicit assignment, weird Microsoft
-            parameter.DbType = dbType.Value;
+            // Prepare() requires an explicit assignment
+            parameter.DbType = type;
         }
 
         // Set the direction
-        if (parameterDirection != null)
+        if (parameterDirection is { } direction)
         {
-            parameter.Direction = parameterDirection.Value;
+            parameter.Direction = direction;
         }
-
-        // Table-Valued Parameter
-        EnsureTableValueParameter(parameter);
 
         // Return the parameter
         return parameter;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="parameter"></param>
-    internal static void EnsureTableValueParameter(IDbDataParameter parameter)
+    public static void SetValue(this IDbCommand command, IDbDataParameter parameter, object? value)
     {
-        if (parameter == null || parameter.Value is not DataTable table)
+        ArgumentNullException.ThrowIfNull(command);
+        ArgumentNullException.ThrowIfNull(parameter);
+
+        if (value is { } && DbHelperMapper.Get(command.Connection!) is BaseDbHelper dbh)
         {
-            return;
+            value = dbh.ParameterValueToDb(value, parameter);
         }
 
-        var property = parameter.GetType().GetProperty("TypeName");
-        if (property == null)
-        {
-            return;
-        }
-
-        property.SetValue(parameter, table.TableName);
+        parameter.Value = value ?? DBNull.Value;
     }
 
     /// <summary>
@@ -203,7 +189,7 @@ public static class DbCommandExtension
         DbFieldCollection? dbFields = null)
     {
         // Check
-        if (param == null)
+        if (param is null)
         {
             return;
         }
@@ -334,10 +320,11 @@ public static class DbCommandExtension
 
         // Automatic Conversion
         var converted = !haveDbtype && AutomaticConvert(dbField, ref valueType, ref value);
-        parameter.Value = value ?? DBNull.Value;
-        if (converted)
+        command.SetValue(parameter, value);
+        if (converted
+            && clientTypeToDbTypeResolver.Resolve(valueType!) is { } typeValue)
         {
-            parameter.DbType = clientTypeToDbTypeResolver.Resolve(valueType!)!.Value;
+            parameter.DbType = typeValue;
         }
 
         // Set the size
@@ -397,7 +384,7 @@ public static class DbCommandExtension
         InvokePropertyHandler(classProperty, parameter, ref valueType, ref value);
 
         // Set the parameter value (in case)
-        parameter.Value = value ?? DBNull.Value;
+        SetValue(command, parameter, value);
 
         // Set the size
         if ((size ?? dbField?.Size) is { } paramSize)
@@ -455,7 +442,7 @@ public static class DbCommandExtension
         var paramClassProperties = TypeCache.Get(type).IsClassType ? PropertyCache.Get(type) : type.GetClassProperties();
 
         // Skip
-        if (propertiesToSkip != null)
+        if (propertiesToSkip is not null)
         {
             paramClassProperties = paramClassProperties.Where(p => !propertiesToSkip.Contains(p.PropertyInfo.Name));
         }
@@ -551,7 +538,7 @@ public static class DbCommandExtension
         Type? entityType,
         DbFieldCollection? dbFields = null)
     {
-        if (queryGroup == null)
+        if (queryGroup is null)
         {
             return;
         }
@@ -572,7 +559,7 @@ public static class DbCommandExtension
         Type? entityType,
         DbFieldCollection? dbFields = null)
     {
-        if (queryFields == null)
+        if (queryFields is null)
         {
             return;
         }
@@ -619,7 +606,7 @@ public static class DbCommandExtension
         Type? entityType,
         DbFieldCollection? dbFields = null)
     {
-        if (queryField == null)
+        if (queryField is null)
         {
             return;
         }
@@ -779,7 +766,7 @@ public static class DbCommandExtension
         var propertyHandler = classProperty?.GetPropertyHandler() ??
             (valueType == null ? null : PropertyHandlerCache.Get<object>(valueType));
 
-        if (propertyHandler != null)
+        if (propertyHandler is not null)
         {
             var propertyHandlerSetMethod = Reflection.Compiler.GetPropertyHandlerInterfaceOrHandlerType(propertyHandler)?.GetMethod(nameof(IPropertyHandler<,>.Set))!;
             value = propertyHandlerSetMethod
@@ -858,7 +845,7 @@ public static class DbCommandExtension
 
             if (dbFieldType != valueType)
             {
-                if (value != null)
+                if (value is not null)
                 {
                     value = AutomaticConvert(value, valueType, dbFieldType);
                 }
@@ -870,6 +857,93 @@ public static class DbCommandExtension
         }
 
         return false;
+
+
+        static object? AutomaticConvert(object? value, Type fromType, Type targetType)
+        {
+            if (fromType == null || targetType == null || fromType == targetType)
+            {
+                return value;
+            }
+            if (fromType == StaticType.String && targetType == StaticType.Guid)
+            {
+                if (value is string { } str
+                    && Guid.TryParse(str, out var result))
+                {
+                    return result;
+                }
+                return Guid.Empty;
+            }
+            else if (fromType == StaticType.Guid && targetType == StaticType.String)
+            {
+                return AutomaticConvertGuidToString(value);
+            }
+            else if (fromType == StaticType.DateTimeOffset && targetType == StaticType.DateTime && value is DateTimeOffset dto)
+            {
+                return dto.DateTime;
+            }
+            else if (targetType == StaticType.DateTime && value is DateTime dt)
+            {
+                return dt;
+            }
+            else if (fromType == StaticType.DateTime && targetType == StaticType.String)
+            {
+                return ((DateTime)value!).ToString("o", CultureInfo.InvariantCulture);
+            }
+            else if (fromType == StaticType.DateTimeOffset && targetType == StaticType.String)
+            {
+                return ((DateTimeOffset)value!).ToString("o", CultureInfo.InvariantCulture);
+            }
+#if NET
+            else if (fromType == StaticType.DateOnly && targetType == StaticType.DateTime)
+            {
+                return AutomaticConvertDateOnlyToDateTime(value);
+            }
+            else if (fromType == StaticType.TimeOnly && targetType == StaticType.String)
+            {
+                return ((TimeOnly)value!).ToString("o", CultureInfo.InvariantCulture);
+            }
+            else if (fromType == StaticType.DateOnly && targetType == StaticType.String)
+            {
+                return ((DateOnly)value!).ToString("d", CultureInfo.InvariantCulture);
+            }
+#endif
+            else if (targetType == StaticType.String && value is IFormattable fmt)
+            {
+                return fmt.ToString(null, CultureInfo.InvariantCulture);
+            }
+            else if (targetType.IsJsonNode() && value is IDbJsonValue jv)
+            {
+                return jv.JsonNode;
+            }
+#if NET
+            else if (fromType == StaticType.String && typeof(IParsable<>).MakeGenericType(targetType).IsAssignableFrom(targetType)
+                && targetType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [StaticType.String, typeof(IFormatProvider)]) is { } parser)
+            {
+                return parser.Invoke(null, [value as string, CultureInfo.InvariantCulture]);
+            }
+#endif
+            else if (value == DBNull.Value)
+            {
+                if (TypeCache.Get(targetType).HasNullValue)
+                    return null;
+                else
+                    return Activator.CreateInstance(targetType);
+            }
+            else if (targetType == StaticType.Object)
+            {
+                return value;
+            }
+
+            try
+            {
+                return Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+            }
+            catch (InvalidCastException e)
+            {
+                throw new InvalidCastException($"While converting from {value?.GetType().FullName} to {targetType.FullName}: " + e.Message, e);
+            }
+        }
     }
 
     /// <summary>
@@ -898,89 +972,6 @@ public static class DbCommandExtension
         }
 
         return dbFields.GetByFieldName(fieldNameSpan.ToString());
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="fromType"></param>
-    /// <param name="targetType"></param>
-    /// <returns></returns>
-    private static object? AutomaticConvert(object? value,
-        Type fromType,
-        Type targetType)
-    {
-        if (fromType == null || targetType == null || fromType == targetType)
-        {
-            return value;
-        }
-        if (fromType == StaticType.String && targetType == StaticType.Guid)
-        {
-            if (value is string { } str
-                && Guid.TryParse(str, out var result))
-            {
-                return result;
-            }
-            return Guid.Empty;
-        }
-        else if (fromType == StaticType.Guid && targetType == StaticType.String)
-        {
-            return AutomaticConvertGuidToString(value);
-        }
-        else if (fromType == StaticType.DateTimeOffset && targetType == StaticType.DateTime && value is DateTimeOffset dto)
-        {
-            return dto.DateTime;
-        }
-        else if (targetType == StaticType.DateTime && value is DateTime dt)
-        {
-            return dt;
-        }
-        else if (fromType == StaticType.DateTime && targetType == StaticType.String)
-        {
-            return ((DateTime)value!).ToString("o", CultureInfo.InvariantCulture);
-        }
-        else if (fromType == StaticType.DateTimeOffset && targetType == StaticType.String)
-        {
-            return ((DateTimeOffset)value!).ToString("o", CultureInfo.InvariantCulture);
-        }
-#if NET
-        else if (fromType == StaticType.DateOnly && targetType == StaticType.DateTime)
-        {
-            return AutomaticConvertDateOnlyToDateTime(value);
-        }
-        else if (fromType == StaticType.TimeOnly && targetType == StaticType.String)
-        {
-            return ((TimeOnly)value!).ToString("o", CultureInfo.InvariantCulture);
-        }
-        else if (fromType == StaticType.DateOnly && targetType == StaticType.String)
-        {
-            return ((TimeOnly)value!).ToString("d", CultureInfo.InvariantCulture);
-        }
-#endif
-        else
-        {
-            if (value == DBNull.Value)
-            {
-                if (TypeCache.Get(targetType).HasNullValue)
-                    return null;
-                else
-                    return Activator.CreateInstance(targetType);
-            }
-            else if (targetType == StaticType.Object)
-            {
-                return value;
-            }
-
-            try
-            {
-                return Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
-            }
-            catch (InvalidCastException e)
-            {
-                throw new InvalidCastException($"While converting from {value?.GetType().FullName} to {targetType.FullName}: " + e.Message, e);
-            }
-        }
     }
 
     /// <summary>

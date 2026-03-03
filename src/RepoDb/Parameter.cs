@@ -176,11 +176,8 @@ public sealed class Parameter : IEquatable<Parameter>
     /// <param name="objA">The first <see cref="Parameter"/> object.</param>
     /// <param name="objB">The second <see cref="Parameter"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(Parameter? objA,
-        Parameter? objB)
-    {
-        return objA is null ? objB is null : objA.Equals(objB);
-    }
+    public static bool operator ==(Parameter? objA, Parameter? objB)
+        => ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
 
     /// <summary>
     /// Compares the inequality of the two <see cref="Parameter"/> objects.
@@ -188,9 +185,8 @@ public sealed class Parameter : IEquatable<Parameter>
     /// <param name="objA">The first <see cref="Parameter"/> object.</param>
     /// <param name="objB">The second <see cref="Parameter"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(Parameter? objA,
-        Parameter? objB) =>
-        !(objA == objB);
+    public static bool operator !=(Parameter? objA, Parameter? objB)
+        => !(objA == objB);
 
     #endregion
 }

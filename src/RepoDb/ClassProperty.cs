@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Reflection;
 using RepoDb.Attributes;
@@ -103,41 +104,67 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
      */
 
     private bool isPrimaryAttributeWasSet;
-    private PrimaryAttribute? primaryAttribute;
+    private bool hasPrimaryAttribute;
 
     /// <summary>
     /// Gets the <see cref="PrimaryAttribute"/> if present.
     /// </summary>
     /// <returns>The instance of <see cref="PrimaryAttribute"/>.</returns>
+    public bool IsPrimary
+    {
+        get
+        {
+            if (!isPrimaryAttributeWasSet)
+            {
+                isPrimaryAttributeWasSet = true;
+
+                hasPrimaryAttribute = PropertyInfo.GetCustomAttribute<PrimaryAttribute>() is { } || PropertyInfo.GetCustomAttribute<KeyAttribute>() is { };
+            }
+
+            return hasPrimaryAttribute;
+        }
+    }
+
+    /// <summary>
+    /// Gets the <see cref="PrimaryAttribute"/> if present.
+    /// </summary>
+    /// <returns>The instance of <see cref="PrimaryAttribute"/>.</returns>
+    [Obsolete("Use .IsPrimary")]
     public PrimaryAttribute? GetPrimaryAttribute()
     {
-        if (isPrimaryAttributeWasSet)
-        {
-            return primaryAttribute;
-        }
-        isPrimaryAttributeWasSet = true;
-        return primaryAttribute = PropertyInfo.GetCustomAttribute<PrimaryAttribute>() ??
-            (PropertyInfo.GetCustomAttribute<KeyAttribute>() != null ? new PrimaryAttribute() : null);
+        return IsPrimary ? PrimaryAttribute.Instance : null;
     }
 
     /*
      * GetIdentityAttribute
      */
     private bool isIdentityAttributeWasSet;
-    private IdentityAttribute? identityAttribute;
+    private bool hasIdentityAttribute;
+
+    /// <summary>
+    /// Gets a boolean indicating whether the property has an attribute declaring the field as identity field.
+    /// </summary>
+    public bool IsIdentity
+    {
+        get
+        {
+            if (!isIdentityAttributeWasSet)
+            {
+                isIdentityAttributeWasSet = true;
+                hasIdentityAttribute = PropertyInfo.GetCustomAttribute<IdentityAttribute>() is { } || PropertyInfo.GetCustomAttribute<DatabaseGeneratedAttribute>() is { DatabaseGeneratedOption: DatabaseGeneratedOption.Identity };
+            }
+            return hasIdentityAttribute;
+        }
+    }
 
     /// <summary>
     /// Gets the <see cref="IdentityAttribute"/> if present.
     /// </summary>
-    /// <returns>The instance of <see cref="IdentityAttribute"/>.</returns>
+    /// <returns>An IdentityAttribute instance if <see cref="IsIdentity"/> is true</returns>
+    [Obsolete("Use .HasIdentityAttribute")]
     public IdentityAttribute? GetIdentityAttribute()
     {
-        if (isIdentityAttributeWasSet)
-        {
-            return identityAttribute;
-        }
-        isIdentityAttributeWasSet = true;
-        return identityAttribute = PropertyInfo.GetCustomAttribute<IdentityAttribute>();
+        return IsIdentity ? IdentityAttribute.Instance : null;
     }
 
     /*
@@ -182,11 +209,6 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
         return propertyHandlerAttribute.Value;
     }
 
-    [Obsolete("Always returns true"), EditorBrowsable(EditorBrowsableState.Never)]
-    public bool? IsPrimary() => true;
-    [Obsolete("Always returns true"), EditorBrowsable(EditorBrowsableState.Never)]
-    public bool? IsIdentity() => true;
-
     /*
      * GetDbType
      */
@@ -215,8 +237,9 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// <typeparam name="TPropertyHandler">The type of the handler.</typeparam>
     /// <returns>The mapped property handler object.</returns>
     public TPropertyHandler? GetPropertyHandler<TPropertyHandler>()
+        where TPropertyHandler : class
     {
-        return Converter.ToType<TPropertyHandler>(PropertyHandlerCache.Get<TPropertyHandler>(DeclaringType, PropertyInfo));
+        return PropertyHandlerCache.Get<TPropertyHandler>(DeclaringType, PropertyInfo) as TPropertyHandler;
     }
 
     /*
@@ -269,15 +292,8 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// <param name="objA">The first <see cref="ClassProperty"/> object.</param>
     /// <param name="objB">The second <see cref="ClassProperty"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(ClassProperty? objA,
-        ClassProperty? objB)
-    {
-        if (objA is null)
-        {
-            return objB is null;
-        }
-        return objB?.GetHashCode() == objA.GetHashCode();
-    }
+    public static bool operator ==(ClassProperty? objA, ClassProperty? objB)
+        => ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
 
     /// <summary>
     /// Compares the inequality of the two <see cref="ClassProperty"/> objects.
@@ -285,9 +301,8 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// <param name="objA">The first <see cref="ClassProperty"/> object.</param>
     /// <param name="objB">The second <see cref="ClassProperty"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(ClassProperty? objA,
-        ClassProperty? objB) =>
-        !(objA == objB);
+    public static bool operator !=(ClassProperty? objA, ClassProperty? objB)
+        => !(objA == objB);
 
     #endregion
 }

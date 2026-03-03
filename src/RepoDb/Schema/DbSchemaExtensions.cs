@@ -25,9 +25,9 @@ public static class DbSchemaExtensions
 
         if (type != null && schemaName != null)
             return schemaObjects.Any(x => x.Name == name && x.Type == type && schemaName == x.Schema);
-        else if (type != null)
+        else if (type is not null)
             return schemaObjects.Any(x => x.Name == name && x.Type == type);
-        else if (schemaName != null)
+        else if (schemaName is not null)
             return schemaObjects.Any(x => x.Name == name && schemaName == x.Schema);
         else
             return schemaObjects.Any(x => x.Name == name);
@@ -55,14 +55,13 @@ public static class DbSchemaExtensions
 
         if (type != null && schemaName != null)
             return schemaObjects.Any(x => x.Name == name && x.Type == type && x.Schema == schemaName);
-        else if (type != null)
+        else if (type is not null)
             return schemaObjects.Any(x => x.Name == name && x.Type == type);
-        else if (schemaName != null)
+        else if (schemaName is not null)
             return schemaObjects.Any(x => x.Name == name && x.Schema == schemaName);
         else
             return schemaObjects.Any(x => x.Name == name);
     }
-
 
     /// <summary>
     /// 
@@ -74,10 +73,23 @@ public static class DbSchemaExtensions
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public static async ValueTask<bool> SchemaObjectExistsAsync<TEntity>(this DbConnection connection, DbSchemaType? type = null, DbTransaction? transaction = null, CancellationToken cancellationToken = default)
+        => await SchemaObjectExistsAsync<TEntity>(connection, null, type, transaction, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <param name="connection"></param>
+    /// <param name="tableName"></param>
+    /// <param name="type"></param>
+    /// <param name="transaction"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static async ValueTask<bool> SchemaObjectExistsAsync<TEntity>(this DbConnection connection, string? tableName, DbSchemaType? type = null, DbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        var name = ClassMappedNameCache.Get<TEntity>();
+        tableName ??= ClassMappedNameCache.Get<TEntity>();
 
         var setting = connection.GetDbSetting();
-        return await SchemaObjectExistsAsync(connection, DataEntityExtension.GetTableName(name, setting), DataEntityExtension.GetSchema(name, setting), type, transaction, cancellationToken);
+        return await SchemaObjectExistsAsync(connection, DataEntityExtension.GetTableName(tableName, setting), DataEntityExtension.GetSchema(tableName, setting), type, transaction, cancellationToken);
     }
 }

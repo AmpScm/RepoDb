@@ -1,6 +1,5 @@
 ﻿using System.Data.Common;
 using System.Runtime.CompilerServices;
-using RepoDb.Interfaces;
 
 namespace RepoDb.Reflection;
 

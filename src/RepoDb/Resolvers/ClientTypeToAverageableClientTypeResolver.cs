@@ -1,4 +1,5 @@
-﻿using RepoDb.Interfaces;
+﻿using RepoDb.Extensions;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
 
@@ -20,12 +21,7 @@ public class ClientTypeToAverageableClientTypeResolver : IResolver<Type, Type?>
         type = TypeCache.Get(type).UnderlyingType;
 
         // Only convert those numerics
-        if (type == StaticType.Int16 ||
-           type == StaticType.Int32 ||
-           type == StaticType.Int64 ||
-           type == StaticType.UInt16 ||
-           type == StaticType.UInt32 ||
-           type == StaticType.UInt64)
+        if (type.IsBinaryInteger())
         {
             type = StaticType.Double;
         }

@@ -6,4 +6,5 @@
 [AttributeUsage(AttributeTargets.Property)]
 public class PrimaryAttribute : Attribute
 {
+    internal static readonly PrimaryAttribute Instance = new();
 }

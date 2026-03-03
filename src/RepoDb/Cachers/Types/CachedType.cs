@@ -6,9 +6,9 @@ namespace RepoDb;
 /// <summary>
 /// A class holds the type with lazy properties.
 /// </summary>
-public class CachedType
+public sealed class CachedType
 {
-    private readonly Type _type;
+    private readonly Type? _type;
     private readonly Lazy<PropertyInfo[]> lazyGetProperties;
     private readonly Lazy<Type> lazyGetUnderlyingType;
     private readonly Lazy<bool> lazyIsAnonymousType;
@@ -27,7 +27,7 @@ public class CachedType
 
         _type = type;
         lazyGetUnderlyingType = new(type.GetUnderlyingType);
-        lazyGetProperties = new(type.GetProperties);
+        lazyGetProperties = new(type.GetPropertiesExceptNotMapped);
         lazyIsAnonymousType = new(type.IsAnonymousType);
         lazyIsClassType = new(type.IsClassType);
         lazyIsDictionaryStringObject = new(type.IsDictionaryStringObject);
@@ -37,7 +37,7 @@ public class CachedType
 
     private CachedType()
     {
-        _type = default!;
+        _type = default;
         var lazyFalse = new Lazy<bool>(() => false);
         lazyGetUnderlyingType = new(() => null!);
         lazyGetProperties = new(() => null!);

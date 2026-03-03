@@ -280,6 +280,16 @@ namespace RepoDb
                 dbTransaction.Commit();
         }
 
+        public static async ValueTask RollbackAsync(this IDbTransaction dbTransaction, CancellationToken cancellationToken = default)
+        {
+#if NET
+            if (dbTransaction is DbTransaction dbTransaction1)
+                await dbTransaction1.RollbackAsync(cancellationToken).ConfigureAwait(false);
+            else
+#endif
+                dbTransaction.Rollback();
+        }
+
 #if !NET
         internal static IEnumerable<TResult> DistinctBy<TElement, TResult>(this IEnumerable<TElement> source, Func<TElement, TResult> keySelector) => source.Select(keySelector).Distinct();
 #endif
@@ -349,7 +359,6 @@ namespace RepoDb
             }
         }
 
-        // TODO: Migrate to Extension Members when C# 14 is available
         internal static T GetAt<T>(this ArraySegment<T> segment, int index)
         {
 #if NET

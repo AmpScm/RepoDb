@@ -349,7 +349,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     {
         if (ConnectionPersistency == ConnectionPersistency.PerCall)
         {
-            if (transaction == null)
+            if (transaction is null)
             {
                 connection.Dispose();
             }

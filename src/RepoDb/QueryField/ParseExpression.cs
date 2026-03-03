@@ -144,7 +144,7 @@ public partial class QueryField
         var property = GetTargetProperty<TEntity>(field);
 
         // Check
-        if (property == null)
+        if (property is null)
         {
             throw new InvalidExpressionException($"Invalid expression '{expression}'. The property {field.FieldName} is not defined on a target type '{typeof(TEntity).FullName}'.");
         }
@@ -187,14 +187,14 @@ public partial class QueryField
         }
         else if (operation == Operation.Equal)
         {
-            if (value == null)
+            if (value is null)
                 check = new QueryField(field, Operation.IsNull, value, null, false);
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
                 return new QueryGroup([check, new QueryField(field, Operation.IsNotNull, value, null, false) { CanSkip = true }], Conjunction.And);
         }
         else if (operation == Operation.NotEqual)
         {
-            if (value == null)
+            if (value is null)
                 check = new QueryField(field, Operation.IsNotNull, value, null, false);
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
             {
@@ -560,7 +560,7 @@ public partial class QueryField
     internal static ClassProperty? GetProperty<TEntity>(PropertyInfo propertyInfo)
         where TEntity : class
     {
-        if (propertyInfo == null)
+        if (propertyInfo is null)
         {
             return null;
         }

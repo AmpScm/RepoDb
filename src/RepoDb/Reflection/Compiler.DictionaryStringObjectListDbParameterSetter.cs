@@ -26,7 +26,7 @@ internal partial class Compiler
         var dbCommandExpression = Expression.Parameter(StaticType.DbCommand, "command");
         var entitiesParameterExpression = Expression.Parameter(typeOfListEntity, "entities");
         var dbParameterCollectionExpression = Expression.Property(dbCommandExpression,
-            StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters))!);
+            GetPropertyInfo<DbCommand>(x => x.Parameters));
         var bodyExpressions = new List<Expression>
         {
             // Clear the parameter collection first

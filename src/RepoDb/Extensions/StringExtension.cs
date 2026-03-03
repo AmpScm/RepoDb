@@ -203,7 +203,7 @@ public static partial class StringExtension
     public static string AsQuoted(this string value, bool trim, bool ignoreSchema, IDbSetting? dbSetting)
     {
         ArgumentNullException.ThrowIfNull(value);
-        if (dbSetting == null)
+        if (dbSetting is null)
         {
             return value;
         }
@@ -263,7 +263,7 @@ public static partial class StringExtension
                     list.Add(item.AsQuotedInternal(dbSetting));
                 }
             }
-            if (current != null)
+            if (current is not null)
             {
                 list.Add(current.AsQuotedInternal(dbSetting));
             }

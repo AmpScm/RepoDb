@@ -397,7 +397,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <typeparam name="TClassHandler">The type of the <see cref="IClassHandler{TEntity}"/>.</typeparam>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>()
-         where TClassHandler : notnull, new() =>
+         where TClassHandler : class, new() =>
         ClassHandler(new TClassHandler());
 
     /// <summary>
@@ -408,7 +408,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(bool force)
-         where TClassHandler : notnull, new() =>
+         where TClassHandler : class, new() =>
         ClassHandler(new TClassHandler(), force);
 
     /// <summary>
@@ -417,7 +417,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <typeparam name="TClassHandler">The type of the <see cref="IClassHandler{TEntity}"/>.</typeparam>
     /// <param name="classHandler">The instance of the <see cref="IClassHandler{TEntity}"/>.</param>
     /// <returns>The current instance.</returns>
-    public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(TClassHandler classHandler) where TClassHandler : notnull =>
+    public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(TClassHandler classHandler) where TClassHandler : class =>
         ClassHandler(classHandler, false);
 
     /// <summary>
@@ -428,7 +428,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> ClassHandler<TClassHandler>(TClassHandler classHandler,
-        bool force) where TClassHandler : notnull
+        bool force) where TClassHandler : class
     {
         ClassHandlerMapper.Add<TEntity, TClassHandler>(classHandler, force);
         return this;
@@ -450,7 +450,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="expression">The expression to be parsed.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(Expression<Func<TEntity, object?>> expression)
-        where TPropertyHandler : new() =>
+        where TPropertyHandler : class, new() =>
         PropertyHandler(expression, new TPropertyHandler());
 
     /// <summary>
@@ -463,7 +463,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(Expression<Func<TEntity, object?>> expression,
         bool force)
-        where TPropertyHandler : new() =>
+        where TPropertyHandler : class, new() =>
         PropertyHandler(expression, new TPropertyHandler(), force);
 
     /// <summary>
@@ -474,7 +474,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="propertyHandler">The instance of the <see cref="IPropertyHandler{TInput, TResult}"/>.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(Expression<Func<TEntity, object?>> expression,
-        TPropertyHandler propertyHandler) =>
+        TPropertyHandler propertyHandler) where TPropertyHandler: class =>
         PropertyHandler(expression, propertyHandler, false);
 
     /// <summary>
@@ -487,7 +487,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(Expression<Func<TEntity, object?>> expression,
         TPropertyHandler propertyHandler,
-        bool force)
+        bool force) where TPropertyHandler : class
     {
         PropertyHandlerMapper.Add(expression, propertyHandler, force);
         return this;
@@ -505,7 +505,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="propertyName">The name of the class property to be mapped.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(string propertyName)
-        where TPropertyHandler : new() =>
+        where TPropertyHandler : class, new() =>
         PropertyHandler(propertyName, new TPropertyHandler(), false);
 
     /// <summary>
@@ -516,7 +516,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="propertyHandler">The instance of the <see cref="IPropertyHandler{TInput, TResult}"/>.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(string propertyName,
-        TPropertyHandler propertyHandler) =>
+        TPropertyHandler propertyHandler) where TPropertyHandler : class =>
         PropertyHandler(propertyName, propertyHandler, false);
 
     /// <summary>
@@ -529,7 +529,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(string propertyName,
         TPropertyHandler propertyHandler,
-        bool force)
+        bool force) where TPropertyHandler : class
     {
         PropertyHandlerMapper.Add<TEntity, TPropertyHandler>(propertyName, propertyHandler, force);
         return this;
@@ -547,7 +547,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="field">The instance of <see cref="Field"/> object to be mapped.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(Field field)
-        where TPropertyHandler : new() =>
+        where TPropertyHandler : class, new() =>
         PropertyHandler(field, new TPropertyHandler(), false);
 
     /// <summary>
@@ -558,7 +558,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <param name="propertyHandler">The instance of the <see cref="IPropertyHandler{TInput, TResult}"/>.</param>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(Field field,
-        TPropertyHandler propertyHandler) =>
+        TPropertyHandler propertyHandler) where TPropertyHandler : class =>
         PropertyHandler(field, propertyHandler, false);
 
     /// <summary>
@@ -571,7 +571,7 @@ public class EntityMapFluentDefinition<TEntity>
     /// <returns>The current instance.</returns>
     public EntityMapFluentDefinition<TEntity> PropertyHandler<TPropertyHandler>(Field field,
         TPropertyHandler propertyHandler,
-        bool force)
+        bool force) where TPropertyHandler : class
     {
         PropertyHandlerMapper.Add<TEntity, TPropertyHandler>(field, propertyHandler, force);
         return this;

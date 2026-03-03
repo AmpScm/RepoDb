@@ -90,7 +90,7 @@ public sealed class QueryBuilder
     {
         if (string.IsNullOrWhiteSpace(text))
             return this;
-        if (dbSetting == null)
+        if (dbSetting is null)
             return Append(text);
         return Append(text.AsQuoted(dbSetting), spaceBefore);
     }

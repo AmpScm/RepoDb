@@ -55,6 +55,7 @@ internal partial class Compiler
                 propertyExpression,
                 classProperty,
                 dbField,
+                dbCommandExpression,
                 dbHelper);
             parameterAssignmentExpressions.AddIfNotNull(valueAssignmentExpression);
         }

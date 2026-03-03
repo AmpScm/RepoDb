@@ -30,17 +30,20 @@ internal partial class Compiler
         var dbCommandParameterExpression = Expression.Parameter(StaticType.DbCommand, "command");
 
         // Variables for DbCommand
-        var dbCommandParametersProperty = StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters))!;
+        var dbCommandParametersProperty = GetPropertyInfo<DbCommand>(x => x.Parameters);
 
         // Variables for DbParameterCollection
         var dbParameterCollectionIndexerMethod = StaticType.DbParameterCollection.GetMethod("get_Item", [StaticType.String])!;
 
         // Variables for DbParameter
-        var dbParameterValueProperty = StaticType.DbParameter.GetProperty(nameof(DbParameter.Value))!;
+        var dbParameterValueProperty = GetPropertyInfo<DbParameter>(x => x.Value);
 
         // Get the entity property
         var propertyName = field.FieldName.AsUnquoted(true, dbSetting).AsAlphaNumeric();
-        var property = (typeOfEntity.GetProperty(propertyName) ?? PropertyCache.Get(typeOfEntity).GetByFieldName(propertyName)?.PropertyInfo)?.SetMethod ?? throw new PropertyNotFoundException(propertyName, $"Property {propertyName} not found");
+        var property = typeOfEntity.GetProperty(propertyName) ?? PropertyCache.Get(typeOfEntity).GetByFieldName(propertyName)?.PropertyInfo;
+        if (property?.SetMethod is null)
+            throw new PropertyNotFoundException(propertyName, $"Property {propertyName} not found");
+        var propExpr = Expression.Property(Expression.Convert(entityParameterExpression, typeOfEntity), property);
 
         // Get the command parameter
         var name = parameterName ?? propertyName;
@@ -50,8 +53,7 @@ internal partial class Compiler
 
         // Assign the Parameter.Value into DataEntity.Property
         var value = Expression.Property(parameter, dbParameterValueProperty);
-        var propertyAssignment = Expression.Call(entityParameterExpression, property,
-            Expression.Convert(value, TypeCache.Get(field.Type).UnderlyingType));
+        var propertyAssignment = GetDbParameterValueAssignmentExpression(parameter, Expression.Convert(value, TypeCache.Get(field.Type).UnderlyingType));
 
         // Return function
         return Expression.Lambda<Action<TEntity, DbCommand>>(

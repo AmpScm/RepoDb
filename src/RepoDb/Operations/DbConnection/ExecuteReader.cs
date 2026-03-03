@@ -226,7 +226,7 @@ public static partial class DbConnectionExtension
             TraceResult? traceResult = null;
 
             // A hacky solution for other operations (i.e.: QueryMultipleAsync)
-            if (beforeExecutionCallbackAsync != null)
+            if (beforeExecutionCallbackAsync is not null)
             {
                 traceResult = await beforeExecutionCallbackAsync(command, cancellationToken).ConfigureAwait(false);
             }

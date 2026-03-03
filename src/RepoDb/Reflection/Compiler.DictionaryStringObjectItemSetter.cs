@@ -20,12 +20,12 @@ internal partial class Compiler
         var targetType = TypeCache.Get(field.Type)?.UnderlyingType;
         var valueExpression = (Expression)valueParameter;
 
-        if (targetType != null)
+        if (targetType is not null)
         {
             // Get the converter
             var toTypeMethod = StaticType
                 .Converter
-                .GetMethod("ToType", [StaticType.Object])!
+                .GetMethod(nameof(Converter.ToType), [StaticType.Object])!
                 .MakeGenericMethod(TypeCache.Get(field.Type).UnderlyingType);
 
             // Conversion (if needed)
@@ -70,12 +70,12 @@ internal partial class Compiler
         var targetType = TypeCache.Get(field.Type)?.UnderlyingType;
         var valueExpression = (Expression)valueParameter;
 
-        if (targetType != null)
+        if (targetType is not null)
         {
             // Get the converter
             var toTypeMethod = StaticType
                 .Converter
-                .GetMethod("ToType", [StaticType.Object])!
+                .GetMethod(nameof(Converter.ToType), [StaticType.Object])!
                 .MakeGenericMethod(TypeCache.Get(field.Type).UnderlyingType);
 
             // Conversion (if needed)

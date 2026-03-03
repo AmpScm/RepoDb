@@ -122,11 +122,11 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
     /// <returns></returns>
     private bool TryGetCacheItem<T>([NotNullWhen(true)] out T? value)
     {
-        if (_cacheKey != null)
+        if (_cacheKey is not null)
         {
             var cachedItem = _cache?.Get<object[]>(_cacheKey, false);
 
-            if (cachedItem != null)
+            if (cachedItem is not null)
             {
                 if (Position < cachedItem.Value.Length)
                 {
@@ -154,7 +154,7 @@ public sealed class QueryMultipleExtractor : IDisposable, IAsyncDisposable
 
         _items.Add(item);
 
-        if (_cacheKey != null)
+        if (_cacheKey is not null)
         {
             var cachedItem = _cache?.Get<object[]>(_cacheKey, false);
             cachedItem?.Update(_items.AsArray(), _cacheItemExpiration, false);

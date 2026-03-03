@@ -37,16 +37,14 @@ public class DbTypeToSqLiteStringNameResolver : IResolver<DbType, string?>
          */
         return dbType switch
         {
-            DbType.Int64 => "BIGINT",
-            DbType.Byte or DbType.Binary => "BLOB",
+            DbType.Int64 or DbType.Int32 or DbType.Int16 or DbType.Byte or DbType.UInt64 or DbType.UInt32 or DbType.UInt16 or DbType.SByte => "INTEGER",
+            DbType.Binary => "BLOB",
             DbType.Boolean => "BOOLEAN",
             DbType.String or DbType.AnsiString or DbType.AnsiStringFixedLength or DbType.StringFixedLength => "TEXT",
             DbType.Date => "DATE",
             DbType.DateTime or DbType.DateTime2 or DbType.DateTimeOffset => "DATETIME",
             DbType.Decimal => "DECIMAL",
-            DbType.Single => "REAL",
-            DbType.Double => "DOUBLE",
-            DbType.Int32 or DbType.Int16 => "INT",
+            DbType.Double or DbType.Single => "REAL",
             DbType.Time => "TIME",
             _ => "TEXT",/* DbType.Guid
                  * DbType.Xml

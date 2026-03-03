@@ -133,7 +133,7 @@ internal sealed class BatchQueryRequest : BaseRequest
                 Hints);
 
             // Add the order fields
-            if (OrderBy != null)
+            if (OrderBy is not null)
             {
                 foreach (var orderField in OrderBy)
                 {

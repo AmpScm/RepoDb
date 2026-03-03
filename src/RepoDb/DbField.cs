@@ -239,15 +239,8 @@ public sealed class DbField : Field, IEquatable<DbField>
     /// <param name="objA">The first <see cref="DbField"/> object.</param>
     /// <param name="objB">The second <see cref="DbField"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(DbField? objA,
-        DbField? objB)
-    {
-        if (objA is null)
-        {
-            return objB is null;
-        }
-        return objA.Equals(objB);
-    }
+    public static bool operator ==(DbField? objA, DbField? objB)
+        => ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
 
     /// <summary>
     /// Compares the inequality of the two <see cref="DbField"/> objects.
@@ -255,9 +248,8 @@ public sealed class DbField : Field, IEquatable<DbField>
     /// <param name="objA">The first <see cref="DbField"/> object.</param>
     /// <param name="objB">The second <see cref="DbField"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(DbField? objA,
-        DbField? objB) =>
-        !(objA == objB);
+    public static bool operator !=(DbField? objA, DbField? objB)
+        => !(objA == objB);
 
     #endregion
 

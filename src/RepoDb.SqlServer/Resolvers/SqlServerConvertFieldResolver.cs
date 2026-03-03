@@ -40,7 +40,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
         if (field?.Type != null)
         {
             var dbType = DbTypeResolver.Resolve(field.Type);
-            if (dbType != null)
+            if (dbType is not null)
             {
                 var dbTypeName = StringNameResolver.Resolve(dbType.Value)?.ToUpperInvariant().AsQuoted(dbSetting);
                 return string.Concat("CONVERT(", dbTypeName, ", ", field.FieldName.AsField(dbSetting), ")");

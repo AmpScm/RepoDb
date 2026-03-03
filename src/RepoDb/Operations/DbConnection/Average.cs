@@ -410,7 +410,7 @@ public static partial class DbConnectionExtension
         object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
+        if (where is not null)
         {
             param = QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>());
         }
@@ -832,7 +832,7 @@ public static partial class DbConnectionExtension
         object? param = null;
 
         // Converts to property mapped object
-        if (where != null)
+        if (where is not null)
         {
             param = QueryGroup.AsMappedObject([where.MapTo<TEntity>()], connection, transaction, ClassMappedNameCache.Get<TEntity>());
         }
@@ -2606,7 +2606,7 @@ public static partial class DbConnectionExtension
             commandTimeout: commandTimeout,
             transaction: transaction,
             entityType: request.Type,
-            dbFields: DbFieldCache.Get(connection, request.Name, transaction, true),
+            dbFields: param is { } ? DbFieldCache.Get(connection, request.Name, transaction, true) : null,
             trace: trace,
             traceKey: traceKey)!;
 
@@ -2651,7 +2651,7 @@ public static partial class DbConnectionExtension
             commandTimeout: commandTimeout,
             transaction: transaction,
             entityType: request.Type,
-            dbFields: await DbFieldCache.GetAsync(connection, request.Name, transaction, true, cancellationToken).ConfigureAwait(false),
+            dbFields: param is { } ? await DbFieldCache.GetAsync(connection, request.Name, transaction, true, cancellationToken).ConfigureAwait(false) : null,
             trace: trace,
             traceKey: traceKey,
             cancellationToken: cancellationToken).ConfigureAwait(false);

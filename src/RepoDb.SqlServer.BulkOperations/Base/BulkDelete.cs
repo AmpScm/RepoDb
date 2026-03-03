@@ -351,7 +351,7 @@ public static partial class SqlConnectionExtension
             // Validate the primary keys
             if (qualifiers?.Any() != true)
             {
-                if (primaryOrIdentityDbField == null)
+                if (primaryOrIdentityDbField is null)
                 {
                     throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
                 }
@@ -641,7 +641,7 @@ public static partial class SqlConnectionExtension
             // Validate the primary keys
             if (qualifiers?.Any() != true)
             {
-                if (primaryOrIdentityDbField == null)
+                if (primaryOrIdentityDbField is null)
                 {
                     throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
                 }
@@ -815,7 +815,7 @@ public static partial class SqlConnectionExtension
             // Validate the primary keys
             if (qualifiers?.Any() != true)
             {
-                if (primaryOrIdentityDbField == null)
+                if (primaryOrIdentityDbField is null)
                 {
                     throw new MissingPrimaryKeyException($"No primary key or identity key found for table '{tableName}'.");
                 }

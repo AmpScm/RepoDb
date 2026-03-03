@@ -2183,7 +2183,7 @@ public static partial class DbConnectionExtension
                 .InvokeAfterExecution(traceResult, trace, result);
 
             // Set the return value
-            if (result != null)
+            if (result is not null)
             {
                 context.KeyPropertySetterFunc?.Invoke(entity, result);
             }
@@ -2289,7 +2289,7 @@ public static partial class DbConnectionExtension
                 .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
 
             // Set the return value
-            if (result != null)
+            if (result is not null)
             {
                 context.KeyPropertySetterFunc?.Invoke(entity, result);
             }

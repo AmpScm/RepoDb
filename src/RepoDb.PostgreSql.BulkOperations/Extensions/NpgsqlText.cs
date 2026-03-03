@@ -269,7 +269,7 @@ public static partial class NpgsqlConnectionExtension
         // Return the Id
         if (identityBehavior == BulkImportIdentityBehavior.ReturnIdentity)
         {
-            if (identityField != null)
+            if (identityField is not null)
             {
                 WriteReturnIdentityResultsFromActualTable(builder,
                     sourceTableName,

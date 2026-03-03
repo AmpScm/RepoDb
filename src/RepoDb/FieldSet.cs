@@ -96,18 +96,10 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
         return _hashCode ??= HashCode.Combine(Count, _fields.Aggregate(0, (current, field) => current ^ field.GetHashCode()));
     }
 
-    public static bool operator ==(FieldSet? left, FieldSet? right)
-    {
-        if (left is null && right is null)
-            return true;
-        if (left is null || right is null)
-            return false;
-        return left.Equals(right);
-    }
+    public static bool operator ==(FieldSet? objA, FieldSet? objB)
+        => ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
     public static bool operator !=(FieldSet? left, FieldSet? right)
-    {
-        return !(left == right);
-    }
+        => !(left == right);
 
 
     public static FieldSet From<TEntity>()

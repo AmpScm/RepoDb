@@ -1,4 +1,4 @@
-name: MSBuild (Push)
+name: dotnet build
 
 on:
   push:

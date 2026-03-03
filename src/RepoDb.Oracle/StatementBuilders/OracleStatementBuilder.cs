@@ -1,4 +1,5 @@
-﻿using RepoDb.Exceptions;
+﻿using System.Collections;
+using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Resolvers;
@@ -276,4 +277,6 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
     }
 
     public override string? JsonColumnType => "JSON";
+    public override string IdentityDefinition => "GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1)";
+    public override bool? PrimaryBeforeIdentity => false;
 }

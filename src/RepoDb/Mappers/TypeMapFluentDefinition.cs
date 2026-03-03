@@ -53,7 +53,7 @@ public class TypeMapFluentDefinition<TType>
     /// <typeparam name="TPropertyHandler">The type of the handler.</typeparam>
     /// <returns>The current instance.</returns>
     public TypeMapFluentDefinition<TType> PropertyHandler<TPropertyHandler>()
-        where TPropertyHandler : new() =>
+        where TPropertyHandler : class, new() =>
         PropertyHandler(new TPropertyHandler(), false);
 
     /// <summary>
@@ -64,7 +64,7 @@ public class TypeMapFluentDefinition<TType>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public TypeMapFluentDefinition<TType> PropertyHandler<TPropertyHandler>(bool force)
-        where TPropertyHandler : new() =>
+        where TPropertyHandler : class, new() =>
         PropertyHandler(new TPropertyHandler(), force);
 
     /// <summary>
@@ -73,7 +73,7 @@ public class TypeMapFluentDefinition<TType>
     /// <typeparam name="TPropertyHandler">The type of the handler.</typeparam>
     /// <param name="propertyHandler">The instance of the property handler. The type must implement the <see cref="IPropertyHandler{TInput, TResult}"/> interface.</param>
     /// <returns>The current instance.</returns>
-    public TypeMapFluentDefinition<TType> PropertyHandler<TPropertyHandler>(TPropertyHandler propertyHandler) =>
+    public TypeMapFluentDefinition<TType> PropertyHandler<TPropertyHandler>(TPropertyHandler propertyHandler) where TPropertyHandler : class =>
         PropertyHandler(propertyHandler, false);
 
     /// <summary>
@@ -84,7 +84,7 @@ public class TypeMapFluentDefinition<TType>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     /// <returns>The current instance.</returns>
     public TypeMapFluentDefinition<TType> PropertyHandler<TPropertyHandler>(TPropertyHandler propertyHandler,
-        bool force)
+        bool force) where TPropertyHandler : class
     {
         PropertyHandlerMapper.Add<TType, TPropertyHandler>(propertyHandler, force);
         return this;

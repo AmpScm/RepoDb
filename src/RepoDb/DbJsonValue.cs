@@ -8,7 +8,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue
 #if NET
     , IParsable<DbJsonValue<T>>
 #endif
-    where T : notnull
+    where T : class
 {
     JsonNode? _json;
     T? _value;
@@ -16,6 +16,20 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue
     public JsonNode Json => _json ??= Converter.ToJsonObject(_value)!;
 
     public T Value => _value ?? (_value = Converter.FromJsonToObject<T>(_json))!;
+
+    public DbJsonValue(JsonNode json)
+    {
+        ArgumentNullException.ThrowIfNull(json);
+        _json = json;
+        _value = default;
+    }
+
+    public DbJsonValue(T value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        _json = null;
+        _value = value;
+    }
 
     JsonNode? IDbJsonValue.JsonNode => Json;
 
@@ -41,7 +55,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue
     /// <inheritdoc/>
     public string ToString(string? format, IFormatProvider? formatProvider)
     {
-        return Json?.ToJsonString(Converter.JsonSerializerOptions);
+        return Json?.ToJsonString(Converter.JsonSerializerOptions) ?? "null";
     }
 
     /// <inheritdoc/>

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using RepoDb.Attributes;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
@@ -24,7 +25,7 @@ public class PropertyHandlerPropertyLevelResolver : IResolver<Type, PropertyInfo
 
         // Attribute
         var attribute = propertyInfo.GetCustomAttribute<PropertyHandlerAttribute>();
-        if (attribute != null)
+        if (attribute is not null)
         {
             propertyHandler = Converter.ToType<object>(Activator.CreateInstance(attribute.HandlerType));
         }
@@ -34,6 +35,9 @@ public class PropertyHandlerPropertyLevelResolver : IResolver<Type, PropertyInfo
 
         // Type Level
         propertyHandler ??= PropertyHandlerMapper.Get<object>(propertyInfo.PropertyType);
+
+        if (Nullable.GetUnderlyingType(propertyInfo.PropertyType) is { } nonNullType)
+            propertyHandler ??= PropertyHandlerMapper.Get<object>(nonNullType);
 
         // Return the value
         return propertyHandler;

@@ -1,9 +1,12 @@
-﻿using System.Data;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
 using RepoDb.Exceptions;
+using RepoDb.Interfaces;
 
 namespace RepoDb.Extensions;
 
@@ -80,6 +83,50 @@ public static class TypeExtension
         return type == typeof(JsonNode) || type == typeof(JsonObject) || type == typeof(JsonArray);
     }
 
+    internal static bool HandleAsStringForDB(this Type type)
+    {
+        return type is { IsValueType: true, IsPrimitive: false, IsEnum: false } && type.Assembly != typeof(string).Assembly;
+    }
+
+    internal static bool IsBinaryInteger(this Type type)
+    {
+        return type.IsPrimitive && (
+            type == typeof(int)
+            || type == typeof(long)
+            || type == typeof(short)
+            || type == typeof(byte)
+            || type == typeof(uint)
+            || type == typeof(ulong)
+            || type == typeof(ushort)
+            || type == typeof(sbyte)
+        );
+    }
+
+    internal static PropertyInfo[] GetPropertiesExceptNotMapped(this Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+
+        var props = type.GetProperties();
+
+        if (!props.Any(x => x.GetCustomAttribute<NotMappedAttribute>() is { }))
+            return props;
+
+        return props.Where(x => x.GetCustomAttribute<NotMappedAttribute>() is not { }).ToArray();
+    }
+
+    internal static bool ImplementsIParsable(this Type type)
+    {
+#if NET
+        try
+        {
+            return typeof(IParsable<>).MakeGenericType(type).IsAssignableFrom(type); // May fail if type is not 'ok'
+        }
+        catch { return false; }
+#else
+        return typeof(IDbJsonValue).IsAssignableFrom(type);
+#endif
+    }
+
     /// <summary>
     /// Checks whether the current type is a class.
     /// </summary>
@@ -131,10 +178,10 @@ public static class TypeExtension
     {
         var cachedType = TypeCache.Get(type);
 
-        return (cachedType.IsClassType || cachedType.IsAnonymousType) &&
-!IsQueryObjectType(type) &&
-!cachedType.IsDictionaryStringObject &&
-!GetEnumerableClassProperties(type).Any();
+        return (cachedType.IsClassType || cachedType.IsAnonymousType)
+            && !IsQueryObjectType(type)
+            && !cachedType.IsDictionaryStringObject
+            && !GetEnumerableClassProperties(type).Any();
     }
 
     /// <summary>

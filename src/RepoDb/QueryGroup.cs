@@ -717,7 +717,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
 
     private void FixForDb(IDbConnection connection, IDbTransaction? transaction, string? tableName, ref DbFieldCollection? dbFields)
     {
-        if (QueryGroups != null)
+        if (QueryGroups is not null)
         {
             foreach (var qg in QueryGroups)
             {
@@ -895,7 +895,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         var hashCode = 0;
 
         // Iterates the child query field
-        if (QueryFields != null)
+        if (QueryFields is not null)
         {
             foreach (var queryField in QueryFields)
             {
@@ -970,9 +970,8 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="objA">The first <see cref="QueryGroup"/> object.</param>
     /// <param name="objB">The second <see cref="QueryGroup"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(QueryGroup? objA,
-        QueryGroup? objB) =>
-        !(objA == objB);
+    public static bool operator !=(QueryGroup? objA, QueryGroup? objB)
+        => !(objA == objB);
 
     #endregion
 }
