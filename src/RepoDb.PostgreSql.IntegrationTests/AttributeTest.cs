@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Npgsql;
+﻿using Npgsql;
 using NpgsqlTypes;
 using RepoDb.Attributes.Parameter.Npgsql;
 using RepoDb.Extensions;

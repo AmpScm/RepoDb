@@ -34,7 +34,7 @@ internal sealed class BulkDbConnector : IDisposable
     {
         if (repository.ConnectionPersistency != ConnectionPersistency.PerCall) return;
 
-        if (Transaction == null)
+        if (Transaction is null)
             Connection?.Dispose();
     }
 }

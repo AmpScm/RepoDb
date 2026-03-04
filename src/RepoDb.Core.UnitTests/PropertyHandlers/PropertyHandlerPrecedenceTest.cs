@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using RepoDb.Attributes;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;

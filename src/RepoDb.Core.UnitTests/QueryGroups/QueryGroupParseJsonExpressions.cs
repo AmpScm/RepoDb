@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Identity.Client;
-
-namespace RepoDb.UnitTests;
+﻿namespace RepoDb.UnitTests;
 
 public partial class QueryGroupTest
 {

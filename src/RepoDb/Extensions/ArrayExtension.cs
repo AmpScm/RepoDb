@@ -21,7 +21,7 @@ public static class ArrayExtension
     /// <returns>An enumerable of objects.</returns>
     public static IEnumerable<T> AsEnumerable<T>(this Array array)
     {
-        if (array != null)
+        if (array is not null)
         {
             foreach (var value in array)
             {

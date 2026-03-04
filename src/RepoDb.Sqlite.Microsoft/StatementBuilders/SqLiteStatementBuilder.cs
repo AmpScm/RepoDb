@@ -345,7 +345,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
         // Validate the qualifiers
         if (qualifiers?.Any() != true)
         {
-            if (primaryField == null)
+            if (primaryField is null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
             }
@@ -456,7 +456,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
             var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
 
-            if (primaryField == null)
+            if (primaryField is null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
             }
@@ -667,4 +667,7 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
     }
 
     #endregion
+
+    public override string? JsonColumnType => base.JsonColumnType;
+    public override string IdentityDefinition => "AUTOINCREMENT";
 }

@@ -180,13 +180,13 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
         hashCode = HashCode.Combine(hashCode, base.GetHashCode());
 
         // PropertyName
-        if (PropertyName != null)
+        if (PropertyName is not null)
         {
             hashCode = HashCode.Combine(hashCode, PropertyName);
         }
 
         // ParameterType
-        if (ParameterType != null)
+        if (ParameterType is not null)
         {
             hashCode = HashCode.Combine(hashCode, ParameterType);
         }
@@ -195,7 +195,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
         hashCode = HashCode.Combine(hashCode, IncludedInCompilation);
 
         // Value
-        if (Value != null)
+        if (Value is not null)
         {
             hashCode = HashCode.Combine(hashCode, Value);
         }
@@ -234,15 +234,8 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="objA">The first <see cref="PropertyValueAttribute"/> object.</param>
     /// <param name="objB">The second <see cref="PropertyValueAttribute"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(PropertyValueAttribute? objA,
-        PropertyValueAttribute? objB)
-    {
-        if (objA is null)
-        {
-            return objB is null;
-        }
-        return objA.Equals(objB);
-    }
+    public static bool operator ==(PropertyValueAttribute? objA, PropertyValueAttribute? objB)
+        => ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
 
     /// <summary>
     /// Compares the inequality of the two <see cref="PropertyValueAttribute"/> objects.
@@ -250,9 +243,8 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
     /// <param name="objA">The first <see cref="PropertyValueAttribute"/> object.</param>
     /// <param name="objB">The second <see cref="PropertyValueAttribute"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(PropertyValueAttribute? objA,
-        PropertyValueAttribute? objB) =>
-        !(objA == objB);
+    public static bool operator !=(PropertyValueAttribute? objA, PropertyValueAttribute? objB)
+        => !(objA == objB);
 
     #endregion
 }

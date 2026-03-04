@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySqlConnector;
 
 namespace RepoDb.MySqlConnector.UnitTests;

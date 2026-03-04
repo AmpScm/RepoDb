@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Extensions;
 using RepoDb.UnitTests.CustomObjects;

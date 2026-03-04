@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
 using System.Data;
@@ -290,9 +289,11 @@ public class ExecuteNonQueryTest
             commandType: CommandType.StoredProcedure);
 
         // Assert
+#pragma warning disable CS0618 // Type or member is obsolete
         Assert.AreEqual(1000, userId.GetValue<int>());
         Assert.AreEqual("ServerName", serverName.GetValue<string>());
         Assert.AreEqual(DateTime.Parse("1970-01-01 23:59:59.999"), dateTimeUtc.GetValue<DateTime>());
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 
     [TestMethod]

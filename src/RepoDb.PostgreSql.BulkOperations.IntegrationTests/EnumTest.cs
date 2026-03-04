@@ -1,5 +1,4 @@
 ﻿using System.Dynamic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Npgsql;
 using RepoDb.IntegrationTests.Setup;
 using RepoDb.PostgreSql.BulkOperations.IntegrationTests.Enumerations;

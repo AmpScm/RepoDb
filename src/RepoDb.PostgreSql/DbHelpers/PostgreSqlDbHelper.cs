@@ -283,6 +283,22 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         }
     }
 
+    public override object? ParameterValueToDb(object? value, IDbDataParameter parameter)
+    {
+        if (value is IDbJsonValue jv)
+        {
+            (parameter as NpgsqlParameter)?.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Json;
+            return jv.JsonNode?.ToJsonString(Converter.JsonSerializerOptions);
+        }
+        else if (value is JsonNode jn)
+        {
+            (parameter as NpgsqlParameter)?.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Json;
+            return jn.ToJsonString(Converter.JsonSerializerOptions);
+        }
+
+        return base.ParameterValueToDb(value, parameter);
+    }
+
     #endregion
 
     #endregion

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes.Parameter.SqlServer;
 using RepoDb.DbSettings;
 using RepoDb.Extensions;

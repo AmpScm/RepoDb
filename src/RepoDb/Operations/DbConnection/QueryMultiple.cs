@@ -9456,7 +9456,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -9474,7 +9474,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -10157,7 +10157,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -10175,7 +10175,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -10193,7 +10193,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -11029,7 +11029,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -11047,7 +11047,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -11065,7 +11065,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -11083,7 +11083,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -12065,7 +12065,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -12083,7 +12083,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -12101,7 +12101,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -12119,7 +12119,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -12137,7 +12137,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -13265,7 +13265,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -13283,7 +13283,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -13301,7 +13301,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -13319,7 +13319,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -13337,7 +13337,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -13355,7 +13355,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -14629,7 +14629,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -14647,7 +14647,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -14665,7 +14665,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -14683,7 +14683,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -14701,7 +14701,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -14719,7 +14719,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -14737,7 +14737,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item7 Request
-        if (item7 == null)
+        if (item7 is null)
         {
             var request7 = new QueryMultipleRequest(7,
                 tableName7,
@@ -15242,7 +15242,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -15261,7 +15261,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -15815,7 +15815,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -15834,7 +15834,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -15853,7 +15853,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -16526,7 +16526,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -16545,7 +16545,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -16564,7 +16564,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -16583,7 +16583,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -17368,7 +17368,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -17387,7 +17387,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -17406,7 +17406,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -17425,7 +17425,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -17444,7 +17444,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -18343,7 +18343,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -18362,7 +18362,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -18381,7 +18381,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -18400,7 +18400,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -18419,7 +18419,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -18438,7 +18438,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -19450,7 +19450,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -19469,7 +19469,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -19488,7 +19488,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -19507,7 +19507,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -19526,7 +19526,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -19545,7 +19545,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -19564,7 +19564,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item7 Request
-        if (item7 == null)
+        if (item7 is null)
         {
             var request7 = new QueryMultipleRequest(7,
                 tableName7,
@@ -20190,7 +20190,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -20208,7 +20208,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -20917,7 +20917,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -20935,7 +20935,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -20953,7 +20953,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -21816,7 +21816,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -21834,7 +21834,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -21852,7 +21852,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -21870,7 +21870,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -22881,7 +22881,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -22899,7 +22899,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -22917,7 +22917,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -22935,7 +22935,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -22953,7 +22953,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -24112,7 +24112,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -24130,7 +24130,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -24148,7 +24148,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -24166,7 +24166,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -24184,7 +24184,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -24202,7 +24202,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -25509,7 +25509,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -25527,7 +25527,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -25545,7 +25545,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -25563,7 +25563,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -25581,7 +25581,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -25599,7 +25599,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -25617,7 +25617,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item7 Request
-        if (item7 == null)
+        if (item7 is null)
         {
             var request7 = new QueryMultipleRequest(7,
                 tableName7,
@@ -26148,7 +26148,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -26167,7 +26167,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -26744,7 +26744,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -26763,7 +26763,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -26782,7 +26782,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -27479,7 +27479,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -27498,7 +27498,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -27517,7 +27517,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -27536,7 +27536,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -28348,7 +28348,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -28367,7 +28367,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -28386,7 +28386,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -28405,7 +28405,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -28424,7 +28424,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -29351,7 +29351,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -29370,7 +29370,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -29389,7 +29389,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -29408,7 +29408,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -29427,7 +29427,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -29446,7 +29446,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -30488,7 +30488,7 @@ public static partial class DbConnectionExtension
         QueryGroup.FixForQueryMultiple(queryGroups);
 
         // Item1 Request
-        if (item1 == null)
+        if (item1 is null)
         {
             var request1 = new QueryMultipleRequest(1,
                 tableName1,
@@ -30507,7 +30507,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item2 Request
-        if (item2 == null)
+        if (item2 is null)
         {
             var request2 = new QueryMultipleRequest(2,
                 tableName2,
@@ -30526,7 +30526,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item3 Request
-        if (item3 == null)
+        if (item3 is null)
         {
             var request3 = new QueryMultipleRequest(3,
                 tableName3,
@@ -30545,7 +30545,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item4 Request
-        if (item4 == null)
+        if (item4 is null)
         {
             var request4 = new QueryMultipleRequest(4,
                 tableName4,
@@ -30564,7 +30564,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item5 Request
-        if (item5 == null)
+        if (item5 is null)
         {
             var request5 = new QueryMultipleRequest(5,
                 tableName5,
@@ -30583,7 +30583,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item6 Request
-        if (item6 == null)
+        if (item6 is null)
         {
             var request6 = new QueryMultipleRequest(6,
                 tableName6,
@@ -30602,7 +30602,7 @@ public static partial class DbConnectionExtension
         }
 
         // Item7 Request
-        if (item7 == null)
+        if (item7 is null)
         {
             var request7 = new QueryMultipleRequest(7,
                 tableName7,
@@ -30779,7 +30779,7 @@ public static partial class DbConnectionExtension
             item = cache.Get<IEnumerable<T>>(cacheKey, false)?.Value;
         }
 
-        if (item == null)
+        if (item is null)
         {
             queryGroups.Add(where);
         }
@@ -30807,7 +30807,7 @@ public static partial class DbConnectionExtension
             item = cache.Get<IEnumerable<dynamic>>(cacheKey, false)?.Value;
         }
 
-        if (item == null)
+        if (item is null)
         {
             queryGroups.Add(where);
         }
@@ -30843,7 +30843,7 @@ public static partial class DbConnectionExtension
             reader.NextResult();
         }
 
-        if (items == null)
+        if (items is null)
         {
             var dbFields = DbFieldCache.Get(connection, ClassMappedNameCache.Get<T>(), transaction, true);
             items = DataReader.ToEnumerable<T>(reader, dbFields).AsList();
@@ -30882,7 +30882,7 @@ public static partial class DbConnectionExtension
             item = (await cache.GetAsync<IEnumerable<T>>(cacheKey, false, cancellationToken).ConfigureAwait(false))?.Value;
         }
 
-        if (item == null)
+        if (item is null)
         {
             queryGroups.Add(where);
         }
@@ -30912,7 +30912,7 @@ public static partial class DbConnectionExtension
             item = (await cache.GetAsync<IEnumerable<dynamic>>(cacheKey, false, cancellationToken).ConfigureAwait(false))?.Value;
         }
 
-        if (item == null)
+        if (item is null)
         {
             queryGroups.Add(where);
         }
@@ -30950,7 +30950,7 @@ public static partial class DbConnectionExtension
             await reader.NextResultAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        if (items == null)
+        if (items is null)
         {
             var dbFields = await DbFieldCache.GetAsync(connection, ClassMappedNameCache.Get<T>(), transaction, true, cancellationToken).ConfigureAwait(false);
             items = await DataReader.ToEnumerableAsync<T>(reader, dbFields, cancellationToken).ToListAsync(cancellationToken).ConfigureAwait(false);

@@ -94,7 +94,7 @@ public static class PropertyHandlerMapper
     /// <typeparam name="TType">The target .NET CLR type.</typeparam>
     /// <typeparam name="TPropertyHandler">The type of the handler.</typeparam>
     /// <returns>An instance of mapped property handler for .NET CLR type.</returns>
-    public static TPropertyHandler? Get<TType, TPropertyHandler>() =>
+    public static TPropertyHandler? Get<TType, TPropertyHandler>() where TPropertyHandler : class =>
         Get<TPropertyHandler>(typeof(TType));
 
     /// <summary>
@@ -103,21 +103,17 @@ public static class PropertyHandlerMapper
     /// <typeparam name="TPropertyHandler">The type of the handler.</typeparam>
     /// <param name="type">The target .NET CLR type.</param>
     /// <returns>An instance of mapped property handler for .NET CLR type.</returns>
-    public static TPropertyHandler? Get<TPropertyHandler>(Type type)
+    public static TPropertyHandler? Get<TPropertyHandler>(Type type) where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(type);
 
         // Get the value
-        typeMaps.TryGetValue(type, out var value);
-
-        // Check the result
-        if (value is null or TPropertyHandler)
+        if (typeMaps.TryGetValue(type, out var value))
         {
-            return (TPropertyHandler?)value;
+            return value as TPropertyHandler;
         }
 
-        // Throw an exception
-        throw new InvalidTypeException($"The cache item is not convertible to '{typeof(TPropertyHandler).FullName}' type.");
+        return null;
     }
 
     /*
@@ -388,7 +384,7 @@ public static class PropertyHandlerMapper
          */
 
         // Extract
-        if (propertyInfo != null)
+        if (propertyInfo is not null)
         {
             propertyInfo = PropertyCache.Get(entityType, propertyInfo, true)?.PropertyInfo ?? propertyInfo;
         }
@@ -430,6 +426,7 @@ public static class PropertyHandlerMapper
     /// <returns>The mapped property handler object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Expression<Func<TEntity, object?>> expression)
         where TEntity : class
+        where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(expression);
         return Get<TEntity, TPropertyHandler>(ExpressionExtension.GetProperty(expression));
@@ -443,7 +440,8 @@ public static class PropertyHandlerMapper
     /// <param name="propertyName">The name of the property.</param>
     /// <returns>The mapped property handler object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(string propertyName)
-        where TEntity : class =>
+        where TEntity : class
+        where TPropertyHandler : class =>
         Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), $"{propertyName} not found"));
 
     /// <summary>
@@ -455,6 +453,7 @@ public static class PropertyHandlerMapper
     /// <returns>The mapped property handler object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Field field)
         where TEntity : class
+        where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(field);
         return Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), $"{field.FieldName} not found"));
@@ -468,7 +467,7 @@ public static class PropertyHandlerMapper
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped property handler object of the property.</returns>
     internal static TPropertyHandler? Get<TEntity, TPropertyHandler>(PropertyInfo propertyInfo)
-        where TEntity : class =>
+        where TEntity : class where TPropertyHandler: class =>
         Get<TPropertyHandler>(typeof(TEntity), propertyInfo);
 
     /// <summary>
@@ -479,22 +478,21 @@ public static class PropertyHandlerMapper
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped property handler object of the property.</returns>
     internal static TPropertyHandler? Get<TPropertyHandler>(Type entityType,
-        PropertyInfo propertyInfo)
+        PropertyInfo propertyInfo) where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Variables
         var key = (entityType, propertyInfo);
-        var result = default(TPropertyHandler);
 
         // Try get the value
         if (propertyMaps.TryGetValue(key, out var value))
         {
-            result = Converter.ToType<TPropertyHandler>(value);
+            return value as TPropertyHandler;
         }
 
         // Return the value
-        return result;
+        return null;
     }
 
     /*

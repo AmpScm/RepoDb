@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Attributes;
+﻿using RepoDb.Attributes;
 using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Enumerations;
 using RepoDb.PostgreSql.IntegrationTests.Setup;

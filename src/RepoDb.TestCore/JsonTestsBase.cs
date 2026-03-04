@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Nodes;
+using RepoDb.Attributes;
+using RepoDb.Extensions;
 using RepoDb.Schema;
 using RepoDb.StatementBuilders;
 using RepoDb.Trace;
@@ -221,5 +224,248 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         r = await sql.QueryAsync<JsonTestClassValues>(v => v.JsonNode.Value.Id == 5, trace: new DiagnosticsTracer());
         Assert.HasCount(1, r);
+    }
+
+    [TestMethod]
+    public async Task RawExecOnJson()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        //if (sql.GetType().Name.Contains("pgsql", StringComparison.OrdinalIgnoreCase))
+        //    return; // Text insert in json column fails
+
+        if (!await sql.SchemaObjectExistsAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken))
+        {
+            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer());
+        }
+        else
+        {
+            await sql.TruncateAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken);
+        }
+
+        DbJsonValue<JsonBTestClass> value;
+        value = new JsonBTestClass { Id = 5 };
+
+        await sql.ExecuteNonQueryAsync(sql.ReplaceForTests($@"UPDATE [{nameof(JsonTestClass)}] SET [JsonNode] = @Item"), new { Item = value }, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
+    }
+
+    [TestMethod]
+    public async Task RawJsonCompare()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        if (sql.GetType().Name.Contains("pgsql", StringComparison.OrdinalIgnoreCase))
+            return; // Npgsql.PostgresException: 42883: operator does not exist: json = json
+        else if (sql.GetType().Name.Contains("oracle", StringComparison.OrdinalIgnoreCase))
+            return; // json = json returns false
+
+        if (!await sql.SchemaObjectExistsAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken))
+        {
+            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer());
+        }
+        else
+        {
+            await sql.TruncateAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken);
+        }
+
+        DbJsonValue<JsonBTestClass> value;
+        value = new JsonBTestClass { Id = 5 };
+
+        await sql.InsertAsync(new JsonTestClassValues
+        {
+            Id = 1,
+            Name = "Test",
+            JsonNode = value,
+            Object = value,
+            Array = new string[] { "a", "b" }
+        }, trace: new DiagnosticsTracer());
+
+        Assert.AreEqual(1, await sql.CountAsync<JsonTestClassValues>(where: x => x.Object == value, cancellationToken: TestContext.CancellationToken, trace: new DiagnosticsTracer()));
+
+    }
+
+    class IdValue2Base
+    {
+        [Identity]
+        public int ID { get; set; }
+        public string Value { get; set; }
+        public string? ValueNull { get; set; }
+    }
+
+    struct InnerValueString : IFormattable
+#if NET
+        , IParsable<InnerValueString>
+#endif
+    {
+        public string Value { get; set; }
+
+        public static InnerValueString Parse(string s, IFormatProvider? provider)
+        {
+            return new() { Value = s };
+        }
+
+        public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out InnerValueString result)
+        {
+            try
+            {
+                result = Parse(s, provider);
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            return Value ?? "";
+        }
+
+        public override bool Equals([NotNullWhen(true)] object? obj)
+        {
+            return obj is InnerValueString other && Value == other.Value;
+        }
+
+        public override int GetHashCode() => 1;
+
+        public static bool operator ==(InnerValueString left, InnerValueString right) => left.Equals(right);
+        public static bool operator !=(InnerValueString left, InnerValueString right) => !left.Equals(right);
+    }
+
+    struct InnerClassString : IFormattable
+#if NET
+        , IParsable<InnerClassString>
+#endif
+    {
+        public string Value { get; set; }
+
+        public static InnerClassString Parse(string s, IFormatProvider? provider)
+        {
+            return new() { Value = s };
+        }
+
+        public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out InnerClassString result)
+        {
+            try
+            {
+                result = Parse(s, provider);
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            return Value ?? "";
+        }
+
+        public override bool Equals([NotNullWhen(true)] object? obj)
+        {
+            return obj is InnerValueString other && Value == other.Value;
+        }
+
+        public override int GetHashCode() => 1;
+
+        public static bool operator ==(InnerClassString left, InnerClassString right) => left.Equals(right);
+        public static bool operator !=(InnerClassString left, InnerClassString right) => !left.Equals(right);
+    }
+
+
+    [Table(nameof(IdValue2Base))]
+    record class ValueStructClass
+    {
+        public int ID { get; set; }
+        public InnerValueString Value { get; set; }
+        public InnerValueString? ValueNull { get; set; }
+    }
+
+    [TestMethod]
+    public async Task ValueStructUsage()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        if (!await sql.SchemaObjectExistsAsync<IdValue2Base>(cancellationToken: TestContext.CancellationToken))
+        {
+            await sql.CreateTableAsync<IdValue2Base>(trace: new DiagnosticsTracer());
+        }
+        else
+        {
+            await sql.TruncateAsync<IdValue2Base>(cancellationToken: TestContext.CancellationToken);
+        }
+
+
+        await sql.InsertAsync(new ValueStructClass
+        {
+            Value = new() { Value = "Test" },
+            ValueNull = new() { Value = "TestNull" }
+        });
+
+        await sql.InsertAsync(new ValueStructClass
+        {
+            Value = new() { Value = "Test2" },
+            ValueNull = null
+        });
+
+        var r = (await sql.QueryAllAsync<ValueStructClass>(orderBy: [OrderField.Parse<ValueStructClass>(x => x.ID, Enumerations.Order.Ascending)])).AsList();
+
+        Assert.HasCount(2, r);
+        Assert.AreEqual("Test", r[0].Value.Value);
+        Assert.AreEqual("TestNull", r[0].ValueNull?.Value);
+        Assert.AreEqual("Test2", r[1].Value.Value);
+        Assert.AreEqual(null, r[1].ValueNull?.Value);
+
+        var r2 = await sql.QueryAsync<ValueStructClass>(x => x.Value == new InnerValueString { Value = "Test" });
+    }
+
+    [Table(nameof(IdValue2Base))]
+    record class ValueClassClass
+    {
+        public int ID { get; set; }
+        public InnerClassString Value { get; set; }
+        public InnerClassString? ValueNull { get; set; }
+    }
+
+    [TestMethod]
+    public async Task ValueClassUsage()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        if (!await sql.SchemaObjectExistsAsync<IdValue2Base>(cancellationToken: TestContext.CancellationToken))
+        {
+            await sql.CreateTableAsync<IdValue2Base>(trace: new DiagnosticsTracer());
+        }
+        else
+        {
+            await sql.TruncateAsync<IdValue2Base>(cancellationToken: TestContext.CancellationToken);
+        }
+
+
+        await sql.InsertAsync(new ValueClassClass
+        {
+            Value = new() { Value = "Test" },
+            ValueNull = new() { Value = "TestNull" }
+        });
+
+        await sql.InsertAsync(new ValueClassClass
+        {
+            Value = new() { Value = "Test2" },
+            ValueNull = null
+        });
+
+        var r = (await sql.QueryAllAsync<ValueClassClass>(orderBy: [OrderField.Parse<ValueClassClass>(x => x.ID, Enumerations.Order.Ascending)])).AsList();
+
+        Assert.HasCount(2, r);
+        Assert.AreEqual("Test", r[0].Value.Value);
+        Assert.AreEqual("TestNull", r[0].ValueNull?.Value);
+        Assert.AreEqual("Test2", r[1].Value.Value);
+        Assert.AreEqual(null, r[1].ValueNull?.Value);
+
+        var r2 = await sql.QueryAsync<ValueClassClass>(x => x.Value == new InnerClassString { Value = "Test" }, trace: new DiagnosticsTracer());
     }
 }

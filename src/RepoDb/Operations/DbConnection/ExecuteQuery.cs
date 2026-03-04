@@ -99,7 +99,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = cache.Get<IEnumerable<dynamic>>(cacheKey, false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -251,7 +251,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = await cache.GetAsync<IEnumerable<dynamic>>(cacheKey, false, cancellationToken).ConfigureAwait(false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -408,7 +408,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = cache.Get<IEnumerable<TResult>>(cacheKey, false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -488,7 +488,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = cache.Get<IEnumerable<TResult>>(cacheKey, false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -558,7 +558,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = cache.Get<IEnumerable<TResult>>(cacheKey, false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -712,7 +712,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = await cache.GetAsync<IEnumerable<TResult>>(cacheKey, false, cancellationToken).ConfigureAwait(false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -796,7 +796,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = await cache.GetAsync<IEnumerable<TResult>>(cacheKey, false, cancellationToken).ConfigureAwait(false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -869,7 +869,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = await cache.GetAsync<IEnumerable<TResult>>(cacheKey, false, cancellationToken).ConfigureAwait(false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }

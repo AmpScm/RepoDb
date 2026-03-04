@@ -39,7 +39,7 @@ public static class Helper
                 return;
             }
             var propertyOfType2 = propertiesOfType2.FirstOrDefault(p => p.Name == propertyOfType1.Name);
-            if (propertyOfType2 == null)
+            if (propertyOfType2 is null)
             {
                 return;
             }

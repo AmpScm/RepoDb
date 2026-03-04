@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using System.Data;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -203,8 +204,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// object, then the value of the in-used <see cref="IDbDataParameter"/> object will be returned.
     /// </summary>
     /// <returns>The value of the <see cref="Parameter"/> object.</returns>
-    public object? GetValue() =>
-        GetValue<object>();
+    public object? GetValue() => DbParameter?.Value ?? Parameter?.Value;
 
     /// <summary>
     /// Returns the value of the <see cref="Parameter"/> object currently in used. However, if this instance of object has already been used as a database parameter
@@ -213,8 +213,9 @@ public partial class QueryField : IEquatable<QueryField>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns>The value of the converted <see cref="Parameter"/> object.</returns>
+    [Obsolete("Use GetValue() method instead."), EditorBrowsable(EditorBrowsableState.Never)]
     public T? GetValue<T>() =>
-        Converter.ToType<T>(DbParameter?.Value ?? Parameter?.Value);
+        Converter.ToType<T>(GetValue());
 
     /// <summary>
     /// Make the current instance of <see cref="QueryField"/> object to become an expression for 'Update' operations.
@@ -331,15 +332,8 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="objA">The first <see cref="QueryField"/> object.</param>
     /// <param name="objB">The second <see cref="QueryField"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(QueryField? objA,
-        QueryField? objB)
-    {
-        if (objA is null)
-        {
-            return objB is null;
-        }
-        return objA.Equals(objB);
-    }
+    public static bool operator ==(QueryField? objA, QueryField? objB)
+        => ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
 
     /// <summary>
     /// Compares the inequality of the two <see cref="QueryField"/> objects.
@@ -347,9 +341,8 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="objA">The first <see cref="QueryField"/> object.</param>
     /// <param name="objB">The second <see cref="QueryField"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(QueryField? objA,
-        QueryField? objB) =>
-        !(objA == objB);
+    public static bool operator !=(QueryField? objA, QueryField? objB)
+        => !(objA == objB);
 
     #endregion
 

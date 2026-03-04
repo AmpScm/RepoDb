@@ -32,7 +32,7 @@ public static class ClassHandlerMapper
     /// <typeparam name="TClassHandler">The type of the handler.</typeparam>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TType, TClassHandler>(bool force = false)
-        where TClassHandler : notnull, new() =>
+        where TClassHandler : class, new() =>
         Add(typeof(TType), new TClassHandler(), force);
 
     /// <summary>
@@ -43,7 +43,7 @@ public static class ClassHandlerMapper
     /// <param name="classHandler">The instance of the class handler. The type must implement the <see cref="IClassHandler{TEntity}"/> interface.</param>
     /// <param name="force">A value that indicates whether to force the mapping. If one is already exists, then it will be overwritten.</param>
     public static void Add<TType, TClassHandler>(TClassHandler classHandler,
-        bool force = false) where TClassHandler : notnull =>
+        bool force = false) where TClassHandler : class =>
         Add(typeof(TType), classHandler, force);
 
     /// <summary>
@@ -92,7 +92,7 @@ public static class ClassHandlerMapper
     /// <typeparam name="TType">The target .NET CLR type.</typeparam>
     /// <typeparam name="TClassHandler">The type of the handler.</typeparam>
     /// <returns>An instance of mapped class handler for .NET CLR type.</returns>
-    public static TClassHandler? Get<TType, TClassHandler>() =>
+    public static TClassHandler? Get<TType, TClassHandler>() where TClassHandler : class =>
         Get<TClassHandler>(typeof(TType));
 
     /// <summary>
@@ -101,7 +101,7 @@ public static class ClassHandlerMapper
     /// <typeparam name="TClassHandler">The type of the handler.</typeparam>
     /// <param name="type">The target .NET CLR type.</param>
     /// <returns>An instance of mapped class handler for .NET CLR type.</returns>
-    public static TClassHandler? Get<TClassHandler>(Type type)
+    public static TClassHandler? Get<TClassHandler>(Type type) where TClassHandler : class
     {
         // Check the presence
         ArgumentNullException.ThrowIfNull(type);

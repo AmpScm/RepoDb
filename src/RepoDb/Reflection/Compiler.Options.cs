@@ -67,8 +67,8 @@ internal partial class Compiler
         Expression? classPropertyExpression)
     {
         // Get the 'Create' method
-        var method = StaticType.PropertyHandlerGetOptions.GetMethod("Create",
-            BindingFlags.Static | BindingFlags.NonPublic)!;
+        var method = StaticType.PropertyHandlerGetOptions
+            .GetMethod(nameof(PropertyHandlerGetOptions.Create), BindingFlags.Static | BindingFlags.NonPublic)!;
 
         // Set to default
         readerExpression ??= Expression.Default(StaticType.DbDataReader);

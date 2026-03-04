@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using RepoDb.Benchmarks.PostgreSql.Models;

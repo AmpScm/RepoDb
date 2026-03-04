@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 
 namespace RepoDb.Benchmarks.PostgreSql.Linq2db;

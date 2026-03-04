@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RepoDb.Attributes;
 using RepoDb.Interfaces;

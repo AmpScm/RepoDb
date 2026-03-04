@@ -1,5 +1,4 @@
 using System.Data.SQLite;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
 

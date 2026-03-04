@@ -32,7 +32,8 @@ public partial class QueryGroup
             expression.Right.NodeType == ExpressionType.Constant ||
             expression.Right.NodeType == ExpressionType.Convert ||
             expression.Right.NodeType == ExpressionType.MemberAccess ||
-            expression.Right.NodeType == ExpressionType.NewArrayInit
+            expression.Right.NodeType == ExpressionType.NewArrayInit ||
+            (expression.Right.NodeType == ExpressionType.MemberInit && expression.Right.GetValue() is { })
         );
 
     /*

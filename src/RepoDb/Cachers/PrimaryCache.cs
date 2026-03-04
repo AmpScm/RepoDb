@@ -9,7 +9,6 @@ namespace RepoDb;
 public static class PrimaryCache
 {
     private static readonly ConcurrentDictionary<Type, IEnumerable<ClassProperty>?> cache = new();
-    private static readonly PrimaryResolver resolver = new();
 
     /// <summary>
     /// Gets the cached primary property of the data entity.
@@ -40,7 +39,7 @@ public static class PrimaryCache
     /// <typeparam name="TEntity">The type of the data entity.</typeparam>
     /// <returns>The cached primary property.</returns>
     public static IEnumerable<ClassProperty>? GetPrimaryKeys(Type entityType)
-        => cache.GetOrAdd(entityType, resolver.Resolve);
+        => cache.GetOrAdd(entityType, PrimaryResolver.Instance.Resolve);
 
     /// <summary>
     /// Flushes all the existing cached primary <see cref="ClassProperty"/> objects.

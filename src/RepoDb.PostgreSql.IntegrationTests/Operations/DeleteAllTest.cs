@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.PostgreSql.IntegrationTests.Models;
+﻿using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;

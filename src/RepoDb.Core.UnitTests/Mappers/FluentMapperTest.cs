@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Attributes;
+﻿using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
 using RepoDb.Exceptions;
 using System.Data;
@@ -193,7 +192,9 @@ public partial class FluentMapperTest
     public void TestFluentMapPrimaryMapping()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var actual = PrimaryCache.Get<FluentMapperTestClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         var expected = "PrimaryId";
 
         // Assert
@@ -208,7 +209,9 @@ public partial class FluentMapperTest
     public void TestFluentMapPrimaryMappingWithMapAttribute()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var actual = PrimaryCache.Get<FluentMapperTestWithAttributesClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         var expected = "Id";
 
         // Assert
@@ -228,7 +231,9 @@ public partial class FluentMapperTest
             .Primary(e => e.RowId, true);
 
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var actual = PrimaryCache.Get<FluentMapperTestClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         var expected = "RowId";
 
         // Assert

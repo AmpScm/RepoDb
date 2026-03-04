@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Enumerations;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
@@ -35,7 +34,7 @@ public class EnumPropertyTest
     {
         public BooleanValue? Get(bool? input, PropertyHandlerGetOptions options)
         {
-            if (input == null)
+            if (input is null)
             {
                 return null;
             }
@@ -44,7 +43,7 @@ public class EnumPropertyTest
 
         public bool? Set(BooleanValue? input, PropertyHandlerSetOptions options)
         {
-            if (input == null)
+            if (input is null)
             {
                 return null;
             }
@@ -56,7 +55,7 @@ public class EnumPropertyTest
     {
         public Direction? Get(string input, PropertyHandlerGetOptions options)
         {
-            if (input == null)
+            if (input is null)
             {
                 return null;
             }
@@ -73,7 +72,7 @@ public class EnumPropertyTest
 
         public string Set(Direction? input, PropertyHandlerSetOptions options)
         {
-            if (input == null)
+            if (input is null)
             {
                 return null;
             }

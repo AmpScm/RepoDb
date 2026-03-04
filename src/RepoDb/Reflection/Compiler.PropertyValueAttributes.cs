@@ -84,10 +84,6 @@ internal partial class Compiler
         // DB multiple providers within a single entity and if the parameterExpression is not really
         // covertible to the target attriute.ParameterType
 
-        //return Expression.Call(Expression.Convert(parameterExpression, attribute.ParameterType),
-        //    attribute.PropertyInfo.SetMethod,
-        //    Expression.Constant(attribute.Value));
-
         var method = GetPropertyValueAttributeSetValueMethod();
         return Expression.Call(Expression.Constant(attribute), method, parameterExpression);
     }

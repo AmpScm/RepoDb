@@ -18,7 +18,7 @@ internal static class ExecutionContextProvider
     public static Field? GetTargetReturnColumnAsField(Type entityType,
         DbFieldCollection dbFields)
     {
-        var primaryField = PrimaryCache.Get(entityType)?.AsField();
+        var primaryField = PrimaryCache.GetPrimaryKeys(entityType)?.FirstOrDefault()?.AsField();
         var identityField = IdentityCache.Get(entityType)?.AsField() ?? dbFields?.Identity;
 
         return GlobalConfiguration.Options.KeyColumnReturnBehavior switch

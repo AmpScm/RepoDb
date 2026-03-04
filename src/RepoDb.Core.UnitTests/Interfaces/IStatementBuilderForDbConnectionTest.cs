@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using RepoDb.Contexts.Cachers;
 using RepoDb.Enumerations;
 using RepoDb.Interfaces;

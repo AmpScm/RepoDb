@@ -446,7 +446,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         }
         else
         {
-            if (primaryField != null)
+            if (primaryField is not null)
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
                 if (fields.GetByFieldName(primaryField.FieldName) is null)
@@ -618,7 +618,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
             var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
 
-            if (primaryField != null)
+            if (primaryField is not null)
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
                 if (!fields.ContainsFieldName(primaryField.FieldName))
@@ -949,4 +949,5 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     }
 
     public override string? JsonColumnType => "VARCHAR(max)";
+    public override string IdentityDefinition => "IDENTITY(1,1)";
 }

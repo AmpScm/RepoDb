@@ -65,7 +65,7 @@ internal static class InsertAllExecutionContextProvider
 
         // Get from cache
         var context = InsertAllExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }
@@ -147,7 +147,7 @@ internal static class InsertAllExecutionContextProvider
 
         // Get from cache
         var context = InsertAllExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }
@@ -233,7 +233,7 @@ internal static class InsertAllExecutionContextProvider
         Action<object, object?>? keyPropertySetterFunc = null;
         var keyField = ExecutionContextProvider
             .GetTargetReturnColumnAsField(entityType, dbFields);
-        if (keyField != null)
+        if (keyField is not null)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);

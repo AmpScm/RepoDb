@@ -5,7 +5,7 @@ namespace RepoDb.Resolvers;
 /// <summary>
 /// A class that is being used to resolve the identity property of the data entity type.
 /// </summary>
-public class IdentityResolver : IResolver<Type, ClassProperty>
+public sealed class IdentityResolver : IResolver<Type, ClassProperty>
 {
     /// <summary>
     /// Resolves the identity <see cref="ClassProperty"/> of the data entity type.
@@ -21,7 +21,13 @@ public class IdentityResolver : IResolver<Type, ClassProperty>
 
         // Get the first entry with Identity attribute
         return
-            properties.FirstOrDefault(p => p.GetIdentityAttribute() != null)
+            properties.FirstOrDefault(p => p.IsIdentity)
             ?? IdentityMapper.Get(entityType);
     }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static IdentityResolver Instance { get; } = new();
 }

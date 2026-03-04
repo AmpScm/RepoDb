@@ -1080,7 +1080,7 @@ public static class CommandTextCache
         {
             var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
 
-            if (primaryField != null)
+            if (primaryField is not null)
             {
                 // Make sure that primary is present in the list of fields before qualifying to become a qualifier
                 if (!fields.ContainsFieldName(primaryField.FieldName))
@@ -1276,7 +1276,7 @@ public static class CommandTextCache
         {
             foreach (var p in primary)
             {
-                if (dbFields.GetByFieldName(p.PropertyName) is { } dbPrimary && !dbPrimary.IsPrimary)
+                if (dbFields.GetByFieldName(p.PropertyName) is { IsPrimary: false } dbPrimary)
                 {
                     // Attribute-based primary key differs from the database primary key
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Attributes.Parameter;
+﻿using RepoDb.Attributes.Parameter;
 using RepoDb.Resolvers;
 using System.Data;
 

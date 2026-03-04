@@ -15,7 +15,7 @@ public static class ListExtension
         T? item)
     {
         ArgumentNullException.ThrowIfNull(list);
-        if (item != null)
+        if (item is not null)
         {
             list.Add(item);
         }

@@ -86,16 +86,16 @@ public static class Helper
             var toProperty = toTypeProperties.FirstOrDefault(p => p.GetMappedName() == property.GetMappedName());
             if (strict)
             {
-                if (toProperty == null)
+                if (toProperty is null)
                 {
                     throw new ArgumentNullException(property.Name);
                 }
             }
-            if (toProperty == null)
+            if (toProperty is null)
             {
                 return;
             }
-            if (result == null)
+            if (result is null)
             {
                 result = new T();
             }
@@ -122,7 +122,7 @@ public static class Helper
                 return;
             }
             var propertyOfType2 = propertiesOfType2.FirstOrDefault(p => p.GetMappedName() == propertyOfType1.GetMappedName());
-            if (propertyOfType2 == null)
+            if (propertyOfType2 is null)
             {
                 return;
             }

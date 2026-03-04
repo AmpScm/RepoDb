@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Setup;
@@ -160,7 +159,7 @@ public class PropertyHandlerTest
     {
         public IDictionary<string, string> Get(string input, PropertyHandlerGetOptions options)
         {
-            if (input == null)
+            if (input is null)
             {
                 return null;
             }
@@ -169,7 +168,7 @@ public class PropertyHandlerTest
 
         public string Set(IDictionary<string, string> input, PropertyHandlerSetOptions options)
         {
-            if (input == null)
+            if (input is null)
             {
                 return null;
             }

@@ -1,5 +1,4 @@
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RepoDb.SqlServer.UnitTests;
 

@@ -1,6 +1,5 @@
 ﻿using System.Dynamic;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Extensions;
 using RepoDb.Sqlite.Microsoft.IntegrationTests.Models;
 
@@ -49,7 +48,7 @@ public static class Helper
                 return;
             }
             var propertyOfType2 = propertiesOfType2.FirstOrDefault(p => p.Name == propertyOfType1.Name);
-            if (propertyOfType2 == null)
+            if (propertyOfType2 is null)
             {
                 return;
             }
@@ -70,7 +69,7 @@ public static class Helper
                 if (value1.GetType() != value2.GetType())
                 {
                     var method = typeof(Convert).GetMethod($"To{value1.GetType().Name}", new[] { value2.GetType() });
-                    if (method != null)
+                    if (method is not null)
                     {
                         value2 = method.Invoke(null, new[] { value2 });
                     }
@@ -156,7 +155,7 @@ public static class Helper
                     if (value1.GetType() != value2.GetType())
                     {
                         var method = typeof(Convert).GetMethod($"To{value1.GetType().Name}", new[] { value2.GetType() });
-                        if (method != null)
+                        if (method is not null)
                         {
                             value2 = method.Invoke(null, new[] { value2 });
                         }

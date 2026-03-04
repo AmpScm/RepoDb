@@ -12,7 +12,7 @@ public sealed class PropertyHandlerSetOptions : PropertyHandlerOptions
     /// </summary>
     /// <param name="parameter"></param>
     /// <param name="property"></param>
-    private PropertyHandlerSetOptions(IDbDataParameter parameter,
+    private PropertyHandlerSetOptions(IDbDataParameter? parameter,
         ClassProperty property)
         : base(property)
     {
@@ -24,7 +24,7 @@ public sealed class PropertyHandlerSetOptions : PropertyHandlerOptions
     /// <summary>
     /// Gets the associated <see cref="IDbDataParameter"/> object in used during the push operation.
     /// </summary>
-    public IDbDataParameter DbParameter { get; }
+    public IDbDataParameter? DbParameter { get; }
 
     #endregion
 
@@ -36,7 +36,7 @@ public sealed class PropertyHandlerSetOptions : PropertyHandlerOptions
     /// <param name="parameter"></param>
     /// <param name="property"></param>
     /// <returns></returns>
-    internal static PropertyHandlerSetOptions Create(IDbDataParameter parameter,
+    internal static PropertyHandlerSetOptions Create(IDbDataParameter? parameter,
         ClassProperty property) =>
         new PropertyHandlerSetOptions(parameter, property);
 

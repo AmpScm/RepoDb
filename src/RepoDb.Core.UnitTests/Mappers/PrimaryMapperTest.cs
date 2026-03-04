@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Attributes;
+﻿using RepoDb.Attributes;
 using RepoDb.Exceptions;
 
 namespace RepoDb.UnitTests.Mappers;
@@ -115,7 +114,9 @@ public partial class PrimaryMapperTest
         Assert.AreEqual(expected, actual?.FieldName);
 
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         actual = PrimaryCache.Get<PrimaryMapperTestWithAttributeClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         expected = "ColumnString";
 
         // Assert
@@ -136,7 +137,9 @@ public partial class PrimaryMapperTest
         Assert.AreEqual(expected, actual?.FieldName);
 
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         actual = PrimaryCache.Get<PrimaryMapperTestWithAttributeClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         expected = "ColumnString";
 
         // Assert
@@ -157,7 +160,9 @@ public partial class PrimaryMapperTest
         Assert.AreEqual(expected, actual?.FieldName);
 
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         actual = PrimaryCache.Get<PrimaryMapperTestWithAttributeClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         expected = "ColumnString";
 
         // Assert

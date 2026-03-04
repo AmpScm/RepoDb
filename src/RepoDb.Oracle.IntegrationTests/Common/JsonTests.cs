@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oracle.ManagedDataAccess.Client;
 using RepoDb.Oracle.IntegrationTests.Setup;
 

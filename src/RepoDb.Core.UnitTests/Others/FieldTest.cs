@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 
 namespace RepoDb.UnitTests.Others;
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.UnitTests.CustomObjects;
+﻿using RepoDb.UnitTests.CustomObjects;
 
 namespace RepoDb.UnitTests.Mappers;
 

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Nodes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Npgsql;
 using NpgsqlTypes;
 using RepoDb.Attributes;

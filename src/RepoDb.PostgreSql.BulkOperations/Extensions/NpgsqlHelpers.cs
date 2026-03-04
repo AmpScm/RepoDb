@@ -71,7 +71,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlDbType? npgsqlDbType,
         IDbSetting? dbSetting)
     {
-        if (npgsqlDbType == null)
+        if (npgsqlDbType is null)
         {
             var dbField = GetMappingDbField(destinationName,
                 dbFields,
@@ -80,7 +80,7 @@ public static partial class NpgsqlConnectionExtension
                 dbSetting);
 
             // Check
-            if (dbField == null)
+            if (dbField is null)
             {
                 return default;
             }
@@ -114,7 +114,7 @@ public static partial class NpgsqlConnectionExtension
         var dbField = dbFields?.GetByFieldName(name.AsUnquoted(true, dbSetting));
 
         // Check
-        if (dbField == null)
+        if (dbField is null)
         {
             return dbField;
         }
@@ -163,7 +163,7 @@ public static partial class NpgsqlConnectionExtension
                 GetMappedNpgsqlDbTypeFromAttributes(property.GetPropertyValueAttributes()),
                 dbSetting);
 
-            if (mapping != null)
+            if (mapping is not null)
             {
                 yield return mapping;
             }
@@ -196,7 +196,7 @@ public static partial class NpgsqlConnectionExtension
                 null,
                 dbSetting);
 
-            if (mapping != null)
+            if (mapping is not null)
             {
                 yield return mapping;
             }
@@ -229,7 +229,7 @@ public static partial class NpgsqlConnectionExtension
                 null,
                 dbSetting);
 
-            if (mapping != null)
+            if (mapping is not null)
             {
                 yield return mapping;
             }
@@ -263,7 +263,7 @@ public static partial class NpgsqlConnectionExtension
                 null,
                 dbSetting);
 
-            if (mapping != null)
+            if (mapping is not null)
             {
                 yield return mapping;
             }
@@ -399,7 +399,7 @@ public static partial class NpgsqlConnectionExtension
         IEnumerable<IdentityResult> identityResults)
         where TEntity : class
     {
-        if (identityField == null)
+        if (identityField is null)
         {
             return;
         }
@@ -411,7 +411,7 @@ public static partial class NpgsqlConnectionExtension
         }
 
         var func = Compiler.GetPropertySetterFunc<TEntity>(identityField.FieldName);
-        if (func == null)
+        if (func is null)
         {
             return;
         }
@@ -469,7 +469,7 @@ public static partial class NpgsqlConnectionExtension
     {
         var identityField = dbFields.Identity;
 
-        if (identityField == null)
+        if (identityField is null)
         {
             return;
         }
@@ -499,7 +499,7 @@ public static partial class NpgsqlConnectionExtension
         IDbSetting dbSetting)
     {
         var identityField = dbFields.Identity?.AsField();
-        if (identityField == null)
+        if (identityField is null)
         {
             return;
         }
@@ -535,7 +535,7 @@ public static partial class NpgsqlConnectionExtension
         var property = IdentityCache.Get<TEntity>() ??
                 GetEntityIdentityProperty<TEntity>(dbFields, dbSetting);
 
-        if (property != null)
+        if (property is not null)
         {
             return new Field(property.PropertyInfo.Name);
         }
@@ -579,7 +579,7 @@ public static partial class NpgsqlConnectionExtension
         Field identityField,
         IDbSetting dbSetting)
     {
-        if (identityField == null)
+        if (identityField is null)
         {
             return null;
         }

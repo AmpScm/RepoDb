@@ -55,5 +55,5 @@ public sealed record GlobalConfigurationOptions
     /// <summary>
     /// 
     /// </summary>
-    public JsonSerializerOptions JsonSerializerOptions { get; init; } = Converter.DefaultJsonSerializerOptions;
+    public JsonSerializerOptions JsonSerializerOptions { get; init; } = Converter.JsonSerializerOptions;
 }

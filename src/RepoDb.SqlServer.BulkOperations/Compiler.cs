@@ -45,7 +45,7 @@ internal static class Compiler
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName);
 
-                if (method != null)
+                if (method is not null)
                 {
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var body = Expression.Convert(Expression.Call(entity, method), typeof(TResult));
@@ -95,7 +95,7 @@ internal static class Compiler
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName);
 
-                if (method != null)
+                if (method is not null)
                 {
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var body = Expression.Call(entity, method);
@@ -152,7 +152,7 @@ internal static class Compiler
             {
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName, types);
-                if (method != null)
+                if (method is not null)
                 {
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var arguments = Expression.Parameter(typeof(object[]), "arguments");
@@ -213,7 +213,7 @@ internal static class Compiler
                 var typeOfEntity = typeof(TEntity);
                 var method = typeOfEntity.GetMethod(methodName, types);
 
-                if (method != null)
+                if (method is not null)
                 {
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var arguments = Expression.Parameter(typeof(object[]), "arguments");
@@ -314,14 +314,14 @@ internal static class Compiler
         /// <returns></returns>
         public static Action<TEntity, object?>? GetFunc(ClassProperty? classProperty)
         {
-            if (classProperty == null)
+            if (classProperty is null)
             {
                 return null;
             }
 
             return cache.GetOrAdd(classProperty.GetHashCode(), (_) =>
             {
-                if (classProperty != null)
+                if (classProperty is not null)
                 {
                     var entity = Expression.Parameter(typeof(TEntity), "entity");
                     var value = Expression.Parameter(typeof(object), "value");
@@ -376,7 +376,7 @@ internal static class Compiler
                 var fieldInfo = typeOfEntity
                     .GetField("_rowsCopied", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
 
-                if (fieldInfo != null)
+                if (fieldInfo is not null)
                 {
                     var entity = Expression.Parameter(typeOfEntity, "entity");
                     var field = Expression.Field(entity, fieldInfo);
@@ -428,7 +428,7 @@ internal static class Compiler
                 var typeOfEnum = typeof(TEnum);
                 var fieldInfo = typeOfEnum.GetField(value);
 
-                if (fieldInfo != null)
+                if (fieldInfo is not null)
                 {
                     var body = Expression.Field(null, fieldInfo);
 

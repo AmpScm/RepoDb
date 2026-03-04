@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RepoDb.Interfaces;
 using RepoDb.UnitTests.CustomObjects;

@@ -1,5 +1,4 @@
 ﻿using System.Data.SQLite;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.SQLite.System.IntegrationTests.Models;
 using RepoDb.SQLite.System.IntegrationTests.Setup;
 

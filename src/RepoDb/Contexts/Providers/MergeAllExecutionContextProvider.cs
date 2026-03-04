@@ -77,7 +77,7 @@ internal static class MergeAllExecutionContextProvider
 
         // Get from cache
         var context = MergeAllExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }
@@ -169,7 +169,7 @@ internal static class MergeAllExecutionContextProvider
 
         // Get from cache
         var context = MergeAllExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }
@@ -285,7 +285,7 @@ internal static class MergeAllExecutionContextProvider
         var keyField = ExecutionContextProvider
             .GetTargetReturnColumnAsField(entityType, dbFields);
 
-        if (keyField != null)
+        if (keyField is not null)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);

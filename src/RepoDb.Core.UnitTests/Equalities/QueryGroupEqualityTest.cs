@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
 

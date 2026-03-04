@@ -519,7 +519,7 @@ public static partial class DbConnectionExtension
                         .InvokeAfterExecution(traceResult, trace, result);
 
                     // Set the return value
-                    if (returnValue != null)
+                    if (returnValue is not null)
                     {
                         context.IdentitySetterFunc?.Invoke(entity, returnValue);
                     }
@@ -762,7 +762,7 @@ public static partial class DbConnectionExtension
                         .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
 
                     // Set the return value
-                    if (returnValue != null)
+                    if (returnValue is not null)
                     {
                         context.IdentitySetterFunc?.Invoke(entity, returnValue);
                     }

@@ -350,7 +350,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         {
             var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
 
-            if (primaryField == null)
+            if (primaryField is null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
             }
@@ -463,7 +463,7 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
         if (qualifiers?.Any() != true)
         {
             var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
-            if (primaryField == null)
+            if (primaryField is null)
             {
                 throw new PrimaryFieldNotFoundException($"The is no primary field from the table '{tableName}' that can be used as qualifier.");
             }
@@ -778,4 +778,5 @@ public sealed class PostgreSqlStatementBuilder : BaseStatementBuilder
     #endregion
 
     public override string? JsonColumnType => "json";
+    public override string IdentityDefinition => "GENERATED ALWAYS AS IDENTITY";
 }

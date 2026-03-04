@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Npgsql;
+﻿using Npgsql;
 using RepoDb.Extensions;
 using RepoDb.Reflection;
 using RepoDb.PostgreSql.IntegrationTests.Models;

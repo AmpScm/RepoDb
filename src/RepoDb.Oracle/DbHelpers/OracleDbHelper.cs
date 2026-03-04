@@ -1,8 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
@@ -217,13 +215,13 @@ ORDER BY C.COLUMN_ID
     }
     #endregion
 
-    public override object? ParameterValueToDb(object? value) => value switch
+    public override object? ParameterValueToDb(object? value, IDbDataParameter parameter) => value switch
     {
 #if NET
         DateOnly dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
         TimeOnly to => to.ToTimeSpan(),
 #endif
-        _ => value,
+        _ => base.ParameterValueToDb(value, parameter),
     };
 
     public override Func<object?> PrepareForIdentityOutput(DbCommand command)

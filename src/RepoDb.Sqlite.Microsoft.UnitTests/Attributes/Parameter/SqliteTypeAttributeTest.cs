@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes.Parameter.Sqlite;
 using RepoDb.DbSettings;
 using RepoDb.Extensions;

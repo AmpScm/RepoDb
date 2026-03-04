@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data.SQLite;
 
 namespace RepoDb.SQLite.System.UnitTests;

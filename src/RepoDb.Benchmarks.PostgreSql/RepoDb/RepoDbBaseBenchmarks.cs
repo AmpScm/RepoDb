@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Data;
 using BenchmarkDotNet.Attributes;
 using RepoDb.Benchmarks.PostgreSql.Configurations;

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using RepoDb.Extensions;
 using RepoDb.Reflection;
 using RepoDb.SqlServer.IntegrationTests.Models;

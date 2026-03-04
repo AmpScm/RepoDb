@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Exceptions;
+﻿using RepoDb.Exceptions;
 
 namespace RepoDb.UnitTests.Caches;
 

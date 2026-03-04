@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RepoDb.Enumerations;
 

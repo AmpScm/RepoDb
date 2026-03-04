@@ -6,7 +6,7 @@ namespace RepoDb.Resolvers;
 /// <summary>
 /// A class that is being used to resolve the primary property of the data entity type.
 /// </summary>
-public class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IResolver<Type, ClassProperty>
+public sealed class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IResolver<Type, ClassProperty>
 {
     /// <summary>
     /// Resolves the primary <see cref="ClassProperty"/> of the data entity type.
@@ -22,8 +22,7 @@ public class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IRes
         }
 
         // Get the first entry with Primary or Key attribute
-        var pkProperties = properties
-            .Where(p => p.GetPrimaryAttribute() != null).ToList();
+        var pkProperties = properties.Where(p => p.IsPrimary).ToList();
 
         if (pkProperties.Count != 0)
             return pkProperties;
@@ -57,4 +56,6 @@ public class PrimaryResolver : IResolver<Type, IEnumerable<ClassProperty>>, IRes
     {
         return Resolve(input)?.FirstOrDefault();
     }
+
+    public static PrimaryResolver Instance { get; } = new();
 }

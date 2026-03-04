@@ -32,7 +32,7 @@ public static class PropertyHandlerCache
     /// <typeparam name="TType">The .NET CLR type.</typeparam>
     /// <typeparam name="TPropertyHandler">The type of the handler.</typeparam>
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the .NET CLR type.</returns>
-    public static TPropertyHandler? Get<TType, TPropertyHandler>() =>
+    public static TPropertyHandler? Get<TType, TPropertyHandler>() where TPropertyHandler : class =>
         Get<TPropertyHandler>(typeof(TType));
 
     /// <summary>
@@ -42,13 +42,14 @@ public static class PropertyHandlerCache
     /// <param name="type">The target .NET CLR type.</param>
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the .NET CLR type.</returns>
     public static TPropertyHandler? Get<TPropertyHandler>(Type type)
+        where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(type);
 
         // Try get the value
         var value = typeCache.GetOrAdd(type, (_) => typeLevelResolver.Resolve(type));
 
-        return Converter.ToType<TPropertyHandler>(value);
+        return value as TPropertyHandler;
     }
 
     #endregion
@@ -64,6 +65,7 @@ public static class PropertyHandlerCache
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Expression<Func<TEntity, object?>> expression)
         where TEntity : class
+        where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(expression);
         return Get<TEntity, TPropertyHandler>(ExpressionExtension.GetProperty(expression));
@@ -77,7 +79,9 @@ public static class PropertyHandlerCache
     /// <param name="propertyName">The name of the property.</param>
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(string propertyName)
-        where TEntity : class =>
+        where TEntity : class
+        where TPropertyHandler : class
+        =>
         Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(propertyName) ?? throw new PropertyNotFoundException(nameof(propertyName), "Property not found"));
 
     /// <summary>
@@ -89,6 +93,7 @@ public static class PropertyHandlerCache
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     public static TPropertyHandler? Get<TEntity, TPropertyHandler>(Field field)
         where TEntity : class
+        where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(field);
         return Get<TEntity, TPropertyHandler>(TypeExtension.GetProperty<TEntity>(field.FieldName) ?? throw new PropertyNotFoundException(nameof(field), "Property not found"));
@@ -103,7 +108,8 @@ public static class PropertyHandlerCache
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     internal static TPropertyHandler? Get<TEntity, TPropertyHandler>(PropertyInfo propertyInfo)
-        where TEntity : class =>
+        where TEntity : class
+        where TPropertyHandler : class =>
         Get<TPropertyHandler>(typeof(TEntity), propertyInfo);
 
     /// <summary>
@@ -114,6 +120,7 @@ public static class PropertyHandlerCache
     /// <param name="propertyInfo">The instance of <see cref="PropertyInfo"/>.</param>
     /// <returns>The mapped <see cref="IPropertyHandler{TInput, TResult}"/> object of the property.</returns>
     internal static TPropertyHandler? Get<TPropertyHandler>(Type entityType, PropertyInfo propertyInfo)
+        where TPropertyHandler : class
     {
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
@@ -123,7 +130,7 @@ public static class PropertyHandlerCache
         // Try get the value
         var value = propertyCache.GetOrAdd(key, (_) => propertyLevelResolver.Resolve(entityType, propertyInfo));
 
-        return Converter.ToType<TPropertyHandler>(value);
+        return value as TPropertyHandler;
     }
 
     #endregion

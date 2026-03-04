@@ -1,26 +1,23 @@
 ﻿using System.Globalization;
 
-namespace RepoDb.IntegrationTests;
+namespace RepoDb.Extensions;
 
 /// <summary>
 /// store current culture and set CultureInfo.DefaultThreadCurrentCulture for unit test case.
 /// restore original culture when dispose.
 /// </summary>
-internal sealed class CultureScope : IDisposable
+public struct CultureScope : IDisposable
 {
     private readonly CultureInfo originalCulture;
-    private readonly CultureInfo originalUICulture;
 
-    public CultureScope(string cultureName)
+    public CultureScope(CultureInfo setCulture)
     {
         originalCulture = CultureInfo.CurrentCulture;
-        originalUICulture = CultureInfo.CurrentUICulture;
-        CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName);
+        CultureInfo.CurrentCulture = setCulture ?? CultureInfo.InvariantCulture;
     }
 
     public void Dispose()
     {
-        CultureInfo.CurrentUICulture = originalUICulture;
         CultureInfo.CurrentCulture = originalCulture;
     }
 }

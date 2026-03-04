@@ -232,7 +232,7 @@ public class MySqlDbTypeToMySqlStringNameResolverTest
         var result = resolver.Resolve(MySqlDbType.Int24);
 
         // Assert
-        Assert.AreEqual("SMALLINT", result);
+        Assert.AreEqual("MEDIUMINT", result);
     }
 
     [TestMethod]
@@ -245,7 +245,7 @@ public class MySqlDbTypeToMySqlStringNameResolverTest
         var result = resolver.Resolve(MySqlDbType.UInt24);
 
         // Assert
-        Assert.AreEqual("SMALLINT", result);
+        Assert.AreEqual("MEDIUMINT", result);
     }
 
     [TestMethod]

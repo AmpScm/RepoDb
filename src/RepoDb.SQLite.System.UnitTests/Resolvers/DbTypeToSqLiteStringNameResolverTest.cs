@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Resolvers;
+﻿using RepoDb.Resolvers;
 using System.Data;
 
 namespace RepoDb.SQLite.System.UnitTests.Resolvers;
@@ -14,7 +13,7 @@ public class DbTypeToSqLiteStringNameResolverTest
         var resolver = new DbTypeToSqLiteStringNameResolver();
 
         // Assert
-        Assert.AreEqual("BIGINT", resolver.Resolve(DbType.Int64));
+        Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Int64));
     }
 
     [TestMethod]
@@ -24,7 +23,7 @@ public class DbTypeToSqLiteStringNameResolverTest
         var resolver = new DbTypeToSqLiteStringNameResolver();
 
         // Assert
-        Assert.AreEqual("BLOB", resolver.Resolve(DbType.Byte));
+        Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Byte));
     }
 
     [TestMethod]
@@ -154,7 +153,7 @@ public class DbTypeToSqLiteStringNameResolverTest
         var resolver = new DbTypeToSqLiteStringNameResolver();
 
         // Assert
-        Assert.AreEqual("DOUBLE", resolver.Resolve(DbType.Double));
+        Assert.AreEqual("REAL", resolver.Resolve(DbType.Double));
     }
 
     [TestMethod]
@@ -164,7 +163,7 @@ public class DbTypeToSqLiteStringNameResolverTest
         var resolver = new DbTypeToSqLiteStringNameResolver();
 
         // Assert
-        Assert.AreEqual("INT", resolver.Resolve(DbType.Int32));
+        Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Int32));
     }
 
     [TestMethod]
@@ -174,7 +173,7 @@ public class DbTypeToSqLiteStringNameResolverTest
         var resolver = new DbTypeToSqLiteStringNameResolver();
 
         // Assert
-        Assert.AreEqual("INT", resolver.Resolve(DbType.Int16));
+        Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Int16));
     }
 
     [TestMethod]

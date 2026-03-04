@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Setup;
 using RepoDb.Interfaces;
 using System.Data;

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Attributes;
+﻿using RepoDb.Attributes;
 
 namespace RepoDb.UnitTests.Caches;
 
@@ -67,7 +66,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForBaseClass()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<BaseClassWithPrimary>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);
@@ -77,7 +78,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForTypeOfBaseClass()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get(typeof(BaseClassWithPrimary));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);
@@ -87,7 +90,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForBaseClassWithoutPrimary()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<BaseClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNull(primary);
@@ -97,7 +102,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForTypeOfBaseClassWithoutPrimary()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get(typeof(BaseClass));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNull(primary);
@@ -111,7 +118,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForDerivedClass()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<DerivedClassWithPrimaryAtBase>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);
@@ -121,7 +130,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForTypeOfDerivedClass()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get(typeof(DerivedClassWithPrimaryAtBase));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);
@@ -131,7 +142,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForDerivedClassWithoutPrimary()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<DerivedClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNull(primary);
@@ -141,7 +154,9 @@ public class PrimaryCacheTest
     public void TestPrimaryCacheForTypeOfDerivedClassWithoutPrimary()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get(typeof(DerivedClass));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNull(primary);
@@ -155,7 +170,9 @@ public class PrimaryCacheTest
     public void TestPrimaryClass()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<PrimaryClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);
@@ -165,7 +182,9 @@ public class PrimaryCacheTest
     public void TestPrimaryClassWithPrimary()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<PrimaryClassWithPrimary>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);
@@ -175,7 +194,9 @@ public class PrimaryCacheTest
     public void TestPrimaryClassWithUniformPrimary()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<PrimaryClassWithUniformPrimary>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);
@@ -185,7 +206,9 @@ public class PrimaryCacheTest
     public void TestPrimaryClassWithUniformPrimaryFromTheMapping()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var primary = PrimaryCache.Get<PrimaryClassWithUniformPrimaryFromTheMapping>();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Assert
         Assert.IsNotNull(primary);

@@ -418,4 +418,16 @@ public sealed class SqlServerDbHelper : BaseDbHelper
 
         return null;
     }
+
+    public override object? ParameterValueToDb(object? value, IDbDataParameter parameter)
+    {
+        if (value is DataTable table
+            && parameter is SqlParameter sp)
+        {
+            sp.TypeName = table.TableName;
+            return table;
+        }
+
+        return base.ParameterValueToDb(value, parameter);
+    }
 }

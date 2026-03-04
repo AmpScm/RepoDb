@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq.Expressions;
+using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
 namespace RepoDb.DbSettings;
@@ -64,8 +66,20 @@ public abstract class BaseDbHelper : IDbHelper
     /// <inheritdoc />
     public virtual ValueTask<IEnumerable<DbSchemaObject>> GetSchemaObjectsAsync(IDbConnection connection, IDbTransaction? transaction = null, CancellationToken cancellationToken = default) => new(GetSchemaObjects(connection, transaction));
 
-    /// <inheritdoc />
-    public virtual object? ParameterValueToDb(object? value) => value;
+    /// <summary>
+    /// Converts a raw value to a db valid valuetype. Used for setting <see cref="DbParameter.Value"/> on <see cref="DbParameter"/>
+    /// </summary>
+    /// <param name="value">The value to be converted.</param>
+    /// <returns>The converted value.</returns>
+    public virtual object? ParameterValueToDb(object? value, IDbDataParameter parameter)
+    {
+        if (value is IFormattable f && value.GetType().HandleAsStringForDB())
+        {
+            return f.ToString(null, CultureInfo.InvariantCulture);
+        }
+
+        return value;
+    }
 
     /// <inheritdoc />
     public virtual Func<object?>? PrepareForIdentityOutput(DbCommand command) => null;

@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RepoDb.Core.UnitTests.Others;
+﻿namespace RepoDb.Core.UnitTests.Others;
 
 [TestClass]
 public class ToTypeTests

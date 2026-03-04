@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySqlConnector;
+﻿using MySqlConnector;
 using RepoDb.Attributes.Parameter.MySqlConnector;
 using RepoDb.Extensions;
 using RepoDb.MySqlConnector.IntegrationTests.Setup;

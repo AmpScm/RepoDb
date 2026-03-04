@@ -1,5 +1,4 @@
-﻿using System;
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 
 namespace RepoDb.Benchmarks.PostgreSql.Models;
 

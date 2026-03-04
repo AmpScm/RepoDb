@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
 
@@ -58,8 +57,7 @@ public class TruncateTest
         connection.InsertAll(tables);
 
         // Act
-        var task = connection.TruncateAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
-        await task;
+        await connection.TruncateAsync<IdentityTable>(cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.CountAll<IdentityTable>();
@@ -107,8 +105,7 @@ public class TruncateTest
         connection.InsertAll(tables);
 
         // Act
-        var task = connection.TruncateAsync(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
-        await task;
+        await connection.TruncateAsync(ClassMappedNameCache.Get<IdentityTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Act
         var result = connection.CountAll<IdentityTable>();

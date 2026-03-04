@@ -121,7 +121,7 @@ internal sealed class QueryRequest : BaseRequest
                 Fields);
 
             // Add the order fields
-            if (OrderBy != null)
+            if (OrderBy is not null)
             {
                 foreach (var orderField in OrderBy)
                 {

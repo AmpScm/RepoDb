@@ -6,4 +6,5 @@
 [AttributeUsage(AttributeTargets.Property)]
 public class IdentityAttribute : Attribute
 {
+    internal static readonly IdentityAttribute Instance = new();
 }

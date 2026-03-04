@@ -21,7 +21,7 @@ internal partial class Compiler
         var dbCommandExpression = Expression.Parameter(StaticType.DbCommand, "command");
         var entityParameterExpression = Expression.Parameter(StaticType.Object, "entityParameter");
         var dbParameterCollectionExpression = Expression.Property(dbCommandExpression,
-            StaticType.DbCommand.GetProperty(nameof(DbCommand.Parameters))!);
+            GetPropertyInfo<DbCommand>(x => x.Parameters));
         var dictionaryInstanceExpression = ConvertExpressionToTypeExpression(entityParameterExpression, StaticType.IDictionaryStringObject);
         var bodyExpressions = new List<Expression>
         {

@@ -207,7 +207,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = cache.Get<TResult>(cacheKey, false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }
@@ -352,7 +352,7 @@ public static partial class DbConnectionExtension
         if (cache != null && cacheKey != null)
         {
             var item = await cache.GetAsync<TResult>(cacheKey, false, cancellationToken).ConfigureAwait(false);
-            if (item != null)
+            if (item is not null)
             {
                 return item.Value;
             }

@@ -98,9 +98,8 @@ internal abstract class BaseRequest : IEquatable<BaseRequest>
     /// <param name="objA">The first <see cref="BaseRequest"/> object.</param>
     /// <param name="objB">The second <see cref="BaseRequest"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
-    public static bool operator ==(BaseRequest? objA,
-        BaseRequest? objB) =>
-        (objA is null) ? objB is null : objA.Equals(objB);
+    public static bool operator ==(BaseRequest? objA, BaseRequest? objB)
+        => ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
 
     /// <summary>
     /// Compares the inequality of the two <see cref="BaseRequest"/> objects.
@@ -108,9 +107,8 @@ internal abstract class BaseRequest : IEquatable<BaseRequest>
     /// <param name="objA">The first <see cref="BaseRequest"/> object.</param>
     /// <param name="objB">The second <see cref="BaseRequest"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(BaseRequest? objA,
-        BaseRequest? objB) =>
-        !(objA == objB);
+    public static bool operator !=(BaseRequest? objA, BaseRequest? objB)
+        => !(objA == objB);
 
     #endregion
 }

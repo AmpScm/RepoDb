@@ -63,7 +63,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -119,7 +119,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -176,7 +176,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -231,7 +231,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -284,7 +284,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -349,7 +349,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -408,7 +408,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -468,7 +468,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -526,7 +526,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }
@@ -582,7 +582,7 @@ public static partial class DbRepositoryExtension
             // Dispose the connection
             if (repository.ConnectionPersistency == ConnectionPersistency.PerCall)
             {
-                if (transaction == null)
+                if (transaction is null)
                 {
                     connection.Dispose();
                 }

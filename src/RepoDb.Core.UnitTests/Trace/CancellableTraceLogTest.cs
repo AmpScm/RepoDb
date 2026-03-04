@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Exceptions;
+﻿using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.UnitTests.CustomObjects;
@@ -491,7 +490,7 @@ public class CancellableTraceLogTest
 
         // Act
         Assert.ThrowsExactly<CancelledExecutionException>(() => connection
-            .Insert("", null, trace: new ErroneousCancellationTrace()));
+            .Insert(tableName: "", "", null, trace: new ErroneousCancellationTrace()));
     }
 
     [TestMethod]
@@ -502,7 +501,7 @@ public class CancellableTraceLogTest
 
         // Act
         await Assert.ThrowsExactlyAsync<CancelledExecutionException>(async () => await connection
-            .InsertAsync("", null, trace: new ErroneousCancellationTrace(), cancellationToken: TestContext.CancellationToken));
+            .InsertAsync(tableName: "", "", null, trace: new ErroneousCancellationTrace(), cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion

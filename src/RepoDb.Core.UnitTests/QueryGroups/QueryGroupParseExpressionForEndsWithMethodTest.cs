@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RepoDb.UnitTests;
+﻿namespace RepoDb.UnitTests;
 
 public partial class QueryGroupTest
 {

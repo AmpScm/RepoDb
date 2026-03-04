@@ -73,7 +73,7 @@ internal static class UpdateAllExecutionContextProvider
 
         // Get from cache
         var context = UpdateAllExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }
@@ -144,7 +144,7 @@ internal static class UpdateAllExecutionContextProvider
 
         // Get from cache
         var context = UpdateAllExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }

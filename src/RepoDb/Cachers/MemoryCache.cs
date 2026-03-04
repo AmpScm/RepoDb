@@ -44,7 +44,7 @@ public class MemoryCache : ICache
         {
             cacheItem = value as CacheItem<T>;
         }
-        if (cacheItem == null)
+        if (cacheItem is null)
         {
             if (!_cache.TryAdd(item.Key, item) && throwException)
             {

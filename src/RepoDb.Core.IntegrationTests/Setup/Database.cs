@@ -115,7 +115,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[schemas] WHERE name = 'sc';");
-        if (exists == null)
+        if (exists is null)
         {
             connection.ExecuteNonQuery("CREATE SCHEMA [sc];");
         }
@@ -132,7 +132,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[types] WHERE name = 'IdentityTableType';");
-        if (exists == null)
+        if (exists is null)
         {
             connection.ExecuteNonQuery(@"CREATE TYPE IdentityTableType AS TABLE
                         (
@@ -358,7 +358,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_identity_tables';");
-        if (exists == null)
+        if (exists is null)
         {
             var commandText = @"CREATE PROCEDURE [dbo].[sp_get_identity_tables]
                         AS
@@ -376,7 +376,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_identity_table_by_id';");
-        if (exists == null)
+        if (exists is null)
         {
             var commandText = @"CREATE PROCEDURE [dbo].[sp_get_identity_table_by_id]
                         (
@@ -397,7 +397,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_database_date_time';");
-        if (exists == null)
+        if (exists is null)
         {
             var commandText = @"CREATE PROCEDURE [dbo].[sp_get_database_date_time]
                         AS
@@ -415,7 +415,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_multiply';");
-        if (exists == null)
+        if (exists is null)
         {
             var commandText = @"CREATE PROCEDURE [dbo].[sp_multiply]
                         (
@@ -437,7 +437,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_multiply_with_output';");
-        if (exists == null)
+        if (exists is null)
         {
             var commandText = @"CREATE PROCEDURE [dbo].[sp_multiply_with_output]
                         (
@@ -461,7 +461,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_get_server_info_with_output';");
-        if (exists == null)
+        if (exists is null)
         {
             var commandText = @"CREATE PROCEDURE [dbo].[sp_get_server_info_with_output]
                         (
@@ -489,7 +489,7 @@ public static class Database
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb).EnsureOpen();
         var exists = connection.ExecuteScalar("SELECT 1 FROM [sys].[objects] WHERE type = 'P' AND name = 'sp_identity_table_type';");
-        if (exists == null)
+        if (exists is null)
         {
             var commandText = @"CREATE PROCEDURE [dbo].[sp_identity_table_type]
                         (

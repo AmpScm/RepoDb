@@ -210,14 +210,14 @@ internal static class FunctionCache
             IEnumerable<DbField>? outputFields)
         {
             int key = 722;
-            if (inputFields != null)
+            if (inputFields is not null)
             {
                 foreach (var field in inputFields)
                 {
                     key = HashCode.Combine(key, field);
                 }
             }
-            if (outputFields != null)
+            if (outputFields is not null)
             {
                 foreach (var field in outputFields)
                 {

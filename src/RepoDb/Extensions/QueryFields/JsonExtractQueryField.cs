@@ -1,7 +1,9 @@
 ﻿using System.Data;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
@@ -187,7 +189,7 @@ public sealed partial class JsonExtractQueryField : FunctionalQueryField
             if (e is MemberExpression me)
             {
                 AppendToPath(me.Expression);
-                AppendName(me.Member.Name);
+                AppendName(me.Member);
             }
             else if (e is BinaryExpression be && be.NodeType == ExpressionType.ArrayIndex)
             {
@@ -209,13 +211,21 @@ public sealed partial class JsonExtractQueryField : FunctionalQueryField
             else
                 throw new InvalidOperationException($"Unexpected node of type {e.NodeType}");
         }
-        void AppendName(string? name)
-        {
-            if (string.IsNullOrEmpty(name))
-                return;
 
-            if (Converter.JsonSerializerOptions.PropertyNamingPolicy is {} cn)
-                name = cn.ConvertName(name);
+        void AppendName(MemberInfo member)
+        {
+            ArgumentNullException.ThrowIfNull(member);
+            string name;
+
+            if (member.GetCustomAttribute<JsonPropertyNameAttribute>() is JsonPropertyNameAttribute jpn)
+                name = jpn.Name;
+            else
+            {
+                name = member.Name;
+
+                if (Converter.JsonSerializerOptions.PropertyNamingPolicy is { } cn)
+                    name = cn.ConvertName(name);
+            }
 
             if (sb.Length > 0)
                 sb.Append('.');

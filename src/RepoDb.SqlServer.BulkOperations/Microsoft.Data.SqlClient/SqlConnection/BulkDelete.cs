@@ -115,7 +115,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null)
         where TEntity : class
     {
-        using var reader = new DataEntityDataReader<TEntity>(entities);
+        using var reader = new DataEntityDataReader<TEntity>(tableName, entities);
 
         return BulkDeleteInternal(connection: connection,
             tableName: tableName,
@@ -450,7 +450,7 @@ public static partial class SqlConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
-        using var reader = new DataEntityDataReader<TEntity>(entities);
+        using var reader = new DataEntityDataReader<TEntity>(tableName: tableName, entities);
 
         return await BulkDeleteInternalAsync(connection: connection,
             tableName: tableName,

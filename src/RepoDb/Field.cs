@@ -304,14 +304,8 @@ public class Field : IEquatable<Field>
     /// <param name="objB">The second <see cref="Field"/> object.</param>
     /// <returns>True if the instances are equal.</returns>
     public static bool operator ==(Field? objA,
-        Field? objB)
-    {
-        if (objA is null)
-        {
-            return objB is null;
-        }
-        return objA.Equals(objB);
-    }
+        Field? objB) =>
+        ReferenceEquals(objA, objB) || (objA?.Equals(objB) == true);
 
     /// <summary>
     /// Compares the inequality of the two <see cref="Field"/> objects.
@@ -319,9 +313,8 @@ public class Field : IEquatable<Field>
     /// <param name="objA">The first <see cref="Field"/> object.</param>
     /// <param name="objB">The second <see cref="Field"/> object.</param>
     /// <returns>True if the instances are not equal.</returns>
-    public static bool operator !=(Field? objA,
-        Field? objB) =>
-        !(objA == objB);
+    public static bool operator !=(Field? objA, Field? objB)
+        => !(objA == objB);
 
     #endregion
 

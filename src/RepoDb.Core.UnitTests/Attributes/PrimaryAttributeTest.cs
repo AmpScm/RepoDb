@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.Attributes;
+﻿using RepoDb.Attributes;
 
 namespace RepoDb.UnitTests.Attributes;
 
@@ -17,7 +16,9 @@ public class PrimaryAttributeTest
     public void TestPrimaryAttribute()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var actual = PrimaryCache.Get<PrimaryAttributeTestClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         var expected = "WhateverId";
 
         // Assert

@@ -57,7 +57,7 @@ internal static class InsertExecutionContextProvider
 
         // Get from cache
         var context = InsertExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }
@@ -118,7 +118,7 @@ internal static class InsertExecutionContextProvider
 
         // Get from cache
         var context = InsertExecutionContextCache.Get(key);
-        if (context != null)
+        if (context is not null)
         {
             return context;
         }
@@ -184,7 +184,7 @@ internal static class InsertExecutionContextProvider
             .GetTargetReturnColumnAsField(entityType, dbFields);
 
         // Get the key setter
-        if (keyField != null)
+        if (keyField is not null)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);

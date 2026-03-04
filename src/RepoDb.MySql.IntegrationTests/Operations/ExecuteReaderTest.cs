@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using RepoDb.Extensions;
 using RepoDb.Reflection;
 using RepoDb.MySql.IntegrationTests.Models;

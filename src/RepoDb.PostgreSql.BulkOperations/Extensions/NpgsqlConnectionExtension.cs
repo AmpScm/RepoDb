@@ -202,7 +202,7 @@ public static partial class NpgsqlConnectionExtension
         object? data,
         NpgsqlDbType? npgsqlDbType)
     {
-        if (data == null)
+        if (data is null)
         {
             importer.WriteNull();
         }
@@ -466,7 +466,7 @@ public static partial class NpgsqlConnectionExtension
         NpgsqlDbType? npgsqlDbType,
         CancellationToken cancellationToken = default)
     {
-        if (data == null)
+        if (data is null)
         {
             await importer.WriteNullAsync(cancellationToken);
         }

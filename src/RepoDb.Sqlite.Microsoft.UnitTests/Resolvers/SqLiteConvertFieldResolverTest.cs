@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Resolvers;
 
 namespace RepoDb.Sqlite.Microsoft.UnitTests.Resolvers;
@@ -29,7 +28,7 @@ public class SqLiteConvertFieldResolverTest
         var result = resolver.Resolve(field, setting);
 
         // Assert
-        Assert.AreEqual("CAST([Field] AS [INT])", result);
+        Assert.AreEqual("CAST([Field] AS [INTEGER])", result);
     }
 
     [TestMethod]
@@ -44,7 +43,7 @@ public class SqLiteConvertFieldResolverTest
         var result = resolver.Resolve(field, setting);
 
         // Assert
-        Assert.AreEqual("CAST([Field] AS [BIGINT])", result);
+        Assert.AreEqual("CAST([Field] AS [INTEGER])", result);
     }
 
     [TestMethod]
@@ -59,7 +58,7 @@ public class SqLiteConvertFieldResolverTest
         var result = resolver.Resolve(field, setting);
 
         // Assert
-        Assert.AreEqual("CAST([Field] AS [INT])", result);
+        Assert.AreEqual("CAST([Field] AS [INTEGER])", result);
     }
 
     [TestMethod]
@@ -104,7 +103,7 @@ public class SqLiteConvertFieldResolverTest
         var result = resolver.Resolve(field, setting);
 
         // Assert
-        Assert.AreEqual("CAST([Field] AS [BLOB])", result);
+        Assert.AreEqual("CAST([Field] AS [INTEGER])", result);
     }
 
     [TestMethod]

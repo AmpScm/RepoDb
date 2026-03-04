@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 using RepoDb.Enumerations;
+using RepoDb.Extensions;
 using RepoDb.IntegrationTests.Setup;
 
 namespace RepoDb.IntegrationTests;
@@ -110,7 +111,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToDecimal()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
         // Act Query
         var data = connection.ExecuteQuery<decimal>("SELECT '100.05' AS Value;").First();
@@ -122,7 +123,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToFloat()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
         // Act Query
         var data = connection.ExecuteQuery<float>("SELECT '100.05' AS Value;").First();
@@ -223,7 +224,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromDecimalToString()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
         // Act Query
         var data = connection.ExecuteQuery<string>("SELECT CONVERT(DECIMAL(18,2), 100.05) AS Value;").First();
@@ -261,7 +262,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromRealToString()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
         // Act Query
         var data = connection.ExecuteQuery<string>("SELECT CONVERT(REAL, 100.05) AS Value;").First();
@@ -299,7 +300,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromDateTimeToString()
     {
-        using var cultureScope = new CultureScope("en-US");
+        using var cultureScope = new CultureScope(new CultureInfo("en-US"));
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
         // Act Query
         var data = connection.ExecuteQuery<string>("SELECT CONVERT(DATETIME2(5), '1970-01-01') AS Value;").First();
@@ -401,7 +402,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromIntToEnum()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
 
         GlobalConfiguration.Setup(new() { EnumHandling = InvalidEnumValueHandling.Cast });
 
@@ -458,7 +459,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToEnum()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
 
         // With automatic conversion
         GlobalConfiguration.Setup(new() { EnumHandling = InvalidEnumValueHandling.Cast });
@@ -556,7 +557,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionExecuteQueryConversionFromStringToEnumFlags()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
 
         // With automatic conversion
         GlobalConfiguration.Setup(new() { EnumHandling = InvalidEnumValueHandling.Cast });
@@ -706,7 +707,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToDecimal()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         // Setup
         var entity = new StringToDecimalClass
         {
@@ -740,7 +741,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToFloat()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         // Setup
         var entity = new StringToFloatClass
         {
@@ -807,7 +808,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToMoney()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         // Setup
         var entity = new StringToMoneyClass
         {
@@ -841,7 +842,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToNumeric()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         // Setup
         var entity = new StringToNumericClass
         {
@@ -875,7 +876,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToReal()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         // Setup
         var entity = new StringToRealClass
         {
@@ -942,7 +943,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToSmallMoney()
     {
-        using var _ = new CultureScope("EN-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         // Setup
         var entity = new StringToSmallMoneyClass
         {
@@ -976,7 +977,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToDate()
     {
-        using var cultureScope = new CultureScope("en-US");
+        using var _ = new CultureScope(new CultureInfo("EN-US"));
         // Setup
         var entity = new StringToDateClass
         {
@@ -1010,7 +1011,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToDateTime()
     {
-        using var cultureScope = new CultureScope("en-US");
+        using var cultureScope = new CultureScope(new CultureInfo("en-US"));
         // Setup
         var entity = new StringToDateTimeClass
         {
@@ -1044,7 +1045,7 @@ public class TypeConversionsTest
     [TestMethod]
     public void TestSqlConnectionInsertAndQueryConversionFromStringToDateTime2()
     {
-        using var cultureScope = new CultureScope("en-US");
+        using var _ = new CultureScope(new CultureInfo("en-US"));
         // Setup
         var entity = new StringToDateTime2Class
         {

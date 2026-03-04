@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json.Nodes;
 using RepoDb.Attributes;
 using RepoDb.Enumerations;
@@ -959,6 +960,21 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 public static class DbTestExtensions
 {
 
+    public static string ReplaceForTests(this DbConnection connection, string sqlText)
+    {
+        if (connection.GetDbSetting() is { } set)
+        {
+            if (set.OpeningQuote != "[")
+                sqlText = sqlText.Replace("[", set.OpeningQuote);
+            if (set.ClosingQuote != "]")
+                sqlText = sqlText.Replace("]", set.ClosingQuote);
+            if (set.ParameterPrefix != "@")
+                sqlText = sqlText.Replace("@", set.ParameterPrefix);
+
+        }
+        return sqlText;
+    }
+
     public static async Task CreateTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null) where TEntity : class
     {
         var tableName = ClassMappedNameCache.Get<TEntity>();
@@ -972,6 +988,9 @@ public static class DbTestExtensions
         var stmt = (BaseStatementBuilder)sql.GetStatementBuilder();
         var toDbField = (stmt.ConvertFieldResolver as DbConvertFieldResolver)?.StringNameResolver ?? FindResolver(sql);
         var cp = PropertyCache.Get<TEntity>();
+#if NET
+        NullabilityInfoContext ctx = new NullabilityInfoContext();
+#endif
 
         var qb = new QueryBuilder();
 
@@ -979,6 +998,9 @@ public static class DbTestExtensions
             .TableNameFrom(tableName, dbSetting)
             .OpenParen()
             .NewLine();
+
+        var identityKey = IdentityCache.Get<TEntity>();
+        var primaryKeys = PrimaryCache.GetPrimaryKeys<TEntity>();
 
         bool first = true;
         foreach (var prop in cp)
@@ -1027,9 +1049,40 @@ public static class DbTestExtensions
             {
                 qb.OpenParen().WriteText("255").CloseParen();
             }
-        }
 
-        var primaryKeys = PrimaryCache.GetPrimaryKeys<TEntity>();
+            bool isIdentity = (identityKey?.FieldName == prop.FieldName);
+
+            if (isIdentity && (stmt.PrimaryBeforeIdentity == false))
+            {
+                qb.WriteText(stmt.IdentityDefinition ?? "IDENTITY");
+            }
+
+            if (primaryKeys.OneOrDefault() is { } primaryKey && primaryKey.FieldName == prop.FieldName)
+            {
+                qb.WriteText("PRIMARY KEY");
+                primaryKeys = []; // Handled here. Don't add separate key
+            }
+
+            if (isIdentity && (stmt.PrimaryBeforeIdentity == true))
+            {
+                qb.WriteText(stmt.IdentityDefinition ?? "IDENTITY");
+            }
+
+            if (prop.PropertyInfo.PropertyType.IsNullable())
+            {
+                qb.WriteText("NULL");
+            }
+            else if (prop.PropertyInfo.PropertyType.IsValueType)
+            {
+                qb.WriteText("NOT NULL");
+            }
+#if NET
+            else if (ctx.Create(prop.PropertyInfo) is { } nullability)
+            {
+                qb.WriteText(nullability.ReadState == NullabilityState.Nullable ? "NULL" : "NOT NULL");
+            }
+#endif
+        }
 
         if (primaryKeys.Any())
         {
@@ -1074,7 +1127,7 @@ public static class DbTestExtensions
                 if (typeof(IResolver<DbType, string?>).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 {
                     var inst = (IResolver<DbType, string?>)Activator.CreateInstance(t);
-                    if (inst != null)
+                    if (inst is not null)
                     {
                         return inst;
                     }

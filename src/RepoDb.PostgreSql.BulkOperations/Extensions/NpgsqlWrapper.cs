@@ -283,7 +283,7 @@ public static partial class NpgsqlConnectionExtension
         try
         {
             // Execute
-            if (execute != null)
+            if (execute is not null)
             {
                 result = execute();
             }
@@ -352,7 +352,7 @@ public static partial class NpgsqlConnectionExtension
         try
         {
             // Execute
-            if (executeAsync != null)
+            if (executeAsync is not null)
             {
                 result = await executeAsync();
             }

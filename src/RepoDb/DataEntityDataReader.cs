@@ -80,9 +80,9 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="hasOrderingColumn">The value that signifies whether the ordering column will be defined.</param>
     public DataEntityDataReader(string? tableName,
         IEnumerable<TEntity> entities,
-        IDbConnection? connection,
-        IDbTransaction? transaction,
-        bool hasOrderingColumn)
+        IDbConnection? connection = null,
+        IDbTransaction? transaction = null,
+        bool hasOrderingColumn = false)
     {
         ArgumentNullException.ThrowIfNull(entities);
 
@@ -680,7 +680,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <returns></returns>
     private static IEnumerable<Field> GetFields(IDictionary<string, object?>? dictionary)
     {
-        if (dictionary != null)
+        if (dictionary is not null)
         {
             foreach (var kvp in dictionary)
             {

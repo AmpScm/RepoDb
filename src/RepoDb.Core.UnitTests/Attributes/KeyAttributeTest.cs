@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.Attributes;
 
 namespace RepoDb.UnitTests.Attributes;
@@ -30,7 +29,9 @@ public class KeyAttributeTest
     public void TestKeyAttribute()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var actual = PrimaryCache.Get<KeyAttributeTestClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         var expected = "WhateverId";
 
         // Assert
@@ -41,7 +42,9 @@ public class KeyAttributeTest
     public void TestKeyAndPrimaryAttributeCollision()
     {
         // Act
+#pragma warning disable CS0618 // Type or member is obsolete
         var actual = PrimaryCache.Get<KeyAttributeCollisionTestClass>();
+#pragma warning restore CS0618 // Type or member is obsolete
         var expected = "KeyId";
 
         // Assert

@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Common;

@@ -1,7 +1,6 @@
 ﻿using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using System.Dynamic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
 using RepoDb.Reflection;

@@ -108,7 +108,7 @@ internal partial class Compiler
 
                 // Value
                 var setValueExpression = GetDbParameterValueAssignmentExpression(dbParameterExpression,
-                    valueExpression);
+                    valueExpression, dbCommandExpression);
                 parameterCallExpressions.AddIfNotNull(setValueExpression);
 
                 // Size
@@ -116,12 +116,6 @@ internal partial class Compiler
                 {
                     var setSizeExpression = GetDbParameterSizeAssignmentExpression(dbParameterExpression, dbField.Size.Value);
                     parameterCallExpressions.AddIfNotNull(setSizeExpression);
-                }
-
-                // Table-Valued Parameters
-                if (valueType == StaticType.DataTable)
-                {
-                    parameterCallExpressions.AddIfNotNull(EnsureTableValueParameterExpression(dbParameterExpression));
                 }
 
                 // Type map attributes
@@ -157,7 +151,7 @@ internal partial class Compiler
         string parameterName,
         Expression valueExpression)
     {
-        var methodInfo = GetDbCommandCreateParameterMethod();
+        var methodInfo = GetMethodInfo(() => DbCommandExtension.CreateParameter(null!, null!, null, null));
 
         return Expression.Call(methodInfo,
         [
@@ -171,17 +165,17 @@ internal partial class Compiler
     /// <summary>
     ///
     /// </summary>
-    /// <param name="paramterExpression"></param>
+    /// <param name="parameterExpression"></param>
     /// <param name="classProperty"></param>
     /// <param name="valueType"></param>
     /// <param name="valueExpression"></param>
-    public static void InvokePropertyHandlerViaExpression(Expression paramterExpression,
+    public static void InvokePropertyHandlerViaExpression(Expression parameterExpression,
         ClassProperty classProperty,
         ref Type valueType,
         ref Expression valueExpression)
     {
-        var (expression, type) = ConvertExpressionToPropertyHandlerSetExpressionTuple(valueExpression, paramterExpression, classProperty, valueType);
-        if (type != null)
+        var (expression, type) = ConvertExpressionToPropertyHandlerSetExpressionTuple(valueExpression, parameterExpression, classProperty, valueType);
+        if (type is not null)
         {
             valueType = type;
             valueExpression = expression;

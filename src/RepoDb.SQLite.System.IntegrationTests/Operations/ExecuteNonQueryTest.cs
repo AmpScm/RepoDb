@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoDb.SQLite.System.IntegrationTests.Setup;
+﻿using RepoDb.SQLite.System.IntegrationTests.Setup;
 using System.Data.SQLite;
 
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;

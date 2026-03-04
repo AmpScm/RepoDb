@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySql.Data.MySqlClient;
 using RepoDb.MySql.IntegrationTests.Setup;
 

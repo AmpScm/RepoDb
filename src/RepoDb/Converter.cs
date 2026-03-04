@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using RepoDb.Extensions;
 
 namespace RepoDb;
 
@@ -170,6 +171,23 @@ public static class Converter
 #endif
         }
 
+#if NET
+        if (type == StaticType.String && value is IFormattable fmt && value.GetType().HandleAsStringForDB())
+        {
+            return (T)(object)fmt.ToString(null, CultureInfo.InvariantCulture);
+        }
+        else if (typeof(IParsable<>).MakeGenericType(type).IsAssignableFrom(type)
+            && type.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)]) is { } parseMethod)
+        {
+            try
+            {
+                return (T)parseMethod.Invoke(null, [value, CultureInfo.InvariantCulture])!;
+            }
+            catch
+            { }
+        }
+#endif
+
         try
         {
             return (T)Convert.ChangeType(value, type, CultureInfo.InvariantCulture);
@@ -187,7 +205,7 @@ public static class Converter
 
     internal static T FromJsonToObject<T>(JsonNode? json)
     {
-        return JsonSerializer.Deserialize<T>(json, Converter.JsonSerializerOptions)!;
+        return JsonSerializer.Deserialize<T>(json, JsonSerializerOptions)!;
     }
 
 #if !NET
@@ -211,5 +229,17 @@ public static class Converter
 
 
     internal static JsonNodeOptions? JsonNodeOptions => null;
-    internal static JsonDocumentOptions JsonDocumentOptions => default;
+    internal static JsonDocumentOptions JsonDocumentOptions
+    {
+        get
+        {
+            var o = JsonSerializerOptions;
+            return new()
+            {
+                AllowTrailingCommas = o.AllowTrailingCommas,
+                CommentHandling = o.ReadCommentHandling,
+                MaxDepth = o.MaxDepth
+            };
+        }
+    }
 }

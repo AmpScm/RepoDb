@@ -45,6 +45,10 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     protected IResolver<Type, Type?>? AverageableClientTypeResolver { get; }
     public virtual string? JsonColumnType => null;
 
+    public virtual string? IdentityDefinition => null;
+
+    public virtual bool? PrimaryBeforeIdentity => true;
+
     #endregion
 
     #region Virtual/Common
