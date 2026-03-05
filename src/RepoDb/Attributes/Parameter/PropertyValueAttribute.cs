@@ -174,33 +174,13 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
         // FullName: This is to ensure that even the user has created an identical formatting
         //  on the derived class with the existing classes, the Type.FullName could still
         // differentiate the instances
-        var hashCode = HashCode.Combine(GetType().FullName);
+        var hashCode = HashCode.Combine(
+            GetType(),
+            PropertyName,
+            ParameterType,
+            IncludedInCompilation,
+            Value);
 
-        // Base
-        hashCode = HashCode.Combine(hashCode, base.GetHashCode());
-
-        // PropertyName
-        if (PropertyName is not null)
-        {
-            hashCode = HashCode.Combine(hashCode, PropertyName);
-        }
-
-        // ParameterType
-        if (ParameterType is not null)
-        {
-            hashCode = HashCode.Combine(hashCode, ParameterType);
-        }
-
-        // IncludedInCompilation
-        hashCode = HashCode.Combine(hashCode, IncludedInCompilation);
-
-        // Value
-        if (Value is not null)
-        {
-            hashCode = HashCode.Combine(hashCode, Value);
-        }
-
-        // Return
         return this.hashCode ??= hashCode;
     }
 

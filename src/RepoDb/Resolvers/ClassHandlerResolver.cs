@@ -26,4 +26,6 @@ public class ClassHandlerResolver : IResolver<Type, object?>
 
         return classHandler ?? ClassHandlerMapper.Get<object>(type);
     }
+
+    public static readonly ClassHandlerResolver Instance = new();
 }

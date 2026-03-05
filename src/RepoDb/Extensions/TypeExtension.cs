@@ -144,7 +144,9 @@ public static class TypeExtension
         }
         catch { return false; }
 #else
-        return typeof(IDbJsonValue).IsAssignableFrom(type);
+        return
+            typeof(IFormattable).IsAssignableFrom(type)
+            && type.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)]) is { IsStatic: true };
 #endif
     }
 

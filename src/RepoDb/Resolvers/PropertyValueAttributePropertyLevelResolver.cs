@@ -17,4 +17,6 @@ public class PropertyValueAttributePropertyLevelResolver : IResolver<PropertyInf
     /// <returns>The list of associated <see cref="PropertyValueAttribute"/> objects on the property.</returns>
     public IEnumerable<PropertyValueAttribute> Resolve(PropertyInfo propertyInfo) =>
         propertyInfo.GetPropertyValueAttributes();
+
+    public static readonly PropertyValueAttributePropertyLevelResolver Instance = new();
 }

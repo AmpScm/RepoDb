@@ -17,8 +17,6 @@ public static class PropertyHandlerCache
 
     private static readonly ConcurrentDictionary<Type, object?> typeCache = new();
     private static readonly ConcurrentDictionary<(Type, PropertyInfo), object?> propertyCache = new();
-    private static readonly PropertyHandlerPropertyLevelResolver propertyLevelResolver = new();
-    private static readonly PropertyHandlerTypeLevelResolver typeLevelResolver = new();
 
     #endregion
 
@@ -47,7 +45,7 @@ public static class PropertyHandlerCache
         ArgumentNullException.ThrowIfNull(type);
 
         // Try get the value
-        var value = typeCache.GetOrAdd(type, (_) => typeLevelResolver.Resolve(type));
+        var value = typeCache.GetOrAdd(type, (_) => PropertyHandlerTypeLevelResolver.Instance.Resolve(type));
 
         return value as TPropertyHandler;
     }
@@ -128,7 +126,7 @@ public static class PropertyHandlerCache
         var key = (entityType, propertyInfo);
 
         // Try get the value
-        var value = propertyCache.GetOrAdd(key, (_) => propertyLevelResolver.Resolve(entityType, propertyInfo));
+        var value = propertyCache.GetOrAdd(key, (_) => PropertyHandlerPropertyLevelResolver.Instance.Resolve(entityType, propertyInfo));
 
         return value as TPropertyHandler;
     }

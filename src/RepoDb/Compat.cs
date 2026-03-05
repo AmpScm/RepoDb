@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 #if !NET
+using System.Reflection;
 #pragma warning disable CA1018 // SpecifyAttributeUsage
 #pragma warning disable CS8777 // Compiler bug on 'public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument'
 #pragma warning disable IDE0161 // Convert to file-scoped namespace
@@ -211,6 +212,15 @@ namespace RepoDb
         [DoesNotReturn]
         private static void Throw<TException>(TException value) where TException : Exception => throw value;
 
+
+        extension(Type type)
+        {
+            public MethodInfo GetMethod(string name, BindingFlags bindingFlags, params Type[] types)
+            {
+                return type.GetMethod(name, bindingFlags, binder: null, types, modifiers: null);
+            }
+        }
+
         extension(ArgumentNullException)
         {
             public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
@@ -251,7 +261,35 @@ namespace RepoDb
                 }
             }
         }
+
+        extension(Enum)
+        {
+            public static bool TryParse(Type type, string? value, [NotNullWhen(true)] out object? result)
+            {
+                object r = typeof(NetCompatExtensions).GetMethod(nameof(EnumTryParse), BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(null, [ value ]);
+
+                if (r is {})
+                {
+                    result = r;
+                    return true;
+                }
+                else
+                {
+                    result = null;
+                    return false;
+                }
+            }
+        }
+
+        private static object? EnumTryParse<TEnum>(string value)
+            where TEnum : struct, Enum
+        {
+            if (Enum.TryParse<TEnum>(value, out var result))
+                return result;
+            return null;
+        }
 #endif
+
 
         /// <summary>
         ///

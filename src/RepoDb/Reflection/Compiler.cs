@@ -381,7 +381,12 @@ internal sealed partial class Compiler
         return value;
     }
 
-    private static PropertyInfo GetPropertyInfo<TFrom>(Expression<Func<TFrom, object?>> expression) => (PropertyInfo)((MemberExpression)UnwrapUnary(expression.Body)).Member;
+    private static PropertyInfo GetPropertyInfo<TFrom>(Expression<Func<TFrom, object?>> expression)
+    {
+        return (PropertyInfo)((MemberExpression)UnwrapUnary(expression.Body)).Member;
+
+        static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
+    }
 
     /// <summary>
     ///
@@ -400,12 +405,12 @@ internal sealed partial class Compiler
     private static MethodInfo GetDbReaderGetValueOrDefaultMethod(DataReaderField readerField, Type readerType)
         => GetDbReaderGetValueMethod(readerField.Type, readerType) ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default));
 
-    private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : struct, Enum
+    private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : unmanaged, Enum
     {
         return Enum.TryParse<TEnum>(value, true, out var r) ? r : null;
     }
 
-    private static TEnum? EnumParseNullDefined<TEnum>(string value) where TEnum : struct, Enum
+    private static TEnum? EnumParseNullDefined<TEnum>(string value) where TEnum : unmanaged, Enum
     {
         if (Enum.TryParse<TEnum>(value, true, out var r)
 #if NET
@@ -522,9 +527,6 @@ internal sealed partial class Compiler
     private static Expression ConvertExpressionToTimeOnlyToTimeSpan(Expression expression) =>
         Expression.Call(expression, GetMethodInfo<TimeOnly>((x) => x.ToTimeSpan()));
 #endif
-
-
-    private static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
 
     private static MethodInfo GetMethodInfo<TFrom>(Expression<Action<TFrom>> call) => ((MethodCallExpression)call.Body).Method;
 
@@ -675,7 +677,7 @@ internal sealed partial class Compiler
 
     [DoesNotReturn]
     private static TEnum ThrowInvalidEnumValue<TEnum>(object? value)
-        where TEnum : struct, Enum
+        where TEnum : unmanaged, Enum
     {
         throw new ArgumentOutOfRangeException(nameof(value), value, $"Invalid value for {typeof(TEnum).Name}");
     }
@@ -1088,7 +1090,7 @@ internal sealed partial class Compiler
 #endif
             else if (fromType == typeof(string) && underlyingToType.ImplementsIParsable())
             {
-                var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, binder: null, callConvention: default, [typeof(string), typeof(IFormatProvider)], null)!;
+                var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)])!;
                 result = Expression.Call(parseMethod, expression, Expression.Constant(CultureInfo.InvariantCulture));
             }
             else if (toType == typeof(string) && typeof(IFormattable).IsAssignableFrom(underlyingFromType))
@@ -1122,6 +1124,16 @@ internal sealed partial class Compiler
             {
                 result = Expression.Call(result, numberFormatMethod, [Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider))]);
             }
+#if NET
+            else if (toType == typeof(Half))
+            {
+                // System.Converter doesn't support half, nor does 99% of DotNet. Just fall through to float/single support and convert from there
+
+                expression = ConvertExpressionWithAutomaticConversion(expression, typeof(float)); // Convert to float first
+
+                result = Expression.ConvertChecked(expression, typeof(Half));
+            }
+#endif
             else if (GetSystemConvertToTypeMethod(underlyingFromType, underlyingToType) is { } methodInfo)
             {
                 var param = methodInfo.GetParameters();

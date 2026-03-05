@@ -84,7 +84,7 @@ public static class PropertyValueAttributeCache
         var key = (entityType, propertyInfo);
 
         // Try get the value
-        return propertyCache.GetOrAdd(key, (_) => new PropertyValueAttributePropertyLevelResolver().Resolve(propertyInfo));
+        return propertyCache.GetOrAdd(key, (_) => PropertyValueAttributePropertyLevelResolver.Instance.Resolve(propertyInfo));
     }
 
     #endregion

@@ -21,7 +21,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     /// Creates a new instance of <see cref="SqlServerDbHelper"/> class.
     /// </summary>
     public SqlServerDbHelper()
-        : this(new SqlServerDbTypeNameToClientTypeResolver())
+        : this(SqlServerDbTypeNameToClientTypeResolver.Instance)
     { }
 
     /// <summary>
@@ -164,7 +164,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             }
         }
 
-#if NET
+#if NET // Half support is #if NET, so no need to check for other types
         if (dbFields.Any(x => x.Type == typeof(SqlVector<float>)))
         {
             // If any of the fields is of type SqlVector<float>, we need to check the actual subtype of the vector, as SQL Server supports both float and real vectors.
@@ -242,7 +242,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             }
         }
 
-#if NET
+#if NET // Half support is #if NET, so no need to check for other types
         if (dbFields.Any(x => x.Type == typeof(SqlVector<float>)))
         {
             // If any of the fields is of type SqlVector<float>, we need to check the actual subtype of the vector, as SQL Server supports both float and real vectors.

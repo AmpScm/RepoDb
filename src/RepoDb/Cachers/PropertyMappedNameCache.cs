@@ -15,7 +15,6 @@ public static class PropertyMappedNameCache
     #region Privates
 
     private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), string> cache = new();
-    private static readonly PropertyMappedNameResolver resolver = new();
 
     #endregion
 
@@ -87,7 +86,7 @@ public static class PropertyMappedNameCache
         var key = (entityType, propertyInfo);
 
         // Try get the value
-        return cache.GetOrAdd(key, (_) => resolver.Resolve(propertyInfo, entityType));
+        return cache.GetOrAdd(key, (_) => PropertyMappedNameResolver.Instance.Resolve(propertyInfo, entityType));
     }
 
     #endregion

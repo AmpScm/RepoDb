@@ -75,7 +75,6 @@ public static class Converter
                 {
                     var mode = GlobalConfiguration.Options.EnumHandling;
 
-#if NET
                     if (Enum.TryParse(type, sv, out var parsedValue))
                     {
                         if (mode == Enumerations.InvalidEnumValueHandling.Cast)
@@ -88,22 +87,6 @@ public static class Converter
 
                         return default!;
                     }
-#else
-                    object r = typeof(Converter).GetMethod(nameof(EnumTryParse), BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(null, new object[] { sv });
-
-                    if (r is {})
-                    {
-                        if (mode == Enumerations.InvalidEnumValueHandling.Cast)
-                            return (T)r;
-                        else if (Enum.IsDefined(type, r))
-                            return (T)r;
-
-                        if (mode == Enumerations.InvalidEnumValueHandling.ThrowError)
-                            throw new ArgumentOutOfRangeException(nameof(value), sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
-
-                        return default!;
-                    }
-#endif
 
                     if (mode == Enumerations.InvalidEnumValueHandling.ThrowError)
                         throw new ArgumentOutOfRangeException(nameof(value), sv, $"The value '{sv}' is not defined in the enum '{type.FullName}'.");
@@ -176,7 +159,8 @@ public static class Converter
         {
             return (T)(object)fmt.ToString(null, CultureInfo.InvariantCulture);
         }
-        else if (typeof(IParsable<>).MakeGenericType(type).IsAssignableFrom(type)
+#endif
+        if (type.ImplementsIParsable()
             && type.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)]) is { } parseMethod)
         {
             try
@@ -186,7 +170,6 @@ public static class Converter
             catch
             { }
         }
-#endif
 
         try
         {
@@ -207,16 +190,6 @@ public static class Converter
     {
         return JsonSerializer.Deserialize<T>(json, JsonSerializerOptions)!;
     }
-
-#if !NET
-    private static object? EnumTryParse<TEnum>(string value)
-        where TEnum : struct, Enum
-    {
-        if (Enum.TryParse<TEnum>(value, out var result))
-            return result;
-        return null;
-    }
-#endif
 
     #endregion
 

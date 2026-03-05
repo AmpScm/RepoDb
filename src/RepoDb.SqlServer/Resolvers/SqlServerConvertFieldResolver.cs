@@ -14,7 +14,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
     /// </summary>
     public SqlServerConvertFieldResolver()
         : this(ClientTypeToDbTypeResolver.Instance,
-             new DbTypeToSqlServerStringNameResolver())
+             DbTypeToSqlServerStringNameResolver.Instance)
     { }
 
     /// <summary>
@@ -50,4 +50,7 @@ public class SqlServerConvertFieldResolver : DbConvertFieldResolver
     }
 
     #endregion
+
+
+    public static readonly SqlServerConvertFieldResolver Instance = new();
 }

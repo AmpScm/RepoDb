@@ -1,4 +1,6 @@
-﻿using System.Data.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
+using System.Text.Json.Nodes;
 using Microsoft.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlTypes;
@@ -14,7 +16,7 @@ public class VectorTests : DbTestBase<SqlServerDbInstance>
     protected override void InitializeCore() => Database.Initialize();
 
     public override DbConnection CreateConnection() => new SqlConnection(Database.ConnectionString);
-    
+
     class Vectors
     {
         public int Id { get; set; }
@@ -106,8 +108,9 @@ public class VectorTests : DbTestBase<SqlServerDbInstance>
             }
         }
 
-        foreach(var c in connection.ExecuteQuery<double?>($"SELECT VECTOR_DISTANCE(@how, {nameof(Vectors.VectorData)}, @qv) FROM {nameof(Vectors)}"
-            , new {
+        foreach (var c in connection.ExecuteQuery<double?>($"SELECT VECTOR_DISTANCE(@how, {nameof(Vectors.VectorData)}, @qv) FROM {nameof(Vectors)}",
+            new
+            {
                 qv = new SqlVector<float>(new float[] { 1, 2, 3 }),
                 how = "euclidean"
             })

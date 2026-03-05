@@ -77,6 +77,12 @@ public abstract class BaseDbHelper : IDbHelper
         {
             return f.ToString(null, CultureInfo.InvariantCulture);
         }
+#if NET
+        else if (value is Half h)
+        {
+            return (float)h;
+        }
+#endif
 
         return value;
     }

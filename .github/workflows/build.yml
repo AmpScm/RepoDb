@@ -12,6 +12,8 @@ on:
       - '**.cs'
       - '**.csproj'
 
+  worflow_dispatch:
+
 env:
   REPODB_MYSQL_CONSTR_SYS: "Server=127.0.0.1;Port=43306;Database=sys;User ID=root;Password=ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2;"
   REPODB_ORACLE_CONSTR_MASTER: "Data Source=127.0.0.1:41521/FREEPDB1;User Id=system;Password=oracle;"

@@ -2097,7 +2097,7 @@ public class EnumPropertyTest
             => input == null || !enumToDb.TryGetValue(input, out var v) ? default : v;
     }
 
-    public class CustomedEnumModel<TEnum> where TEnum : struct
+    public class CustomedEnumModel<TEnum> where TEnum : unmanaged, Enum
     {
         public TEnum? Value { get; set; }
     }
