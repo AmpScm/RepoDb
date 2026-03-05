@@ -161,7 +161,7 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// Gets the <see cref="IdentityAttribute"/> if present.
     /// </summary>
     /// <returns>An IdentityAttribute instance if <see cref="IsIdentity"/> is true</returns>
-    [Obsolete("Use .HasIdentityAttribute")]
+    [Obsolete("Use .IsIdentity")]
     public IdentityAttribute? GetIdentityAttribute()
     {
         return IsIdentity ? IdentityAttribute.Instance : null;

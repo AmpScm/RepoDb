@@ -2216,7 +2216,7 @@ public class TypeConversionsTest
         var data = connection.Query<DoubleToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
         // Assert
-        Assert.AreEqual(12346, data.ColumnBigInt);
+        Assert.AreEqual(12345, data.ColumnBigInt); // Legacy RepoDB indirectly used bankers rounding for this conversion, thus the current expected value is 12345 instead of the old 12346.
     }
 
     #endregion
@@ -2249,7 +2249,7 @@ public class TypeConversionsTest
         var data = connection.Query<DoubleToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
         // Assert
-        Assert.AreEqual(12346, data.ColumnInt);
+        Assert.AreEqual(12345, data.ColumnInt); // Legacy RepoDB indirectly used bankers rounding for this conversion, thus the current expected value is 12345 instead of the old 12346.
     }
 
     #endregion
@@ -2282,7 +2282,7 @@ public class TypeConversionsTest
         var data = connection.Query<DoubleToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
         // Assert
-        Assert.AreEqual(12346, data.ColumnInt);
+        Assert.AreEqual(12345, data.ColumnInt); // Legacy RepoDB indirectly used bankers rounding for this conversion, thus the current expected value is 12345 instead of the old 12346.
     }
 
     #endregion
@@ -2480,7 +2480,7 @@ public class TypeConversionsTest
         var data = connection.Query<FloatToBigIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
         // Assert
-        Assert.AreEqual(12346, data.ColumnBigInt);
+        Assert.AreEqual(12345, data.ColumnBigInt); // Legacy RepoDB indirectly used bankers rounding for this conversion, thus the current expected value is 12345 instead of the old 12346.
     }
 
     #endregion
@@ -2513,7 +2513,7 @@ public class TypeConversionsTest
         var data = connection.Query<FloatToIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
         // Assert
-        Assert.AreEqual(12346, data.ColumnInt);
+        Assert.AreEqual(12345, data.ColumnInt); // Legacy RepoDB indirectly used bankers rounding for this conversion, thus the current expected value is 12345 instead of the old 12346.
     }
 
     #endregion
@@ -2546,7 +2546,7 @@ public class TypeConversionsTest
         var data = connection.Query<FloatToSmallIntClass>(e => e.SessionId == (Guid)id).FirstOrDefault();
 
         // Assert
-        Assert.AreEqual(12346, data.ColumnInt);
+        Assert.AreEqual(12345, data.ColumnInt); // Legacy RepoDB indirectly used bankers rounding for this conversion, thus the current expected value is 12345 instead of the old 12346.
     }
 
     #endregion

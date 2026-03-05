@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
 using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlTypes;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -20,7 +21,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     /// Creates a new instance of <see cref="SqlServerDbHelper"/> class.
     /// </summary>
     public SqlServerDbHelper()
-        : this(new SqlServerDbTypeNameToClientTypeResolver())
+        : this(SqlServerDbTypeNameToClientTypeResolver.Instance)
     { }
 
     /// <summary>
@@ -153,15 +154,54 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         };
 
         // Iterate and extract
-        using var reader = (DbDataReader)connection.ExecuteReader(commandText, param, transaction: transaction);
-
         var dbFields = new List<DbField>();
-
-        // Iterate the list of the fields
-        while (reader.Read())
+        using (var reader = (DbDataReader)connection.ExecuteReader(commandText, param, transaction: transaction))
         {
-            dbFields.Add(ReaderToDbField(reader));
+            // Iterate the list of the fields
+            while (reader.Read())
+            {
+                dbFields.Add(ReaderToDbField(reader));
+            }
         }
+
+#if NET // Half support is #if NET, so no need to check for other types
+        if (dbFields.Any(x => x.Type == typeof(SqlVector<float>)))
+        {
+            // If any of the fields is of type SqlVector<float>, we need to check the actual subtype of the vector, as SQL Server supports both float and real vectors.
+            // We can't just always query vector_base_type as that column is SqlServer 2025+
+
+            var cols = dbFields.Where(x => x.Type == typeof(SqlVector<float>)).Select(x=>x.FieldName).ToList();
+
+            foreach (var (name, base_type) in connection.ExecuteQuery<(string name, int vector_base_type)>(@"
+                    SELECT
+                        c.name,
+                        c.vector_base_type
+                    FROM sys.columns c
+                    JOIN sys.types t ON c.user_type_id = t.user_type_id
+                    JOIN sys.tables tbl ON c.object_id = tbl.object_id
+                    JOIN sys.schemas s ON tbl.schema_id = s.schema_id
+                    WHERE s.name = @Schema AND tbl.name = @TableName AND c.name IN (@Columns)",
+                    new
+                    {
+                        param.Schema,
+                        param.TableName,
+                        Columns = cols
+                    }))
+            {
+                // base_type = 0 is float. 1 is half. others undefined
+                if (base_type == 1)
+                {
+                    int i = dbFields.FindIndex(x => x.FieldName == name);
+                    var from = dbFields[i];
+
+                    dbFields[i] = new DbField(from.FieldName, from.IsPrimary, from.IsIdentity, from.IsNullable,
+                        typeof(SqlVector<Half>),
+                        from.Size, from.Precision, from.Scale, from.DatabaseType, from.HasDefaultValue, from.IsGenerated, from.Provider);
+                }
+                ;
+            }
+        }
+#endif
 
         // Return the list of fields
         return new(dbFields);
@@ -189,17 +229,57 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             TableName = DataEntityExtension.GetTableName(tableName, setting)
         };
 
-        // Iterate and extract
-        using var reader = (DbDataReader)await connection.ExecuteReaderAsync(commandText, param,
-            transaction: transaction, cancellationToken: cancellationToken);
-
         var dbFields = new List<DbField>();
 
-        // Iterate the list of the fields
-        while (await reader.ReadAsync(cancellationToken))
+        // Iterate and extract
+        using (var reader = (DbDataReader)await connection.ExecuteReaderAsync(commandText, param,
+            transaction: transaction, cancellationToken: cancellationToken))
         {
-            dbFields.Add(await ReaderToDbFieldAsync(reader, cancellationToken));
+            // Iterate the list of the fields
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                dbFields.Add(await ReaderToDbFieldAsync(reader, cancellationToken));
+            }
         }
+
+#if NET // Half support is #if NET, so no need to check for other types
+        if (dbFields.Any(x => x.Type == typeof(SqlVector<float>)))
+        {
+            // If any of the fields is of type SqlVector<float>, we need to check the actual subtype of the vector, as SQL Server supports both float and real vectors.
+            // We can't just always query vector_base_type as that column is SqlServer 2025+
+
+            var cols = dbFields.Where(x => x.Type == typeof(SqlVector<float>)).Select(x => x.FieldName).ToList();
+
+            foreach (var (name, base_type) in await connection.ExecuteQueryAsync<(string name, int vector_base_type)>(@"
+                    SELECT
+                        c.name,
+                        c.vector_base_type
+                    FROM sys.columns c
+                    JOIN sys.types t ON c.user_type_id = t.user_type_id
+                    JOIN sys.tables tbl ON c.object_id = tbl.object_id
+                    JOIN sys.schemas s ON tbl.schema_id = s.schema_id
+                    WHERE s.name = @Schema AND tbl.name = @TableName AND c.name IN (@Columns)",
+                    new
+                    {
+                        param.Schema,
+                        param.TableName,
+                        Columns = cols
+                    }, cancellationToken: cancellationToken))
+            {
+                // base_type = 0 is float. 1 is half. others undefined
+                if (base_type == 1)
+                {
+                    int i = dbFields.FindIndex(x => x.FieldName == name);
+                    var from = dbFields[i];
+
+                    dbFields[i] = new DbField(from.FieldName, from.IsPrimary, from.IsIdentity, from.IsNullable,
+                        typeof(SqlVector<Half>),
+                        from.Size, from.Precision, from.Scale, from.DatabaseType, from.HasDefaultValue, from.IsGenerated, from.Provider);
+                }
+                ;
+            }
+        }
+#endif
 
         // Return the list of fields
         return new(dbFields);

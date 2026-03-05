@@ -90,7 +90,11 @@ public static class TypeExtension
 
     internal static bool IsBinaryInteger(this Type type)
     {
-        return type.IsPrimitive && (
+        return
+#if !NET
+            type.IsPrimitive && // With .Net+ the other checks are just binary comparisons
+#endif
+        (
             type == typeof(int)
             || type == typeof(long)
             || type == typeof(short)
@@ -100,6 +104,23 @@ public static class TypeExtension
             || type == typeof(ushort)
             || type == typeof(sbyte)
         );
+    }
+
+    internal static bool IsBinaryFloatingPoint(this Type type)
+    {
+        return
+        (
+            type == typeof(double)
+            || type == typeof(float)
+#if NET
+            || type == typeof(Half)
+#endif
+        );
+    }
+
+    internal static bool IsBinaryIntFloatOrDecimal(this Type type)
+    {
+        return type.IsBinaryInteger() || type.IsBinaryFloatingPoint() || type == typeof(decimal);
     }
 
     internal static PropertyInfo[] GetPropertiesExceptNotMapped(this Type type)
@@ -123,7 +144,9 @@ public static class TypeExtension
         }
         catch { return false; }
 #else
-        return typeof(IDbJsonValue).IsAssignableFrom(type);
+        return
+            typeof(IFormattable).IsAssignableFrom(type)
+            && type.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)]) is { IsStatic: true };
 #endif
     }
 

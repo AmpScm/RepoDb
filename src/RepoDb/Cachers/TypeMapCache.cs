@@ -17,8 +17,6 @@ public static class TypeMapCache
 
     private static readonly ConcurrentDictionary<Type, DbType?> typeCache = new();
     private static readonly ConcurrentDictionary<(Type Type, PropertyInfo PropertyInfo), DbType?> propertyCache = new();
-    private static readonly TypeMapTypeLevelResolver typeResolver = new();
-    private static readonly TypeMapPropertyLevelResolver propertyResolver = new();
 
     #endregion
 
@@ -44,7 +42,7 @@ public static class TypeMapCache
         ArgumentNullException.ThrowIfNull(type);
 
         // Try get the value
-        return typeCache.GetOrAdd(type, (_) => typeResolver.Resolve(type));
+        return typeCache.GetOrAdd(type, (_) => TypeMapTypeLevelResolver.Instance.Resolve(type));
     }
 
     #endregion
@@ -112,7 +110,7 @@ public static class TypeMapCache
         var key = (entityType, propertyInfo);
 
         // Try get the value
-        return propertyCache.GetOrAdd(key, (_) => propertyResolver.Resolve(propertyInfo));
+        return propertyCache.GetOrAdd(key, (_) => TypeMapPropertyLevelResolver.Instance.Resolve(propertyInfo));
     }
 
     #endregion

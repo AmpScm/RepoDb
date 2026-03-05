@@ -9,7 +9,6 @@ namespace RepoDb;
 public static class ClassMappedNameCache
 {
     private static readonly ConcurrentDictionary<Type, string?> cache = new();
-    private static readonly ClassMappedNameResolver resolver = new();
 
     #region Methods
 
@@ -36,7 +35,7 @@ public static class ClassMappedNameCache
         ArgumentNullException.ThrowIfNull(entityType);
 
         // Try get the value
-        return cache.GetOrAdd(entityType, resolver.Resolve) ?? (throwOnError ? throw new ArgumentException($"Type '{entityType}' not resolvable to table name", nameof(entityType)) : null);
+        return cache.GetOrAdd(entityType, ClassMappedNameResolver.Instance.Resolve) ?? (throwOnError ? throw new ArgumentException($"Type '{entityType}' not resolvable to table name", nameof(entityType)) : null);
     }
 
     #endregion

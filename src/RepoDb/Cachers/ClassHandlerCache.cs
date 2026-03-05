@@ -10,7 +10,6 @@ namespace RepoDb;
 public static class ClassHandlerCache
 {
     private static readonly ConcurrentDictionary<Type, object?> cache = new();
-    private static readonly ClassHandlerResolver resolver = new();
 
     /// <summary>
     /// Gets the cached <see cref="IClassHandler{TEntity}"/> object that is being mapped to a specific .NET CLR type.
@@ -29,7 +28,7 @@ public static class ClassHandlerCache
     /// <returns>The mapped <see cref="IClassHandler{TEntity}"/> object of the .NET CLR type.</returns>
     public static TClassHandler? Get<TClassHandler>(Type type) where TClassHandler : class
     {
-        var value = cache.GetOrAdd(type, resolver.Resolve);
+        var value = cache.GetOrAdd(type, ClassHandlerResolver.Instance.Resolve);
 
         return value as TClassHandler;
     }

@@ -52,4 +52,6 @@ public class DbTypeToSqlServerStringNameResolver : IResolver<DbType, string?>
             _ => "NVARCHAR",
         };
     }
+
+    public static readonly DbTypeToSqlServerStringNameResolver Instance = new();
 }

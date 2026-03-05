@@ -1,17 +1,7 @@
-﻿using System.Collections.Concurrent;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using System.Data.Common;
-using System.Diagnostics;
-using System.Reflection;
-using System.Text.Json.Nodes;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using RepoDb.Attributes;
 using RepoDb.Enumerations;
-using RepoDb.Extensions;
-using RepoDb.Interfaces;
-using RepoDb.Resolvers;
 using RepoDb.Schema;
-using RepoDb.StatementBuilders;
 using RepoDb.Trace;
 
 namespace RepoDb.TestCore;
@@ -955,207 +945,50 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         await sql.QueryAsync<RelatedTable>(x => x.Name.ToLower() == "a");
         await sql.QueryAsync<RelatedTable>(x => x.Name.Length == 1, trace: new DiagnosticsTracer());
     }
-}
 
-public static class DbTestExtensions
-{
 
-    public static string ReplaceForTests(this DbConnection connection, string sqlText)
-    {
-        if (connection.GetDbSetting() is { } set)
-        {
-            if (set.OpeningQuote != "[")
-                sqlText = sqlText.Replace("[", set.OpeningQuote);
-            if (set.ClosingQuote != "]")
-                sqlText = sqlText.Replace("]", set.ClosingQuote);
-            if (set.ParameterPrefix != "@")
-                sqlText = sqlText.Replace("@", set.ParameterPrefix);
-
-        }
-        return sqlText;
-    }
-
-    public static async Task CreateTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null) where TEntity : class
-    {
-        var tableName = ClassMappedNameCache.Get<TEntity>();
-
-        await CreateTableAsync<TEntity>(connection, tableName, trace);
-    }
-
-    public static async Task CreateTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null) where TEntity : class
-    {
-        var dbSetting = sql.GetDbSetting();
-        var stmt = (BaseStatementBuilder)sql.GetStatementBuilder();
-        var toDbField = (stmt.ConvertFieldResolver as DbConvertFieldResolver)?.StringNameResolver ?? FindResolver(sql);
-        var cp = PropertyCache.Get<TEntity>();
 #if NET
-        NullabilityInfoContext ctx = new NullabilityInfoContext();
-#endif
+    class HalfFloatTest
+    {
+        [Identity]
+        public int ID { get; set; }
+        public float F { get; set; }
+        public double D { get; set; }
+    }
 
-        var qb = new QueryBuilder();
+    [Table(nameof(HalfFloatTest))]
+    class HalfFloatTestHalf
+    {
+        public int ID { get; set; }
+        public Half F { get; set; }
+        public Half D { get; set; }
+    }
 
-        qb.WriteText("CREATE").Table()
-            .TableNameFrom(tableName, dbSetting)
-            .OpenParen()
-            .NewLine();
-
-        var identityKey = IdentityCache.Get<TEntity>();
-        var primaryKeys = PrimaryCache.GetPrimaryKeys<TEntity>();
-
-        bool first = true;
-        foreach (var prop in cp)
+    [TestMethod]
+    public async Task HalfFloatTestAsync()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+        if (!await sql.SchemaObjectExistsAsync<HalfFloatTest>(cancellationToken: TestContext.CancellationToken))
         {
-            if (first)
-            {
-                first = false;
-            }
-            else
-            {
-                qb.Comma()
-                    .NewLine();
-            }
-
-            var field = prop.AsField();
-
-            qb.WriteQuoted(prop.FieldName, dbSetting)
-                .WriteText(" ");
-
-            var type = (field.Type ?? prop.PropertyInfo.PropertyType).GetUnderlyingType();
-
-
-            string? columnTypeName = null;
-            if ((type == typeof(JsonNode) || type == typeof(JsonObject) || type == typeof(JsonArray))
-                && sql.GetStatementBuilder() is BaseStatementBuilder bs
-                && bs.JsonColumnType is { } jsonColumnType)
-            {
-                columnTypeName = jsonColumnType;
-            }
-            else
-            {
-                var dbType =
-                    prop.DbType
-                    ?? type.GetDbType()
-                    ?? TypeMapCache.Get(type)
-                    ?? TypeMapper.Get(type)
-                    ?? ClientTypeToDbTypeResolver.Instance.Resolve(type)
-                    ?? DbType.AnsiString;
-
-                columnTypeName = toDbField?.Resolve(dbType) ?? "TEXT";
-            }
-
-            qb.WriteText(columnTypeName);
-
-            if (type == typeof(string) && !columnTypeName.Contains('(') && !string.Equals(columnTypeName, "text", StringComparison.OrdinalIgnoreCase))
-            {
-                qb.OpenParen().WriteText("255").CloseParen();
-            }
-
-            bool isIdentity = (identityKey?.FieldName == prop.FieldName);
-
-            if (isIdentity && (stmt.PrimaryBeforeIdentity == false))
-            {
-                qb.WriteText(stmt.IdentityDefinition ?? "IDENTITY");
-            }
-
-            if (primaryKeys.OneOrDefault() is { } primaryKey && primaryKey.FieldName == prop.FieldName)
-            {
-                qb.WriteText("PRIMARY KEY");
-                primaryKeys = []; // Handled here. Don't add separate key
-            }
-
-            if (isIdentity && (stmt.PrimaryBeforeIdentity == true))
-            {
-                qb.WriteText(stmt.IdentityDefinition ?? "IDENTITY");
-            }
-
-            if (prop.PropertyInfo.PropertyType.IsNullable())
-            {
-                qb.WriteText("NULL");
-            }
-            else if (prop.PropertyInfo.PropertyType.IsValueType)
-            {
-                qb.WriteText("NOT NULL");
-            }
-#if NET
-            else if (ctx.Create(prop.PropertyInfo) is { } nullability)
-            {
-                qb.WriteText(nullability.ReadState == NullabilityState.Nullable ? "NULL" : "NOT NULL");
-            }
-#endif
+            await sql.CreateTableAsync<HalfFloatTest>(cancellationToken: TestContext.CancellationToken);
         }
-
-        if (primaryKeys.Any())
+        else
         {
-            qb.Comma().NewLine()
-                .WriteText("CONSTRAINT ")
-                .WriteQuoted($"PK_{tableName}", dbSetting)
-                .WriteText(" PRIMARY KEY (");
-            first = true;
-            foreach (var pk in primaryKeys)
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    qb.Comma();
-                }
-                qb.WriteQuoted(pk.FieldName, dbSetting);
-            }
-            qb.WriteText(")");
+            await sql.TruncateAsync<HalfFloatTest>(cancellationToken: TestContext.CancellationToken);
         }
+        var r = new HalfFloatTest() { F = 1.5f, D = 2.5 };
+        var v1 = await sql.InsertAsync<HalfFloatTest, int>(r, cancellationToken: TestContext.CancellationToken);
+        var r2 = new HalfFloatTestHalf() { F = (Half)4.5f, D = (Half)5.5 };
+        var v2 = await sql.InsertAsync<HalfFloatTestHalf, int>(r2, cancellationToken: TestContext.CancellationToken);
+        var data = await sql.QueryAllAsync<HalfFloatTestHalf>(cancellationToken: TestContext.CancellationToken);
+        Assert.AreEqual(2, data.Count());
+        var d = data.First();
+        Assert.AreEqual(r.F, (float)d.F);
+        Assert.AreEqual(r.D, (double)d.D);
 
-        // TODO: Add foreign keys, indexes, etc. if needed
+        Assert.AreEqual(1, await sql.CountAsync<HalfFloatTestHalf>(where: x => x.F == (Half)1.5));
 
-        qb.NewLine().CloseParen();
-
-        Debug.WriteLine(qb.ToString());
-
-        await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace);
+        Assert.AreEqual(1, await sql.ExecuteScalarAsync<int>(sql.ReplaceForTests($"SELECT COUNT(*) FROM [{nameof(HalfFloatTest)}] WHERE [F]=@f"), new { f = (Half)1.5 }));
     }
-
-    static readonly ConcurrentDictionary<Type, IResolver<DbType, string?>> _resolverCache = new();
-    private static IResolver<DbType, string?> FindResolver(DbConnection sql)
-    {
-        return _resolverCache.GetOrAdd(sql.GetType(), (_) =>
-        {
-            var asm = sql.GetDbHelper().GetType().Assembly;
-
-            foreach (var t in asm.GetTypes())
-            {
-                if (typeof(IResolver<DbType, string?>).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-                {
-                    var inst = (IResolver<DbType, string?>)Activator.CreateInstance(t);
-                    if (inst is not null)
-                    {
-                        return inst;
-                    }
-                }
-            }
-
-            return null;
-        });
-
-
-    }
-
-    public static async Task DropTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null, CancellationToken cancellationToken = default) where TEntity : class
-    {
-        var tableName = ClassMappedNameCache.Get<TEntity>();
-
-        await DropTableAsync<TEntity>(connection, tableName, trace, cancellationToken: cancellationToken);
-    }
-
-    public static async Task DropTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null, CancellationToken cancellationToken = default) where TEntity : class
-    {
-        var dbSetting = sql.GetDbSetting();
-
-        var qb = new QueryBuilder();
-
-        qb.WriteText("DROP").Table()
-            .TableNameFrom(tableName, dbSetting);
-
-        await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace, cancellationToken: cancellationToken);
-    }
+#endif
 }

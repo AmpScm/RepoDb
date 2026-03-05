@@ -70,18 +70,18 @@ internal sealed partial class Compiler
             }
 
             // Variable
-            var message = $"Context :: TargetType: {GetTargetType()} ";
+            var message = $"Context :: TargetType: {GetTargetType().FullName} ";
 
             // ParameterInfo
             if (ParameterInfo is not null)
             {
-                message = string.Concat(descriptiveContextString, $"Parameter: {ParameterInfo.Name} ({ParameterInfo.ParameterType}) ");
+                message = string.Concat(descriptiveContextString, $"Parameter: {ParameterInfo.Name} ({ParameterInfo.ParameterType.FullName}) ");
             }
 
             // ClassProperty
             if (ClassProperty?.PropertyInfo != null)
             {
-                message = string.Concat(descriptiveContextString, $"PropertyInfo: {ClassProperty.PropertyInfo.Name} ({ClassProperty.PropertyInfo.PropertyType}), DeclaringType: {ClassProperty.DeclaringType} ");
+                message = string.Concat(descriptiveContextString, $"PropertyInfo: {ClassProperty.PropertyInfo.Name} ({ClassProperty.PropertyInfo.PropertyType.FullName}), DeclaringType: {ClassProperty.DeclaringType.FullName} ");
             }
 
             // Return
@@ -381,7 +381,12 @@ internal sealed partial class Compiler
         return value;
     }
 
-    private static PropertyInfo GetPropertyInfo<TFrom>(Expression<Func<TFrom, object?>> expression) => (PropertyInfo)((MemberExpression)UnwrapUnary(expression.Body)).Member;
+    private static PropertyInfo GetPropertyInfo<TFrom>(Expression<Func<TFrom, object?>> expression)
+    {
+        return (PropertyInfo)((MemberExpression)UnwrapUnary(expression.Body)).Member;
+
+        static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
+    }
 
     /// <summary>
     ///
@@ -400,12 +405,12 @@ internal sealed partial class Compiler
     private static MethodInfo GetDbReaderGetValueOrDefaultMethod(DataReaderField readerField, Type readerType)
         => GetDbReaderGetValueMethod(readerField.Type, readerType) ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default));
 
-    private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : struct, Enum
+    private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : unmanaged, Enum
     {
         return Enum.TryParse<TEnum>(value, true, out var r) ? r : null;
     }
 
-    private static TEnum? EnumParseNullDefined<TEnum>(string value) where TEnum : struct, Enum
+    private static TEnum? EnumParseNullDefined<TEnum>(string value) where TEnum : unmanaged, Enum
     {
         if (Enum.TryParse<TEnum>(value, true, out var r)
 #if NET
@@ -433,7 +438,7 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     ///
     /// <returns></returns>
-    private static Expression ConvertExpressionToNullableValue(Expression expression)
+    private static Expression ConvertExpressionToRemoveNullableValue(Expression expression)
     {
         var underlyingType = Nullable.GetUnderlyingType(expression.Type);
         if (underlyingType is null)
@@ -465,7 +470,7 @@ internal sealed partial class Compiler
     {
         if (Nullable.GetUnderlyingType(expression.Type) != null)
         {
-            var converted = converter(ConvertExpressionToNullableValue(expression));
+            var converted = converter(ConvertExpressionToRemoveNullableValue(expression));
             var nullableType = typeof(Nullable<>).MakeGenericType(converted.Type);
             return Expression.Condition(
                 Expression.Property(expression, nameof(Nullable<>.HasValue)),
@@ -483,7 +488,7 @@ internal sealed partial class Compiler
     /// <param name="expression"></param>
     /// <returns></returns>
     private static Expression ConvertExpressionToStringToGuid(Expression expression) =>
-        Expression.New(StaticType.Guid.GetConstructor([StaticType.String])!, ConvertExpressionToNullableValue(expression));
+        Expression.New(StaticType.Guid.GetConstructor([StaticType.String])!, ConvertExpressionToRemoveNullableValue(expression));
 
     /// <summary>
     ///
@@ -492,7 +497,7 @@ internal sealed partial class Compiler
     /// <returns></returns>
     private static Expression ConvertExpressionToTimeSpanToDateTime(Expression expression) =>
         Expression.New(StaticType.DateTime.GetConstructor([StaticType.Int64])!,
-            ConvertExpressionToNullableValue(ConvertExpressionToTimeSpanTicksExpression(expression)));
+            ConvertExpressionToRemoveNullableValue(ConvertExpressionToTimeSpanTicksExpression(expression)));
 
     /// <summary>
     ///
@@ -522,9 +527,6 @@ internal sealed partial class Compiler
     private static Expression ConvertExpressionToTimeOnlyToTimeSpan(Expression expression) =>
         Expression.Call(expression, GetMethodInfo<TimeOnly>((x) => x.ToTimeSpan()));
 #endif
-
-
-    private static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
 
     private static MethodInfo GetMethodInfo<TFrom>(Expression<Action<TFrom>> call) => ((MethodCallExpression)call.Body).Method;
 
@@ -675,7 +677,7 @@ internal sealed partial class Compiler
 
     [DoesNotReturn]
     private static TEnum ThrowInvalidEnumValue<TEnum>(object? value)
-        where TEnum : struct, Enum
+        where TEnum : unmanaged, Enum
     {
         throw new ArgumentOutOfRangeException(nameof(value), value, $"Invalid value for {typeof(TEnum).Name}");
     }
@@ -882,12 +884,14 @@ internal sealed partial class Compiler
             }
             else
             {
-                return ConvertExpressionToNullableValue(expression);
+                return ConvertExpressionToRemoveNullableValue(expression);
             }
         }
-        else if (underlyingFromType.IsBinaryInteger() && underlyingToType.IsBinaryInteger())
+        else if (underlyingFromType.IsBinaryIntFloatOrDecimal() && underlyingToType.IsBinaryIntFloatOrDecimal())
         {
-            var result = Expression.Convert((underlyingFromType == expression.Type) ? expression : Expression.Convert(expression, underlyingFromType), underlyingToType);
+            // This case used to be handled as final fallback by using Convert.To[type](fromType), but had side effects like bankers rounding
+            // Lets do this clean and performant
+            var result = Expression.ConvertChecked(ConvertExpressionToRemoveNullableValue(expression), underlyingToType);
 
             if (toType != underlyingToType && underlyingFromType != expression.Type)
             {
@@ -899,7 +903,7 @@ internal sealed partial class Compiler
         // Guid to String
         else if (underlyingFromType == StaticType.Guid && underlyingToType == StaticType.String)
         {
-            var result = Expression.Call(ConvertExpressionToNullableValue(expression), GetMethodInfo<Guid>(x => x.ToString()));
+            var result = Expression.Call(ConvertExpressionToRemoveNullableValue(expression), GetMethodInfo<Guid>(x => x.ToString()));
 
             if (underlyingFromType != expression.Type)
             {
@@ -915,7 +919,7 @@ internal sealed partial class Compiler
         }
         else if (underlyingFromType == StaticType.Guid && underlyingToType == StaticType.ByteArray)
         {
-            var result = Expression.Call(ConvertExpressionToNullableValue(expression), GetMethodInfo<Guid>(x => x.ToByteArray()));
+            var result = Expression.Call(ConvertExpressionToRemoveNullableValue(expression), GetMethodInfo<Guid>(x => x.ToByteArray()));
 
             if (underlyingFromType != expression.Type)
             {
@@ -978,7 +982,7 @@ internal sealed partial class Compiler
 
         Expression ConvertExpressionToSystemConvertExpression()
         {
-            var result = ConvertExpressionToNullableValue(expression);
+            var result = ConvertExpressionToRemoveNullableValue(expression);
 
             // Convert.To<Type>()
             if (underlyingFromType.IsEnum)
@@ -1086,10 +1090,10 @@ internal sealed partial class Compiler
 #endif
             else if (fromType == typeof(string) && underlyingToType.ImplementsIParsable())
             {
-                var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, binder: null, callConvention: default, [typeof(string), typeof(IFormatProvider)], null)!;
+                var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)])!;
                 result = Expression.Call(parseMethod, expression, Expression.Constant(CultureInfo.InvariantCulture));
             }
-            else if (toType == typeof(string) && typeof(IFormattable).IsAssignableFrom(underlyingFromType) && fromType.HandleAsStringForDB())
+            else if (toType == typeof(string) && typeof(IFormattable).IsAssignableFrom(underlyingFromType))
             {
                 var toStringMethod = GetMethodInfo<IFormattable>(x => x.ToString(null, null));
 
@@ -1097,9 +1101,6 @@ internal sealed partial class Compiler
                 expr = Expression.Convert(expr, typeof(IFormattable));
 
                 result = Expression.Call(expr, toStringMethod, Expression.Constant(null, typeof(string)), Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider)));
-
-                if (underlyingFromType != fromType)
-                    result = Expression.Condition(Expression.Property(expr, nameof(Nullable<>.HasValue)), result, Expression.Constant(null, typeof(string)));
             }
             else if (toType.IsJsonNode() && typeof(IDbJsonValue).IsAssignableFrom(underlyingFromType))
             {
@@ -1110,6 +1111,29 @@ internal sealed partial class Compiler
                 if (result.Type != toType)
                     result = Expression.Convert(result, toType);
             }
+            else if (underlyingToType == typeof(bool) && underlyingFromType.IsBinaryIntFloatOrDecimal())
+            {
+                result = Expression.NotEqual(result, Expression.Convert(Expression.Constant(0), underlyingFromType));
+            }
+            else if (underlyingFromType == typeof(bool) && underlyingToType.IsBinaryIntFloatOrDecimal())
+            {
+                result = Expression.Condition(result, Expression.Convert(Expression.Constant(1), underlyingToType), Expression.Convert(Expression.Constant(0), underlyingToType));
+            }
+            else if (toType == typeof(string)
+                && underlyingFromType.GetMethod(nameof(object.ToString), [typeof(IFormatProvider)]) is { } numberFormatMethod)
+            {
+                result = Expression.Call(result, numberFormatMethod, [Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider))]);
+            }
+#if NET
+            else if (toType == typeof(Half))
+            {
+                // System.Converter doesn't support half, nor does 99% of DotNet. Just fall through to float/single support and convert from there
+
+                expression = ConvertExpressionWithAutomaticConversion(expression, typeof(float)); // Convert to float first
+
+                result = Expression.ConvertChecked(expression, typeof(Half));
+            }
+#endif
             else if (GetSystemConvertToTypeMethod(underlyingFromType, underlyingToType) is { } methodInfo)
             {
                 var param = methodInfo.GetParameters();
@@ -1117,6 +1141,15 @@ internal sealed partial class Compiler
                     result = Expression.Call(methodInfo, Expression.Convert(result, param[0].ParameterType));
                 else
                     result = Expression.Call(methodInfo, Expression.Convert(result, param[0].ParameterType), Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider)));
+
+                // Perhaps we sometimes only have to unbox. Lets inline that support
+                if (fromType == typeof(object))
+                {
+                    result = Expression.Condition(
+                        Expression.TypeIs(expression, underlyingToType),
+                        Expression.Convert(expression, underlyingToType),
+                        result);
+                }
             }
             else
             {

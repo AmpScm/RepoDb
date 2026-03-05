@@ -18,8 +18,8 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     /// <param name="dbSetting">The database settings object currently in used.</param>
     public SqlServerStatementBuilder(IDbSetting dbSetting)
         : this(dbSetting,
-            new SqlServerConvertFieldResolver(),
-            new ClientTypeToAverageableClientTypeResolver())
+            SqlServerConvertFieldResolver.Instance,
+            ClientTypeToAverageableClientTypeResolver.Instance)
     { }
 
     /// <summary>
@@ -32,8 +32,8 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
         IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
-              convertFieldResolver ?? new SqlServerConvertFieldResolver(),
-              averageableClientTypeResolver ?? new ClientTypeToAverageableClientTypeResolver())
+              convertFieldResolver ?? SqlServerConvertFieldResolver.Instance,
+              averageableClientTypeResolver ?? ClientTypeToAverageableClientTypeResolver.Instance)
     { }
 
     #region CreateBatchQuery

@@ -15,4 +15,7 @@ public class TypeMapTypeLevelResolver : IResolver<Type, DbType?>
     /// <returns>The equivalent <see cref="DbType"/> object of the .NET CLR type.</returns>
     public DbType? Resolve(Type type) =>
         TypeMapper.Get(type);
+
+    public static readonly TypeMapTypeLevelResolver Instance = new();
+
 }

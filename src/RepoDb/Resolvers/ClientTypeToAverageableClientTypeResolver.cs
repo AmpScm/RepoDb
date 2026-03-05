@@ -29,4 +29,6 @@ public class ClientTypeToAverageableClientTypeResolver : IResolver<Type, Type?>
         // Return the type
         return type;
     }
+
+    public static readonly ClientTypeToAverageableClientTypeResolver Instance = new();
 }

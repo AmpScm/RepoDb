@@ -1455,9 +1455,8 @@ public static partial class DbConnectionExtension
             var func = FunctionCache.GetPlainTypeToDbParametersCompiledFunction(param.GetType(), entityType, dbFields);
             if (func is not null)
             {
-                var cmd = command;
-                func(cmd, param);
-                return cmd;
+                func(command, param);
+                return command;
             }
         }
 

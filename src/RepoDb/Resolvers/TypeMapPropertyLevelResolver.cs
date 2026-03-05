@@ -36,4 +36,6 @@ public class TypeMapPropertyLevelResolver : IResolver<PropertyInfo, DbType?>
         // Return the value
         return dbType;
     }
+
+    public static readonly TypeMapPropertyLevelResolver Instance = new();
 }

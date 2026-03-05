@@ -53,7 +53,7 @@ public sealed record GlobalConfigurationOptions
     public bool SqlServerIdentityInsert { get; init; }
 
     /// <summary>
-    /// 
+    /// The <see cref="JsonSerializerOptions"/> used for JSON serialization and deserialization in text based json columns.
     /// </summary>
     public JsonSerializerOptions JsonSerializerOptions { get; init; } = Converter.JsonSerializerOptions;
 }

@@ -308,24 +308,4 @@ public static class EnumerableExtension
     /// <returns>A value indicating whether the collection is null or empty.</returns>
     internal static bool IsNullOrEmpty<T>(
         [NotNullWhen(true)] this IEnumerable<T>? value) => value?.Any() != true;
-
-#if NETSTANDARD
-    /// <summary>
-    /// CCreates a new <see cref="HashSet{T}"/> from an <see cref="IEnumerable{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements.</typeparam>
-    /// <param name="source">The actual enumerable instance.</param>
-    /// <param name="comparer">An <see cref="IEqualityComparer{T}"/> to compare keys.</param>
-    /// <returns>The created <see cref="HashSet{T}"/> object.</returns>
-    internal static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) =>
-        new(source, comparer);
-
-    /// <summary>
-    /// Creates a new <see cref="HashSet{T}"/> from an <see cref="IEnumerable{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements=.</typeparam>
-    /// <param name="source">The actual enumerable instance.</param>
-    /// <returns>The created <see cref="HashSet{T}"/> object.</returns>
-    internal static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) => [.. source];
-#endif
 }

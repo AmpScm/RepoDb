@@ -368,6 +368,10 @@ public static class ExpressionExtension
                 {
                     return DateOnly.FromDateTime(dateTime2.Date);
                 }
+                else if (toType == typeof(Half))
+                {
+                    return (Half?)(float?)Convert.ChangeType(value, typeof(float), CultureInfo.InvariantCulture);
+                }
 #endif
 
                 return Convert.ChangeType(value, toType, CultureInfo.InvariantCulture);

@@ -74,6 +74,8 @@ public class ClientTypeToDbTypeResolver : IResolver<Type, DbType?>
 #if NET
         else if (type == StaticType.Char)
             return DbType.StringFixedLength;
+        else if (type == typeof(Half))
+            return DbType.Single;
 #endif
         // XML must be defaulted to String, defaulted by .NET for DbType
         /*else if (type == typeof(Xml))

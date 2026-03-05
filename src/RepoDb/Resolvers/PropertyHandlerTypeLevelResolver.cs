@@ -14,4 +14,7 @@ public class PropertyHandlerTypeLevelResolver : IResolver<Type, object>
     /// <returns>The equivalent <see cref="IPropertyHandler{TInput, TResult}"/> object of the .NET CLR type.</returns>
     public object? Resolve(Type type) =>
         PropertyHandlerMapper.Get<object>(type);
+
+
+    public static readonly PropertyHandlerTypeLevelResolver Instance = new();
 }

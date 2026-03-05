@@ -18,13 +18,6 @@ namespace RepoDb.Extensions;
 /// </summary>
 public static class DbCommandExtension
 {
-    #region Privates
-
-    private static readonly ClientTypeToDbTypeResolver clientTypeToDbTypeResolver = ClientTypeToDbTypeResolver.Instance;
-    private static readonly DbTypeToClientTypeResolver dbTypeToClientTypeResolver = new();
-
-    #endregion
-
     #region CreateParameter
 
     /// <summary>
@@ -322,7 +315,7 @@ public static class DbCommandExtension
         var converted = !haveDbtype && AutomaticConvert(dbField, ref valueType, ref value);
         command.SetValue(parameter, value);
         if (converted
-            && clientTypeToDbTypeResolver.Resolve(valueType!) is { } typeValue)
+            && ClientTypeToDbTypeResolver.Instance.Resolve(valueType!) is { } typeValue)
         {
             parameter.DbType = typeValue;
         }
@@ -367,7 +360,7 @@ public static class DbCommandExtension
         dbType ??= IsPostgreSqlUserDefined(dbField) ? default :
             classProperty?.DbType ??
             valueType?.GetDbType() ??
-            (dbField != null ? clientTypeToDbTypeResolver.Resolve(dbField.Type) : null) ??
+            (dbField != null ? ClientTypeToDbTypeResolver.Instance.Resolve(dbField.Type) : null) ??
             (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType;
 
         // Create the parameter
@@ -627,7 +620,7 @@ public static class DbCommandExtension
             (
                 n.Direction,
                 n.Parameter.DbType.HasValue ?
-                    dbTypeToClientTypeResolver.Resolve(n.Parameter.DbType.Value) : null,
+                    DbTypeToClientTypeResolver.Instance.Resolve(n.Parameter.DbType.Value) : null,
                 n.Size ?? dbField?.Size
             ) : default;
 
@@ -865,7 +858,11 @@ public static class DbCommandExtension
             {
                 return value;
             }
-            if (fromType == StaticType.String && targetType == StaticType.Guid)
+            else if (targetType.IsAssignableFrom(fromType))
+            {
+                return value;
+            }
+            else if (fromType == StaticType.String && targetType == StaticType.Guid)
             {
                 if (value is string { } str
                     && Guid.TryParse(str, out var result))
@@ -916,11 +913,20 @@ public static class DbCommandExtension
             {
                 return jv.JsonNode;
             }
-#if NET
-            else if (fromType == StaticType.String && typeof(IParsable<>).MakeGenericType(targetType).IsAssignableFrom(targetType)
+            else if (fromType == StaticType.String
+                && targetType.ImplementsIParsable()
                 && targetType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [StaticType.String, typeof(IFormatProvider)]) is { } parser)
             {
                 return parser.Invoke(null, [value as string, CultureInfo.InvariantCulture]);
+            }
+#if NET
+            else if (targetType == typeof(Half))
+            {
+                return (Half?)(float?)Convert.ChangeType(value, typeof(float), CultureInfo.InvariantCulture);
+            }
+            else if (fromType == typeof(Half))
+            {
+                return AutomaticConvert((float?)(Half?)value, typeof(float), targetType);
             }
 #endif
             else if (value == DBNull.Value)
@@ -1113,7 +1119,7 @@ public static class DbCommandExtension
     private static DateTime? AutomaticConvertDateOnlyToDateTime(object? value) =>
         value is DateOnly dateOnly ? dateOnly.ToDateTime(default(TimeOnly)) : null;
 #endif
-    #endregion
+#endregion
 
     private sealed class EmptyReader : DbDataReader
     {
