@@ -25,7 +25,7 @@ services:
       POSTGRES_PASSWORD: ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2
 
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2025-latest
     ports:
       - 127.0.0.1:41433:1433
     environment:

@@ -1,4 +1,5 @@
-﻿using RepoDb.Interfaces;
+﻿using Microsoft.Data.SqlTypes;
+using RepoDb.Interfaces;
 using RepoDb.Types;
 
 namespace RepoDb.Resolvers;
@@ -48,6 +49,7 @@ public class SqlServerDbTypeNameToClientTypeResolver : IResolver<string, Type>
             typeof(TimeSpan),
             "tinyint" => typeof(byte),
             "uniqueidentifier" => typeof(Guid),
+            "vector" => typeof(SqlVector<float>),
             _ => typeof(object),
         };
     }
