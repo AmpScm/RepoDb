@@ -178,8 +178,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
             GetType(),
             PropertyName,
             ParameterType,
-            IncludedInCompilation,
-            Value);
+            IncludedInCompilation);
 
         return this.hashCode ??= hashCode;
     }

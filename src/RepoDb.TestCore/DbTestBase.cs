@@ -23,9 +23,16 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
     public void Initialize()
     {
         InitializeCore();
+        DbInstance.PostInitialize();
+        PostInitialize();
     }
 
     protected abstract void InitializeCore();
+
+    protected virtual void PostInitialize()
+    {
+
+    }
 
     public abstract DbConnection CreateConnection();
 

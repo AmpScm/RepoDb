@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using RepoDb.Attributes.Parameter;
@@ -315,7 +316,8 @@ public static class DbCommandExtension
         var converted = !haveDbtype && AutomaticConvert(dbField, ref valueType, ref value);
         command.SetValue(parameter, value);
         if (converted
-            && ClientTypeToDbTypeResolver.Instance.Resolve(valueType!) is { } typeValue)
+            && valueType is { }
+            && (TypeMapCache.Get(valueType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(valueType)) is { } typeValue)
         {
             parameter.DbType = typeValue;
         }
@@ -360,7 +362,7 @@ public static class DbCommandExtension
         dbType ??= IsPostgreSqlUserDefined(dbField) ? default :
             classProperty?.DbType ??
             valueType?.GetDbType() ??
-            (dbField != null ? ClientTypeToDbTypeResolver.Instance.Resolve(dbField.Type) : null) ??
+            (dbField?.Type is { } dt ? TypeMapCache.Get(dt) ?? ClientTypeToDbTypeResolver.Instance.Resolve(dt) : null) ??
             (DbType?)GlobalConfiguration.Options.EnumDefaultDatabaseType;
 
         // Create the parameter
@@ -829,6 +831,7 @@ public static class DbCommandExtension
     /// <param name="value"></param>
     /// <returns></returns>
     private static bool AutomaticConvert(DbField? dbField,
+        [NotNullWhen(true)]
         ref Type? valueType,
         ref object? value)
     {
@@ -913,8 +916,7 @@ public static class DbCommandExtension
             {
                 return jv.JsonNode;
             }
-            else if (fromType == StaticType.String
-                && targetType.ImplementsIParsable()
+            else if (fromType == StaticType.String && targetType.ImplementsIParsable()
                 && targetType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [StaticType.String, typeof(IFormatProvider)]) is { } parser)
             {
                 return parser.Invoke(null, [value as string, CultureInfo.InvariantCulture]);

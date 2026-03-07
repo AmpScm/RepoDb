@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using RepoDb.Options;
 using RepoDb.TestCore;
 
 namespace RepoDb.SqlServer.BulkOperations.IntegrationTests;
@@ -32,5 +33,24 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
                 BEGIN
                     CREATE DATABASE [{DatabaseName}];
                 END");
+    }
+
+    public override IDisposable? SetIdentityInsert(bool value)
+    {
+        var pv = SqlServerOptions.Current.UseIdentityInsert;
+        if (pv == value)
+            return base.SetIdentityInsert(value);
+
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = true });
+
+        return new DisposableAction(() =>
+        {
+            GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = pv });
+        });
+    }
+
+    private sealed class DisposableAction(Action action) : IDisposable
+    {
+        public void Dispose() => action();
     }
 }

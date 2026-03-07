@@ -2023,7 +2023,7 @@ internal sealed partial class Compiler
         if (dbType is null)
         {
             var underlyingType = TypeCache.Get(dbField?.Type).UnderlyingType;
-            dbType = TypeMapper.Get(underlyingType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(underlyingType);
+            dbType = TypeMapCache.Get(underlyingType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(underlyingType);
         }
         return dbType;
     }

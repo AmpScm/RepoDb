@@ -8,6 +8,7 @@ using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
+using RepoDb.Options;
 using RepoDb.Resolvers;
 
 namespace RepoDb.DbHelpers;
@@ -82,6 +83,16 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         WHERE
             C.TABLE_SCHEMA = @Schema
             AND C.TABLE_NAME = @TableName;";
+
+    private const string VectorInfoCommandText = @"
+        SELECT
+            c.name,
+            c.vector_base_type
+        FROM sys.columns c
+        JOIN sys.types t ON c.user_type_id = t.user_type_id
+        JOIN sys.tables tbl ON c.object_id = tbl.object_id
+        JOIN sys.schemas s ON tbl.schema_id = s.schema_id
+        WHERE s.name = @Schema AND tbl.name = @TableName AND c.name IN (@Columns);";
 
     /// <summary>
     ///
@@ -170,17 +181,9 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             // If any of the fields is of type SqlVector<float>, we need to check the actual subtype of the vector, as SQL Server supports both float and real vectors.
             // We can't just always query vector_base_type as that column is SqlServer 2025+
 
-            var cols = dbFields.Where(x => x.Type == typeof(SqlVector<float>)).Select(x=>x.FieldName).ToList();
+            var cols = dbFields.Where(x => x.Type == typeof(SqlVector<float>)).Select(x => x.FieldName).ToList();
 
-            foreach (var (name, base_type) in connection.ExecuteQuery<(string name, int vector_base_type)>(@"
-                    SELECT
-                        c.name,
-                        c.vector_base_type
-                    FROM sys.columns c
-                    JOIN sys.types t ON c.user_type_id = t.user_type_id
-                    JOIN sys.tables tbl ON c.object_id = tbl.object_id
-                    JOIN sys.schemas s ON tbl.schema_id = s.schema_id
-                    WHERE s.name = @Schema AND tbl.name = @TableName AND c.name IN (@Columns)",
+            foreach (var (name, base_type) in connection.ExecuteQuery<(string name, int vector_base_type)>(VectorInfoCommandText,
                     new
                     {
                         param.Schema,
@@ -250,15 +253,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
 
             var cols = dbFields.Where(x => x.Type == typeof(SqlVector<float>)).Select(x => x.FieldName).ToList();
 
-            foreach (var (name, base_type) in await connection.ExecuteQueryAsync<(string name, int vector_base_type)>(@"
-                    SELECT
-                        c.name,
-                        c.vector_base_type
-                    FROM sys.columns c
-                    JOIN sys.types t ON c.user_type_id = t.user_type_id
-                    JOIN sys.tables tbl ON c.object_id = tbl.object_id
-                    JOIN sys.schemas s ON tbl.schema_id = s.schema_id
-                    WHERE s.name = @Schema AND tbl.name = @TableName AND c.name IN (@Columns)",
+            foreach (var (name, base_type) in await connection.ExecuteQueryAsync<(string name, int vector_base_type)>(VectorInfoCommandText,
                     new
                     {
                         param.Schema,

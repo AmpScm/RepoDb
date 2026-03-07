@@ -9,7 +9,7 @@ public class MySqlDbTypeNameToClientTypeResolverTest
     public void Initialize()
     {
         GlobalConfiguration
-            .Setup()
+            .Setup(new())
             .UseMySqlConnector();
     }
 

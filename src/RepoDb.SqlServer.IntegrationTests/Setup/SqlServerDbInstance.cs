@@ -8,13 +8,15 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
 {
     static SqlServerDbInstance()
     {
-        GlobalConfiguration.Setup(GlobalConfiguration.Options).UseSqlServer();
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with
+        {
+#if NET
+            DateOnlyAndTimeOnly = true
+#endif
+        }).UseSqlServer();
 
         TypeMapper.Add(typeof(DateTime), System.Data.DbType.DateTime2, true);
         TypeMapper.Add(typeof(DateTimeOffset), System.Data.DbType.DateTimeOffset, true);
-#if NET
-        TypeMapper.Add(typeof(DateOnly), System.Data.DbType.Date, true);
-#endif
     }
 
     public SqlServerDbInstance()

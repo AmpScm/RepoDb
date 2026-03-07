@@ -8,6 +8,14 @@ namespace RepoDb.TestCore;
 
 public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstance> where TDbInstance : DbInstance, new()
 {
+    protected override void PostInitialize()
+    {
+        base.PostInitialize();
+#if NET
+        GlobalConfiguration.Setup(GlobalConfiguration.Options with { DateOnlyAndTimeOnly = true });
+#endif
+    }
+
     public record CommonNullTestData
     {
         public int ID { get; set; }
@@ -703,8 +711,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     [TestMethod]
     public async Task MergeEdgeCasesTestAsync()
     {
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
-        try
+        using (DbInstance.SetIdentityInsert(true))
         {
             using var sql = await CreateOpenConnectionAsync();
 
@@ -775,17 +782,12 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
             Assert.Contains(x => x.ID == 1 || x.ID == 2, all);
         }
-        finally
-        {
-            GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
-        }
     }
 
     [TestMethod]
     public void MergeEdgeCasesTest()
     {
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
-        try
+        using (DbInstance.SetIdentityInsert(true))
         {
             using var sql = CreateOpenConnection();
 
@@ -857,10 +859,6 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
             Assert.Contains(x => x.ID == 1 || x.ID == 2, all);
         }
-        finally
-        {
-            GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
-        }
     }
 
     private record MergeEdgeTable2
@@ -873,8 +871,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     [TestMethod]
     public async Task MergeQualifierEdgeCasesTestAsync()
     {
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
-        try
+        using (DbInstance.SetIdentityInsert(true))
         {
             using var sql = await CreateOpenConnectionAsync();
 
@@ -918,10 +915,6 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
             await sql.MergeAllAsync([v2], qualifiers: Field.Parse<MergeEdgeTable2>(x => x.Name), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
             Assert.AreNotEqual(0, v2.ID);
-        }
-        finally
-        {
-            GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
         }
     }
 

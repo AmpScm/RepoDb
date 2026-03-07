@@ -158,7 +158,7 @@ public sealed class DbField : Field, IEquatable<DbField>
         string.Concat(FieldName, ", ", IsPrimary.ToString(), " (", GetHashCode().ToString(CultureInfo.InvariantCulture), ")");
 
     private string DebuggerDisplay
-        => String.Join(" ",
+        => string.Join(" ",
             new string?[] {
                 $@"""{FieldName}""",
                 IsPrimary ? "primary" : null,

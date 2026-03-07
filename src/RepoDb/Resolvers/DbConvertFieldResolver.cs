@@ -44,10 +44,9 @@ public class DbConvertFieldResolver : IResolver<Field, IDbSetting, string?>
     public virtual string? Resolve(Field field,
         IDbSetting dbSetting)
     {
-        if (field?.Type != null)
+        if (field?.Type is { } fieldType)
         {
-            var dbType = DbTypeResolver.Resolve(field.Type);
-            if (dbType is { } value)
+            if ((TypeMapCache.Get(fieldType) ?? DbTypeResolver.Resolve(fieldType)) is { } value)
             {
                 var dbTypeName = StringNameResolver.Resolve(value)?.ToUpperInvariant();
                 return string.Concat("CAST(", field.FieldName.AsField(dbSetting), " AS ", dbTypeName?.AsQuoted(dbSetting), ")");

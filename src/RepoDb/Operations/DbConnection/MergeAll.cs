@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Transactions;
+using RepoDb.Contexts.Execution;
 using RepoDb.Contexts.Providers;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -1252,21 +1253,10 @@ public static partial class DbConnectionExtension
         int maxBatchSize = dbSetting.IsMultiStatementExecutable
             ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Concat(qualifiers).Select(x => x.FieldName).Distinct().Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
-        batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
         // Get the context
         var entityType = GetEntityType(entities);
-        var context = MergeAllExecutionContextProvider.Create(entityType,
-            connection,
-            entities,
-            tableName,
-            qualifiers,
-            batchSize,
-            fields,
-            noUpdateFields,
-            hints,
-            transaction,
-            statementBuilder);
+        MergeAllExecutionContext? context = null;
         var result = 0;
 
         connection.EnsureOpen();
@@ -1274,24 +1264,53 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Create the command
-        using (var command = (DbCommand)connection.CreateCommand(context.CommandText,
-            CommandType.Text, commandTimeout, transaction))
+        using (var command = (DbCommand)connection.CreateCommand("", CommandType.Text, commandTimeout, transaction))
         {
-            // Directly execute if the entities is only 1 (performance)
-            if (batchSize == 1)
+
+            int? positionIndex = null;
+            bool doPrepare = dbSetting.IsPreparable;
+
+            foreach (var batchItems in entities.ChunkOptimally(maxBatchSize))
             {
-                // Much better to use the actual single-based setter (performance)
-                foreach (var entity in entities.AsList())
+                if (batchItems.Count != context?.BatchSize)
                 {
-                    // Set the values
-                    context.SingleDataEntityParametersSetterFunc?.Invoke(command, entity);
+                    // Get a new execution context from cache
+                    context = MergeAllExecutionContextProvider.Create(entityType,
+                        connection,
+                        batchItems,
+                        tableName,
+                        qualifiers,
+                        batchItems.Count,
+                        fields,
+                        noUpdateFields,
+                        hints,
+                        transaction,
+                        statementBuilder);
 
-                    // Prepare the command
-                    if (dbSetting.IsPreparable)
-                    {
-                        command.Prepare();
-                    }
+                    // Set the command properties
+                    command.CommandText = context.CommandText;
+                    doPrepare = dbSetting.IsPreparable;
+                }
 
+                // Set the values
+                if (batchItems.Count == 1)
+                {
+                    context.SingleDataEntityParametersSetterFunc?.Invoke(command, batchItems.First());
+                }
+                else
+                {
+                    context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
+                }
+
+                // Prepare the command
+                if (doPrepare)
+                {
+                    command.Prepare();
+                }
+
+                // Actual Execution
+                if (context.KeyPropertySetterFunc == null)
+                {
                     // Before Execution
                     var traceResult = Tracer
                         .InvokeBeforeExecution(traceKey, trace, command);
@@ -1302,120 +1321,46 @@ public static partial class DbConnectionExtension
                         return result;
                     }
 
-                    // Actual Execution
-                    var returnValue = Converter.DbNullToNull(command.ExecuteScalar());
+                    // No identity setters
+                    result += command.ExecuteNonQuery();
 
                     // After Execution
                     Tracer
                         .InvokeAfterExecution(traceResult, trace, result);
-
-                    // Set the return value
-                    if (returnValue is not null)
-                    {
-                        context.KeyPropertySetterFunc?.Invoke(entity, returnValue);
-                    }
-
-                    // Iterate the result
-                    result++;
                 }
-            }
-            else
-            {
-                int? positionIndex = null;
-                bool doPrepare = dbSetting.IsPreparable;
-
-                foreach (var batchItems in entities.Split(maxBatchSize))
+                else
                 {
-                    if (batchItems.Length != context.BatchSize)
-                    {
-                        // Get a new execution context from cache
-                        context = MergeAllExecutionContextProvider.Create(entityType,
-                            connection,
-                            batchItems,
-                            tableName,
-                            qualifiers,
-                            batchItems.Length,
-                            fields,
-                            noUpdateFields,
-                            hints,
-                            transaction,
-                            statementBuilder);
+                    // Before Execution
+                    var traceResult = Tracer
+                        .InvokeBeforeExecution(traceKey, trace, command);
 
-                        // Set the command properties
-                        command.CommandText = context.CommandText;
-                        doPrepare = dbSetting.IsPreparable;
-                    }
+                    // Set the identity back
+                    using var reader = command.ExecuteReader();
 
-                    // Set the values
-                    if (batchItems.Length == 1)
+                    // Get the results
+                    var position = 0;
+                    do
                     {
-                        context.SingleDataEntityParametersSetterFunc?.Invoke(command, batchItems.First());
-                    }
-                    else
-                    {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
-                    }
-
-                    // Prepare the command
-                    if (doPrepare)
-                    {
-                        command.Prepare();
-                    }
-
-                    // Actual Execution
-                    if (context.KeyPropertySetterFunc == null)
-                    {
-                        // Before Execution
-                        var traceResult = Tracer
-                            .InvokeBeforeExecution(traceKey, trace, command);
-
-                        // Silent cancellation
-                        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+                        while (position < batchItems.Count && reader.Read())
                         {
-                            return result;
-                        }
-
-                        // No identity setters
-                        result += command.ExecuteNonQuery();
-
-                        // After Execution
-                        Tracer
-                            .InvokeAfterExecution(traceResult, trace, result);
-                    }
-                    else
-                    {
-                        // Before Execution
-                        var traceResult = Tracer
-                            .InvokeBeforeExecution(traceKey, trace, command);
-
-                        // Set the identity back
-                        using var reader = command.ExecuteReader();
-
-                        // Get the results
-                        var position = 0;
-                        do
-                        {
-                            while (position < batchItems.Length && reader.Read())
+                            var value = Converter.DbNullToNull(reader.GetValue(0));
+                            if (value is not null)
                             {
-                                var value = Converter.DbNullToNull(reader.GetValue(0));
-                                if (value is not null)
-                                {
-                                    positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
+                                positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
 
-                                    var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
-                                    context.KeyPropertySetterFunc.Invoke(batchItems[index], value);
-                                }
-                                position++;
+                                var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
+                                context.KeyPropertySetterFunc.Invoke(batchItems.GetAt(index), value);
                             }
+                            position++;
                         }
-                        while (position < batchItems.Length && reader.NextResult());
-
-                        result += batchItems.Length;
-
-                        // After Execution
-                        Tracer
-                            .InvokeAfterExecution(traceResult, trace, result);
                     }
+                    while (position < batchItems.Count && reader.NextResult());
+
+                    result += batchItems.Count;
+
+                    // After Execution
+                    Tracer
+                        .InvokeAfterExecution(traceResult, trace, result);
                 }
             }
         }

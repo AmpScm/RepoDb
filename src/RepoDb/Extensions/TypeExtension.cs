@@ -137,12 +137,10 @@ public static class TypeExtension
 
     internal static bool ImplementsIParsable(this Type type)
     {
+        if (type == typeof(object))
+            return false;
 #if NET
-        try
-        {
-            return typeof(IParsable<>).MakeGenericType(type).IsAssignableFrom(type); // May fail if type is not 'ok'
-        }
-        catch { return false; }
+        return typeof(IParsable<>).MakeGenericType(type).IsAssignableFrom(type); // May fail if type is not 'ok'
 #else
         return
             typeof(IFormattable).IsAssignableFrom(type)

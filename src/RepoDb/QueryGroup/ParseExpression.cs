@@ -182,7 +182,8 @@ public partial class QueryGroup
             ArgumentNullException.ThrowIfNull(jsonPath);
             var vv = QueryField.Parse<TEntity>(expression).GetFields(false)!.Single();
 
-            return new QueryGroup([new JsonExtractQueryField(vv.Field!.FieldName, jsonPath, QueryField.GetOperation(expression.NodeType), vv.GetValue(), dbType: ClientTypeToDbTypeResolver.Instance.Resolve(expression.Right.Type))]);
+            var rightType = expression.Right.Type;
+            return new QueryGroup([new JsonExtractQueryField(vv.Field!.FieldName, jsonPath, QueryField.GetOperation(expression.NodeType), vv.GetValue(), dbType: TypeMapCache.Get(rightType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(rightType))]);
         }
         else if (expression.Left is MethodCallExpression m3
             && m3.Object is { }
@@ -217,7 +218,8 @@ public partial class QueryGroup
         else if (isSimpleCheck
             && GetJsonExtractFromPath<TEntity>(expression.Left) is { FieldName: not null, Path: not null } jsonExtract)
         {
-            return new QueryGroup([new JsonExtractQueryField(jsonExtract.FieldName, jsonExtract.Path, expression.Right.GetValue(), dbType: ClientTypeToDbTypeResolver.Instance.Resolve(expression.Right.Type))]);
+            var rightType = expression.Right.Type;
+            return new QueryGroup([new JsonExtractQueryField(jsonExtract.FieldName, jsonExtract.Path, expression.Right.GetValue(), dbType: TypeMapCache.Get(rightType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(rightType))]);
         }
 
         // Otherwise, recursively parse as before (for AndAlso, OrElse, etc.)

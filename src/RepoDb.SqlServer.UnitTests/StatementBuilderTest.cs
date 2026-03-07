@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using RepoDb.Enumerations;
 using RepoDb.Exceptions;
+using RepoDb.Options;
 
 namespace RepoDb.SqlServer.Tests.UnitTests;
 
@@ -1155,7 +1156,7 @@ public class StatementBuilderTest
         var fields = Field.From(["Field1", "Field2", "Field3"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = false });
 
         // Act
         var actual = statementBuilder.CreateMergeAll(tableName: tableName,
@@ -1189,7 +1190,7 @@ public class StatementBuilderTest
         var fields = Field.From(["Field1", "Field2", "Field3a"]);
         var qualifiers = Field.From("Field1");
         var identityField = new DbField("Field1", false, true, false, typeof(int), null, null, null, null);
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = true});
 
         // Act
         var actual = statementBuilder.CreateMergeAll(tableName: tableName,
@@ -1199,7 +1200,7 @@ public class StatementBuilderTest
             primaryField: null,
             identityField: identityField);
 
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = false });
 
         var expected =
             "BEGIN TRY SET IDENTITY_INSERT [Table] ON; END TRY BEGIN CATCH END CATCH " +
@@ -1716,7 +1717,7 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = false });
 
         // Act
         var actual = statementBuilder.CreateMerge(tableName: tableName,
@@ -1748,7 +1749,7 @@ public class StatementBuilderTest
         var qualifiers = Field.From("Field1");
         var primaryField = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = true });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = true });
 
         // Act
         var actual = statementBuilder.CreateMerge(tableName: tableName,
@@ -1756,7 +1757,7 @@ public class StatementBuilderTest
             qualifiers: qualifiers,
             primaryField: primaryField,
             identityField: primaryField);
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = false });
         var expected =
             "BEGIN TRY SET IDENTITY_INSERT [Table] ON; END TRY BEGIN CATCH END CATCH " +
             "MERGE [Table] AS T " +
@@ -1877,7 +1878,7 @@ public class StatementBuilderTest
         var fields = Field.From(["Field1", "Field2", "Field3"]);
         var primaryField = new DbField("Field1", true, isIdentity: false, false, typeof(int), null, null, null, null);
 
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = false });
 
         // Act
         var actual = statementBuilder.CreateMerge(tableName: tableName,
@@ -1910,7 +1911,7 @@ public class StatementBuilderTest
         var primaryField = new DbField("Field1", true, false, false, typeof(int), null, null, null, null);
         var identityField = new DbField("Field2", false, true, false, typeof(int), null, null, null, null);
 
-        GlobalConfiguration.Setup(GlobalConfiguration.Options with { SqlServerIdentityInsert = false });
+        GlobalConfiguration.Setup().UseSqlServer(SqlServerOptions.Current with { UseIdentityInsert = false });
 
         // Act
         var actual = statementBuilder.CreateMerge(tableName: tableName,

@@ -16,28 +16,17 @@ internal partial class Compiler
     /// <param name="dbParameterExpression"></param>
     /// <param name="classProperty"></param>
     /// <returns></returns>
-    private static List<Expression> GetPropertyValueAttributeAssignmentExpressions(
-        ParameterExpression dbParameterExpression,
-        ClassProperty? classProperty) =>
-        GetParameterPropertyValueSetterAttributesAssignmentExpressions((Expression)dbParameterExpression, classProperty);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="dbParameterExpression"></param>
-    /// <param name="classProperty"></param>
-    /// <returns></returns>
-    private static List<Expression> GetParameterPropertyValueSetterAttributesAssignmentExpressions(
+    private static List<Expression>? GetParameterPropertyValueSetterAttributesAssignmentExpressions(
         Expression dbParameterExpression,
         ClassProperty? classProperty)
     {
         var attributes = classProperty?.GetPropertyValueAttributes();
         if (attributes?.Any() != true)
         {
-            return [];
+            return null;
         }
 
-        var expressions = new List<Expression>();
+        List<Expression>? expressions = null;
 
         foreach (var attribute in attributes)
         {
@@ -49,9 +38,11 @@ internal partial class Compiler
                 continue;
             }
 
-            var expression = GetPropertyValueAttributesAssignmentExpression(dbParameterExpression,
-                attribute);
-            expressions.AddIfNotNull(expression);
+            if (GetPropertyValueAttributesAssignmentExpression(dbParameterExpression, attribute) is { } expression)
+            {
+                expressions ??= [];
+                expressions.Add(expression);
+            }
         }
 
         return expressions;

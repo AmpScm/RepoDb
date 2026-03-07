@@ -2,6 +2,7 @@
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
+using RepoDb.Options;
 using RepoDb.Resolvers;
 
 namespace RepoDb.StatementBuilders;
@@ -474,7 +475,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         // Initialize the builder
         var builder = new QueryBuilder();
 
-        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
+        if (insertingIdentity && SqlServerOptions.Current.UseIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")
@@ -550,7 +551,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         // End the builder
         builder.End();
 
-        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
+        if (insertingIdentity && SqlServerOptions.Current.UseIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")
@@ -646,7 +647,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 
         bool insertingIdentity = qualifiers.Any(x => keyFields.GetByFieldName(x.FieldName) is { IsIdentity: true }) && fields.Any(f => keyFields.GetByFieldName(f.FieldName) is { IsIdentity: true });
 
-        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
+        if (insertingIdentity && SqlServerOptions.Current.UseIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")
@@ -766,7 +767,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
         // End the builder
         builder.End(DbSetting);
 
-        if (insertingIdentity && GlobalConfiguration.Options.SqlServerIdentityInsert)
+        if (insertingIdentity && SqlServerOptions.Current.UseIdentityInsert)
         {
             builder
                 .WriteText("BEGIN TRY")

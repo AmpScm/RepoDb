@@ -27,6 +27,9 @@ public static class Database
     {
         Instance.ClassInitializeAsync(null).GetAwaiter().GetResult();
 
+        // Initialize MySql
+        GlobalConfiguration.Setup(new()).UseMySql();
+
         // Create tables
         CreateTables();
     }

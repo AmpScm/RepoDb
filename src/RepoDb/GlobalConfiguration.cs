@@ -15,16 +15,17 @@ public sealed class GlobalConfiguration
     /// Setup the globalized configurations for the application.
     /// </summary>
     /// <returns>The used global configuration instance itself.</returns>
-    public static GlobalConfiguration Setup() => Setup(Options);
+    public static GlobalConfiguration Setup() => Setup(null);
 
     /// <summary>
     /// Setup the globalized configurations for the application.
     /// </summary>
     /// <param name="options">The option class that contains the value for the configurations.</param>
     /// <returns>The used global configuration instance itself.</returns>
-    public static GlobalConfiguration Setup(GlobalConfigurationOptions options)
+    public static GlobalConfiguration Setup(GlobalConfigurationOptions? options)
     {
-        Options = options ?? Options;
+        if (options is { } && !ReferenceEquals(Options, options))
+            Options = options;
 
         return _instance;
     }
@@ -36,7 +37,12 @@ public sealed class GlobalConfiguration
     /// <summary>
     /// Gets the globalized configurations.
     /// </summary>
-    public static GlobalConfigurationOptions Options { get; private set; } = new();
-
-    #endregion
+    public static GlobalConfigurationOptions Options { get; private set; } = new()
+    {
+        // When not configured use the new default.
+#if NET
+        DateOnlyAndTimeOnly = true
+#endif
+    };
 }
+#endregion}

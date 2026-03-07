@@ -38,12 +38,6 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
         propertyHandlerAttribute = new(() => PropertyInfo.GetCustomAttribute<PropertyHandlerAttribute>(), true);
         dbType = new Lazy<DbType?>(() => PropertyInfo.GetDbType(), true);
         propertyValueAttributes = new Lazy<IEnumerable<PropertyValueAttribute>>(() => PropertyInfo.GetPropertyValueAttributes(DeclaringType), true);
-        propertyValueAttribute = new(() =>
-        {
-            return (PropertyInfo.GetCustomAttribute<DbTypeAttribute>() ?? PropertyInfo.GetCustomAttribute<TypeMapAttribute>()) ??
-                   (GetPropertyValueAttributes()
-                       .LastOrDefault(e => string.Equals(nameof(IDbDataParameter.ParameterName), e.PropertyName, StringComparison.OrdinalIgnoreCase)));
-        }, true);
     }
 
     #region Properties
@@ -181,18 +175,15 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
         return typeMapAttribute.Value;
     }
 
-    /*
-     * GetDbTypeAttribute
-     */
-    private readonly Lazy<PropertyValueAttribute?> propertyValueAttribute;
-
     /// <summary>
     /// Gets the <see cref="PropertyValueAttribute"/> if present.
     /// </summary>
     /// <returns>The instance of <see cref="PropertyValueAttribute"/>.</returns>
+    [Obsolete("Use .GetPropertyValueAttributes()"), EditorBrowsable(EditorBrowsableState.Never)]
     public PropertyValueAttribute? GetDbTypeAttribute()
     {
-        return propertyValueAttribute.Value;
+        return (GetPropertyValueAttributes()
+                       .LastOrDefault(e => string.Equals(nameof(IDbDataParameter.ParameterName), e.PropertyName, StringComparison.OrdinalIgnoreCase)));
     }
 
     /*

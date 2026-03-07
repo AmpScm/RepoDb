@@ -452,18 +452,10 @@ public static partial class DbConnectionExtension
         int maxBatchSize = dbSetting.IsMultiStatementExecutable
             ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
-        batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
         // Get the context
         var entityType = GetEntityType(entities);
-        InsertAllExecutionContext context = InsertAllExecutionContextProvider.Create(entityType,
-            connection,
-            tableName,
-            batchSize,
-            fields,
-            hints,
-            transaction,
-            statementBuilder);
+        InsertAllExecutionContext? context = null;
         var result = 0;
 
         connection.EnsureOpen();
@@ -472,26 +464,53 @@ public static partial class DbConnectionExtension
         transaction ??= myTransaction;
 
         // Create the command
-        using (var command = (DbCommand)connection.CreateCommand(context.CommandText,
-            CommandType.Text, commandTimeout, transaction))
+        using (var command = (DbCommand)connection.CreateCommand("", CommandType.Text, commandTimeout, transaction))
         {
-            // Directly execute if the entities is only 1 (performance)
-            if (batchSize == 1)
+            BaseDbHelper? dbh = null;
+            int? positionIndex = null;
+            bool doPrepare = dbSetting.IsPreparable;
+
+            foreach (var batchItems in entities.ChunkOptimally(maxBatchSize))
             {
-                BaseDbHelper? dbh = null;
-
-                foreach (var entity in entities.AsList())
+                if (batchItems.Count != context?.BatchSize)
                 {
-                    // Set the values
-                    context.SingleDataEntityParametersSetterFunc?.Invoke(command, entity);
+                    // Get a new execution context from cache
+                    context = InsertAllExecutionContextProvider.Create(entityType,
+                        connection,
+                        tableName,
+                        batchItems.Count,
+                        fields,
+                        hints,
+                        transaction,
+                        statementBuilder);
 
-                    var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(connection!)).PrepareForIdentityOutput(command);
-                    // Prepare the command
-                    if (dbSetting.IsPreparable)
-                    {
-                        command.Prepare();
-                    }
+                    // Set the command properties
+                    command.CommandText = context.CommandText;
+                    doPrepare = dbSetting.IsPreparable;
+                }
 
+                // Set the values
+                if (batchItems.Count == 1)
+                {
+                    context.SingleDataEntityParametersSetterFunc?.Invoke(command, batchItems.First());
+                }
+                else
+                {
+                    context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
+                }
+
+                var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
+
+                // Prepare the command
+                if (doPrepare)
+                {
+                    command.Prepare();
+                    doPrepare = false;
+                }
+
+                // Actual Execution
+                if (context.IdentitySetterFunc == null || fetchIdentity is { })
+                {
                     // Before Execution
                     var traceResult = Tracer
                         .InvokeBeforeExecution(traceKey, trace, command);
@@ -502,140 +521,56 @@ public static partial class DbConnectionExtension
                         return result;
                     }
 
-                    // Actual Execution
-                    object? returnValue;
+                    // No identity setters
+                    result += command.ExecuteNonQuery();
 
-                    if (fetchIdentity is not { })
-                        returnValue = Converter.DbNullToNull(command.ExecuteScalar());
-                    else
+                    if (context.IdentitySetterFunc is { } && fetchIdentity is { })
                     {
-                        command.ExecuteNonQuery();
+                        var position = 0;
 
-                        returnValue = fetchIdentity();
+                        foreach (var value in fetchIdentity() as System.Collections.IEnumerable ?? Array.Empty<object>())
+                        {
+                            context.IdentitySetterFunc.Invoke(batchItems.GetAt(position++), value);
+                        }
                     }
 
                     // After Execution
                     Tracer
                         .InvokeAfterExecution(traceResult, trace, result);
-
-                    // Set the return value
-                    if (returnValue is not null)
-                    {
-                        context.IdentitySetterFunc?.Invoke(entity, returnValue);
-                    }
-
-                    // Iterate the result
-                    result++;
                 }
-            }
-            else
-            {
-                BaseDbHelper? dbh = null;
-                int? positionIndex = null;
-                bool doPrepare = dbSetting.IsPreparable;
-
-                foreach (var batchItems in entities.ChunkOptimally(maxBatchSize))
+                else
                 {
-                    if (batchItems.Count != context.BatchSize)
+                    // Before Execution
+                    var traceResult = Tracer
+                        .InvokeBeforeExecution(traceKey, trace, command);
+
+                    // Set the identity back
+                    using var reader = command.ExecuteReader();
+
+                    // Get the results
+                    var position = 0;
+                    do
                     {
-                        // Get a new execution context from cache
-                        context = InsertAllExecutionContextProvider.Create(entityType,
-                            connection,
-                            tableName,
-                            batchItems.Count,
-                            fields,
-                            hints,
-                            transaction,
-                            statementBuilder);
-
-                        // Set the command properties
-                        command.CommandText = context.CommandText;
-                        doPrepare = dbSetting.IsPreparable;
-                    }
-
-                    // Set the values
-                    if (batchItems.Count == 1)
-                    {
-                        context.SingleDataEntityParametersSetterFunc?.Invoke(command, batchItems.First());
-                    }
-                    else
-                    {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
-                    }
-
-                    var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
-
-                    // Prepare the command
-                    if (doPrepare)
-                    {
-                        command.Prepare();
-                        doPrepare = false;
-                    }
-
-                    // Actual Execution
-                    if (context.IdentitySetterFunc == null || fetchIdentity is { })
-                    {
-                        // Before Execution
-                        var traceResult = Tracer
-                            .InvokeBeforeExecution(traceKey, trace, command);
-
-                        // Silent cancellation
-                        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+                        while (position < batchItems.Count && reader.Read())
                         {
-                            return result;
-                        }
-
-                        // No identity setters
-                        result += command.ExecuteNonQuery();
-
-                        if (context.IdentitySetterFunc is { } && fetchIdentity is { })
-                        {
-                            var position = 0;
-
-                            foreach (var value in fetchIdentity() as System.Collections.IEnumerable ?? Array.Empty<object>())
+                            var value = Converter.DbNullToNull(reader.GetValue(0));
+                            if (value is { })
                             {
-                                context.IdentitySetterFunc.Invoke(batchItems.GetAt(position++), value);
+                                positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
+                                var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
+                                context.IdentitySetterFunc.Invoke(batchItems.GetAt(index), value);
                             }
+                            position++;
                         }
-
-                        // After Execution
-                        Tracer
-                            .InvokeAfterExecution(traceResult, trace, result);
                     }
-                    else
-                    {
-                        // Before Execution
-                        var traceResult = Tracer
-                            .InvokeBeforeExecution(traceKey, trace, command);
+                    while (position < batchItems.Count && reader.NextResult());
 
-                        // Set the identity back
-                        using var reader = command.ExecuteReader();
+                    // Set the result
+                    result += batchItems.Count;
 
-                        // Get the results
-                        var position = 0;
-                        do
-                        {
-                            while (position < batchItems.Count && reader.Read())
-                            {
-                                var value = Converter.DbNullToNull(reader.GetValue(0));
-                                if (value is { })
-                                {
-                                    positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
-                                    var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
-                                    context.IdentitySetterFunc.Invoke(batchItems.GetAt(index), value);
-                                }
-                                position++;
-                            }
-                        }
-                        while (position < batchItems.Count && reader.NextResult());
-
-                        // Set the result
-                        result += batchItems.Count;
-
-                        // After Execution
-                        Tracer
-                            .InvokeAfterExecution(traceResult, trace, result);
-                    }
+                    // After Execution
+                    Tracer
+                        .InvokeAfterExecution(traceResult, trace, result);
                 }
             }
         }
@@ -696,7 +631,6 @@ public static partial class DbConnectionExtension
         int maxBatchSize = dbSetting.IsMultiStatementExecutable
             ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
-        batchSize = Math.Min(batchSize <= 0 ? Constant.DefaultBatchOperationSize : batchSize, entities.Count());
 
         await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
         using var myTransaction = (transaction is null && Transaction.Current is null) ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
@@ -704,38 +638,60 @@ public static partial class DbConnectionExtension
 
         // Get the context
         var entityType = GetEntityType(entities);
-        var context = await InsertAllExecutionContextProvider.CreateAsync(entityType,
-            connection,
-            tableName,
-            batchSize,
-            fields,
-            hints,
-            transaction,
-            statementBuilder,
-            cancellationToken).ConfigureAwait(false);
+        InsertAllExecutionContext? context = null;
         var result = 0;
 
         // Create the command
-        using (var command = (DbCommand)connection.CreateCommand(context.CommandText,
-            CommandType.Text, commandTimeout, transaction))
+        using (var command = (DbCommand)connection.CreateCommand("", CommandType.Text, commandTimeout, transaction))
         {
-            // Directly execute if the entities is only 1 (performance)
-            if (batchSize == 1)
+
+            BaseDbHelper? dbh = null;
+            int? positionIndex = null;
+            bool doPrepare = dbSetting.IsPreparable;
+
+            foreach (var batchItems in entities.ChunkOptimally(maxBatchSize))
             {
-                BaseDbHelper? dbh = null;
-                foreach (var entity in entities.AsList())
+                if (batchItems.Count != context?.BatchSize)
                 {
-                    // Set the values
-                    context.SingleDataEntityParametersSetterFunc?.Invoke(command, entity);
+                    // Get a new execution context from cache
+                    context = await InsertAllExecutionContextProvider.CreateAsync(entityType,
+                        connection,
+                        tableName,
+                        batchItems.Count,
+                        fields,
+                        hints,
+                        transaction,
+                        statementBuilder,
+                        cancellationToken).ConfigureAwait(false);
 
-                    var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
+                    // Set the command properties
+                    command.CommandText = context.CommandText;
+                    doPrepare = dbSetting.IsPreparable;
+                }
 
-                    // Prepare the command
-                    if (dbSetting.IsPreparable)
-                    {
-                        await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
-                    }
+                // Set the values
+                if (batchItems.Count == 1)
+                {
+                    context.SingleDataEntityParametersSetterFunc?.Invoke(command, batchItems.First());
+                }
+                else
+                {
+                    context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
+                }
 
+                // Prepare the command
+
+                var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
+
+                if (doPrepare)
+                {
+                    await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
+                    doPrepare = false;
+                }
+
+                // Actual Execution
+                if (context.IdentitySetterFunc == null || fetchIdentity is { })
+                {
                     // Before Execution
                     var traceResult = await Tracer
                         .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
@@ -746,144 +702,59 @@ public static partial class DbConnectionExtension
                         return result;
                     }
 
-                    // Actual Execution
-                    object? returnValue;
+                    // No identity setters
+                    result += await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 
-                    if (fetchIdentity is not { })
-                        returnValue = Converter.DbNullToNull(await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false));
-                    else
+                    if (context.IdentitySetterFunc is { } && fetchIdentity is { })
                     {
-                        await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-                        returnValue = Converter.DbNullToNull(fetchIdentity());
+                        var position = 0;
+
+                        foreach (var value in fetchIdentity() as System.Collections.IEnumerable ?? Array.Empty<object>())
+                        {
+                            context.IdentitySetterFunc.Invoke(batchItems.GetAt(position++), value);
+                        }
                     }
 
                     // After Execution
                     await Tracer
                         .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
-
-                    // Set the return value
-                    if (returnValue is not null)
-                    {
-                        context.IdentitySetterFunc?.Invoke(entity, returnValue);
-                    }
-
-                    // Iterate the result
-                    result++;
                 }
-            }
-            else
-            {
-                BaseDbHelper? dbh = null;
-                int? positionIndex = null;
-                bool doPrepare = dbSetting.IsPreparable;
-
-                foreach (var batchItems in entities.ChunkOptimally(maxBatchSize))
+                else
                 {
-                    if (batchItems.Count != context.BatchSize)
-                    {
-                        // Get a new execution context from cache
-                        context = await InsertAllExecutionContextProvider.CreateAsync(entityType,
-                            connection,
-                            tableName,
-                            batchItems.Count,
-                            fields,
-                            hints,
-                            transaction,
-                            statementBuilder,
-                            cancellationToken).ConfigureAwait(false);
+                    // Before Execution
+                    var traceResult = await Tracer
+                        .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
-                        // Set the command properties
-                        command.CommandText = context.CommandText;
-                        doPrepare = dbSetting.IsPreparable;
-                    }
-
-                    // Set the values
-                    if (batchItems.Count == 1)
-                    {
-                        context.SingleDataEntityParametersSetterFunc?.Invoke(command, batchItems.First());
-                    }
-                    else
-                    {
-                        context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
-                    }
-
-                    // Prepare the command
-
-                    var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
-
-                    if (doPrepare)
-                    {
-                        await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
-                        doPrepare = false;
-                    }
-
-                    // Actual Execution
-                    if (context.IdentitySetterFunc == null || fetchIdentity is { })
-                    {
-                        // Before Execution
-                        var traceResult = await Tracer
-                            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-                        // Silent cancellation
-                        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
-                        {
-                            return result;
-                        }
-
-                        // No identity setters
-                        result += await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-
-                        if (context.IdentitySetterFunc is { } && fetchIdentity is { })
-                        {
-                            var position = 0;
-
-                            foreach (var value in fetchIdentity() as System.Collections.IEnumerable ?? Array.Empty<object>())
-                            {
-                                context.IdentitySetterFunc.Invoke(batchItems.GetAt(position++), value);
-                            }
-                        }
-
-                        // After Execution
-                        await Tracer
-                            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        // Before Execution
-                        var traceResult = await Tracer
-                            .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
-
-                        // Set the identity back
+                    // Set the identity back
 #if NET
-                        await
+                    await
 #endif
-                        using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+                    using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
-                        // Get the results
-                        var position = 0;
-                        do
+                    // Get the results
+                    var position = 0;
+                    do
+                    {
+                        while (position < batchItems.Count && await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
                         {
-                            while (position < batchItems.Count && await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+                            var value = Converter.DbNullToNull(reader.GetValue(0));
+                            if (value is { })
                             {
-                                var value = Converter.DbNullToNull(reader.GetValue(0));
-                                if (value is { })
-                                {
-                                    positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
-                                    var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
-                                    context.IdentitySetterFunc.Invoke(batchItems.GetAt(index), value);
-                                }
-                                position++;
+                                positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
+                                var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
+                                context.IdentitySetterFunc.Invoke(batchItems.GetAt(index), value);
                             }
+                            position++;
                         }
-                        while (position < batchItems.Count && await reader.NextResultAsync(cancellationToken).ConfigureAwait(false));
-
-                        // Set the result
-                        result += batchItems.Count;
-
-                        // After Execution
-                        await Tracer
-                            .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
                     }
+                    while (position < batchItems.Count && await reader.NextResultAsync(cancellationToken).ConfigureAwait(false));
+
+                    // Set the result
+                    result += batchItems.Count;
+
+                    // After Execution
+                    await Tracer
+                        .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
                 }
             }
         }

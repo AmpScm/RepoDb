@@ -75,6 +75,15 @@ public abstract class DbInstance : IAsyncDisposable
         }
     }
 
+    public virtual IDisposable? SetIdentityInsert(bool value)
+    {
+        return null;
+    }
+
+    internal protected virtual void PostInitialize()
+    {
+    }
+
     public string AdminConnectionString { get; protected set; }
     public string ConnectionString { get; protected set; }
 }

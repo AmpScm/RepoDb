@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.ComponentModel;
+using System.Data;
 using System.Data.Common;
 using System.Text.Json;
 using RepoDb.Enumerations;
@@ -23,6 +24,7 @@ public sealed record GlobalConfigurationOptions
     /// <summary>
     /// Gets or initializes the default value of the batch operation size. The value defines on this property mainly affects the batch size of the InsertAll, MergeAll and UpdateAll operations.
     /// </summary>
+    [Obsolete("Unused. Batchsize is optimized if <= 0"), EditorBrowsable(EditorBrowsableState.Never)]
     public int DefaultBatchOperationSize { get; init; } // = 0;
 
     /// <summary>
@@ -47,9 +49,7 @@ public sealed record GlobalConfigurationOptions
     public bool DateOnlyAndTimeOnly { get; init; }
 #endif
 
-    /// <summary>
-    /// Enable the support for the SQL Server's <c>IDENTITY_INSERT</c> feature. This allows the insertion of explicit values into identity columns.
-    /// </summary>
+    [Obsolete("This property is not used anymore. Use the SqlServer specific settings object instead.", error: true), EditorBrowsable(EditorBrowsableState.Never)]
     public bool SqlServerIdentityInsert { get; init; }
 
     /// <summary>

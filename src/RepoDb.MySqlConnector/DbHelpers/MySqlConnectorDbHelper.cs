@@ -296,4 +296,16 @@ public sealed class MySqlConnectorDbHelper : BaseDbHelper
         };
     }
 
+
+    public override object? ParameterValueToDb(object? value, IDbDataParameter parameter)
+    {
+#if NET && MYSQLPLAIN // MySqlConnector has proper DateOnly support
+        if (value is DateOnly dateOnly)
+        {
+            return dateOnly.ToDateTime(TimeOnly.MinValue);
+        }
+#endif
+
+        return base.ParameterValueToDb(value, parameter);
+    }
 }
