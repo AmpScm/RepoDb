@@ -1209,7 +1209,7 @@ public class IStatementBuilderForDbConnectionTest
                 It.Is<string>(v => v == ClassMappedNameCache.Get<StatementBuilderEntityForTableName>()),
                 It.IsAny<IEnumerable<Field>>(),
                 It.IsAny<IEnumerable<DbField>>(),
-                It.IsAny<string>()), Times.Exactly(1));
+                It.IsAny<string>()), Times.Exactly(0));
 
         // Prepare
         var statementBuilderNever = new Mock<IStatementBuilder>();
@@ -2001,7 +2001,7 @@ public class IStatementBuilderForDbConnectionTest
                 It.IsAny<IEnumerable<Field>>(),
                 null,
                 It.IsAny<IEnumerable<DbField>>(),
-                It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(1));
+                It.IsAny<IEnumerable<Field>>(), It.IsAny<string>()), Times.Exactly(0)); // Was 1 time
 
         // Prepare
         var statementBuilderNever = new Mock<IStatementBuilder>();

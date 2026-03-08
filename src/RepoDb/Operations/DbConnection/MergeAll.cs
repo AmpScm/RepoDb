@@ -1564,6 +1564,12 @@ public static partial class DbConnectionExtension
                         var traceResult = await Tracer
                             .InvokeBeforeExecutionAsync(traceKey, trace, command, cancellationToken).ConfigureAwait(false);
 
+                        // Silent cancellation
+                        if (traceResult?.CancellableTraceLog?.IsCancelled == true)
+                        {
+                            return result;
+                        }
+
                         // Set the identity back
 #if NET
                         await

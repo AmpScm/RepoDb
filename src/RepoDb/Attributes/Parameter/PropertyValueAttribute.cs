@@ -178,6 +178,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
             GetType(),
             PropertyName,
             ParameterType,
+            Value,
             IncludedInCompilation);
 
         return this.hashCode ??= hashCode;
@@ -204,6 +205,7 @@ public class PropertyValueAttribute : Attribute, IEquatable<PropertyValueAttribu
             && other.GetType() == GetType()
             && other.PropertyName == PropertyName
             && other.ParameterType == ParameterType
+            && (other.Value?.Equals(Value) == true || Value is null)
             && other.IncludedInCompilation == IncludedInCompilation;
     }
 
