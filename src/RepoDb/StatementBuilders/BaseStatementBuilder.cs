@@ -44,6 +44,7 @@ public abstract class BaseStatementBuilder : IStatementBuilder
     /// </summary>
     protected IResolver<Type, Type?>? AverageableClientTypeResolver { get; }
     public virtual string? JsonColumnType => null;
+    public virtual string? VectorColumnType => null;
 
     public virtual string? IdentityDefinition => null;
 

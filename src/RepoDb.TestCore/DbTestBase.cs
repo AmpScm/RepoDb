@@ -34,7 +34,7 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
 
     }
 
-    public abstract DbConnection CreateConnection();
+    public virtual DbConnection CreateConnection() => DbInstance.CreateConnection();
 
     public async Task<DbConnection> CreateOpenConnectionAsync()
     {

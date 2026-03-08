@@ -71,6 +71,8 @@ public sealed partial class OracleDbTypeToClientTypeResolver : IResolver<string,
             // JSON (Oracle 21c+ supports JSON natively as datatype)
             "json" => typeof(string),
 
+            "vector" => typeof(float[]), // Oracle 21c+ supports vector types for AI/ML workloads
+
             // Defaults
             _ when RemoveParens.IsMatch(dbTypeName) => Resolve(RemoveParens.Replace(dbTypeName, "")),
             _ => typeof(object),

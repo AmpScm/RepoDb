@@ -531,6 +531,11 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         Assert.AreEqual(2, await sql.InsertAllAsync(ftf, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
+        var r = await sql.UpdateAllAsync(ftf, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
+
+        if (sql.GetType().Name.Contains("Oracle") == false)
+            Assert.AreEqual(2, r);
+
         var data = (await sql.QueryAllAsync<FieldLengthTable>(cancellationToken: TestContext.CancellationToken)).ToArray();
 
         Assert.HasCount(2, data);

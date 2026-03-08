@@ -101,7 +101,7 @@ internal partial class Compiler
         parameterAssignmentExpressions.AddIfNotNull(dbParameterPostCreationExpression);
 
         // PropertyValueAttributes / DbField must precide
-        var propertyValueAttributeAssignmentExpressions = GetPropertyValueAttributeAssignmentExpressions(dbParameterExpression, classProperty);
+        var propertyValueAttributeAssignmentExpressions = GetParameterPropertyValueSetterAttributesAssignmentExpressions(dbParameterExpression, classProperty);
         parameterAssignmentExpressions.AddRangeIfNotNullOrNotEmpty(propertyValueAttributeAssignmentExpressions);
 
         // DbCommand.Parameters.Add

@@ -499,7 +499,7 @@ public static partial class DbConnectionExtension
                     context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                 }
 
-                var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
+                var fetchIdentity = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command);
 
                 // Prepare the command
                 if (doPrepare)
@@ -681,7 +681,7 @@ public static partial class DbConnectionExtension
 
                 // Prepare the command
 
-                var fetchIdentity = (dbh ??= (BaseDbHelper)GetDbHelper(command.Connection!)).PrepareForIdentityOutput(command);
+                var fetchIdentity = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command);
 
                 if (doPrepare)
                 {

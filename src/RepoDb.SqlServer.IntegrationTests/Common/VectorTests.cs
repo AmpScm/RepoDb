@@ -10,12 +10,19 @@ using RepoDb.TestCore;
 namespace RepoDb.SqlServer.IntegrationTests.Common;
 
 [TestClass]
-public class VectorTests : DbTestBase<SqlServerDbInstance>
+public class VectorTests : VectorTestsBase<SqlServerDbInstance>
 {
 
     protected override void InitializeCore() => Database.Initialize();
 
-    public override DbConnection CreateConnection() => new SqlConnection(Database.ConnectionString);
+    public override bool HaveVectorSupport()
+    {
+        using var sql = CreateConnection();
+
+        var info = DbRuntimeSettingCache.Get(sql, null);
+
+        return info?.EngineVersion.Major >= 17; // Vector support was added with SqlServer 2025
+    }
 
     class Vectors
     {
@@ -26,13 +33,12 @@ public class VectorTests : DbTestBase<SqlServerDbInstance>
     [TestMethod]
     public void RunVectorTest()
     {
+        if (!HaveVectorSupport())
+            return;
+
         using var connection = (SqlConnection)CreateConnection();
 
-        if (connection.GetDbHelper().GetDbConnectionRuntimeInformation(connection, null) is { } rti
-            && rti.EngineVersion.Major < 17)
-        {
-            return; // Vector support was added with SqlServer 2025
-        }
+        connection.EnsureOpen();
 
         string tableName = nameof(Vectors);
         var vectorDimensionCount = 3;

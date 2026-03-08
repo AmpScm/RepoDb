@@ -950,5 +950,6 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
     }
 
     public override string? JsonColumnType => "VARCHAR(max)";
+    public override string? VectorColumnType => "VECTOR";
     public override string IdentityDefinition => "IDENTITY(1,1)";
 }

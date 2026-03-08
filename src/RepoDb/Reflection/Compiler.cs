@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
@@ -985,7 +986,12 @@ internal sealed partial class Compiler
             var result = ConvertExpressionToRemoveNullableValue(expression);
 
             // Convert.To<Type>()
-            if (underlyingFromType.IsEnum)
+            if (ProviderSpecificTransforms.TryGetValue((fromType, toType), out var transform)
+                && transform?.Invoke(expression) is { } r)
+            {
+                result = r;
+            }
+            else if (underlyingFromType.IsEnum)
             {
                 if (underlyingToType == StaticType.String)
                 {
@@ -1201,13 +1207,21 @@ internal sealed partial class Compiler
 
     static object? WrapConvertChangeType(object? value, Type fromType, Type conversionType)
     {
+        var actualType = value?.GetType();
+
         try
         {
+            if (actualType is { } && ProviderSpecificTransforms.TryGetValue((actualType, conversionType), out var metaTransform)
+                && Expression.Parameter(actualType) is { } param
+                && metaTransform(param) is { } transform)
+            {
+                return Expression.Lambda(transform, param).Compile(true).DynamicInvoke(value);
+            }
             return Convert.ChangeType(value, conversionType, CultureInfo.InvariantCulture);
         }
         catch (Exception ex)
         {
-            throw MakeException(value?.GetType(), conversionType, fromType, ex);
+            throw MakeException(actualType, conversionType, fromType, ex);
         }
 
         static InvalidOperationException MakeException(Type? valueType, Type conversionType, Type fromType, Exception innerException)
@@ -2425,4 +2439,6 @@ internal sealed partial class Compiler
     }
 
     #endregion
+
+    public static ConcurrentDictionary<(Type fromType, Type toType), Func<Expression, Expression?>> ProviderSpecificTransforms = new();
 }

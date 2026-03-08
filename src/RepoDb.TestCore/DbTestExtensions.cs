@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json.Nodes;
+using RepoDb.Attributes.Parameter;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Resolvers;
@@ -29,14 +30,14 @@ public static class DbTestExtensions
         return sqlText;
     }
 
-    public static async Task CreateTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null, CancellationToken cancellationToken=default) where TEntity : class
+    public static async Task CreateTableAsync<TEntity>(this DbConnection connection, ITrace? trace = null, CancellationToken cancellationToken = default) where TEntity : class
     {
         var tableName = ClassMappedNameCache.Get<TEntity>();
 
         await CreateTableAsync<TEntity>(connection, tableName, trace, cancellationToken);
     }
 
-    public static async Task CreateTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null, CancellationToken cancellationToken=default) where TEntity : class
+    public static async Task CreateTableAsync<TEntity>(this DbConnection sql, string tableName, ITrace? trace = null, CancellationToken cancellationToken = default) where TEntity : class
     {
         var dbSetting = sql.GetDbSetting();
         var stmt = (BaseStatementBuilder)sql.GetStatementBuilder();
@@ -85,6 +86,12 @@ public static class DbTestExtensions
             {
                 columnTypeName = jsonColumnType;
             }
+            else if (typeof(ReadOnlyMemory<float>).IsAssignableFrom(type)
+                && sql.GetStatementBuilder() is BaseStatementBuilder bs2
+                && bs2.VectorColumnType is { } vectorColumnType)
+            {
+                columnTypeName = vectorColumnType;
+            }
             else
             {
                 var dbType =
@@ -98,11 +105,30 @@ public static class DbTestExtensions
                 columnTypeName = toDbField?.Resolve(dbType) ?? "TEXT";
             }
 
+            string? sizeFormat = null;
+            if (columnTypeName.Contains('('))
+            {
+                int n = columnTypeName.IndexOf('(');
+                sizeFormat = columnTypeName.Substring(n);
+                columnTypeName = columnTypeName.Substring(0, n).Trim();
+            }
+
             qb.WriteText(columnTypeName);
 
-            if (type == typeof(string) && !columnTypeName.Contains('(') && !string.Equals(columnTypeName, "text", StringComparison.OrdinalIgnoreCase))
+            if (prop.PropertyInfo.GetCustomAttribute<SizeAttribute>() is { } size)
+            {
+                if (sizeFormat?.Contains("{0}") == true)
+                    qb.WriteText(string.Format(sizeFormat, size.Size));
+                else
+                    qb.OpenParen().WriteText(size.Size.ToString()).CloseParen();
+            }
+            else if (type == typeof(string) && !columnTypeName.Contains('(') && !string.Equals(columnTypeName, "text", StringComparison.OrdinalIgnoreCase))
             {
                 qb.OpenParen().WriteText("255").CloseParen();
+            }
+            else if (sizeFormat is { } && !sizeFormat.Contains('{'))
+            {
+                qb.WriteText(sizeFormat);
             }
 
             bool isIdentity = (identityKey?.FieldName == prop.FieldName);
@@ -165,7 +191,8 @@ public static class DbTestExtensions
 
         qb.NewLine().CloseParen();
 
-        Debug.WriteLine(qb.ToString());
+        if (trace is null)
+            Debug.WriteLine(qb.ToString());
 
         await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace, cancellationToken: cancellationToken);
     }

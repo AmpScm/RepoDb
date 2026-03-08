@@ -956,5 +956,6 @@ public sealed class MySqlConnectorStatementBuilder : BaseStatementBuilder
     #endregion
 
     public override string? JsonColumnType => base.JsonColumnType;
+    public override string? VectorColumnType => "VECTOR";
     public override string IdentityDefinition => "AUTO_INCREMENT";
 }

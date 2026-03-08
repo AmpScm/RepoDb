@@ -208,8 +208,7 @@ public static class PropertyInfoExtension
     {
         ArgumentNullException.ThrowIfNull(property);
         var customAttributes = property
-            .GetCustomAttributes<PropertyValueAttribute>()
-            .ToHashSet();
+            .GetCustomAttributes<PropertyValueAttribute>();
 
         var mappedAttributes = PropertyValueAttributeMapper
             .Get(declaringType ?? property.DeclaringType!, property)

@@ -215,14 +215,27 @@ ORDER BY C.COLUMN_ID
     }
     #endregion
 
-    public override object? ParameterValueToDb(object? value, IDbDataParameter parameter) => value switch
+    public override object? ParameterValueToDb(object? value, IDbDataParameter parameter)
     {
+        switch(value)
+        {
 #if NET
-        DateOnly dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
-        TimeOnly to => to.ToTimeSpan(),
+            case DateOnly dateOnly:
+                return dateOnly.ToDateTime(TimeOnly.MinValue);
+
+            case TimeOnly to:
+                return to.ToTimeSpan();
 #endif
-        _ => base.ParameterValueToDb(value, parameter),
-    };
+            case float[]:
+                (parameter as OracleParameter)?.OracleDbType = OracleDbType.Vector_Float32;
+                return value;
+            case double[]:
+                (parameter as OracleParameter)?.OracleDbType = OracleDbType.Vector_Float64;
+                return value;
+            default:
+                return base.ParameterValueToDb(value, parameter);
+        }
+    }
 
     public override Func<object?> PrepareForIdentityOutput(DbCommand command)
     {
@@ -288,6 +301,31 @@ ORDER BY C.COLUMN_ID
         }
     }
 
+    public override void PrepareForBatchOperation(DbCommand command, int count)
+    {
+        OracleCommand cmd = (OracleCommand)command;
+        if (count <= 1 || !command.CommandText.StartsWith("/*FORALL*/", StringComparison.Ordinal))
+        {
+            cmd.ArrayBindCount = 0;
+        }
+        else
+        {
+            cmd.ArrayBindCount = count;
+            int nFields = cmd.Parameters.Count / count;
+
+            for (int i = 0; i < nFields; i++)
+            {
+                var p = (OracleParameter)cmd.Parameters[i];
+
+                var values = Enumerable.Range(0, count).Select(n => cmd.Parameters[i + n * nFields].Value).ToArray();
+                p.Value = values;
+            }
+
+            while (cmd.Parameters.Count > nFields)
+                cmd.Parameters.RemoveAt(cmd.Parameters.Count - 1);
+        }
+    }
+
     private const string QueryVersion = @"SELECT banner FROM v$version";
     private const string QueryProduct = @"SELECT PRODUCT, VERSION FROM PRODUCT_COMPONENT_VERSION WHERE PRODUCT LIKE 'Oracle%'";
 
@@ -344,4 +382,13 @@ ORDER BY C.COLUMN_ID
         };
     }
 
+    static OracleDbHelper()
+    {
+        ProviderSpecificTypeTransforms.TryAdd((typeof(ReadOnlyMemory<float>), typeof(float[])),
+            (fromExpr) => Expression.Convert(Expression.Call(fromExpr, "ToArray", null, []), typeof(float[]))
+        );
+        ProviderSpecificTypeTransforms.TryAdd((typeof(float[]), typeof(ReadOnlyMemory<float>)),
+            (fromExpr) => Expression.New(typeof(ReadOnlyMemory<float>).GetConstructor(new[] { typeof(float[]) })!, [ fromExpr ])
+        );
+    }
 }

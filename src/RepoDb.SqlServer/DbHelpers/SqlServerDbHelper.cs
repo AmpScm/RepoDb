@@ -1,7 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Common;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using Microsoft.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlTypes;
 using RepoDb.DbSettings;
@@ -189,7 +192,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
                         param.Schema,
                         param.TableName,
                         Columns = cols
-                    }))
+                    }, transaction: transaction))
             {
                 // base_type = 0 is float. 1 is half. others undefined
                 if (base_type == 1)
@@ -259,7 +262,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
                         param.Schema,
                         param.TableName,
                         Columns = cols
-                    }, cancellationToken: cancellationToken))
+                    }, transaction: transaction, cancellationToken: cancellationToken))
             {
                 // base_type = 0 is float. 1 is half. others undefined
                 if (base_type == 1)
@@ -496,13 +499,30 @@ public sealed class SqlServerDbHelper : BaseDbHelper
 
     public override object? ParameterValueToDb(object? value, IDbDataParameter parameter)
     {
-        if (value is DataTable table
-            && parameter is SqlParameter sp)
+        if (parameter is SqlParameter sp)
         {
-            sp.TypeName = table.TableName;
-            return table;
+            if (value is DataTable table)
+            {
+                sp.TypeName = table.TableName;
+                sp.SqlDbType = SqlDbType.Structured;
+                return table;
+            }
+            else if (value is SqlVector<float>)
+            {
+                sp.SqlDbType = SqlDbTypeExtensions.Vector; // Needed for prepare support
+            }
         }
 
         return base.ParameterValueToDb(value, parameter);
+    }
+
+    static SqlServerDbHelper()
+    {
+        ProviderSpecificTypeTransforms.TryAdd((typeof(ReadOnlyMemory<float>), typeof(SqlVector<float>)),
+            (fromExpr) => Expression.New(typeof(SqlVector<float>).GetConstructor([typeof(ReadOnlyMemory<float>)])!, [fromExpr])
+        );
+        ProviderSpecificTypeTransforms.TryAdd((typeof(SqlVector<float>), typeof(ReadOnlyMemory<float>)),
+            (fromExpr) => Expression.Property(fromExpr, nameof(SqlVector<>.Memory))
+        );
     }
 }

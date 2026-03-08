@@ -7,7 +7,7 @@ using RepoDb.Resolvers;
 namespace RepoDb.StatementBuilders;
 
 /// <summary>
-/// A class used to build a SQL Statement for PostgreSql.
+/// A class used to build a SQL Statement for Oracle.
 /// </summary>
 public sealed class OracleStatementBuilder : BaseStatementBuilder
 {
@@ -211,6 +211,11 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         return "/*FORALL*/" + CreateInsert(tableName, fields, keyFields, hints);
     }
 
+    public override string CreateUpdateAll(string tableName, IEnumerable<Field> fields, IEnumerable<Field> qualifiers, int batchSize, IEnumerable<DbField> keyFields, string? hints = null)
+    {
+        return "/*FORALL*/" + base.CreateUpdateAll(tableName, fields, qualifiers, 1, keyFields, hints);
+    }
+
     /// <inheritdoc cref="BaseStatementBuilder.CreateQuery"/>
     public override string CreateQuery(string tableName,
         IEnumerable<Field> fields,
@@ -277,6 +282,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
     }
 
     public override string? JsonColumnType => "JSON";
+    public override string? VectorColumnType => "VECTOR ({0}, FLOAT32)";
     public override string IdentityDefinition => "GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1)";
     public override bool? PrimaryBeforeIdentity => false;
 }

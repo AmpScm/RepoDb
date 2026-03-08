@@ -1,12 +1,15 @@
 ﻿using System.Collections;
+using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
 using System.Linq.Expressions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
+using RepoDb.Reflection;
 
 namespace RepoDb.DbSettings;
+
 public abstract class BaseDbHelper : IDbHelper
 {
     protected BaseDbHelper(IResolver<string, Type> dbResolver)
@@ -89,6 +92,7 @@ public abstract class BaseDbHelper : IDbHelper
 
     /// <inheritdoc />
     public virtual Func<object?>? PrepareForIdentityOutput(DbCommand command) => null;
+    public virtual void PrepareForBatchOperation(DbCommand command, int count) { }
 
     public virtual Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
     {
@@ -97,4 +101,6 @@ public abstract class BaseDbHelper : IDbHelper
         return Expression.Call(Expression.Constant(this),
             method, dbParameterExpression, Expression.Constant("RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]"));
     }
+
+    protected static ConcurrentDictionary<(Type fromType, Type toType), Func<Expression, Expression?>> ProviderSpecificTypeTransforms => Compiler.ProviderSpecificTransforms;
 }

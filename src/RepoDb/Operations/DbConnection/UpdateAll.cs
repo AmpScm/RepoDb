@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Transactions;
 using RepoDb.Contexts.Execution;
 using RepoDb.Contexts.Providers;
+using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
@@ -1337,7 +1338,8 @@ public static partial class DbConnectionExtension
 
         // Get the context
         var entityType = GetEntityType(entities);
-        UpdateAllExecutionContext ?context = null;
+        UpdateAllExecutionContext? context = null;
+        BaseDbHelper? dbh = null;
         var result = 0;
 
         // Create the command
@@ -1374,6 +1376,9 @@ public static partial class DbConnectionExtension
                 {
                     context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                 }
+
+
+                (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForBatchOperation(command, batchItems.Count);
 
                 // Prepare the command
                 if (doPrepare)
