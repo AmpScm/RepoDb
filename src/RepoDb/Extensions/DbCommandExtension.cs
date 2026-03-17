@@ -10,6 +10,7 @@ using RepoDb.Enumerations;
 using RepoDb.Exceptions;
 using RepoDb.Interfaces;
 using RepoDb.Options;
+using RepoDb.Reflection;
 using RepoDb.Resolvers;
 
 namespace RepoDb.Extensions;
@@ -706,7 +707,7 @@ public static class DbCommandExtension
         return false;
 
 
-        static object? AutomaticConvert(object? value, Type fromType, Type targetType)
+        static object? AutomaticConvert(object value, Type fromType, Type targetType)
         {
             if (fromType == null || targetType == null || fromType == targetType)
             {
@@ -773,7 +774,7 @@ public static class DbCommandExtension
                 return parser.Invoke(null, [value as string, CultureInfo.InvariantCulture]);
             }
 #if NET
-            else if (targetType == typeof(Half))
+            else if (targetType == typeof(Half) && fromType.IsBinaryIntFloatOrDecimal())
             {
                 return (Half?)(float?)Convert.ChangeType(value, typeof(float), CultureInfo.InvariantCulture);
             }
@@ -790,14 +791,24 @@ public static class DbCommandExtension
             {
                 return value;
             }
-
-            try
+            else if (Compiler.TryConvertViaProvider(value, targetType, fromType, out var newValue))
             {
-                return Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+                return newValue;
             }
-            catch (InvalidCastException e)
+            else if (value is IConvertible)
             {
-                throw new InvalidCastException($"While converting from {value?.GetType().FullName} to {targetType.FullName}: " + e.Message, e);
+                try
+                {
+                    return Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+                }
+                catch (InvalidCastException e)
+                {
+                    throw new InvalidCastException($"While converting from {value?.GetType().FullName} to {targetType.FullName}: " + e.Message, e);
+                }
+            }
+            else
+            {
+                return value;
             }
         }
     }

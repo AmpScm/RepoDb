@@ -284,6 +284,12 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
             }
             else if (MaybeUpdateNpgsqlParameterCallback?.Invoke(ref value, np) == true)
                 return value;
+#if NET
+            else if (value is Half h)
+                return (float)h; // Npgsql doesn't support Half, so convert to float
+#endif
+            else if (value is IFormattable)
+                return value; // Don't fall through for this case
         }
 
         return base.ParameterValueToDb(value, parameter);
