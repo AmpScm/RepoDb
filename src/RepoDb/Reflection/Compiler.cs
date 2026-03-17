@@ -931,7 +931,7 @@ internal sealed partial class Compiler
                 result = Expression.Call(result, numberFormatMethod, [Expression.Constant(CultureInfo.InvariantCulture, typeof(IFormatProvider))]);
             }
 #if NET
-            else if (toType == typeof(Half))
+            else if (toType == typeof(Half) && (underlyingFromType.IsBinaryIntFloatOrDecimal() || underlyingFromType == StaticType.Object))
             {
                 // System.Converter doesn't support half, nor does 99% of DotNet. Just fall through to float/single support and convert from there
 
@@ -965,17 +965,16 @@ internal sealed partial class Compiler
                 result = Expression.Condition(
                     Expression.TypeIs(expression, underlyingToType),
                     // This case happens in PostgreSql bulktests
-                    Expression.Convert(expression, underlyingToType),
-                    // And this case is currently not triggered in tests. Ultimate fallback but **SLOW** as it does runtime reflection. Not compiletime
-                    Expression.Convert(
-                        Expression.Call(systemChangeType,
-                        [
-                            ConvertExpressionToTypeExpression(result, StaticType.Object),
-                            Expression.Constant(fromType, typeof(Type)),
-                            Expression.Constant(underlyingToType, typeof(Type)),
-                        ]),
-                        underlyingToType)
-                    );
+                    Expression.Convert(expression, typeof(object)),
+                    // And this currently doesn't happen in tests, but hard failing because IConverable doesn't support types causes quite some issues
+                    Expression.Call(systemChangeType,
+                    [
+                        ConvertExpressionToTypeExpression(result, StaticType.Object),
+                        Expression.Constant(fromType, typeof(Type)),
+                        Expression.Constant(underlyingToType, typeof(Type)),
+                    ])
+                );
+
             }
 
             // Do we need manual NULL handling?
@@ -1011,13 +1010,15 @@ internal sealed partial class Compiler
 
         try
         {
-            if (actualType is { } && ProviderSpecificTransforms.TryGetValue((actualType, conversionType), out var metaTransform)
-                && Expression.Parameter(actualType) is { } param
-                && metaTransform(param) is { } transform)
+            if (actualType is { } && Compiler.TryConvertViaProvider(value, conversionType, actualType, out var newValue))
             {
-                return Expression.Lambda(transform, param).Compile(true).DynamicInvoke(value);
+                return newValue;
             }
-            return Convert.ChangeType(value, conversionType, CultureInfo.InvariantCulture);
+
+            if (value is IConvertible) // Convert.ChangeType only supports system types that support IConvertable
+                return Convert.ChangeType(value, conversionType, CultureInfo.InvariantCulture);
+            else
+                return value; // We can't convert it... fall through to the db provider, etc.
         }
         catch (Exception ex)
         {
@@ -1028,6 +1029,22 @@ internal sealed partial class Compiler
             => new InvalidOperationException($"No declared converter found to convert value of type '{valueType?.FullName ?? "null"}' (declared as'{fromType.FullName}') to type '{conversionType.FullName}', even via final reflection fallback.", innerException);
     }
 
+    internal static bool TryConvertViaProvider(object value, Type toType, Type valueType, out object? newValue)
+    {
+        // Perhaps the DB provider can do something smart here...
+        if (ProviderSpecificTransforms.TryGetValue((valueType, toType), out var metaTransform)
+            && Expression.Parameter(valueType) is { } param
+            && metaTransform(param) is { } transform)
+        {
+            newValue = Expression.Lambda(transform, param).Compile(true).DynamicInvoke(value);
+            return true;
+        }
+        else
+        {
+            newValue = null;
+            return false;
+        }
+    }
 
     private static Expression ConvertExpressionToPropertyHandlerGetExpression(Expression expression,
         Expression readerExpression,
