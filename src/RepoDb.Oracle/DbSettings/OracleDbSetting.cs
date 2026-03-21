@@ -49,6 +49,18 @@ public sealed record OracleDbSetting : BaseDbSetting
         else if (format.StartsWith("RIGHT({0}, "))
             return "SUBSTR({0}, -" + format.Substring("RIGHT({0}, ".Length);
 
-        return base.TranslateFunctionalFormat(format);
+        return format switch
+        {
+            DateTimePartQueryField.DateFormat => "TRUNC({0})",
+            DateTimePartQueryField.YearFormat => "EXTRACT(YEAR FROM {0})",
+            DateTimePartQueryField.MonthFormat => "EXTRACT(MONTH FROM {0})",
+            DateTimePartQueryField.DayFormat => "EXTRACT(DAY FROM {0})",
+            DateTimePartQueryField.HourFormat => "EXTRACT(HOUR FROM {0})",
+            DateTimePartQueryField.MinuteFormat => "EXTRACT(MINUTE FROM {0})",
+            DateTimePartQueryField.SecondFormat => "TRUNC(EXTRACT(SECOND FROM {0}))",
+            DateTimePartQueryField.MillisecondFormat => "MOD(EXTRACT(SECOND FROM {0}) * 1000, 1000)",
+
+            _ => base.TranslateFunctionalFormat(format)
+        };
     }
 }

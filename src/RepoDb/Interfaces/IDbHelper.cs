@@ -74,15 +74,6 @@ public interface IDbHelper
     #region DynamicHandler
 
     /// <summary>
-    /// A backdoor access from the core library used to handle an instance of an object to whatever purpose within the extended library.
-    /// </summary>
-    /// <typeparam name="TEventInstance">The type of the event instance to handle.</typeparam>
-    /// <param name="instance">The instance of the event object to handle.</param>
-    /// <param name="key">The key of the event to handle.</param>
-    void DynamicHandler<TEventInstance>(TEventInstance instance,
-        string key);
-
-    /// <summary>
     ///
     /// </summary>
     /// <param name="connection"></param>

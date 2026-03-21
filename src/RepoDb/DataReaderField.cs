@@ -1,8 +1,11 @@
-﻿namespace RepoDb;
+﻿using System.Diagnostics;
+
+namespace RepoDb;
 
 /// <summary>
 /// A class that is being used to handle the field definition of the data reader.
 /// </summary>
+[DebuggerDisplay($"{{{nameof(Name)},nq}} ({{{nameof(Type)},nq}})")]
 internal record DataReaderField
 {
     /// <summary>

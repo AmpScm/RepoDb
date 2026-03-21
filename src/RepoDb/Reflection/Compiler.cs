@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -28,6 +29,7 @@ internal sealed partial class Compiler
     /// <summary>
     /// A class that contains both the instance of <see cref="RepoDb.ClassProperty"/> and <see cref="System.Reflection.ParameterInfo"/> objects.
     /// </summary>
+    [DebuggerDisplay($"{{{nameof(DebuggerDisplay)},nq}}")]
     private sealed class ClassPropertyParameterInfo
     {
         private string? descriptiveContextString;
@@ -93,22 +95,22 @@ internal sealed partial class Compiler
         /// Returns the string that represents this object.
         /// </summary>
         /// <returns>The presented string.</returns>
-        public override string ToString() =>
+        private string DebuggerDisplay =>
             string.Concat("TargetType = ", GetTargetType()?.FullName, ", ClassProperty = ", ClassProperty?.ToString(), ", ",
                 "ParameterInfo = ", ParameterInfo?.ToString(), ")", ", TargetType = ", TargetType?.ToString(), ", ");
     }
 
-    private struct FieldDirection
+    private readonly struct FieldDirection
     {
-        public int Index { get; set; }
-        public DbField DbField { get; set; }
-        public ParameterDirection Direction { get; set; }
+        public int Index { get; init; }
+        public DbField DbField { get; init; }
+        public ParameterDirection Direction { get; init; }
     }
 
     /// <summary>
     /// A class that contains both the property <see cref="MemberAssignment"/> object and the constructor argument <see cref="Expression"/> value.
     /// </summary>
-    private class MemberBinding
+    private sealed class MemberBinding
     {
         /// <summary>
         /// Gets the instance of <see cref="ClassProperty"/> object in used.
@@ -1029,7 +1031,7 @@ internal sealed partial class Compiler
             => new InvalidOperationException($"No declared converter found to convert value of type '{valueType?.FullName ?? "null"}' (declared as'{fromType.FullName}') to type '{conversionType.FullName}', even via final reflection fallback.", innerException);
     }
 
-    internal static bool TryConvertViaProvider(object value, Type toType, Type valueType, out object? newValue)
+    internal static bool TryConvertViaProvider(object? value, Type toType, Type valueType, out object? newValue)
     {
         // Perhaps the DB provider can do something smart here...
         if (ProviderSpecificTransforms.TryGetValue((valueType, toType), out var metaTransform)
@@ -1399,7 +1401,7 @@ internal sealed partial class Compiler
         var classProperties = GetClassPropertyParameterInfos<TResult>(readerFieldsName);
 
         // Check the presence
-        if (classProperties?.Count is not > 0)
+        if (classProperties is not { Count: > 0 })
         {
             return [];
         }
@@ -1640,8 +1642,7 @@ internal sealed partial class Compiler
         ParameterExpression propertyExpression,
         ClassProperty? classProperty,
         DbField dbField,
-        ParameterExpression dbCommandExpression,
-        IDbHelper? dbHelper)
+        ParameterExpression dbCommandExpression)
     {
         var expression = propertyExpression.Type == StaticType.PropertyInfo
             ? GetObjectInstancePropertyValueExpression(propertyExpression, entityExpression, dbField)

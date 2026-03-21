@@ -12,7 +12,7 @@ public sealed class LengthQueryField : FunctionalQueryField
     /// <summary>
     ///
     /// </summary>
-    public static readonly string LengthFormat = "LENGTH({0})";
+    public const string LengthFormat = "LENGTH({0})";
 
     #region Constructors
 

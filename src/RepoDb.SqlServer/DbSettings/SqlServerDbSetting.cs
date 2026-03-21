@@ -35,12 +35,19 @@ public sealed record SqlServerDbSetting : BaseDbSetting
 
     /// <inheritdoc />
     protected override string TranslateFunctionalFormat(string format)
-    {
-        if (format == LengthQueryField.LengthFormat)
-            return "LEN({0})";
-        else if (format == JsonExtractQueryField.JsonExtractFormat)
-            return "JSON_VALUE({0}, @@path@@)";
+        => format switch
+        {
+            LengthQueryField.LengthFormat => "LEN({0})",
+            JsonExtractQueryField.JsonExtractFormat => "JSON_VALUE({0}, @@path@@)",
+            DateTimePartQueryField.YearFormat => "DATEPART(yyyy, {0})",
+            DateTimePartQueryField.MonthFormat => "DATEPART(m, {0})",
+            DateTimePartQueryField.DayFormat => "DATEPART(d, {0})",
+            DateTimePartQueryField.HourFormat => "DATEPART(hh, {0})",
+            DateTimePartQueryField.MinuteFormat => "DATEPART(mi, {0})",
+            DateTimePartQueryField.SecondFormat => "DATEPART(ss, {0})",
+            DateTimePartQueryField.MillisecondFormat => "DATEPART(ms, {0})",
+            DateTimePartQueryField.DateFormat => "CAST({0} AS DATE)",
+            _ => base.TranslateFunctionalFormat(format)
 
-        return base.TranslateFunctionalFormat(format);
-    }
+        };
 }

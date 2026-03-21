@@ -3,7 +3,7 @@
 /// <summary>
 /// An exception that is being thrown if the primary key is not found from the data entity.
 /// </summary>
-public class PrimaryFieldNotFoundException : Exception
+public class PrimaryFieldNotFoundException : ArgumentException
 {
     /// <summary>
     /// Creates a new instance of <see cref="PrimaryFieldNotFoundException"/> class.

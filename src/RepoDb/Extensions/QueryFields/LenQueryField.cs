@@ -7,6 +7,7 @@ namespace RepoDb.Extensions.QueryFields;
 /// A functional-based <see cref="QueryField"/> object that is using the LEN function.
 /// This only works on SQL Server database provider.
 /// </summary>
+[Obsolete("Please use the LengthQueryField instead, which now works on all standard database providers.")]
 public sealed class LenQueryField : FunctionalQueryField
 {
     #region Constructors

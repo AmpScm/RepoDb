@@ -13,13 +13,13 @@ public class PropertyMappedNameResolver : IResolver<PropertyInfo, Type, string>
     /// Resolves the cached column name mappings of the property.
     /// </summary>
     /// <param name="propertyInfo">The target property.</param>
-    /// <param name="declaringType">The declaring type of the target property. Usually, the type of the parent derived class, not the base class.</param>
+    /// <param name="entityType">The entity type of the target property. Usually, the type of the parent derived class, not the base class.</param>
     /// <returns>The cached column name mappings of the property.</returns>
-    public string Resolve(PropertyInfo propertyInfo,
-        Type declaringType)
+    public string Resolve(PropertyInfo propertyInfo, Type? entityType)
     {
         ArgumentNullException.ThrowIfNull(propertyInfo);
-        return PropertyInfoExtension.GetMappedName(propertyInfo, declaringType ?? propertyInfo.DeclaringType!);
+
+        return PropertyInfoExtension.GetMappedName(propertyInfo, entityType);
     }
 
     /// <summary>

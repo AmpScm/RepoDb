@@ -534,6 +534,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(reader);
         // Validate
         if (!reader.HasRows)
         {

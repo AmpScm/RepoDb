@@ -223,36 +223,6 @@ internal static class FunctionCache
 
     #endregion
 
-    #region GetDbCommandToPropertyCompiledFunction
-
-    internal static Action<TEntity, DbCommand> GetDbCommandToPropertyCompiledFunction<TEntity>(Field field,
-        string parameterName,
-        int index,
-        IDbSetting? dbSetting = null)
-        where TEntity : class =>
-        DbCommandToPropertyCache<TEntity>.Get(field, parameterName, index, dbSetting);
-
-    #region DbCommandToPropertyCache
-
-    private static class DbCommandToPropertyCache<TEntity>
-        where TEntity : class
-    {
-        private static readonly ConcurrentDictionary<(Type Type, Field Field, string Name, int Index), Action<TEntity, DbCommand>> cache = new();
-
-        internal static Action<TEntity, DbCommand> Get(Field field,
-            string parameterName,
-            int index,
-            IDbSetting? dbSetting = null)
-        {
-            var key = (typeof(TEntity), field, parameterName, index);
-            return cache.GetOrAdd(key, (_) => FunctionFactory.CompileDbCommandToProperty<TEntity>(field, parameterName, index, dbSetting));
-        }
-    }
-
-    #endregion
-
-    #endregion
-
     #region GetDataEntityPropertySetterCompiledFunction
 
     internal static Action<object, object?> GetDataEntityPropertySetterCompiledFunction(Type entityType,

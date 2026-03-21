@@ -514,6 +514,7 @@ public static partial class SqlConnectionExtension
         SqlTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(reader);
         // Validate
         if (!reader.HasRows)
         {

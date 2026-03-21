@@ -23,18 +23,22 @@ namespace System.Runtime.CompilerServices
         }
     }
 
-    [System.AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
     internal sealed class CompilerFeatureRequiredAttribute : Attribute
     {
+        public const string RefStructs = nameof(RefStructs);
+        public const string RequiredMembers = nameof(RequiredMembers);
+
         public CompilerFeatureRequiredAttribute(string featureName)
         {
             FeatureName = featureName ?? throw new ArgumentNullException(nameof(featureName));
         }
 
         public string FeatureName { get; }
+        public bool IsOptional { get; init; }
     }
 
-    [System.AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
     internal sealed class CallerArgumentExpressionAttribute : Attribute
     {
         public CallerArgumentExpressionAttribute(string parameterName)
@@ -321,7 +325,6 @@ namespace RepoDb
 #else
             dbTransaction.Commit();
 #endif
-
         }
 
         public static async ValueTask RollbackAsync(this IDbTransaction dbTransaction, CancellationToken cancellationToken = default)
@@ -347,8 +350,16 @@ namespace RepoDb
             ArgumentNullException.ThrowIfNull(dbCommand);
             GC.KeepAlive(cancellationToken);
             dbCommand.Prepare();
-            // PrepareAsync is not available in netstandard2.0
-            // This is a no-op to maintain compatibility
+            return Task.CompletedTask;
+        }
+
+        public static Task ChangeDatabaseAsync(this DbConnection connection, string databaseName, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(connection);
+            ArgumentException.ThrowIfNullOrEmpty(databaseName);
+            GC.KeepAlive(cancellationToken);
+
+            connection.ChangeDatabase(databaseName);
             return Task.CompletedTask;
         }
 #endif
@@ -374,53 +385,6 @@ namespace RepoDb
         internal static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) => [.. source];
 #endif
 
-    }
-
-
-    internal static partial class AsyncEnumerable
-    {
-        /// <summary>Creates a list from an <see cref="IAsyncEnumerable{T}"/>.</summary>
-        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
-        /// <param name="source">An <see cref="IEnumerable{T}"/> to create a list from.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
-        /// <returns>A list that contains the elements from the input sequence.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null" />.</exception>
-        public static ValueTask<List<TSource>> ToListAsync<TSource>(
-            this IAsyncEnumerable<TSource> source,
-            CancellationToken cancellationToken = default)
-        {
-            ArgumentNullException.ThrowIfNull(source);
-
-            return Impl(source, cancellationToken);
-
-            static async ValueTask<List<TSource>> Impl(IAsyncEnumerable<TSource> source, CancellationToken cancellationToken)
-            {
-                List<TSource> list = [];
-                await foreach (TSource element in source.ConfigureAwait(false))
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    list.Add(element);
-                }
-
-                return list;
-            }
-        }
-
-        public static IAsyncEnumerable<TElement> ToAsyncEnumerable<TElement>(this IEnumerable<TElement> source, CancellationToken cancellationToken = default)
-        {
-            ArgumentNullException.ThrowIfNull(source);
-
-            return Impl(source, cancellationToken);
-
-            static async IAsyncEnumerable<TElement> Impl(IEnumerable<TElement> source, [EnumeratorCancellation] CancellationToken cancellationToken)
-            {
-                foreach (var i in source)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    yield return i;
-                }
-            }
-        }
 
         internal static T GetAt<T>(this ArraySegment<T> segment, int index)
         {
@@ -434,6 +398,29 @@ namespace RepoDb
             return segment.Array![segment.Offset + index];
 #endif
         }
+
+#if !NET
+        public static IEnumerable<(TFirst First, TSecond Second)> Zip<TFirst, TSecond>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second)
+            => first.Zip(second, (a, b) => (a, b));
+
+        public static IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
+            => first.Zip(second.Zip(third, (b, c) => (b, c)), (a, bc) => (a, bc.b, bc.c));
+
+
+        extension(TimeSpan)
+        {
+            public static TimeSpan FromMicroseconds(long microseconds)
+            {
+                return TimeSpan.FromTicks(microseconds * (TimeSpan.TicksPerMillisecond / 1000));
+            }
+
+            public static TimeSpan FromMilliseconds(long milliseconds)
+            {
+                return TimeSpan.FromTicks(milliseconds * TimeSpan.TicksPerMillisecond);
+            }
+        }
+
+#endif
 
         /// <summary>
         ///
@@ -487,5 +474,52 @@ namespace RepoDb
             IEnumerable<OrderField>? orderBy = null,
             string? hints = null)
             => statementBuilder.CreateQuery(tableName, fields, where: null, orderBy, offset: 0, take: 0, hints: hints);
+    }
+
+
+    internal static partial class AsyncEnumerable
+    {
+        /// <summary>Creates a list from an <see cref="IAsyncEnumerable{T}"/>.</summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}"/> to create a list from.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A list that contains the elements from the input sequence.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null" />.</exception>
+        public static ValueTask<List<TSource>> ToListAsync<TSource>(
+            this IAsyncEnumerable<TSource> source,
+            CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            return Impl(source, cancellationToken);
+
+            static async ValueTask<List<TSource>> Impl(IAsyncEnumerable<TSource> source, CancellationToken cancellationToken)
+            {
+                List<TSource> list = [];
+                await foreach (TSource element in source.ConfigureAwait(false))
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    list.Add(element);
+                }
+
+                return list;
+            }
+        }
+
+        public static IAsyncEnumerable<TElement> ToAsyncEnumerable<TElement>(this IEnumerable<TElement> source, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            return Impl(source, cancellationToken);
+
+            static async IAsyncEnumerable<TElement> Impl(IEnumerable<TElement> source, [EnumeratorCancellation] CancellationToken cancellationToken)
+            {
+                foreach (var i in source)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    yield return i;
+                }
+            }
+        }
     }
 }

@@ -153,7 +153,12 @@ public class CancellableTraceLog : TraceLog
         }
         else if (value is IFormattable f)
         {
-            return f.ToString(null, CultureInfo.InvariantCulture);
+            return f.ToString(
+                f switch
+                {
+                    DateTime or DateTimeOffset => "o",
+                    _ => null,
+                }, CultureInfo.InvariantCulture);
         }
         else
             return value.ToString();

@@ -1,4 +1,6 @@
-﻿namespace RepoDb.DbSettings;
+﻿using RepoDb.Extensions.QueryFields;
+
+namespace RepoDb.DbSettings;
 
 /// <summary>
 /// A setting class used for SQLite data provider.
@@ -40,6 +42,17 @@ public sealed record SqLiteDbSetting : BaseDbSetting
             return "SUBSTR({0}, -" + format.Substring("RIGHT({0}, ".Length);
 #pragma warning restore CA1845 // Use span-based 'string.Concat'
 
-        return base.TranslateFunctionalFormat(format);
+        return format switch
+        {
+            DateTimePartQueryField.YearFormat => "CAST(STRFTIME('%Y', {0}) AS INTEGER)",
+            DateTimePartQueryField.MonthFormat => "CAST(STRFTIME('%m', {0}) AS INTEGER)",
+            DateTimePartQueryField.DayFormat => "CAST(STRFTIME('%d', {0}) AS INTEGER)",
+            DateTimePartQueryField.HourFormat => "CAST(STRFTIME('%H', {0}) AS INTEGER)",
+            DateTimePartQueryField.MinuteFormat => "CAST(STRFTIME('%M', {0}) AS INTEGER)",
+            DateTimePartQueryField.SecondFormat => "CAST(STRFTIME('%S', {0}) AS INTEGER)",
+            DateTimePartQueryField.MillisecondFormat => "CAST(strftime('%f', {0}) * 1000 AS INTEGER) % 1000",
+            DateTimePartQueryField.DateFormat => "STRFTIME('%Y-%m-%d 00:00:00', {0})", // Standard DotNet date doesn't have msecs added
+            _ => base.TranslateFunctionalFormat(format)
+        };
     }
 }

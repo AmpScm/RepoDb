@@ -46,10 +46,11 @@ public static class PropertyCache
     /// <param name="propertyName">The name of the property.</param>
     /// <param name="includeMappings">True to evaluate the existing mappings.</param>
     /// <returns>The instance of cached <see cref="ClassProperty"/> object.</returns>
-    public static ClassProperty? Get(Type? entityType,
+    public static ClassProperty? Get(Type entityType,
         string propertyName,
         bool includeMappings = false)
     {
+        ArgumentNullException.ThrowIfNull(entityType);
         ArgumentNullException.ThrowIfNull(propertyName);
 
         // Return the value
@@ -78,10 +79,11 @@ public static class PropertyCache
     /// <param name="field">The instance of the <see cref="Field"/> object.</param>
     /// <param name="includeMappings">True to evaluate the existing mappings.</param>
     /// <returns>The instance of cached <see cref="ClassProperty"/> object.</returns>
-    public static ClassProperty? Get(Type? entityType,
+    public static ClassProperty? Get(Type entityType,
         Field field,
         bool includeMappings = false)
     {
+        ArgumentNullException.ThrowIfNull(entityType);
         ArgumentNullException.ThrowIfNull(field);
 
         // Return the value
@@ -102,7 +104,7 @@ public static class PropertyCache
         ArgumentNullException.ThrowIfNull(propertyInfo);
 
         // Return the value
-        return Get(entityType, propertyInfo.Name, includeMappings);
+        return Get(entityType ?? propertyInfo.DeclaringType!, propertyInfo.Name, includeMappings);
     }
 
     /// <summary>
@@ -119,9 +121,11 @@ public static class PropertyCache
     /// </summary>
     /// <param name="entityType">The type of the data entity.</param>
     /// <returns>The cached list <see cref="ClassProperty"/> objects.</returns>
-    public static IEnumerable<ClassProperty> Get(Type? entityType)
+    public static IEnumerable<ClassProperty> Get(Type entityType)
     {
-        if (entityType is null || !TypeCache.Get(entityType).IsClassType)
+        ArgumentNullException.ThrowIfNull(entityType);
+
+        if (!TypeCache.Get(entityType).IsClassType)
         {
             return [];
         }

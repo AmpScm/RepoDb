@@ -3,7 +3,7 @@
 /// <summary>
 /// An exception that is being thrown if the qualifier fields are not found from the request.
 /// </summary>
-public class MissingQualifierFieldsException : Exception
+public class MissingQualifierFieldsException : ArgumentException
 {
     /// <summary>
     /// Creates a new instance of <see cref="MissingQualifierFieldsException"/> class.

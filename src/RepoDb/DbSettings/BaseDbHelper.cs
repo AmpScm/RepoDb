@@ -12,7 +12,7 @@ using RepoDb.StatementBuilders;
 namespace RepoDb.DbSettings;
 
 /// <summary>
-///
+/// Standard implementation of <see cref="IDbHelper"/>. Should be used as baseclass by every RepoDb type implementation.
 /// </summary>
 public abstract class BaseDbHelper : IDbHelper
 {
@@ -88,9 +88,6 @@ public abstract class BaseDbHelper : IDbHelper
         return CreateTableParameter(connection, transaction, fieldType, values, "Q") is not null;
     }
 
-    /// <inheritdoc />
-    public virtual void DynamicHandler<TEventInstance>(TEventInstance instance, string key)
-    { }
 
     /// <summary>
     ///
@@ -170,11 +167,7 @@ public abstract class BaseDbHelper : IDbHelper
     /// <returns></returns>
     public virtual Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
     {
-        ArgumentNullException.ThrowIfNull(dbParameterExpression);
-        var method = StaticType.IDbHelper.GetMethod(nameof(IDbHelper.DynamicHandler))!
-            .MakeGenericMethod(dbParameterExpression.Type);
-        return Expression.Call(Expression.Constant(this),
-            method, dbParameterExpression, Expression.Constant("RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]"));
+        return null;
     }
 
     /// <summary>

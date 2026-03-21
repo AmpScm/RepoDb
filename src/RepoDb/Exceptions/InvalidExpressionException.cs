@@ -3,7 +3,7 @@
 /// <summary>
 /// An exception that is being thrown when the query expression passed is not valid.
 /// </summary>
-public class InvalidExpressionException : Exception
+public class InvalidExpressionException : ArgumentOutOfRangeException
 {
     /// <summary>
     /// Creates a new instance of <see cref="InvalidExpressionException"/> class.

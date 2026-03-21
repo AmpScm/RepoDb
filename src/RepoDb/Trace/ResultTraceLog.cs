@@ -16,6 +16,7 @@ public class ResultTraceLog<TResult> : TraceLog
     /// <param name="beforeExecutionLog"></param>
     protected internal ResultTraceLog(
         long sessionId,
+
         string? key,
         TResult result,
         TimeSpan executionTime,

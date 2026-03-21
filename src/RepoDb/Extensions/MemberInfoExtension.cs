@@ -16,25 +16,56 @@ internal static class MemberInfoExtension
     internal static string GetMappedName(this MemberInfo member) =>
         member is PropertyInfo memberInfo ? PropertyMappedNameCache.Get(memberInfo) : member.Name;
 
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="MemberInfo"/> object.
-    /// </summary>
-    /// <param name="member">The instance of <see cref="MemberInfo"/> object where the value is to be extracted.</param>
-    /// <param name="obj">The object whose member value will be returned.</param>
-    /// <param name="parameters">The argument list of parameters if needed.</param>
-    /// <returns>The extracted value from <see cref="MemberInfo"/> object.</returns>
-    internal static object? GetValue(this MemberInfo member,
+    internal static bool TryGetValue(this MemberInfo member,
         object? obj,
-        object[]? parameters = null)
+        object?[]? parameters,
+        out object? value)
     {
-        return member switch
+        if (member is FieldInfo fieldInfo)
         {
-            FieldInfo fieldInfo => fieldInfo.GetValue(obj),
-            PropertyInfo propertyInfo => propertyInfo.GetValue(obj),
-            MethodInfo methodInfo when methodInfo.DeclaringType?.IsSpan() == true && methodInfo.Name == "op_Implicit" => parameters?[0],
-            MethodInfo methodInfo => methodInfo.Invoke(obj, parameters),
-            _ => null
-        };
+            value = fieldInfo.GetValue(obj);
+            return true;
+        }
+        else if (member is PropertyInfo propertyInfo)
+        {
+            if ((propertyInfo.GetMethod ?? propertyInfo.SetMethod)!.IsStatic != (obj == null))
+            {
+                if (member.DeclaringType?.IsGenericType == true && member.DeclaringType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    if (propertyInfo.Name == nameof(Nullable<>.HasValue))
+                    {
+                        value = obj is not null;
+                        return true;
+                    }
+                    else if (propertyInfo.Name == nameof(Nullable<>.Value))
+                    {
+                        value = obj;
+                        return true;
+                    }
+                }
+                value = null;
+                return false;
+            }
+
+            value = propertyInfo.GetValue(obj);
+            return true;
+        }
+        else if (member is MethodInfo methodInfo)
+        {
+            if (methodInfo is { IsSpecialName: true, Name: "op_Implicit" } m && m.DeclaringType?.IsSpan() == true)
+            {
+                value = parameters?[0];
+                return parameters is { Length: 1 };
+            }
+            else
+            {
+                value = methodInfo.Invoke(obj, parameters);
+                return true;
+            }
+        }
+
+        value = null;
+        return false;
     }
 
     /// <summary>
@@ -51,10 +82,12 @@ internal static class MemberInfoExtension
         {
             fieldInfo.SetValue(obj, value);
         }
-        else if (member is PropertyInfo propertyInfo)
+        else if (member is PropertyInfo { CanWrite: true } propertyInfo)
         {
             propertyInfo.SetValue(obj, value);
         }
+        else
+            throw new ArgumentException($"Can't set value of {member.Name} on {obj?.GetType().FullName ?? "null"}");
     }
 
     #region Helpers

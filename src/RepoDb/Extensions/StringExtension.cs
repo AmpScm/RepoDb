@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using RepoDb.Interfaces;
-#if NET8_0_OR_GREATER
+#if NET
 using System.Buffers;
 #endif
 
@@ -114,7 +114,7 @@ public static partial class StringExtension
         IDbSetting? dbSetting) =>
         AsUnquoted(value, false, dbSetting);
 
-#if NET8_0_OR_GREATER
+#if NET
     private static readonly SearchValues<char> unquotedChars = SearchValues.Create(['`', '"', ' ', '[']);
 #endif
     /// <summary>
@@ -131,7 +131,7 @@ public static partial class StringExtension
             return value;
         }
 
-#if NET8_0_OR_GREATER
+#if NET
         if (!value.ContainsAny(unquotedChars))
         {
             return value;

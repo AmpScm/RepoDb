@@ -512,7 +512,7 @@ public static class DbCommandExtension
         // Variables
         var dbField = GetDbField(fieldName, dbFields);
         var value = queryField.Parameter.Value;
-        var classProperty = PropertyCache.Get(entityType, queryField.Field, true);
+        var classProperty = entityType is { } ? PropertyCache.Get(entityType, queryField.Field, true) : null;
         var (direction, fallbackType, size) = queryField is DirectionalQueryField n ?
             (
                 n.Direction,

@@ -417,7 +417,10 @@ public static partial class DbConnectionExtension
             int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count();
 
             await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
-            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
+#if NET
+            await
+#endif
+            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await ((DbConnection)connection).BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
 
             transaction ??= myTransaction;
             int deleted = 0;
@@ -582,7 +585,10 @@ public static partial class DbConnectionExtension
             int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count();
 
             await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
-            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
+#if NET
+            await
+#endif
+            using var myTransaction = transaction is null && chunkSize < entities.Count() ? await ((DbConnection)connection).BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
 
             transaction ??= myTransaction;
             int deleted = 0;
@@ -1024,7 +1030,10 @@ public static partial class DbConnectionExtension
 
         await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
         var parameterBatchCount = connection.GetDbSetting().MaxParameterCount;
-        using var myTransaction = transaction is null && count > parameterBatchCount ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
+#if NET
+        await
+#endif
+        using var myTransaction = transaction is null && count > parameterBatchCount ? await ((DbConnection)connection).BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
         transaction ??= myTransaction;
 
         if (count > dbSetting.UseArrayParameterTreshold

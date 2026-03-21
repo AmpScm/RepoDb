@@ -13,6 +13,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Data.Common" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\\RepoDb\RepoDb.csproj" />
   </ItemGroup>

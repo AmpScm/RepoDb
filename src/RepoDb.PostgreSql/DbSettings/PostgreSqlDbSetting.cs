@@ -72,10 +72,16 @@ public sealed record PostgreSqlDbSetting : BaseDbSetting
 
     /// <inheritdoc />
     protected override string TranslateFunctionalFormat(string format)
-    {
-        if (format == JsonExtractQueryField.JsonExtractFormat)
-            return "{0}";
-
-        return base.TranslateFunctionalFormat(format);
-    }
+        => format switch
+        {
+            JsonExtractQueryField.JsonExtractFormat => "{0}",
+            DateTimePartQueryField.YearFormat => "EXTRACT(YEAR FROM {0})",
+            DateTimePartQueryField.MonthFormat => "EXTRACT(MONTH FROM {0})",
+            DateTimePartQueryField.DayFormat => "EXTRACT(DAY FROM {0})",
+            DateTimePartQueryField.HourFormat => "EXTRACT(HOUR FROM {0})",
+            DateTimePartQueryField.MinuteFormat => "EXTRACT(MINUTE FROM {0})",
+            DateTimePartQueryField.SecondFormat => "TRUNC(EXTRACT(SECOND FROM {0}))",
+            DateTimePartQueryField.MillisecondFormat => "(EXTRACT(MILLISECOND FROM {0}) % 1000)",
+            _ => base.TranslateFunctionalFormat(format)
+        };
 }

@@ -11,7 +11,7 @@ namespace RepoDb;
 /// Database representation of a Json node with the specified format. RepoDb will take care of converting to and from json
 /// </summary>
 /// <typeparam name="T"></typeparam>
-[DebuggerDisplay($"{{DebuggerDisplay}}")]
+[DebuggerDisplay($"{{{nameof(DebuggerDisplay)},nq}}")]
 public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquatable<DbJsonValue<T>>
 #if NET
     , IParsable<DbJsonValue<T>>, IUtf8SpanParsable<DbJsonValue<T>>

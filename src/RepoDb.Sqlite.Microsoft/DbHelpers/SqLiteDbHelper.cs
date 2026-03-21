@@ -41,19 +41,30 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     private DbField ReaderToDbField(DbDataReader reader,
         string? identityFieldName)
     {
-        var dbType = SplitDbType(reader.IsDBNull(2) ? "" : reader.GetString(2), out var size);
-
-        if (dbType?.Length == 0)
+        if (reader.IsDBNull(2) || SplitDbType(reader.GetString(2), out var size, out var scale) is not { } dbType)
+        {
             dbType = null;
+            size = null;
+            scale = null;
+        }
+
+        var type = DbTypeResolver.Resolve(dbType ?? "text") ?? typeof(object);
+
+        byte? precision = null;
+        if (size is { } && type != typeof(string) && !type.IsArray)
+        {
+            precision = (byte?)size;
+            size = null;
+        }
 
         return new DbField(reader.GetString(1),
             !reader.IsDBNull(5) && reader.GetBoolean(5),
             string.Equals(reader.GetString(1), identityFieldName, StringComparison.OrdinalIgnoreCase),
             reader.IsDBNull(3) || !reader.GetBoolean(3),
-            DbTypeResolver.Resolve(dbType ?? "text") ?? typeof(object),
+            type,
             size,
-            null,
-            null,
+            precision,
+            scale,
             dbType,
             !reader.IsDBNull(4),
             reader.GetInt32(reader.FieldCount - 1) is 2 /* dynamic generated */ or 3 /* stored generated */,
@@ -61,16 +72,17 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     }
 
 #if NET
-    [GeneratedRegex(@"\((\d+)(,(\d+))*\)$")]
+    [GeneratedRegex(@"\s*\(\s*(\d+)\s*(,\s*(\d+)\s*)?\)?$")]
     private static partial Regex FieldTypeRegex();
 #else
-    private static readonly Regex re = new Regex(@"\((\d+)(,(\d+))*\)$", RegexOptions.Compiled);
+    private static readonly Regex re = new Regex(@"\s*\(\s*(\d+)\s*(,\s*(\d+)\s*)?\)?$", RegexOptions.Compiled);
     private static Regex FieldTypeRegex() => re;
 #endif
 
-    private static string? SplitDbType(string v, out int? size)
+    private static string? SplitDbType(string v, out int? size, out byte? scale)
     {
         size = null;
+        scale = null;
 
         if (FieldTypeRegex().Match(v) is { } r && r.Success)
         {
@@ -79,8 +91,15 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
             {
                 size = s;
             }
+            if (r.Groups[3].Success && byte.TryParse(r.Groups[3].Value, out var vs))
+            {
+                scale = vs;
+            }
             v = v.Substring(0, r.Index);
         }
+
+        if (string.IsNullOrWhiteSpace(v))
+            return null;
 
         return v;
     }

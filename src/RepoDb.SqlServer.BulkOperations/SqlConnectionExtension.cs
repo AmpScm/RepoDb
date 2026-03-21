@@ -152,10 +152,6 @@ public static partial class SqlConnectionExtension
         where TEntity : class =>
         qualifiers != null ? Field.Parse<TEntity>(qualifiers) : default;
 
-    private static string GetTableName(string tableName,
-        IDbSetting dbSetting) =>
-        DataEntityExtension.GetTableName(tableName, dbSetting);
-
     private static void ValidateTransactionConnectionObject(this IDbConnection connection,
         IDbTransaction transaction)
     {
@@ -338,7 +334,7 @@ public static partial class SqlConnectionExtension
             .Append("_RepoDb_Bulk")
             .Append(operation)
             .Append('_')
-            .Append(GetTableName(tableName, dbSetting).AsUnquoted(dbSetting));
+            .Append(DataEntityExtension.GetTableName(tableName, dbSetting).AsUnquoted(dbSetting));
 
         // Add a # prefix if not physical
         if (usePhysicalPseudoTempTable != true)
@@ -361,7 +357,6 @@ public static partial class SqlConnectionExtension
 
         // Compose the statement
         builder
-            .Clear()
             .Select()
             .FieldsFrom(fields, dbSetting);
 
@@ -404,7 +399,6 @@ public static partial class SqlConnectionExtension
 
         // Compose the statement
         builder
-            .Clear()
             .WriteText("CREATE CLUSTERED INDEX")
             .WriteText($"IX_{tempTableName}".AsQuoted(dbSetting))
             .On()
@@ -439,7 +433,6 @@ public static partial class SqlConnectionExtension
 
         // Compose the statement
         builder
-            .Clear()
             .Delete()
             .WriteText("T")
             .From()
@@ -483,8 +476,6 @@ public static partial class SqlConnectionExtension
             .Where(field => forceIdentityColumn == true || string.Equals(field.FieldName, identityField?.FieldName, StringComparison.OrdinalIgnoreCase) == false);
 
         // Compose the statement
-        builder.Clear();
-
         // SET IDENTITY_INSERT ON
         if (forceIdentityColumn)
         {
@@ -605,8 +596,6 @@ public static partial class SqlConnectionExtension
                     q => string.Equals(q.FieldName, field.FieldName, StringComparison.OrdinalIgnoreCase)) == false);
 
         // Compose the statement
-        builder.Clear();
-
         // SET IDENTITY_INSERT ON
         if (forceIdentityColumn)
         {
@@ -742,7 +731,6 @@ public static partial class SqlConnectionExtension
 
         // Compose the statement
         builder
-            .Clear()
             .Update()
             .WriteText("T")
             .Set()

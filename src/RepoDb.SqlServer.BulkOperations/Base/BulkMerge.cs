@@ -696,6 +696,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(reader);
         // Validate
         if (!reader.HasRows)
         {
@@ -851,6 +852,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(dataTable);
         // Validate
         if (dataTable.Rows.Count <= 0)
         {

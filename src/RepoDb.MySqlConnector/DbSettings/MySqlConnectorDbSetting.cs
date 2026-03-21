@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using RepoDb.Extensions.QueryFields;
 
 namespace RepoDb.DbSettings;
 
@@ -26,4 +27,12 @@ public sealed record MySqlConnectorDbSetting : BaseDbSetting
         MaxParameterCount = 8096;
         // MaxQueriesInBatchCount = base.MaxQueriesInBatchCount;
     }
+
+    /// <inheritdoc/>
+    protected override string TranslateFunctionalFormat(string format)
+        => format switch
+        {
+            DateTimePartQueryField.MillisecondFormat => "(MICROSECOND({0}) DIV 1000)",
+            _ => base.TranslateFunctionalFormat(format)
+        };
 }

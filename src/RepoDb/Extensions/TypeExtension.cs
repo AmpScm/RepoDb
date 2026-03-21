@@ -107,18 +107,29 @@ public static class TypeExtension
     internal static bool IsBinaryFloatingPoint(this Type type)
     {
         return
-        (
             type == typeof(double)
             || type == typeof(float)
 #if NET
             || type == typeof(Half)
 #endif
-        );
+        ;
     }
 
     internal static bool IsBinaryIntFloatOrDecimal(this Type type)
     {
         return type.IsBinaryInteger() || type.IsBinaryFloatingPoint() || type == typeof(decimal);
+    }
+
+    internal static bool IsDateTimeType(this Type type)
+    {
+        return type == typeof(DateTime)
+            || type == typeof(DateTimeOffset)
+            || type == typeof(TimeSpan)
+#if NET
+            || type == typeof(DateOnly)
+            || type == typeof(TimeOnly)
+#endif
+            ;
     }
 
     internal static PropertyInfo[] GetPropertiesExceptNotMapped(this Type type)
@@ -379,22 +390,4 @@ public static class TypeExtension
         ?? throw new PropertyNotFoundException(nameof(propertyName), $"Property {propertyName} not found on {type}");
 
     #endregion
-
-    private sealed class PropertyNameComparer : IEqualityComparer<PropertyInfo>
-    {
-        public static readonly PropertyNameComparer Instance = new();
-
-        private PropertyNameComparer()
-        { }
-
-        public bool Equals(PropertyInfo? x, PropertyInfo? y)
-        {
-            return StringComparer.Ordinal.Equals(x?.Name, y?.Name);
-        }
-
-        public int GetHashCode(PropertyInfo obj)
-        {
-            return StringComparer.Ordinal.GetHashCode(obj.Name);
-        }
-    }
 }

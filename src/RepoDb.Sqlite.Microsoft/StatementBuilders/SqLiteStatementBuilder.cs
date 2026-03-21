@@ -66,7 +66,6 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
 
         // Build the query
         builder
-            .Clear()
             .Select()
             .WriteText("1 AS [ExistsValue]")
             .From()
@@ -188,9 +187,6 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
 
         // Initialize the builder
         var builder = new QueryBuilder();
-
-        // Build the query
-        builder.Clear();
 
         // Compose
         builder
@@ -454,7 +450,6 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
 
         // Build the query
         builder
-            .Clear()
             .Select()
             .FieldsFrom(fields, DbSetting)
             .From()
@@ -487,7 +482,6 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
 
         // Build the query
         builder
-            .Clear()
             .Delete()
             .From()
             .TableNameFrom(tableName, DbSetting)

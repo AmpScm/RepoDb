@@ -3,7 +3,7 @@
 /// <summary>
 /// An exception that is being thrown when the target item is not found from the collection.
 /// </summary>
-public class ItemNotFoundException : Exception
+public class ItemNotFoundException : ArgumentException
 {
     /// <summary>
     /// Creates a new instance of <see cref="ItemNotFoundException"/> class.

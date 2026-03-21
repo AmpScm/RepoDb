@@ -109,7 +109,7 @@ public class OrderField : IEquatable<OrderField>
     internal static OrderField Parse<TEntity>(BinaryExpression expression,
         Order order)
         where TEntity : class =>
-        new(expression.GetName(), order);
+        new(expression.GetMappedName(), order);
 
     /// <summary>
     /// Parses a property from the data entity object based on the given <see cref="Expression"/> and converts the result

@@ -48,7 +48,6 @@ public static partial class NpgsqlConnectionExtension
 
         // INSERT INTO
         builder
-            .Clear()
             .Insert()
             .Into()
             .TableNameFrom(destinationTableName, dbSetting)
@@ -207,7 +206,6 @@ public static partial class NpgsqlConnectionExtension
 
         // Insert
         builder
-            .Clear()
             .Insert()
             .Into()
             .TableNameFrom(destinationTableName, dbSetting)

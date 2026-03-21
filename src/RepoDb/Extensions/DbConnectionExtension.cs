@@ -764,6 +764,26 @@ public static partial class DbConnectionExtension
         return WhatToQueryGroup(key, what);
     }
 
+    internal static async ValueTask<QueryGroup?> WhatToQueryGroupAsync<TWhat>(Type entityType,
+        IDbConnection connection,
+        TWhat what,
+        IDbTransaction? transaction,
+        CancellationToken cancellationToken = default)
+        where TWhat: notnull
+    {
+        if (what is null)
+        {
+            return null;
+        }
+        var queryGroup = WhatToQueryGroup(what);
+        if (queryGroup is not null)
+        {
+            return queryGroup;
+        }
+        var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(entityType, connection, transaction, cancellationToken).ConfigureAwait(false);
+        return WhatToQueryGroup(key, what);
+    }
+
     internal static QueryGroup? WhatToQueryGroup<T>(DbField dbField,
         T what) where T : notnull
     {

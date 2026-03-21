@@ -137,6 +137,7 @@ public static class PropertyHandlerMapper
 
         // Try get the value
         typeMaps.TryRemove(type, out var _);
+        PropertyHandlerCache.Flush();
     }
 
     #endregion
@@ -567,7 +568,12 @@ public static class PropertyHandlerMapper
         var key = (entityType, propertyInfo);
 
         // Try to remove the value
-        return propertyMaps.TryRemove(key, out var _);
+        if (propertyMaps.TryRemove(key, out var _))
+        {
+            PropertyHandlerCache.Flush();
+            return true;
+        }
+        return false;
     }
 
     #endregion
@@ -583,6 +589,7 @@ public static class PropertyHandlerMapper
     {
         typeMaps.Clear();
         propertyMaps.Clear();
+        PropertyHandlerCache.Flush();
     }
 
     #region Helpers

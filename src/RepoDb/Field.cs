@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
-using System.Reflection;
 using RepoDb.Exceptions;
 using RepoDb.Extensions;
 
@@ -172,92 +171,15 @@ public class Field : IEquatable<Field>
         where TEntity : class
     {
         ArgumentNullException.ThrowIfNull(expression);
-        return new(expression.Body switch
+        return new(expression.Body.UnwrapUnary(ExpressionType.Convert) switch
         {
-            UnaryExpression unaryExpression => Parse<TEntity>(unaryExpression),
-            MemberExpression memberExpression => Parse<TEntity>(memberExpression),
-            BinaryExpression binaryExpression => Parse<TEntity>(binaryExpression),
-            NewExpression newExpression => Parse<TEntity>(newExpression),
+            MemberExpression memberExpression => [memberExpression.GetField()],
+            BinaryExpression binaryExpression => [binaryExpression.GetField()],
+            NewExpression newExpression when newExpression.Members is { Count: > 0 } =>
+                            newExpression.Arguments.Select(a => (a as MemberExpression)?.GetField() ?? throw new InvalidExpressionException($"Expression '{expression}' is invalid."))
+                            .ToList(),
             _ => throw new InvalidExpressionException($"Expression '{expression}' is invalid.")
         });
-    }
-
-    /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="UnaryExpression"/> and converts the result
-    /// to <see cref="Field"/> object.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
-    /// <param name="expression">The expression to be parsed.</param>
-    /// <returns>An enumerable list of <see cref="Field"/> objects.</returns>
-    internal static IEnumerable<Field> Parse<TEntity>(UnaryExpression expression)
-        where TEntity : class
-    {
-        if (expression.NodeType == ExpressionType.Convert)
-        {
-            return expression.Operand switch
-            {
-                MemberExpression memberExpression => Parse<TEntity>(memberExpression),
-                BinaryExpression binaryExpression => Parse<TEntity>(binaryExpression),
-                _ => throw new InvalidExpressionException($"Expression '{expression}' is invalid.")
-            };
-        }
-        else
-            throw new InvalidExpressionException($"Expression '{expression}' is invalid.");
-    }
-
-    /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="MemberExpression"/> and converts the result
-    /// to <see cref="Field"/> object.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
-    /// <param name="expression">The expression to be parsed.</param>
-    /// <returns>An enumerable list of <see cref="Field"/> objects.</returns>
-    internal static IEnumerable<Field> Parse<TEntity>(MemberExpression expression)
-        where TEntity : class
-    {
-        if (expression.Member is PropertyInfo propertyInfo)
-        {
-            return propertyInfo.AsField().AsEnumerable();
-        }
-        else
-        {
-            return new Field(expression.Member.Name).AsEnumerable();
-        }
-    }
-
-    /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="BinaryExpression"/> and converts the result
-    /// to <see cref="Field"/> object.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
-    /// <param name="expression">The expression to be parsed.</param>
-    /// <returns>An enumerable list of <see cref="Field"/> objects.</returns>
-    internal static IEnumerable<Field> Parse<TEntity>(BinaryExpression expression)
-        where TEntity : class =>
-        new Field(expression.GetName()).AsEnumerable();
-
-    /// <summary>
-    /// Parses a property from the data entity object based on the given <see cref="NewExpression"/> and converts the result
-    /// to <see cref="Field"/> object.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the data entity that contains the property to be parsed.</typeparam>
-    /// <param name="expression">The expression to be parsed.</param>
-    /// <returns>An enumerable list of <see cref="Field"/> objects.</returns>
-    internal static IEnumerable<Field> Parse<TEntity>(NewExpression expression)
-        where TEntity : class
-    {
-        if (expression.Members?.Count >= 0)
-        {
-            var properties = expression
-                .Members
-                .WithType<PropertyInfo>();
-            var classProperties = PropertyCache.Get<TEntity>()?
-                .Where(classProperty =>
-                    properties?.Any(property => string.Equals(property.Name, classProperty.PropertyInfo.Name, StringComparison.OrdinalIgnoreCase)) != false)
-                .Select(classProperty => classProperty.PropertyInfo);
-            return (classProperties ?? properties).Select(property => property.AsField());
-        }
-        return [];
     }
 
     #endregion

@@ -92,3 +92,9 @@ dotnet_diagnostic.IDE0011.severity = silent
 
 # IDE0058: Expression value is never used
 dotnet_diagnostic.IDE0058.severity = silent
+
+# IDE0061: Use block body for local function
+dotnet_diagnostic.IDE0061.severity = none
+
+# IDE0090: Use 'new(...)'
+dotnet_diagnostic.IDE0090.severity = silent

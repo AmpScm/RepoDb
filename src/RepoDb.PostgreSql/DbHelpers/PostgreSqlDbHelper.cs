@@ -38,9 +38,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
 
     #region Helpers
 
-    private static string GetCommandText()
-    {
-        return @"
+    private const string CommandText = @"
                 SELECT
                     C.column_name,
                     (PK.column_name IS NOT NULL) AS IsPrimary,
@@ -51,6 +49,8 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
                     CAST(C.is_nullable AS BOOLEAN) AS IsNullable,
                     C.data_type AS DataType,
                     C.character_maximum_length AS Size,
+                    COALESCE(C.numeric_precision, C.datetime_precision) AS Precision,
+                    C.numeric_scale AS Scale,
                     (C.column_default IS NOT NULL) AS HasDefaultValue,
                     (C.is_generated = 'ALWAYS') AS IsComputed
                 FROM information_schema.columns C
@@ -72,7 +72,6 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
                   AND C.table_schema = @Schema
                 ORDER BY C.ordinal_position;
 ";
-    }
 
     private DbField ReaderToDbField(DbDataReader reader)
     {
@@ -84,11 +83,11 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
             !reader.IsDBNull(3) && reader.GetBoolean(3),
             DbTypeResolver.Resolve(dbType)!,
             reader.IsDBNull(5) ? null : reader.GetInt32(5),
-            null,
-            null,
+            reader.IsDBNull(6) ? null : (byte)reader.GetInt32(6),
+            reader.IsDBNull(7) ? null : (byte)reader.GetInt32(7),
             dbType,
-            !reader.IsDBNull(6) && reader.GetBoolean(6),
-            !reader.IsDBNull(7) && reader.GetBoolean(7),
+            !reader.IsDBNull(8) && reader.GetBoolean(8),
+            !reader.IsDBNull(9) && reader.GetBoolean(9),
             "PGSQL");
     }
 
@@ -103,11 +102,11 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
             !await reader.IsDBNullAsync(3, cancellationToken) && await reader.GetFieldValueAsync<bool>(3, cancellationToken),
             DbTypeResolver.Resolve(dbType)!,
             await reader.IsDBNullAsync(5, cancellationToken) ? null : await reader.GetFieldValueAsync<int>(5, cancellationToken),
-            null,
-            null,
+            await reader.IsDBNullAsync(6, cancellationToken) ? null : (byte?)await reader.GetFieldValueAsync<int>(6, cancellationToken),
+            await reader.IsDBNullAsync(7, cancellationToken) ? null : (byte?)await reader.GetFieldValueAsync<int>(7, cancellationToken),
             dbType,
-            !await reader.IsDBNullAsync(6, cancellationToken) && await reader.GetFieldValueAsync<bool>(6, cancellationToken),
-            !await reader.IsDBNullAsync(7, cancellationToken) && await reader.GetFieldValueAsync<bool>(7, cancellationToken),
+            !await reader.IsDBNullAsync(8, cancellationToken) && await reader.GetFieldValueAsync<bool>(8, cancellationToken),
+            !await reader.IsDBNullAsync(9, cancellationToken) && await reader.GetFieldValueAsync<bool>(9, cancellationToken),
             "PGSQL");
     }
 
@@ -126,7 +125,6 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     public override DbFieldCollection GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null)
     {
         // Variables
-        var commandText = GetCommandText();
         var param = new
         {
             Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting),
@@ -134,7 +132,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         };
 
         // Iterate and extract
-        using var reader = (DbDataReader)connection.ExecuteReader(commandText, param, transaction: transaction);
+        using var reader = (DbDataReader)connection.ExecuteReader(CommandText, param, transaction: transaction);
 
         var dbFields = new List<DbField>();
 
@@ -159,7 +157,6 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     public override async ValueTask<DbFieldCollection> GetFieldsAsync(IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
         // Variables
-        var commandText = GetCommandText();
         var param = new
         {
             Schema = DataEntityExtension.GetSchema(tableName, m_dbSetting)?.AsUnquoted(m_dbSetting),
@@ -167,7 +164,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         };
 
         // Iterate and extract
-        using var reader = (DbDataReader)await connection.ExecuteReaderAsync(commandText, param, transaction: transaction,
+        using var reader = (DbDataReader)await connection.ExecuteReaderAsync(CommandText, param, transaction: transaction,
             cancellationToken: cancellationToken);
 
         var dbFields = new List<DbField>();
@@ -222,22 +219,6 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     #endregion
 
     #region DynamicHandler
-
-    /// <summary>
-    /// A backdoor access from the core library used to handle an instance of an object to whatever purpose within the extended library.
-    /// </summary>
-    /// <typeparam name="TEventInstance">The type of the event instance to handle.</typeparam>
-    /// <param name="instance">The instance of the event object to handle.</param>
-    /// <param name="key">The key of the event to handle.</param>
-    public override void DynamicHandler<TEventInstance>(TEventInstance instance,
-        string key)
-    {
-        if (key == "RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]"
-            && instance is NpgsqlParameter parameter)
-        {
-            HandleDbParameterPostCreation(parameter);
-        }
-    }
 
     /// <inheritdoc />
     public override Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)

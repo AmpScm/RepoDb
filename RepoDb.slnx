@@ -23,6 +23,7 @@
     <Project Path="src/RepoDb.Oracle.IntegrationTests/RepoDb.Oracle.IntegrationTests.csproj" />
     <Project Path="src/RepoDb.Oracle.UnitTests/RepoDb.Oracle.UnitTests.csproj" Id="eb776225-d1da-4b38-98fa-98e154db2f3a" />
     <Project Path="src/RepoDb.PostgreSql.BulkOperations.IntegrationTests/RepoDb.PostgreSql.BulkOperations.IntegrationTests.csproj" />
+    <Project Path="src/RepoDb.PostgreSql.DependencyIntegrationTests/RepoDb.PostgreSql.DependencyIntegrationTests.csproj" />
     <Project Path="src/RepoDb.PostgreSql.IntegrationTests/RepoDb.PostgreSql.IntegrationTests.csproj" />
     <Project Path="src/RepoDb.PostgreSql.UnitTests/RepoDb.PostgreSql.UnitTests.csproj" />
     <Project Path="src/RepoDb.Sqlite.Microsoft.IntegrationTests/RepoDb.Sqlite.Microsoft.IntegrationTests.csproj" />
@@ -31,6 +32,7 @@
     <Project Path="src/RepoDb.SQLite.System.UnitTests/RepoDb.SQLite.System.UnitTests.csproj" />
     <Project Path="src/RepoDb.SqlServer.BulkOperations.IntegrationTests/RepoDb.SqlServer.BulkOperations.IntegrationTests.csproj" />
     <Project Path="src/RepoDb.SqlServer.IntegrationTests/RepoDb.SqlServer.IntegrationTests.csproj" />
+    <Project Path="src/RepoDb.SqlServer.SystemData.IntegrationTests/RepoDb.SqlServer.SystemData.IntegrationTests.csproj" />
     <Project Path="src/RepoDb.SqlServer.UnitTests/RepoDb.SqlServer.UnitTests.csproj" />
     <Project Path="src/RepoDb.TestCore/RepoDb.TestCore.csproj" />
   </Folder>

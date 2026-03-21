@@ -28,7 +28,7 @@ internal partial class Compiler
         foreach (var prop in PropertyCache.Get(paramType))
         {
             // Ensure it matches to atleast one param
-            var entityProperty = PropertyCache.Get(entityType) is { } p
+            var entityProperty = entityType is { } && PropertyCache.Get(entityType) is { } p
                 ? (p.GetByPropertyName(prop.PropertyName) ?? p.GetByFieldName(prop.FieldName)) : null;
 
             // Variables

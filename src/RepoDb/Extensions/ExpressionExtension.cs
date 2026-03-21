@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using RepoDb.Exceptions;
@@ -14,7 +15,7 @@ namespace RepoDb.Extensions;
 /// <summary>
 /// Contains the extension methods for <see cref="Expression"/> object.
 /// </summary>
-public static class ExpressionExtension
+public static partial class ExpressionExtension
 {
     private static readonly HashSet<ExpressionType> extractableExpressionTypes =
     [
@@ -24,14 +25,6 @@ public static class ExpressionExtension
         ExpressionType.GreaterThanOrEqual,
         ExpressionType.LessThan,
         ExpressionType.LessThanOrEqual
-    ];
-
-    private static readonly HashSet<ExpressionType> mathematicalExpressionTypes =
-    [
-        ExpressionType.Add,
-        ExpressionType.Subtract,
-        ExpressionType.Multiply,
-        ExpressionType.Divide
     ];
 
     /// <summary>
@@ -50,15 +43,18 @@ public static class ExpressionExtension
     internal static bool IsGroupable(this Expression expression) =>
         expression.NodeType is ExpressionType.AndAlso or ExpressionType.OrElse;
 
-    /// <summary>
-    /// Identify whether the instance of <see cref="Expression"/> is using the <see cref="Math"/> object operations.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="Expression"/> object to be identified.</param>
-    /// <returns>Returns true if the expression is using the <see cref="Math"/> object operations.</returns>
-    internal static bool IsMathematical(this Expression expression) =>
-        mathematicalExpressionTypes.Contains(expression.NodeType);
-
     #region GetField
+
+    /// <summary>
+    /// Gets the <see cref="Field"/> defined on the current instance of <see cref="UnaryExpression"/>
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <returns></returns>
+    /// <exception cref="NotSupportedException"></exception>
+    public static Field GetField(this Expression expression)
+    {
+        return expression.GetField(out _);
+    }
 
     /// <summary>
     /// Gets the <see cref="Field"/> defined on the current instance of <see cref="UnaryExpression"/>
@@ -78,7 +74,7 @@ public static class ExpressionExtension
             MemberExpression memberExpression => memberExpression.GetField(),
             BinaryExpression { NodeType: ExpressionType.Coalesce } b when
                 b.Left.GetField(out _) is { } field
-                && b.Right.GetValue() is { } value => (coalesceValue = value) == value ? field : throw new NotSupportedException($"Expression '{expression}' is currently not supported."),
+                && b.Right.TryGetValue(out var value) => (coalesceValue = value) == value ? field : throw new NotSupportedException($"Expression '{expression}' is currently not supported."),
             UnaryExpression { NodeType: ExpressionType.Convert } un when un.Operand.GetField(out coalesceValue) is { } cv => cv,
             _ => throw new NotSupportedException($"Expression '{expression}' is currently not supported.")
         };
@@ -118,9 +114,8 @@ public static class ExpressionExtension
         ArgumentNullException.ThrowIfNull(expression);
         return expression.Member switch
         {
-            PropertyInfo propertyInfo => propertyInfo.AsField(),
-            FieldInfo fieldInfo => new Field(fieldInfo.Name, fieldInfo.FieldType),
-            _ => throw new NotSupportedException("Only fields and properties are currently supported.")
+            PropertyInfo propertyInfo =>  new Field(propertyInfo.GetMappedName(expression.Expression?.Type), expression.Type),
+            _ => throw new NotSupportedException("Only properties are currently supported.")
         };
     }
 
@@ -133,420 +128,39 @@ public static class ExpressionExtension
     /// </summary>
     /// <param name="expression">The instance of <see cref="BinaryExpression"/> to be checked.</param>
     /// <returns>The name of the <see cref="MemberInfo"/>.</returns>
-    public static string GetName(this BinaryExpression expression)
+    internal static string GetMappedName(this BinaryExpression expression)
     {
         ArgumentNullException.ThrowIfNull(expression);
         return expression.Left switch
         {
             MemberExpression memberExpression => memberExpression.Member.GetMappedName(),
-            UnaryExpression unaryExpression => unaryExpression.GetName(),
+            UnaryExpression unaryExpression when unaryExpression.Operand is MethodCallExpression methodCallExpression => GetNameFromMethodCall(methodCallExpression),
             _ => throw new NotSupportedException($"Expression '{expression}' is currently not supported.")
         };
-    }
 
-    /// <summary>
-    /// Gets the name of the operand defines on the current instance of <see cref="UnaryExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="UnaryExpression"/> to be checked.</param>
-    /// <returns>The name of the operand.</returns>
-    public static string GetName(this UnaryExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        if (expression.Operand is MethodCallExpression methodCallExpression)
+        static string GetNameFromMethodCall(MethodCallExpression expression)
         {
-            return methodCallExpression.GetName();
-        }
-        throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
-    }
-
-    /// <summary>
-    /// Gets the name of the operand defines on the current instance of <see cref="MethodCallExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="MethodCallExpression"/> to be checked.</param>
-    /// <returns>The name of the operand.</returns>
-    public static string GetName(this MethodCallExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        if (expression.Object is MemberExpression objectMemberExpression)
-        {
-            return objectMemberExpression.GetName();
-        }
-        else
-        {
-            if (expression.Method.Name is (nameof(string.Contains)) or
-                (nameof(string.StartsWith)) or
-                (nameof(string.EndsWith)))
+            ArgumentNullException.ThrowIfNull(expression);
+            if (expression.Object is MemberExpression objectMemberExpression)
             {
-                var last = expression.Object is { } ? expression.Arguments[0] : expression.Arguments[1];
-                if (last is MemberExpression memberExpression)
+                return objectMemberExpression.Member.GetMappedName();
+            }
+            else
+            {
+                if (expression.Method.Name is (nameof(string.Contains)) or
+                    (nameof(string.StartsWith)) or
+                    (nameof(string.EndsWith)))
                 {
-                    return memberExpression.Member.GetMappedName();
+                    var last = expression.Object is { } ? expression.Arguments[0] : expression.Arguments[1];
+                    if (last is MemberExpression memberExpression)
+                    {
+                        return memberExpression.Member.GetMappedName();
+                    }
                 }
             }
-        }
-        throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
-    }
-
-    /// <summary>
-    /// Gets the name of the <see cref="MemberInfo"/> defines on the current instance of <see cref="MemberExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="MemberExpression"/> to be checked.</param>
-    /// <returns>The name of the <see cref="MemberInfo"/>.</returns>
-    public static string GetName(this MemberExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Member.GetMappedName();
-    }
-
-    #endregion
-
-    #region GetMemberType
-
-    /// <summary>
-    /// Gets the type of the <see cref="MemberInfo"/> defines on the current instance of <see cref="BinaryExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="BinaryExpression"/> to be checked.</param>
-    /// <returns>The type of the <see cref="MemberInfo"/>.</returns>
-    public static Type GetMemberType(this BinaryExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Left switch
-        {
-            MemberExpression memberExpression => memberExpression.GetMemberType(),
-            UnaryExpression unaryExpression => unaryExpression.GetMemberType(),
-            _ => throw new NotSupportedException($"Expression '{expression}' is currently not supported.")
-        };
-    }
-
-    /// <summary>
-    /// Gets the type of the operand defines on the current instance of <see cref="UnaryExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="UnaryExpression"/> to be checked.</param>
-    /// <returns>The type of the operand.</returns>
-    public static Type GetMemberType(this UnaryExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        if (expression.Operand is MethodCallExpression methodCallExpression)
-        {
-            return methodCallExpression.GetMemberType();
-        }
-        throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
-    }
-
-    /// <summary>
-    /// Gets the type of the operand defines on the current instance of <see cref="MethodCallExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="MethodCallExpression"/> to be checked.</param>
-    /// <returns>The type of the operand.</returns>
-    public static Type GetMemberType(this MethodCallExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        if (expression.Object is MemberExpression memberExpression)
-        {
-            return memberExpression.GetMemberType();
-        }
-        throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
-    }
-
-    /// <summary>
-    /// Gets the type of the <see cref="MemberInfo"/> defines on the current instance of <see cref="MemberExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="MemberExpression"/> to be checked.</param>
-    /// <returns>The type of the <see cref="MemberInfo"/>.</returns>
-    public static Type GetMemberType(this MemberExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Member switch
-        {
-            PropertyInfo propertyInfo => propertyInfo.PropertyType,
-            FieldInfo fieldInfo => fieldInfo.FieldType,
-            _ => throw new NotSupportedException($"Expression '{expression}' is currently not supported.")
-        };
-    }
-
-    #endregion
-
-    #region GetValue
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="Expression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="Expression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="Expression"/> object.</returns>
-    public static object? GetValue(this Expression expression)
-    {
-        return expression switch
-        {
-            BinaryExpression binaryExpression => binaryExpression.GetValue(),
-            ConstantExpression constantExpression => constantExpression.GetValue(),
-            UnaryExpression unaryExpression => unaryExpression.GetValue(),
-            MethodCallExpression methodCallExpression => methodCallExpression.GetValue(),
-            MemberExpression memberExpression => memberExpression.GetValue(),
-            NewArrayExpression newArrayExpression => newArrayExpression.GetValue(),
-            ListInitExpression listInitExpression => listInitExpression.GetValue(),
-            NewExpression newExpression => newExpression.GetValue(),
-            MemberInitExpression memberInitExpression => memberInitExpression.GetValue(),
-            ConditionalExpression conditionalExpression => conditionalExpression.GetValue(),
-            ParameterExpression parameterExpression => parameterExpression.GetValue(),
-            DefaultExpression defaultExpression => defaultExpression.GetValue(),
-            _ => throw new NotSupportedException($"Expression '{expression}' is currently not supported.")
-        };
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="BinaryExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="BinaryExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="BinaryExpression"/> object.</returns>
-    public static object? GetValue(this BinaryExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        if (IsMathematical(expression))
-        {
-            throw new NotSupportedException($"A mathematical expression '{expression}' is currently not supported.");
-        }
-        else if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual)
-        {
-            var left = expression.Left.GetValue();
-            var right = expression.Right.GetValue();
-
-            return Equals(left, right) == (expression.NodeType is ExpressionType.Equal);
-        }
-        else if (expression.NodeType is ExpressionType.ArrayIndex)
-        {
-            var left = expression.Left.GetValue();
-            var right = expression.Right.GetValue();
-
-            if (left is object[] arr && right is int index && index >= 0 && index < arr.Length)
-            {
-                return arr[index];
-            }
-        }
-
-        throw new NotSupportedException($"Obtaining value from binary expression '{expression}' is currently not supported.");
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="ConstantExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="ConstantExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="ConstantExpression"/> object.</returns>
-    public static object? GetValue(this ConstantExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Value;
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="UnaryExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="UnaryExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="UnaryExpression"/> object.</returns>
-    public static object? GetValue(this UnaryExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        var value = expression.Operand.GetValue();
-        switch (expression.NodeType)
-        {
-            case ExpressionType.Convert:
-                var toType = expression.Type;
-                var tp = TypeCache.Get(expression.Type);
-
-                if (value is null && tp.HasNullValue)
-                {
-                    return null;
-                }
-                else if (tp.IsNullable)
-                {
-                    toType = tp.UnderlyingType;
-                }
-                else if (tp.UnderlyingType == StaticType.DateTimeOffset && value is DateTime dateTime)
-                {
-                    return new DateTimeOffset(dateTime);
-                }
-#if NET
-                else if (tp.UnderlyingType == StaticType.DateOnly && value is DateTime dateTime2)
-                {
-                    return DateOnly.FromDateTime(dateTime2.Date);
-                }
-                else if (toType == typeof(Half))
-                {
-                    return (Half?)(float?)Convert.ChangeType(value, typeof(float), CultureInfo.InvariantCulture);
-                }
-#endif
-
-                return Convert.ChangeType(value, toType, CultureInfo.InvariantCulture);
-            case ExpressionType.Quote:
-                return expression.Operand; // The inner expression is the value
-            default:
-                throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
+            throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
         }
     }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="MethodCallExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="MethodCallExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="MethodCallExpression"/> object.</returns>
-    public static object? GetValue(this MethodCallExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Method.GetValue(expression.Object?.GetValue(), expression.Arguments.Select(argExpression => argExpression.GetValue()!).ToArray());
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="MemberExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="MemberExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="MemberExpression"/> object.</returns>
-    public static object? GetValue(this MemberExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Member.GetValue(expression.Expression?.GetValue());
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="NewArrayExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="NewArrayExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="NewArrayExpression"/> object.</returns>
-    public static object? GetValue(this NewArrayExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        var arrayType = expression.Type.HasElementType ? expression.Type.GetElementType()! : expression.Type;
-        var array = Array.CreateInstance(arrayType, expression.Expressions.Count);
-        for (var i = 0; i < expression.Expressions.Count; i++)
-        {
-            array.SetValue(expression.Expressions[i].GetValue(), i);
-        }
-        return array;
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="ListInitExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="ListInitExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="ListInitExpression"/> object.</returns>
-    public static object GetValue(this ListInitExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        var list = Activator.CreateInstance(expression.Type);
-        foreach (var item in expression.Initializers)
-        {
-            item.AddMethod.Invoke(list, [item.Arguments.FirstOrDefault()?.GetValue()]);
-        }
-        return list!;
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="NewExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="NewExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="NewExpression"/> object.</returns>
-    public static object GetValue(this NewExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        if (expression.Arguments.Count > 0)
-        {
-            return Activator.CreateInstance(expression.Type,
-                expression.Arguments.Select(arg => arg.GetValue()).ToArray())!;
-        }
-        else
-        {
-            return Activator.CreateInstance(expression.Type)!;
-        }
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="MemberInitExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="MemberInitExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="MemberInitExpression"/> object.</returns>
-    public static object GetValue(this MemberInitExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        var instance = expression.NewExpression.GetValue();
-        foreach (var binding in expression.Bindings)
-        {
-            binding.Member.SetValue(instance, binding.GetValue());
-        }
-        return instance;
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="ConditionalExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="ConditionalExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="ConditionalExpression"/> object.</returns>
-    public static object? GetValue(this ConditionalExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        var test = expression.Test.GetValue();
-        var trueValue = expression.IfTrue.GetValue();
-        if (expression.Test.NodeType == ExpressionType.Equal)
-        {
-            return test == trueValue ? trueValue : expression.IfFalse.GetValue();
-        }
-        else if (expression.Test.NodeType == ExpressionType.NotEqual)
-        {
-            return test != trueValue ? trueValue : expression.IfFalse.GetValue();
-        }
-        else if (expression.Test.NodeType > ExpressionType.GreaterThan)
-        {
-            return ToNumber(test) > ToNumber(trueValue) ? trueValue : expression.IfFalse.GetValue();
-        }
-        else if (expression.Test.NodeType > ExpressionType.GreaterThanOrEqual)
-        {
-            return ToNumber(test) >= ToNumber(trueValue) ? trueValue : expression.IfFalse.GetValue();
-        }
-        else if (expression.Test.NodeType > ExpressionType.LessThan)
-        {
-            return ToNumber(test) < ToNumber(trueValue) ? trueValue : expression.IfFalse.GetValue();
-        }
-        else if (expression.Test.NodeType > ExpressionType.LessThanOrEqual)
-        {
-            return ToNumber(test) <= ToNumber(trueValue) ? trueValue : expression.IfFalse.GetValue();
-        }
-        throw new NotSupportedException($"The operation '{expression.NodeType}' at expression '{expression}' is currently not supported.");
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="ParameterExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="ParameterExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="ParameterExpression"/> object.</returns>
-    public static object? GetValue(this ParameterExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        if (expression.Type.GetConstructors().Any(e => e.GetParameters().Length == 0))
-        {
-            return Activator.CreateInstance(expression.Type)!;
-        }
-        throw new InvalidExpressionException($"The default constructor for expression '{expression}' is not found.");
-    }
-
-    /// <summary>
-    /// Gets a value from the current instance of <see cref="DefaultExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="DefaultExpression"/> object where the value is to be extracted.</param>
-    /// <returns>The extracted value from <see cref="DefaultExpression"/> object.</returns>
-    public static object? GetValue(this DefaultExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Type.IsValueType ? Activator.CreateInstance(expression.Type) : null;
-    }
-
-    #endregion
-
-    #region Identification and Conversion
-
-    /// <summary>
-    /// Converts the <see cref="Expression"/> object into <see cref="MemberExpression"/> object.
-    /// </summary>
-    /// <param name="expression">The instance of <see cref="Expression"/> object to be converted.</param>
-    /// <returns>A converted instance of <see cref="MemberExpression"/> object.</returns>
-    public static MemberExpression ToMember(this Expression expression) =>
-        (MemberExpression)expression;
 
     #endregion
 
@@ -627,11 +241,48 @@ public static class ExpressionExtension
 
     #endregion
 
-    private static long? ToNumber(object? value)
-    {
-        if (value is null)
-            return null;
 
-        return Convert.ToInt64(value, CultureInfo.InvariantCulture);
+    private sealed class ReplaceVisitor : ExpressionVisitor
+    {
+        private readonly Expression _from;
+        private readonly Expression _to;
+
+        public ReplaceVisitor(Expression from, Expression to)
+        {
+            _from = from;
+            _to = to;
+        }
+
+        [return: NotNullIfNotNull(nameof(node))]
+        public override Expression? Visit(Expression? node)
+        {
+            return node == _from ? _to : base.Visit(node);
+        }
+    }
+
+    /// <summary>
+    /// Replaces all occurrences of a specified expression within an expression tree with another expression.
+    /// </summary>
+    /// <remarks>The replacement is performed recursively throughout the entire expression tree. The original
+    /// expression tree is not modified.</remarks>
+    /// <typeparam name="TExpression">The type of the expression tree. Must derive from Expression.</typeparam>
+    /// <param name="expression">The expression tree in which to perform the replacement. Cannot be null.</param>
+    /// <param name="from">The expression to search for within the expression tree. All matching instances will be replaced. Cannot be
+    /// null.</param>
+    /// <param name="to">The expression to substitute in place of each occurrence of the 'from' expression. Cannot be null.</param>
+    /// <returns>A new expression tree of type TExpression with all occurrences of the specified expression replaced.</returns>
+    internal static TExpression Replace<TExpression>(this TExpression expression, Expression from, Expression to)
+        where TExpression : Expression
+    {
+        return (TExpression)new ReplaceVisitor(from, to).Visit(expression);
+    }
+
+    internal static Expression UnwrapUnary(this Expression expression, params ExpressionType[] types)
+    {
+        while (expression is UnaryExpression unaryExpression && types.Contains(unaryExpression.NodeType))
+        {
+            expression = unaryExpression.Operand;
+        }
+        return expression;
     }
 }

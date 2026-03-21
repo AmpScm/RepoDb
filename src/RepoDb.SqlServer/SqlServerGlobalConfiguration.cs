@@ -31,6 +31,11 @@ public static partial class SqlServerGlobalConfiguration
         if (options is { })
         {
             SqlServerOptions.Current = options;
+
+            if (options.InitializeSystemDataSqlClient)
+            {
+                SqlServerBootstrap.InitializeSystemDataSqlClient();
+            }
         }
         return globalConfiguration;
     }

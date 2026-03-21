@@ -14,23 +14,27 @@ public partial class QueryGroup
      * Others
      */
 
-    private static bool IsDirect<TEntity>(BinaryExpression expression) =>
+
+
+    private static bool IsDirect<TEntity>(BinaryExpression expression)
+    {
+        return
+        expression.IsExtractable() &&
         (
-            expression.Left.NodeType == ExpressionType.Constant ||
-            expression.Left.NodeType == ExpressionType.Convert ||
-            (expression.Left is MemberExpression meLeft && meLeft.NodeType == ExpressionType.MemberAccess && meLeft.Expression is ParameterExpression && meLeft.Expression?.Type == typeof(TEntity))
-        )
-        &&
-        (
-            expression.Right.NodeType == ExpressionType.Call ||
-            expression.Right.NodeType == ExpressionType.Conditional ||
-            expression.Right.NodeType == ExpressionType.Constant ||
-            expression.Right.NodeType == ExpressionType.Convert ||
-            expression.Right.NodeType == ExpressionType.MemberAccess ||
-            expression.Right.NodeType == ExpressionType.NewArrayInit ||
-            (expression.Right.NodeType == ExpressionType.MemberInit && expression.Right.GetValue() is { })
+            (DropCoalesce(expression.Left.UnwrapUnary(ExpressionType.Convert)) is MemberExpression meLeft && meLeft.NodeType == ExpressionType.MemberAccess && meLeft.Expression is ParameterExpression && meLeft.Expression?.Type == typeof(TEntity)
+            && expression.Right.TryGetValue(out _))
+
+        ||
+            (expression.Right.UnwrapUnary(ExpressionType.Convert) is MemberExpression meRight && meRight.NodeType == ExpressionType.MemberAccess && meRight.Expression is ParameterExpression && meRight.Expression?.Type == typeof(TEntity)
+            && expression.Left.TryGetValue(out _))
         );
 
+
+        static Expression DropCoalesce(Expression x)
+            => x is BinaryExpression { NodeType: ExpressionType.Coalesce } be && be.Right.TryGetValue(out _)
+                ? be.Left.UnwrapUnary(ExpressionType.Convert)
+                : x;
+    }
     /*
      * Expression
      */
@@ -73,7 +77,7 @@ public partial class QueryGroup
 
         static QueryGroup? ParseMCE(MethodCallExpression expression)
         {
-            var unaryNodeType = (expression.Object?.Type == StaticType.String) ? expression.Object.ToMember().NodeType :
+            var unaryNodeType = (expression.Object?.Type == StaticType.String) ? ((MemberExpression)expression.Object).NodeType :
                 GetNodeType(expression.Arguments.LastOrDefault());
             return Parse<TEntity>(expression, unaryNodeType);
         }
@@ -121,30 +125,26 @@ public partial class QueryGroup
 
         if (IsDirect<TEntity>(expression))
         {
-            // Column-to-column comparison: both sides are member accesses on the parameter
-            if (expression.Left is MemberExpression leftMember && leftMember.Expression is ParameterExpression &&
-                expression.Right is MemberExpression rightMember && rightMember.Expression is ParameterExpression)
-            {
-                var leftField = new Field(leftMember.Member.Name);
-                var rightField = new Field(rightMember.Member.Name);
-                var op = QueryField.GetOperation(expression.NodeType);
-                var fieldComp = new Extensions.QueryFields.FieldComparisonQueryField(leftField, op, rightField);
-                return new QueryGroup(fieldComp);
-            }
-            // If only right is a member on the parameter, but left is not, throw (unsupported)
-            if (expression.Right is MemberExpression mx && mx.Expression is ParameterExpression)
-                throw new NotSupportedException($"Comparing an entity to values on itself is not currently supported in {expression}");
-            // Otherwise, normal column-to-value
+            // normal column-to-value
             return QueryField.Parse<TEntity>(expression);
+        }
+        else if (expression.Left is MemberExpression leftMember && leftMember.Expression is ParameterExpression &&
+                expression.Right is MemberExpression rightMember && rightMember.Expression is ParameterExpression)
+        {
+            var leftField = new Field(leftMember.Member.Name);
+            var rightField = new Field(rightMember.Member.Name);
+            var op = QueryField.GetOperation(expression.NodeType);
+            var fieldComp = new Extensions.QueryFields.FieldComparisonQueryField(leftField, op, rightField);
+            return new QueryGroup(fieldComp);
         }
         else if (expression.Left is MethodCallExpression m
             && expression.Right is ConstantExpression c && c.Value is int intVal && intVal == 0
             && isSimpleCheck
-            && ((m.Method.Name is nameof(string.Compare) or nameof(string.CompareTo) && m.Method.DeclaringType == StaticType.String) || m.Method == VBCompareString.Value))
+            && ((m.Method.Name is nameof(string.Compare) or nameof(string.CompareTo) && m.Method.DeclaringType == StaticType.String) || m.Method == VBCompareString.Value)
+            && m.Arguments[m.Object is { } ? 0 : 1].TryGetValue(out var value))
         {
             var propExpr = m.Object is { } ob ? ob : m.Arguments[0];
             var property = QueryField.GetProperty<TEntity>(propExpr) ?? throw new NotSupportedException($"Expression {propExpr} in {expression} is currently not supported");
-            var value = m.Object is { } ? m.Arguments[0].GetValue() : m.Arguments[1].GetValue();
 
             return new QueryGroup(new QueryField(property.AsField(),
                 expression.NodeType switch
@@ -161,10 +161,10 @@ public partial class QueryGroup
         else if (expression.Left is MethodCallExpression m2
             && m2.Method.Name is nameof(JsonQueryExtensions.ExtractValue) && m2.Method.DeclaringType == typeof(JsonQueryExtensions)
             && isSimpleCheck
-            && QueryField.GetProperty<TEntity>(m2.Arguments[0]) is { } propExpr)
+            && QueryField.GetProperty<TEntity>(m2.Arguments[0]) is { } propExpr
+            && m2.Arguments[1].TryGetValue(out var pathArg))
         {
-            var pathArg = m2.Arguments[1];
-            var jsonPath = pathArg is { NodeType: ExpressionType.Quote } ? JsonExtractQueryField.ParsePath(((UnaryExpression)pathArg).Operand) : pathArg.GetValue() as string;
+            var jsonPath = pathArg is Expression expr ? JsonExtractQueryField.ParsePath(expr) : (pathArg as string);
             ArgumentNullException.ThrowIfNull(jsonPath);
             var vv = QueryField.Parse<TEntity>(expression).GetFields(false)!.Single();
 
@@ -176,18 +176,17 @@ public partial class QueryGroup
             && m3.Method.DeclaringType == StaticType.String
             && m3.Method.Name is nameof(string.Trim) or nameof(string.TrimStart) or nameof(string.TrimEnd) or nameof(string.ToUpper) or nameof(string.ToLower) or nameof(string.ToUpperInvariant) or nameof(string.ToLowerInvariant) or nameof(string.Substring)
             && isSimpleCheck
-            && QueryField.GetProperty<TEntity>(m3.Object) is { } propExpr3)
+            && QueryField.GetProperty<TEntity>(m3.Object) is { } propExpr3
+            && expression.Right.TryGetValue(out var rightValue2))
         {
-            var value = expression.Right.GetValue();
-
             QueryField? qf = m3.Method.Name switch
             {
-                nameof(string.Trim) => new TrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
-                nameof(string.TrimStart) => new LeftTrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
-                nameof(string.TrimEnd) => new RightTrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
-                nameof(string.ToUpper) or nameof(string.ToUpperInvariant) => new UpperQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
-                nameof(string.ToLower) or nameof(string.ToLowerInvariant) => new LowerQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value),
-                nameof(string.Substring) when m3.Arguments.Count == 2 && m3.Arguments[0].GetValue() is int v1 && v1 == 0 && m3.Arguments[1].GetValue() is int left => new LeftQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), value, dbType: null, left),
+                nameof(string.Trim) => new TrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue2),
+                nameof(string.TrimStart) => new LeftTrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue2),
+                nameof(string.TrimEnd) => new RightTrimQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue2),
+                nameof(string.ToUpper) or nameof(string.ToUpperInvariant) => new UpperQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue2),
+                nameof(string.ToLower) or nameof(string.ToLowerInvariant) => new LowerQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue2),
+                nameof(string.Substring) when m3.Arguments.Count == 2 && m3.Arguments[0].TryGetValue(out var a0) && m3.Arguments[1].TryGetValue(out var a1) && a0 is int v1 && v1 == 0 && a1 is int left => new LeftQueryField(propExpr3.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue2, dbType: null, left),
                 _ => null
             };
 
@@ -200,15 +199,37 @@ public partial class QueryGroup
             && m4.Member.DeclaringType == StaticType.String
             && m4.Member.Name is nameof(string.Length)
             && isSimpleCheck
-            && QueryField.GetProperty<TEntity>(m4.Expression) is { } propExpr4)
+            && QueryField.GetProperty<TEntity>(m4.Expression) is { } propExpr4
+            && expression.Right.TryGetValue(out var rightValue4))
         {
-            return new QueryGroup(new LengthQueryField(propExpr4.AsField().FieldName, QueryField.GetOperation(expression.NodeType), expression.Right.GetValue()).AsEnumerable());
+            return new QueryGroup(new LengthQueryField(propExpr4.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue4).AsEnumerable());
+        }
+        else if (expression.Left is MemberExpression m5
+            && m5.Expression is { }
+            && m5.Member.DeclaringType?.IsDateTimeType() == true
+            && m5.Member.Name is nameof(DateTime.Date) or nameof(DateTime.Year) or nameof(DateTime.Month) or nameof(DateTime.Day) or nameof(DateTime.Hour) or nameof(DateTime.Minute) or nameof(DateTime.Second) or nameof(DateTime.Millisecond)
+            && QueryField.GetProperty<TEntity>(m5.Expression) is { } propExpr5
+            && expression.Right.TryGetValue(out var rightValue5))
+        {
+            return new QueryGroup(new DateTimePartQueryField(propExpr5.AsField().FieldName, rightValue5, dateTimePart: m5.Member.Name switch
+            {
+                nameof(DateTime.Year) => DateTimePartType.Year,
+                nameof(DateTime.Month) => DateTimePartType.Month,
+                nameof(DateTime.Day) => DateTimePartType.Day,
+                nameof(DateTime.Hour) => DateTimePartType.Hour,
+                nameof(DateTime.Minute) => DateTimePartType.Minute,
+                nameof(DateTime.Second) => DateTimePartType.Second,
+                nameof(DateTime.Millisecond) => DateTimePartType.Millisecond,
+                nameof(DateTime.Date) => DateTimePartType.Date,
+                _ => throw new InvalidOperationException()
+            }).AsEnumerable());
         }
         else if (isSimpleCheck
-            && GetJsonExtractFromPath<TEntity>(expression.Left) is { FieldName: not null, Path: not null } jsonExtract)
+            && GetJsonExtractFromPath<TEntity>(expression.Left) is { FieldName: not null, Path: not null } jsonExtract
+            && expression.Right.TryGetValue(out var rightValue6))
         {
             var rightType = expression.Right.Type;
-            return new QueryGroup([new JsonExtractQueryField(jsonExtract.FieldName, jsonExtract.Path, expression.Right.GetValue(), dbType: TypeMapCache.Get(rightType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(rightType))]);
+            return new QueryGroup([new JsonExtractQueryField(jsonExtract.FieldName, jsonExtract.Path, rightValue6, dbType: TypeMapCache.Get(rightType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(rightType))]);
         }
 
         // Otherwise, recursively parse as before (for AndAlso, OrElse, etc.)
@@ -216,7 +237,8 @@ public partial class QueryGroup
 
         // IsNot
         if (expression.NodeType is ExpressionType.Equal or ExpressionType.NotEqual
-            && expression.Right.Type == StaticType.Boolean && expression.IsExtractable() && expression.Right.GetValue() is bool rightValue)
+            && expression.Right.Type == StaticType.Boolean && expression.IsExtractable()
+            && expression.Right.TryGetValue(out var rightRaw) && rightRaw is bool rightValue)
         {
             var isNot = (expression.NodeType == ExpressionType.Equal && !rightValue) ||
                 (expression.NodeType == ExpressionType.NotEqual && rightValue);
@@ -231,23 +253,6 @@ public partial class QueryGroup
 
         // Return the left query group, which is now modified to include the right side
         return leftQueryGroup;
-    }
-
-    private sealed class ReplaceVisitor : ExpressionVisitor
-    {
-        private readonly Expression _from;
-        private readonly Expression _to;
-
-        public ReplaceVisitor(Expression from, Expression to)
-        {
-            _from = from;
-            _to = to;
-        }
-
-        public override Expression? Visit(Expression? node)
-        {
-            return node == _from ? _to : base.Visit(node);
-        }
     }
 
 
@@ -269,7 +274,7 @@ public partial class QueryGroup
             if (next is MemberExpression p && p.Member.DeclaringType?.IsGenericType == true && p.Member.DeclaringType.GetGenericTypeDefinition() == typeof(DbJsonValue<>))
             {
                 var arg = Expression.Parameter(p.Member.DeclaringType.GetGenericArguments()[0], "e");
-                path = new ReplaceVisitor(next, arg).Visit(left)!;
+                path = left.Replace(next, arg);
 
                 return (p.Expression is { } ? QueryField.GetProperty<TEntity>(p.Expression)?.FieldName : null, JsonExtractQueryField.ParsePath(Expression.Lambda(path, arg)));
             }

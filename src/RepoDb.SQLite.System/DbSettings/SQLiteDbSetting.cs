@@ -1,4 +1,6 @@
-﻿namespace RepoDb.DbSettings;
+﻿using RepoDb.Extensions.QueryFields;
+
+namespace RepoDb.DbSettings;
 
 /// <summary>
 /// A setting class used for SQLite data provider.
@@ -33,11 +35,24 @@ public sealed record SQLiteDbSetting : BaseDbSetting
     /// <inheritdoc />
     protected override string TranslateFunctionalFormat(string format)
     {
-        if (format.StartsWith("LEFT({0}, "))
+        if (format.StartsWith("LEFT({0}, ", StringComparison.Ordinal))
+#pragma warning disable CA1845 // Use span-based 'string.Concat'
             return "SUBSTR({0}, 1, " + format.Substring("LEFT({0}, ".Length);
-        else if (format.StartsWith("RIGHT({0}, "))
+        else if (format.StartsWith("RIGHT({0}, ", StringComparison.Ordinal))
             return "SUBSTR({0}, -" + format.Substring("RIGHT({0}, ".Length);
+#pragma warning restore CA1845 // Use span-based 'string.Concat'
 
-        return base.TranslateFunctionalFormat(format);
+        return format switch
+        {
+            DateTimePartQueryField.YearFormat => "CAST(STRFTIME('%Y', {0}) AS INTEGER)",
+            DateTimePartQueryField.MonthFormat => "CAST(STRFTIME('%m', {0}) AS INTEGER)",
+            DateTimePartQueryField.DayFormat => "CAST(STRFTIME('%d', {0}) AS INTEGER)",
+            DateTimePartQueryField.HourFormat => "CAST(STRFTIME('%H', {0}) AS INTEGER)",
+            DateTimePartQueryField.MinuteFormat => "CAST(STRFTIME('%M', {0}) AS INTEGER)",
+            DateTimePartQueryField.SecondFormat => "CAST(STRFTIME('%S', {0}) AS INTEGER)",
+            DateTimePartQueryField.MillisecondFormat => "CAST(strftime('%f', {0}) * 1000 AS INTEGER) % 1000",
+            DateTimePartQueryField.DateFormat => "STRFTIME('%Y-%m-%dT00:00:00.0000000', {0})", // Standard DotNet date has msec added with 7 digits precision in this format
+            _ => base.TranslateFunctionalFormat(format)
+        };
     }
 }

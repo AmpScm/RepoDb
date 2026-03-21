@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Microsoft.Data;
@@ -517,9 +518,19 @@ public sealed class SqlServerDbHelper : BaseDbHelper
                 sp.SqlDbType = SqlDbTypeExtensions.Vector; // Needed for prepare support
             }
         }
+        else if (parameter.GetType() == LegacyParameterType.Value)
+        {
+            if (value is TimeSpan ts)
+            {
+                // System.Data.SqlClient does not support TimeSpan directly, so we need to convert it to a string in the format of "hh:mm:ss.fffffff"
+                return ts.ToString(@"hh\:mm\:ss\.fffffff", CultureInfo.InvariantCulture);
+            }
+        }
 
         return base.ParameterValueToDb(value, parameter);
     }
+
+    private static readonly Lazy<Type?> LegacyParameterType = new(() => Type.GetType("System.Data.SqlClient.SqlParameter, System.Data.SqlClient", throwOnError: false));
 
     static SqlServerDbHelper()
     {

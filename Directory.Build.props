@@ -26,6 +26,8 @@
     <TestTargetOutputType>Exe</TestTargetOutputType>
     <TestingPlatformDotnetTestRunner>true</TestingPlatformDotnetTestRunner>
     <GenerateDocumentationFile Condition="$([System.String]::Copy('$(MSBuildProjectName)').ToLower().Contains('test')) == 'false'">true</GenerateDocumentationFile>
+    <!-- We don't have resources ourselves, and we don't need any during testing... Others will flow through nuget -->
+    <SatelliteResourceLanguages>en;en-US</SatelliteResourceLanguages>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Reduce tests while running inside VS -->

@@ -71,11 +71,26 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: build
-        run: dotnet build -c Release
+      - name: Add coverage support
+        run: |
+          dotnet tool install -g dotnet-coverage
+          dotnet tool install -g dotnet-reportgenerator-globaltool
 
-      - name: Run tests for .Net 10.0
-        run: dotnet test -c Release -f net10.0 --no-build --report-github --report-github-summary-include-passed=false
+      - name: restore
+        run: dotnet restore
+
+      - name: build
+        run: dotnet build -c Release --no-restore
+
+      - name: Run tests for .NET 10.0 with coverage
+        run: |
+          dotnet-coverage collect \
+            --settings src/coverage.runsettings \
+            --output-format cobertura \
+            -o coverage.xml \
+            -- \
+            dotnet test -c Release -f net10.0 --no-build \
+              --report-github --report-github-summary-include-passed=false
 
       - name: Set version variables
         id: version
@@ -92,3 +107,14 @@ jobs:
         with:
           name: release
           path: release/*nupkg
+
+      - name: Generate coverage report
+        run: |
+          reportgenerator \
+            -reports:coverage.xml \
+            -targetdir:coverage-report \
+            -reporttypes:MarkdownSummaryGithub
+
+      - name: Add HTML summary to GitHub Action output
+        run: |
+          cat coverage-report/SummaryGithub.md >> $GITHUB_STEP_SUMMARY

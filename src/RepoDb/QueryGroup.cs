@@ -827,7 +827,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         }
 
         // Return the value
-        return string.Concat(IsNot ? "NOT (" :"(", groupList.Join(separator), ")");
+        return string.Concat(IsNot ? "NOT (" : "(", groupList.Join(separator), ")");
     }
 
     /// <summary>

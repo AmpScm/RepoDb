@@ -62,3 +62,18 @@ public enum Operation
     /// </summary>
     IsNotNull = 761683607,
 }
+
+internal static class OperationExtensions
+{
+    public static Operation SwitchOperands(this Operation operation)
+         => operation switch
+         {
+             Operation.Equal => Operation.Equal,
+             Operation.NotEqual => Operation.NotEqual,
+             Operation.LessThan => Operation.GreaterThanOrEqual,
+             Operation.GreaterThan => Operation.LessThanOrEqual,
+             Operation.LessThanOrEqual => Operation.GreaterThan,
+             Operation.GreaterThanOrEqual => Operation.LessThan,
+             _ => throw new NotSupportedException($"The operation '{operation}' doesn't support the switching of operands.")
+         };
+}

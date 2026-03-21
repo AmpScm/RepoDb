@@ -20,7 +20,7 @@ public sealed partial class JsonExtractQueryField : FunctionalQueryField
     /// <summary>
     ///
     /// </summary>
-    public static readonly string JsonExtractFormat = "JSON_EXTRACT({0}, @@path@@)";
+    public const string JsonExtractFormat = "JSON_EXTRACT({0}, @@path@@)";
 
     #region Constructors
 
@@ -200,18 +200,15 @@ public sealed partial class JsonExtractQueryField : FunctionalQueryField
                 AppendToPath(me.Expression);
                 AppendName(me.Member);
             }
-            else if (e is BinaryExpression be && be.NodeType == ExpressionType.ArrayIndex)
+            else if (e is BinaryExpression be && be.NodeType == ExpressionType.ArrayIndex
+                && be.Right.TryGetValue(out var v) && v is int ix)
             {
                 AppendToPath(be.Left);
-
-                if (be.Right.GetValue() is int ix)
-                {
 #if NET
-                    sb.Append(CultureInfo.InvariantCulture, $"[{ix}]");
+                sb.Append(CultureInfo.InvariantCulture, $"[{ix}]");
 #else
-                    sb.AppendFormat(CultureInfo.InvariantCulture, "[{0}]", ix);
+                sb.AppendFormat(CultureInfo.InvariantCulture, "[{0}]", ix);
 #endif
-                }
             }
             else if (e is ParameterExpression)
             {

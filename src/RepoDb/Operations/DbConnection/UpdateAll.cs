@@ -1336,7 +1336,10 @@ public static partial class DbConnectionExtension
             : 1;
 
         await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
-        using var myTransaction = (transaction is null && Transaction.Current is null) ? await connection.BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
+#if NET
+        await
+#endif
+        using var myTransaction = (transaction is null && Transaction.Current is null) ? await ((DbConnection)connection).BeginTransactionAsync(cancellationToken).ConfigureAwait(false) : null;
         transaction ??= myTransaction;
 
         // Get the context

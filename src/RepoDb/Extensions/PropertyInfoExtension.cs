@@ -1,12 +1,13 @@
-﻿using System.Buffers;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Reflection;
 using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
 using RepoDb.Enumerations;
 using RepoDb.Interfaces;
-
+#if NET
+using System.Buffers;
+#endif
 namespace RepoDb.Extensions;
 
 /// <summary>
@@ -14,16 +15,6 @@ namespace RepoDb.Extensions;
 /// </summary>
 public static class PropertyInfoExtension
 {
-    /// <summary>
-    /// Gets a custom attribute defined on the property.
-    /// </summary>
-    /// <typeparam name="T">The custom attribute that is defined into the property.</typeparam>
-    /// <param name="property">The property of where the custom attribute is defined.</param>
-    /// <returns>The custom attribute.</returns>
-    internal static T? GetCustomAttribute<T>(this PropertyInfo property)
-        where T : Attribute =>
-        property.GetCustomAttribute<T>(false);
-
     /// <summary>
     /// Gets the mapped name of the property.
     /// </summary>
@@ -35,7 +26,7 @@ public static class PropertyInfoExtension
         return GetMappedName(property, property.DeclaringType!);
     }
 
-#if NET8_0_OR_GREATER
+#if NET
     private static readonly SearchValues<char> unquote = SearchValues.Create(['[', ']', '`', '\"']);
 #endif
 
@@ -43,16 +34,25 @@ public static class PropertyInfoExtension
     /// Gets the mapped name of the property.
     /// </summary>
     /// <param name="property">The property where the mapped name will be retrieved.</param>
-    /// <param name="declaringType">The declaring type of the property.</param>
+    /// <param name="entityType">The declaring type of the property.</param>
     /// <returns>A string containing the mapped name.</returns>
-    internal static string GetMappedName(this PropertyInfo property,
-        Type declaringType)
+    internal static string GetMappedName(this PropertyInfo property, Type? entityType)
     {
-        var mappedName = GetCustomAttribute<MapAttribute>(property)?.Name ??
-            GetCustomAttribute<ColumnAttribute>(property)?.Name ??
-            GetCustomAttribute<NameAttribute>(property)?.Name;
+        var type = entityType ?? property.DeclaringType!;
+        var pi = type == property.DeclaringType ? property : PropertyCache.Get(type, property)?.PropertyInfo ?? property;
 
-#if NET8_0_OR_GREATER
+        var mappedName = pi.GetCustomAttribute<MapAttribute>()?.Name ??
+            pi.GetCustomAttribute<ColumnAttribute>()?.Name ??
+            pi.GetCustomAttribute<NameAttribute>()?.Name;
+
+        if (mappedName is null && type != property.DeclaringType)
+        {
+            mappedName = property.GetCustomAttribute<MapAttribute>()?.Name ??
+                property.GetCustomAttribute<ColumnAttribute>()?.Name ??
+                property.GetCustomAttribute<NameAttribute>()?.Name;
+        }
+
+#if NET
         if (mappedName is { } && mappedName.ContainsAny(unquote))
 #else
         if (mappedName is { })
@@ -75,8 +75,8 @@ public static class PropertyInfoExtension
         }
 
         return mappedName ??
-            PropertyMapper.Get(declaringType, property) ??
-            GetPropertyValueAttribute<NameAttribute>(property, declaringType)?.Name ??
+            PropertyMapper.Get(type, property) ??
+            GetPropertyValueAttribute<NameAttribute>(property, entityType)?.Name ??
             property.Name;
     }
 
@@ -158,10 +158,10 @@ public static class PropertyInfoExtension
     /// Generates a hashcode of the <see cref="PropertyInfo"/> object based on the parent class name and its own name.
     /// </summary>
     /// <param name="property">The instance of the <see cref="PropertyInfo"/> object.</param>
-    /// <param name="declaringType">The declaring type of the <see cref="PropertyInfo"/> object. This refers to the derived class if present.</param>
+    /// <param name="entityType">The declaring type of the <see cref="PropertyInfo"/> object. This refers to the derived class if present.</param>
     /// <returns>The generated hashcode.</returns>
-    internal static int GenerateCustomizedHashCode(this PropertyInfo property, Type? declaringType = null) =>
-        HashCode.Combine(declaringType ?? property.DeclaringType, property.Name, property.PropertyType);
+    internal static int GenerateCustomizedHashCode(this PropertyInfo property, Type? entityType = null) =>
+        HashCode.Combine(entityType ?? property.DeclaringType, property.Name, property.PropertyType);
 
     /// <summary>
     /// Converts an instance of <see cref="PropertyInfo"/> object into <see cref="Field"/> object.
@@ -186,14 +186,14 @@ public static class PropertyInfoExtension
     /// Gets the mapped <see cref="DbType"/> for the current <see cref="PropertyInfo"/>.
     /// </summary>
     /// <param name="propertyInfo">The target property.</param>
-    /// <param name="declaringType">The declaring type.</param>
+    /// <param name="entityType">The declaring type.</param>
     /// <returns>The mapped <see cref="DbType"/> object.</returns>
-    public static DbType? GetDbType(this PropertyInfo propertyInfo, Type? declaringType = null)
+    public static DbType? GetDbType(this PropertyInfo propertyInfo, Type? entityType = null)
     {
         ArgumentNullException.ThrowIfNull(propertyInfo);
-        return TypeMapCache.Get(declaringType ??= propertyInfo.DeclaringType!, propertyInfo) ??
-            GetPropertyValueAttribute<DbTypeAttribute>(propertyInfo, declaringType)?.DbType ??
-            (DbType?)GetDbTypePropertyValueAttribute(propertyInfo, declaringType)?.Value ??
+        return TypeMapCache.Get(entityType ??= propertyInfo.DeclaringType!, propertyInfo) ??
+            GetPropertyValueAttribute<DbTypeAttribute>(propertyInfo, entityType)?.DbType ??
+            (DbType?)GetDbTypePropertyValueAttribute(propertyInfo, entityType)?.Value ??
             TypeMapCache.Get(propertyInfo.PropertyType);
     }
 
@@ -202,16 +202,16 @@ public static class PropertyInfoExtension
     /// on the target <see cref="PropertyInfo"/> object.
     /// </summary>
     /// <param name="property">The target property.</param>
-    /// <param name="declaringType">The declaring type of the property.</param>
+    /// <param name="entityType">The declaring type of the property.</param>
     /// <returns>The list of mapped <see cref="PropertyHandlerAttribute"/> objects.</returns>
-    public static IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes(this PropertyInfo property, Type? declaringType = null)
+    public static IEnumerable<PropertyValueAttribute> GetPropertyValueAttributes(this PropertyInfo property, Type? entityType = null)
     {
         ArgumentNullException.ThrowIfNull(property);
         var customAttributes = property
             .GetCustomAttributes<PropertyValueAttribute>();
 
         var mappedAttributes = PropertyValueAttributeMapper
-            .Get(declaringType ?? property.DeclaringType!, property)
+            .Get(entityType ?? property.DeclaringType!, property)
             .Where(e => customAttributes?.Contains(e) != true) ?? PropertyValueAttributeMapper.Get(property.PropertyType);
 
         return customAttributes == null ? mappedAttributes : mappedAttributes == null ? customAttributes :
@@ -224,24 +224,23 @@ public static class PropertyInfoExtension
     /// </summary>
     /// <typeparam name="TPropertyValueAttribute">The target type of the <see cref="PropertyValueAttribute"/>.</typeparam>
     /// <param name="property">The property where to extract the instance of <see cref="PropertyValueAttribute"/> object.</param>
-    /// <param name="declaringType">The declaring type of the property.</param>
+    /// <param name="entityType">The declaring type of the property.</param>
     /// <returns>The instance of target <see cref="PropertyValueAttribute"/> object.</returns>
     public static TPropertyValueAttribute? GetPropertyValueAttribute<TPropertyValueAttribute>(this PropertyInfo property,
-        Type? declaringType = null)
+        Type? entityType = null)
         where TPropertyValueAttribute : PropertyValueAttribute
     {
         ArgumentNullException.ThrowIfNull(property);
-        return GetPropertyValueAttributes(property, declaringType ?? property.DeclaringType!).OfType<TPropertyValueAttribute>().LastOrDefault();
+        return GetPropertyValueAttributes(property, entityType ?? property.DeclaringType!).OfType<TPropertyValueAttribute>().LastOrDefault();
     }
 
-    internal static PropertyValueAttribute? GetDbTypePropertyValueAttribute(this PropertyInfo property, Type? declaringType = null) =>
-        GetPropertyValueAttributeByParameterName(property, declaringType ?? property.DeclaringType!, nameof(IDbDataParameter.DbType));
-
+    internal static PropertyValueAttribute? GetDbTypePropertyValueAttribute(this PropertyInfo property, Type? entityType = null) =>
+        GetPropertyValueAttributeByParameterName(property, entityType ?? property.DeclaringType!, nameof(IDbDataParameter.DbType));
     internal static PropertyValueAttribute? GetPropertyValueAttributeByParameterName(this PropertyInfo property,
-        Type? declaringType,
+        Type? entityType,
         string parameterName) =>
         PropertyValueAttributeMapper
-            .Get(declaringType ?? property.DeclaringType!, property)
+            .Get(entityType ?? property.DeclaringType!, property)
             ?.LastOrDefault(e => string.Equals(parameterName, e.PropertyName, StringComparison.OrdinalIgnoreCase));
 
     /// <summary>
@@ -264,15 +263,15 @@ public static class PropertyInfoExtension
     /// </summary>
     /// <param name="property">The target <see cref="PropertyInfo"/> object.</param>
     /// <param name="entity">The instance of the data entity object.</param>
-    /// <param name="declaringType">The customized declaring type of the <see cref="PropertyInfo"/> object.</param>
+    /// <param name="entityType">The customized declaring type of the <see cref="PropertyInfo"/> object.</param>
     /// <returns>The handled value of the data entity property.</returns>
     public static object? GetHandledValue(this PropertyInfo property,
         object entity,
-        Type declaringType)
+        Type? entityType)
     {
         ArgumentNullException.ThrowIfNull(property);
 
-        var classProperty = PropertyCache.Get(declaringType ?? property.DeclaringType, property, true);
+        var classProperty = PropertyCache.Get(entityType, property, true);
         var propertyHandler = classProperty?.GetPropertyHandler();
         var value = property?.GetValue(entity);
         if (propertyHandler is not null)

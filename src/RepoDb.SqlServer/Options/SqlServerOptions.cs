@@ -14,6 +14,12 @@ public record class SqlServerOptions
     /// <remarks>In all other RepoDB implementations this is by default enabled, but</remarks>
     public bool UseIdentityInsert { get; init; }
 
+
+    /// <summary>
+    /// Enables support for the legacy System.Data.SqlClient
+    /// </summary>
+    public bool InitializeSystemDataSqlClient { get; init; }
+
     /// <summary>
     /// Gets the current SQL Server settings for RepoDB. This is used internally by RepoDB to determine the behavior of certain operations when interacting with SQL Server databases.
     /// </summary>

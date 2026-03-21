@@ -72,7 +72,7 @@ internal partial class Compiler
         var dbParameterPostCreationExpression =
             dbHelper is BaseDbHelper bh2
             ? bh2.GetParameterPostCreationExpression(dbParameterExpression, null, dbField)
-            : GetCompilerDbParameterPostCreationExpression(dbParameterExpression, dbHelper);
+            : null;
         parameterAssignmentExpressions.AddIfNotNull(dbParameterPostCreationExpression);
 
         // DbCommand.Parameters.Add

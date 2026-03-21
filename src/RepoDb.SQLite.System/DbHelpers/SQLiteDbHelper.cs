@@ -1,7 +1,7 @@
-﻿#nullable enable
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
@@ -45,19 +45,30 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
     private DbField ReaderToDbField(DbDataReader reader,
         string? identityFieldName)
     {
-        var dbType = SplitDbType(reader.IsDBNull(2) ? null : reader.GetString(2), out var size);
-
-        if (dbType?.Length == 0)
+        if (reader.IsDBNull(2) || SplitDbType(reader.GetString(2), out var size, out var scale) is not { } dbType)
+        {
             dbType = null;
+            size = null;
+            scale = null;
+        }
+
+        var type = DbTypeResolver.Resolve(dbType ?? "text") ?? typeof(object);
+
+        byte? precision = null;
+        if (size is { } && type != typeof(string) && !type.IsArray)
+        {
+            precision = (byte?)size;
+            size = null;
+        }
 
         return new DbField(reader.GetString(1),
             !reader.IsDBNull(5) && reader.GetBoolean(5),
             string.Equals(reader.GetString(1), identityFieldName, StringComparison.OrdinalIgnoreCase),
-            reader.IsDBNull(3) || reader.GetBoolean(3) == false,
-            DbTypeResolver.Resolve(dbType ?? "text")!,
+            reader.IsDBNull(3) || !reader.GetBoolean(3),
+            type,
             size,
-            null,
-            null,
+            precision,
+            scale,
             dbType,
             !reader.IsDBNull(4),
             reader.GetInt32(reader.FieldCount - 1) is 2 /* dynamic generated */ or 3 /* stored generated */,
@@ -65,26 +76,34 @@ public sealed partial class SQLiteDbHelper : BaseDbHelper
     }
 
 #if NET
-    [GeneratedRegex(@"\((\d+)(,(\d+))*\)$")]
+    [GeneratedRegex(@"\s*\(\s*(\d+)\s*(,\s*(\d+)\s*)?\)?$")]
     private static partial Regex FieldTypeRegex();
 #else
-    private static readonly Regex re = new Regex(@"\((\d+)(,(\d+))*\)$", RegexOptions.Compiled);
+    private static readonly Regex re = new Regex(@"\s*\(\s*(\d+)\s*(,\s*(\d+)\s*)?\)?$", RegexOptions.Compiled);
     private static Regex FieldTypeRegex() => re;
 #endif
 
-    private static string? SplitDbType(string? v, out int? size)
+    private static string? SplitDbType(string v, out int? size, out byte? scale)
     {
         size = null;
+        scale = null;
 
-        if (FieldTypeRegex().Match(v ?? "") is { } r && r.Success)
+        if (FieldTypeRegex().Match(v) is { } r && r.Success)
         {
             // Get the size
             if (int.TryParse(r.Groups[1].Value, out var s))
             {
                 size = s;
             }
-            v = v!.Substring(0, r.Index);
+            if (r.Groups[3].Success && byte.TryParse(r.Groups[3].Value, out var vs))
+            {
+                scale = vs;
+            }
+            v = v.Substring(0, r.Index);
         }
+
+        if (string.IsNullOrWhiteSpace(v))
+            return null;
 
         return v;
     }
@@ -393,7 +412,7 @@ SELECT sqlite_version();
         {
             EngineName = "SQLite",
             EngineVersion = parsedVersion,
-            //CompatibilityVersion = null, // Not applicable
+            CompatibilityVersion = parsedVersion,
             ParameterTypeMap = null // No TVPs
         };
     }

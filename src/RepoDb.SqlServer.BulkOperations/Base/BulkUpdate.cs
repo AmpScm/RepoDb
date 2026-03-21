@@ -68,8 +68,8 @@ public static partial class SqlConnectionExtension
             {
                 fields = fields
                     .Where(e =>
-                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true ||
-                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
+                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) ||
+                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)));
             }
             else
             {
@@ -78,7 +78,7 @@ public static partial class SqlConnectionExtension
                 {
                     fields = fields
                         .Where(e =>
-                            readerFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
+                            readerFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)));
                 }
 
                 // Filter the fields (based on the data table)
@@ -344,6 +344,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(reader);
         // Validate
         if (!reader.HasRows)
         {
@@ -389,8 +390,8 @@ public static partial class SqlConnectionExtension
             {
                 fields = fields
                     .Where(e =>
-                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true ||
-                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
+                        mappings.Any(m => string.Equals(m.DestinationColumn, e.FieldName, StringComparison.OrdinalIgnoreCase)) ||
+                        qualifiers.Any(q => string.Equals(q.FieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)));
             }
             else
             {
@@ -399,7 +400,7 @@ public static partial class SqlConnectionExtension
                 {
                     fields = fields
                         .Where(e =>
-                            readerFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)) == true);
+                            readerFields.Any(fieldName => string.Equals(fieldName, e.FieldName, StringComparison.OrdinalIgnoreCase)));
                 }
 
                 // Filter the fields (based on the data table)
@@ -494,6 +495,7 @@ public static partial class SqlConnectionExtension
         ITrace? trace = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(dataTable);
         // Validate
         if (dataTable.Rows.Count <= 0)
         {

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+
+      <!-- Linux/macOS collector -->
+      <DataCollector friendlyName="XPlat Code Coverage">
+        <Configuration>
+          <CodeCoverage>
+
+            <ModulePaths>
+              <Include>
+                <ModulePath>.*[\\/](RepoDb[^\\/]*\.dll)$</ModulePath>
+              </Include>
+              <Exclude>
+                <ModulePath>.*[\\/].*Tests\.dll$</ModulePath>
+              </Exclude>
+            </ModulePaths>
+
+            <SourcePaths>
+              <Exclude>
+                <SourcePath>.*\.g\.cs$</SourcePath>
+                <SourcePath>.*/Generated/.*</SourcePath>
+                <SourcePath>.*Compat\.cs$</SourcePath>
+              </Exclude>
+            </SourcePaths>
+
+          </CodeCoverage>
+        </Configuration>
+      </DataCollector>
+
+      <!-- Windows collector -->
+      <DataCollector friendlyName="Code Coverage">
+        <Configuration>
+          <CodeCoverage>
+
+            <ModulePaths>
+              <Include>
+                <ModulePath>.*[\\/](RepoDb[^\\/]*\.dll)$</ModulePath>
+              </Include>
+              <Exclude>
+                <ModulePath>.*[\\/].*Tests\.dll$</ModulePath>
+              </Exclude>
+            </ModulePaths>
+
+            <SourcePaths>
+              <Exclude>
+                <SourcePath>.*\.g\.cs$</SourcePath>
+                <SourcePath>.*/Generated/.*</SourcePath>
+                <SourcePath>.*Compat\.cs$</SourcePath>
+              </Exclude>
+            </SourcePaths>
+
+          </CodeCoverage>
+        </Configuration>
+      </DataCollector>
+
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

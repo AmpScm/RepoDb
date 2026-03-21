@@ -42,8 +42,7 @@ internal partial class Compiler
                 propertyExpression,
                 classProperty,
                 dbField,
-                dbCommandExpression,
-                dbHelper);
+                dbCommandExpression);
             parameterAssignmentExpressions.AddIfNotNull(valueAssignmentExpression);
         }
 
@@ -84,7 +83,7 @@ internal partial class Compiler
         var dbParameterPostCreationExpression =
             dbHelper is BaseDbHelper bh
             ? bh.GetParameterPostCreationExpression(dbParameterExpression, propertyExpression, dbField)
-            : GetCompilerDbParameterPostCreationExpression(dbParameterExpression, dbHelper);
+            : null;
         parameterAssignmentExpressions.AddIfNotNull(dbParameterPostCreationExpression);
 
         // PropertyValueAttributes / DbField must precide

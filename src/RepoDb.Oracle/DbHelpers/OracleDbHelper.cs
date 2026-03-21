@@ -30,15 +30,6 @@ public sealed class OracleDbHelper : BaseDbHelper
     public IDbSetting DbSetting { get; }
 
     /// <inheritdoc />
-    public override void DynamicHandler<TEventInstance>(TEventInstance instance, string key)
-    {
-        if (key == "RepoDb.Internal.Compiler.Events[AfterCreateDbParameter]" && instance is OracleParameter op)
-        {
-            HandleDbParameterPostCreation(op);
-        }
-    }
-
-    /// <inheritdoc />
     public override Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
     {
         return Expression.Call(typeof(OracleDbHelper).GetMethod(nameof(HandleDbParameterPostCreation), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!,
