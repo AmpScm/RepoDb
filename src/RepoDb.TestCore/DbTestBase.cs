@@ -4,19 +4,18 @@ namespace RepoDb.TestCore;
 
 public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, new()
 {
-    public TestContext TestContext { get; set; }
+    public required TestContext TestContext { get; init; }
     public virtual string VarCharName => "varchar";
-
-    public virtual string AltVarChar => "varchar";
+    public virtual string AltVarCharName => "varchar";
+    public virtual string DecimalName => "decimal";
 
     public TDbInstance DbInstance = new();
 
     [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
     public static async Task TestClassInitialize(TestContext context)
     {
-        await using var q = new TDbInstance();
-
-        await q.ClassInitializeAsync(context);
+        var q = new TDbInstance();
+        await q.ClassInitializeAsync(context).ConfigureAwait(false);
     }
 
     [TestInitialize]
@@ -27,7 +26,10 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
         PostInitialize();
     }
 
-    protected abstract void InitializeCore();
+    protected virtual void InitializeCore()
+    {
+
+    }
 
     protected virtual void PostInitialize()
     {
@@ -43,7 +45,7 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
         var db = CreateConnection();
         try
         {
-            await db.OpenAsync(TestContext.CancellationTokenSource.Token);
+            await db.OpenAsync(TestContext.CancellationToken);
             return db;
         }
         catch
@@ -77,7 +79,7 @@ public abstract class DbTestBase<TDbInstance> where TDbInstance : DbInstance, ne
         var db = CreateLimitedConnection();
         try
         {
-            await db.OpenAsync(TestContext.CancellationTokenSource.Token);
+            await db.OpenAsync(TestContext.CancellationToken);
             return db;
         }
         catch

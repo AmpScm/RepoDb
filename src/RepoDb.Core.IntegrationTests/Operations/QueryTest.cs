@@ -9,21 +9,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class QueryTest
+public class QueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Query<TEntity>
 
     [TestMethod]
@@ -3413,6 +3400,4 @@ public class QueryTest
         Assert.AreEqual("([DateTime] < @DateTime)", QueryGroup.Parse<DateTimeItems>(x => x.DateTime < dto).GetString(connection.GetDbSetting()));
         Assert.AreEqual("([DateTimeOffset] < @DateTimeOffset)", QueryGroup.Parse<DateTimeItems>(x => x.DateTimeOffset < dt).GetString(connection.GetDbSetting()));
     }
-
-    public TestContext TestContext { get; set; }
 }

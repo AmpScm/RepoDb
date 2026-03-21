@@ -1,4 +1,6 @@
 ﻿#nullable enable
+~override RepoDb.DbSettings.DbDataParameterTypeMap.Equals(object obj) -> bool
+~override RepoDb.DbSettings.DbDataParameterTypeMap.ToString() -> string
 abstract RepoDb.DbSettings.BaseDbHelper.GetFields(System.Data.IDbConnection! connection, string! tableName, System.Data.IDbTransaction? transaction = null) -> RepoDb.DbFieldCollection!
 abstract RepoDb.DbSettings.BaseDbHelper.GetSchemaObjects(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction = null) -> System.Collections.Generic.IEnumerable<RepoDb.DbSchemaObject!>!
 abstract RepoDb.DbSettings.BaseDbSetting.<Clone>$() -> RepoDb.DbSettings.BaseDbSetting!
@@ -3360,9 +3362,10 @@ static RepoDb.IdentityMapper.Get(System.Type! type) -> RepoDb.ClassProperty?
 static RepoDb.IdentityMapper.Get<TEntity>() -> RepoDb.ClassProperty?
 static RepoDb.IdentityMapper.Remove(System.Type! type) -> void
 static RepoDb.IdentityMapper.Remove<TEntity>() -> void
-static RepoDb.JsonQueryExtensions.ExtractValue<T>(this System.Text.Json.Nodes.JsonNode! source, string! name) -> T?
+static RepoDb.JsonQueryExtensions.ExtractValue<T>(this System.Text.Json.Nodes.JsonNode? source, string! name) -> T?
 static RepoDb.JsonQueryExtensions.ExtractValue<TEntity, TResult>(this RepoDb.DbJsonValue<TEntity!> source, System.Linq.Expressions.Expression<System.Func<TEntity!, TResult>!>! mapping) -> TResult?
-static RepoDb.JsonQueryExtensions.ExtractValue<TEntity, TResult>(this System.Text.Json.Nodes.JsonNode! source, System.Linq.Expressions.Expression<System.Func<TEntity, TResult>!>! mapping) -> TResult?
+static RepoDb.JsonQueryExtensions.ExtractValue<TEntity, TResult>(this RepoDb.DbJsonValue<TEntity!>? source, System.Linq.Expressions.Expression<System.Func<TEntity!, TResult>!>! mapping) -> TResult?
+static RepoDb.JsonQueryExtensions.ExtractValue<TEntity, TResult>(this System.Text.Json.Nodes.JsonNode? source, System.Linq.Expressions.Expression<System.Func<TEntity, TResult>!>! mapping) -> TResult?
 static RepoDb.Options.GlobalConfigurationOptions.operator !=(RepoDb.Options.GlobalConfigurationOptions? left, RepoDb.Options.GlobalConfigurationOptions? right) -> bool
 static RepoDb.Options.GlobalConfigurationOptions.operator ==(RepoDb.Options.GlobalConfigurationOptions? left, RepoDb.Options.GlobalConfigurationOptions? right) -> bool
 static RepoDb.OrderField.Ascending<TEntity>(System.Linq.Expressions.Expression<System.Func<TEntity!, object?>!>! expression) -> RepoDb.OrderField!
@@ -3556,7 +3559,7 @@ virtual RepoDb.DbSettings.BaseDbHelper.CreateTableParameterText(System.Data.IDbC
 virtual RepoDb.DbSettings.BaseDbHelper.GetDbConnectionRuntimeInformation(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction) -> RepoDb.DbSettings.DbRuntimeSetting!
 virtual RepoDb.DbSettings.BaseDbHelper.GetDbConnectionRuntimeInformationAsync(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<RepoDb.DbSettings.DbRuntimeSetting!>
 virtual RepoDb.DbSettings.BaseDbHelper.GetFieldsAsync(System.Data.IDbConnection! connection, string! tableName, System.Data.IDbTransaction? transaction = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<RepoDb.DbFieldCollection!>
-virtual RepoDb.DbSettings.BaseDbHelper.GetJsonColumnType(System.Data.Common.DbConnection! sql, System.Data.Common.DbTransaction! transaction) -> string?
+virtual RepoDb.DbSettings.BaseDbHelper.GetJsonColumnType(System.Data.Common.DbConnection! sql, System.Data.Common.DbTransaction? transaction) -> string?
 virtual RepoDb.DbSettings.BaseDbHelper.GetParameterPostCreationExpression(System.Linq.Expressions.ParameterExpression! dbParameterExpression, System.Linq.Expressions.ParameterExpression? propertyExpression, RepoDb.DbField! dbField) -> System.Linq.Expressions.Expression?
 virtual RepoDb.DbSettings.BaseDbHelper.GetSchemaObjectsAsync(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<System.Collections.Generic.IEnumerable<RepoDb.DbSchemaObject!>!>
 virtual RepoDb.DbSettings.BaseDbHelper.ParameterValueToDb(object? value, System.Data.IDbDataParameter! parameter) -> object?
@@ -3592,5 +3595,3 @@ virtual RepoDb.StatementBuilders.BaseStatementBuilder.IdentityDefinition.get -> 
 virtual RepoDb.StatementBuilders.BaseStatementBuilder.JsonColumnType.get -> string?
 virtual RepoDb.StatementBuilders.BaseStatementBuilder.PrimaryBeforeIdentity.get -> bool?
 virtual RepoDb.StatementBuilders.BaseStatementBuilder.VectorColumnType.get -> string?
-~override RepoDb.DbSettings.DbDataParameterTypeMap.Equals(object obj) -> bool
-~override RepoDb.DbSettings.DbDataParameterTypeMap.ToString() -> string

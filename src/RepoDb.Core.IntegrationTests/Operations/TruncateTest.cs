@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class TruncateTest
+public class TruncateTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Truncate<TEntity>
 
     [TestMethod]
@@ -113,8 +100,5 @@ public class TruncateTest
         // Assert
         Assert.AreEqual(0, result);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

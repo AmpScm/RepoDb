@@ -6,21 +6,8 @@ using RepoDb.MySqlConnector.IntegrationTests.Setup;
 namespace RepoDb.MySqlConnector.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteQueryMultipleTest
+public class ExecuteQueryMultipleTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -184,8 +171,5 @@ public class ExecuteQueryMultipleTest
             item.AsList().ForEach(current => Helper.AssertPropertiesEquality(current, tables.First(e => e.Id == current.Id)));
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

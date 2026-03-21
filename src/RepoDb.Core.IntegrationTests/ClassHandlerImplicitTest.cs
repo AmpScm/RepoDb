@@ -9,25 +9,12 @@ using RepoDb.Options;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ClassHandlerImplicitTest
+public class ClassHandlerImplicitTest : TestBase
 {
     [ClassInitialize]
     public static void ClassInitialize(TestContext context)
     {
         Setup();
-    }
-
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
     }
 
     private static void Setup()

@@ -6,19 +6,6 @@ namespace RepoDb.Sqlite.Microsoft.IntegrationTests;
 [TestClass]
 public class DbHelperTests
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region GetFields
 
     #region Sync
@@ -29,13 +16,13 @@ public class DbHelperTests
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
         var helper = connection.GetDbHelper();
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var fields = helper.GetFields(connection, "MdsCompleteTable", null);
+        var fields = helper.GetFields(connection, "CompleteTable", null);
 
         // Assert
-        using var reader = connection.ExecuteReader("pragma table_info([MdsCompleteTable]);");
+        using var reader = connection.ExecuteReader("pragma table_info([CompleteTable]);");
         var fieldCount = 0;
 
         while (reader.Read())
@@ -59,10 +46,10 @@ public class DbHelperTests
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
         var helper = connection.GetDbHelper();
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var fields = helper.GetFields(connection, "MdsCompleteTable", null);
+        var fields = helper.GetFields(connection, "CompleteTable", null);
         var primary = fields.FirstOrDefault(f => f.IsPrimary == true);
 
         // Assert
@@ -76,10 +63,10 @@ public class DbHelperTests
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
         var helper = connection.GetDbHelper();
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var fields = helper.GetFields(connection, "MdsCompleteTable", null);
+        var fields = helper.GetFields(connection, "CompleteTable", null);
         var primary = fields.FirstOrDefault(f => f.IsIdentity == true);
 
         // Assert
@@ -97,13 +84,13 @@ public class DbHelperTests
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
         var helper = connection.GetDbHelper();
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null, TestContext.CancellationToken);
+        var fields = await helper.GetFieldsAsync(connection, "CompleteTable", null, TestContext.CancellationToken);
 
         // Assert
-        using var reader = connection.ExecuteReader("pragma table_info([MdsCompleteTable]);");
+        using var reader = connection.ExecuteReader("pragma table_info([CompleteTable]);");
         var fieldCount = 0;
 
         while (reader.Read())
@@ -127,10 +114,10 @@ public class DbHelperTests
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
         var helper = connection.GetDbHelper();
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null, TestContext.CancellationToken);
+        var fields = await helper.GetFieldsAsync(connection, "CompleteTable", null, TestContext.CancellationToken);
         var primary = fields.FirstOrDefault(f => f.IsPrimary == true);
 
         // Assert
@@ -144,10 +131,10 @@ public class DbHelperTests
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
         var helper = connection.GetDbHelper();
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var fields = await helper.GetFieldsAsync(connection, "MdsCompleteTable", null, TestContext.CancellationToken);
+        var fields = await helper.GetFieldsAsync(connection, "CompleteTable", null, TestContext.CancellationToken);
         var primary = fields.FirstOrDefault(f => f.IsIdentity == true);
 
         // Assert

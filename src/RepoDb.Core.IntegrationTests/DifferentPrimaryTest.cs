@@ -5,20 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class DifferentPrimaryTest
+public class DifferentPrimaryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
 
     #region Insert
 

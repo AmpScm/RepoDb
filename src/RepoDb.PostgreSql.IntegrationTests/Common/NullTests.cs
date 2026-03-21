@@ -6,10 +6,6 @@ namespace RepoDb.PostgreSql.IntegrationTests.Common;
 [TestClass]
 public class NullTests : RepoDb.TestCore.NullTestsBase<PostgreSqlDbInstance>
 {
-    protected override void InitializeCore() => Database.Initialize();
-
-    public override DbConnection CreateConnection() => new Npgsql.NpgsqlConnection(Database.ConnectionString);
-
     public override string UuidDbType => "CHAR(38)";
     public override string DateTimeDbType => "TIMESTAMP";
     public override string DateTimeOffsetDbType => "TIMESTAMPTZ";

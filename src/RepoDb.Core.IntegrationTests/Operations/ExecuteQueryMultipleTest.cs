@@ -8,21 +8,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteQueryMultipleTest
+public class ExecuteQueryMultipleTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region ExecuteQueryMultiple.Extract
 
     #region Extract<TEntity>
@@ -1412,8 +1399,6 @@ public class ExecuteQueryMultipleTest
         nonIdentityTables.ForEach(table =>
             Helper.AssertPropertiesEquality(table, nonIdentityTablesResult.First(e => e.Id == table.Id)));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

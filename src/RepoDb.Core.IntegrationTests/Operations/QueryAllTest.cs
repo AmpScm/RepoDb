@@ -9,21 +9,8 @@ using System.Dynamic;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class QueryAllTest
+public class QueryAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region QueryAll<TEntity>
 
     [TestMethod]
@@ -997,8 +984,5 @@ public class QueryAllTest
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

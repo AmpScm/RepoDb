@@ -5,21 +5,8 @@ using Microsoft.Data.SqlClient;
 namespace RepoDb.IntegrationTests.Types.Numbers;
 
 [TestClass]
-public class SqlConnectionNumbersTest
+public class SqlConnectionNumbersTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region <TEntity>
 
     [TestMethod]
@@ -517,8 +504,6 @@ public class SqlConnectionNumbersTest
         Assert.IsNull(data.ColumnSmallInt);
         Assert.IsNull(data.ColumnSmallMoney);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

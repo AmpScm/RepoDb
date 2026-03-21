@@ -7,6 +7,7 @@ namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 public class SqliteDbInstance : DbInstance<SqliteConnection>
 {
     private readonly SqliteConnection _conn;
+    private static readonly Guid _cacheKey = Guid.NewGuid();
 
     static SqliteDbInstance()
     {
@@ -15,10 +16,8 @@ public class SqliteDbInstance : DbInstance<SqliteConnection>
 
     public SqliteDbInstance()
     {
-        var cacheKey = Guid.NewGuid();
-
         // Database is shared when cache key is shared, until last connection dies
-        AdminConnectionString = ConnectionString = $"Data Source=file:{cacheKey}.db?mode=memory&cache=shared;";
+        AdminConnectionString = ConnectionString = $"Data Source=file:{_cacheKey}.db?mode=memory&cache=shared;";
 
         // SQLite doesn't have user-level security; limited connection uses same database
         LimitedConnectionString = ConnectionString;
@@ -32,6 +31,7 @@ public class SqliteDbInstance : DbInstance<SqliteConnection>
 
     protected override Task CreateUserDatabase(DbConnection sql)
     {
+        Database.Initialize();
         return Task.CompletedTask;
     }
 }

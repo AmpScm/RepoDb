@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class CountAllTest
+public class CountAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region CountAll<TEntity>
 
     [TestMethod]
@@ -171,8 +158,5 @@ public class CountAllTest
         // Assert
         Assert.AreEqual(tables.Count, result);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

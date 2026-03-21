@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using RepoDb.Attributes;
+using RepoDb.Attributes.Parameter;
 using RepoDb.Enumerations;
 using RepoDb.Extensions.QueryFields;
 using RepoDb.Schema;
 using RepoDb.Trace;
 
+#pragma warning disable: CS8618 // non nullable property, bla, bla
 namespace RepoDb.TestCore;
 
 public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstance> where TDbInstance : DbInstance, new()
@@ -44,6 +47,17 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         public NullTest Nr { get; set; }
         public NullTest? NrNull { get; set; }
+    }
+
+    [TestMethod]
+    public void EngineVersionTest()
+    {
+        using var sql = CreateConnection();
+
+
+        var info = sql.GetDbRuntimeSetting(null);
+
+        Console.WriteLine($"Engine: {info.EngineName}, Version: {info.EngineVersion}, Compatibility: {info.CompatibilityVersion}");
     }
 
 
@@ -111,7 +125,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
 
         var toDel = new int[] { 1, 2 };
-        sql.Delete<CommonNullTestData>(x => toDel.Contains(x.NrNull.Value), transaction: t, trace: new DiagnosticsTracer());
+        sql.Delete<CommonNullTestData>(x => toDel.Contains(x.NrNull!.Value), transaction: t, trace: new DiagnosticsTracer());
 
         await t.RollbackAsync(TestContext.CancellationToken);
     }
@@ -471,6 +485,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         public string ID { get; set; }
         public string ID2 { get; set; }
         public string? VAL3 { get; set; }
+        public decimal DEC { get; set; }
     }
 
     [TestMethod]
@@ -482,8 +497,9 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         {
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(FieldLengthTable)}] (
                     [ID] {VarCharName}(36) NOT NULL,
-                    [ID2] {AltVarChar}(37) NOT NULL,
-                    [VAL3] {AltVarChar}(38) NULL,
+                    [ID2] {AltVarCharName}(37) NOT NULL,
+                    [VAL3] {AltVarCharName}(38) NULL,
+                    [DEC] {DecimalName}(10, 2) NULL,
                     CONSTRAINT [PK_{nameof(FieldLengthTable)}] PRIMARY KEY
                     (
                         [ID], [ID2]
@@ -500,20 +516,26 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         var id1 = fd.First(x => x.FieldName == "ID");
         var id2 = fd.First(x => x.FieldName == "ID2");
         var val3 = fd.First(x => x.FieldName == "VAL3");
+        var dec = fd.GetByFieldName("DEC");
         Assert.AreEqual("ID", id1?.FieldName);
         Assert.AreEqual("ID2", id2?.FieldName);
         Assert.AreEqual("VAL3", val3?.FieldName);
+        Assert.AreEqual("DEC", dec?.FieldName);
         Assert.AreEqual(typeof(string), id1?.Type);
         Assert.AreEqual(typeof(string), id2?.Type);
         Assert.AreEqual(typeof(string), val3?.Type);
+        Assert.AreEqual(typeof(decimal), dec?.Type);
 
         Assert.AreEqual(VarCharName, id1?.DatabaseType);
-        Assert.AreEqual(AltVarChar == "varchar" ? VarCharName : AltVarChar, id2?.DatabaseType);
-        Assert.AreEqual(AltVarChar == "varchar" ? VarCharName : AltVarChar, val3?.DatabaseType);
+        Assert.AreEqual(AltVarCharName == "varchar" ? VarCharName : AltVarCharName, id2?.DatabaseType);
+        Assert.AreEqual(AltVarCharName == "varchar" ? VarCharName : AltVarCharName, val3?.DatabaseType);
 
         Assert.AreEqual(36, id1?.Size);
         Assert.AreEqual(37, id2?.Size);
         Assert.AreEqual(38, val3?.Size);
+
+        Assert.AreEqual((byte)10, dec.Precision);
+        Assert.AreEqual((byte)2, dec.Scale);
 
         Assert.IsTrue(id1?.IsPrimary);
         Assert.IsTrue(id2?.IsPrimary);
@@ -573,7 +595,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [{nameof(MorePrimaryKeyTable)}] (
                     [ID] {VarCharName}(20) NOT NULL,
                     [ID2] {IdentityDefinition},
-                    [Value] {AltVarChar}(38) NULL,
+                    [Value] {AltVarCharName}(38) NULL,
                     CONSTRAINT [PK_{nameof(MorePrimaryKeyTable)}] PRIMARY KEY
                     (
                         [ID2], [ID]
@@ -596,7 +618,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         Assert.AreEqual(VarCharName, id1?.DatabaseType);
         //Assert.AreEqual("INT", id2?.DatabaseType); // Or 'int' or 'integer', or ...
-        Assert.AreEqual(AltVarChar == "varchar" ? VarCharName : AltVarChar, val3?.DatabaseType);
+        Assert.AreEqual(AltVarCharName == "varchar" ? VarCharName : AltVarCharName, val3?.DatabaseType);
 
         Assert.AreEqual(typeof(string), id1?.Type);
         Assert.IsTrue(id2?.Type == typeof(int) || id2?.Type == typeof(decimal));
@@ -980,6 +1002,11 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         await sql.QueryAsync<RelatedTable>(x => x.Name.Length == 1, trace: new DiagnosticsTracer());
         await sql.QueryAsync<RelatedTable>(x => x.Name.Substring(0, 3) == "AAA", trace: new DiagnosticsTracer());
         await sql.QueryAsync<RelatedTable>(new RightQueryField("Name", "AAA"), trace: new DiagnosticsTracer());
+
+#if NET
+        await sql.QueryAsync<RelatedTable>(x => x.Name.StartsWith('A'));
+        await sql.QueryAsync<RelatedTable>(x => x.Name.EndsWith('A'));
+#endif
     }
 
     [TestMethod]
@@ -1029,6 +1056,30 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     }
 
 
+    record RecordQueryThing([property: Key][property: DatabaseGenerated(DatabaseGeneratedOption.Identity)] int ID, string Name, string? Value)
+    {
+        public string? Addendum { get; set; }
+    }
+    [TestMethod]
+    public async Task RecordMemberItems()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+
+        if (!await sql.SchemaObjectExistsAsync<RecordQueryThing>(cancellationToken: TestContext.CancellationToken))
+        {
+            await sql.CreateTableAsync<RecordQueryThing>();
+        }
+        else
+            await sql.TruncateAsync<RecordQueryThing>();
+
+        await sql.InsertAllAsync(Enumerable.Range(0, 10).Select(x => new RecordQueryThing(0, $"N{x}", x % 2 == 0 ? "Even" : "Odd")), cancellationToken: TestContext.CancellationToken);
+
+        var r = await sql.QueryAsync<RecordQueryThing>(where: x => x.Value == "Even", trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
+
+        Assert.HasCount(5, r);
+    }
+
+
 
 #if NET
     class HalfFloatTest
@@ -1074,4 +1125,44 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.AreEqual(1, await sql.ExecuteScalarAsync<int>(sql.ReplaceForTests($"SELECT COUNT(*) FROM [{nameof(HalfFloatTest)}] WHERE [F]=@f"), new { f = (Half)1.5 }));
     }
 #endif
+
+    class DateTimeExtractData
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
+        public int ID { get; set; }
+
+        [Precision(3)]
+        public DateTime Value { get; set; }
+    }
+
+    [TestMethod]
+    public async Task DateTimeExtractTests()
+    {
+        using var sql = await CreateOpenConnectionAsync();
+        if (!await sql.SchemaObjectExistsAsync<DateTimeExtractData>(cancellationToken: TestContext.CancellationToken))
+        {
+            await sql.CreateTableAsync<DateTimeExtractData>(cancellationToken: TestContext.CancellationToken);
+        }
+        else
+        {
+            await sql.TruncateAsync<DateTimeExtractData>(cancellationToken: TestContext.CancellationToken);
+        }
+
+        await sql.InsertAllAsync(new DateTimeExtractData[]
+        {
+            new() { Value = new DateTime(2000, 1, 2, 3, 4, 5, 6, DateTimeKind.Utc)},
+            new() { Value = new DateTime(2100, 7, 8, 9, 10, 11, 12, DateTimeKind.Utc)}
+        }, trace: new DiagnosticsTracer());
+
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Year == 2000, trace: new DiagnosticsTracer()));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Month == 1, trace: new DiagnosticsTracer()));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Day == 2, trace: new DiagnosticsTracer()));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Hour == 3, trace: new DiagnosticsTracer()));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Minute == 4, trace: new DiagnosticsTracer()));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Second == 5, trace: new DiagnosticsTracer()));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Millisecond == 6, trace: new DiagnosticsTracer()));
+
+        if (sql.GetType().Namespace is not "System.Data.SQLite") 
+            Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Date == new DateTime(2000, 1, 2, 0, 0, 0, DateTimeKind.Utc), trace: new DiagnosticsTracer()));
+    }
 }

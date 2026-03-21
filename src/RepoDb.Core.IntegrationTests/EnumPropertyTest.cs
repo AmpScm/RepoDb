@@ -12,20 +12,12 @@ using RepoDb.Options;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class EnumPropertyTest
+public class EnumPropertyTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
+    protected override void InitializeCore()
     {
-        Database.Initialize();
+        base.InitializeCore();
         TypeMapper.Add(typeof(Continent), System.Data.DbType.Int16, true);
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
     }
 
     #region PropertyHandlers

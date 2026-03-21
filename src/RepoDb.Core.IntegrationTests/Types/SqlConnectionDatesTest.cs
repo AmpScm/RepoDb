@@ -5,21 +5,8 @@ using Microsoft.Data.SqlClient;
 namespace RepoDb.IntegrationTests.Types.Dates;
 
 [TestClass]
-public class SqlConnectionDatesTest
+public class SqlConnectionDatesTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region <TEntity>
 
     [TestMethod]
@@ -431,8 +418,6 @@ public class SqlConnectionDatesTest
         Assert.IsNull(data.ColumnDateTimeOffset);
         Assert.IsNull(data.ColumnTime);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

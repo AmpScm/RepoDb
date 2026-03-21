@@ -491,7 +491,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
     }
 
     /// <inheritdoc />
-    public override string? GetJsonColumnType(DbConnection sql, DbTransaction transaction)
+    public override string? GetJsonColumnType(DbConnection sql, DbTransaction? transaction)
     {
         if (sql.GetDbRuntimeSetting(transaction) is { } info)
         {
@@ -530,7 +530,10 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         return base.ParameterValueToDb(value, parameter);
     }
 
-    private static readonly Lazy<Type?> LegacyParameterType = new(() => Type.GetType("System.Data.SqlClient.SqlParameter, System.Data.SqlClient", throwOnError: false));
+    private static readonly Lazy<Type?> LegacyParameterType = new(() =>
+        Type.GetType("System.Data.SqlClient.SqlParameter, System.Data.SqlClient", throwOnError: false)
+        ?? Type.GetType("System.Data.SqlClient.SqlParameter, System.Data", throwOnError: false)
+        );
 
     static SqlServerDbHelper()
     {

@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class AverageTest
+public class AverageTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Average<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Average<CompleteTable>(e => e.ColumnInt,
             (object?)null);
 
         // Assert
@@ -45,11 +32,11 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
         var ids = new[] { tables.First().Id, tables.Last().Id };
-        var result = connection.Average<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Average<CompleteTable>(e => e.ColumnInt,
             e => ids.Contains(e.Id));
 
         // Assert
@@ -63,10 +50,10 @@ public class AverageTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Average<SdsCompleteTable>(e => e.ColumnInt,
+            connection.Average<CompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver");
         });
@@ -81,10 +68,10 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.AverageAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -96,11 +83,11 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
         var ids = new[] { tables.First().Id, tables.Last().Id };
-        var result = await connection.AverageAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
             e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -114,10 +101,10 @@ public class AverageTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.AverageAsync<SdsCompleteTable>(e => e.ColumnInt,
+            await connection.AverageAsync<CompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
@@ -136,11 +123,11 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Average(ClassMappedNameCache.Get<SdsCompleteTable>(),
-            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+        var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
             (object?)null);
 
         // Assert
@@ -152,12 +139,12 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
         var ids = new[] { tables.First().Id, tables.Last().Id };
-        var result = connection.Average(ClassMappedNameCache.Get<SdsCompleteTable>(),
-            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+        var result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
             new QueryField("Id", Operation.In, ids));
 
         // Assert
@@ -171,11 +158,11 @@ public class AverageTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Average(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+            connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
+                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 (object?)null,
                 hints: "WhatEver");
         });
@@ -190,11 +177,11 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.AverageAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+        var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -206,12 +193,12 @@ public class AverageTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
         var ids = new[] { tables.First().Id, tables.Last().Id };
-        var result = await connection.AverageAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+        var result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
             new QueryField("Id", Operation.In, ids), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -225,18 +212,15 @@ public class AverageTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.AverageAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+            await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
+                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 (object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

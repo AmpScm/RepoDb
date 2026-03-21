@@ -8,21 +8,8 @@ using RepoDb.SqlServer.BulkOperations.IntegrationTests.Models;
 namespace RepoDb.SqlServer.BulkOperations.IntegrationTests.Operations;
 
 [TestClass]
-public class MicrosoftSqlConnectionBulkDeleteOperationsTest
+public class MicrosoftSqlConnectionBulkDeleteOperationsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region BulkDelete<TEntity>
 
     [TestMethod]
@@ -1517,35 +1504,30 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
     }
 
     [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullEntities()
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullEntities()
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkDeleteAsync((IEnumerable<BulkOperationIdentityTable>)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
-    }
-
-    //[TestMethod, ExpectedException(typeof(AggregateException))]
-    //public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForEmptyEntities()
-    //{
-    //    using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        connection.BulkDeleteAsync(Enumerable.Empty<BulkOperationIdentityTable>()).Wait();
-    //    }
-    //}
-
-    [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullDataReader()
-    {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DbDataReader)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkDeleteAsync((IEnumerable<BulkOperationIdentityTable>)null, cancellationToken: TestContext.CancellationToken)
+        );
     }
 
     [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullDataTable()
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullDataReader()
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DataTable)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+                (DbDataReader)null, cancellationToken: TestContext.CancellationToken));
+    }
+
+    [TestMethod]
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkDeleteAsyncForNullDataTable()
+    {
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkDeleteAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+                (DataTable)null, cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -2106,8 +2088,6 @@ public class MicrosoftSqlConnectionBulkDeleteOperationsTest
             null,
             DataRowState.Unchanged, cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

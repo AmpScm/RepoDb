@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class DottedTableTest
+public class DottedTableTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Delete
 
     [TestMethod]

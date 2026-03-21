@@ -7,23 +7,9 @@ using System.Data;
 namespace RepoDb.PostgreSql.BulkOperations.IntegrationTests.Operations;
 
 [TestClass]
-public class BinaryBulkInsertTest
+public class BinaryBulkInsertTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
-    private NpgsqlConnection GetConnection() =>
-        (NpgsqlConnection)(new NpgsqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen());
+    private NpgsqlConnection GetConnection() => base.CreateConnection().EnsureOpen() as NpgsqlConnection;
 
     #region Sync
 
@@ -3752,8 +3738,6 @@ public class BinaryBulkInsertTest
         var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => t1.Id == t2.Id, false);
         Assert.AreEqual(entities.Count, assertCount);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

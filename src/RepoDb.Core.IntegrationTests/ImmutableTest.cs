@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ImmutableTest
+public class ImmutableTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Helper
 
     private ImmutableIdentityTable ToImmutableIdentityTable(IdentityTable entity)
@@ -1713,8 +1700,6 @@ public class ImmutableTest
         // Act
         await Assert.ThrowsExactlyAsync<MissingMemberException>(async () => await connection.ExecuteQueryAsync<ImmutableWithUnmatchedCtorArgumentsFromMultipleCtors>(sql, param, cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

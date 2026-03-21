@@ -6,21 +6,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class InsertTest
+public class InsertTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -461,6 +448,4 @@ public class InsertTest
         //Assert.AreEqual(DateTimeOffset.Now.Date, result.DateTimeOffset.Date);
         //Assert.AreEqual(DateTime.Now.TimeOfDay, result.Time);
     }
-
-    public TestContext TestContext { get; set; }
 }

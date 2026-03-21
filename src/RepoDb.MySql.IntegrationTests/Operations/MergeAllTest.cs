@@ -7,21 +7,8 @@ using RepoDb.Trace;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class MergeAllTest
+public class MergeAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -1070,9 +1057,6 @@ public class MergeAllTest
         Assert.AreEqual(tables.Count, queryResult.Count());
         tables.ForEach(table => Helper.AssertPropertiesEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

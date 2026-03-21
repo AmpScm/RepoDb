@@ -7,21 +7,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class SharedQueryTest
+public class SharedQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Query<TEntity>(TableName)
 
     #region IdentityTable
@@ -591,8 +578,6 @@ public class SharedQueryTest
             Helper.AssertPropertiesEquality(target, item);
         });
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -5,21 +5,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class TruncateTest
+public class TruncateTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -29,11 +16,11 @@ public class TruncateTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Truncate<MdsCompleteTable>();
-        var countResult = connection.CountAll<MdsCompleteTable>();
+        var result = connection.Truncate<CompleteTable>();
+        var countResult = connection.CountAll<CompleteTable>();
 
         // Assert
         Assert.AreEqual(0, countResult);
@@ -48,11 +35,11 @@ public class TruncateTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.TruncateAsync<MdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
-        var countResult = connection.CountAll<MdsCompleteTable>();
+        var result = await connection.TruncateAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
+        var countResult = connection.CountAll<CompleteTable>();
 
         // Assert
         Assert.AreEqual(0, countResult);
@@ -71,11 +58,11 @@ public class TruncateTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Truncate(ClassMappedNameCache.Get<MdsCompleteTable>());
-        var countResult = connection.CountAll<MdsCompleteTable>();
+        var result = connection.Truncate(ClassMappedNameCache.Get<CompleteTable>());
+        var countResult = connection.CountAll<CompleteTable>();
 
         // Assert
         Assert.AreEqual(0, countResult);
@@ -90,17 +77,15 @@ public class TruncateTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
-        var countResult = connection.CountAll<MdsCompleteTable>();
+        var result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
+        var countResult = connection.CountAll<CompleteTable>();
 
         // Assert
         Assert.AreEqual(0, countResult);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

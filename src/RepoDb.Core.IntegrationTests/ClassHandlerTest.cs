@@ -11,21 +11,8 @@ using RepoDb.Options;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ClassHandlerTest
+public class ClassHandlerTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Handlers
 
     private class ClassHandlerIdentityTableClassHandler : IClassHandler<ClassHandlerIdentityTable>

@@ -5,21 +5,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class InsertAllTest
+public class InsertAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -32,18 +19,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTables(10);
+        var tables = Helper.CreateCompleteTables(10);
 
         // Act
-        var result = connection.InsertAll<MdsCompleteTable>(tables);
+        var result = connection.InsertAll<CompleteTable>(tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
         Assert.IsTrue(tables.All(table => table.Id > 0));
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -60,17 +47,17 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTables(10);
+        var tables = Helper.CreateNonIdentityCompleteTables(10);
 
         // Act
-        var result = connection.InsertAll<MdsNonIdentityCompleteTable>(tables);
+        var result = connection.InsertAll<NonIdentityCompleteTable>(tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -91,18 +78,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTables(10);
+        var tables = Helper.CreateCompleteTables(10);
 
         // Act
-        var result = await connection.InsertAllAsync<MdsCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.InsertAllAsync<CompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
         Assert.IsTrue(tables.All(table => table.Id > 0));
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -119,17 +106,17 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTables(10);
+        var tables = Helper.CreateNonIdentityCompleteTables(10);
 
         // Act
-        var result = await connection.InsertAllAsync<MdsNonIdentityCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.InsertAllAsync<NonIdentityCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -154,18 +141,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTables(10);
+        var tables = Helper.CreateCompleteTables(10);
 
         // Act
-        var result = connection.InsertAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.InsertAll(ClassMappedNameCache.Get<CompleteTable>(),
             tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -182,19 +169,19 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTablesAsExpandoObjects(10);
+        var tables = Helper.CreateCompleteTablesAsExpandoObjects(10);
 
         // Act
-        var result = connection.InsertAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.InsertAll(ClassMappedNameCache.Get<CompleteTable>(),
             tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
         Assert.IsTrue(tables.All(table => ((dynamic)table).Id > 0));
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -211,18 +198,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTablesAsDynamics(10);
+        var tables = Helper.CreateCompleteTablesAsDynamics(10);
 
         // Act
-        var result = connection.InsertAll(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.InsertAll(ClassMappedNameCache.Get<CompleteTable>(),
             tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -239,18 +226,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTables(10);
+        var tables = Helper.CreateNonIdentityCompleteTables(10);
 
         // Act
-        var result = connection.InsertAll(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
+        var result = connection.InsertAll(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -267,18 +254,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTablesAsExpandoObjects(10);
+        var tables = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(10);
 
         // Act
-        var result = connection.InsertAll(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
+        var result = connection.InsertAll(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -295,18 +282,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTablesAsDynamics(10);
+        var tables = Helper.CreateNonIdentityCompleteTablesAsDynamics(10);
 
         // Act
-        var result = connection.InsertAll(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
+        var result = connection.InsertAll(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -327,18 +314,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTables(10);
+        var tables = Helper.CreateCompleteTables(10);
 
         // Act
-        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -355,19 +342,19 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTablesAsExpandoObjects(10);
+        var tables = Helper.CreateCompleteTablesAsExpandoObjects(10);
 
         // Act
-        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
         Assert.IsTrue(tables.All(table => ((dynamic)table).Id > 0));
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -384,18 +371,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsCompleteTablesAsDynamics(10);
+        var tables = Helper.CreateCompleteTablesAsDynamics(10);
 
         // Act
-        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<CompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -412,18 +399,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTables(10);
+        var tables = Helper.CreateNonIdentityCompleteTables(10);
 
         // Act
-        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
+        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -440,18 +427,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTablesAsExpandoObjects(10);
+        var tables = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(10);
 
         // Act
-        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
+        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -468,18 +455,18 @@ public class InsertAllTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var tables = Helper.CreateMdsNonIdentityCompleteTablesAsDynamics(10);
+        var tables = Helper.CreateNonIdentityCompleteTablesAsDynamics(10);
 
         // Act
-        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<MdsNonIdentityCompleteTable>(),
+        var result = await connection.InsertAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(tables.Count, connection.CountAll<MdsNonIdentityCompleteTable>());
+        Assert.AreEqual(tables.Count, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(tables.Count, result);
 
         // Act
-        var queryResult = connection.QueryAll<MdsNonIdentityCompleteTable>();
+        var queryResult = connection.QueryAll<NonIdentityCompleteTable>();
 
         // Assert
         tables.ForEach(table =>
@@ -487,8 +474,6 @@ public class InsertAllTest
             Helper.AssertMembersEquality(table, queryResult.ElementAt((int)tables.IndexOf(table)));
         });
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

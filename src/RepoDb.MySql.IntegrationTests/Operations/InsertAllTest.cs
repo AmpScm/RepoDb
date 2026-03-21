@@ -5,21 +5,8 @@ using RepoDb.MySql.IntegrationTests.Setup;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class InsertAllTest
+public class InsertAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -391,8 +378,6 @@ public class InsertAllTest
         // Assert
         tables.ForEach(table => Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

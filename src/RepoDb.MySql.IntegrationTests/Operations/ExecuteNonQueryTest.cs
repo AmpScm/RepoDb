@@ -4,21 +4,8 @@ using RepoDb.MySql.IntegrationTests.Setup;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteNonQueryTest
+public class ExecuteNonQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -110,8 +97,5 @@ public class ExecuteNonQueryTest
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

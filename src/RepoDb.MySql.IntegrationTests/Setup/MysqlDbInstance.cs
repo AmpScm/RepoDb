@@ -63,5 +63,7 @@ public class MysqlDbInstance : DbInstance<MySqlConnection>
             DELETE
         ON `{DatabaseName}`.* TO 'repodb_mysql_user'@'%';
         FLUSH PRIVILEGES;");
+
+        Database.Initialize();
     }
 }

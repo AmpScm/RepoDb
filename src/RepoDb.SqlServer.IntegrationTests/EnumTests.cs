@@ -6,21 +6,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests;
 
 [TestClass]
-public class EnumTests
+public class EnumTests : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Enumerations
 
     public enum Hands

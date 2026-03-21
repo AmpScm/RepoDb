@@ -24,8 +24,6 @@ public static class Database
 
     public static void Initialize()
     {
-        Instance.ClassInitializeAsync(null).GetAwaiter().GetResult();
-
         GlobalConfiguration.Setup(new())
             .UseSqlServer();
 
@@ -230,11 +228,11 @@ public static class Database
 
     #region CompleteTable
 
-    public static IEnumerable<CompleteTable> CreateCompleteTables(int count)
+    public static IEnumerable<CompleteTable> CreateCompleteTables(int count, IEnumerable<Field>? fields = null)
     {
         using var connection = new SqlConnection(ConnectionString);
         var tables = Helper.CreateCompleteTables(count);
-        connection.InsertAll(tables);
+        connection.InsertAll(tables, fields: fields);
         return tables;
     }
 

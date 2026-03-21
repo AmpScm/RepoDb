@@ -7,21 +7,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests;
 
 [TestClass]
-public class MaxSizesTest
+public class MaxSizesTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region SubClasses
 
     [Map("[dbo].[CompleteTable]")]

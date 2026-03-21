@@ -7,21 +7,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Caches;
 
 [TestClass]
-public class CacheTest
+public class CacheTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Helper
 
     private static IdentityTable GetIdentityTable()
@@ -55,7 +42,8 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        var id = connection.Insert(entity);
+        Assert.AreEqual(entity.Id, (long)id);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable];",
@@ -81,7 +69,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable];",
@@ -107,7 +95,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.ExecuteQuery<ExpandoObject>("SELECT * FROM [sc].[IdentityTable];",
@@ -133,7 +121,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.ExecuteQuery<IDictionary<string, object?>>("SELECT * FROM [sc].[IdentityTable];",
@@ -163,7 +151,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable];",
@@ -189,7 +177,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable];",
@@ -215,7 +203,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.ExecuteQueryAsync<ExpandoObject>("SELECT * FROM [sc].[IdentityTable];",
@@ -241,7 +229,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IDictionary<string, object?>>("SELECT * FROM [sc].[IdentityTable];",
@@ -323,7 +311,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IdentityTable>(what: (object?)null,
@@ -357,7 +345,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IdentityTable>(where: (QueryGroup)null,
@@ -390,7 +378,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IdentityTable>(where: (IEnumerable<QueryField>)null,
@@ -422,7 +410,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IdentityTable>(where: (Expression<Func<IdentityTable, bool>>)null,
@@ -454,7 +442,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IdentityTable>(where: (QueryGroup)null,
@@ -490,7 +478,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query(ClassMappedNameCache.Get<IdentityTable>(),
@@ -525,7 +513,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query(ClassMappedNameCache.Get<IdentityTable>(),
@@ -559,7 +547,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query(ClassMappedNameCache.Get<IdentityTable>(),
@@ -592,7 +580,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query(ClassMappedNameCache.Get<IdentityTable>(),
@@ -629,7 +617,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -664,7 +652,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -698,7 +686,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -731,7 +719,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -768,7 +756,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -803,7 +791,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -837,7 +825,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -870,7 +858,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.Query<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -911,7 +899,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(what: (object?)null,
@@ -946,7 +934,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(where: (QueryField)null,
@@ -979,7 +967,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(where: (IEnumerable<QueryField>)null,
@@ -1012,7 +1000,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(where: (Expression<Func<IdentityTable, bool>>)null,
@@ -1045,7 +1033,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IdentityTable>(where: (QueryGroup)null,
@@ -1082,7 +1070,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1118,7 +1106,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1153,7 +1141,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1187,7 +1175,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1225,7 +1213,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1261,7 +1249,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1296,7 +1284,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1330,7 +1318,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1368,7 +1356,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1404,7 +1392,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1439,7 +1427,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1473,7 +1461,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1513,7 +1501,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.QueryAll<IdentityTable>(orderBy: null,
@@ -1544,7 +1532,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.QueryAll(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1576,7 +1564,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.QueryAll<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1608,7 +1596,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = connection.QueryAll<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1644,7 +1632,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAllAsync<IdentityTable>(orderBy: null,
@@ -1676,7 +1664,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1709,7 +1697,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAllAsync<ExpandoObject>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1742,7 +1730,7 @@ public class CacheTest
         var cacheItemExpiration = 60;
 
         // Act
-        entity.Id = Convert.ToInt32(connection.Insert(entity));
+        connection.Insert(entity);
 
         // Act
         var result = await connection.QueryAllAsync<IDictionary<string, object?>>(ClassMappedNameCache.Get<IdentityTable>(),
@@ -1763,8 +1751,6 @@ public class CacheTest
         Assert.IsNotNull(item);
         Assert.AreEqual(cacheItemExpiration, (item.Expiration - item.CreatedDate).TotalMinutes);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -7,21 +7,8 @@ using RepoDb.Trace;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class CountTest
+public class CountTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -478,8 +465,6 @@ public class CountTest
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

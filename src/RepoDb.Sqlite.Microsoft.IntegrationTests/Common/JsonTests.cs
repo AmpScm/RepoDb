@@ -7,7 +7,4 @@ namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Common;
 [TestClass]
 public class JsonTests : RepoDb.TestCore.JsonTestsBase<SqliteDbInstance>
 {
-    protected override void InitializeCore() => Database.Initialize(TestContext);
-
-    public override DbConnection CreateConnection() => new SqliteConnection(Database.GetConnectionString(TestContext));
 }

@@ -8,6 +8,4 @@ namespace RepoDb.SqlServer.IntegrationTests.Common;
 public class EnumTests : RepoDb.TestCore.EnumTestsBase<SqlServerDbInstance>
 {
     protected override void InitializeCore() => Database.Initialize();
-
-    public override DbConnection CreateConnection() => new SqlConnection(Database.ConnectionString);
 }

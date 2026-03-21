@@ -9,22 +9,21 @@ using RepoDb.Options;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class PropertyHandlerTest
+[DoNotParallelize]
+public class PropertyHandlerTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
     [TestCleanup]
     public void Cleanup()
     {
         PropertyHandlerMapper.Remove<float>();
         PropertyHandlerMapper.Remove<decimal>();
         PropertyHandlerMapper.Remove<DateTime>();
-        Database.Cleanup();
+    }
+
+    [ClassCleanup]
+    public static void TearDown(TestContext testContext)
+    {
+        PropertyHandlerMapper.Clear();
     }
 
     #region Handlers

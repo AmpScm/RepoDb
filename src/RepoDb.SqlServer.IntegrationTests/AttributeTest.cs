@@ -9,21 +9,8 @@ using System.Text;
 namespace RepoDb.SqlServer.IntegrationTests;
 
 [TestClass]
-public class AttributeTest
+public class AttributeTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Classes
 
     [Table("CompleteTable")]

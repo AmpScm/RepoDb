@@ -7,9 +7,5 @@ namespace RepoDb.MySqlConnector.IntegrationTests.Common;
 [TestClass]
 public class JsonTests : RepoDb.TestCore.JsonTestsBase<MysqlDbInstance>
 {
-    protected override void InitializeCore() => Database.Initialize();
-
-    public override DbConnection CreateConnection() => new MySqlConnection(Database.ConnectionString);
-
 
 }

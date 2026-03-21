@@ -6,21 +6,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class DeleteTest
+public class DeleteTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>((object?)null);
+        var result = connection.Delete<CompleteTable>((object?)null);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -44,10 +31,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(tables.First().Id);
+        var result = connection.Delete<CompleteTable>(tables.First().Id);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -58,10 +45,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(tables.First());
+        var result = connection.Delete<CompleteTable>(tables.First());
 
         // Assert
         Assert.AreEqual(1, result);
@@ -72,10 +59,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(e => e.Id == tables.First().Id);
+        var result = connection.Delete<CompleteTable>(e => e.Id == tables.First().Id);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -86,10 +73,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(new { Id = tables.First().Id });
+        var result = connection.Delete<CompleteTable>(new { Id = tables.First().Id });
 
         // Assert
         Assert.AreEqual(1, result);
@@ -100,10 +87,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(new QueryField("Id", tables.First().Id));
+        var result = connection.Delete<CompleteTable>(new QueryField("Id", tables.First().Id));
 
         // Assert
         Assert.AreEqual(1, result);
@@ -114,7 +101,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -122,7 +109,7 @@ public class DeleteTest
             };
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(queryFields);
+        var result = connection.Delete<CompleteTable>(queryFields);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -133,7 +120,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -142,7 +129,7 @@ public class DeleteTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(queryGroup);
+        var result = connection.Delete<CompleteTable>(queryGroup);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -157,10 +144,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -171,10 +158,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(tables.First().Id, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -185,10 +172,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(tables.First(), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(tables.First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -199,10 +186,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(e => e.Id == tables.First().Id, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(e => e.Id == tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -213,10 +200,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(new { Id = tables.First().Id }, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(new { Id = tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -227,10 +214,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -241,7 +228,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -249,7 +236,7 @@ public class DeleteTest
             };
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -260,7 +247,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -269,7 +256,7 @@ public class DeleteTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -288,10 +275,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete(ClassMappedNameCache.Get<MdsCompleteTable>(), (object?)null);
+        var result = connection.Delete(ClassMappedNameCache.Get<CompleteTable>(), (object?)null);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -302,10 +289,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete<MdsCompleteTable>(tables.First().Id);
+        var result = connection.Delete<CompleteTable>(tables.First().Id);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -316,10 +303,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete(ClassMappedNameCache.Get<MdsCompleteTable>(), new { Id = tables.First().Id });
+        var result = connection.Delete(ClassMappedNameCache.Get<CompleteTable>(), new { Id = tables.First().Id });
 
         // Assert
         Assert.AreEqual(1, result);
@@ -330,10 +317,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Delete(ClassMappedNameCache.Get<MdsCompleteTable>(), new QueryField("Id", tables.First().Id));
+        var result = connection.Delete(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", tables.First().Id));
 
         // Assert
         Assert.AreEqual(1, result);
@@ -344,7 +331,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -352,7 +339,7 @@ public class DeleteTest
             };
 
         // Act
-        var result = connection.Delete(ClassMappedNameCache.Get<MdsCompleteTable>(), queryFields);
+        var result = connection.Delete(ClassMappedNameCache.Get<CompleteTable>(), queryFields);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -363,7 +350,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -372,7 +359,7 @@ public class DeleteTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Delete(ClassMappedNameCache.Get<MdsCompleteTable>(), queryGroup);
+        var result = connection.Delete(ClassMappedNameCache.Get<CompleteTable>(), queryGroup);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -387,10 +374,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), (object?)null, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -401,10 +388,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync<MdsCompleteTable>(tables.First().Id, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync<CompleteTable>(tables.First().Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -415,10 +402,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), new { Id = tables.First().Id }, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), new { Id = tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -429,10 +416,10 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result);
@@ -443,7 +430,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -451,7 +438,7 @@ public class DeleteTest
             };
 
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), queryFields, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
@@ -462,7 +449,7 @@ public class DeleteTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -471,13 +458,11 @@ public class DeleteTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), queryGroup, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(8, result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

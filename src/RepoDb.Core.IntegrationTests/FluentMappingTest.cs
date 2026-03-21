@@ -5,25 +5,12 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class FluentMappingTest
+public class FluentMappingTest : TestBase
 {
     [ClassInitialize]
     public static void ClassInitialize(TestContext context)
     {
         Setup();
-    }
-
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
     }
 
     private static void Setup()

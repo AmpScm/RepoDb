@@ -1,4 +1,5 @@
 ﻿using RepoDb.Attributes;
+using RepoDb.Resolvers;
 
 namespace RepoDb.UnitTests.Attributes;
 
@@ -13,13 +14,14 @@ public class IdentityAttributeTest
     }
 
     [TestMethod]
-    public void TestPrimaryAttribute()
+    public void TestIdentityAttribute()
     {
         // Act
+        var result = IdentityResolver.Instance.Resolve(typeof(IdentityAttributeTestClass));
         var actual = IdentityCache.Get<IdentityAttributeTestClass>();
-        var expected = "WhateverId";
-
+        
         // Assert
-        Assert.AreEqual(expected, actual.PropertyInfo.Name);
+        Assert.AreEqual(nameof(IdentityAttributeTestClass.WhateverId), result?.PropertyName);
+        Assert.AreEqual(nameof(IdentityAttributeTestClass.WhateverId), actual.PropertyInfo.Name);
     }
 }

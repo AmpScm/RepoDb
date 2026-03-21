@@ -5,21 +5,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class AverageAllTest
+public class AverageAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -159,8 +146,6 @@ public class AverageAllTest
         // Assert
         Assert.AreEqual(tables.Average(e => e.ColumnInt), Convert.ToDouble(result));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

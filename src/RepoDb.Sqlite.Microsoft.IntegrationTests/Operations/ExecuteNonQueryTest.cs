@@ -4,21 +4,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class ExecuteNonQueryTest
+public class ExecuteNonQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -26,10 +13,10 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.ExecuteNonQuery("DELETE FROM [MdsCompleteTable];");
+        var result = connection.ExecuteNonQuery("DELETE FROM [CompleteTable];");
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -40,10 +27,10 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.ExecuteNonQuery("DELETE FROM [MdsCompleteTable] WHERE Id = @Id;",
+        var result = connection.ExecuteNonQuery("DELETE FROM [CompleteTable] WHERE Id = @Id;",
             new { tables.Last().Id });
 
         // Assert
@@ -55,10 +42,10 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.ExecuteNonQuery("DELETE FROM [MdsCompleteTable]; VACUUM;");
+        var result = connection.ExecuteNonQuery("DELETE FROM [CompleteTable]; VACUUM;");
 
         // Assert
         Assert.AreEqual((tables.Count() * 2), result);
@@ -73,10 +60,10 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [CompleteTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -87,10 +74,10 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable] WHERE Id = @Id;",
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [CompleteTable] WHERE Id = @Id;",
             new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -102,16 +89,14 @@ public class ExecuteNonQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [MdsCompleteTable]; VACUUM;", cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExecuteNonQueryAsync("DELETE FROM [CompleteTable]; VACUUM;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual((tables.Count() * 2), result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

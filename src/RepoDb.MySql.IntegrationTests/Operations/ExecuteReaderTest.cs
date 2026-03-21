@@ -8,21 +8,8 @@ using System.Data.Common;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteReaderTest
+public class ExecuteReaderTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -194,8 +181,6 @@ public class ExecuteReaderTest
         // Assert
         tables.AsList().ForEach(table => Helper.AssertMembersEquality(table, result.First(e => e.Id == table.Id)));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

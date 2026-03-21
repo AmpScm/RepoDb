@@ -27,9 +27,6 @@ public static class Database
 
     public static void Initialize()
     {
-        Instance.ClassInitializeAsync(null).GetAwaiter().GetResult();
-
-
         GlobalConfiguration.Setup(new())
             .UseSqlServer();
 

@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class MaxTest
+public class MaxTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Max<TEntity>
 
     [TestMethod]
@@ -942,8 +929,6 @@ public class MaxTest
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Max(t => t.ColumnInt), result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

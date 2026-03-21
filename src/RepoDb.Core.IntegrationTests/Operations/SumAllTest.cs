@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class SumAllTest
+public class SumAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region SumAll<TEntity>
 
     [TestMethod]
@@ -321,8 +308,5 @@ public class SumAllTest
         // Assert
         Assert.AreEqual(tables.Sum(t => t.ColumnInt), result);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

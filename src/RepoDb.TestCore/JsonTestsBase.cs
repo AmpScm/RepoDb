@@ -310,7 +310,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         {
             try
             {
-                result = Parse(s, provider);
+                result = Parse(s ?? "", provider);
                 return true;
             }
             catch
@@ -352,7 +352,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         {
             try
             {
-                result = Parse(s, provider);
+                result = Parse(s ?? "", provider);
                 return true;
             }
             catch

@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests;
 
 [TestClass]
-public class BatchExecutionTest
+public class BatchExecutionTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     [TestMethod]
     public async Task TestBatchExecutionForInsertAll()
     {
@@ -73,6 +60,4 @@ public class BatchExecutionTest
             await connection.MergeAllAsync(identityTables, cancellationToken: TestContext.CancellationToken);
         }
     }
-
-    public TestContext TestContext { get; set; }
 }

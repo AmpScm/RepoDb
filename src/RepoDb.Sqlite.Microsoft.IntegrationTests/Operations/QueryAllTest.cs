@@ -6,21 +6,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class QueryAllTest
+public class QueryAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class QueryAllTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -44,11 +31,11 @@ public class QueryAllTest
     public void ThrowExceptionQueryAllWithHints()
     {
         // Setup
-        var table = Database.CreateMdsCompleteTables(1).First();
+        var table = Database.CreateCompleteTables(1).First();
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryAll<MdsCompleteTable>(hints: "WhatEver"));
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryAll<CompleteTable>(hints: "WhatEver"));
     }
 
     #endregion
@@ -60,10 +47,10 @@ public class QueryAllTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var queryResult = await connection.QueryAllAsync<MdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
+        var queryResult = await connection.QueryAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -74,11 +61,11 @@ public class QueryAllTest
     public async Task ThrowExceptionQueryAllAsyncWithHints()
     {
         // Setup
-        var table = Database.CreateMdsCompleteTables(1).First();
+        var table = Database.CreateCompleteTables(1).First();
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAllAsync<MdsCompleteTable>(hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAllAsync<CompleteTable>(hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -94,10 +81,10 @@ public class QueryAllTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var queryResult = connection.QueryAll(ClassMappedNameCache.Get<MdsCompleteTable>());
+        var queryResult = connection.QueryAll(ClassMappedNameCache.Get<CompleteTable>());
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -108,11 +95,11 @@ public class QueryAllTest
     public void ThrowExceptionQueryAllViaTableNameWithHints()
     {
         // Setup
-        var table = Database.CreateMdsCompleteTables(1).First();
+        var table = Database.CreateCompleteTables(1).First();
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
             hints: "WhatEver"));
     }
@@ -126,10 +113,10 @@ public class QueryAllTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<MdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
+        var queryResult = await connection.QueryAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -140,16 +127,14 @@ public class QueryAllTest
     public async Task ThrowExceptionQueryAllAsyncViaTableNameWithHints()
     {
         // Setup
-        var table = Database.CreateMdsCompleteTables(1).First();
+        var table = Database.CreateCompleteTables(1).First();
 
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

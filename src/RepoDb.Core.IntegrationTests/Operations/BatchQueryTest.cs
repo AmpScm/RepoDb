@@ -8,21 +8,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class BatchQueryTest
+public class BatchQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region BatchQuery<TEntity>
 
     [TestMethod]
@@ -2695,8 +2682,6 @@ public class BatchQueryTest
             statementBuilder: null,
             cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

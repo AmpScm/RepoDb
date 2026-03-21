@@ -6,21 +6,8 @@ using RepoDb.MySql.IntegrationTests.Setup;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class SumTest
+public class SumTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -480,9 +467,6 @@ public class SumTest
             (object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

@@ -6,21 +6,8 @@ using RepoDb.Trace;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class MergeTest
+public class MergeTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -574,9 +561,6 @@ public class MergeTest
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

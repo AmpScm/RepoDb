@@ -14,8 +14,6 @@ public static class Database
     /// </summary>
     public static void Initialize()
     {
-        instance.ClassInitializeAsync(null).GetAwaiter().GetResult();
-
         // Initialize PostgreSql
         GlobalConfiguration.Setup(new());
 

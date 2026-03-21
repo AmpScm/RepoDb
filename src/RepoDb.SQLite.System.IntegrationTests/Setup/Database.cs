@@ -11,8 +11,6 @@ public static class Database
 
     public static void Initialize()
     {
-        Instance.ClassInitializeAsync(null).GetAwaiter().GetResult();
-
         // Initialize SqLite
         GlobalConfiguration
             .Setup()
@@ -26,13 +24,13 @@ public static class Database
     public static void Cleanup()
     {
         using var connection = new SQLiteConnection(ConnectionString);
-        connection.DeleteAll<SdsCompleteTable>();
-        connection.DeleteAll<SdsNonIdentityCompleteTable>();
+        connection.DeleteAll<CompleteTable>();
+        connection.DeleteAll<NonIdentityCompleteTable>();
     }
 
-    #region SdsCompleteTable
+    #region CompleteTable
 
-    public static IEnumerable<SdsCompleteTable> CreateSdsCompleteTables(int count,
+    public static IEnumerable<CompleteTable> CreateCompleteTables(int count,
         SQLiteConnection connection = null)
     {
         var hasConnection = (connection != null);
@@ -42,8 +40,8 @@ public static class Database
         }
         try
         {
-            var tables = Helper.CreateSdsCompleteTables(count);
-            CreateSdsCompleteTable(connection);
+            var tables = Helper.CreateCompleteTables(count);
+            CreateCompleteTable(connection);
             connection.InsertAll(tables);
             return tables;
         }
@@ -58,9 +56,9 @@ public static class Database
 
     #endregion
 
-    #region SdsNonIdentityCompleteTable
+    #region NonIdentityCompleteTable
 
-    public static IEnumerable<SdsNonIdentityCompleteTable> CreateSdsNonIdentityCompleteTables(int count,
+    public static IEnumerable<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count,
         SQLiteConnection connection = null)
     {
         var hasConnection = (connection != null);
@@ -70,8 +68,8 @@ public static class Database
         }
         try
         {
-            var tables = Helper.CreateSdsNonIdentityCompleteTables(count);
-            CreateSdsNonIdentityCompleteTable(connection);
+            var tables = Helper.CreateNonIdentityCompleteTables(count);
+            CreateNonIdentityCompleteTable(connection);
             connection.InsertAll(tables);
             return tables;
         }
@@ -90,11 +88,11 @@ public static class Database
 
     public static void CreateSdsTables(SQLiteConnection connection = null)
     {
-        CreateSdsCompleteTable(connection);
-        CreateSdsNonIdentityCompleteTable(connection);
+        CreateCompleteTable(connection);
+        CreateNonIdentityCompleteTable(connection);
     }
 
-    public static void CreateSdsCompleteTable(SQLiteConnection connection = null)
+    public static void CreateCompleteTable(SQLiteConnection connection = null)
     {
         var hasConnection = (connection != null);
         if (hasConnection == false)
@@ -108,7 +106,7 @@ public static class Database
              * No need to explicity specify the 'AUTOINCREMENT' keyword to avoid extra CPU and memory space.
              * Link: https://sqlite.org/autoinc.html
              */
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [SdsCompleteTable]
+            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [CompleteTable]
                     (
                         Id INTEGER PRIMARY KEY
                         , ColumnBigInt BIGINT
@@ -139,7 +137,7 @@ public static class Database
         }
     }
 
-    public static void CreateSdsNonIdentityCompleteTable(SQLiteConnection connection = null)
+    public static void CreateNonIdentityCompleteTable(SQLiteConnection connection = null)
     {
         var hasConnection = (connection != null);
         if (hasConnection == false)
@@ -148,7 +146,7 @@ public static class Database
         }
         try
         {
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [SdsNonIdentityCompleteTable]
+            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [NonIdentityCompleteTable]
                     (
                         Id VARCHAR PRIMARY KEY
                         , ColumnBigInt BIGINT

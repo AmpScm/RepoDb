@@ -6,21 +6,8 @@ using System.Data;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteNonQueryTest
+public class ExecuteNonQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region ExecuteNonQuery
 
     [TestMethod]
@@ -576,8 +563,5 @@ public class ExecuteNonQueryTest
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

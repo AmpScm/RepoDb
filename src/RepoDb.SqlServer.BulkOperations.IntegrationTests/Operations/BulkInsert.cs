@@ -8,21 +8,8 @@ using RepoDb.SqlServer.BulkOperations.IntegrationTests.Models;
 namespace RepoDb.SqlServer.BulkOperations.IntegrationTests.Operations;
 
 [TestClass]
-public class MicrosoftSqlConnectionBulkInsertOperationsTest
+public class MicrosoftSqlConnectionBulkInsertOperationsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region BulkInsert<TEntity>
 
     [TestMethod]
@@ -1918,38 +1905,22 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         await Assert.ThrowsExactlyAsync<InvalidOperationException>(async () => await destinationConnection.BulkInsertAsync<BulkOperationIdentityTable>(table, DataRowState.Unchanged, mappings, cancellationToken: TestContext.CancellationToken));
     }
 
-    //[TestMethod, ExpectedException(typeof(AggregateException))]
-    //public void ThrowExceptionOnMicrosoftSqlConnectionBulkInsertAsyncForNullEntities()
-    //{
-    //    using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        connection.BulkInsertAsync((IEnumerable<BulkOperationIdentityTable>)null).Wait();
-    //    }
-    //}
-
-    //[TestMethod, ExpectedException(typeof(AggregateException))]
-    //public void ThrowExceptionOnMicrosoftSqlConnectionBulkInsertAsyncForEmptyEntities()
-    //{
-    //    using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        connection.BulkInsertAsync(Enumerable.Empty<BulkOperationIdentityTable>()).Wait();
-    //    }
-    //}
-
     [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkInsertAsyncForNullDataReader()
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkInsertAsyncForNullDataReader()
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DbDataReader)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)null, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkInsertAsyncForNullDataTable()
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkInsertAsyncForNullDataTable()
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DataTable)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkInsertAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+                (DataTable)null, cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -2640,8 +2611,6 @@ public class MicrosoftSqlConnectionBulkInsertOperationsTest
         // Act
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkInsertAsync("MissingTable", table, DataRowState.Unchanged, cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

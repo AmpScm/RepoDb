@@ -13,23 +13,17 @@ namespace RepoDb.IntegrationTests;
 /// </summary>
 public static class Helper
 {
-    static Helper()
-    {
-        StatementBuilder = StatementBuilderMapper.Get<SqlConnection>();
-        EpocDate = new DateTime(1970, 1, 1, 0, 0, 0);
-    }
-
     #region Properties
 
     /// <summary>
     /// Gets the instance of <see cref="IStatementBuilder"/> object.
     /// </summary>
-    public static IStatementBuilder StatementBuilder { get; }
+    public static IStatementBuilder StatementBuilder { get; } = StatementBuilderMapper.Get<SqlConnection>();
 
     /// <summary>
     /// Gets the value of the Epoc date.
     /// </summary>
-    public static DateTime EpocDate { get; }
+    public static DateTime EpocDate { get; } = new DateTime(1970, 1, 1, 0, 0, 0);
 
     #endregion
 

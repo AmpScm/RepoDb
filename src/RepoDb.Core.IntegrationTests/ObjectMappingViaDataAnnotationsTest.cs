@@ -7,21 +7,8 @@ using System.ComponentModel.DataAnnotations;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ObjectMappingViaDataAnnotationsTest
+public class ObjectMappingViaDataAnnotationsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region SubClasses
 
     [Table("[dbo].[COMPLETETABLE]")]

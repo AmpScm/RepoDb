@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class ExecuteQueryMultipleTest
+public class ExecuteQueryMultipleTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -28,16 +15,16 @@ public class ExecuteQueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var extractor = connection.ExecuteQueryMultiple(@"SELECT * FROM [SdsCompleteTable];
-                    SELECT * FROM [SdsCompleteTable];");
-        var list = new List<IEnumerable<SdsCompleteTable>>
+        using var extractor = connection.ExecuteQueryMultiple(@"SELECT * FROM [CompleteTable];
+                    SELECT * FROM [CompleteTable];");
+        var list = new List<IEnumerable<CompleteTable>>
                 {
                     // Act
-                    extractor.Extract<SdsCompleteTable>(),
-                    extractor.Extract<SdsCompleteTable>()
+                    extractor.Extract<CompleteTable>(),
+                    extractor.Extract<CompleteTable>()
                 };
 
         // Assert
@@ -53,21 +40,21 @@ public class ExecuteQueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var extractor = connection.ExecuteQueryMultiple(@"SELECT * FROM [SdsCompleteTable] WHERE Id = @Id1;
-                    SELECT * FROM [SdsCompleteTable] WHERE Id = @Id2;",
+        using var extractor = connection.ExecuteQueryMultiple(@"SELECT * FROM [CompleteTable] WHERE Id = @Id1;
+                    SELECT * FROM [CompleteTable] WHERE Id = @Id2;",
             new
             {
                 Id1 = tables.First().Id,
                 Id2 = tables.Last().Id
             });
-        var list = new List<IEnumerable<SdsCompleteTable>>
+        var list = new List<IEnumerable<CompleteTable>>
                 {
                     // Act
-                    extractor.Extract<SdsCompleteTable>(),
-                    extractor.Extract<SdsCompleteTable>()
+                    extractor.Extract<CompleteTable>(),
+                    extractor.Extract<CompleteTable>()
                 };
 
         // Assert
@@ -82,17 +69,17 @@ public class ExecuteQueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var extractor = connection.ExecuteQueryMultiple(@"SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;
-                    SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
+        using var extractor = connection.ExecuteQueryMultiple(@"SELECT * FROM [CompleteTable] WHERE Id = @Id;
+                    SELECT * FROM [CompleteTable] WHERE Id = @Id;",
             new { Id = tables.Last().Id });
-        var list = new List<IEnumerable<SdsCompleteTable>>
+        var list = new List<IEnumerable<CompleteTable>>
                 {
                     // Act
-                    extractor.Extract<SdsCompleteTable>(),
-                    extractor.Extract<SdsCompleteTable>()
+                    extractor.Extract<CompleteTable>(),
+                    extractor.Extract<CompleteTable>()
                 };
 
         // Assert
@@ -111,16 +98,16 @@ public class ExecuteQueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [SdsCompleteTable];
-                    SELECT * FROM [SdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
-        var list = new List<IEnumerable<SdsCompleteTable>>
+        using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [CompleteTable];
+                    SELECT * FROM [CompleteTable];", cancellationToken: TestContext.CancellationToken);
+        var list = new List<IEnumerable<CompleteTable>>
                 {
                     // Act
-                    extractor.Extract<SdsCompleteTable>(),
-                    extractor.Extract<SdsCompleteTable>()
+                    extractor.Extract<CompleteTable>(),
+                    extractor.Extract<CompleteTable>()
                 };
 
         // Assert
@@ -136,21 +123,21 @@ public class ExecuteQueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [SdsCompleteTable] WHERE Id = @Id1;
-                    SELECT * FROM [SdsCompleteTable] WHERE Id = @Id2;",
+        using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [CompleteTable] WHERE Id = @Id1;
+                    SELECT * FROM [CompleteTable] WHERE Id = @Id2;",
             new
             {
                 Id1 = tables.First().Id,
                 Id2 = tables.Last().Id
             }, cancellationToken: TestContext.CancellationToken);
-        var list = new List<IEnumerable<SdsCompleteTable>>
+        var list = new List<IEnumerable<CompleteTable>>
                 {
                     // Act
-                    extractor.Extract<SdsCompleteTable>(),
-                    extractor.Extract<SdsCompleteTable>()
+                    extractor.Extract<CompleteTable>(),
+                    extractor.Extract<CompleteTable>()
                 };
 
         // Assert
@@ -165,17 +152,17 @@ public class ExecuteQueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;
-                    SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
+        using var extractor = await connection.ExecuteQueryMultipleAsync(@"SELECT * FROM [CompleteTable] WHERE Id = @Id;
+                    SELECT * FROM [CompleteTable] WHERE Id = @Id;",
             new { Id = tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
-        var list = new List<IEnumerable<SdsCompleteTable>>
+        var list = new List<IEnumerable<CompleteTable>>
                 {
                     // Act
-                    extractor.Extract<SdsCompleteTable>(),
-                    extractor.Extract<SdsCompleteTable>()
+                    extractor.Extract<CompleteTable>(),
+                    extractor.Extract<CompleteTable>()
                 };
 
         // Assert
@@ -184,8 +171,5 @@ public class ExecuteQueryMultipleTest
             item.AsList().ForEach(current => Helper.AssertPropertiesEquality(current, tables.First(e => e.Id == current.Id)));
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

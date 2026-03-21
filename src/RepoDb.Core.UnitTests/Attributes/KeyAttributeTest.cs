@@ -47,7 +47,11 @@ public class KeyAttributeTest
 #pragma warning restore CS0618 // Type or member is obsolete
         var expected = "KeyId";
 
-        // Assert
+        // Assert.. Old behavior
         Assert.AreEqual(expected, actual.PropertyInfo.Name);
+
+        // But this is what really happens now
+        var more = PrimaryCache.GetPrimaryKeys<KeyAttributeCollisionTestClass>();
+        Assert.HasCount(2, more);
     }
 }

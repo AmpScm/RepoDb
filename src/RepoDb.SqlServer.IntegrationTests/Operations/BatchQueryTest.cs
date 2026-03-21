@@ -6,21 +6,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class BatchQueryTest
+public class BatchQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -414,8 +401,6 @@ public class BatchQueryTest
         Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
         Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

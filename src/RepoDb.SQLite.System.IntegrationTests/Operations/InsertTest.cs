@@ -5,21 +5,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class InsertTest
+public class InsertTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -32,18 +19,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTables(1).First();
+        var table = Helper.CreateCompleteTables(1).First();
 
         // Act
-        var result = connection.Insert<SdsCompleteTable>(table);
+        var result = connection.Insert<CompleteTable>(table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
         Assert.IsGreaterThan(0, table.Id);
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -58,17 +45,17 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTables(1).First();
+        var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
         // Act
-        var result = connection.Insert<SdsNonIdentityCompleteTable>(table);
+        var result = connection.Insert<NonIdentityCompleteTable>(table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(table.Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -87,18 +74,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTables(1).First();
+        var table = Helper.CreateCompleteTables(1).First();
 
         // Act
-        var result = await connection.InsertAsync<SdsCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.InsertAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
         Assert.IsGreaterThan(0, table.Id);
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -113,17 +100,17 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTables(1).First();
+        var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
         // Act
-        var result = await connection.InsertAsync<SdsNonIdentityCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.InsertAsync<NonIdentityCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(table.Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -146,18 +133,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTables(1).First();
+        var table = Helper.CreateCompleteTables(1).First();
 
         // Act
-        var result = connection.Insert(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -172,19 +159,19 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
+        var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = connection.Insert(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -199,18 +186,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTablesAsDynamics(1).First();
+        var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
         // Act
-        var result = connection.Insert(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -225,18 +212,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTables(1).First();
+        var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
         // Act
-        var result = connection.Insert(ClassMappedNameCache.Get<SdsNonIdentityCompleteTable>(),
+        var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(table.Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -251,18 +238,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTablesAsExpandoObjects(1).First();
+        var table = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = connection.Insert(ClassMappedNameCache.Get<SdsNonIdentityCompleteTable>(),
+        var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(((dynamic)table).Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -277,18 +264,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTablesAsDynamics(1).First();
+        var table = Helper.CreateNonIdentityCompleteTablesAsDynamics(1).First();
 
         // Act
-        var result = connection.Insert(ClassMappedNameCache.Get<SdsNonIdentityCompleteTable>(),
+        var result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             (object)table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(table.Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -307,18 +294,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTables(1).First();
+        var table = Helper.CreateCompleteTables(1).First();
 
         // Act
-        var result = await connection.InsertAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -333,19 +320,19 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTablesAsExpandoObjects(1).First();
+        var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = await connection.InsertAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -360,18 +347,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsCompleteTablesAsDynamics(1).First();
+        var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
         // Act
-        var result = await connection.InsertAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, Convert.ToInt64(result));
 
         // Act
-        var queryResult = connection.Query<SdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -386,18 +373,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTables(1).First();
+        var table = Helper.CreateNonIdentityCompleteTables(1).First();
 
         // Act
-        var result = await connection.InsertAsync(ClassMappedNameCache.Get<SdsNonIdentityCompleteTable>(),
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(table.Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -412,18 +399,18 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTablesAsExpandoObjects(1).First();
+        var table = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = await connection.InsertAsync(ClassMappedNameCache.Get<SdsNonIdentityCompleteTable>(),
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(((dynamic)table).Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -438,26 +425,23 @@ public class InsertTest
         Database.CreateSdsTables(connection);
 
         // Setup
-        var table = Helper.CreateSdsNonIdentityCompleteTablesAsDynamics(1).First();
+        var table = Helper.CreateNonIdentityCompleteTablesAsDynamics(1).First();
 
         // Act
-        var result = await connection.InsertAsync(ClassMappedNameCache.Get<SdsNonIdentityCompleteTable>(),
+        var result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<SdsNonIdentityCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<NonIdentityCompleteTable>());
         Assert.AreEqual(table.Id.ToString(), result?.ToString(), true);
 
         // Act
-        var queryResult = connection.Query<SdsNonIdentityCompleteTable>(result);
+        var queryResult = connection.Query<NonIdentityCompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
         Helper.AssertMembersEquality(queryResult.First(), table);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

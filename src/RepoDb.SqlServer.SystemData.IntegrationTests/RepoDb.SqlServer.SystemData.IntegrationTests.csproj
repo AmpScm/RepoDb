@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>$(TestTargetFrameworks)</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <OutputType>$(TestTargetOutputType)</OutputType>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MSTest" />
+    <PackageReference Include="System.Data.SqlClient" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
+    <ProjectReference Include="..\RepoDb.TestCore\RepoDb.TestCore.csproj" />
+    <ProjectReference Include="..\RepoDb.SqlServer\RepoDb.SqlServer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\RepoDb\Compat.cs" />
+  </ItemGroup>
+</Project>

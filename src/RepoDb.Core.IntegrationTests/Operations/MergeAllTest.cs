@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class MergeAllTest
+public class MergeAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region MergeAll<TEntity>
 
     [TestMethod]
@@ -2232,8 +2219,5 @@ public class MergeAllTest
             Helper.AssertPropertiesEquality(table, entity);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

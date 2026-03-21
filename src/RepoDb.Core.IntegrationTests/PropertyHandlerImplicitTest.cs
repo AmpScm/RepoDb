@@ -8,29 +8,11 @@ using RepoDb.Options;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class PropertyHandlerImplicitTest
+[DoNotParallelize]
+public class PropertyHandlerImplicitTest : TestBase
 {
     [ClassInitialize]
-    public static void ClassInitialize(TestContext context)
-    {
-        Database.Initialize();
-        Setup();
-    }
-
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
-    private static void Setup()
+    public static void Setup(TestContext testContext)
     {
         FluentMapper
             .Entity<EntityModelForClass>()
@@ -72,6 +54,12 @@ public class PropertyHandlerImplicitTest
         FluentMapper
             .Type<decimal>()
             .PropertyHandler<DecimalToLongTypeHandler>();
+    }
+
+    [ClassCleanup]
+    public static void TearDown(TestContext testContext)
+    {
+        PropertyHandlerMapper.Clear();
     }
 
     #region Handlers

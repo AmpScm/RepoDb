@@ -6,21 +6,8 @@ using RepoDb.Trace;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class MergeTest
+public class MergeTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,16 +17,16 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Merge<MdsCompleteTable>(table);
+        var result = connection.Merge<CompleteTable>(table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -50,20 +37,20 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Setup
-        Helper.UpdateMdsCompleteTableProperties(table);
+        Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        var result = connection.Merge<MdsCompleteTable>(table);
+        var result = connection.Merge<CompleteTable>(table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -74,25 +61,25 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var qualifiers = new[]
         {
                 new Field("Id", typeof(long))
             };
-        Helper.UpdateMdsCompleteTableProperties(table);
+        Helper.UpdateCompleteTableProperties(table);
         table.ColumnInt = 0;
         table.ColumnChar = "C";
 
         // Act
-        var result = connection.Merge<MdsCompleteTable>(table,
+        var result = connection.Merge<CompleteTable>(table,
             qualifiers: qualifiers);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -107,17 +94,17 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = await connection.MergeAsync<MdsCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.MergeAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -128,20 +115,20 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Setup
-        Helper.UpdateMdsCompleteTableProperties(table);
+        Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        var result = await connection.MergeAsync<MdsCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.MergeAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -152,25 +139,25 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var qualifiers = new[]
         {
                 new Field("Id", typeof(long))
             };
-        Helper.UpdateMdsCompleteTableProperties(table);
+        Helper.UpdateCompleteTableProperties(table);
         table.ColumnInt = 0;
         table.ColumnChar = "C";
 
         // Act
-        var result = await connection.MergeAsync<MdsCompleteTable>(table,
+        var result = await connection.MergeAsync<CompleteTable>(table,
             qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -189,18 +176,18 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -211,19 +198,19 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
-        Helper.UpdateMdsCompleteTableProperties(table);
+        var table = Database.CreateCompleteTables(1, connection).First();
+        Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -234,26 +221,26 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var qualifiers = new[]
         {
                 new Field("Id", typeof(long))
             };
-        Helper.UpdateMdsCompleteTableProperties(table);
+        Helper.UpdateCompleteTableProperties(table);
         table.ColumnInt = 0;
         table.ColumnChar = "C";
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table,
             qualifiers: qualifiers);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -267,18 +254,18 @@ public class MergeTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var table = Helper.CreateMdsCompleteTablesAsDynamics(1).First();
+        var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Assert.AreEqual(1, queryResult?.Count());
@@ -290,19 +277,19 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
-        Helper.UpdateMdsCompleteTableProperties(table);
+        var table = Database.CreateCompleteTables(1, connection).First();
+        Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table, trace: new DiagnosticsTracer());
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -313,15 +300,15 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
-        Helper.UpdateMdsCompleteTableProperties(table);
+        var table = Database.CreateCompleteTables(1, connection).First();
+        Helper.UpdateCompleteTableProperties(table);
         var qualifiers = new[]
         {
                 new Field("Id", typeof(long))
             };
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table,
             qualifiers: qualifiers);
 
@@ -329,10 +316,10 @@ public class MergeTest
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Helper.AssertPropertiesEquality(table, queryResult.First());
     }
 
@@ -341,20 +328,20 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection);
-        var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
+        Database.CreateCompleteTables(1, connection);
+        var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.IsGreaterThan(0, (long)result);
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertMembersEquality(queryResult.First(), table);
@@ -365,19 +352,19 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection);
-        var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
+        Database.CreateCompleteTables(1, connection);
+        var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = connection.Merge(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertMembersEquality(queryResult.First(), table);
@@ -392,17 +379,17 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -413,19 +400,19 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
-        Helper.UpdateMdsCompleteTableProperties(table);
+        var table = Database.CreateCompleteTables(1, connection).First();
+        Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -436,24 +423,24 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var qualifiers = new[]
         {
                 new Field("Id", typeof(long))
             };
-        Helper.UpdateMdsCompleteTableProperties(table);
+        Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table,
             qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -467,18 +454,18 @@ public class MergeTest
         Database.CreateMdsTables(connection);
 
         // Setup
-        var table = Helper.CreateMdsCompleteTablesAsDynamics(1).First();
+        var table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -489,19 +476,19 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
-        Helper.UpdateMdsCompleteTableProperties(table);
+        var table = Database.CreateCompleteTables(1, connection).First();
+        Helper.UpdateCompleteTableProperties(table);
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -512,24 +499,24 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateMdsCompleteTables(1, connection).First();
-        Helper.UpdateMdsCompleteTableProperties(table);
+        var table = Database.CreateCompleteTables(1, connection).First();
+        Helper.UpdateCompleteTableProperties(table);
         var qualifiers = new[]
         {
                 new Field("Id", typeof(long))
             };
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table,
             qualifiers: qualifiers, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(table.Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
@@ -540,19 +527,19 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection);
-        var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
+        Database.CreateCompleteTables(1, connection);
+        var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertMembersEquality(queryResult.First(), table);
@@ -563,25 +550,23 @@ public class MergeTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateMdsCompleteTables(1, connection);
-        var table = Helper.CreateMdsCompleteTablesAsExpandoObjects(1).First();
+        Database.CreateCompleteTables(1, connection);
+        var table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
         // Act
-        var result = await connection.MergeAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
         Assert.AreEqual(((dynamic)table).Id, result);
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(result);
+        var queryResult = connection.Query<CompleteTable>(result);
 
         // Assert
         Helper.AssertMembersEquality(queryResult.First(), table);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

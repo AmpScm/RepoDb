@@ -9,21 +9,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteQueryTest
+public class ExecuteQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region ExecuteQuery<dynamic>
 
     [TestMethod]
@@ -1191,8 +1178,5 @@ public class ExecuteQueryTest
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

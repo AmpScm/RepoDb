@@ -4,21 +4,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests;
 
 [TestClass]
-public class DbHelperTest
+public class DbHelperTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region GetFields
 
     #region Sync
@@ -156,8 +143,6 @@ public class DbHelperTest
         Assert.IsNotNull(primary);
         Assert.AreEqual("Id", primary.FieldName);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

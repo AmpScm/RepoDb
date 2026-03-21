@@ -5,21 +5,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class SumAllTest
+public class SumAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -29,10 +16,10 @@ public class SumAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SumAll<SdsCompleteTable>(e => e.ColumnInt);
+        var result = connection.SumAll<CompleteTable>(e => e.ColumnInt);
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
@@ -45,10 +32,10 @@ public class SumAllTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.SumAll<SdsCompleteTable>(e => e.ColumnInt,
+            connection.SumAll<CompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver");
         });
     }
@@ -62,10 +49,10 @@ public class SumAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SumAllAsync<SdsCompleteTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.SumAllAsync<CompleteTable>(e => e.ColumnInt, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
@@ -78,10 +65,10 @@ public class SumAllTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.SumAllAsync<SdsCompleteTable>(e => e.ColumnInt,
+            await connection.SumAllAsync<CompleteTable>(e => e.ColumnInt,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
@@ -99,11 +86,11 @@ public class SumAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SumAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
-            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First());
+        var result = connection.SumAll(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First());
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
@@ -116,11 +103,11 @@ public class SumAllTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.SumAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+            connection.SumAll(ClassMappedNameCache.Get<CompleteTable>(),
+                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver");
         });
     }
@@ -134,11 +121,11 @@ public class SumAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SumAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-            Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+            Field.Parse<CompleteTable>(e => e.ColumnInt).First(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Sum(e => e.ColumnInt), Convert.ToInt32(result));
@@ -151,17 +138,14 @@ public class SumAllTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.SumAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
-                Field.Parse<SdsCompleteTable>(e => e.ColumnInt).First(),
+            await connection.SumAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
+                Field.Parse<CompleteTable>(e => e.ColumnInt).First(),
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

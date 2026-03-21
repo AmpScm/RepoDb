@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class QueryTest
+public class QueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Query<SdsCompleteTable>(table.Id).First();
+        var result = connection.Query<CompleteTable>(table.Id).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -44,10 +31,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Query<SdsCompleteTable>(e => e.Id == table.Id).First();
+        var result = connection.Query<CompleteTable>(e => e.Id == table.Id).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -58,10 +45,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Query<SdsCompleteTable>(new { table.Id }).First();
+        var result = connection.Query<CompleteTable>(new { table.Id }).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -72,10 +59,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Query<SdsCompleteTable>(new QueryField("Id", table.Id)).First();
+        var result = connection.Query<CompleteTable>(new QueryField("Id", table.Id)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -86,7 +73,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -94,7 +81,7 @@ public class QueryTest
             };
 
         // Act
-        var result = connection.Query<SdsCompleteTable>(queryFields).First();
+        var result = connection.Query<CompleteTable>(queryFields).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -105,7 +92,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -114,7 +101,7 @@ public class QueryTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Query<SdsCompleteTable>(queryGroup).First();
+        var result = connection.Query<CompleteTable>(queryGroup).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -125,10 +112,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Query<SdsCompleteTable>((object?)null,
+        var result = connection.Query<CompleteTable>((object?)null,
             top: 2);
 
         // Assert
@@ -143,10 +130,10 @@ public class QueryTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+            var table = Database.CreateCompleteTables(1, connection).First();
 
             // Act
-            connection.Query<SdsCompleteTable>((object?)null,
+            connection.Query<CompleteTable>((object?)null,
                 hints: "WhatEver");
         });
     }
@@ -160,10 +147,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<SdsCompleteTable>(table.Id, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync<CompleteTable>(table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -174,10 +161,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<SdsCompleteTable>(e => e.Id == table.Id, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync<CompleteTable>(e => e.Id == table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -188,10 +175,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<SdsCompleteTable>(new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync<CompleteTable>(new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -202,10 +189,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync<SdsCompleteTable>(new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync<CompleteTable>(new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -216,7 +203,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -224,7 +211,7 @@ public class QueryTest
             };
 
         // Act
-        var result = (await connection.QueryAsync<SdsCompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -235,7 +222,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -244,7 +231,7 @@ public class QueryTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = (await connection.QueryAsync<SdsCompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertPropertiesEquality(table, result);
@@ -255,10 +242,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryAsync<SdsCompleteTable>((object?)null,
+        var result = await connection.QueryAsync<CompleteTable>((object?)null,
             top: 2, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -273,10 +260,10 @@ public class QueryTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+            var table = Database.CreateCompleteTables(1, connection).First();
 
             // Act
-            await connection.QueryAsync<SdsCompleteTable>((object?)null,
+            await connection.QueryAsync<CompleteTable>((object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
@@ -294,10 +281,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(), table.Id).First();
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), table.Id).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -308,10 +295,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(), new { table.Id }).First();
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id }).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -322,10 +309,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(), new QueryField("Id", table.Id)).First();
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -336,7 +323,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -344,7 +331,7 @@ public class QueryTest
             };
 
         // Act
-        var result = connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(), queryFields).First();
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), queryFields).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -355,7 +342,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -364,7 +351,7 @@ public class QueryTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(), queryGroup).First();
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(), queryGroup).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -375,10 +362,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
             top: 2);
 
@@ -394,10 +381,10 @@ public class QueryTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+            var table = Database.CreateCompleteTables(1, connection).First();
 
             // Act
-            connection.Query(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            connection.Query(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
         });
@@ -412,10 +399,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), table.Id, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), table.Id, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -426,10 +413,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new { table.Id }, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -440,10 +427,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), new QueryField("Id", table.Id), cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -454,7 +441,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -462,7 +449,7 @@ public class QueryTest
             };
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), queryFields, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryFields, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -473,7 +460,7 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var table = Database.CreateSdsCompleteTables(1, connection).First();
+        var table = Database.CreateCompleteTables(1, connection).First();
         var queryFields = new[]
         {
                 new QueryField("Id", table.Id),
@@ -482,7 +469,7 @@ public class QueryTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), queryGroup, cancellationToken: TestContext.CancellationToken)).First();
+        var result = (await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(), queryGroup, cancellationToken: TestContext.CancellationToken)).First();
 
         // Assert
         Helper.AssertMembersEquality(table, result);
@@ -493,10 +480,10 @@ public class QueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
             top: 2, cancellationToken: TestContext.CancellationToken);
 
@@ -512,17 +499,14 @@ public class QueryTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var table = Database.CreateSdsCompleteTables(1, connection).First();
+            var table = Database.CreateCompleteTables(1, connection).First();
 
             // Act
-            await connection.QueryAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            await connection.QueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

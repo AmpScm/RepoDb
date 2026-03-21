@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class SumTest
+public class SumTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sum<TEntity>
 
     [TestMethod]
@@ -942,8 +929,6 @@ public class SumTest
         // Assert
         Assert.AreEqual(tables.Where(t => t.ColumnInt > 5 && t.ColumnInt <= 8).Sum(t => t.ColumnInt), result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

@@ -76,23 +76,17 @@ public class PostgreSqlDbInstance : DbInstance<NpgsqlConnection>
         GRANT CONNECT ON DATABASE ""{DatabaseName}"" TO ""repodb_bulk_user"";");
 
         // Connect to the new database to grant schema-level permissions
-        using var newDbConnection = new NpgsqlConnection(
-            new NpgsqlConnectionStringBuilder(AdminConnectionString)
-            {
-                Database = DatabaseName
-            }.ConnectionString
-        );
-        await newDbConnection.OpenAsync();
+        await sql.ChangeDatabaseAsync(DatabaseName);
 
         // Grant schema permissions in the context of the new database
-        await newDbConnection.ExecuteNonQueryAsync($@"
+        await sql.ExecuteNonQueryAsync($@"
         GRANT ALL PRIVILEGES ON SCHEMA public TO ""repodb_bulk_owner"";
         ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ""repodb_bulk_owner"";
         ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO ""repodb_bulk_owner"";
         ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO ""repodb_bulk_owner"";");
 
         // Grant limited user permissions in the context of the new database
-        await newDbConnection.ExecuteNonQueryAsync($@"
+        await sql.ExecuteNonQueryAsync($@"
         GRANT USAGE ON SCHEMA public TO ""repodb_bulk_user"";
         ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO ""repodb_bulk_user"";
         ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE ON SEQUENCES TO ""repodb_bulk_user"";
@@ -100,6 +94,6 @@ public class PostgreSqlDbInstance : DbInstance<NpgsqlConnection>
         GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO ""repodb_bulk_user"";"
         );
 
-        await newDbConnection.CloseAsync();
+        Database.Initialize();
     }
 }

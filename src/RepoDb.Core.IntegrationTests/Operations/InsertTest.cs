@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class InsertTest
+public class InsertTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Insert<TEntity>
 
     [TestMethod]
@@ -1000,8 +987,6 @@ public class InsertTest
         // Assert
         Helper.AssertPropertiesEquality(table, result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

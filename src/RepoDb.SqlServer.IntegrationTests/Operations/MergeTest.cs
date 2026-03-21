@@ -5,21 +5,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class MergeTest
+public class MergeTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -568,8 +555,6 @@ public class MergeTest
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult.First());
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

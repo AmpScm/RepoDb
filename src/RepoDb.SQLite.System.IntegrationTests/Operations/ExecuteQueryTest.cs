@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class ExecuteQueryTest
+public class ExecuteQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -28,10 +15,10 @@ public class ExecuteQueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.ExecuteQuery<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable];");
+        var result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM [CompleteTable];");
 
         // Assert
         Assert.AreEqual(tables.Count(), result.Count());
@@ -43,10 +30,10 @@ public class ExecuteQueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.ExecuteQuery<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
+        var result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM [CompleteTable] WHERE Id = @Id;",
             new { tables.Last().Id });
 
         // Assert
@@ -63,10 +50,10 @@ public class ExecuteQueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM [CompleteTable];", cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result.Count());
@@ -78,18 +65,15 @@ public class ExecuteQueryTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExecuteQueryAsync<SdsCompleteTable>("SELECT * FROM [SdsCompleteTable] WHERE Id = @Id;",
+        var result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM [CompleteTable] WHERE Id = @Id;",
             new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, result.Count());
         Helper.AssertPropertiesEquality(tables.Last(), result.First());
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

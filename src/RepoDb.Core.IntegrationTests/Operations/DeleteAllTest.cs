@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class DeleteAllTest
+public class DeleteAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DeleteAll<TEntity>
 
     [TestMethod]
@@ -487,8 +474,6 @@ public class DeleteAllTest
         Assert.AreEqual(2, result);
         Assert.AreEqual(8, connection.CountAll<NonIdentityTable>());
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

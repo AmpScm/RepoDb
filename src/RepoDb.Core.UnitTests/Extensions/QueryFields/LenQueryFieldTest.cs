@@ -4,7 +4,7 @@ using RepoDb.UnitTests.CustomObjects;
 
 namespace RepoDb.UnitTests.Extensions.QueryFields;
 
-[TestClass]
+[TestClass, Obsolete]
 public class LenQueryFieldTest
 {
     [TestMethod]

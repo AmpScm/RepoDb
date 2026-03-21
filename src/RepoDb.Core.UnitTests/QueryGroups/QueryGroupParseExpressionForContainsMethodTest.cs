@@ -1,4 +1,10 @@
-﻿namespace RepoDb.UnitTests;
+﻿#nullable enable
+using System.Linq.Expressions;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using RepoDb.Extensions;
+
+namespace RepoDb.UnitTests;
 
 public partial class QueryGroupTest
 {
@@ -1148,4 +1154,193 @@ public partial class QueryGroupTest
     }
 
     #endregion
+
+
+    record OneR
+    {
+        public string? V { get; set; }
+    }
+
+    record Recursive
+    {
+        public string? Value { get; set; }
+
+        public List<string> Tags { get; } = new();
+        public Recursive? R { get; init; }
+
+        public OneR One { get; } = new();
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseRecursiveInit()
+    {
+        // This already used to Work
+        QueryGroup.Parse<Recursive>(x => x.Value == new Recursive().Value);
+
+        QueryGroup.Parse<Recursive>(x => x.Value == new Recursive() { Value = "A" }.Value);
+
+        // But this situation didn't yet
+        QueryGroup.Parse<Recursive>(x => x.Value == new Recursive() { Value = "A", Tags = { "a" } }.Value);
+
+
+        QueryGroup.Parse<Recursive>(x => x.Value == new Recursive() { Value = "A", R = new() { Value = "B" } }.Value);
+
+
+        QueryGroup.Parse<Recursive>(x => x.Value == new Recursive() { Value = "A", One = { V = "B" } }.Value);
+
+
+        Expression<Func<Recursive, object?>> expr;
+        object? ob;
+
+        expr = x => new Recursive();
+        Assert.IsTrue(expr.Body.TryGetValue(out ob));
+        Assert.AreEqual(expr.Compile().Invoke(new())!.ToString(), ob?.ToString() ?? "null");
+
+        expr = x => new Recursive() { Value = "A" };
+        Assert.IsTrue(expr.Body.TryGetValue(out ob));
+        Assert.AreEqual(expr.Compile().Invoke(new())!.ToString(), ob?.ToString() ?? "null");
+
+        expr = x => new Recursive() { Value = "A", Tags = { "a" } };
+        Assert.IsTrue(expr.Body.TryGetValue(out ob));
+        Assert.AreEqual(expr.Compile().Invoke(new())!.ToString(), ob?.ToString() ?? "null");
+
+        expr = x => new Recursive() { Value = "A", R = new() { Value = "B" } };
+        Assert.IsTrue(expr.Body.TryGetValue(out ob));
+        Assert.AreEqual(expr.Compile().Invoke(new())!.ToString(), ob?.ToString() ?? "null");
+
+        expr = x => new Recursive() { Value = "A", One = { V = "B" } };
+        Assert.IsTrue(expr.Body.TryGetValue(out ob));
+        Assert.AreEqual(expr.Compile().Invoke(new())!.ToString(), ob?.ToString() ?? "null");
+
+
+        expr = x => new List<string> { "A", "B", "C" };
+        Assert.IsTrue(expr.Body.TryGetValue(out ob));
+        Assert.AreEqual(expr.Compile().Invoke(new())!.ToString(), ob?.ToString() ?? "null");
+
+        expr = x => new List<Recursive> { new(), new() };
+        Assert.IsTrue(expr.Body.TryGetValue(out ob));
+        Assert.AreEqual(expr.Compile().Invoke(new())!.ToString(), ob?.ToString() ?? "null");
+    }
+
+    record Rec(string A)
+    {
+        public string? B { get; init; }
+    }
+
+    static R ExprValue<R>(Expression<Func<R>> expr, [CallerArgumentExpression(nameof(expr))] string exprExpression = "")
+    {
+        Assert.IsTrue(expr.Body.TryGetValue(out var v), $"Expression {exprExpression}");
+        return (R)v!;
+    }
+
+    static bool ExprResult<R>(Expression<Func<R>> expr, [CallerArgumentExpression(nameof(expr))] string exprExpression = "")
+    {
+        return expr.Body.TryGetValue(out var v);
+    }
+
+    static int OutFunc(out object? v) { v = "set"; return 1; }
+
+
+    [TestMethod]
+    public void ValueTests()
+    {
+        // Roslyn optimizes these values away if we put them in directly as constants. We don't see the full expression then
+        bool True = true;
+        bool False = false;
+
+        bool? BoolNull = null;
+        bool? TrueNull = true;
+
+        Assert.AreEqual(true, ExprValue(() => !False));
+        Assert.AreEqual(true, ExprValue(() => True || False));
+        Assert.AreEqual(true, ExprValue(() => True || (False || True)));
+        Assert.AreEqual(true, ExprValue(() => True == !False));
+        Assert.AreEqual(true, ExprValue(() => True != False));
+        Assert.AreEqual(true, ExprValue(() => True && !False));
+
+        Assert.AreEqual(true, ExprValue(() => BoolNull ?? True));
+
+        Assert.AreEqual(true, ExprValue(() => BoolNull == null));
+        Assert.AreEqual(true, ExprValue(() => BoolNull.HasValue == false));
+        Assert.AreEqual(true, ExprValue(() => TrueNull.Value != false));
+        Assert.AreEqual(true, ExprValue(() => (((bool?)True ?? BoolNull)!) == true));
+
+        Assert.AreEqual(true, ExprValue(() => new { a = 12 }.a == 12));
+
+        //Assert.AreEqual(true, ExprValue(() => new { a = 12 } == new { a = 12 }));
+        //Assert.AreEqual(true, ExprValue(() =>
+
+        var five = 5;
+        var list = new List<int> { 1, 2, 3 };
+        Assert.AreEqual(~5, ExprValue(() => ~five));
+        Assert.AreEqual(2, ExprValue(() => list[1]));
+        Assert.AreEqual(3, ExprValue(() => list.ToArray()[2]));
+
+        Assert.AreEqual(true, ExprValue(() => (bool)True));
+        Assert.AreEqual(true, ExprValue(() => (bool)(object)True));
+        Assert.AreEqual(5, ExprValue(() => +five)); // Unary plus is a no-op, but we want to make sure it doesn't break the value retrieval
+        Assert.AreEqual(-5m, ExprValue(() => -(decimal)five));
+
+        // Casts, conversions, operators
+        Assert.AreEqual(2, ExprValue(() => (five + five) / five));
+        Assert.AreEqual("AB5", ExprValue(() => "A" + $"B{five}"));
+        Assert.AreEqual("AB", ExprValue(() => "A" + 'B'));
+
+        Assert.AreEqual("AA", ExprValue(() => new Rec("C") { B = "AA" }.B));
+
+        // Strange init constructs
+        Assert.IsNull(ExprValue(() => new Recursive().Value));
+        Assert.AreEqual("A", ExprValue(() => new Recursive() { Value = "A" }.Value));
+        Assert.AreEqual("A", ExprValue(() => new Recursive() { Value = "A", Tags = { "a" } }.Value));
+        Assert.HasCount(1, ExprValue(() => new Recursive() { Value = "A", Tags = { "a" } }.Tags));
+        Assert.AreEqual("A", ExprValue(() => new Recursive() { Value = "A", R = new() { Value = "B" } }.Value));
+        Assert.AreEqual("A", ExprValue(() => new Recursive() { Value = "A", One = { V = "B" } }.Value));
+
+
+        // Lambda argument (quote expression)
+        Assert.AreEqual("word", ExprValue(() => ExprValue(() => "word")));
+
+        // And the absolute worst case: output arguments
+        object? qq = null;
+        Assert.AreEqual(1, ExprValue(() => OutFunc(out qq)));
+        Assert.AreEqual("set", qq);
+
+        // Thus query works when casted
+        Assert.AreEqual(true, ExprValue(() => ((IEnumerable<int>)new int[] { 1, 5 }).Contains(five) == true));
+#if NET10_0_OR_GREATER
+        // Handled as span, so we get byRef values, etc.
+        Assert.IsFalse(ExprResult(() => (new int[] { 1, 5 }).Contains(five) == true));
+#else
+        // Handled as linq, so we get the full expression and can evaluate it
+        Assert.IsFalse(ExprResult(() => (new int[] { 1, 5 }).Contains(five) == true));
+#endif
+    }
+
+
+    [TestMethod]
+    public void TestQueryGroupParseExpressionBooleans()
+    {
+        // Setup
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyBoolean);
+        Assert.AreEqual("([PropertyBoolean] = @PropertyBoolean)", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !e.PropertyBoolean);
+        Assert.AreEqual("([PropertyBoolean] <> @PropertyBoolean)", parsed.GetString(m_dbSetting));
+
+        // Not is in many cases handled as <>
+        parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !e.PropertyBoolean && e.PropertyBoolean);
+        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !e.PropertyBoolean && e.PropertyBoolean || e.PropertyBoolean);
+        Assert.AreEqual("((([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1)) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (!e.PropertyBoolean && e.PropertyBoolean) || e.PropertyBoolean);
+        Assert.AreEqual("((([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1)) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (!e.PropertyBoolean && e.PropertyBoolean) || !e.PropertyBoolean);
+        Assert.AreEqual("((([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1)) OR ([PropertyBoolean] <> @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(e.PropertyInt == 12) || !e.PropertyBoolean);
+        Assert.AreEqual("(NOT (([PropertyInt] = @PropertyInt)) OR ([PropertyBoolean] <> @PropertyBoolean))", parsed.GetString(m_dbSetting));
+    }
 }

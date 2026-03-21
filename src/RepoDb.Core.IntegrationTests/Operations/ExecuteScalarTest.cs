@@ -5,21 +5,8 @@ using System.Data;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteScalarTest
+public class ExecuteScalarTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region ExecuteScalar
 
     [TestMethod]
@@ -659,8 +646,5 @@ public class ExecuteScalarTest
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteScalarAsync<object>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

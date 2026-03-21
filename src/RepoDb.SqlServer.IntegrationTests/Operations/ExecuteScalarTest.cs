@@ -4,21 +4,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteScalarTest
+public class ExecuteScalarTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -80,8 +67,6 @@ public class ExecuteScalarTest
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

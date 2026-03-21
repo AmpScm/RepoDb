@@ -7,10 +7,6 @@ namespace RepoDb.MySqlConnector.IntegrationTests.Common;
 [TestClass]
 public class NullTests : RepoDb.TestCore.NullTestsBase<MysqlDbInstance>
 {
-    protected override void InitializeCore() => Database.Initialize();
-
-    public override DbConnection CreateConnection() => new MySqlConnection(Database.ConnectionString);
-
     public override string UuidDbType => "CHAR(38)";
     public override string DateTimeOffsetDbType => "varchar(64)"; // DateTimeOffset is not supported in MySQL
 

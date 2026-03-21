@@ -7,21 +7,8 @@ using RepoDb.Trace;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class ExistsTest
+public class ExistsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -478,8 +465,6 @@ public class ExistsTest
         // Assert
         Assert.IsTrue(result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

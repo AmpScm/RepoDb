@@ -8,21 +8,8 @@ using RepoDb.Reflection;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ExecuteParameterTest
+public class ExecuteParameterTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DbConnection
 
     #region ExecuteQuery
@@ -40,7 +27,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -63,7 +50,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -86,7 +73,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -109,7 +96,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -127,7 +114,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -150,7 +137,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -174,7 +161,7 @@ public class ExecuteParameterTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
 
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -212,7 +199,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -235,7 +222,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -258,7 +245,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -281,7 +268,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -300,7 +287,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -323,7 +310,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -346,7 +333,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -373,7 +360,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -396,7 +383,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -419,7 +406,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -443,7 +430,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -464,7 +451,7 @@ public class ExecuteParameterTest
         var param = new QueryField("ColumnInt", 5);
 
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -487,7 +474,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -510,7 +497,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -537,7 +524,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -560,7 +547,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -583,7 +570,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -606,7 +593,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -625,7 +612,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -648,7 +635,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -671,7 +658,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -698,7 +685,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -723,7 +710,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -748,7 +735,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -773,7 +760,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -794,7 +781,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -819,7 +806,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -844,7 +831,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = connection.ExecuteReader("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -873,7 +860,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -898,7 +885,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -923,7 +910,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -948,7 +935,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -969,7 +956,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -994,7 +981,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1019,7 +1006,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1048,7 +1035,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1071,7 +1058,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1094,7 +1081,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1117,7 +1104,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1136,7 +1123,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt); SELECT @@ROWCOUNT;",
@@ -1159,7 +1146,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1182,7 +1169,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1209,7 +1196,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1232,7 +1219,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1255,7 +1242,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1278,7 +1265,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1297,7 +1284,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt); SELECT @@ROWCOUNT;",
@@ -1320,7 +1307,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1343,7 +1330,7 @@ public class ExecuteParameterTest
 
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(connection.Insert(item)));
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -1374,7 +1361,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1397,7 +1384,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1420,7 +1407,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1443,7 +1430,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1462,7 +1449,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -1485,7 +1472,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1508,7 +1495,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1535,7 +1522,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1558,7 +1545,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1581,7 +1568,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1604,7 +1591,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1623,7 +1610,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -1646,7 +1633,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1669,7 +1656,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1696,7 +1683,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1719,7 +1706,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1742,7 +1729,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1766,7 +1753,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1785,7 +1772,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -1808,7 +1795,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1831,7 +1818,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteNonQuery("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1858,7 +1845,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1881,7 +1868,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1904,7 +1891,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1927,7 +1914,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1946,7 +1933,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt);",
@@ -1969,7 +1956,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -1992,7 +1979,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteNonQueryAsync("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit);",
@@ -2019,7 +2006,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2042,7 +2029,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2065,7 +2052,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2088,7 +2075,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2107,7 +2094,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt); SELECT @@ROWCOUNT;",
@@ -2130,7 +2117,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2153,7 +2140,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = repository.ExecuteScalar<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2180,7 +2167,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2203,7 +2190,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2226,7 +2213,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2249,7 +2236,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2268,7 +2255,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt); SELECT @@ROWCOUNT;",
@@ -2291,7 +2278,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2314,7 +2301,7 @@ public class ExecuteParameterTest
 
         using var repository = new DbRepository<SqlConnection>(Database.ConnectionStringForRepoDb);
         // Act
-        tables.ForEach(item => item.Id = Convert.ToInt32(repository.Insert(item)));
+        repository.InsertAll(tables);
 
         // Act
         var result = await repository.ExecuteScalarAsync<int>("DELETE FROM [sc].[IdentityTable] WHERE (ColumnInt = @ColumnInt) AND (ColumnBit = @ColumnBit); SELECT @@ROWCOUNT;",
@@ -2323,8 +2310,6 @@ public class ExecuteParameterTest
         // Assert
         Assert.AreEqual(1, result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

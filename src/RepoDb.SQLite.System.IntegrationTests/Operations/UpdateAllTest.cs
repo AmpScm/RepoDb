@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class UpdateAllTest
+public class UpdateAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,17 +17,17 @@ public class UpdateAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        var tables = Database.CreateCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
         // Act
-        var result = connection.UpdateAll<SdsCompleteTable>(tables);
+        var result = connection.UpdateAll<CompleteTable>(tables);
 
         // Assert
         Assert.AreEqual(10, result);
 
         // Act
-        var queryResult = connection.QueryAll<SdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -56,17 +43,17 @@ public class UpdateAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        var tables = Database.CreateCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
         // Act
-        var result = await connection.UpdateAllAsync<SdsCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.UpdateAllAsync<CompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
 
         // Act
-        var queryResult = connection.QueryAll<SdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -86,17 +73,17 @@ public class UpdateAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        var tables = Database.CreateCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
         // Act
-        var result = connection.UpdateAll(ClassMappedNameCache.Get<SdsCompleteTable>(), tables);
+        var result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(), tables);
 
         // Assert
         Assert.AreEqual(10, result);
 
         // Act
-        var queryResult = connection.QueryAll<SdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -108,18 +95,18 @@ public class UpdateAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateSdsCompleteTables(10, connection);
-        var tables = Helper.CreateSdsCompleteTablesAsExpandoObjects(10);
+        Database.CreateCompleteTables(10, connection);
+        var tables = Helper.CreateCompleteTablesAsExpandoObjects(10);
 
         // Act
-        var result = connection.UpdateAll(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.UpdateAll(ClassMappedNameCache.Get<CompleteTable>(),
             tables);
 
         // Assert
         Assert.AreEqual(10, result);
 
         // Act
-        var queryResult = connection.QueryAll<SdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -135,17 +122,17 @@ public class UpdateAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        tables.AsList().ForEach(table => Helper.UpdateSdsCompleteTableProperties(table));
+        var tables = Database.CreateCompleteTables(10, connection);
+        tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
         // Act
-        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), tables, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(), tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
 
         // Act
-        var queryResult = connection.QueryAll<SdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.AsList().ForEach(table =>
@@ -157,26 +144,23 @@ public class UpdateAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        Database.CreateSdsCompleteTables(10, connection);
-        var tables = Helper.CreateSdsCompleteTablesAsExpandoObjects(10);
+        Database.CreateCompleteTables(10, connection);
+        var tables = Helper.CreateCompleteTablesAsExpandoObjects(10);
 
         // Act
-        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.UpdateAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
 
         // Act
-        var queryResult = connection.QueryAll<SdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         tables.AsList().ForEach(table =>
             Helper.AssertMembersEquality(queryResult.First(e => e.Id == ((dynamic)table).Id), table));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

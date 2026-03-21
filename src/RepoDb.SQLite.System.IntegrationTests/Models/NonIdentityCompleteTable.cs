@@ -1,8 +1,8 @@
 ﻿namespace RepoDb.SQLite.System.IntegrationTests.Models;
 
-public class SdsCompleteTable
+public class NonIdentityCompleteTable
 {
-    public Int64 Id { get; set; }
+    public Guid Id { get; set; }
     public Int64? ColumnBigInt { get; set; }
     public Byte[] ColumnBlob { get; set; }
     public Boolean? ColumnBoolean { get; set; }

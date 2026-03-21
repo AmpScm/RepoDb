@@ -6,21 +6,8 @@ using RepoDb.PostgreSql.IntegrationTests.Setup;
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
 
 [TestClass]
-public class CountTest
+public class CountTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -454,8 +441,6 @@ public class CountTest
             (object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -6,21 +6,8 @@ using RepoDb.Trace;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class UpdateTest
+public class UpdateTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -31,7 +18,12 @@ public class UpdateTest
         // Setup
         var table = Database.CreateCompleteTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionString);
+        using var connection = new SqlConnection(Database.ConnectionString); var fields = DbFieldCache.Get(connection, $"{nameof(CompleteTable)}", null);
+
+        foreach (var v in fields)
+        {
+            Console.WriteLine($"{v} : {v.Type}");
+        }
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -661,8 +653,6 @@ public class UpdateTest
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

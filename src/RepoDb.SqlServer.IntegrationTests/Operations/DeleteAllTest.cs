@@ -6,21 +6,8 @@ using RepoDb.Trace;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class DeleteAllTest
+public class DeleteAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -58,7 +45,7 @@ public class DeleteAllTest
     public void TestSqlServerConnectionDeleteAllViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
+        var tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x => new { x.ColumnText, x.SessionId }));
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
@@ -159,7 +146,7 @@ public class DeleteAllTest
     public async Task TestSqlServerConnectionDeleteAllAsyncViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
+        var tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x => new { x.ColumnText, x.SessionId }));
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
@@ -211,7 +198,7 @@ public class DeleteAllTest
     public void TestSqlServerConnectionDeleteAllViaTableNameViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
+        var tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x => new { x.ColumnText, x.SessionId }));
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
@@ -259,7 +246,7 @@ public class DeleteAllTest
     public async Task TestSqlServerConnectionDeleteAllAsyncViaTableNameViaPrimaryKeysBeyondLimits()
     {
         // Setup
-        var tables = Database.CreateCompleteTables(5000);
+        var tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x => new { x.ColumnText, x.SessionId }));
         var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         using var connection = new SqlConnection(Database.ConnectionString).EnsureOpen();
@@ -269,8 +256,6 @@ public class DeleteAllTest
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

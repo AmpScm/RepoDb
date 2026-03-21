@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class MaxTest
+public class MaxTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Max<CompleteTable>(e => e.ColumnInt,
             (object?)null);
 
         // Assert
@@ -45,11 +32,11 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Max<CompleteTable>(e => e.ColumnInt,
             e => ids.Contains(e.Id));
 
         // Assert
@@ -61,10 +48,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Max<CompleteTable>(e => e.ColumnInt,
             new { tables.First().Id });
 
         // Assert
@@ -76,10 +63,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Max<CompleteTable>(e => e.ColumnInt,
             new QueryField("Id", tables.First().Id));
 
         // Assert
@@ -91,7 +78,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -99,7 +86,7 @@ public class MaxTest
             };
 
         // Act
-        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Max<CompleteTable>(e => e.ColumnInt,
             queryFields);
 
         // Assert
@@ -111,7 +98,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -120,7 +107,7 @@ public class MaxTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+        var result = connection.Max<CompleteTable>(e => e.ColumnInt,
             queryGroup);
 
         // Assert
@@ -134,10 +121,10 @@ public class MaxTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Max<SdsCompleteTable>(e => e.ColumnInt,
+            connection.Max<CompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver");
         });
@@ -152,10 +139,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.MaxAsync<CompleteTable>(e => e.ColumnInt,
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -167,11 +154,11 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.MaxAsync<CompleteTable>(e => e.ColumnInt,
             e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -183,10 +170,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.MaxAsync<CompleteTable>(e => e.ColumnInt,
             new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -198,10 +185,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.MaxAsync<CompleteTable>(e => e.ColumnInt,
             new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -213,7 +200,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -221,7 +208,7 @@ public class MaxTest
             };
 
         // Act
-        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.MaxAsync<CompleteTable>(e => e.ColumnInt,
             queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -233,7 +220,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -242,7 +229,7 @@ public class MaxTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+        var result = await connection.MaxAsync<CompleteTable>(e => e.ColumnInt,
             queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -256,10 +243,10 @@ public class MaxTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.MaxAsync<SdsCompleteTable>(e => e.ColumnInt,
+            await connection.MaxAsync<CompleteTable>(e => e.ColumnInt,
                 (object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
@@ -278,10 +265,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Max(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null);
 
@@ -294,10 +281,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Max(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             new { tables.First().Id });
 
@@ -310,10 +297,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Max(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             new QueryField("Id", tables.First().Id));
 
@@ -326,7 +313,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -334,7 +321,7 @@ public class MaxTest
             };
 
         // Act
-        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Max(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             queryFields);
 
@@ -347,7 +334,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -356,7 +343,7 @@ public class MaxTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Max(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             queryGroup);
 
@@ -371,10 +358,10 @@ public class MaxTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Max(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            connection.Max(ClassMappedNameCache.Get<CompleteTable>(),
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
                 hints: "WhatEver");
@@ -390,10 +377,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
@@ -406,10 +393,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
@@ -422,10 +409,10 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
@@ -438,7 +425,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -446,7 +433,7 @@ public class MaxTest
             };
 
         // Act
-        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             queryFields, cancellationToken: TestContext.CancellationToken);
 
@@ -459,7 +446,7 @@ public class MaxTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -468,7 +455,7 @@ public class MaxTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.MaxAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInt", typeof(int)),
             queryGroup, cancellationToken: TestContext.CancellationToken);
 
@@ -483,18 +470,15 @@ public class MaxTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.MaxAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            await connection.MaxAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 new Field("ColumnInt", typeof(int)),
                 (object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

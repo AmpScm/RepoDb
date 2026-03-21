@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class CountTest
+public class CountTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Count<TEntity>
 
     [TestMethod]
@@ -465,8 +452,5 @@ public class CountTest
         // Assert
         Assert.AreEqual(3, result);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

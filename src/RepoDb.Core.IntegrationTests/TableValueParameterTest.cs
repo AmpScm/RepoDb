@@ -8,21 +8,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests;
 
 [TestClass]
-public class TableValueParameterTest
+public class TableValueParameterTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Helpers
 
     private DataTable CreateDataTable(string tableName)
@@ -169,8 +156,6 @@ public class TableValueParameterTest
         Assert.AreEqual(dataTable.Rows.Count, result);
         Assert.AreEqual(dataTable.Rows.Count, connection.CountAll<IdentityTable>());
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

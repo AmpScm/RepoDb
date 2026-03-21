@@ -6,20 +6,10 @@ namespace RepoDb.SqlServer.IntegrationTests;
 
 public static class Helper
 {
-    static Helper()
-    {
-        EpocDate = new DateTime(1970, 1, 1, 0, 0, 0);
-    }
-
     /// <summary>
     /// Gets the value of the Epoc date.
     /// </summary>
-    public static DateTime EpocDate { get; }
-
-    /// <summary>
-    /// Gets the current <see cref="Random"/> object in used.
-    /// </summary>
-    public static Random Randomizer => new(1);
+    public static DateTime EpocDate { get; } = new DateTime(1970, 1, 1, 0, 0, 0);
 
     /// <summary>
     /// Asserts the properties equality of 2 types.

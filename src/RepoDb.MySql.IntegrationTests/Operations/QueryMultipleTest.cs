@@ -6,21 +6,8 @@ using RepoDb.MySql.IntegrationTests.Setup;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class QueryMultipleTest
+public class QueryMultipleTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -420,9 +407,6 @@ public class QueryMultipleTest
             top2: 2,
             hints2: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

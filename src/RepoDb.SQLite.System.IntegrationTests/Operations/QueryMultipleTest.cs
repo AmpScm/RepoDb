@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class QueryMultipleTest
+public class QueryMultipleTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             top2: 2);
@@ -50,10 +37,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
@@ -74,10 +61,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -102,10 +89,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -134,10 +121,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -170,10 +157,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -212,10 +199,10 @@ public class QueryMultipleTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.QueryMultiple<SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+            connection.QueryMultiple<CompleteTable, CompleteTable>(e => e.Id > 0,
                 e => e.Id > 0,
                 top1: 1,
                 hints1: "WhatEver",
@@ -233,10 +220,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             top2: 2, cancellationToken: TestContext.CancellationToken);
@@ -253,10 +240,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
@@ -277,10 +264,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -305,10 +292,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -337,10 +324,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -373,10 +360,10 @@ public class QueryMultipleTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -415,10 +402,10 @@ public class QueryMultipleTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.QueryMultipleAsync<SdsCompleteTable, SdsCompleteTable>(e => e.Id > 0,
+            await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(e => e.Id > 0,
                 e => e.Id > 0,
                 top1: 1,
                 hints1: "WhatEver",
@@ -426,9 +413,6 @@ public class QueryMultipleTest
                 hints2: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

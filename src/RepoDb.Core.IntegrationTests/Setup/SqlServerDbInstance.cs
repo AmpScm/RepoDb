@@ -63,9 +63,10 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
             CREATE LOGIN [repodb_core_user] WITH PASSWORD = '0608B012-05D2-4023-A451';
         END");
 
+        await sql.ChangeDatabaseAsync(DatabaseName);
+
         // Create owner user in the test database with db_owner-like permissions
         await sql.ExecuteNonQueryAsync($@"
-        USE [{DatabaseName}];
         IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'repodb_core_owner')
         BEGIN
             CREATE USER [repodb_core_owner] FOR LOGIN [repodb_core_owner];
@@ -75,7 +76,6 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
 
         // Create limited user in the test database with minimal permissions
         await sql.ExecuteNonQueryAsync($@"
-        USE [{DatabaseName}];
         IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'repodb_core_user')
         BEGIN
             CREATE USER [repodb_core_user] FOR LOGIN [repodb_core_user];
@@ -85,5 +85,7 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
             ALTER ROLE [db_datawriter] ADD MEMBER [repodb_core_user];
             ALTER ROLE [db_datareader] ADD MEMBER [repodb_core_user];
         END");
+
+        Database.Initialize();
     }
 }

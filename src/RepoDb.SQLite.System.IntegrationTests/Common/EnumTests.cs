@@ -7,7 +7,4 @@ namespace RepoDb.SQLite.System.IntegrationTests.Common;
 [TestClass]
 public class EnumTests : RepoDb.TestCore.EnumTestsBase<SQLiteDbInstance>
 {
-    protected override void InitializeCore() => Database.Initialize(TestContext);
-
-    public override DbConnection CreateConnection() => new SQLiteConnection(Database.GetConnectionString(TestContext));
 }

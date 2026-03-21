@@ -6,21 +6,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class BatchQueryTest
+public class BatchQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,12 +17,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery<MdsCompleteTable>(0,
+        var result = connection.BatchQuery<CompleteTable>(0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -48,12 +35,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery<MdsCompleteTable>(0,
+        var result = connection.BatchQuery<CompleteTable>(0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -66,12 +53,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery<MdsCompleteTable>(2,
+        var result = connection.BatchQuery<CompleteTable>(2,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -84,12 +71,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery<MdsCompleteTable>(2,
+        var result = connection.BatchQuery<CompleteTable>(2,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -102,12 +89,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery<MdsCompleteTable>(0,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery<CompleteTable>(0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver"));
     }
@@ -121,12 +108,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync<MdsCompleteTable>(0,
+        var result = await connection.BatchQueryAsync<CompleteTable>(0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -139,12 +126,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync<MdsCompleteTable>(0,
+        var result = await connection.BatchQueryAsync<CompleteTable>(0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -157,12 +144,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync<MdsCompleteTable>(2,
+        var result = await connection.BatchQueryAsync<CompleteTable>(2,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -175,12 +162,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync<MdsCompleteTable>(2,
+        var result = await connection.BatchQueryAsync<CompleteTable>(2,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -193,12 +180,12 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync<MdsCompleteTable>(0,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync<CompleteTable>(0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
@@ -216,13 +203,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -235,13 +222,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -254,13 +241,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             2,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -273,13 +260,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.BatchQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             2,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -292,13 +279,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver"));
     }
@@ -312,13 +299,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -331,13 +318,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -350,13 +337,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             2,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -369,13 +356,13 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             2,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -388,18 +375,16 @@ public class BatchQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

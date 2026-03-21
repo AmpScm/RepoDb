@@ -8,21 +8,8 @@ using System.Data.Common;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class ExecuteReaderTest
+public class ExecuteReaderTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Sync
 
     [TestMethod]
@@ -30,10 +17,10 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = connection.ExecuteReader("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];");
+        using var reader = connection.ExecuteReader("SELECT Id, ColumnInt, ColumnDateTime FROM [CompleteTable];");
         while (reader.Read())
         {
             // Act
@@ -54,10 +41,10 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = connection.ExecuteReader("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable]; SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];");
+        using var reader = connection.ExecuteReader("SELECT Id, ColumnInt, ColumnDateTime FROM [CompleteTable]; SELECT Id, ColumnInt, ColumnDateTime FROM [CompleteTable];");
         do
         {
             while (reader.Read())
@@ -81,12 +68,12 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = connection.ExecuteReader("SELECT * FROM [MdsCompleteTable];");
+        using var reader = connection.ExecuteReader("SELECT * FROM [CompleteTable];");
         // Act
-        var result = DataReader.ToEnumerable<MdsCompleteTable>((DbDataReader)reader).AsList();
+        var result = DataReader.ToEnumerable<CompleteTable>((DbDataReader)reader).AsList();
 
         // Assert
         tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
@@ -97,10 +84,10 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = connection.ExecuteReader("SELECT *, 'MDS' AS MDS  FROM [MdsCompleteTable];");
+        using var reader = connection.ExecuteReader("SELECT *, 'MDS' AS MDS  FROM [CompleteTable];");
         // Act
         var result = DataReader.ToEnumerable((DbDataReader)reader).AsList();
 
@@ -117,10 +104,10 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
+        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [CompleteTable];", cancellationToken: TestContext.CancellationToken);
         while (reader.Read())
         {
             // Act
@@ -141,10 +128,10 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable]; SELECT Id, ColumnInt, ColumnDateTime FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
+        using var reader = await connection.ExecuteReaderAsync("SELECT Id, ColumnInt, ColumnDateTime FROM [CompleteTable]; SELECT Id, ColumnInt, ColumnDateTime FROM [CompleteTable];", cancellationToken: TestContext.CancellationToken);
         do
         {
             while (reader.Read())
@@ -168,12 +155,12 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
+        using var reader = await connection.ExecuteReaderAsync("SELECT * FROM [CompleteTable];", cancellationToken: TestContext.CancellationToken);
         // Act
-        var result = DataReader.ToEnumerable<MdsCompleteTable>((DbDataReader)reader).AsList();
+        var result = DataReader.ToEnumerable<CompleteTable>((DbDataReader)reader).AsList();
 
         // Assert
         tables.AsList().ForEach(table => Helper.AssertPropertiesEquality(table, result.First(e => e.Id == table.Id)));
@@ -184,18 +171,16 @@ public class ExecuteReaderTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        using var reader = await connection.ExecuteReaderAsync("SELECT *, 'MDS' AS MDS FROM [MdsCompleteTable];", cancellationToken: TestContext.CancellationToken);
+        using var reader = await connection.ExecuteReaderAsync("SELECT *, 'MDS' AS MDS FROM [CompleteTable];", cancellationToken: TestContext.CancellationToken);
         // Act
         var result = DataReader.ToEnumerable((DbDataReader)reader).AsList();
 
         // Assert
         tables.AsList().ForEach(table => Helper.AssertMembersEquality(table, result.First(e => e.Id == table.Id)));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

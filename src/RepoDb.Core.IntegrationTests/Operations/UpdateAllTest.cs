@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class UpdateAllTest
+public class UpdateAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region UpdateAll<TEntity>
 
     [TestMethod]
@@ -1462,8 +1449,5 @@ public class UpdateAllTest
             Helper.AssertPropertiesEquality(table, entity);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

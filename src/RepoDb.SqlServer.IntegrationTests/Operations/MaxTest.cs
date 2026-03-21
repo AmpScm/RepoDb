@@ -6,21 +6,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class MaxTest
+public class MaxTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -492,8 +479,6 @@ public class MaxTest
         // Assert
         Assert.AreEqual(tables.Max(e => e.ColumnInt), Convert.ToInt32(result));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

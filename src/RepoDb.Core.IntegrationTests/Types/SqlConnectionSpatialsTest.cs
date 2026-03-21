@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Types.Spatials;
 
 [TestClass]
-public class SqlConnectionSpatialsTest
+public class SqlConnectionSpatialsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region <TEntity>
 
     //[TestMethod]
@@ -337,8 +324,6 @@ public class SqlConnectionSpatialsTest
         Assert.IsNull(data.ColumnGeography);
         Assert.IsNull(data.ColumnGeometry);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

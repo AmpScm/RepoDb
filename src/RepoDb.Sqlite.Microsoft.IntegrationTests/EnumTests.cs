@@ -6,21 +6,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests;
 
 [TestClass]
-public class EnumTests
+public class EnumTests : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Enumerations
 
     public enum Hands
@@ -34,21 +21,21 @@ public class EnumTests
 
     #region SubClasses
 
-    [Map("MdsCompleteTable")]
+    [Map("CompleteTable")]
     public class PersonWithText
     {
         public System.Int64 Id { get; set; }
         public Hands? ColumnText { get; set; }
     }
 
-    [Map("MdsCompleteTable")]
+    [Map("CompleteTable")]
     public class PersonWithInteger
     {
         public System.Int64 Id { get; set; }
         public Hands? ColumnInteger { get; set; }
     }
 
-    [Map("MdsCompleteTable")]
+    [Map("CompleteTable")]
     public class PersonWithTextAsInteger
     {
         public System.Int64 Id { get; set; }
@@ -109,7 +96,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var person = GetPersonWithText(1).First();
@@ -130,7 +117,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var person = GetPersonWithText(1).First();
@@ -150,7 +137,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var people = GetPersonWithText(10).AsList();
@@ -174,7 +161,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var person = GetPersonWithInteger(1).First();
@@ -195,7 +182,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var person = GetPersonWithInteger(1).First();
@@ -215,7 +202,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var people = GetPersonWithInteger(10).AsList();
@@ -239,7 +226,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var person = GetPersonWithTextAsInteger(1).First();
@@ -259,7 +246,7 @@ public class EnumTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         //  Create the table first
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
         var people = GetPersonWithTextAsInteger(10).AsList();

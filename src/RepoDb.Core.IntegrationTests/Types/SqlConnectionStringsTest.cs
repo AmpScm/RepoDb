@@ -5,20 +5,8 @@ using Microsoft.Data.SqlClient;
 namespace RepoDb.IntegrationTests.Types.Strings;
 
 [TestClass]
-public class SqlConnectionStringsTest
+public class SqlConnectionStringsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
 
     #region <TEntity>
 
@@ -427,8 +415,5 @@ public class SqlConnectionStringsTest
         Assert.IsNull(data.ColumnText);
         Assert.IsNull(data.ColumnVarChar);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

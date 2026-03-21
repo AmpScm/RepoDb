@@ -10,21 +10,14 @@ namespace RepoDb.IntegrationTests;
 
 [TestClass]
 [DoNotParallelize]
-public class TypeConversionsTest
+public class TypeConversionsTest : TestBase
 {
     private class CompleteTable { }
 
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
     [TestCleanup]
-    public void Cleanup()
+    public void CleanupSettings()
     {
-        Database.Cleanup();
+        GlobalConfiguration.Setup(new());
     }
 
     #region TypedResult

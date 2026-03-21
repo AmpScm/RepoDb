@@ -6,21 +6,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class QueryMultipleTest
+public class QueryMultipleTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             top2: 2);
@@ -50,10 +37,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
@@ -74,10 +61,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -102,10 +89,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -134,10 +121,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -170,10 +157,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -210,10 +197,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryMultiple<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             hints1: "WhatEver",
@@ -230,10 +217,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             top2: 2, cancellationToken: TestContext.CancellationToken);
@@ -250,10 +237,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
@@ -274,10 +261,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -302,10 +289,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -334,10 +321,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -370,10 +357,10 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        var result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
             e => e.Id > 0,
@@ -410,18 +397,16 @@ public class QueryMultipleTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable>(e => e.Id > 0,
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
             top1: 1,
             hints1: "WhatEver",
             top2: 2,
             hints2: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

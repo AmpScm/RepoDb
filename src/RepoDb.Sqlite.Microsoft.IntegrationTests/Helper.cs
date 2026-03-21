@@ -9,22 +9,17 @@ public static class Helper
 {
     public const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    static Helper()
-    {
-        EpocDate = new DateTime(1970, 1, 1, 0, 0, 0);
-    }
-
     #region Properties
 
     /// <summary>
     /// Gets the value of the Epoc date.
     /// </summary>
-    public static DateTime EpocDate { get; }
+    public static DateTime EpocDate { get; } = new DateTime(1970, 1, 1, 0, 0, 0);
 
     /// <summary>
     /// Gets the current <see cref="Random"/> object in used.
     /// </summary>
-    public static Random Randomizer => new(1);
+    public static Random Randomizer { get; } = new(1);
 
     #endregion
 
@@ -173,19 +168,19 @@ public static class Helper
 
     #endregion
 
-    #region MdsCompleteTable
+    #region CompleteTable
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="count"></param>
     /// <returns></returns>
-    public static List<MdsCompleteTable> CreateMdsCompleteTables(int count)
+    public static List<CompleteTable> CreateCompleteTables(int count)
     {
-        var tables = new List<MdsCompleteTable>();
+        var tables = new List<CompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            tables.Add(new MdsCompleteTable
+            tables.Add(new CompleteTable
             {
                 Id = (i + 1),
                 ColumnBigInt = i,
@@ -214,7 +209,7 @@ public static class Helper
     ///
     /// </summary>
     /// <param name="table"></param>
-    public static void UpdateMdsCompleteTableProperties(MdsCompleteTable table)
+    public static void UpdateCompleteTableProperties(CompleteTable table)
     {
         table.ColumnBigInt = long.MaxValue;
         table.ColumnBlob = Encoding.UTF32.GetBytes(Guid.NewGuid().ToString());
@@ -239,7 +234,7 @@ public static class Helper
     /// </summary>
     /// <param name="count"></param>
     /// <returns></returns>
-    public static List<dynamic> CreateMdsCompleteTablesAsDynamics(int count)
+    public static List<dynamic> CreateCompleteTablesAsDynamics(int count)
     {
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
@@ -274,7 +269,7 @@ public static class Helper
     /// </summary>
     /// <param name="table"></param>
     /// <returns></returns>
-    public static dynamic UpdateMdsCompleteTableAsDynamicProperties(dynamic table)
+    public static dynamic UpdateCompleteTableAsDynamicProperties(dynamic table)
     {
         return new
         {
@@ -303,7 +298,7 @@ public static class Helper
     /// </summary>
     /// <param name="count"></param>
     /// <returns></returns>
-    public static List<ExpandoObject> CreateMdsCompleteTablesAsExpandoObjects(int count)
+    public static List<ExpandoObject> CreateCompleteTablesAsExpandoObjects(int count)
     {
         var tables = new List<ExpandoObject>();
         for (var i = 0; i < count; i++)
@@ -337,7 +332,7 @@ public static class Helper
     /// </summary>
     /// <param name="table"></param>
     /// <returns></returns>
-    public static ExpandoObject UpdateMdsCompleteTableAsExpandoObjectProperties(ExpandoObject table)
+    public static ExpandoObject UpdateCompleteTableAsExpandoObjectProperties(ExpandoObject table)
     {
         var item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = long.MaxValue;
@@ -362,19 +357,19 @@ public static class Helper
 
     #endregion
 
-    #region MdsNonIdentityCompleteTable
+    #region NonIdentityCompleteTable
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="count"></param>
     /// <returns></returns>
-    public static List<MdsNonIdentityCompleteTable> CreateMdsNonIdentityCompleteTables(int count)
+    public static List<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count)
     {
-        var tables = new List<MdsNonIdentityCompleteTable>();
+        var tables = new List<NonIdentityCompleteTable>();
         for (var i = 0; i < count; i++)
         {
-            tables.Add(new MdsNonIdentityCompleteTable
+            tables.Add(new NonIdentityCompleteTable
             {
                 Id = Guid.NewGuid(),
                 ColumnBigInt = (long)i,
@@ -404,7 +399,7 @@ public static class Helper
     /// </summary>
     /// <param name="table"></param>
     /// <returns></returns>
-    public static dynamic UpdateMdsNonIdentityCompleteTableProperties(MdsNonIdentityCompleteTable table)
+    public static dynamic UpdateNonIdentityCompleteTableProperties(NonIdentityCompleteTable table)
     {
         return new
         {
@@ -433,7 +428,7 @@ public static class Helper
     /// </summary>
     /// <param name="count"></param>
     /// <returns></returns>
-    public static List<dynamic> CreateMdsNonIdentityCompleteTablesAsDynamics(int count)
+    public static List<dynamic> CreateNonIdentityCompleteTablesAsDynamics(int count)
     {
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
@@ -468,7 +463,7 @@ public static class Helper
     /// </summary>
     /// <param name="table"></param>
     /// <returns></returns>
-    public static dynamic UpdateMdsNonIdentityCompleteTableAsDynamicProperties(dynamic table)
+    public static dynamic UpdateNonIdentityCompleteTableAsDynamicProperties(dynamic table)
     {
         return new
         {
@@ -497,7 +492,7 @@ public static class Helper
     /// </summary>
     /// <param name="count"></param>
     /// <returns></returns>
-    public static List<ExpandoObject> CreateMdsNonIdentityCompleteTablesAsExpandoObjects(int count)
+    public static List<ExpandoObject> CreateNonIdentityCompleteTablesAsExpandoObjects(int count)
     {
         var tables = new List<ExpandoObject>();
         for (var i = 0; i < count; i++)
@@ -531,7 +526,7 @@ public static class Helper
     /// </summary>
     /// <param name="table"></param>
     /// <returns></returns>
-    public static ExpandoObject UpdateMdsNonIdentityCompleteTableAsExpandoObjectProperties(ExpandoObject table)
+    public static ExpandoObject UpdateNonIdentityCompleteTableAsExpandoObjectProperties(ExpandoObject table)
     {
         var item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = long.MaxValue;

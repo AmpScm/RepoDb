@@ -5,23 +5,9 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.PostgreSql.BulkOperations.IntegrationTests.Operations;
 
 [TestClass]
-public class BinaryBulkDeleteByKeyTest
+public class BinaryBulkDeleteByKeyTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
-    private NpgsqlConnection GetConnection() =>
-        (NpgsqlConnection)(new NpgsqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen());
+    private NpgsqlConnection GetConnection() => base.CreateConnection().EnsureOpen() as NpgsqlConnection;
 
     #region Sync
 
@@ -200,8 +186,6 @@ public class BinaryBulkDeleteByKeyTest
         var countResult = connection.CountAll(tableName);
         Assert.AreEqual(0, countResult);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

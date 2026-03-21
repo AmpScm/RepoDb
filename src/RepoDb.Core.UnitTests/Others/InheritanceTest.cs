@@ -4,7 +4,7 @@ using RepoDb.Extensions;
 namespace RepoDb.UnitTests.Others;
 
 [TestClass]
-public class InherittanceTest
+public class InheritanceTest
 {
     #region SubClasses
 

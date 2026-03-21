@@ -5,21 +5,8 @@ using RepoDb.MySql.IntegrationTests.Setup;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class TruncateTest
+public class TruncateTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -99,9 +86,6 @@ public class TruncateTest
         // Assert
         Assert.AreEqual(0, countResult);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

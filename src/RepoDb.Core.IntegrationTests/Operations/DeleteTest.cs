@@ -7,21 +7,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class DeleteTest
+public class DeleteTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Delete<TEntity>
 
     [TestMethod]
@@ -1009,8 +996,5 @@ public class DeleteTest
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
         await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.DeleteAsync(ClassMappedNameCache.Get<NonKeyedTable>(), 1, cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

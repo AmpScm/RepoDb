@@ -6,21 +6,8 @@ using RepoDb.Trace;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class BaseEnferredInheritanceTest
+public class BaseEnferredInheritanceTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Delete
 
     [TestMethod]

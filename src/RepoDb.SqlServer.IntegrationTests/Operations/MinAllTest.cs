@@ -5,21 +5,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class MinAllTest
+public class MinAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -159,8 +146,6 @@ public class MinAllTest
         // Assert
         Assert.AreEqual(tables.Min(e => e.ColumnInt), Convert.ToInt32(result));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

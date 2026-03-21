@@ -6,21 +6,8 @@ using System.Text;
 namespace RepoDb.IntegrationTests.Types.Bytes;
 
 [TestClass]
-public class SqlConnectionBytesTest
+public class SqlConnectionBytesTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Operation<TEntity>
 
     [TestMethod]
@@ -386,8 +373,6 @@ public class SqlConnectionBytesTest
         Assert.IsNull(data.ColumnTinyInt);
         Assert.IsNull(data.ColumnVarBinary);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

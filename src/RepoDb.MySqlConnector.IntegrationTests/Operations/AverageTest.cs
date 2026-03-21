@@ -6,21 +6,8 @@ using RepoDb.MySqlConnector.IntegrationTests.Setup;
 namespace RepoDb.MySqlConnector.IntegrationTests.Operations;
 
 [TestClass]
-public class AverageTest
+public class AverageTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -234,8 +221,6 @@ public class AverageTest
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -15,4 +15,7 @@
     <ProjectReference Include="..\RepoDb.PostgreSql\RepoDb.PostgreSql.csproj" />
     <ProjectReference Include="..\RepoDb.PostgreSql.BulkOperations\RepoDb.PostgreSql.BulkOperations.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\RepoDb\Compat.cs" />
+  </ItemGroup>
 </Project>

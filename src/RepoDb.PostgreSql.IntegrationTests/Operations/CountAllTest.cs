@@ -5,21 +5,8 @@ using RepoDb.PostgreSql.IntegrationTests.Setup;
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
 
 [TestClass]
-public class CountAllTest
+public class CountAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -141,8 +128,6 @@ public class CountAllTest
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

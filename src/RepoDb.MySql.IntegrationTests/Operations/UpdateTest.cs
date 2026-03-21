@@ -5,21 +5,8 @@ using RepoDb.MySql.IntegrationTests.Setup;
 namespace RepoDb.MySql.IntegrationTests.Operations;
 
 [TestClass]
-public class UpdateTest
+public class UpdateTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -648,9 +635,6 @@ public class UpdateTest
         // Assert
         Helper.AssertPropertiesEquality(table, queryResult);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

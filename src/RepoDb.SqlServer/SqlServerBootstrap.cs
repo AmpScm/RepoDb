@@ -54,19 +54,26 @@ public static class SqlServerBootstrap
 
     internal static void InitializeSystemDataSqlClient()
     {
-        if (Type.GetType("System.Data.SqlClient.SqlConnection, System.Data.SqlClient", false) is { } connectionType)
+        foreach(var className in new string[]
         {
-            var dbSetting = new SqlServerDbSetting();
-            var dbhelper = new SqlServerDbHelper();
-            var statementBuilder = new SqlServerStatementBuilder(dbSetting);
+            "System.Data.SqlClient.SqlConnection, System.Data.SqlClient",
+            "System.Data.SqlClient.SqlConnection, System.Data"
+        })
+        {
+            if (Type.GetType(className, false) is { } connectionType)
+            {
+                var dbSetting = new SqlServerDbSetting();
+                var dbhelper = new SqlServerDbHelper();
+                var statementBuilder = new SqlServerStatementBuilder(dbSetting);
 
-            Expression<Action> addSetting = () => DbSettingMapper.Add<SqlConnection>(dbSetting, true);
-            Expression<Action> addHelper = () => DbHelperMapper.Add<SqlConnection>(new SqlServerDbHelper(), true);
-            Expression<Action> addStatementBuilder = () => StatementBuilderMapper.Add<SqlConnection>(new SqlServerStatementBuilder(dbSetting), true);
+                Expression<Action> addSetting = () => DbSettingMapper.Add<SqlConnection>(dbSetting, true);
+                Expression<Action> addHelper = () => DbHelperMapper.Add<SqlConnection>(new SqlServerDbHelper(), true);
+                Expression<Action> addStatementBuilder = () => StatementBuilderMapper.Add<SqlConnection>(new SqlServerStatementBuilder(dbSetting), true);
 
-            ((MethodCallExpression)addSetting.Body).Method.GetGenericMethodDefinition().MakeGenericMethod(connectionType).Invoke(null, [dbSetting, true]);
-            ((MethodCallExpression)addHelper.Body).Method.GetGenericMethodDefinition().MakeGenericMethod(connectionType).Invoke(null, [dbhelper, true]);
-            ((MethodCallExpression)addStatementBuilder.Body).Method.GetGenericMethodDefinition().MakeGenericMethod(connectionType).Invoke(null, [statementBuilder, true]);
+                ((MethodCallExpression)addSetting.Body).Method.GetGenericMethodDefinition().MakeGenericMethod(connectionType).Invoke(null, [dbSetting, true]);
+                ((MethodCallExpression)addHelper.Body).Method.GetGenericMethodDefinition().MakeGenericMethod(connectionType).Invoke(null, [dbhelper, true]);
+                ((MethodCallExpression)addStatementBuilder.Body).Method.GetGenericMethodDefinition().MakeGenericMethod(connectionType).Invoke(null, [statementBuilder, true]);
+            }
         }
     }
 

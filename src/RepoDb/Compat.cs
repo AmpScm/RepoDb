@@ -407,7 +407,7 @@ namespace RepoDb
             => first.Zip(second.Zip(third, (b, c) => (b, c)), (a, bc) => (a, bc.b, bc.c));
 
 
-        extension(TimeSpan)
+        extension(TimeSpan ts)
         {
             public static TimeSpan FromMicroseconds(long microseconds)
             {
@@ -418,6 +418,8 @@ namespace RepoDb
             {
                 return TimeSpan.FromTicks(milliseconds * TimeSpan.TicksPerMillisecond);
             }
+
+            public int Microseconds => (int)((ts.Ticks % TimeSpan.TicksPerMillisecond) / (TimeSpan.TicksPerMillisecond / 1000));
         }
 
 #endif

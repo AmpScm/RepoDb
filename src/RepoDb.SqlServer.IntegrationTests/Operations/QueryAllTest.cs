@@ -6,21 +6,8 @@ using RepoDb.SqlServer.IntegrationTests.Setup;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class QueryAllTest
+public class QueryAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -162,8 +149,6 @@ public class QueryAllTest
         tables.AsList().ForEach(table =>
             Helper.AssertMembersEquality(table, queryResult.First(e => e.Id == table.Id)));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -12,8 +12,6 @@ public static class Database
 
     public static void Initialize()
     {
-        Instance.ClassInitializeAsync(null).GetAwaiter().GetResult();
-
         // Initialize SqLite
         GlobalConfiguration.Setup(new())
             .UseSqlite();
@@ -25,13 +23,13 @@ public static class Database
     public static void Cleanup()
     {
         using var connection = new SqliteConnection(ConnectionString);
-        connection.DeleteAll<MdsCompleteTable>();
-        connection.DeleteAll<MdsNonIdentityCompleteTable>();
+        connection.DeleteAll<CompleteTable>();
+        connection.DeleteAll<NonIdentityCompleteTable>();
     }
 
-    #region MdsCompleteTable
+    #region CompleteTable
 
-    public static IEnumerable<MdsCompleteTable> CreateMdsCompleteTables(int count,
+    public static IEnumerable<CompleteTable> CreateCompleteTables(int count,
         SqliteConnection connection = null)
     {
         var hasConnection = (connection != null);
@@ -41,8 +39,8 @@ public static class Database
         }
         try
         {
-            var tables = Helper.CreateMdsCompleteTables(count);
-            CreateMdsCompleteTable(connection);
+            var tables = Helper.CreateCompleteTables(count);
+            CreateCompleteTable(connection);
             connection.InsertAll(tables);
             return tables;
         }
@@ -57,9 +55,9 @@ public static class Database
 
     #endregion
 
-    #region MdsNonIdentityCompleteTable
+    #region NonIdentityCompleteTable
 
-    public static IEnumerable<MdsNonIdentityCompleteTable> CreateMdsNonIdentityCompleteTables(int count,
+    public static IEnumerable<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count,
         SqliteConnection connection = null)
     {
         var hasConnection = (connection != null);
@@ -69,8 +67,8 @@ public static class Database
         }
         try
         {
-            var tables = Helper.CreateMdsNonIdentityCompleteTables(count);
-            CreateMdsNonIdentityCompleteTable(connection);
+            var tables = Helper.CreateNonIdentityCompleteTables(count);
+            CreateNonIdentityCompleteTable(connection);
             connection.InsertAll(tables);
             return tables;
         }
@@ -89,11 +87,11 @@ public static class Database
 
     public static void CreateMdsTables(SqliteConnection connection = null)
     {
-        CreateMdsCompleteTable(connection);
-        CreateMdsNonIdentityCompleteTable(connection);
+        CreateCompleteTable(connection);
+        CreateNonIdentityCompleteTable(connection);
     }
 
-    public static void CreateMdsCompleteTable(SqliteConnection connection = null)
+    public static void CreateCompleteTable(SqliteConnection connection = null)
     {
         var hasConnection = (connection != null);
         if (hasConnection == false)
@@ -107,7 +105,7 @@ public static class Database
              * No need to explicity specify the 'AUTOINCREMENT' keyword to avoid extra CPU and memory space.
              * Link: https://sqlite.org/autoinc.html
              */
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [MdsCompleteTable]
+            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [CompleteTable]
                     (
                         Id INTEGER PRIMARY KEY
                         , ColumnBigInt BIGINT
@@ -138,7 +136,7 @@ public static class Database
         }
     }
 
-    public static void CreateMdsNonIdentityCompleteTable(SqliteConnection connection = null)
+    public static void CreateNonIdentityCompleteTable(SqliteConnection connection = null)
     {
         var hasConnection = (connection != null);
         if (hasConnection == false)
@@ -147,7 +145,7 @@ public static class Database
         }
         try
         {
-            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [MdsNonIdentityCompleteTable]
+            connection.ExecuteNonQuery(@"CREATE TABLE IF NOT EXISTS [NonIdentityCompleteTable]
                     (
                         Id VARCHAR PRIMARY KEY
                         , ColumnBigInt BIGINT

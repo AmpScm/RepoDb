@@ -9,7 +9,7 @@ using RepoDb.Options;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ExecuteQueryRawTest
+public class ExecuteQueryRawTest : TestBase
 {
     [ClassInitialize]
     public static void ClassInitialize(TestContext context)
@@ -26,19 +26,6 @@ public class ExecuteQueryRawTest
     {
         TypeMapCache.Flush();
         PropertyHandlerCache.Flush();
-    }
-
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
     }
 
     #region PropertyHandlers
@@ -1545,8 +1532,6 @@ public class ExecuteQueryRawTest
         }
         ;
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class CountTest
+public class CountTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Count<SdsCompleteTable>((object?)null);
+        var result = connection.Count<CompleteTable>((object?)null);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -44,11 +31,11 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = connection.Count<SdsCompleteTable>(e => ids.Contains(e.Id));
+        var result = connection.Count<CompleteTable>(e => ids.Contains(e.Id));
 
         // Assert
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
@@ -59,10 +46,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Count<SdsCompleteTable>(new { tables.First().Id });
+        var result = connection.Count<CompleteTable>(new { tables.First().Id });
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -73,10 +60,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Count<SdsCompleteTable>(new QueryField("Id", tables.First().Id));
+        var result = connection.Count<CompleteTable>(new QueryField("Id", tables.First().Id));
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -87,7 +74,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -95,7 +82,7 @@ public class CountTest
         };
 
         // Act
-        var result = connection.Count<SdsCompleteTable>(queryFields);
+        var result = connection.Count<CompleteTable>(queryFields);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -106,7 +93,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
             new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -115,7 +102,7 @@ public class CountTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Count<SdsCompleteTable>(queryGroup);
+        var result = connection.Count<CompleteTable>(queryGroup);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -128,10 +115,10 @@ public class CountTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Count<SdsCompleteTable>((object?)null,
+            connection.Count<CompleteTable>((object?)null,
                 hints: "WhatEver");
         });
     }
@@ -145,10 +132,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync<SdsCompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.CountAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -159,11 +146,11 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = await connection.CountAsync<SdsCompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => ids.Contains(e.Id)).Count(), result);
@@ -174,10 +161,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync<SdsCompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.CountAsync<CompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -188,10 +175,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync<SdsCompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id == tables.First().Id).Count(), result);
@@ -202,7 +189,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -210,7 +197,7 @@ public class CountTest
             };
 
         // Act
-        var result = await connection.CountAsync<SdsCompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.CountAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -221,7 +208,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -230,7 +217,7 @@ public class CountTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.CountAsync<SdsCompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.CountAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Where(e => e.Id > tables.First().Id && e.Id < tables.Last().Id).Count(), result);
@@ -243,10 +230,10 @@ public class CountTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.CountAsync<SdsCompleteTable>((object?)null,
+            await connection.CountAsync<CompleteTable>((object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
@@ -264,10 +251,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Count(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null);
 
         // Assert
@@ -279,10 +266,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Count(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             new { tables.First().Id });
 
         // Assert
@@ -294,10 +281,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Count(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             new QueryField("Id", tables.First().Id));
 
         // Assert
@@ -309,7 +296,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -317,7 +304,7 @@ public class CountTest
             };
 
         // Act
-        var result = connection.Count(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             queryFields);
 
         // Assert
@@ -329,7 +316,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -338,7 +325,7 @@ public class CountTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Count(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             queryGroup);
 
         // Assert
@@ -352,10 +339,10 @@ public class CountTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Count(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
         });
@@ -370,10 +357,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -385,10 +372,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -400,10 +387,10 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.CountAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -415,7 +402,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -423,7 +410,7 @@ public class CountTest
             };
 
         // Act
-        var result = await connection.CountAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -435,7 +422,7 @@ public class CountTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -444,7 +431,7 @@ public class CountTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.CountAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -458,17 +445,14 @@ public class CountTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.CountAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

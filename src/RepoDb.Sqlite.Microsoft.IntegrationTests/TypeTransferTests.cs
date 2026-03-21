@@ -8,20 +8,17 @@ namespace RepoDb.Sqlite.Microsoft.IntegrationTests;
 
 #if NET
 [TestClass]
-public class TypeTransferTests
+public class TypeTransferTests : TestBase
 {
 
     [TestInitialize]
-    public void Initialize()
+    public void AddInitialize()
     {
-        Database.Initialize();
-        Cleanup();
         using var connection = new SqliteConnection(Database.ConnectionString);
         {
             AddTables(connection);
         }
     }
-
 
     /* Unmerged change from project 'RepoDb.Sqlite.Microsoft.IntegrationTests (net481)'
     Before:
@@ -175,13 +172,6 @@ public class TypeTransferTests
         public VAT EnumVarChar { get; set; }
         public VAT? EnumVarCharNull { get; set; }
     }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     [TestMethod]
     public void BoolDateDecimalInsertRead()
     {

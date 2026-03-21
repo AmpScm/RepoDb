@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class QueryMultipleTest
+public class QueryMultipleTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region QueryMultiple<TEntity>
 
     #region QueryMultiple<T1, T2>
@@ -727,9 +714,6 @@ public class QueryMultipleTest
         Helper.AssertPropertiesEquality(tables.ElementAt(5), result.Item6.First());
         Helper.AssertPropertiesEquality(tables.ElementAt(6), result.Item7.First());
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

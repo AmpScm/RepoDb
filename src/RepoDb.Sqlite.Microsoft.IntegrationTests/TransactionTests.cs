@@ -9,21 +9,8 @@ namespace RepoDb.Sqlite.Microsoft.IntegrationTests;
 #if NET
 [TestClass]
 [DoNotParallelize]
-public class TransactionTests
+public class TransactionTests : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     /*
      * Some tests here are only triggers (ie: BatchQuery, Count, CountAll, Query, QueryAll, Truncate)
      */
@@ -33,7 +20,7 @@ public class TransactionTests
     //{
     //    using (var connection = new SqliteConnection(Database.ConnectionString))
     //    {
-    //        using (var reader = connection.ExecuteReader("SELECT [Id], [ColumnBigInt], [ColumnBlob], [ColumnBoolean], [ColumnChar], [ColumnDate], [ColumnDateTime], [ColumnDecimal], [ColumnDouble], [ColumnInteger], [ColumnInt], [ColumnNone], [ColumnNumeric], [ColumnReal], [ColumnString], [ColumnText], [ColumnTime], [ColumnVarChar] FROM [MdsNonIdentityCompleteTable] ;"))
+    //        using (var reader = connection.ExecuteReader("SELECT [Id], [ColumnBigInt], [ColumnBlob], [ColumnBoolean], [ColumnChar], [ColumnDate], [ColumnDateTime], [ColumnDecimal], [ColumnDouble], [ColumnInteger], [ColumnInt], [ColumnNone], [ColumnNumeric], [ColumnReal], [ColumnString], [ColumnText], [ColumnTime], [ColumnVarChar] FROM [NonIdentityCompleteTable] ;"))
     //        {
     //            var columns = string.Empty;
     //            for(var i = 0; i < reader.FieldCount; i++)
@@ -57,12 +44,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.BatchQuery<MdsCompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
+        connection.BatchQuery<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -74,12 +61,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.BatchQueryAsync<MdsCompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+        await connection.BatchQueryAsync<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -95,12 +82,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.Count<MdsCompleteTable>(it => it.Id != 0, transaction: transaction);
+        connection.Count<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -112,12 +99,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.CountAsync<MdsCompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+        await connection.CountAsync<CompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -133,12 +120,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.CountAll<MdsCompleteTable>(transaction: transaction);
+        connection.CountAll<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -150,12 +137,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.CountAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
+        await connection.CountAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -171,26 +158,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Delete<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Delete<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -198,26 +185,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Delete<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Delete<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -229,26 +216,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -256,26 +243,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -291,26 +278,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.DeleteAll<MdsCompleteTable>(transaction: transaction);
+            connection.DeleteAll<CompleteTable>(transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -318,26 +305,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.DeleteAll<MdsCompleteTable>(transaction: transaction);
+            connection.DeleteAll<CompleteTable>(transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Assert
-        Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -349,26 +336,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.DeleteAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -376,26 +363,26 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.DeleteAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.DeleteAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
-        Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -411,23 +398,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Insert<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -435,23 +422,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Insert<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Insert<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -463,23 +450,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.InsertAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -487,23 +474,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.InsertAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -519,23 +506,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<MdsCompleteTable>(entities, transaction: transaction);
+            connection.InsertAll<CompleteTable>(entities, transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -543,23 +530,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.InsertAll<MdsCompleteTable>(entities, transaction: transaction);
+            connection.InsertAll<CompleteTable>(entities, transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -571,23 +558,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -595,23 +582,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.InsertAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -627,23 +614,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Merge<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Merge<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -651,23 +638,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.Merge<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Merge<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -679,22 +666,22 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
-        await connection.MergeAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+        await connection.MergeAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
         transaction.Commit();
 
         // Assert
-        Assert.AreEqual(1, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(1, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -702,22 +689,22 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Prepare
         var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
-        await connection.MergeAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+        await connection.MergeAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
         // Act
         await transaction.RollbackAsync(TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -733,23 +720,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.MergeAll<MdsCompleteTable>(entities, transaction: transaction);
+            connection.MergeAll<CompleteTable>(entities, transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(10, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(10, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -757,23 +744,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            connection.MergeAll<MdsCompleteTable>(entities, transaction: transaction);
+            connection.MergeAll<CompleteTable>(entities, transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -785,23 +772,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.MergeAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
         }
 
         // Assert
-        Assert.AreEqual(10, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(10, connection.CountAll<CompleteTable>());
     }
 
     [TestMethod]
@@ -809,23 +796,23 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
-            await connection.MergeAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Assert
-        Assert.AreEqual(0, connection.CountAll<MdsCompleteTable>());
+        Assert.AreEqual(0, connection.CountAll<CompleteTable>());
     }
 
     #endregion
@@ -841,12 +828,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.Query<MdsCompleteTable>(it => it.Id != 0, transaction: transaction);
+        connection.Query<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
 
     #endregion
@@ -858,12 +845,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryAsync<MdsCompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+        await connection.QueryAsync<CompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -879,12 +866,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.QueryAll<MdsCompleteTable>(transaction: transaction);
+        connection.QueryAll<CompleteTable>(transaction: transaction);
     }
 
     #endregion
@@ -896,12 +883,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryAllAsync<MdsCompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
+        await connection.QueryAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
 
     #endregion
@@ -917,12 +904,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        connection.QueryMultiple<CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             transaction: transaction);
     }
@@ -932,12 +919,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             transaction: transaction);
@@ -948,12 +935,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -965,12 +952,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -983,12 +970,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -1002,12 +989,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        connection.QueryMultiple<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -1026,12 +1013,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
@@ -1041,12 +1028,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -1057,12 +1044,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -1074,12 +1061,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -1092,12 +1079,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -1111,12 +1098,12 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Prepare
         using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
-        await connection.QueryMultipleAsync<MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable, MdsCompleteTable>(it => it.Id != 0,
+        await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
             it => it.Id != 0,
@@ -1190,13 +1177,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1204,14 +1191,14 @@ public class TransactionTests
             entity.ColumnBoolean = "false";
 
             // Act
-            connection.Update<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Update<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(entity.Id);
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
         Assert.AreEqual("false", queryResult.First().ColumnBoolean);
@@ -1222,13 +1209,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1236,14 +1223,14 @@ public class TransactionTests
             entity.ColumnBoolean = "false";
 
             // Act
-            connection.Update<MdsCompleteTable>(entity, transaction: transaction);
+            connection.Update<CompleteTable>(entity, transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(entity.Id);
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
         Assert.AreEqual("true", queryResult.First().ColumnBoolean);
@@ -1258,13 +1245,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1272,14 +1259,14 @@ public class TransactionTests
             entity.ColumnBoolean = "false";
 
             // Act
-            await connection.UpdateAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.UpdateAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
         }
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(entity.Id);
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
         Assert.AreEqual("false", queryResult.First().ColumnBoolean);
@@ -1290,13 +1277,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entity = Helper.CreateMdsCompleteTables(1).First();
+        var entity = Helper.CreateCompleteTables(1).First();
 
         // Act
-        connection.Insert<MdsCompleteTable>(entity);
+        connection.Insert<CompleteTable>(entity);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1304,14 +1291,14 @@ public class TransactionTests
             entity.ColumnBoolean = "false";
 
             // Act
-            await connection.UpdateAsync<MdsCompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.UpdateAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Act
-        var queryResult = connection.Query<MdsCompleteTable>(entity.Id);
+        var queryResult = connection.Query<CompleteTable>(entity.Id);
 
         // Assert
         Assert.AreEqual("true", queryResult.First().ColumnBoolean);
@@ -1330,13 +1317,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1344,14 +1331,14 @@ public class TransactionTests
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            connection.UpdateAll<MdsCompleteTable>(entities, transaction: transaction);
+            connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
 
             // Act
             transaction.Commit();
         }
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
@@ -1362,13 +1349,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1376,14 +1363,14 @@ public class TransactionTests
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            connection.UpdateAll<MdsCompleteTable>(entities, transaction: transaction);
+            connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
 
             // Act
             transaction.Rollback();
         }
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         entities.ForEach(entity => Assert.AreEqual("true", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
@@ -1398,13 +1385,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1412,14 +1399,14 @@ public class TransactionTests
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            await connection.UpdateAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             transaction.Commit();
         }
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
@@ -1430,13 +1417,13 @@ public class TransactionTests
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Create the tables
-        Database.CreateMdsCompleteTable(connection);
+        Database.CreateCompleteTable(connection);
 
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         // Act
-        connection.InsertAll<MdsCompleteTable>(entities);
+        connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
@@ -1444,14 +1431,14 @@ public class TransactionTests
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            await connection.UpdateAllAsync<MdsCompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
 
             // Act
             await transaction.RollbackAsync(TestContext.CancellationToken);
         }
 
         // Act
-        var queryResult = connection.QueryAll<MdsCompleteTable>();
+        var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
         entities.ForEach(entity => Assert.AreEqual("true", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
@@ -1471,19 +1458,19 @@ public class TransactionTests
     public void TestTransactionForInsertAll()
     {
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
         using (var connection = new SqliteConnection(Database.ConnectionString))
         {
             // Create the tables
-            Database.CreateMdsCompleteTable(connection);
+            Database.CreateCompleteTable(connection);
 
             // Act
-            connection.InsertAll<MdsCompleteTable>(entities);
+            connection.InsertAll<CompleteTable>(entities);
 
             // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
 
         // Complete
@@ -1494,19 +1481,19 @@ public class TransactionTests
     public async Task TestTransactionForInsertAllAsync()
     {
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
         using (var connection = new SqliteConnection(Database.ConnectionString))
         {
             // Create the tables
-            Database.CreateMdsCompleteTable(connection);
+            Database.CreateCompleteTable(connection);
 
             // Act
-            await connection.InsertAllAsync<MdsCompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
+            await connection.InsertAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
 
         // Complete
@@ -1521,19 +1508,19 @@ public class TransactionTests
     public void TestTransactionScopeForMergeAll()
     {
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
         using (var connection = new SqliteConnection(Database.ConnectionString))
         {
             // Create the tables
-            Database.CreateMdsCompleteTable(connection);
+            Database.CreateCompleteTable(connection);
 
             // Act
-            connection.MergeAll<MdsCompleteTable>(entities);
+            connection.MergeAll<CompleteTable>(entities);
 
             // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
 
         // Complete
@@ -1544,19 +1531,19 @@ public class TransactionTests
     public async Task TestTransactionScopeForMergeAllAsync()
     {
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
         using (var connection = new SqliteConnection(Database.ConnectionString))
         {
             // Create the tables
-            Database.CreateMdsCompleteTable(connection);
+            Database.CreateCompleteTable(connection);
 
             // Act
-            await connection.MergeAllAsync<MdsCompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
+            await connection.MergeAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Assert
-            Assert.AreEqual(entities.Count, connection.CountAll<MdsCompleteTable>());
+            Assert.AreEqual(entities.Count, connection.CountAll<CompleteTable>());
         }
 
         // Complete
@@ -1571,25 +1558,25 @@ public class TransactionTests
     public void TestTransactionScopeForUpdateAll()
     {
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
         using (var connection = new SqliteConnection(Database.ConnectionString))
         {
             // Create the tables
-            Database.CreateMdsCompleteTable(connection);
+            Database.CreateCompleteTable(connection);
 
             // Act
-            connection.InsertAll<MdsCompleteTable>(entities);
+            connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            connection.UpdateAll<MdsCompleteTable>(entities);
+            connection.UpdateAll<CompleteTable>(entities);
 
             // Act
-            var queryResult = connection.QueryAll<MdsCompleteTable>();
+            var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
             entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
@@ -1603,25 +1590,25 @@ public class TransactionTests
     public async Task TestTransactionScopeForUpdateAllAsync()
     {
         // Setup
-        var entities = Helper.CreateMdsCompleteTables(10);
+        var entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
         using (var connection = new SqliteConnection(Database.ConnectionString))
         {
             // Create the tables
-            Database.CreateMdsCompleteTable(connection);
+            Database.CreateCompleteTable(connection);
 
             // Act
-            connection.InsertAll<MdsCompleteTable>(entities);
+            connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
             entities.ForEach(entity => entity.ColumnBoolean = "false");
 
             // Act
-            await connection.UpdateAllAsync<MdsCompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
+            await connection.UpdateAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
 
             // Act
-            var queryResult = connection.QueryAll<MdsCompleteTable>();
+            var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
             entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
@@ -1630,8 +1617,6 @@ public class TransactionTests
         // Complete
         transaction.Complete();
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

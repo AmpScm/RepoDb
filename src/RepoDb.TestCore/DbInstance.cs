@@ -4,39 +4,25 @@ using System.Runtime.Versioning;
 
 namespace RepoDb.TestCore;
 
-public abstract class DbInstance : IAsyncDisposable
+public abstract class DbInstance
 {
-    private bool _initialized;
-    internal DbInstance()
-    {
+    private Task? _initialized;
 
-    }
-
-    public ValueTask DisposeAsync()
+    public async Task ClassInitializeAsync(TestContext context)
     {
-        GC.SuppressFinalize(this);
+        _initialized ??= ((Func<Task>)(async () =>
+         {
 #if NET
-        return ValueTask.CompletedTask;
-#else
-        return new();
-#endif
-    }
-
-    public async Task ClassInitializeAsync(TestContext? context)
-    {
-        if (!_initialized)
-        {
-#if NET
-            await using var sql = CreateAdminConnection();
+             await using var sql = CreateAdminConnection();
 #else
             using var sql = CreateAdminConnection();
 #endif
-            await sql.EnsureOpenAsync(CancellationToken.None);
+             await sql.EnsureOpenAsync(CancellationToken.None);
 
-            await CreateUserDatabase(sql);
+             await CreateUserDatabase(sql);
+         }))();
 
-            _initialized = true;
-        }
+        await _initialized;
     }
 
     protected abstract Task CreateUserDatabase(DbConnection sql);

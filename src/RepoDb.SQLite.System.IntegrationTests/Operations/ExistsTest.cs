@@ -6,21 +6,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class ExistsTest
+public class ExistsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,10 +17,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Exists<SdsCompleteTable>((object?)null);
+        var result = connection.Exists<CompleteTable>((object?)null);
 
         // Assert
         Assert.IsTrue(result);
@@ -44,11 +31,11 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = connection.Exists<SdsCompleteTable>(e => ids.Contains(e.Id));
+        var result = connection.Exists<CompleteTable>(e => ids.Contains(e.Id));
 
         // Assert
         Assert.IsTrue(result);
@@ -59,10 +46,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Exists<SdsCompleteTable>(new { tables.First().Id });
+        var result = connection.Exists<CompleteTable>(new { tables.First().Id });
 
         // Assert
         Assert.IsTrue(result);
@@ -73,10 +60,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Exists<SdsCompleteTable>(new QueryField("Id", tables.First().Id));
+        var result = connection.Exists<CompleteTable>(new QueryField("Id", tables.First().Id));
 
         // Assert
         Assert.IsTrue(result);
@@ -87,7 +74,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -95,7 +82,7 @@ public class ExistsTest
             };
 
         // Act
-        var result = connection.Exists<SdsCompleteTable>(queryFields);
+        var result = connection.Exists<CompleteTable>(queryFields);
 
         // Assert
         Assert.IsTrue(result);
@@ -106,7 +93,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -115,7 +102,7 @@ public class ExistsTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Exists<SdsCompleteTable>(queryGroup);
+        var result = connection.Exists<CompleteTable>(queryGroup);
 
         // Assert
         Assert.IsTrue(result);
@@ -128,10 +115,10 @@ public class ExistsTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Exists<SdsCompleteTable>((object?)null,
+            connection.Exists<CompleteTable>((object?)null,
                 hints: "WhatEver");
         });
     }
@@ -145,10 +132,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync<SdsCompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExistsAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -159,11 +146,11 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var ids = new[] { tables.First().Id, tables.Last().Id };
 
         // Act
-        var result = await connection.ExistsAsync<SdsCompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExistsAsync<CompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -174,10 +161,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync<SdsCompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExistsAsync<CompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -188,10 +175,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync<SdsCompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExistsAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -202,7 +189,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -210,7 +197,7 @@ public class ExistsTest
             };
 
         // Act
-        var result = await connection.ExistsAsync<SdsCompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExistsAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -221,7 +208,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -230,7 +217,7 @@ public class ExistsTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.ExistsAsync<SdsCompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.ExistsAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.IsTrue(result);
@@ -243,10 +230,10 @@ public class ExistsTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.ExistsAsync<SdsCompleteTable>((object?)null,
+            await connection.ExistsAsync<CompleteTable>((object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
@@ -264,10 +251,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Exists(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null);
 
         // Assert
@@ -279,10 +266,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Exists(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
             new { tables.First().Id });
 
         // Assert
@@ -294,10 +281,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.Exists(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
             new QueryField("Id", tables.First().Id));
 
         // Assert
@@ -309,7 +296,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -317,7 +304,7 @@ public class ExistsTest
             };
 
         // Act
-        var result = connection.Exists(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
             queryFields);
 
         // Assert
@@ -329,7 +316,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -338,7 +325,7 @@ public class ExistsTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = connection.Exists(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
             queryGroup);
 
         // Assert
@@ -352,10 +339,10 @@ public class ExistsTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            connection.Exists(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            connection.Exists(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver");
         });
@@ -370,10 +357,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -385,10 +372,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -400,10 +387,10 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -415,7 +402,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -423,7 +410,7 @@ public class ExistsTest
             };
 
         // Act
-        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
             queryFields, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -435,7 +422,7 @@ public class ExistsTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
         var queryFields = new[]
         {
                 new QueryField("Id", Operation.GreaterThan, tables.First().Id),
@@ -444,7 +431,7 @@ public class ExistsTest
         var queryGroup = new QueryGroup(queryFields);
 
         // Act
-        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+        var result = await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
             queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -458,17 +445,14 @@ public class ExistsTest
         {
             using var connection = new SQLiteConnection(Database.ConnectionString);
             // Setup
-            var tables = Database.CreateSdsCompleteTables(10, connection);
+            var tables = Database.CreateCompleteTables(10, connection);
 
             // Act
-            await connection.ExistsAsync(ClassMappedNameCache.Get<SdsCompleteTable>(),
+            await connection.ExistsAsync(ClassMappedNameCache.Get<CompleteTable>(),
                 (object?)null,
                 hints: "WhatEver", cancellationToken: TestContext.CancellationToken);
         });
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

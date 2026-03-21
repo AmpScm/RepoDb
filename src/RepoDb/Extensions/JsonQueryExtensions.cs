@@ -18,7 +18,7 @@ public static partial class JsonQueryExtensions
     /// <param name="source">The JSON node to extract from.</param>
     /// <param name="name">The JSON path (e.g., "age", "address.street", "items[0].name").</param>
     /// <returns>The extracted and converted value, or default if not found.</returns>
-    public static T? ExtractValue<T>(this JsonNode source, string name) where T : notnull
+    public static T? ExtractValue<T>(this JsonNode? source, string name) where T : notnull
     {
         if (source == null || string.IsNullOrEmpty(name))
             return default;
@@ -45,13 +45,13 @@ public static partial class JsonQueryExtensions
     /// <param name="source"></param>
     /// <param name="mapping"></param>
     /// <returns></returns>
-    public static TResult? ExtractValue<TEntity, TResult>(this JsonNode source, Expression<Func<TEntity, TResult>> mapping) where TResult : notnull where TEntity : notnull
+    public static TResult? ExtractValue<TEntity, TResult>(this JsonNode? source, Expression<Func<TEntity, TResult>> mapping) where TResult : notnull where TEntity : notnull
     {
         return ExtractValue<TResult>(source, JsonExtractQueryField.ParsePath(mapping));
     }
 
     /// <summary>
-    /// Extracts the value from a <see cref="JsonNode"/> property using the specified constructed path
+    /// Extracts the value from a <see cref="DbJsonValue{TEntity}"/> property using the specified constructed path
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TResult"></typeparam>
@@ -61,6 +61,19 @@ public static partial class JsonQueryExtensions
     public static TResult? ExtractValue<TEntity, TResult>(this DbJsonValue<TEntity> source, Expression<Func<TEntity, TResult>> mapping) where TResult : notnull where TEntity : class
     {
         return ExtractValue<TResult>(source.Json, JsonExtractQueryField.ParsePath(mapping));
+    }
+
+    /// <summary>
+    /// Extracts the value from a <see cref="DbJsonValue{TEntity}"/> property using the specified constructed path
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="source"></param>
+    /// <param name="mapping"></param>
+    /// <returns></returns>
+    public static TResult? ExtractValue<TEntity, TResult>(this DbJsonValue<TEntity>? source, Expression<Func<TEntity, TResult>> mapping) where TResult : notnull where TEntity : class
+    {
+        return ExtractValue<TResult>(source?.Json, JsonExtractQueryField.ParsePath(mapping));
     }
 
     private static JsonNode? NavigateJsonPath(JsonNode node, string path)

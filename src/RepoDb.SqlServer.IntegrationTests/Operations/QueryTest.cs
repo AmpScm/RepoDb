@@ -8,21 +8,8 @@ using RepoDb.Trace;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class QueryTest
+public class QueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -683,7 +670,6 @@ public class QueryTest
         Assert.AreEqual(1, items.Count());
     }
 
-    public TestContext TestContext { get; set; }
     #endregion
     #endregion
 }

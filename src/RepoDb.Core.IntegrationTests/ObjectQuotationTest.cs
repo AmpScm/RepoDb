@@ -5,21 +5,8 @@ using Microsoft.Data.SqlClient;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ObjectQuotationTest
+public class ObjectQuotationTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Delete
 
     [TestMethod]

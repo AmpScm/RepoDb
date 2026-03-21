@@ -6,21 +6,8 @@ using RepoDb.MySqlConnector.IntegrationTests.Setup;
 namespace RepoDb.MySqlConnector.IntegrationTests.Operations;
 
 [TestClass]
-public class DeleteTest
+public class DeleteTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -476,9 +463,6 @@ public class DeleteTest
         // Assert
         Assert.AreEqual(8, result);
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 
     #endregion

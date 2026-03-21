@@ -6,25 +6,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class EnumerableTest
+public class EnumerableTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-        GlobalConfiguration
-            .Setup()
-            .UseSqlite();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-        GlobalConfiguration.Setup(new());
-    }
-
     #region List
 
     #region Sync
@@ -34,11 +17,11 @@ public class EnumerableTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsNonIdentityCompleteTables(10, connection).AsList();
+        var tables = Database.CreateNonIdentityCompleteTables(10, connection).AsList();
         var ids = tables.Select(e => e.Id).AsList();
 
         // Act
-        var result = connection.Query<MdsNonIdentityCompleteTable>(e => ids.Contains(e.Id));
+        var result = connection.Query<NonIdentityCompleteTable>(e => ids.Contains(e.Id));
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -51,10 +34,10 @@ public class EnumerableTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsNonIdentityCompleteTables(10, connection).AsList();
+        var tables = Database.CreateNonIdentityCompleteTables(10, connection).AsList();
 
         // Act
-        var result = connection.Query<MdsNonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id));
+        var result = connection.Query<NonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id));
 
         // Assert
         Assert.AreEqual(0, result.Count());
@@ -69,11 +52,11 @@ public class EnumerableTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsNonIdentityCompleteTables(10, connection).AsList();
+        var tables = Database.CreateNonIdentityCompleteTables(10, connection).AsList();
         var ids = tables.Select(e => e.Id).AsList();
 
         // Act
-        var result = await connection.QueryAsync<MdsNonIdentityCompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.QueryAsync<NonIdentityCompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
@@ -86,16 +69,14 @@ public class EnumerableTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsNonIdentityCompleteTables(10, connection).AsList();
+        var tables = Database.CreateNonIdentityCompleteTables(10, connection).AsList();
 
         // Act
-        var result = await connection.QueryAsync<MdsNonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.QueryAsync<NonIdentityCompleteTable>(e => Enumerable.Empty<Guid>().Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(0, result.Count());
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

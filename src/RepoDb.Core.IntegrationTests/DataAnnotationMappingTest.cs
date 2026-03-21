@@ -7,21 +7,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class DataAnnotationMappingTest
+public class DataAnnotationMappingTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region SubClasses
 
     [Table("[COMPLETETABLE]", Schema = "[dbo]")]

@@ -7,10 +7,6 @@ namespace RepoDb.Oracle.IntegrationTests.Common;
 [TestClass]
 public class NullTests : RepoDb.TestCore.NullTestsBase<OracleDbInstance>
 {
-    protected override void InitializeCore() => Database.Initialize();
-
-    public override DbConnection CreateConnection() => new OracleConnection(Database.ConnectionString);
-
     public override string GeneratedColumnDefinition(string expression, string type) => $"GENERATED ALWAYS AS ({expression})";
 
 #if NET
@@ -20,7 +16,7 @@ public class NullTests : RepoDb.TestCore.NullTestsBase<OracleDbInstance>
     public override string DateTimeDbType => "TIMESTAMP";
 
     public override string VarCharName => "VARCHAR2";
-    public override string AltVarChar => "NVARCHAR2";
+    public override string AltVarCharName => "NVARCHAR2";
 
     public override string BlobDbType => "RAW(128)";
     public override string UuidDbType => "RAW(16)";

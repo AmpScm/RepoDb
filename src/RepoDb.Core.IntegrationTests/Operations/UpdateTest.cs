@@ -7,21 +7,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class UpdateTest
+public class UpdateTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Update<TEntity>
 
     [TestMethod]
@@ -2125,8 +2112,5 @@ public class UpdateTest
         await Assert.ThrowsExactlyAsync<EmptyException>(async () => await connection.UpdateAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             data, cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

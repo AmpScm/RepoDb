@@ -5,21 +5,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Types.Others;
 
 [TestClass]
-public class SqlConnectionOthersTest
+public class SqlConnectionOthersTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region <TEntity>
 
     //[TestMethod]
@@ -385,8 +372,6 @@ public class SqlConnectionOthersTest
         Assert.IsNull(data.ColumnUniqueIdentifier);
         Assert.IsNull(data.ColumnXml);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

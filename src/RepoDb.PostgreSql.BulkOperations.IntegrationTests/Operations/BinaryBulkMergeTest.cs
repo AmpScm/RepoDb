@@ -7,23 +7,9 @@ using System.Data;
 namespace RepoDb.PostgreSql.BulkOperations.IntegrationTests.Operations;
 
 [TestClass]
-public class BinaryBulkMergeTest
+public class BinaryBulkMergeTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
-    private NpgsqlConnection GetConnection() =>
-        (NpgsqlConnection)(new NpgsqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen());
+    private NpgsqlConnection GetConnection() => base.CreateConnection().EnsureOpen() as NpgsqlConnection;
 
     #region Sync
 
@@ -3089,9 +3075,9 @@ public class BinaryBulkMergeTest
         var tableName = "BulkOperationIdentityTable";
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            entities: entities, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -3123,9 +3109,9 @@ public class BinaryBulkMergeTest
         var tableName = "BulkOperationIdentityTable";
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            entities: entities, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -3494,9 +3480,9 @@ public class BinaryBulkMergeTest
         var tableName = "BulkOperationIdentityTable";
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            entities: entities, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -3528,9 +3514,9 @@ public class BinaryBulkMergeTest
         var tableName = "BulkOperationIdentityTable";
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            entities: entities, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -4022,9 +4008,9 @@ public class BinaryBulkMergeTest
         var tableName = "BulkOperationIdentityTable";
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            entities: entities, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -4056,9 +4042,9 @@ public class BinaryBulkMergeTest
         var tableName = "BulkOperationIdentityTable";
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            entities: entities, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            entities: entities, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -4575,9 +4561,9 @@ public class BinaryBulkMergeTest
         var table = Helper.ToDataTable(tableName, entities);
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            table: table, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            table: table, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -4613,9 +4599,9 @@ public class BinaryBulkMergeTest
         var table = Helper.ToDataTable(tableName, entities);
 
         // Act
-        connection.BinaryBulkMergeAsync(
+        await connection.BinaryBulkMergeAsync(
             tableName,
-            table: table, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken);
+            table: table, cancellationToken: TestContext.CancellationToken);
 
         // Act (More)
         var result = await connection.BinaryBulkMergeAsync(
@@ -5094,8 +5080,6 @@ public class BinaryBulkMergeTest
         var assertCount = Helper.AssertEntitiesEquality(entities, queryResult, (t1, t2) => entities.IndexOf(t1) == queryResult.IndexOf(t2) - 10, false);
         Assert.AreEqual(entities.Count, assertCount);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

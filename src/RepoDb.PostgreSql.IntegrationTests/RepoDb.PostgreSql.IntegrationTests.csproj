@@ -14,6 +14,9 @@
     <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
     <ProjectReference Include="..\RepoDb.TestCore\RepoDb.TestCore.csproj" />
     <ProjectReference Include="..\RepoDb.PostgreSql\RepoDb.PostgreSql.csproj" />
-	<ProjectReference Include="..\RepoDb.PostgreSql.Vectors\RepoDb.PostgreSql.Vectors.csproj" />
+    <ProjectReference Include="..\RepoDb.PostgreSql.Vectors\RepoDb.PostgreSql.Vectors.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\RepoDb\Compat.cs" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 ﻿namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Models;
 
-public class MdsNonIdentityCompleteTable
+public class CompleteTable
 {
-    public Guid Id { get; set; }
+    public Int64 Id { get; set; }
     public Int64? ColumnBigInt { get; set; }
     public Byte[] ColumnBlob { get; set; }
     public String ColumnBoolean { get; set; }

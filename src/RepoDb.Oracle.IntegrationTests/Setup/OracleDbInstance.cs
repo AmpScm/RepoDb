@@ -96,18 +96,7 @@ public class OracleDbInstance : DbInstance<OracleConnection>
           END IF;
         END;");
 
-        // Create trigger to automatically grant permissions on new tables to limited user
-        await sql.ExecuteNonQueryAsync($@"
-            CREATE OR REPLACE PROCEDURE repodb_owner.repodb_apply_privileges AS
-            BEGIN
-                FOR t IN (SELECT table_name FROM all_tables WHERE owner = 'REPODB_OWNER') LOOP
-                    EXECUTE IMMEDIATE
-                        'GRANT SELECT, INSERT, UPDATE, DELETE ON repodb_owner.""' ||
-                        t.table_name || '"" TO repodb_user';
-                END LOOP;
-            END;");
-
-        //await sql.ExecuteQueryAsync("BEGIN repodb_apply_privileges; END;");
+        Database.Initialize();
     }
 
     public override DbConnection CreateOpenLimitedConnection()

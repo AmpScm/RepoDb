@@ -7,21 +7,8 @@ using RepoDb.Attributes.Parameter;
 namespace RepoDb.IntegrationTests;
 
 [TestClass]
-public class ObjectMappingViaNameAttributeTest
+public class ObjectMappingViaNameAttributeTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region SubClasses
 
     [Map("[dbo].[COMPLETETABLE]")]

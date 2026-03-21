@@ -5,21 +5,8 @@ using System.Data.SQLite;
 namespace RepoDb.SQLite.System.IntegrationTests.Operations.SDS;
 
 [TestClass]
-public class DeleteAllTest
+public class DeleteAllTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -29,10 +16,10 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.DeleteAll<SdsCompleteTable>();
+        var result = connection.DeleteAll<CompleteTable>();
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -43,11 +30,11 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<SdsCompleteTable, object>(tables, e => e.Id);
+        var tables = Database.CreateCompleteTables(10, connection);
+        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         // Act
-        var result = connection.DeleteAll<SdsCompleteTable>(primaryKeys);
+        var result = connection.DeleteAll<CompleteTable>(primaryKeys);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -79,10 +66,10 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAllAsync<SdsCompleteTable>(cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -93,11 +80,11 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<SdsCompleteTable, object>(tables, e => e.Id);
+        var tables = Database.CreateCompleteTables(10, connection);
+        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         // Act
-        var result = await connection.DeleteAllAsync<SdsCompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -133,10 +120,10 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.DeleteAll(ClassMappedNameCache.Get<SdsCompleteTable>());
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>());
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -147,11 +134,11 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<SdsCompleteTable, object>(tables, e => e.Id);
+        var tables = Database.CreateCompleteTables(10, connection);
+        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         // Act
-        var result = connection.DeleteAll(ClassMappedNameCache.Get<SdsCompleteTable>(), primaryKeys);
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -183,10 +170,10 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -197,18 +184,15 @@ public class DeleteAllTest
     {
         using var connection = new SQLiteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateSdsCompleteTables(10, connection);
-        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<SdsCompleteTable, object>(tables, e => e.Id);
+        var tables = Database.CreateCompleteTables(10, connection);
+        var primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
         // Act
-        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<SdsCompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
     }
-
-    public TestContext TestContext { get; set; }
-
     //[TestMethod]
     //public async Task TestSqLiteConnectionDeleteAllAsyncViaTableNameViaPrimaryKeysBeyondLimits()
     //{

@@ -7,21 +7,8 @@ using System.Transactions;
 namespace RepoDb.MySqlConnector.IntegrationTests;
 
 [TestClass]
-public class TransactionTests
+public class TransactionTests : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     /*
      * Some tests here are only triggers (ie: BatchQuery, Count, CountAll, Query, QueryAll, Truncate)
      */
@@ -1411,8 +1398,6 @@ public class TransactionTests
         // Complete
         transaction.Complete();
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

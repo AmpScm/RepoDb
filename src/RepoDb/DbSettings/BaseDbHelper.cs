@@ -176,7 +176,7 @@ public abstract class BaseDbHelper : IDbHelper
     /// <param name="sql"></param>
     /// <param name="transaction"></param>
     /// <returns></returns>
-    public virtual string? GetJsonColumnType(DbConnection sql, DbTransaction transaction) => (sql.GetStatementBuilder() as BaseStatementBuilder)?.JsonColumnType;
+    public virtual string? GetJsonColumnType(DbConnection sql, DbTransaction? transaction) => (sql.GetStatementBuilder() as BaseStatementBuilder)?.JsonColumnType;
 
     /// <summary>
     ///

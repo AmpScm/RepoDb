@@ -6,23 +6,9 @@ using RepoDb.PostgreSql.BulkOperations.IntegrationTests.Models;
 namespace RepoDb.PostgreSql.BulkOperations.IntegrationTests.Operations;
 
 [TestClass]
-public class BinaryBulkDeleteTest
+public class BinaryBulkDeleteTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
-    private NpgsqlConnection GetConnection() =>
-        (NpgsqlConnection)(new NpgsqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen());
+    private NpgsqlConnection GetConnection() => base.CreateConnection().EnsureOpen() as NpgsqlConnection;
 
     #region Sync
 
@@ -2298,8 +2284,6 @@ public class BinaryBulkDeleteTest
         // Assert
         Assert.AreEqual(0, result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

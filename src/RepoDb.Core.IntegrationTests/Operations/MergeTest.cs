@@ -6,21 +6,8 @@ using RepoDb.IntegrationTests.Setup;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class MergeTest
+public class MergeTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Merge<TEntity>
 
     [TestMethod]
@@ -2495,8 +2482,5 @@ public class MergeTest
         await Assert.ThrowsExactlyAsync<InvalidQualifiersException>(async () => await connection.MergeAsync(ClassMappedNameCache.Get<NonKeyedTable>(),
             (object)entity, cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
-
     #endregion
 }

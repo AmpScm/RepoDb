@@ -8,21 +8,8 @@ using System.Data.Common;
 namespace RepoDb.IntegrationTests.Operations;
 
 [TestClass]
-public class ExecuteReaderTest
+public class ExecuteReaderTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region ExecuteReader
 
     [TestMethod]
@@ -308,8 +295,6 @@ public class ExecuteReaderTest
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

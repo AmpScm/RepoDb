@@ -6,21 +6,8 @@ using RepoDb.Sqlite.Microsoft.IntegrationTests.Setup;
 namespace RepoDb.Sqlite.Microsoft.IntegrationTests.Operations.MDS;
 
 [TestClass]
-public class SkipQueryTest
+public class SkipQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -30,13 +17,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery<MdsCompleteTable>(
+        var result = connection.SkipQuery<CompleteTable>(
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -49,13 +36,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery<MdsCompleteTable>(
+        var result = connection.SkipQuery<CompleteTable>(
             0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -68,13 +55,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery<MdsCompleteTable>(
+        var result = connection.SkipQuery<CompleteTable>(
             6,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -87,13 +74,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery<MdsCompleteTable>(
+        var result = connection.SkipQuery<CompleteTable>(
             6,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -106,13 +93,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery<MdsCompleteTable>(
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery<CompleteTable>(
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver"));
     }
@@ -126,13 +113,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync<MdsCompleteTable>(
+        var result = await connection.SkipQueryAsync<CompleteTable>(
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -145,13 +132,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync<MdsCompleteTable>(
+        var result = await connection.SkipQueryAsync<CompleteTable>(
             0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -164,13 +151,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync<MdsCompleteTable>(
+        var result = await connection.SkipQueryAsync<CompleteTable>(
             6,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -183,13 +170,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync<MdsCompleteTable>(
+        var result = await connection.SkipQueryAsync<CompleteTable>(
             6,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -202,13 +189,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync<MdsCompleteTable>(
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync<CompleteTable>(
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
@@ -226,13 +213,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -245,13 +232,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -264,13 +251,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             6,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -283,13 +270,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = connection.SkipQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             6,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null);
 
         // Assert
@@ -302,13 +289,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver"));
     }
@@ -322,13 +309,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -341,13 +328,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -360,13 +347,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             6,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -379,13 +366,13 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        var result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             6,
             3,
-            OrderField.Descending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Descending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -398,18 +385,16 @@ public class SkipQueryTest
     {
         using var connection = new SqliteConnection(Database.ConnectionString);
         // Setup
-        var tables = Database.CreateMdsCompleteTables(10, connection);
+        var tables = Database.CreateCompleteTables(10, connection);
 
         // Act
-        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync(ClassMappedNameCache.Get<MdsCompleteTable>(),
+        await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
             3,
-            OrderField.Ascending<MdsCompleteTable>(c => c.Id).AsEnumerable(),
+            OrderField.Ascending<CompleteTable>(c => c.Id).AsEnumerable(),
             (object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

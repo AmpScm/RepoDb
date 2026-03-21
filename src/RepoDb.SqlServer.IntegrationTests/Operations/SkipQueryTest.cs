@@ -8,21 +8,8 @@ using RepoDb.Trace;
 namespace RepoDb.SqlServer.IntegrationTests.Operations;
 
 [TestClass]
-public class SkipQueryTest
+public class SkipQueryTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region DataEntity
 
     #region Sync
@@ -426,8 +413,6 @@ public class SkipQueryTest
         Helper.AssertMembersEquality(tables.ElementAt(0), result.ElementAt(0));
         Helper.AssertMembersEquality(tables.ElementAt(2), result.ElementAt(2));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 

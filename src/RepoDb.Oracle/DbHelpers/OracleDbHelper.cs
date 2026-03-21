@@ -354,7 +354,7 @@ public sealed class OracleDbHelper : BaseDbHelper
     }
 
     /// <inheritdoc />
-    public override string? GetJsonColumnType(DbConnection sql, DbTransaction transaction)
+    public override string? GetJsonColumnType(DbConnection sql, DbTransaction? transaction)
     {
         if (sql.GetDbRuntimeSetting(transaction) is { } info)
         {

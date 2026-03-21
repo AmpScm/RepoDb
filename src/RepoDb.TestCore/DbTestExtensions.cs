@@ -56,7 +56,7 @@ public static class DbTestExtensions
             .NewLine();
 
         var identityKey = IdentityCache.Get<TEntity>();
-        var primaryKeys = PrimaryCache.GetPrimaryKeys<TEntity>();
+        var primaryKeys = PrimaryCache.GetPrimaryKeys<TEntity>() ?? [];
 
         bool first = true;
         foreach (var prop in cp)
@@ -123,6 +123,17 @@ public static class DbTestExtensions
                     qb.WriteText(string.Format(sizeFormat, size.Size));
                 else
                     qb.OpenParen().WriteText(size.Size.ToString()).CloseParen();
+            }
+            else if(prop.PropertyInfo.GetCustomAttribute<PrecisionAttribute>() is { } precision)
+            {
+                qb.OpenParen().WriteText(precision.Precision.ToString());
+
+                if (prop.PropertyInfo.GetCustomAttribute<ScaleAttribute>() is { } scaleAttr)
+                {
+                    qb.Comma();
+                    qb.WriteText(scaleAttr.Scale.ToString());
+                }
+                qb.CloseParen();
             }
             else if (type == typeof(string) && !columnTypeName.Contains('(') && !string.Equals(columnTypeName, "text", StringComparison.OrdinalIgnoreCase))
             {
@@ -199,8 +210,8 @@ public static class DbTestExtensions
         await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace, cancellationToken: cancellationToken);
     }
 
-    static readonly ConcurrentDictionary<Type, IResolver<DbType, string?>> _resolverCache = new();
-    private static IResolver<DbType, string?> FindResolver(DbConnection sql)
+    static readonly ConcurrentDictionary<Type, IResolver<DbType, string?>?> _resolverCache = new();
+    private static IResolver<DbType, string?>? FindResolver(DbConnection sql)
     {
         return _resolverCache.GetOrAdd(sql.GetType(), (_) =>
         {
@@ -210,7 +221,7 @@ public static class DbTestExtensions
             {
                 if (typeof(IResolver<DbType, string?>).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 {
-                    var inst = (IResolver<DbType, string?>)Activator.CreateInstance(t);
+                    var inst = (IResolver<DbType, string?>)Activator.CreateInstance(t)!;
                     if (inst is not null)
                     {
                         return inst;

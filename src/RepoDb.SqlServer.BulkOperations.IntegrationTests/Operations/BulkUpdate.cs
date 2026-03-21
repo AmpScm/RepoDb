@@ -8,21 +8,8 @@ using RepoDb.SqlServer.BulkOperations.IntegrationTests.Models;
 namespace RepoDb.SqlServer.BulkOperations.IntegrationTests.Operations;
 
 [TestClass]
-public class MicrosoftSqlConnectionBulkUpdateOperationsTest
+public class MicrosoftSqlConnectionBulkUpdateOperationsTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region BulkUpdate<TEntity>
 
     [TestMethod]
@@ -1608,35 +1595,29 @@ public class MicrosoftSqlConnectionBulkUpdateOperationsTest
     }
 
     [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkUpdateAsyncForNullEntities()
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkUpdateAsyncForNullEntities()
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkUpdateAsync((IEnumerable<BulkOperationIdentityTable>)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
-    }
-
-    //[TestMethod, ExpectedException(typeof(AggregateException))]
-    //public void ThrowExceptionOnMicrosoftSqlConnectionBulkUpdateAsyncForEmptyEntities()
-    //{
-    //    using (var connection = new SqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        connection.BulkUpdateAsync(Enumerable.Empty<BulkOperationIdentityTable>()).Wait();
-    //    }
-    //}
-
-    [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkUpdateAsyncForNullDataReader()
-    {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkUpdateAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DbDataReader)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkUpdateAsync((IEnumerable<BulkOperationIdentityTable>)null, cancellationToken: TestContext.CancellationToken));
     }
 
     [TestMethod]
-    public void ThrowExceptionOnMicrosoftSqlConnectionBulkUpdateAsyncForNullDataTable()
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkUpdateAsyncForNullDataReader()
     {
         using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        Assert.ThrowsExactly<AggregateException>(() => connection.BulkUpdateAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
-            (DataTable)null, cancellationToken: TestContext.CancellationToken).Wait(TestContext.CancellationToken));
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkUpdateAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DbDataReader)null, cancellationToken: TestContext.CancellationToken));
+    }
+
+    [TestMethod]
+    public async Task ThrowExceptionOnMicrosoftSqlConnectionBulkUpdateAsyncForNullDataTable()
+    {
+        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        await Assert.ThrowsExactlyAsync<ArgumentNullException>(async () =>
+            await connection.BulkUpdateAsync(ClassMappedNameCache.Get<BulkOperationIdentityTable>(),
+            (DataTable)null, cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -2180,8 +2161,6 @@ public class MicrosoftSqlConnectionBulkUpdateOperationsTest
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await destinationConnection.BulkUpdateAsync("MissingTable",
             table, cancellationToken: TestContext.CancellationToken));
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 }

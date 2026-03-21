@@ -24,8 +24,6 @@ public static class Database
 
     public static void Initialize()
     {
-        Instance.ClassInitializeAsync(null).GetAwaiter().GetResult();
-
         // Initialize MySql
         GlobalConfiguration.Setup(new()).UseMySqlConnector();
 
@@ -44,11 +42,11 @@ public static class Database
 
     #region CompleteTable
 
-    public static IEnumerable<CompleteTable> CreateCompleteTables(int count)
+    public static IEnumerable<CompleteTable> CreateCompleteTables(int count, IEnumerable<Field>? fields = null)
     {
         using var connection = new MySqlConnection(ConnectionString);
         var tables = Helper.CreateCompleteTables(count);
-        connection.InsertAll(tables);
+        connection.InsertAll(tables, fields: fields);
         return tables;
     }
 

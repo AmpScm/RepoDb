@@ -38,6 +38,7 @@ static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.I
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, System.Linq.Expressions.Expression<System.Func<TEntity!, bool>!>! where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
 static RepoDb.Extensions.ExpressionExtension.GetField(this System.Linq.Expressions.Expression! expression) -> RepoDb.Field!
 static RepoDb.Extensions.ExpressionExtension.TryGetValue(this System.Linq.Expressions.Expression! expression, out object? value) -> bool
+static RepoDb.JsonQueryExtensions.ExtractValue<T>(this System.Text.Json.Nodes.JsonNode? source, string! name) -> T?
 static RepoDb.PrimaryMapper.Add<TEntity>(bool force, params RepoDb.Field![]! fields) -> void
 static RepoDb.PrimaryMapper.Add<TEntity>(bool force, params string![]! propertyNames) -> void
 static RepoDb.PrimaryMapper.Add<TEntity>(params RepoDb.Field![]! fields) -> void

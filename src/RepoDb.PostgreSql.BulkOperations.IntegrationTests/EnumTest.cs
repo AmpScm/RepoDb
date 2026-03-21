@@ -7,21 +7,8 @@ using RepoDb.PostgreSql.BulkOperations.IntegrationTests.Models;
 namespace RepoDb.PostgreSql.BulkOperations.IntegrationTests;
 
 [TestClass]
-public class EnumTest
+public class EnumTest : TestBase
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        Database.Initialize();
-        Cleanup();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        Database.Cleanup();
-    }
-
     #region Methods
 
     private NpgsqlConnection GetConnection() =>
@@ -1754,8 +1741,6 @@ public class EnumTest
         // Assert
         Assert.AreEqual(entities.Count, result);
     }
-
-    public TestContext TestContext { get; set; }
 
     #endregion
 
