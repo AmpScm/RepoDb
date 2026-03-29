@@ -9,7 +9,7 @@ public class MdsSqLiteDbTypeNameToClientTypeResolverTest
     public void Initialize()
     {
         GlobalConfiguration
-            .Setup()
+            .Setup(new())
             .UseSqlite();
     }
 

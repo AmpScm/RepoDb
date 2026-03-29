@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
 using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
 using RepoDb.Enumerations;
@@ -7,7 +8,7 @@ using RepoDb.Extensions.QueryFields;
 using RepoDb.Schema;
 using RepoDb.Trace;
 
-#pragma warning disable: CS8618 // non nullable property, bla, bla
+#pragma warning disable CS8618 // non nullable property, bla, bla
 namespace RepoDb.TestCore;
 
 public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstance> where TDbInstance : DbInstance, new()

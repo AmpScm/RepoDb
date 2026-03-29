@@ -516,8 +516,8 @@ public static class DbCommandExtension
         var (direction, fallbackType, size) = queryField is DirectionalQueryField n ?
             (
                 n.Direction,
-                n.Parameter.DbType.HasValue ?
-                    DbTypeToClientTypeResolver.Instance.Resolve(n.Parameter.DbType.Value) : null,
+                n.Parameter.DbType is { } dbType ?
+                    DbTypeToClientTypeResolver.Instance.Resolve(dbType) : null,
                 n.Size ?? dbField?.Size
             ) : default;
 

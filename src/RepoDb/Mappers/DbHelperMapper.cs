@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using RepoDb.DbSettings;
 using RepoDb.Exceptions;
 using RepoDb.Interfaces;
@@ -11,11 +12,7 @@ namespace RepoDb;
 /// </summary>
 public static class DbHelperMapper
 {
-    #region Privates
-
     private static readonly ConcurrentDictionary<Type, BaseDbHelper> maps = new();
-
-    #endregion
 
     #region Methods
 
@@ -33,6 +30,7 @@ public static class DbHelperMapper
         bool force)
         where TDbConnection : IDbConnection
     {
+        ArgumentNullException.ThrowIfNull(dbHelper);
         var type = typeof(TDbConnection);
 
         // Try get the mappings
@@ -65,10 +63,14 @@ public static class DbHelperMapper
     public static IDbHelper? Get<TDbConnection>()
         where TDbConnection : IDbConnection
     {
-        // get the value
-        maps.TryGetValue(typeof(TDbConnection), out var value);
+        if (!maps.TryGetValue(typeof(TDbConnection), out var value))
+        {
+            ThrowError();
 
-        // Return the value
+            [DoesNotReturn]
+            static void ThrowError() => throw new ArgumentException($"No DbHelper registered for {typeof(TDbConnection)}");
+        }
+
         return value;
     }
 
@@ -81,11 +83,15 @@ public static class DbHelperMapper
     public static IDbHelper Get<TDbConnection>(TDbConnection connection)
         where TDbConnection : IDbConnection
     {
-        // get the value
-        maps.TryGetValue(connection.GetType(), out var value);
+        ArgumentNullException.ThrowIfNull(connection);
+        if (!maps.TryGetValue(connection.GetType(), out var value))
+        {
+            ThrowError(connection);
 
-        // Return the value
-        return value ?? throw new ArgumentException($"No DbHelper registered for {connection.GetType()}");
+            [DoesNotReturn]
+            static void ThrowError(object connection) => throw new ArgumentException($"No DbHelper registered for {connection.GetType()}");
+        }
+        return value;
     }
 
     /*

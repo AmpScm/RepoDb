@@ -84,7 +84,7 @@ public static class PropertyValueAttributeCache
         var key = (entityType, propertyInfo);
 
         // Try get the value
-        return propertyCache.GetOrAdd(key, (_) => PropertyValueAttributePropertyLevelResolver.Instance.Resolve(propertyInfo));
+        return propertyCache.GetOrAdd(key, (_) => PropertyValueAttributePropertyLevelResolver.Instance.Resolve(propertyInfo.ResolveFor(entityType)));
     }
 
     #endregion
@@ -108,7 +108,7 @@ public static class PropertyValueAttributeCache
     {
         ArgumentNullException.ThrowIfNull(type);
 
-        return typeCache.GetOrAdd(type, (_) => new PropertyValueAttributeTypeLevelResolver().Resolve(type));
+        return typeCache.GetOrAdd(type, PropertyValueAttributeTypeLevelResolver.Instance.Resolve);
     }
 
     #endregion

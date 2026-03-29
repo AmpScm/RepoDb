@@ -52,7 +52,7 @@ internal static class FunctionFactory
     /// <param name="dbHelper"></param>
     /// <returns></returns>
     public static Action<DbCommand, object?> CompileDataEntityDbParameterSetter(Type entityType,
-        IEnumerable<DbField>? inputFields,
+        IEnumerable<DbField> inputFields,
         IEnumerable<DbField>? outputFields,
         IDbSetting dbSetting,
         IDbHelper dbHelper) =>

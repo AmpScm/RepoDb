@@ -30,6 +30,8 @@ public class DbTypeToPostgreSqlStringNameResolver : IResolver<DbType, string?>
             DbType.Int32 => "INTEGER",
             DbType.Int16 => "SMALLINT",
             DbType.Time => "INTERVAL",
+
+            DbType.VarNumeric => "NUMERIC",
             /*
             DbType.Guid
             DbType.Xml

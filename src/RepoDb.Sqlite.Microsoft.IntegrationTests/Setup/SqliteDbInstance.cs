@@ -11,7 +11,7 @@ public class SqliteDbInstance : DbInstance<SqliteConnection>
 
     static SqliteDbInstance()
     {
-        GlobalConfiguration.Setup(GlobalConfiguration.Options).UseSqlite();
+        GlobalConfiguration.Setup(new()).UseSqlite();
     }
 
     public SqliteDbInstance()

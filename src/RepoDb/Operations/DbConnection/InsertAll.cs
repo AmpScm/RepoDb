@@ -645,6 +645,9 @@ public static partial class DbConnectionExtension
         var result = 0;
 
         // Create the command
+#if NET
+        await
+#endif
         using (var command = (DbCommand)connection.CreateCommand("", CommandType.Text, commandTimeout, transaction))
         {
 

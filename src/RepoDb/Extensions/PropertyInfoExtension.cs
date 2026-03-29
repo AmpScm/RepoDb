@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using RepoDb.Attributes;
 using RepoDb.Attributes.Parameter;
@@ -39,18 +40,11 @@ public static class PropertyInfoExtension
     internal static string GetMappedName(this PropertyInfo property, Type? entityType)
     {
         var type = entityType ?? property.DeclaringType!;
-        var pi = type == property.DeclaringType ? property : PropertyCache.Get(type, property)?.PropertyInfo ?? property;
+        PropertyInfo pi = property.ResolveFor(type);
 
         var mappedName = pi.GetCustomAttribute<MapAttribute>()?.Name ??
             pi.GetCustomAttribute<ColumnAttribute>()?.Name ??
             pi.GetCustomAttribute<NameAttribute>()?.Name;
-
-        if (mappedName is null && type != property.DeclaringType)
-        {
-            mappedName = property.GetCustomAttribute<MapAttribute>()?.Name ??
-                property.GetCustomAttribute<ColumnAttribute>()?.Name ??
-                property.GetCustomAttribute<NameAttribute>()?.Name;
-        }
 
 #if NET
         if (mappedName is { } && mappedName.ContainsAny(unquote))
@@ -78,6 +72,15 @@ public static class PropertyInfoExtension
             PropertyMapper.Get(type, property) ??
             GetPropertyValueAttribute<NameAttribute>(property, entityType)?.Name ??
             property.Name;
+    }
+
+
+    [return: NotNullIfNotNull(nameof(propertyInfo))]
+    internal static PropertyInfo? ResolveFor(this PropertyInfo? propertyInfo, Type entityType)
+    {
+        return propertyInfo is { } && entityType is { } && propertyInfo.DeclaringType != entityType && PropertyCache.Get(entityType, propertyInfo)?.PropertyInfo is { } resolved
+            ? resolved
+            : propertyInfo;
     }
 
     /// <summary>

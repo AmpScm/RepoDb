@@ -138,6 +138,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return AverageInternal<TEntity, TResult>(connection: connection,
             where: null,
             field: Field.Parse(field).First(),
@@ -215,6 +216,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity, object>(connection: connection,
             where: null,
             field: Field.Parse(field).First(),
@@ -291,6 +293,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             where: null,
             field: Field.Parse(field).First(),

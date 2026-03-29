@@ -34,19 +34,15 @@ public static partial class SqlConnectionExtension
         using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
-            Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
+            sqlBulkCopy.DestinationTableName = tableName;
 
             // Set the timeout
             if (bulkCopyTimeout > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BulkCopyTimeout", bulkCopyTimeout);
-            }
+                sqlBulkCopy.BulkCopyTimeout = bulkCopyTimeout;
 
             // Set the batch size
             if (batchSize > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BatchSize", batchSize);
-            }
+                sqlBulkCopy.BatchSize = batchSize;
 
             // Add the order column
             if (hasOrderingColumn)
@@ -70,9 +66,7 @@ public static partial class SqlConnectionExtension
             if (result <= 0)
             {
                 // Set the return value
-                var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
-                    Compiler.GetPropertyGetterFunc<SqlBulkCopy, int>("RowsCopied");
-                result = rowsCopiedFieldOrProperty?.Invoke(sqlBulkCopy) ?? 0;
+                result = sqlBulkCopy.RowsCopied;
             }
         }
 
@@ -102,23 +96,18 @@ public static partial class SqlConnectionExtension
         using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
-            Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
+            sqlBulkCopy.DestinationTableName = tableName;
 
             // Set the timeout
             if (bulkCopyTimeout > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BulkCopyTimeout", bulkCopyTimeout);
-            }
+                sqlBulkCopy.BulkCopyTimeout = bulkCopyTimeout;
 
             // Set the batch size
             if (batchSize > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BatchSize", batchSize);
-            }
+                sqlBulkCopy.BatchSize = batchSize;
 
             // Add the mappings
             AddMappings(sqlBulkCopy, mappings);
-
 
             // Open the connection and do the operation
             connection.EnsureOpen();
@@ -126,9 +115,7 @@ public static partial class SqlConnectionExtension
             writeToServerMethod?.Invoke(sqlBulkCopy, new[] { reader });
 
             // Set the return value
-            var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
-                Compiler.GetPropertyGetterFunc<SqlBulkCopy, int>("RowsCopied");
-            result = rowsCopiedFieldOrProperty != null ? rowsCopiedFieldOrProperty(sqlBulkCopy) : reader.RecordsAffected;
+            result = sqlBulkCopy.RowsCopied;
         }
 
         // Return the result
@@ -159,19 +146,15 @@ public static partial class SqlConnectionExtension
         using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
-            Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
+            sqlBulkCopy.DestinationTableName = tableName;
 
             // Set the timeout
             if (bulkCopyTimeout > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BulkCopyTimeout", bulkCopyTimeout);
-            }
+                sqlBulkCopy.BulkCopyTimeout = bulkCopyTimeout;
 
             // Set the batch size
             if (batchSize > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BatchSize", batchSize);
-            }
+                sqlBulkCopy.BatchSize = batchSize;
 
             // Add the order column
             if (hasOrderingColumn)
@@ -233,19 +216,15 @@ public static partial class SqlConnectionExtension
         using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
-            Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
+            sqlBulkCopy.DestinationTableName = tableName;
 
             // Set the timeout
             if (bulkCopyTimeout > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BulkCopyTimeout", bulkCopyTimeout);
-            }
+                sqlBulkCopy.BulkCopyTimeout = bulkCopyTimeout;
 
             // Set the batch size
             if (batchSize > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BatchSize", batchSize);
-            }
+                sqlBulkCopy.BatchSize = batchSize;
 
             // Add the order column
             if (hasOrderingColumn)
@@ -269,10 +248,7 @@ public static partial class SqlConnectionExtension
             // Ensure the result
             if (result <= 0)
             {
-                // Set the return value
-                var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
-                    Compiler.GetPropertyGetterFunc<SqlBulkCopy, int>("RowsCopied");
-                result = rowsCopiedFieldOrProperty?.Invoke(sqlBulkCopy) ?? 0;
+                result = sqlBulkCopy.RowsCopied;
             }
         }
 
@@ -303,19 +279,15 @@ public static partial class SqlConnectionExtension
         using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
-            Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
+            sqlBulkCopy.DestinationTableName = tableName;
 
             // Set the timeout
             if (bulkCopyTimeout > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BulkCopyTimeout", bulkCopyTimeout);
-            }
+                sqlBulkCopy.BulkCopyTimeout = bulkCopyTimeout;
 
             // Set the batch size
             if (batchSize > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BatchSize", batchSize);
-            }
+                sqlBulkCopy.BatchSize = batchSize;
 
             // Add the mappings
             AddMappings(sqlBulkCopy, mappings);
@@ -327,9 +299,7 @@ public static partial class SqlConnectionExtension
                 await writeToServerMethod(sqlBulkCopy, [reader, cancellationToken]);
 
             // Set the return value
-            var rowsCopiedFieldOrProperty = Compiler.GetFieldGetterFunc<SqlBulkCopy, int>("_rowsCopied") ??
-                Compiler.GetPropertyGetterFunc<SqlBulkCopy, int>("RowsCopied");
-            result = rowsCopiedFieldOrProperty?.Invoke(sqlBulkCopy) ?? reader.RecordsAffected;
+            result = sqlBulkCopy.RowsCopied;
         }
 
         // Return the result
@@ -361,19 +331,15 @@ public static partial class SqlConnectionExtension
         using (var sqlBulkCopy = new SqlBulkCopy(connection, options, transaction))
         {
             // Set the destinationtable
-            Compiler.SetProperty(sqlBulkCopy, "DestinationTableName", tableName);
+            sqlBulkCopy.DestinationTableName = tableName;
 
             // Set the timeout
             if (bulkCopyTimeout > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BulkCopyTimeout", bulkCopyTimeout);
-            }
+                sqlBulkCopy.BulkCopyTimeout = bulkCopyTimeout;
 
             // Set the batch size
             if (batchSize > 0)
-            {
-                Compiler.SetProperty(sqlBulkCopy, "BatchSize", batchSize);
-            }
+                sqlBulkCopy.BatchSize = batchSize;
 
             // Add the order column
             if (hasOrderingColumn)

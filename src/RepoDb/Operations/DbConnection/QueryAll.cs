@@ -249,7 +249,7 @@ public static partial class DbConnectionExtension
     {
         // Ensure the fields
         fields ??= GetQualifiedFields<TEntity>() ??
-            (await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false)).AsFields();
+            (await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false)).AsFields();
 
         // Return
         return await QueryInternalBaseAsync<TEntity>(connection: connection,

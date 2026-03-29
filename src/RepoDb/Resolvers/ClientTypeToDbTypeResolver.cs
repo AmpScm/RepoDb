@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Numerics;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;
@@ -76,7 +77,10 @@ public class ClientTypeToDbTypeResolver : IResolver<Type, DbType?>
             return DbType.StringFixedLength;
         else if (type == typeof(Half))
             return DbType.Single;
+        else if (type == typeof(Int128) || type == typeof(UInt128))
+            return DbType.VarNumeric;
 #endif
+
         // XML must be defaulted to String, defaulted by .NET for DbType
         /*else if (type == typeof(Xml))
         {

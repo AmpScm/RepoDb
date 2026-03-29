@@ -224,7 +224,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         fields ??= GetQualifiedFields<TEntity>() ??
-            (await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false))?.AsFields();
+            (await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false))?.AsFields();
 
         // Variables
         var commandType = CommandType.Text;
@@ -245,7 +245,7 @@ public static partial class DbConnectionExtension
         var commandText = CommandTextCache.GetCached(request, CommandTextCache.GetQueryText);
 
         // DB Fields
-        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, false, cancellationToken).ConfigureAwait(false);
+        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, false, cancellationToken).ConfigureAwait(false);
 
         // Execute the actual method
 #if NET

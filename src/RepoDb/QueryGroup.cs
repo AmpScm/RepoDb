@@ -1,4 +1,5 @@
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -10,6 +11,7 @@ namespace RepoDb;
 /// A widely-used class for defining the groupings when composing the query expression. This object is used by most operations
 /// to define the filters and expressions on the actual execution.
 /// </summary>
+[DebuggerDisplay($"{{{nameof(DebuggerDisplay)},nq}}")]
 public partial class QueryGroup : IEquatable<QueryGroup>
 {
     private bool isFixed;
@@ -703,7 +705,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         if (connection is { } && tableName is { })
         {
             // Preload list async then use non async code. One time hit on first use of table
-            DbFieldCollection? dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+            DbFieldCollection? dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
 
             FixForDb(connection, transaction, tableName, ref dbFields);
         }
@@ -796,12 +798,16 @@ public partial class QueryGroup : IEquatable<QueryGroup>
     /// <param name="index">The parameter index for batch operation.</param>
     /// <param name="dbSetting">The currently in used <see cref="IDbSetting"/> object.</param>
     /// <returns>A stringified formatted-text of the current instance.</returns>
-    public string GetString(int index,
-        IDbSetting? dbSetting)
+    public string GetString(int index, IDbSetting dbSetting)
     {
         // Fix first the parameters
         Fix();
 
+        return RawGetString(index, dbSetting);
+    }
+
+    private string RawGetString(int index, IDbSetting? dbSetting)
+    {
         // Variables
         var groupList = new List<string>();
         var conjunction = Conjunction.GetText();
@@ -822,7 +828,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         {
             var groups = QueryGroups
                 .Select(qg =>
-                    qg.GetString(index, dbSetting)).Join(separator);
+                    qg.RawGetString(index, dbSetting!)).Join(separator);
             groupList.Add(groups);
         }
 
@@ -974,4 +980,7 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         => !(objA == objB);
 
     #endregion
+
+
+    private string DebuggerDisplay => RawGetString(0, null);
 }

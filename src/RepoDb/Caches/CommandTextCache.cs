@@ -41,7 +41,7 @@ public static class CommandTextCache
             return v;
 
         EnsureStatementBuilder(request.Connection, request.StatementBuilder);
-        DbFieldCollection dbFields = await DbFieldCache.GetAsync(request.Connection, request.TableName, request.Transaction, enableValidation: true, cancellationToken).ConfigureAwait(false);
+        DbFieldCollection dbFields = await DbFieldCache.GetInternalAsync(request.Connection, request.TableName, request.Transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         return cache.GetOrAdd(request, (_) => creator(request, dbFields));
     }

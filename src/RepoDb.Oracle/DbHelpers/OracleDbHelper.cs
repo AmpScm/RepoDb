@@ -247,70 +247,70 @@ public sealed class OracleDbHelper : BaseDbHelper
     public override Func<object?> PrepareForIdentityOutput(DbCommand command)
     {
         int collectionSize = 0;
-        if (command.CommandText.StartsWith("/*FORALL*/", StringComparison.Ordinal)
-            && command is OracleCommand cmd)
+        if (command is OracleCommand cmd)
         {
-            // We tweak the parameters to support Oracle ForAll optimization
-            var last = cmd.Parameters[cmd.Parameters.Count - 1];
-            var name = last.ParameterName;
-            var n = name.LastIndexOf('_');
-            collectionSize = int.Parse(name.Substring(n + 1)) + 1;
-
-            int nFields = cmd.Parameters.Count / collectionSize;
-
-            if (name.StartsWith(":__RepoDb_OrderColumn"))
-                nFields--; // Strip ordercolumn
-
-            for (int i = 0; i < nFields; i++)
+            cmd.BindByName = true;
+            if (cmd.CommandText.StartsWith("/*FORALL*/", StringComparison.Ordinal))
             {
-                var p = (OracleParameter)cmd.Parameters[i];
+                // We tweak the parameters to support Oracle ForAll optimization
+                var last = cmd.Parameters[cmd.Parameters.Count - 1];
+                var name = last.ParameterName;
+                var n = name.LastIndexOf('_');
+                collectionSize = int.Parse(name.Substring(n + 1)) + 1;
 
-                var values = Enumerable.Range(0, collectionSize).Select(n => cmd.Parameters[i + n * nFields].Value).ToArray();
-                p.Value = values;
+                int nFields = cmd.Parameters.Count / collectionSize;
+
+                if (name.StartsWith(":__RepoDb_OrderColumn"))
+                    nFields--; // Strip ordercolumn
+
+                for (int i = 0; i < nFields; i++)
+                {
+                    var p = (OracleParameter)cmd.Parameters[i];
+
+                    var values = Enumerable.Range(0, collectionSize).Select(n => cmd.Parameters[i + n * nFields].Value).ToArray();
+                    p.Value = values;
+                }
+
+                while (cmd.Parameters.Count > nFields)
+                    cmd.Parameters.RemoveAt(cmd.Parameters.Count - 1);
+
+                cmd.ArrayBindCount = collectionSize;
             }
 
-            while (cmd.Parameters.Count > nFields)
-                cmd.Parameters.RemoveAt(cmd.Parameters.Count - 1);
-
-            cmd.ArrayBindCount = collectionSize;
-        }
-
-        if (command.CommandText.EndsWith(":RepoDb_Result", StringComparison.Ordinal))
-        {
-            var p = new OracleParameter()
+            if (cmd.CommandText.EndsWith(":RepoDb_Result", StringComparison.Ordinal))
             {
-                ParameterName = ":RepoDb_Result",
-                Direction = ParameterDirection.Output,
-                OracleDbType = OracleDbType.Int32
-            };
-
-            command.Parameters.Add(p);
-
-            return () =>
-            {
-                var value = p.Value;
-
-                if (value is OracleINullable { IsNull: true })
-                    return null;
-                else if (value is OracleDecimal od)
+                var p = new OracleParameter()
                 {
-                    if (od.IsInt)
-                        return od.ToInt64();
-                    else
-                        return od.Value;
-                }
-                else if (value is OracleDecimal[] oda)
-                {
-                    return oda.Select(od => od.ToInt64()).ToArray();
-                }
+                    ParameterName = ":RepoDb_Result",
+                    Direction = ParameterDirection.Output,
+                    OracleDbType = OracleDbType.Int32
+                };
 
-                return value;
-            };
+                command.Parameters.Add(p);
+
+                return () =>
+                {
+                    var value = p.Value;
+
+                    if (value is OracleINullable { IsNull: true })
+                        return null;
+                    else if (value is OracleDecimal od)
+                    {
+                        if (od.IsInt)
+                            return od.ToInt64();
+                        else
+                            return od.Value;
+                    }
+                    else if (value is OracleDecimal[] oda)
+                    {
+                        return oda.Select(od => od.ToInt64()).ToArray();
+                    }
+
+                    return value;
+                };
+            }
         }
-        else
-        {
-            return static () => null;
-        }
+        return static () => null;
     }
 
     /// <inheritdoc />
@@ -326,7 +326,7 @@ public sealed class OracleDbHelper : BaseDbHelper
         if (commandText.StartsWith("/*ASCURSOR:", StringComparison.Ordinal) && commandText.IndexOf("*/", 11, StringComparison.Ordinal) is { } nEnd
             && int.TryParse(commandText.Substring(11, nEnd - 11), out int nItems))
         {
-            for(int i = 0; i < nItems; i++)
+            for (int i = 0; i < nItems; i++)
             {
                 cmd.Parameters.Add($":c{i}", OracleDbType.RefCursor, ParameterDirection.Output);
             }

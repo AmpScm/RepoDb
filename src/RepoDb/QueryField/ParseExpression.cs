@@ -101,9 +101,9 @@ public partial class QueryField
         // Field
         var operation = GetOperation(expression.NodeType);
         var fieldExpression = expression.Left;
-        if (expression.Left.GetField(out var coalesceValue) is not { } field || !expression.Right.TryGetValue(out var value))
+        if (!expression.Left.TryGetField(out var field, out var coalesceValue) || !expression.Right.TryGetValue(out var value))
         {
-            if (!expression.Left.TryGetValue(out value) || expression.Right.GetField(out coalesceValue) is not { } field2y)
+            if (!expression.Left.TryGetValue(out value) || !expression.Right.TryGetField(out var field2y, out coalesceValue))
             {
                 throw new InvalidExpressionException($"Invalid expression '{expression}'. The expression can't be converted to a <FIELD> = <VALUE> check.");
             }

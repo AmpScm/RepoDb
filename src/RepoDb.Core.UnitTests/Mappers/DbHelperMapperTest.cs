@@ -45,8 +45,7 @@ public partial class DbHelperMapperTest
         DbHelperMapper.Remove<CustomDbConnection>();
 
         // Assert
-        var actual = DbHelperMapper.Get<CustomDbConnection>();
-        Assert.IsNull(actual);
+        Assert.ThrowsExactly<ArgumentException>(() => DbHelperMapper.Get<CustomDbConnection>());
     }
 
     #endregion

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -172,10 +173,16 @@ public static class EnumerableExtension
     public static List<T> AsList<T>(this IEnumerable<T> value) =>
         value as List<T> ?? value.ToList();
 
+
+#if DEBUG
+    [Obsolete("No AsList is necessary in this case")]
+    internal static IReadOnlyList<T> AsList<T>(this IReadOnlyList<T> value) => value;
+#endif
+
     private static MethodInfo? _distinctMethod;
     private static MethodInfo? _toListMethod;
 
-
+    private static MethodInfo GetMethodInfo(Expression<Func<object>> call) => ((MethodCallExpression)call.Body).Method;
     /// <summary>
     ///
     /// </summary>
@@ -219,17 +226,14 @@ public static class EnumerableExtension
 
         if (distinct)
         {
-            _distinctMethod = typeof(Enumerable).GetMethods(BindingFlags.Public | BindingFlags.Static).Single(m => m.Name == nameof(Enumerable.Distinct) && m.IsGenericMethodDefinition
-                && m.GetParameters() is { } p && p.Length == 1 && p[0].ParameterType is { } pt && pt.IsGenericType && pt.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+            _distinctMethod ??= GetMethodInfo(() => Enumerable.Distinct<int>(default!)).GetGenericMethodDefinition();
 
             value = (IEnumerable)_distinctMethod.MakeGenericMethod([elementType]).Invoke(null, [value])!;
         }
 
         if (value is not ICollection collection)
         {
-            _toListMethod ??= typeof(Enumerable).GetMethods(BindingFlags.Public | BindingFlags.Static).Single(m => m.Name == nameof(Enumerable.ToList) && m.IsGenericMethodDefinition
-                && m.GetParameters() is { } p && p.Length == 1 && p[0].ParameterType is { } pt && pt.IsGenericType && pt.GetGenericTypeDefinition() == typeof(IEnumerable<>));
-
+            _toListMethod ??= GetMethodInfo(() => Enumerable.ToList<int>(default!)).GetGenericMethodDefinition();
             collection = (ICollection)_toListMethod.MakeGenericMethod([elementType]).Invoke(null, [value])!;
         }
 

@@ -45,8 +45,7 @@ public partial class StatementBuilderMapperTest
         StatementBuilderMapper.Remove<CustomDbConnection>();
 
         // Assert
-        var actual = StatementBuilderMapper.Get<CustomDbConnection>();
-        Assert.IsNull(actual);
+        Assert.ThrowsExactly<ArgumentException>(() => StatementBuilderMapper.Get<CustomDbConnection>());
     }
 
     #endregion

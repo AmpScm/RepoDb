@@ -58,8 +58,6 @@ public static partial class SqlConnectionExtension
             // Do the bulk insertion first
             using (var dataTable = CreateDataTableWithSingleColumn(primaryOrIdentityField, primaryKeys))
             {
-                var options = primaryOrIdentityDbField.IsIdentity == true ?
-                    Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")?.Invoke() : default;
                 var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.FieldName, primaryOrIdentityField.FieldName) };
 
                 // WriteToServer
@@ -68,7 +66,7 @@ public static partial class SqlConnectionExtension
                    dataTable,
                    null,
                    mappings,
-                   options ?? throw new InvalidOperationException(),
+                   primaryOrIdentityDbField.IsIdentity == true ? SqlBulkCopyOptions.KeepIdentity : default,
                    bulkCopyTimeout,
                    batchSize,
                    false,
@@ -468,8 +466,6 @@ public static partial class SqlConnectionExtension
             // Do the bulk insertion first
             using (var dataTable = CreateDataTableWithSingleColumn(primaryOrIdentityField, primaryKeys))
             {
-                var options = primaryOrIdentityDbField.IsIdentity == true ?
-                    Compiler.GetEnumFunc<SqlBulkCopyOptions>("KeepIdentity")?.Invoke() : default;
                 var mappings = new[] { new BulkInsertMapItem(primaryOrIdentityField.FieldName, primaryOrIdentityField.FieldName) };
 
                 // WriteToServer
@@ -478,7 +474,7 @@ public static partial class SqlConnectionExtension
                    dataTable,
                    null,
                    mappings,
-                   options ?? throw new InvalidOperationException(),
+                   primaryOrIdentityDbField.IsIdentity == true ? SqlBulkCopyOptions.KeepIdentity : default,
                    bulkCopyTimeout,
                    batchSize,
                    false,

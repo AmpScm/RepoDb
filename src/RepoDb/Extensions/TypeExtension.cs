@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Numerics;
 using System.Reflection;
 using System.Text.Json.Nodes;
 using RepoDb.Attributes;
@@ -63,9 +64,11 @@ public static class TypeExtension
     public static bool IsSpan(this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        return type.IsValueType
+        return
 #if NET
-        && type.IsByRefLike
+        type.IsByRefLike
+#else
+        type.IsValueType
 #endif
         && type.IsGenericType && type.GetGenericTypeDefinition() is { } d && (d == StaticType.ReadOnlySpan || d == StaticType.Span);
     }
@@ -101,6 +104,9 @@ public static class TypeExtension
             || type == typeof(ulong)
             || type == typeof(ushort)
             || type == typeof(sbyte)
+#if NET
+            || type == typeof(Int128) || type == typeof(UInt128)
+#endif
         );
     }
 

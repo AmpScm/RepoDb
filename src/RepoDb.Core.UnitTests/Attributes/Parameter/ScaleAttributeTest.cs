@@ -18,8 +18,8 @@ public class ScaleAttributeTest
     [TestCleanup]
     public void Cleanup()
     {
-        DbSettingMapper.Clear();
-        DbHelperMapper.Clear();
+        DbSettingMapper.Remove<CustomDbConnection>();
+        DbHelperMapper.Remove<CustomDbConnection>();
     }
 
 

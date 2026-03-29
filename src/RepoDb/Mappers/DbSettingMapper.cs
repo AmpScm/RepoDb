@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using RepoDb.DbSettings;
 using RepoDb.Exceptions;
 using RepoDb.Interfaces;
@@ -11,11 +12,7 @@ namespace RepoDb;
 /// </summary>
 public static class DbSettingMapper
 {
-    #region Privates
-
     private static readonly ConcurrentDictionary<Type, BaseDbSetting> maps = new();
-
-    #endregion
 
     #region Methods
 
@@ -33,6 +30,7 @@ public static class DbSettingMapper
         bool force)
         where TDbConnection : IDbConnection
     {
+        ArgumentNullException.ThrowIfNull(dbSetting);
         var type = typeof(TDbConnection);
 
         // Try get the mappings
@@ -62,13 +60,17 @@ public static class DbSettingMapper
     /// </summary>
     /// <typeparam name="TDbConnection">The type of <see cref="IDbConnection"/>.</typeparam>
     /// <returns>The instance of existing mapped <see cref="IDbSetting"/> object.</returns>
-    public static IDbSetting? Get<TDbConnection>()
+    public static IDbSetting Get<TDbConnection>()
         where TDbConnection : IDbConnection
     {
-        // get the value
-        maps.TryGetValue(typeof(TDbConnection), out var value);
+        if (!maps.TryGetValue(typeof(TDbConnection), out var value))
+        {
+            ThrowError();
 
-        // Return the value
+            [DoesNotReturn]
+            static void ThrowError() => throw new ArgumentException($"No DbSettings registered for {typeof(TDbConnection)}");
+        }
+
         return value;
     }
 
@@ -78,13 +80,17 @@ public static class DbSettingMapper
     /// <typeparam name="TDbConnection">The type of <see cref="IDbConnection"/>.</typeparam>
     /// <param name="connection">The instance of <see cref="IDbConnection"/>.</param>
     /// <returns>The instance of existing mapped <see cref="IDbSetting"/> object.</returns>
-    public static IDbSetting? Get<TDbConnection>(TDbConnection connection)
+    public static IDbSetting Get<TDbConnection>(TDbConnection connection)
         where TDbConnection : IDbConnection
     {
-        // get the value
-        maps.TryGetValue(connection.GetType(), out var value);
+        ArgumentNullException.ThrowIfNull(connection);
+        if (!maps.TryGetValue(connection.GetType(), out var value))
+        {
+            ThrowError(connection);
 
-        // Return the value
+            [DoesNotReturn]
+            static void ThrowError(object connection) => throw new ArgumentException($"No DbSettings registered for {connection.GetType()}");
+        }
         return value;
     }
 

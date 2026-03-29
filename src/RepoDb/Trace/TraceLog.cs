@@ -11,7 +11,7 @@ public class TraceLog
     /// <param name="sessionId"></param>
     /// <param name="key"></param>
     protected internal TraceLog(long sessionId,
-        string? key)
+        string key)
     {
         SessionId = sessionId;
         Key = key;
@@ -27,7 +27,7 @@ public class TraceLog
     /// <summary>
     /// Gets the actual tracing key used by the operation.
     /// </summary>
-    public string? Key { get; }
+    public string Key { get; }
 
     #endregion
 

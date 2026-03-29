@@ -9,7 +9,9 @@ const RepoDb.Extensions.QueryFields.DateTimePartQueryField.YearFormat = "YEAR({0
 const RepoDb.Extensions.QueryFields.JsonExtractQueryField.JsonExtractFormat = "JSON_EXTRACT({0}, @@path@@)" -> string!
 const RepoDb.Extensions.QueryFields.LengthQueryField.LengthFormat = "LENGTH({0})" -> string!
 const RepoDb.TraceKeys.QueryReader = "QueryReader" -> string!
-override RepoDb.DataEntityDataReader<TEntity>.GetFieldValue<T>(int ordinal) -> T
+override RepoDb.DataEntityDataReader<TEntity>.IsDBNullAsync(int ordinal, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+override RepoDb.DataEntityDataReader<TEntity>.ReadAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+RepoDb.DataEntityDataReader<TEntity>.TableName.get -> string!
 RepoDb.DbJsonValue<T>.Equals(RepoDb.DbJsonValue<T!> other) -> bool
 RepoDb.DbJsonValue<T>.Equals(System.Text.Json.Nodes.JsonNode! other) -> bool
 RepoDb.DbJsonValue<T>.Equals(T? other) -> bool
@@ -27,8 +29,7 @@ RepoDb.Extensions.QueryFields.DateTimePartType.Minute = 5 -> RepoDb.Extensions.Q
 RepoDb.Extensions.QueryFields.DateTimePartType.Month = 2 -> RepoDb.Extensions.QueryFields.DateTimePartType
 RepoDb.Extensions.QueryFields.DateTimePartType.Second = 6 -> RepoDb.Extensions.QueryFields.DateTimePartType
 RepoDb.Extensions.QueryFields.DateTimePartType.Year = 1 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.QueryField.FieldName.get -> string?
-RepoDb.QueryField.Value.get -> object?
+static readonly RepoDb.Resolvers.PropertyValueAttributeTypeLevelResolver.Instance -> RepoDb.Resolvers.PropertyValueAttributeTypeLevelResolver!
 static RepoDb.DbConnectionExtension.GetDbRuntimeSettingAsync(this System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<RepoDb.DbSettings.DbRuntimeSetting!>
 static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbConnection! connection, RepoDb.QueryGroup? where = null, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null) -> System.Collections.Generic.IEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbConnection! connection, string! tableName, RepoDb.QueryGroup? where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null) -> System.Collections.Generic.IEnumerable<TEntity!>!
@@ -37,11 +38,6 @@ static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.I
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, string! tableName, RepoDb.QueryGroup? where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, System.Linq.Expressions.Expression<System.Func<TEntity!, bool>!>! where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
 static RepoDb.Extensions.ExpressionExtension.GetField(this System.Linq.Expressions.Expression! expression) -> RepoDb.Field!
+static RepoDb.Extensions.ExpressionExtension.TryGetField(this System.Linq.Expressions.Expression! expression, out RepoDb.Field? field) -> bool
+static RepoDb.Extensions.ExpressionExtension.TryGetField(this System.Linq.Expressions.Expression! expression, out RepoDb.Field? field, out object? coalesceValue) -> bool
 static RepoDb.Extensions.ExpressionExtension.TryGetValue(this System.Linq.Expressions.Expression! expression, out object? value) -> bool
-static RepoDb.JsonQueryExtensions.ExtractValue<T>(this System.Text.Json.Nodes.JsonNode? source, string! name) -> T?
-static RepoDb.PrimaryMapper.Add<TEntity>(bool force, params RepoDb.Field![]! fields) -> void
-static RepoDb.PrimaryMapper.Add<TEntity>(bool force, params string![]! propertyNames) -> void
-static RepoDb.PrimaryMapper.Add<TEntity>(params RepoDb.Field![]! fields) -> void
-static RepoDb.PrimaryMapper.Add<TEntity>(params string![]! propertyNames) -> void
-static RepoDb.PrimaryMapper.GetPrimaryKeys(System.Type! type) -> RepoDb.ClassProperty![]?
-static RepoDb.PrimaryMapper.GetPrimaryKeys<TEntity>() -> RepoDb.ClassProperty![]?

@@ -110,6 +110,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(keys);
         return DeleteAllInternal(connection: (DbConnection)connection,
             tableName: tableName,
             keys: keys.WithType<object>(),
@@ -250,6 +251,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(keys);
         return DeleteAllInternal(connection: (DbConnection)connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
             keys: keys.WithType<object>(),
@@ -479,6 +481,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(keys);
         return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             keys: keys.WithType<object>(),
@@ -518,6 +521,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(keys);
         return await DeleteAllInternalAsync(connection: (DbConnection)connection,
             tableName: tableName,
             keys: keys,
@@ -645,6 +649,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(keys);
         return await DeleteAllInternalAsync(
             connection: (DbConnection)connection,
             tableName: ClassMappedNameCache.Get<TEntity>() ?? throw new ArgumentException($"Can't map {typeof(TEntity)} to tablename"),
@@ -827,6 +832,7 @@ public static partial class DbConnectionExtension
             connection,
             tableName,
             where: null,
+            hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
             transaction: transaction,
@@ -1020,7 +1026,7 @@ public static partial class DbConnectionExtension
             return default;
         }
 
-        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var keyField = dbFields.PrimaryFields?.OneOrDefault() ?? dbFields.Identity ?? dbFields.PrimaryFields?.FirstOrDefault() ?? throw GetKeyFieldNotFoundException(tableName);
 
@@ -1045,7 +1051,7 @@ public static partial class DbConnectionExtension
         // Call the underlying method
         foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
         {
-            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues.AsList(), null, false));
+            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues, null, false));
 
             where.Fix(connection, transaction, tableName);
 

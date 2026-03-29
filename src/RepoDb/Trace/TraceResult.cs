@@ -48,7 +48,7 @@ internal sealed class TraceResult
     /// <param name="key"></param>
     /// <param name="command"></param>
     /// <returns></returns>
-    public static TraceResult Create(string? key,
+    public static TraceResult Create(string key,
         DbCommand command) =>
         new TraceResult(
             new CancellableTraceLog(Interlocked.Increment(ref _nextSessionId),

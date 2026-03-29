@@ -14,6 +14,7 @@
     <Project Path="src/RepoDb/RepoDb.csproj" />
   </Folder>
   <Folder Name="/Tests/">
+    <Project Path="src/RepoDb.Core.DefinitionTests/RepoDb.Core.DefinitionTests.csproj" />
     <Project Path="src/RepoDb.Core.IntegrationTests/RepoDb.Core.IntegrationTests.csproj" />
     <Project Path="src/RepoDb.Core.UnitTests/RepoDb.Core.UnitTests.csproj" />
     <Project Path="src/RepoDb.MySql.IntegrationTests/RepoDb.MySql.IntegrationTests.csproj" />

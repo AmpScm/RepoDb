@@ -138,6 +138,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return MinInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: null,
@@ -291,6 +292,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await MinInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: null,

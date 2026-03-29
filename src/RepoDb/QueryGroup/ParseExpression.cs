@@ -211,7 +211,7 @@ public partial class QueryGroup
             && QueryField.GetProperty<TEntity>(m5.Expression) is { } propExpr5
             && expression.Right.TryGetValue(out var rightValue5))
         {
-            return new QueryGroup(new DateTimePartQueryField(propExpr5.AsField().FieldName, rightValue5, dateTimePart: m5.Member.Name switch
+            return new QueryGroup(new DateTimePartQueryField(propExpr5.AsField().FieldName, QueryField.GetOperation(expression.NodeType), rightValue5, dateTimePart: m5.Member.Name switch
             {
                 nameof(DateTime.Year) => DateTimePartType.Year,
                 nameof(DateTime.Month) => DateTimePartType.Month,
@@ -229,7 +229,7 @@ public partial class QueryGroup
             && expression.Right.TryGetValue(out var rightValue6))
         {
             var rightType = expression.Right.Type;
-            return new QueryGroup([new JsonExtractQueryField(jsonExtract.FieldName, jsonExtract.Path, rightValue6, dbType: TypeMapCache.Get(rightType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(rightType))]);
+            return new QueryGroup([new JsonExtractQueryField(jsonExtract.FieldName, jsonExtract.Path, QueryField.GetOperation(expression.NodeType), rightValue6, dbType: TypeMapCache.Get(rightType) ?? ClientTypeToDbTypeResolver.Instance.Resolve(rightType))]);
         }
 
         // Otherwise, recursively parse as before (for AndAlso, OrElse, etc.)

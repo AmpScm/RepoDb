@@ -70,10 +70,10 @@ internal static class OperationExtensions
          {
              Operation.Equal => Operation.Equal,
              Operation.NotEqual => Operation.NotEqual,
-             Operation.LessThan => Operation.GreaterThanOrEqual,
-             Operation.GreaterThan => Operation.LessThanOrEqual,
-             Operation.LessThanOrEqual => Operation.GreaterThan,
-             Operation.GreaterThanOrEqual => Operation.LessThan,
+             Operation.LessThan => Operation.GreaterThan,
+             Operation.GreaterThan => Operation.LessThan,
+             Operation.LessThanOrEqual => Operation.GreaterThanOrEqual,
+             Operation.GreaterThanOrEqual => Operation.LessThanOrEqual,
              _ => throw new NotSupportedException($"The operation '{operation}' doesn't support the switching of operands.")
          };
 }

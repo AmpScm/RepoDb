@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Nodes;
 using RepoDb.Extensions;
 
 namespace RepoDb.UnitTests;
@@ -1266,15 +1267,17 @@ public partial class QueryGroupTest
         Assert.AreEqual(true, ExprValue(() => (((bool?)True ?? BoolNull)!) == true));
 
         Assert.AreEqual(true, ExprValue(() => new { a = 12 }.a == 12));
-
-        //Assert.AreEqual(true, ExprValue(() => new { a = 12 } == new { a = 12 }));
-        //Assert.AreEqual(true, ExprValue(() =>
+        Assert.AreEqual(true, ExprValue(() => TrueNull.HasValue));
+        Assert.AreEqual(false, ExprValue(() => True ^ True));
+        Assert.AreEqual(true, ExprValue(() => True | True));
+        Assert.AreEqual(true, ExprValue(() => True & True));
 
         var five = 5;
         var list = new List<int> { 1, 2, 3 };
         Assert.AreEqual(~5, ExprValue(() => ~five));
         Assert.AreEqual(2, ExprValue(() => list[1]));
         Assert.AreEqual(3, ExprValue(() => list.ToArray()[2]));
+        Assert.AreEqual(5d, ExprValue(() => (double)five));
 
         Assert.AreEqual(true, ExprValue(() => (bool)True));
         Assert.AreEqual(true, ExprValue(() => (bool)(object)True));
@@ -1295,7 +1298,6 @@ public partial class QueryGroupTest
         Assert.HasCount(1, ExprValue(() => new Recursive() { Value = "A", Tags = { "a" } }.Tags));
         Assert.AreEqual("A", ExprValue(() => new Recursive() { Value = "A", R = new() { Value = "B" } }.Value));
         Assert.AreEqual("A", ExprValue(() => new Recursive() { Value = "A", One = { V = "B" } }.Value));
-
 
         // Lambda argument (quote expression)
         Assert.AreEqual("word", ExprValue(() => ExprValue(() => "word")));
@@ -1342,5 +1344,57 @@ public partial class QueryGroupTest
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(e.PropertyInt == 12) || !e.PropertyBoolean);
         Assert.AreEqual("(NOT (([PropertyInt] = @PropertyInt)) OR ([PropertyBoolean] <> @PropertyBoolean))", parsed.GetString(m_dbSetting));
+    }
+
+    record ValueItem(int V);
+
+    [TestMethod]
+    public void TestOutOfOrder()
+    {
+        // With the newer TryGet helpers we can also parse queries that are not strictly db-left, value-right
+        var parsed = QueryGroup.Parse<ValueItem>(e => e.V == 5 || 6 == e.V);
+        Assert.AreEqual("(([V] = @V) OR ([V] = @V_1))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<ValueItem>(e => e.V < 5 || 6 < e.V);
+        Assert.AreEqual("(([V] < @V) OR ([V] > @V_1))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<ValueItem>(e => e.V > 22 && 44 > e.V);
+        Assert.AreEqual("(([V] > @V) AND ([V] < @V_1))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<ValueItem>(e => !(e.V == 5 || 6 == e.V));
+        Assert.AreEqual("NOT ((([V] = @V) OR ([V] = @V_1)))", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<ValueItem>(e => !(e.V >= 5) || !(6 <= e.V));
+        Assert.AreEqual("(NOT (([V] >= @V)) OR NOT (([V] >= @V_1)))", parsed.GetString(m_dbSetting));
+    }
+
+    record ValueJsonItem(JsonObject ob, DbJsonValue<ValueItem> vv);
+
+
+    [TestMethod]
+    public void TestJsonParseExpression()
+    {
+        var parsed = QueryGroup.Parse<ValueJsonItem>(e => e.vv.Value.V == 5);
+        Assert.AreEqual("(JSON_EXTRACT([vv], '$.V') = @vv)", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<ValueJsonItem>(e => e.vv.Value.V < 3);
+        Assert.AreEqual("(JSON_EXTRACT([vv], '$.V') < @vv)", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<ValueJsonItem>(e => e.ob.ExtractValue((ValueItem x) => x.V) < 3);
+        Assert.AreEqual("(JSON_EXTRACT([ob], '$.V') < @ob)", parsed.GetString(m_dbSetting));
+
+        parsed = QueryGroup.Parse<ValueJsonItem>(e => e.ob.ExtractValue<int>("V") < 3);
+        Assert.AreEqual("(JSON_EXTRACT([ob], '$.V') < @ob)", parsed.GetString(m_dbSetting));
+
+        //parsed = QueryGroup.Parse<ValueJsonItem>(e => e.vv.Json.ExtractValue((ValueItem x) => x.V) < 3);
+        //Assert.AreEqual("(JSON_EXTRACT([vv], '$.V') < @vv)", parsed.GetString(m_dbSetting));
+
+
+        ValueJsonItem item = new(new JsonObject() { ["V"] = 5 }, new DbJsonValue<ValueItem>(new ValueItem(5)));
+
+        // And assert some value retrievals work as expected when not processed on server
+        Assert.AreEqual(5, ExprValue(() => item.vv.Value.V));
+        Assert.AreEqual(5, ExprValue(() => item.ob.ExtractValue((ValueItem x) => x.V)));
+        Assert.AreEqual(5, ExprValue(() => item.ob.ExtractValue<int>("V")));
     }
 }

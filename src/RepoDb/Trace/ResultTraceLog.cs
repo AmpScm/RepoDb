@@ -17,7 +17,7 @@ public class ResultTraceLog<TResult> : TraceLog
     protected internal ResultTraceLog(
         long sessionId,
 
-        string? key,
+        string key,
         TResult result,
         TimeSpan executionTime,
         CancellableTraceLog beforeExecutionLog)

@@ -166,24 +166,18 @@ public class PostgreSqlDbTypeNameToClientTypeResolver : IResolver<string, Type>
             "bytea" => typeof(byte[]),
             "cid" or "oid" or "regconfig" or "regtype" or "xid" => typeof(UInt32),
             "circle" => typeof(NpgsqlTypes.NpgsqlCircle),
-            "date"
 #if NET
-                => typeof(DateOnly),
-#else
-                or
+            "date" when GlobalConfiguration.Options.DateOnlyAndTimeOnly => typeof(DateOnly),
 #endif
-            "timestamp without time zone" or "timestamp" => typeof(DateTime),
+            "date" or "timestamp without time zone" or "timestamp" => typeof(DateTime),
             "timestamp with time zone" or "timestamptz" => typeof(DateTimeOffset),
             "double precision" => typeof(double),
             "inet" => typeof(System.Net.IPAddress),
             "integer" => typeof(int),
-            "time without time zone" or "time"
 #if NET
-                => typeof(TimeOnly),
-#else
-                or
+            "time without time zone" or "time" when GlobalConfiguration.Options.DateOnlyAndTimeOnly => typeof(TimeOnly),
 #endif
-            "interval" => typeof(TimeSpan),
+            "time without time zone" or "time" or "interval" => typeof(TimeSpan),
             "line" => typeof(NpgsqlTypes.NpgsqlLine),
             "lseg" => typeof(NpgsqlTypes.NpgsqlLSeg),
             "macaddr" or "macaddr8" => typeof(System.Net.NetworkInformation.PhysicalAddress),

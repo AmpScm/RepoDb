@@ -19,7 +19,7 @@ public static partial class NpgsqlConnectionExtension
     private static NpgsqlBinaryImporter GetNpgsqlBinaryImporter(NpgsqlConnection connection,
         string tableName,
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
-        int? bulkCopyTimeout,
+        int bulkCopyTimeout,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting? dbSetting)
     {
@@ -30,9 +30,9 @@ public static partial class NpgsqlConnectionExtension
         var importer = connection.BeginBinaryImport(copyCommand);
 
         // Timeout
-        if (bulkCopyTimeout.HasValue)
+        if (bulkCopyTimeout > 0)
         {
-            importer.Timeout = TimeSpan.FromSeconds(bulkCopyTimeout.Value);
+            importer.Timeout = TimeSpan.FromSeconds(bulkCopyTimeout);
         }
 
         // Return
@@ -198,7 +198,7 @@ public static partial class NpgsqlConnectionExtension
     private static async Task<NpgsqlBinaryImporter> GetNpgsqlBinaryImporterAsync(NpgsqlConnection connection,
         string tableName,
         IEnumerable<NpgsqlBulkInsertMapItem> mappings,
-        int? bulkCopyTimeout,
+        int bulkCopyTimeout,
         BulkImportIdentityBehavior identityBehavior,
         IDbSetting? dbSetting,
         CancellationToken cancellationToken = default)
@@ -215,9 +215,9 @@ public static partial class NpgsqlConnectionExtension
 #endif
 
         // Timeout
-        if (bulkCopyTimeout.HasValue)
+        if (bulkCopyTimeout > 0)
         {
-            importer.Timeout = TimeSpan.FromSeconds(bulkCopyTimeout.Value);
+            importer.Timeout = TimeSpan.FromSeconds(bulkCopyTimeout);
         }
 
         // Return

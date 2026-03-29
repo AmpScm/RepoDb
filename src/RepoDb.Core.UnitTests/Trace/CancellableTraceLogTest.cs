@@ -1,5 +1,4 @@
-﻿using RepoDb.Exceptions;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.UnitTests.CustomObjects;
 
@@ -282,7 +281,7 @@ public class CancellableTraceLogTest
 
         // Act
         Assert.Throws<OperationCanceledException>(() => connection
-            .Average("", (Field)null, (object?)null, trace: new ErroneousCancellationTrace()));
+            .Average("", new Field("Id"), (object?)null, trace: new ErroneousCancellationTrace()));
     }
 
     [TestMethod]
@@ -293,7 +292,7 @@ public class CancellableTraceLogTest
 
         // Act
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await connection
-            .AverageAsync("", (Field)null, (object?)null, trace: new ErroneousCancellationTrace(), cancellationToken: TestContext.CancellationToken));
+            .AverageAsync("", new Field("Id"), (object?)null, trace: new ErroneousCancellationTrace(), cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion
@@ -308,7 +307,7 @@ public class CancellableTraceLogTest
 
         // Act
         Assert.Throws<OperationCanceledException>(() => connection
-            .AverageAll("", (Field)null, trace: new ErroneousCancellationTrace()));
+            .AverageAll("", new Field("Id"), trace: new ErroneousCancellationTrace()));
     }
 
     [TestMethod]
@@ -319,7 +318,7 @@ public class CancellableTraceLogTest
 
         // Act
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await connection
-            .AverageAllAsync("", (Field)null, trace: new ErroneousCancellationTrace(), cancellationToken: TestContext.CancellationToken));
+            .AverageAllAsync("", new Field("Id"), trace: new ErroneousCancellationTrace(), cancellationToken: TestContext.CancellationToken));
     }
 
     #endregion

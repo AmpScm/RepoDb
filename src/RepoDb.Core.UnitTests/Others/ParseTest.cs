@@ -27,7 +27,7 @@ public class ParseTest
     public void TestQueryGroupParse()
     {
         // Act
-        var properties = typeof(DerivedClass).GetProperties().AsList();
+        var properties = typeof(DerivedClass).GetProperties();
         var queryGroup = QueryGroup.Parse(new DerivedClass());
         var queryFields = queryGroup.GetFields(true).AsList();
 
@@ -67,7 +67,7 @@ public class ParseTest
     public void TestPropertyCacheGet()
     {
         // Act
-        var properties = typeof(DerivedClass).GetProperties().AsList();
+        var properties = typeof(DerivedClass).GetProperties();
         var classProperties = PropertyCache.Get<DerivedClass>().AsList();
 
         // Assert
@@ -88,7 +88,7 @@ public class ParseTest
     public void TestFieldCacheGet()
     {
         // Act
-        var properties = typeof(DerivedClass).GetProperties().AsList();
+        var properties = typeof(DerivedClass).GetProperties();
         var fields = FieldCache.Get<DerivedClass>();
 
         // Assert
@@ -106,7 +106,7 @@ public class ParseTest
     public void TestFieldParse()
     {
         // Act
-        var properties = typeof(DerivedClass).GetProperties().AsList();
+        var properties = typeof(DerivedClass).GetProperties();
         var fields = Field.Parse(new DerivedClass());
 
         // Assert

@@ -266,27 +266,10 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <returns>The hashcode value.</returns>
     public override int GetHashCode()
     {
-        if (this.hashCode != null)
-        {
-            return this.hashCode.Value;
-        }
-
-        var hashCode = 0;
-
-        // Get the hashcode of the base query field
-        hashCode = HashCode.Combine(hashCode, base.GetHashCode());
-
-        // Add the parameter direction
-        hashCode = HashCode.Combine(hashCode, Direction);
-
-        // Add the size
-        if (Size.HasValue)
-        {
-            hashCode = HashCode.Combine(hashCode, Size.Value);
-        }
-
-        // Set and return the hashcode
-        return this.hashCode ??= hashCode;
+        return this.hashCode ??= HashCode.Combine(
+            base.GetHashCode(),
+            Direction,
+            Size);
     }
 
     /// <summary>

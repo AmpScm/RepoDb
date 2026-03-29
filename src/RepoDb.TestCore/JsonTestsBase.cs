@@ -11,7 +11,6 @@ namespace RepoDb.TestCore;
 
 public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where TDbInstance : DbInstance, new()
 {
-
     public virtual string? JsonBColumnType => null;
 
     public record class JsonTestClass
@@ -30,7 +29,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         if (!await sql.SchemaObjectExistsAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer());
+            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer(), TestContext.CancellationToken);
         }
         else
         {
@@ -88,8 +87,8 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
     class JsonPerson
     {
-        public string name { get; set; }
-        public int age { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
     }
 
     [TestMethod]
@@ -99,7 +98,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         if (!await sql.SchemaObjectExistsAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer());
+            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer(), TestContext.CancellationToken);
         }
         else
         {
@@ -112,8 +111,8 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
             Name = "Test",
             JsonNode = new JsonObject
             {
-                ["name"] = "Jaap",
-                ["age"] = 48
+                ["Name"] = "Jaap",
+                ["Age"] = 48
             },
             Object = new JsonObject
             {
@@ -127,20 +126,20 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         }, cancellationToken: TestContext.CancellationToken);
 
 
-        var r = await sql.QueryAsync<JsonTestClass>(where: x => x.JsonNode.ExtractValue<string>("name") == "Jaap", trace: new DiagnosticsTracer());
+        var r = await sql.QueryAsync<JsonTestClass>(where: x => x.JsonNode.ExtractValue<string>("Name") == "Jaap", trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
 
 
-        r = await sql.QueryAsync<JsonTestClass>(where: x => x.JsonNode.ExtractValue<int>("age") >= 45, trace: new DiagnosticsTracer());
+        r = await sql.QueryAsync<JsonTestClass>(where: x => x.JsonNode.ExtractValue<int>("Age") >= 45, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
 
-        r = await sql.QueryAsync<JsonTestClass>(where: x => x.Array.ExtractValue<string>("[0]") == "Value1", trace: new DiagnosticsTracer());
+        r = await sql.QueryAsync<JsonTestClass>(where: x => x.Array.ExtractValue<string>("[0]") == "Value1", trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
 
-        r = await sql.QueryAsync<JsonTestClass>(where: x => x.JsonNode.ExtractValue((JsonPerson p) => p.age) >= 45, trace: new DiagnosticsTracer());
+        r = await sql.QueryAsync<JsonTestClass>(where: x => x.JsonNode.ExtractValue((JsonPerson p) => p.Age) >= 45, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
 
-        r = await sql.QueryAsync<JsonTestClass>(where: x => x.Array.ExtractValue((string[] v) => v[0]) == "Value1", trace: new DiagnosticsTracer());
+        r = await sql.QueryAsync<JsonTestClass>(where: x => x.Array.ExtractValue((string[] v) => v[0]) == "Value1", trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
     }
 
@@ -177,7 +176,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         }, cancellationToken: TestContext.CancellationToken);
 
 
-        var r = await sql.QueryAsync<JsonBTestClass>(where: x => x.JsonNode.ExtractValue<string>("Key") == "Value", trace: new DiagnosticsTracer());
+        var r = await sql.QueryAsync<JsonBTestClass>(where: x => x.JsonNode.ExtractValue<string>("Key") == "Value", trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
         Assert.AreEqual("{\"Key\":\"Value\"}", r.First().JsonNode.ToJsonString(Converter.JsonSerializerOptions));
     }
@@ -199,7 +198,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         if (!await sql.SchemaObjectExistsAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer());
+            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer(), TestContext.CancellationToken);
         }
         else
         {
@@ -213,16 +212,16 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
             JsonNode = new JsonBTestClass { Id = 5 },
             Object = new JsonBTestClass { },
             Array = new string[] { "a", "b" }
-        });
+        }, cancellationToken: TestContext.CancellationToken);
 
-        var r = await sql.QueryAllAsync<JsonTestClassValues>(trace: new DiagnosticsTracer());
+        var r = await sql.QueryAllAsync<JsonTestClassValues>(trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
 
-        r = await sql.QueryAsync<JsonTestClassValues>(v => v.JsonNode.ExtractValue(x => x.Id) == 5, trace: new DiagnosticsTracer());
+        r = await sql.QueryAsync<JsonTestClassValues>(v => v.JsonNode.ExtractValue(x => x.Id) == 5, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
 
 
-        r = await sql.QueryAsync<JsonTestClassValues>(v => v.JsonNode.Value.Id == 5, trace: new DiagnosticsTracer());
+        r = await sql.QueryAsync<JsonTestClassValues>(v => v.JsonNode.Value.Id == 5, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
     }
 
@@ -236,7 +235,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         if (!await sql.SchemaObjectExistsAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer());
+            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer(), TestContext.CancellationToken);
         }
         else
         {
@@ -263,7 +262,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         if (!await sql.SchemaObjectExistsAsync<JsonTestClass>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer());
+            await sql.CreateTableAsync<JsonTestClass>(trace: new DiagnosticsTracer(), TestContext.CancellationToken);
         }
         else
         {
@@ -280,7 +279,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
             JsonNode = value,
             Object = value,
             Array = new string[] { "a", "b" }
-        }, trace: new DiagnosticsTracer());
+        }, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
         Assert.AreEqual(1, await sql.CountAsync<JsonTestClassValues>(where: x => x.Object == value, cancellationToken: TestContext.CancellationToken, trace: new DiagnosticsTracer()));
 
@@ -394,7 +393,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         if (!await sql.SchemaObjectExistsAsync<IdValue2Base>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<IdValue2Base>(trace: new DiagnosticsTracer());
+            await sql.CreateTableAsync<IdValue2Base>(trace: new DiagnosticsTracer(), TestContext.CancellationToken);
         }
         else
         {
@@ -406,15 +405,15 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         {
             Value = new() { Value = "Test" },
             ValueNull = new() { Value = "TestNull" }
-        });
+        }, cancellationToken: TestContext.CancellationToken);
 
         await sql.InsertAsync(new ValueStructClass
         {
             Value = new() { Value = "Test2" },
             ValueNull = null
-        });
+        }, cancellationToken: TestContext.CancellationToken);
 
-        var r = (await sql.QueryAllAsync<ValueStructClass>(orderBy: [OrderField.Parse<ValueStructClass>(x => x.ID, Enumerations.Order.Ascending)])).AsList();
+        var r = (await sql.QueryAllAsync<ValueStructClass>(orderBy: [OrderField.Parse<ValueStructClass>(x => x.ID, Enumerations.Order.Ascending)], cancellationToken: TestContext.CancellationToken)).AsList();
 
         Assert.HasCount(2, r);
         Assert.AreEqual("Test", r[0].Value.Value);
@@ -422,7 +421,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         Assert.AreEqual("Test2", r[1].Value.Value);
         Assert.AreEqual(null, r[1].ValueNull?.Value);
 
-        var r2 = await sql.QueryAsync<ValueStructClass>(x => x.Value == new InnerValueString { Value = "Test" });
+        var r2 = await sql.QueryAsync<ValueStructClass>(x => x.Value == new InnerValueString { Value = "Test" }, cancellationToken: TestContext.CancellationToken);
     }
 
     [Table(nameof(IdValue2Base))]
@@ -440,7 +439,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         if (!await sql.SchemaObjectExistsAsync<IdValue2Base>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<IdValue2Base>(trace: new DiagnosticsTracer());
+            await sql.CreateTableAsync<IdValue2Base>(trace: new DiagnosticsTracer(), TestContext.CancellationToken);
         }
         else
         {
@@ -452,15 +451,15 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         {
             Value = new() { Value = "Test" },
             ValueNull = new() { Value = "TestNull" }
-        });
+        }, cancellationToken: TestContext.CancellationToken);
 
         await sql.InsertAsync(new ValueClassClass
         {
             Value = new() { Value = "Test2" },
             ValueNull = null
-        });
+        }, cancellationToken: TestContext.CancellationToken);
 
-        var r = (await sql.QueryAllAsync<ValueClassClass>(orderBy: [OrderField.Parse<ValueClassClass>(x => x.ID, Enumerations.Order.Ascending)])).AsList();
+        var r = (await sql.QueryAllAsync<ValueClassClass>(orderBy: [OrderField.Parse<ValueClassClass>(x => x.ID, Enumerations.Order.Ascending)], cancellationToken: TestContext.CancellationToken)).AsList();
 
         Assert.HasCount(2, r);
         Assert.AreEqual("Test", r[0].Value.Value);
@@ -468,6 +467,6 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
         Assert.AreEqual("Test2", r[1].Value.Value);
         Assert.AreEqual(null, r[1].ValueNull?.Value);
 
-        var r2 = await sql.QueryAsync<ValueClassClass>(x => x.Value == new InnerClassString { Value = "Test" }, trace: new DiagnosticsTracer());
+        var r2 = await sql.QueryAsync<ValueClassClass>(x => x.Value == new InnerClassString { Value = "Test" }, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
     }
 }

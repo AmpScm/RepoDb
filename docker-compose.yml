@@ -6,6 +6,7 @@ services:
       - 127.0.0.1:43306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2
+    restart: no
 
   oracle:
     image: gvenzl/oracle-free:slim-faststart
@@ -16,6 +17,7 @@ services:
       ORACLE_PASSWORD: "ddd53e85-b15e-4da8"
       ORACLE_ALLOW_REMOTE: "true"
     shm_size: '1gb'
+    restart: no
 
   postgresql:
     image: pgvector/pgvector:pg18
@@ -23,6 +25,7 @@ services:
       - 127.0.0.1:45432:5432
     environment:
       POSTGRES_PASSWORD: ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2
+    restart: no
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2025-latest
@@ -31,3 +34,4 @@ services:
     environment:
       ACCEPT_EULA: true
       MSSQL_SA_PASSWORD: ddd53e85-b15e-4da8-91e5-a7d3b00a0ab2
+    restart: no

@@ -152,7 +152,7 @@ public static class DbFieldCache
     internal static async ValueTask<DbFieldCollection> GetInternalAsync<TDbConnection>(TDbConnection connection,
         string tableName,
         IDbTransaction? transaction,
-        bool enableValidation,
+        bool enableValidation = true,
         CancellationToken cancellationToken = default)
         where TDbConnection : IDbConnection
     {

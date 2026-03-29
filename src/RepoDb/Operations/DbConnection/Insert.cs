@@ -423,6 +423,8 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(entity);
+
         if (TypeCache.Get(GetEntityType(entity)).IsDictionaryStringObject)
         {
             return await InsertInternalBaseAsync<IDictionary<string, object?>, TResult>(connection: connection,
@@ -746,6 +748,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(entity);
         // Variables needed
         var dbSetting = connection.GetDbSetting();
 
@@ -762,6 +765,9 @@ public static partial class DbConnectionExtension
 
         var result = default(TResult)!;
 
+#if NET
+        await
+#endif
         using (var command = (DbCommand)(await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false)).CreateCommand(context.CommandText,
             CommandType.Text, commandTimeout, transaction))
         {

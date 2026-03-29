@@ -1,10 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
 using RepoDb.Extensions;
-using RepoDb.IntegrationTests;
 using RepoDb.IntegrationTests.Models;
 using RepoDb.IntegrationTests.Setup;
 
-namespace RepoDb.SqlServer.IntegrationTests;
+namespace RepoDb.IntegrationTests;
 
 [TestClass]
 public class DbHelperTest : TestBase

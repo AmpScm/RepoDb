@@ -399,6 +399,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(typeof(TEntity),
             connection,
@@ -636,6 +637,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return AverageInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -673,6 +675,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return AverageInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
@@ -710,6 +713,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return AverageInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -747,6 +751,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return AverageInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -784,6 +789,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return AverageInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
@@ -821,6 +827,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(typeof(TEntity),
             connection,
@@ -1073,6 +1080,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1112,6 +1120,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
@@ -1151,6 +1160,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1190,6 +1200,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1229,6 +1240,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
@@ -1269,6 +1281,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(typeof(TEntity),
             connection,
@@ -1520,6 +1533,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1560,6 +1574,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
@@ -1600,6 +1615,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1640,6 +1656,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1680,6 +1697,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await AverageInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
@@ -1720,6 +1738,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(typeof(TEntity),
             connection,
@@ -1920,6 +1939,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(tableName,
             connection,
@@ -2120,6 +2140,7 @@ public static partial class DbConnectionExtension
         ITrace? trace = null,
         IStatementBuilder? statementBuilder = null)
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(tableName,
             connection,
@@ -2333,6 +2354,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(tableName,
             connection,
@@ -2548,6 +2570,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(field);
         // Variables
         var request = new AverageRequest(tableName,
             connection,
@@ -2651,7 +2674,7 @@ public static partial class DbConnectionExtension
             commandTimeout: commandTimeout,
             transaction: transaction,
             entityType: request.Type,
-            dbFields: param is { } ? await DbFieldCache.GetAsync(connection, request.TableName, transaction, true, cancellationToken).ConfigureAwait(false) : null,
+            dbFields: param is { } ? await DbFieldCache.GetInternalAsync(connection, request.TableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false) : null,
             trace: trace,
             traceKey: traceKey,
             cancellationToken: cancellationToken).ConfigureAwait(false);

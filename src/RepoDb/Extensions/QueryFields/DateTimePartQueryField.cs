@@ -87,7 +87,7 @@ public class DateTimePartQueryField : FunctionalQueryField
         Operation operation,
         object? value,
         DateTimePartType dateTimePart = DateTimePartType.Date)
-        : this(fieldName, operation, value, null)
+        : this(fieldName, operation, value, null, dateTimePart)
     { }
 
     /// <summary>

@@ -1144,7 +1144,7 @@ public static partial class DbConnectionExtension
             transaction: transaction,
             trace: trace,
             entityType: request.Type,
-            dbFields: param is { } ? await DbFieldCache.GetAsync(connection, request.TableName, transaction, true, cancellationToken).ConfigureAwait(false) : null,
+            dbFields: param is { } ? await DbFieldCache.GetInternalAsync(connection, request.TableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false) : null,
             skipCommandArrayParametersCheck: true,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 

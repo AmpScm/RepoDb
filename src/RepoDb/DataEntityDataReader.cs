@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using RepoDb.Extensions;
@@ -15,10 +16,8 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     where TEntity : class
 {
     #region Fields
-    private readonly string tableName;
     private readonly int fieldCount; // 0
     private bool isClosed; // false
-    private bool isDisposed; // false
     private int recordsAffected = -1;
     private readonly bool isDictionaryStringObject; // false
 
@@ -85,9 +84,9 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         ArgumentNullException.ThrowIfNull(entities);
 
         // Fields
-        this.tableName = tableName ?? ClassMappedNameCache.Get<TEntity>();
+        this.TableName = tableName ?? ClassMappedNameCache.Get<TEntity>();
         isClosed = false;
-        isDisposed = false;
+        IsDisposed = false;
         Position = -1;
         recordsAffected = -1;
 
@@ -110,9 +109,11 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     }
 
     /// <summary>
-    /// Returns an enumerator that iterates through a collection of data entity objects.
+    /// 
     /// </summary>
-    /// <returns>The enumerator object of the current collection.</returns>
+    public string TableName { get; }
+
+    /// <inheritdoc/>
     public override IEnumerator GetEnumerator() =>
         Entities.GetEnumerator();
 
@@ -129,7 +130,8 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets a value that indicates whether the current instance of <see cref="DataEntityDataReader{TEntity}"/> object has already been initialized.
     /// </summary>
-    public bool IsInitialized { get; private set; }
+    [Obsolete("Never updated"), EditorBrowsable(EditorBrowsableState.Never)]
+    public bool IsInitialized => true;
 
     /// <summary>
     /// Gets the instance of enumerator that iterates through a collection of data entity objects.
@@ -171,14 +173,14 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// </summary>
     /// <param name="i">The index of the column.</param>
     /// <returns>The value from the column index.</returns>
-    public override object this[int i] { get { return GetValue(i); } }
+    public override object this[int i] => GetValue(i);
 
     /// <summary>
     /// Gets the current value from the name.
     /// </summary>
     /// <param name="name">The name of the column.</param>
     /// <returns>The value from the column name.</returns>
-    public override object this[string name] { get { return this[GetOrdinal(name)]; } }
+    public override object this[string name] => this[GetOrdinal(name)];
 
     /// <summary>
     /// Gets the depth value.
@@ -194,8 +196,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <summary>
     /// Gets the value that indicates whether the current reader is already disposed.
     /// </summary>
-    public bool IsDisposed =>
-        isDisposed;
+    public bool IsDisposed { get; private set; }
 
     /// <summary>
     /// Gets the number of rows affected by the iteration.
@@ -232,7 +233,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         Entities = null!;
         EntityEnumerator = null!;
         Close();
-        isDisposed = true;
+        IsDisposed = true;
     }
 
     /// <summary>
@@ -254,7 +255,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override bool GetBoolean(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<bool>(GetValue(ordinal));
+        return GetFieldValue<bool>(ordinal);
     }
 
     /// <summary>
@@ -265,7 +266,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override byte GetByte(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<byte>(GetValue(ordinal));
+        return GetFieldValue<byte>(ordinal);
     }
 
     /// <summary>
@@ -291,7 +292,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override char GetChar(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<char>(GetValue(ordinal));
+        return GetFieldValue<char>(ordinal);
     }
 
     /// <summary>
@@ -340,7 +341,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override DateTime GetDateTime(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<DateTime>(GetValue(ordinal));
+        return GetFieldValue<DateTime>(ordinal);
     }
 
     /// <summary>
@@ -351,7 +352,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override decimal GetDecimal(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<decimal>(GetValue(ordinal));
+        return GetFieldValue<decimal>(ordinal);
     }
 
     /// <summary>
@@ -362,7 +363,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override double GetDouble(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<double>(GetValue(ordinal));
+        return GetFieldValue<double>(ordinal);
     }
 
     /// <summary>
@@ -384,7 +385,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override float GetFloat(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<float>(GetValue(ordinal));
+        return GetFieldValue<float>(ordinal);
     }
 
     /// <summary>
@@ -395,7 +396,13 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override Guid GetGuid(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Guid.Parse(GetValue(ordinal)?.ToString()!);
+        var value = GetRawValue(ordinal);
+        if (value is Guid g)
+            return g;
+        else if (value is string s)
+            return Guid.Parse(s);
+
+        return Guid.Parse(value?.ToString() ?? "");
     }
 
     /// <summary>
@@ -406,7 +413,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override short GetInt16(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<short>(GetValue(ordinal));
+        return GetFieldValue<short>(ordinal);
     }
 
     /// <summary>
@@ -417,7 +424,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override int GetInt32(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<int>(GetValue(ordinal));
+        return GetFieldValue<int>(ordinal);
     }
 
     /// <summary>
@@ -428,14 +435,23 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override long GetInt64(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<long>(GetValue(ordinal));
+        return GetFieldValue<long>(ordinal);
     }
 
     /// <inheritdoc />
     public override T GetFieldValue<T>(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<T>(GetValue(ordinal));
+        var value = GetRawValue(ordinal);
+        return value is T v ? v : Converter.ToType<T>(value ?? DBNull.Value);
+    }
+
+    /// <inheritdoc/>
+    public override Task<bool> IsDBNullAsync(int ordinal, CancellationToken cancellationToken)
+    {
+        ThrowExceptionIfNotAvailable();
+        var value = GetRawValue(ordinal);
+        return Task.FromResult(value is null || Convert.IsDBNull(value));
     }
 
     /// <summary>
@@ -449,7 +465,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     private string GetNameForEntities(int i)
     {
         ThrowExceptionIfNotAvailable();
-        if (i == Properties.Count)
+        if (i == Properties.Count && HasOrderingColumn)
         {
             return BaseStatementBuilder.RepoDbOrderColumn;
         }
@@ -459,7 +475,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     private string GetNameForDictionaryStringObject(int i)
     {
         ThrowExceptionIfNotAvailable();
-        if (i == Fields.Count)
+        if (i == Fields.Count && HasOrderingColumn)
         {
             return BaseStatementBuilder.RepoDbOrderColumn;
         }
@@ -483,7 +499,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         }
         else
         {
-            var property = Properties.GetByPropertyName(name) ?? Properties.GetByFieldName(name);
+            var property = Properties.GetByFieldName(name) ?? Properties.GetByPropertyName(name);
             return property is { } ? Properties.IndexOf(property) : -1;
         }
     }
@@ -526,7 +542,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override string GetString(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return Converter.ToType<string>(GetValue(ordinal));
+        return GetFieldValue<string>(ordinal);
     }
 
     /// <summary>
@@ -535,6 +551,9 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// <param name="ordinal">The index of the property.</param>
     /// <returns>The value from the property index.</returns>
     public override object GetValue(int ordinal) =>
+        GetRawValue(ordinal) ?? DBNull.Value;
+
+    private object? GetRawValue(int ordinal) =>
         (isDictionaryStringObject ? GetValueForDictionaryStringObject(ordinal) : GetValueForEntities(ordinal)) ?? DBNull.Value;
 
     /// <summary>
@@ -588,45 +607,46 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         {
             throw new ArgumentOutOfRangeException($"The length of the array must be equals to the number of fields of the data entity (it should be {FieldCount}).");
         }
-        var extracted = ClassExpression.GetPropertiesAndValues(EntityEnumerator.Current).ToArray();
-        for (var i = 0; i < Properties.Count; i++)
+
+        int i = 0;
+        foreach (var v in ClassExpression.GetPropertiesAndValues(EntityEnumerator.Current))
         {
-            values[i] = extracted[i].Value;
+            values[i++] = v.Value;
         }
         return FieldCount;
     }
 
-    /// <summary>
-    /// Gets a value that checks whether the value of the property from the desired index is equals to <see cref="DBNull.Value"/>.
-    /// </summary>
-    /// <param name="ordinal">The index of the property.</param>
-    /// <returns>The value from the property index.</returns>
+    /// <inheritdoc/>
     public override bool IsDBNull(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        return GetValue(ordinal) == DBNull.Value;
+        var value = GetRawValue(ordinal);
+        return value is null || Convert.IsDBNull(value);
     }
 
-    /// <summary>
-    /// Forwards the data reader to the next result.
-    /// </summary>
-    /// <returns>Returns true if the forward operation is successful.</returns>
+    /// <inheritdoc/>
     public override bool NextResult()
     {
         ThrowExceptionIfNotAvailable();
-        throw new NotSupportedException("This is not supported by this data reader.");
+        return false;
     }
 
-    /// <summary>
-    /// Forward the pointer into the next record.
-    /// </summary>
-    /// <returns>A value that indicates whether the movement is successful.</returns>
+    /// <inheritdoc/>
     public override bool Read()
     {
         ThrowExceptionIfNotAvailable();
         Position++;
         recordsAffected++;
         return EntityEnumerator.MoveNext();
+    }
+
+    /// <inheritdoc/>
+    public override Task<bool> ReadAsync(CancellationToken cancellationToken)
+    {
+        ThrowExceptionIfNotAvailable();
+        Position++;
+        recordsAffected++;
+        return Task.FromResult(EntityEnumerator.MoveNext());
     }
 
     private void ThrowExceptionIfNotAvailable()

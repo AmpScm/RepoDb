@@ -173,12 +173,11 @@ public class Field : IEquatable<Field>
         ArgumentNullException.ThrowIfNull(expression);
         return new(expression.Body.UnwrapUnary(ExpressionType.Convert) switch
         {
-            MemberExpression memberExpression => [memberExpression.GetField()],
-            BinaryExpression binaryExpression => [binaryExpression.GetField()],
+            MemberExpression memberExpression => [memberExpression.TryGetField(out var field) == true ? field : throw new InvalidExpressionException($"Expression '{expression}' is not a valid field expression.")],
             NewExpression newExpression when newExpression.Members is { Count: > 0 } =>
-                            newExpression.Arguments.Select(a => (a as MemberExpression)?.GetField() ?? throw new InvalidExpressionException($"Expression '{expression}' is invalid."))
+                            newExpression.Arguments.Select(a => (a as MemberExpression)?.TryGetField(out var field) == true ? field : throw new InvalidExpressionException($"Expression '{expression}' is not a valid field expression."))
                             .ToList(),
-            _ => throw new InvalidExpressionException($"Expression '{expression}' is invalid.")
+            _ => throw new InvalidExpressionException($"Expression '{expression}' is not like `arg.Property` or `new {{ arg.Prop1, arg.Prop2, .. }}`.")
         });
     }
 

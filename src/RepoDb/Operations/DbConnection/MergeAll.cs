@@ -1429,6 +1429,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         ArgumentNullException.ThrowIfNull(entities);
+        ArgumentNullException.ThrowIfNull(qualifiers);
 
         entities = entities.AsList();
         if (!entities.Any())
@@ -1458,6 +1459,9 @@ public static partial class DbConnectionExtension
         BaseDbHelper? dbh = null;
 
         // Create the command
+#if NET
+        await
+#endif
         using (var command = (DbCommand)connection.CreateCommand("", CommandType.Text, commandTimeout, transaction))
         {
             int? positionIndex = null;

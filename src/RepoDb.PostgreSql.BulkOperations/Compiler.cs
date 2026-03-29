@@ -23,15 +23,6 @@ internal static class Compiler
         where TEntity : class =>
         GetNpgsqlBinaryImporterWriteFuncCache<TEntity>.Get(tableName, mappings, entityType);
 
-    internal static Action<NpgsqlBinaryImporter, TEntity> GetNpgsqlBinaryImporterWriteFunc<TEntity>(string tableName,
-        DbFieldCollection dbFields,
-        IEnumerable<ClassProperty> properties,
-        Type entityType,
-        BulkImportIdentityBehavior identityBehavior,
-        IDbSetting? dbSetting = null)
-        where TEntity : class =>
-        GetNpgsqlBinaryImporterWriteFuncCache<TEntity>.Get(tableName, dbFields, properties, entityType, identityBehavior, dbSetting);
-
     private static class GetNpgsqlBinaryImporterWriteFuncCache<TEntity>
         where TEntity : class
     {
@@ -48,39 +39,6 @@ internal static class Compiler
             IEnumerable<NpgsqlBulkInsertMapItem> mappings,
             Type entityType) =>
             GetFunc(tableName, mappings, entityType);
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="dbFields"></param>
-        /// <param name="properties"></param>
-        /// <param name="entityType"></param>
-        /// <param name="identityBehavior"></param>
-        /// <param name="dbSetting"></param>
-        /// <returns></returns>
-        public static Action<NpgsqlBinaryImporter, TEntity> Get(string tableName,
-            DbFieldCollection dbFields,
-            IEnumerable<ClassProperty> properties,
-            Type entityType,
-            BulkImportIdentityBehavior identityBehavior,
-            IDbSetting? dbSetting = null)
-        {
-            var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
-            var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
-            var isPrimaryAnIdentity = primaryDbField?.IsIdentity == true;
-            var includePrimary = isPrimaryAnIdentity == false ||
-                (isPrimaryAnIdentity && identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
-            var matchedProperties = NpgsqlConnectionExtension.GetMatchedProperties(dbFields,
-                properties,
-                includePrimary,
-                includeIdentity,
-                dbSetting);
-            var mappings = matchedProperties.Select(property =>
-                new NpgsqlBulkInsertMapItem(property.PropertyInfo.Name, property.FieldName));
-
-            return GetFunc(tableName, mappings, entityType);
-        }
 
         private static Action<NpgsqlBinaryImporter, TEntity> GetFunc(string tableName,
             IEnumerable<NpgsqlBulkInsertMapItem> mappings,
@@ -165,15 +123,6 @@ internal static class Compiler
         where TEntity : class =>
         GetNpgsqlBinaryImporterWriteAsyncFuncCache<TEntity>.Get(tableName, mappings, entityType);
 
-    internal static Func<NpgsqlBinaryImporter, TEntity, CancellationToken, Task> GetNpgsqlBinaryImporterWriteAsyncFunc<TEntity>(string tableName,
-        DbFieldCollection dbFields,
-        IEnumerable<ClassProperty> properties,
-        Type entityType,
-        BulkImportIdentityBehavior identityBehavior,
-        IDbSetting? dbSetting = null)
-        where TEntity : class =>
-        GetNpgsqlBinaryImporterWriteAsyncFuncCache<TEntity>.Get(tableName, dbFields, properties, entityType, identityBehavior, dbSetting);
-
     private static class GetNpgsqlBinaryImporterWriteAsyncFuncCache<TEntity>
         where TEntity : class
     {
@@ -191,39 +140,6 @@ internal static class Compiler
             IEnumerable<NpgsqlBulkInsertMapItem> mappings,
             Type entityType) =>
             GetFunc(tableName, mappings, entityType);
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="dbFields"></param>
-        /// <param name="properties"></param>
-        /// <param name="entityType"></param>
-        /// <param name="identityBehavior"></param>
-        /// <param name="dbSetting"></param>
-        /// <returns></returns>
-        public static Func<NpgsqlBinaryImporter, TEntity, CancellationToken, Task> Get(string tableName,
-            DbFieldCollection dbFields,
-            IEnumerable<ClassProperty> properties,
-            Type entityType,
-            BulkImportIdentityBehavior identityBehavior,
-            IDbSetting? dbSetting = null)
-        {
-            var includeIdentity = identityBehavior == BulkImportIdentityBehavior.KeepIdentity;
-            var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
-            var isPrimaryAnIdentity = primaryDbField?.IsIdentity == true;
-            var includePrimary = isPrimaryAnIdentity == false ||
-                (isPrimaryAnIdentity && identityBehavior == BulkImportIdentityBehavior.KeepIdentity);
-            var matchedProperties = NpgsqlConnectionExtension.GetMatchedProperties(dbFields,
-                properties,
-                includePrimary,
-                includeIdentity,
-                dbSetting);
-            var mappings = matchedProperties.Select(property =>
-                new NpgsqlBulkInsertMapItem(property.PropertyInfo.Name, property.FieldName));
-
-            return GetFunc(tableName, mappings, entityType);
-        }
 
         private static Func<NpgsqlBinaryImporter, TEntity, CancellationToken, Task> GetFunc(string tableName,
             IEnumerable<NpgsqlBulkInsertMapItem> mappings,
@@ -300,53 +216,19 @@ internal static class Compiler
 
     #region Helpers
 
+    private static MethodInfo GetMethodInfo<TFrom>(Expression<Action<TFrom>> call) => ((MethodCallExpression)call.Body).Method;
+    private static MethodInfo GetMethodInfo(Expression<Action> call) => ((MethodCallExpression)call.Body).Method;
+
     private static MethodInfo GetNpgsqlBinaryImporterWriteMethod() =>
-        typeof(NpgsqlBinaryImporter)
-            .GetMethods()
-            .Where(method =>
-                string.Equals("Write", method.Name, StringComparison.OrdinalIgnoreCase))
-            .First(method => method.GetParameters().Length == 1);
+        GetMethodInfo<NpgsqlBinaryImporter>(v => v.Write<int>(default!)).GetGenericMethodDefinition();
+
+    private static MethodInfo GetNpgsqlBinaryImporterWriteWithNpgsqlDbTypeMethod() =>
+        GetMethodInfo<NpgsqlBinaryImporter>(v => v.Write<int>(default, NpgsqlDbType.Integer)).GetGenericMethodDefinition();
 
     private static MethodInfo GetNpgsqlBinaryImporterWriteAsyncMethod() =>
-        typeof(NpgsqlBinaryImporter)
-            .GetMethods()
-            .Where(method =>
-                string.Equals("WriteAsync", method.Name, StringComparison.OrdinalIgnoreCase))
-            .First(method =>
-            {
-                var parameters = method.GetParameters();
-                return parameters.Length == 2 &&
-                    parameters[1].ParameterType == typeof(CancellationToken);
-            });
-
-    private static MethodInfo GetNpgsqlBinaryImporterWriteWithNpgsqlDbTypeMethod()
-    {
-        var methods = typeof(NpgsqlBinaryImporter)
-            .GetMethods()
-            .Where(method => string.Equals("Write", method.Name, StringComparison.OrdinalIgnoreCase));
-
-        return methods.First(method =>
-        {
-            var parameters = method.GetParameters();
-            return parameters.Length == 2 &&
-                parameters[1].ParameterType == typeof(NpgsqlDbType);
-        });
-    }
-
-    private static MethodInfo GetNpgsqlBinaryImporterWriteAsyncWithNpgsqlDbTypeMethod()
-    {
-        var methods = typeof(NpgsqlBinaryImporter)
-            .GetMethods()
-            .Where(method => string.Equals("WriteAsync", method.Name, StringComparison.OrdinalIgnoreCase));
-
-        return methods.First(method =>
-        {
-            var parameters = method.GetParameters();
-            return parameters.Length == 3 &&
-                parameters[1].ParameterType == typeof(NpgsqlDbType) &&
-                parameters[2].ParameterType == typeof(CancellationToken);
-        });
-    }
+        GetMethodInfo<NpgsqlBinaryImporter>(v => v.WriteAsync<int>(default, cancellationToken: default)).GetGenericMethodDefinition();
+    private static MethodInfo GetNpgsqlBinaryImporterWriteAsyncWithNpgsqlDbTypeMethod() =>
+        GetMethodInfo<NpgsqlBinaryImporter>(v => v.WriteAsync<int>(default, NpgsqlDbType.Integer, cancellationToken: default)).GetGenericMethodDefinition();
 
     private static Expression GetEntityPropertyExpression(Expression entityExpression,
         Type entityType,
@@ -411,10 +293,10 @@ internal static class Compiler
     }
 
     private static MethodInfo GetEnumParseMethod() =>
-        typeof(Enum).GetMethod("Parse", [typeof(Type), typeof(string), typeof(bool)])!;
+        GetMethodInfo(() => Enum.Parse(default!, default!, default));
 
     private static MethodInfo GetEnumGetNameMethod() =>
-        typeof(Enum).GetMethod("GetName", new[] { typeof(Type), typeof(object) })!;
+        GetMethodInfo(() => Enum.GetName(default!, default!));
 
     private static MethodInfo GetConvertToTypeMethod(Type type) =>
         typeof(Convert).GetMethod($"To{type.Name}", new[] { typeof(object) })!;
@@ -448,270 +330,6 @@ internal static class Compiler
     #endregion
 
 
-
-
-
-    // TODO: Remove
-
-    #region GetMethodFunc
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="methodName"></param>
-    /// <returns></returns>
-    public static Func<TEntity, TResult>? GetMethodFunc<TEntity, TResult>(string methodName)
-        where TEntity : class =>
-        MethodFuncCache<TEntity, TResult>.GetFunc(methodName);
-
-    private static class MethodFuncCache<TEntity, TResult>
-        where TEntity : class
-    {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>?> cache = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="methodName"></param>
-        /// <returns></returns>
-        public static Func<TEntity, TResult>? GetFunc(string methodName)
-        {
-            return cache.GetOrAdd(methodName.GetHashCode(), (_) =>
-            {
-                var typeOfEntity = typeof(TEntity);
-                var method = typeOfEntity.GetMethod(methodName);
-
-                if (method is not null)
-                {
-                    var entity = Expression.Parameter(typeOfEntity, "entity");
-                    var body = Expression.Convert(Expression.Call(entity, method), typeof(TResult));
-
-                    return Expression
-                        .Lambda<Func<TEntity, TResult>>(body, entity)
-                        .Compile();
-                }
-                else
-                    return null;
-            });
-        }
-    }
-
-    #endregion
-
-    #region GetVoidMethodFunc
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <param name="methodName"></param>
-    /// <returns></returns>
-    public static Action<TEntity>? GetMethodFunc<TEntity>(string methodName)
-        where TEntity : class =>
-        VoidMethodFuncCache<TEntity>.GetFunc(methodName);
-
-    private static class VoidMethodFuncCache<TEntity>
-        where TEntity : class
-    {
-        private static readonly ConcurrentDictionary<int, Action<TEntity>?> cache = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="methodName"></param>
-        /// <returns></returns>
-        public static Action<TEntity>? GetFunc(string methodName)
-        {
-            return cache.GetOrAdd(methodName.GetHashCode(), (_) =>
-            {
-                var typeOfEntity = typeof(TEntity);
-                var method = typeOfEntity.GetMethod(methodName);
-
-                if (method is not null)
-                {
-                    var entity = Expression.Parameter(typeOfEntity, "entity");
-                    var body = Expression.Call(entity, method);
-
-                    return Expression
-                        .Lambda<Action<TEntity>>(body, entity)
-                        .Compile();
-                }
-                else
-                    return null;
-            });
-        }
-    }
-
-    #endregion
-
-    #region GetParameterizedMethodFunc
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="methodName"></param>
-    /// <param name="types"></param>
-    /// <returns></returns>
-    public static Func<TEntity, object[], TResult>? GetParameterizedMethodFunc<TEntity, TResult>(string methodName,
-        Type[] types)
-        where TEntity : class =>
-        ParameterizedMethodFuncCache<TEntity, TResult>.GetFunc(methodName, types);
-
-    private static class ParameterizedMethodFuncCache<TEntity, TResult>
-        where TEntity : class
-    {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, object[], TResult>?> cache = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="methodName"></param>
-        /// <param name="types"></param>
-        /// <returns></returns>
-        public static Func<TEntity, object[], TResult>? GetFunc(string methodName,
-            Type[] types)
-        {
-            var key = methodName.GetHashCode();
-            for (int i = 0; i < types.Length; i++)
-            {
-                key = HashCode.Combine(key, types[i]);
-            }
-            return cache.GetOrAdd(key, (_) =>
-            {
-                var typeOfEntity = typeof(TEntity);
-                var method = typeOfEntity.GetMethod(methodName, types);
-
-                if (method is not null)
-                {
-                    var entity = Expression.Parameter(typeOfEntity, "entity");
-                    var arguments = Expression.Parameter(typeof(object[]), "arguments");
-                    var parameters = new List<Expression>();
-
-                    for (var index = 0; index < types.Length; index++)
-                    {
-                        parameters.Add(Expression.Convert(Expression.ArrayIndex(arguments, Expression.Constant(index)), types[index]));
-                    }
-
-                    var body = Expression.Convert(Expression.Call(entity, method, parameters), typeof(TResult));
-
-                    return Expression
-                        .Lambda<Func<TEntity, object[], TResult>>(body, entity, arguments)
-                        .Compile();
-                }
-                else
-                    return null;
-            });
-        }
-    }
-
-    #endregion
-
-    #region GetParameterizedVoidMethodFunc
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <param name="methodName"></param>
-    /// <param name="types"></param>
-    /// <returns></returns>
-    public static Action<TEntity, object[]>? GetParameterizedVoidMethodFunc<TEntity>(string methodName,
-        Type[] types)
-        where TEntity : class =>
-        ParameterizedVoidMethodFuncCache<TEntity>.GetFunc(methodName, types);
-
-    private static class ParameterizedVoidMethodFuncCache<TEntity>
-        where TEntity : class
-    {
-        private static readonly ConcurrentDictionary<int, Action<TEntity, object[]>?> cache = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="methodName"></param>
-        /// <param name="types"></param>
-        /// <returns></returns>
-        public static Action<TEntity, object[]>? GetFunc(string methodName,
-            Type[] types)
-        {
-            var key = methodName.GetHashCode();
-            for (int i = 0; i < types.Length; i++)
-            {
-                key = HashCode.Combine(key, types[i]);
-            }
-
-            return cache.GetOrAdd(key, _ =>
-            {
-                // Check if the method exists
-                var typeOfEntity = typeof(TEntity);
-                var method = typeOfEntity.GetMethod(methodName, types);
-                if (method is not null)
-                {
-                    // Create the expression
-                    var entity = Expression.Parameter(typeOfEntity, "entity");
-                    var arguments = Expression.Parameter(typeof(object[]), "arguments");
-                    var parameters = new List<Expression>();
-                    for (var index = 0; index < types.Length; index++)
-                    {
-                        parameters.Add(Expression.Convert(Expression.ArrayIndex(arguments, Expression.Constant(index)), types[index]));
-                    }
-                    var body = Expression.Call(entity, method, parameters);
-                    return Expression
-                        .Lambda<Action<TEntity, object[]>>(body, entity, arguments)
-                        .Compile();
-                }
-                else
-                    return null;
-            });
-        }
-    }
-
-    #endregion
-
-    #region GetPropertyGetterFunc
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="propertyName"></param>
-    /// <returns></returns>
-    public static Func<TEntity, TResult> GetPropertyGetterFunc<TEntity, TResult>(string propertyName)
-        where TEntity : class =>
-        PropertyGetterFuncCache<TEntity, TResult>.GetFunc(PropertyCache.Get<TEntity>(propertyName) ?? throw new Exceptions.PropertyNotFoundException($"Property {propertyName} not found"));
-
-    private static class PropertyGetterFuncCache<TEntity, TResult>
-        where TEntity : class
-    {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>> cache = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="classProperty"></param>
-        /// <returns></returns>
-        public static Func<TEntity, TResult> GetFunc(ClassProperty classProperty)
-        {
-            return cache.GetOrAdd(classProperty.GetHashCode(), (_) =>
-            {
-                var typeOfEntity = typeof(TEntity);
-                var entity = Expression.Parameter(typeOfEntity, "entity");
-                var body = Expression.Convert(Expression.Call(entity, classProperty.PropertyInfo.GetMethod!), typeof(TResult));
-
-                return Expression
-                    .Lambda<Func<TEntity, TResult>>(body, entity)
-                    .Compile();
-            });
-        }
-    }
-
-    #endregion
-
     #region GetPropertySetterFunc
 
     /// <summary>
@@ -729,11 +347,6 @@ internal static class Compiler
     {
         private static readonly ConcurrentDictionary<int, Action<TEntity, object>> cache = new();
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="classProperty"></param>
-        /// <returns></returns>
         public static Action<TEntity, object>? GetFunc(ClassProperty classProperty)
         {
             ArgumentNullException.ThrowIfNull(classProperty);
@@ -754,117 +367,5 @@ internal static class Compiler
 
     #endregion
 
-    #region GetFieldGetterFunc
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="fieldName"></param>
-    /// <returns></returns>
-    public static Func<TEntity, TResult>? GetFieldGetterFunc<TEntity, TResult>(string fieldName)
-        where TEntity : class =>
-        FieldGetterFuncCache<TEntity, TResult>.GetFunc(fieldName);
-
-    private static class FieldGetterFuncCache<TEntity, TResult>
-        where TEntity : class
-    {
-        private static readonly ConcurrentDictionary<int, Func<TEntity, TResult>?> cache = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="fieldName"></param>
-        /// <returns></returns>
-        public static Func<TEntity, TResult>? GetFunc(string fieldName)
-        {
-            return cache.GetOrAdd(fieldName.GetHashCode(), (_) =>
-            {
-                var typeOfEntity = typeof(TEntity);
-                var fieldInfo = typeOfEntity
-                    .GetField("_rowsCopied", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
-
-                if (fieldInfo is not null)
-                {
-                    var entity = Expression.Parameter(typeOfEntity, "entity");
-                    var field = Expression.Field(entity, fieldInfo);
-                    var body = Expression.Convert(field, typeof(TResult));
-
-                    return Expression
-                        .Lambda<Func<TEntity, TResult>>(body, entity)
-                        .Compile();
-                }
-                else
-                    return null;
-            });
-        }
-    }
-
-    #endregion
-
-    #region GetEnumFunc
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEnum"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public static Func<TEnum>? GetEnumFunc<TEnum>(string value)
-        where TEnum : Enum =>
-        EnumFuncCache<TEnum>.GetFunc(value);
-
-    private static class EnumFuncCache<TEnum>
-        where TEnum : Enum
-    {
-        private static readonly ConcurrentDictionary<int, Func<TEnum>?> cache = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Func<TEnum>? GetFunc(string value)
-        {
-            return cache.GetOrAdd(value.GetHashCode(), (_) =>
-            {
-                var typeOfEnum = typeof(TEnum);
-                var fieldInfo = typeOfEnum.GetField(value);
-
-                if (fieldInfo is not null)
-                {
-                    var body = Expression.Field(null, fieldInfo);
-
-                    return Expression
-                        .Lambda<Func<TEnum>>(body)
-                        .Compile();
-                }
-                else
-                    return null;
-            });
-        }
-    }
-
-    #endregion
-
-    #region SetProperty
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <param name="instance"></param>
-    /// <param name="propertyName"></param>
-    /// <param name="value"></param>
-    public static void SetProperty<TEntity>(TEntity instance,
-        string propertyName,
-        object value)
-        where TEntity : class
-    {
-        var propertySetter = GetPropertySetterFunc<TEntity>(propertyName);
-        propertySetter?.Invoke(instance, value);
-    }
-
-    #endregion
 }

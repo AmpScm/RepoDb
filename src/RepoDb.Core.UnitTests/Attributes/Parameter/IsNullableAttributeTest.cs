@@ -18,8 +18,8 @@ public class IsNullableAttributeTest
     [TestCleanup]
     public void Cleanup()
     {
-        DbSettingMapper.Clear();
-        DbHelperMapper.Clear();
+        DbSettingMapper.Remove<CustomDbConnection>();
+        DbHelperMapper.Remove<CustomDbConnection>();
     }
 
 

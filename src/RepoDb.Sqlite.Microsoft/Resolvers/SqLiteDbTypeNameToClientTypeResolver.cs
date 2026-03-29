@@ -21,11 +21,14 @@ public class SqLiteDbTypeNameToClientTypeResolver : IResolver<string, Type>
             "integer" or "int" or "bigint" => typeof(long),
             "blob" or "binary" or "varbinary" or "bytea" => typeof(byte[]),
             "text" or "boolean" or "char" or "string" or "varchar" or "nvarchar" or "varchar2" or "none" => typeof(string),
+#if NET
+            "date" when GlobalConfiguration.Options.DateOnlyAndTimeOnly => typeof(DateOnly),
+#endif
             "date" or "datetime" => typeof(DateTime),
             "datetimeoffset" => typeof(DateTimeOffset),
             "time" => typeof(DateTime),
             "decimal" or "numeric" => typeof(decimal),
-            "double" or "real" => typeof(double),
+            "double" or "real" or "float" => typeof(double),
             "tinyint" or "smallint" or "bit" => typeof(int),
             _ when dbTypeName.IndexOfAny(['(', ']']) is { } p && p > 0 => Resolve(dbTypeName.Substring(0, p).Trim()), // varchar(3) => varchar, etc.
             _ => typeof(object),

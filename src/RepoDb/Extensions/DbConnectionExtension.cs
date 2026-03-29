@@ -406,7 +406,7 @@ public static partial class DbConnectionExtension
     /// <returns>Returns a collection of database fields for the specified table.</returns>
     public static async ValueTask<DbFieldCollection> GetDbFieldsAsync(this IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        return await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+        return await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -577,7 +577,7 @@ public static partial class DbConnectionExtension
         Type entityType,
         CancellationToken cancellationToken = default)
     {
-        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
         var properties = GetAndGuardPrimaryKeyOrIdentityKey(entityType, dbFields) ?? PrimaryCache.GetPrimaryKeys(entityType)?.AsFields() ?? IdentityCache.Get(entityType)?.AsField().AsEnumerable();
         return GetAndGuardPrimaryKeyOrIdentityKey(tableName, properties);
     }
@@ -697,7 +697,7 @@ public static partial class DbConnectionExtension
             }
             else
             {
-                var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+                var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var dbField = dbFields.PrimaryFields?.OneOrDefault() ?? dbFields?.Identity ?? throw GetKeyFieldNotFoundException(tableName);
 
                 queryGroup = WhatToQueryGroup(dbField, what);
@@ -769,7 +769,7 @@ public static partial class DbConnectionExtension
         TWhat what,
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default)
-        where TWhat: notnull
+        where TWhat : notnull
     {
         if (what is null)
         {
@@ -897,6 +897,8 @@ public static partial class DbConnectionExtension
     internal static QueryGroup? ToQueryGroup(Field field,
         IDictionary<string, object?> dictionary)
     {
+        ArgumentNullException.ThrowIfNull(field);
+        ArgumentNullException.ThrowIfNull(dictionary);
         return !dictionary.TryGetValue(field.FieldName, out var value)
             ? throw new MissingFieldsException([field.FieldName])
             : ToQueryGroup(new QueryField(field, value));
@@ -906,6 +908,7 @@ public static partial class DbConnectionExtension
         TEntity entity)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         var type = entity?.GetType() ?? typeof(TEntity);
         return TypeCache.Get(type).IsDictionaryStringObject ? ToQueryGroup(field, (IDictionary<string, object?>)entity!)
             : ToQueryGroup(PropertyCache.Get<TEntity>(field, true) ?? PropertyCache.Get(type, field, true), entity!);
@@ -915,6 +918,8 @@ public static partial class DbConnectionExtension
         TEntity entity)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(fields);
+        ArgumentNullException.ThrowIfNull(entity);
         return new QueryGroup(
             fields.Select(x => ToQueryGroup(x, entity)!).Where(x => x is { }),
             Conjunction.And);

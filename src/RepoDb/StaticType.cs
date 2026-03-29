@@ -134,17 +134,6 @@ internal static class StaticType
     /// Gets a type of the <see cref="System.Data.Common.DbParameterCollection"/> .NET CLR type.
     /// </summary>
     public static Type DbParameterCollection => typeof(DbParameterCollection);
-
-    /// <summary>
-    /// Gets a type of the <see cref="System.Data.DbType"/> .NET CLR type.
-    /// </summary>
-    public static Type DbType => typeof(DbType);
-
-    /// <summary>
-    /// Gets a type of the <see cref="Attributes.Parameter.DbTypeAttribute"/> .NET CLR type.
-    /// </summary>
-    public static Type DbTypeAttribute => typeof(DbTypeAttribute);
-
     /// <summary>
     /// Gets a type of the <see cref="decimal"/> .NET CLR type.
     /// </summary>

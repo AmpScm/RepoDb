@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using RepoDb.Exceptions;
 using RepoDb.Interfaces;
 
@@ -10,11 +11,7 @@ namespace RepoDb;
 /// </summary>
 public static class StatementBuilderMapper
 {
-    #region Privates
-
     private static readonly ConcurrentDictionary<Type, IStatementBuilder> maps = new();
-
-    #endregion
 
     #region Methods
 
@@ -64,11 +61,15 @@ public static class StatementBuilderMapper
     public static IStatementBuilder Get<TDbConnection>()
         where TDbConnection : IDbConnection
     {
-        // get the value
-        maps.TryGetValue(typeof(TDbConnection), out var value);
+        if (!maps.TryGetValue(typeof(TDbConnection), out var value))
+        {
+            ThrowError();
 
-        // Return the value
-        return value!;
+            [DoesNotReturn]
+            static void ThrowError() => throw new ArgumentException($"No StatementBuilder registered for {typeof(TDbConnection)}");
+        }
+
+        return value;
     }
 
     /// <summary>
@@ -77,14 +78,18 @@ public static class StatementBuilderMapper
     /// <typeparam name="TDbConnection">The type of <see cref="IDbConnection"/>.</typeparam>
     /// <param name="connection">The instance of <see cref="IDbConnection"/>.</param>
     /// <returns>The instance of exising mapped <see cref="IStatementBuilder"/> object.</returns>
-    public static IStatementBuilder? Get<TDbConnection>(TDbConnection connection)
+    public static IStatementBuilder Get<TDbConnection>(TDbConnection connection)
         where TDbConnection : IDbConnection
     {
-        // get the value
-        maps.TryGetValue(connection.GetType(), out var value);
+        ArgumentNullException.ThrowIfNull(connection);
+        if (!maps.TryGetValue(connection.GetType(), out var value))
+        {
+            ThrowError(connection);
 
-        // Return the value
-        return value!;
+            [DoesNotReturn]
+            static void ThrowError(object connection) => throw new ArgumentException($"No StatementBuilder registered for {connection.GetType()}");
+        }
+        return value;
     }
 
     /*

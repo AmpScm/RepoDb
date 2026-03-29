@@ -100,8 +100,12 @@ internal partial class Compiler
                         TypeMapCache.Get(valueType) ??
                         ClientTypeToDbTypeResolver.Instance.Resolve(valueType);
                 }
-                var setDbTypeExpression = GetDbParameterDbTypeAssignmentExpression(dbParameterExpression, dbType);
-                parameterCallExpressions.AddIfNotNull(setDbTypeExpression);
+
+                if (dbType is { } dbt)
+                {
+                    var setDbTypeExpression = GetDbParameterDbTypeAssignmentExpression(dbParameterExpression, dbt);
+                    parameterCallExpressions.Add(setDbTypeExpression);
+                }
 
                 // PropertyHandler
                 InvokePropertyHandlerViaExpression(

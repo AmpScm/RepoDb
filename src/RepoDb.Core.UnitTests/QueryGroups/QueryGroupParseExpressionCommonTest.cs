@@ -39,10 +39,12 @@ public partial class QueryGroupTest
     }
 
     [TestMethod]
-    public void ThrowExceptionOnParseExpressionWithNameAtRight()
+    public void ParseExpressionWithNameAtRight()
     {
-        // Act
-        Assert.ThrowsExactly<NotSupportedException>(() => QueryGroup.Parse<QueryGroupTestExpressionClass>(e => 1 == e.PropertyInt));
+        // Used to fail during parsing, but with better parser is now properly supported
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => 1 == e.PropertyInt);
+
+        Assert.AreEqual("([PropertyInt] = @PropertyInt)", parsed.GetString(m_dbSetting));
     }
 
     #endregion

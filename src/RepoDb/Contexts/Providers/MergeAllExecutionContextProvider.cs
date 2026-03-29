@@ -165,7 +165,7 @@ internal static class MergeAllExecutionContextProvider
         }
 
         // Create
-        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
         string commandText;
 
         // On Merge we do want to have the identity key in the fields
@@ -259,10 +259,8 @@ internal static class MergeAllExecutionContextProvider
 
         // Variables for the context
         Action<object, object?>? keyPropertySetterFunc = null;
-        var keyField = ExecutionContextProvider
-            .GetTargetReturnColumnAsField(entityType, dbFields);
 
-        if (keyField is not null)
+        if (dbFields.GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } keyField)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);

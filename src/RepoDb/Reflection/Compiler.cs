@@ -144,9 +144,9 @@ internal sealed partial class Compiler
 
     #region Methods
 
-    private static IEnumerable<FieldDirection> GetInputFieldDirections(IEnumerable<DbField>? fields)
+    private static IEnumerable<FieldDirection> GetInputFieldDirections(IEnumerable<DbField> fields)
     {
-        if (fields?.Any() != true)
+        if (!fields.Any())
         {
             return [];
         }
@@ -393,10 +393,7 @@ internal sealed partial class Compiler
 
     private static MethodInfo GetMethodInfo<TFrom>(Expression<Action<TFrom>> call) => ((MethodCallExpression)call.Body).Method;
 
-    private static MethodInfo GetMethodInfo(Expression<Action> call)
-    {
-        return ((MethodCallExpression)call.Body).Method;
-    }
+    private static MethodInfo GetMethodInfo(Expression<Action> call) => ((MethodCallExpression)call.Body).Method;
 
     private static bool StrictParseBoolean(string? value)
     {
@@ -1348,7 +1345,7 @@ internal sealed partial class Compiler
 
         // Parameter information
         var constructorInfo = typeOfResult.GetConstructorWithMostArguments();
-        var parameterInfos = constructorInfo?.GetParameters().AsList();
+        var parameterInfos = constructorInfo?.GetParameters();
 
         // Class properties
         var classProperties = PropertyCache
@@ -1706,20 +1703,11 @@ internal sealed partial class Compiler
         return dbType;
     }
 
-    private static BinaryExpression? GetDbParameterDbTypeAssignmentExpression(ParameterExpression dbParameterExpression,
-        DbType? dbType)
+    private static BinaryExpression GetDbParameterDbTypeAssignmentExpression(ParameterExpression dbParameterExpression, DbType dbType)
     {
-        BinaryExpression? expression = null;
-
         // Set the DB Type
-        if (dbType is { } type)
-        {
-            var dbParameterDbType = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.DbType));
-            expression = Expression.Assign(dbParameterDbType, Expression.Constant(type));
-        }
-
-        // Return the expression
-        return expression;
+        var dbParameterDbType = Expression.Property(dbParameterExpression, GetPropertyInfo<DbParameter>(x => x.DbType));
+        return Expression.Assign(dbParameterDbType, Expression.Constant(dbType));
     }
 
     private static MethodCallExpression GetDbCommandCreateParameterExpression(ParameterExpression dbCommandExpression)
@@ -1785,8 +1773,7 @@ internal sealed partial class Compiler
         return Expression.Assign(dbParameterDirection, directionExpression);
     }
 
-    private static BinaryExpression GetDbParameterSizeAssignmentExpression(Expression dbParameterExpression,
-        int size) =>
+    private static BinaryExpression GetDbParameterSizeAssignmentExpression(Expression dbParameterExpression, int size) =>
         GetDbParameterSizeAssignmentExpression(dbParameterExpression, Expression.Constant(size));
 
     private static BinaryExpression GetDbParameterSizeAssignmentExpression(Expression dbParameterExpression,
@@ -1880,7 +1867,7 @@ internal sealed partial class Compiler
         }
 
         // Add the variables
-        if (propertyVariableExpression != null && propertyInstanceExpression != null)
+        if (propertyVariableExpression is { } && propertyInstanceExpression is { })
         {
             propertyVariableListExpression.Add(propertyVariableExpression);
             propertyListExpression.Add(Expression.Assign(propertyVariableExpression, propertyInstanceExpression));

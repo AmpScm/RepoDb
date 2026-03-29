@@ -1899,6 +1899,9 @@ public static partial class DbConnectionExtension
         var result = 0;
 
         // Create the command
+#if NET
+        await
+#endif
         using (var command = (DbCommand)(await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false)).CreateCommand(context.CommandText,
             CommandType.Text, commandTimeout, transaction))
         {
@@ -1907,7 +1910,7 @@ public static partial class DbConnectionExtension
 
             // Add the fields from the query group
             WhereToCommandParameters(command, where, entity.GetType(),
-                await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false));
+                await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false));
 
             // Before Execution
             var traceResult = await Tracer

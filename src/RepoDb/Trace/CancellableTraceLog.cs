@@ -17,7 +17,7 @@ public class CancellableTraceLog : TraceLog
     /// <param name="statement"></param>
     /// <param name="parameters"></param>
     protected internal CancellableTraceLog(long sessionId,
-        string? key,
+        string key,
         string statement,
         IEnumerable<IDbDataParameter>? parameters = null)
         : base(sessionId, key)

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>$(TestTargetFrameworks)</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <OutputType>$(TestTargetOutputType)</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);REPDB002;REPDB003</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SqlServer.Types" />
+    <PackageReference Include="MSTest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
+    <ProjectReference Include="..\RepoDb.SqlServer\RepoDb.SqlServer.csproj" />
+    <ProjectReference Include="..\RepoDb.TestCore\RepoDb.TestCore.csproj" />
+    <ProjectReference Include="..\RepoDb.Analyzer\RepoDb.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\RepoDb\Compat.cs" />
+  </ItemGroup>
+</Project>

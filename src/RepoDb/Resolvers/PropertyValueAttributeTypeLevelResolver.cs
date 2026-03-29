@@ -16,4 +16,9 @@ public class PropertyValueAttributeTypeLevelResolver : IResolver<Type, IEnumerab
     /// <returns>The list of associated <see cref="PropertyValueAttribute"/> objects on the property.</returns>
     public IEnumerable<PropertyValueAttribute> Resolve(Type type) =>
         type.GetPropertyValueAttributes();
+
+    /// <summary>
+    /// Default instance of the <see cref="PropertyValueAttributeTypeLevelResolver"/> class.
+    /// </summary>
+    public static readonly PropertyValueAttributeTypeLevelResolver Instance = new();
 }

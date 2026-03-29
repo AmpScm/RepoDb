@@ -62,6 +62,7 @@ override RepoDb.DataEntityDataReader<TEntity>.GetDecimal(int ordinal) -> decimal
 override RepoDb.DataEntityDataReader<TEntity>.GetDouble(int ordinal) -> double
 override RepoDb.DataEntityDataReader<TEntity>.GetEnumerator() -> System.Collections.IEnumerator!
 override RepoDb.DataEntityDataReader<TEntity>.GetFieldType(int ordinal) -> System.Type!
+override RepoDb.DataEntityDataReader<TEntity>.GetFieldValue<T>(int ordinal) -> T
 override RepoDb.DataEntityDataReader<TEntity>.GetFloat(int ordinal) -> float
 override RepoDb.DataEntityDataReader<TEntity>.GetGuid(int ordinal) -> System.Guid
 override RepoDb.DataEntityDataReader<TEntity>.GetInt16(int ordinal) -> short
@@ -605,7 +606,7 @@ RepoDb.CacheItem<T>.Value.get -> T
 RepoDb.Caches.DbRuntimeSettingCache
 RepoDb.CancellableTraceLog
 RepoDb.CancellableTraceLog.Cancel(bool throwException = true) -> void
-RepoDb.CancellableTraceLog.CancellableTraceLog(long sessionId, string? key, string! statement, System.Collections.Generic.IEnumerable<System.Data.IDbDataParameter!>? parameters = null) -> void
+RepoDb.CancellableTraceLog.CancellableTraceLog(long sessionId, string! key, string! statement, System.Collections.Generic.IEnumerable<System.Data.IDbDataParameter!>? parameters = null) -> void
 RepoDb.CancellableTraceLog.IsCancelled.get -> bool
 RepoDb.CancellableTraceLog.IsThrowException.get -> bool
 RepoDb.CancellableTraceLog.Parameters.get -> System.Collections.Generic.IEnumerable<System.Data.IDbDataParameter!>?
@@ -1772,7 +1773,6 @@ RepoDb.Extensions.CultureScope.CultureScope() -> void
 RepoDb.Extensions.CultureScope.CultureScope(System.Globalization.CultureInfo! setCulture) -> void
 RepoDb.Extensions.CultureScope.Dispose() -> void
 RepoDb.Extensions.DataEntityExtension
-RepoDb.Extensions.DataReaderExtension
 RepoDb.Extensions.DbCommandExtension
 RepoDb.Extensions.DbFieldExtension
 RepoDb.Extensions.EnumerableExtension
@@ -2152,6 +2152,7 @@ RepoDb.QueryBuilder.WriteQuoted(string? text, RepoDb.Interfaces.IDbSetting? dbSe
 RepoDb.QueryBuilder.WriteText(string? text) -> RepoDb.QueryBuilder!
 RepoDb.QueryField
 RepoDb.QueryField.Field.get -> RepoDb.Field!
+RepoDb.QueryField.FieldName.get -> string?
 RepoDb.QueryField.GetName() -> string?
 RepoDb.QueryField.GetString(int index, string? functionFormat, RepoDb.Interfaces.IDbSetting? dbSetting) -> string!
 RepoDb.QueryField.GetValue<T>() -> T?
@@ -2164,12 +2165,13 @@ RepoDb.QueryField.QueryField(string! fieldName, RepoDb.Enumerations.Operation op
 RepoDb.QueryField.QueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, System.Data.DbType? dbType) -> void
 RepoDb.QueryField.QueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, System.Data.DbType? dbType, bool prependUnderscore = false) -> void
 RepoDb.QueryField.Reset() -> void
+RepoDb.QueryField.Value.get -> object?
 RepoDb.QueryGroup
 RepoDb.QueryGroup.Conjunction.get -> RepoDb.Enumerations.Conjunction
 RepoDb.QueryGroup.Equals(RepoDb.QueryGroup? other) -> bool
 RepoDb.QueryGroup.Fix() -> RepoDb.QueryGroup!
 RepoDb.QueryGroup.GetFields(bool traverse) -> System.Collections.Generic.IEnumerable<RepoDb.QueryField!>?
-RepoDb.QueryGroup.GetString(int index, RepoDb.Interfaces.IDbSetting? dbSetting) -> string!
+RepoDb.QueryGroup.GetString(int index, RepoDb.Interfaces.IDbSetting! dbSetting) -> string!
 RepoDb.QueryGroup.IsForUpdate() -> void
 RepoDb.QueryGroup.IsNot.get -> bool
 RepoDb.QueryGroup.QueryFields.get -> System.Collections.Generic.IReadOnlyList<RepoDb.QueryField!>?
@@ -2275,7 +2277,7 @@ RepoDb.ResultTraceLog<TResult>
 RepoDb.ResultTraceLog<TResult>.BeforeExecutionLog.get -> RepoDb.CancellableTraceLog!
 RepoDb.ResultTraceLog<TResult>.ExecutionTime.get -> System.TimeSpan
 RepoDb.ResultTraceLog<TResult>.Result.get -> TResult
-RepoDb.ResultTraceLog<TResult>.ResultTraceLog(long sessionId, string? key, TResult result, System.TimeSpan executionTime, RepoDb.CancellableTraceLog! beforeExecutionLog) -> void
+RepoDb.ResultTraceLog<TResult>.ResultTraceLog(long sessionId, string! key, TResult result, System.TimeSpan executionTime, RepoDb.CancellableTraceLog! beforeExecutionLog) -> void
 RepoDb.Schema.DbSchemaExtensions
 RepoDb.StatementBuilderMapper
 RepoDb.StatementBuilders.BaseStatementBuilder
@@ -2293,9 +2295,9 @@ RepoDb.Trace.DiagnosticsTracer.BeforeExecutionAsync(RepoDb.CancellableTraceLog! 
 RepoDb.Trace.DiagnosticsTracer.DiagnosticsTracer() -> void
 RepoDb.TraceKeys
 RepoDb.TraceLog
-RepoDb.TraceLog.Key.get -> string?
+RepoDb.TraceLog.Key.get -> string!
 RepoDb.TraceLog.SessionId.get -> long
-RepoDb.TraceLog.TraceLog(long sessionId, string? key) -> void
+RepoDb.TraceLog.TraceLog(long sessionId, string! key) -> void
 RepoDb.TypeCache
 RepoDb.TypeMapCache
 RepoDb.TypeMapFluentDefinition<TType>
@@ -3221,8 +3223,8 @@ static RepoDb.DbSession.operator !=(RepoDb.DbSession left, RepoDb.DbSession righ
 static RepoDb.DbSession.operator ==(RepoDb.DbSession left, RepoDb.DbSession right) -> bool
 static RepoDb.DbSettingMapper.Add<TDbConnection>(RepoDb.Interfaces.IDbSetting! dbSetting, bool force) -> void
 static RepoDb.DbSettingMapper.Clear() -> void
-static RepoDb.DbSettingMapper.Get<TDbConnection>() -> RepoDb.Interfaces.IDbSetting?
-static RepoDb.DbSettingMapper.Get<TDbConnection>(TDbConnection connection) -> RepoDb.Interfaces.IDbSetting?
+static RepoDb.DbSettingMapper.Get<TDbConnection>() -> RepoDb.Interfaces.IDbSetting!
+static RepoDb.DbSettingMapper.Get<TDbConnection>(TDbConnection connection) -> RepoDb.Interfaces.IDbSetting!
 static RepoDb.DbSettingMapper.Remove<TDbConnection>() -> void
 static RepoDb.DbSettings.BaseDbHelper.ProviderSpecificTypeTransforms.get -> System.Collections.Concurrent.ConcurrentDictionary<(System.Type! fromType, System.Type! toType), System.Func<System.Linq.Expressions.Expression!, System.Linq.Expressions.Expression?>!>!
 static RepoDb.DbSettings.BaseDbSetting.operator !=(RepoDb.DbSettings.BaseDbSetting? left, RepoDb.DbSettings.BaseDbSetting? right) -> bool
@@ -3247,8 +3249,6 @@ static RepoDb.Extensions.DataEntityExtension.GetSchema(string! tableName) -> str
 static RepoDb.Extensions.DataEntityExtension.GetSchema(string! tableName, RepoDb.Interfaces.IDbSetting? dbSetting) -> string?
 static RepoDb.Extensions.DataEntityExtension.GetTableName(string! tableName) -> string!
 static RepoDb.Extensions.DataEntityExtension.GetTableName(string! tableName, RepoDb.Interfaces.IDbSetting? dbSetting) -> string!
-static RepoDb.Extensions.DataReaderExtension.AsEnumerable(this System.Data.IDataReader! reader) -> System.Collections.Generic.IEnumerable<object!>!
-static RepoDb.Extensions.DataReaderExtension.AsEnumerable<TEntity>(this System.Data.IDataReader! reader) -> System.Collections.Generic.IEnumerable<TEntity!>!
 static RepoDb.Extensions.DbCommandExtension.CreateParameter(this System.Data.IDbCommand! command, string! name, object? value, System.Data.DbType? dbType) -> System.Data.IDbDataParameter!
 static RepoDb.Extensions.DbCommandExtension.CreateParameter(this System.Data.IDbCommand! command, string! name, object? value, System.Data.DbType? dbType, System.Data.ParameterDirection? parameterDirection) -> System.Data.IDbDataParameter!
 static RepoDb.Extensions.DbCommandExtension.CreateParameters(this System.Data.IDbCommand! command, object! param) -> void
@@ -3381,6 +3381,10 @@ static RepoDb.PrimaryCache.Get(System.Type! entityType) -> RepoDb.ClassProperty?
 static RepoDb.PrimaryCache.Get<TEntity>() -> RepoDb.ClassProperty?
 static RepoDb.PrimaryCache.GetPrimaryKeys(System.Type! entityType) -> System.Collections.Generic.IEnumerable<RepoDb.ClassProperty!>?
 static RepoDb.PrimaryCache.GetPrimaryKeys<TEntity>() -> System.Collections.Generic.IEnumerable<RepoDb.ClassProperty!>?
+static RepoDb.PrimaryMapper.Add<TEntity>(bool force, params RepoDb.Field![]! fields) -> void
+static RepoDb.PrimaryMapper.Add<TEntity>(bool force, params string![]! propertyNames) -> void
+static RepoDb.PrimaryMapper.Add<TEntity>(params RepoDb.Field![]! fields) -> void
+static RepoDb.PrimaryMapper.Add<TEntity>(params string![]! propertyNames) -> void
 static RepoDb.PrimaryMapper.Add<TEntity>(RepoDb.Field! field) -> void
 static RepoDb.PrimaryMapper.Add<TEntity>(RepoDb.Field! field, bool force) -> void
 static RepoDb.PrimaryMapper.Add<TEntity>(string! propertyName) -> void
@@ -3390,6 +3394,8 @@ static RepoDb.PrimaryMapper.Add<TEntity>(System.Linq.Expressions.Expression<Syst
 static RepoDb.PrimaryMapper.Clear() -> void
 static RepoDb.PrimaryMapper.Get(System.Type! type) -> RepoDb.ClassProperty?
 static RepoDb.PrimaryMapper.Get<TEntity>() -> RepoDb.ClassProperty?
+static RepoDb.PrimaryMapper.GetPrimaryKeys(System.Type! type) -> RepoDb.ClassProperty![]?
+static RepoDb.PrimaryMapper.GetPrimaryKeys<TEntity>() -> RepoDb.ClassProperty![]?
 static RepoDb.PrimaryMapper.Remove(System.Type! type) -> void
 static RepoDb.PrimaryMapper.Remove<TEntity>() -> void
 static RepoDb.PropertyCache.Flush() -> void
@@ -3515,7 +3521,7 @@ static RepoDb.Schema.DbSchemaExtensions.SchemaObjectExistsAsync<TEntity>(this Sy
 static RepoDb.StatementBuilderMapper.Add<TDbConnection>(RepoDb.Interfaces.IStatementBuilder! statementBuilder, bool force) -> void
 static RepoDb.StatementBuilderMapper.Clear() -> void
 static RepoDb.StatementBuilderMapper.Get<TDbConnection>() -> RepoDb.Interfaces.IStatementBuilder!
-static RepoDb.StatementBuilderMapper.Get<TDbConnection>(TDbConnection connection) -> RepoDb.Interfaces.IStatementBuilder?
+static RepoDb.StatementBuilderMapper.Get<TDbConnection>(TDbConnection connection) -> RepoDb.Interfaces.IStatementBuilder!
 static RepoDb.StatementBuilderMapper.Remove<TDbConnection>() -> void
 static RepoDb.StatementBuilders.BaseStatementBuilder.GuardIdentity(RepoDb.DbField? field) -> void
 static RepoDb.StatementBuilders.BaseStatementBuilder.GuardPrimary(RepoDb.DbField? field) -> void

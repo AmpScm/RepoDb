@@ -133,9 +133,11 @@ public static class Helper
     public static List<CompleteTable> CreateCompleteTables(int count)
     {
         var tables = new List<CompleteTable>();
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         for (var i = 0; i < count; i++)
         {
             tables.Add(new CompleteTable
@@ -186,9 +188,10 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateCompleteTableProperties(CompleteTable table)
     {
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBinary = (byte[])null;
         table.ColumnBit = true;
@@ -233,9 +236,11 @@ public static class Helper
     public static List<dynamic> CreateCompleteTablesAsDynamics(int count)
     {
         var tables = new List<dynamic>();
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         for (var i = 0; i < count; i++)
         {
             tables.Add(new
@@ -286,9 +291,11 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateCompleteTableAsDynamicProperties(dynamic table)
     {
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBinary = (byte[])null;
         table.ColumnBit = true;
@@ -333,9 +340,11 @@ public static class Helper
     public static List<ExpandoObject> CreateCompleteTablesAsExpandoObjects(int count)
     {
         var tables = new List<ExpandoObject>();
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         for (var i = 0; i < count; i++)
         {
             var item = new ExpandoObject() as IDictionary<string, object?>;
@@ -385,9 +394,11 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateCompleteTableAsExpandoObjectProperties(ExpandoObject table)
     {
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         var item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBinary"] = (byte[])null;
@@ -437,9 +448,11 @@ public static class Helper
     public static List<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count)
     {
         var tables = new List<NonIdentityCompleteTable>();
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         for (var i = 0; i < count; i++)
         {
             tables.Add(new NonIdentityCompleteTable
@@ -490,9 +503,11 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateNonIdentityCompleteTableProperties(NonIdentityCompleteTable table)
     {
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBinary = (byte[])null;
         table.ColumnBit = true;
@@ -537,9 +552,11 @@ public static class Helper
     public static List<dynamic> CreateNonIdentityCompleteTablesAsDynamics(int count)
     {
         var tables = new List<dynamic>();
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         for (var i = 0; i < count; i++)
         {
             tables.Add(new
@@ -590,9 +607,11 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateNonIdentityCompleteTableAsDynamicProperties(dynamic table)
     {
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         table.ColumnBigInt = Convert.ToInt64(2);
         table.ColumnBinary = (byte[])null;
         table.ColumnBit = true;
@@ -637,9 +656,11 @@ public static class Helper
     public static List<ExpandoObject> CreateNonIdentityCompleteTablesAsExpandoObjects(int count)
     {
         var tables = new List<ExpandoObject>();
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         for (var i = 0; i < count; i++)
         {
             var item = new ExpandoObject() as IDictionary<string, object?>;
@@ -689,9 +710,11 @@ public static class Helper
     /// <param name="table"></param>
     public static void UpdateNonIdentityCompleteTableAsExpandoObjectProperties(ExpandoObject table)
     {
-        var now = DateTime.SpecifyKind(
-            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff")),
-                DateTimeKind.Unspecified);
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+        // System.Data.SqlClient doesn't preserve the milliseconds and microseconds properly...
+        now = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+
         var item = table as IDictionary<string, object?>;
         item["ColumnBigInt"] = Convert.ToInt64(2);
         item["ColumnBinary"] = (byte[])null;

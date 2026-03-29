@@ -2253,6 +2253,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null, CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(entity);
         // Check the qualifiers
         if (qualifiers?.Any() != true)
         {
@@ -2276,6 +2277,9 @@ public static partial class DbConnectionExtension
         var result = default(TResult)!;
 
         // Create the command
+#if NET
+        await
+#endif
         using (var command = (DbCommand)(await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false)).CreateCommand(context.CommandText,
             CommandType.Text, commandTimeout, transaction))
         {
@@ -2302,7 +2306,7 @@ public static partial class DbConnectionExtension
             {
                 result = Converter.ToType<TResult>(reader.GetValue(0))!;
             }
-            else if ((await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false)).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
+            else if ((await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false)).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
                 && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
             {
                 result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;

@@ -37,15 +37,18 @@ internal partial class Compiler
         parameterAssignmentExpressions.AddIfNotNull(valueAssignmentExpression);
 
         // DbParameter.DbType
-        var dbTypeAssignmentExpression = GetDbParameterDbTypeAssignmentExpression(dbParameterExpression, GetDbType(null, dbField));
-        parameterAssignmentExpressions.AddIfNotNull(dbTypeAssignmentExpression);
+        if (GetDbType(null, dbField) is { } dbType)
+        {
+            var dbTypeAssignmentExpression = GetDbParameterDbTypeAssignmentExpression(dbParameterExpression, dbType);
+            parameterAssignmentExpressions.Add(dbTypeAssignmentExpression);
+        }
 
         // DbParameter.Direction
-        if (dbSetting.IsDirectionSupported)
-        {
-            var directionAssignmentExpression = GetDbParameterDirectionAssignmentExpression(dbParameterExpression, ParameterDirection.Input);
-            parameterAssignmentExpressions.AddIfNotNull(directionAssignmentExpression);
-        }
+        //if (dbSetting.IsDirectionSupported)
+        //{
+        //    var directionAssignmentExpression = GetDbParameterDirectionAssignmentExpression(dbParameterExpression, ParameterDirection.Input);
+        //    parameterAssignmentExpressions.AddIfNotNull(directionAssignmentExpression);
+        //}
 
         // DbParameter.Size
         if (dbField.Size != null)

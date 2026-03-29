@@ -93,13 +93,15 @@ public static class Database
     public static void Cleanup()
     {
         using var connection = new SqlConnection(ConnectionStringForRepoDb);
-        connection.Truncate("[dbo].[CompleteTable]");
-        connection.Truncate("[sc].[IdentityTable]");
-        connection.Truncate("[dbo].[NonIdentityTable]");
-        connection.Truncate("[dbo].[Unorganized Table]");
-        connection.Truncate("[dbo].[Dotted.Table]");
-        connection.Truncate("[dbo].[PropertyHandler]");
-        connection.Truncate("[dbo].[NonKeyedTable]");
+        connection.ExecuteNonQuery(@"
+            TRUNCATE TABLE [dbo].[CompleteTable];
+            TRUNCATE TABLE [sc].[IdentityTable];
+            TRUNCATE TABLE [dbo].[NonIdentityTable];
+            TRUNCATE TABLE [dbo].[Unorganized Table];
+            TRUNCATE TABLE [dbo].[Dotted.Table];
+            TRUNCATE TABLE [dbo].[PropertyHandler];
+            TRUNCATE TABLE [dbo].[NonKeyedTable];
+        ");
     }
 
     #endregion

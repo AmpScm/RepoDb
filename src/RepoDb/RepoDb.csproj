@@ -45,6 +45,9 @@
     <Compile Update="Reflection\Compiler.*.cs">
       <DependentUpon>Compiler.cs</DependentUpon>
     </Compile>
+    <Compile Update="Operations\DbConnection\QueryMultiple.*.cs">
+      <DependentUpon>QueryMultiple.cs</DependentUpon>
+    </Compile>
     <ProjectReference Include="..\RepoDb.Analyzer\RepoDb.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" IncludeAssets="analyzers; buildtransitive; build" />
   </ItemGroup>
 </Project>

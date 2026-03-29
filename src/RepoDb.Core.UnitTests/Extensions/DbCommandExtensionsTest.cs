@@ -19,8 +19,8 @@ public class DbCommandExtensionsTest
     [TestCleanup]
     public void Cleanup()
     {
-        DbSettingMapper.Clear();
-        DbHelperMapper.Clear();
+        DbSettingMapper.Remove<CustomDbConnection>();
+        DbHelperMapper.Remove<CustomDbConnection>();
         PropertyHandlerMapper.Clear();
         PropertyHandlerCache.Flush();
     }

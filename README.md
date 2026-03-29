@@ -64,9 +64,9 @@ using (var connection = new SqlConnection(connectionString))
 	// Delete
 	connection.Delete(customer);
 
-	// Bulk Operations
+	// Batch Operations
 	var customers = GetLargeDataset();
-	connection.BulkInsert(customers); // Sets identity values automatically
+	connection.InsertAll(customers); // Sets identity values automatically
 }
 ```
 
@@ -103,7 +103,7 @@ The fluent LINQ-style API is available for:
 - [PostgreSQL](https://www.nuget.org/packages/AmpScm.RepoDb.PostgreSql)
 - [Oracle](https://www.nuget.org/packages/AmpScm.RepoDb.Oracle)
 
-Operations: `Query`, `Insert`, `Update`, `Delete`, `Merge`, `BulkInsert`, `BulkUpdate`, `BulkDelete`, `BulkMerge`
+Operations: `Query`, `Insert`, `Update`, `Merge`, `Delete`, `Truncate`, `Exists`, `Average`, `Sum`, etc. etc.
 
 ## Advanced Features
 
@@ -113,7 +113,7 @@ RepoDb provides advanced type conversion between databases:
 
 - **Automatic Conversion** – Smart type mapping with AOT-compiled expressions
 - **Property Handlers** – Custom Get/Set transformation logic for specialized types
-- **Modern .NET Support** – Built-in support for `DateOnly`, `TimeOnly`, enums with NULL handling
+- **Modern .NET Support** – Built-in support for `DateOnly`, `TimeOnly`, enums and `Nullable` NULL handling on all value types.
 - **IParsable/IFormattable** – Automatic handling of types implementing these interfaces
 - **Cross-Database Testing** – SQLite works as a drop-in replacement for other databases during testing
 
@@ -269,7 +269,7 @@ And also, thanks to these awesome OSS projects.
 * [SharpLab](https://sharplab.io/) - for helping us on our IL coding.
 * [Shields](https://shields.io/) - for the awesome badges.
 * [StackEdit](https://stackedit.io) - for being the markdown file editor.
-* [Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite/), [System.Data.SQLite.Core](https://www.nuget.org/packages/System.Data.SQLite.Core/), [MySql.Data](https://www.nuget.org/packages/MySql.Data/), [MySqlConnector](https://www.nuget.org/packages/MySqlConnector/), [Npgsql](https://www.nuget.org/packages/Npgsql/) - for being the extended DB provider drivers.
+* [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient/),  [Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite/), [System.Data.SQLite.Core](https://www.nuget.org/packages/System.Data.SQLite.Core/), [MySql.Data](https://www.nuget.org/packages/MySql.Data/), [MySqlConnector](https://www.nuget.org/packages/MySqlConnector/), [Npgsql](https://www.nuget.org/packages/Npgsql/), [Oracle.ManagedDataAccess](https://www.nuget.org/packages/Oracle.ManagedDataAccess.Core) - for being the extended DB provider drivers.
 
 ## License
 

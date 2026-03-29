@@ -18,24 +18,24 @@ internal partial class Compiler
         IDbSetting dbSetting,
         IDbHelper? dbHelper)
     {
-        var parameterAssignmentExpressions = new List<Expression>();
+        var assignmentExpressions = new List<Expression>(16);
         var dbParameterExpression = Expression.Variable(StaticType.DbParameter,
             string.Concat("parameter", dbField.FieldName.AsAlphaNumeric()));
 
 
         // Variable
         var createParameterExpression = GetDbCommandCreateParameterExpression(dbCommandExpression);
-        parameterAssignmentExpressions.AddIfNotNull(Expression.Assign(dbParameterExpression, createParameterExpression));
+        assignmentExpressions.AddIfNotNull(Expression.Assign(dbParameterExpression, createParameterExpression));
 
         // DbParameter.ParameterName
         var nameAssignmentExpression = GetDbParameterNameAssignmentExpression(dbParameterExpression,
             dbField,
             entityIndex,
             dbSetting);
-        parameterAssignmentExpressions.AddIfNotNull(nameAssignmentExpression);
+        assignmentExpressions.AddIfNotNull(nameAssignmentExpression);
 
         // DbParameter.Value
-        if (direction != ParameterDirection.Output)
+        if (direction is not ParameterDirection.Output)
         {
             var valueAssignmentExpression = GetDataEntityDbParameterValueAssignmentExpression(dbParameterExpression,
                 entityExpression,
@@ -43,58 +43,53 @@ internal partial class Compiler
                 classProperty,
                 dbField,
                 dbCommandExpression);
-            parameterAssignmentExpressions.AddIfNotNull(valueAssignmentExpression);
+            assignmentExpressions.AddIfNotNull(valueAssignmentExpression);
         }
 
         // DbParameter.DbType
-        var dbTypeAssignmentExpression = GetDbParameterDbTypeAssignmentExpression(dbParameterExpression,
-            GetDbType(classProperty, dbField));
-        parameterAssignmentExpressions.AddIfNotNull(dbTypeAssignmentExpression);
+        if (GetDbType(classProperty, dbField) is { } dbType)
+        {
+            assignmentExpressions.Add(GetDbParameterDbTypeAssignmentExpression(dbParameterExpression, dbType));
+        }
 
         // DbParameter.Direction
-        if (dbSetting.IsDirectionSupported)
+        if (dbSetting.IsDirectionSupported && direction is not ParameterDirection.Input and not 0)
         {
-            var directionAssignmentExpression = GetDbParameterDirectionAssignmentExpression(dbParameterExpression, direction);
-            parameterAssignmentExpressions.AddIfNotNull(directionAssignmentExpression);
+            assignmentExpressions.Add(GetDbParameterDirectionAssignmentExpression(dbParameterExpression, direction));
         }
 
         // DbParameter.Size
-        if (dbField.Size != null)
+        if (dbField.Size is { } size)
         {
-            var sizeAssignmentExpression = GetDbParameterSizeAssignmentExpression(dbParameterExpression, dbField.Size.Value);
-            parameterAssignmentExpressions.AddIfNotNull(sizeAssignmentExpression);
+            assignmentExpressions.Add(GetDbParameterSizeAssignmentExpression(dbParameterExpression, size));
         }
 
         // DbParameter.Precision
-        if (dbField.Precision != null)
+        if (dbField.Precision is { } precision)
         {
-            var precisionAssignmentExpression = GetDbParameterPrecisionAssignmentExpression(dbParameterExpression, dbField.Precision.Value);
-            parameterAssignmentExpressions.AddIfNotNull(precisionAssignmentExpression);
+            assignmentExpressions.Add(GetDbParameterPrecisionAssignmentExpression(dbParameterExpression, precision));
         }
 
         // DbParameter.Scale
-        if (dbField.Scale != null)
+        if (dbField.Scale is { } scale)
         {
-            var scaleAssignmentExpression = GetDbParameterScaleAssignmentExpression(dbParameterExpression, dbField.Scale.Value);
-            parameterAssignmentExpressions.AddIfNotNull(scaleAssignmentExpression);
+            assignmentExpressions.Add(GetDbParameterScaleAssignmentExpression(dbParameterExpression, scale));
         }
 
         // Compiler.DbParameterPostCreation
         var dbParameterPostCreationExpression =
-            dbHelper is BaseDbHelper bh
-            ? bh.GetParameterPostCreationExpression(dbParameterExpression, propertyExpression, dbField)
-            : null;
-        parameterAssignmentExpressions.AddIfNotNull(dbParameterPostCreationExpression);
+            (dbHelper as BaseDbHelper)?.GetParameterPostCreationExpression(dbParameterExpression, propertyExpression, dbField);
+        assignmentExpressions.AddIfNotNull(dbParameterPostCreationExpression);
 
         // PropertyValueAttributes / DbField must precide
         var propertyValueAttributeAssignmentExpressions = GetParameterPropertyValueSetterAttributesAssignmentExpressions(dbParameterExpression, classProperty);
-        parameterAssignmentExpressions.AddRangeIfNotNullOrNotEmpty(propertyValueAttributeAssignmentExpressions);
+        assignmentExpressions.AddRangeIfNotNullOrNotEmpty(propertyValueAttributeAssignmentExpressions);
 
         // DbCommand.Parameters.Add
         var dbParametersAddExpression = GetDbCommandParametersAddExpression(dbCommandExpression, dbParameterExpression);
-        parameterAssignmentExpressions.AddIfNotNull(dbParametersAddExpression);
+        assignmentExpressions.AddIfNotNull(dbParametersAddExpression);
 
         // Return the value
-        return Expression.Block([dbParameterExpression], parameterAssignmentExpressions);
+        return Expression.Block([dbParameterExpression], assignmentExpressions);
     }
 }

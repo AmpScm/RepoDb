@@ -631,6 +631,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return MinInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -668,6 +669,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return MinInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
@@ -705,6 +707,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return MinInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -742,6 +745,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return MinInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -779,6 +783,7 @@ public static partial class DbConnectionExtension
         IStatementBuilder? statementBuilder = null)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return MinInternal<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
@@ -1510,6 +1515,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await MinInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1550,6 +1556,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await MinInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: connection.ToQueryGroup(where, transaction),
@@ -1590,6 +1597,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await MinInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1630,6 +1638,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await MinInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: ToQueryGroup(where),
@@ -1670,6 +1679,7 @@ public static partial class DbConnectionExtension
         CancellationToken cancellationToken = default)
         where TEntity : class
     {
+        ArgumentNullException.ThrowIfNull(field);
         return await MinInternalAsync<TEntity, TResult>(connection: connection,
             field: Field.Parse(field).First(),
             where: where,
@@ -2641,7 +2651,7 @@ public static partial class DbConnectionExtension
             commandTimeout: commandTimeout,
             transaction: transaction,
             entityType: request.Type,
-            dbFields: param is { } ? await DbFieldCache.GetAsync(connection, request.TableName, transaction, true, cancellationToken).ConfigureAwait(false) : null,
+            dbFields: param is { } ? await DbFieldCache.GetInternalAsync(connection, request.TableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false) : null,
             trace: trace,
             traceKey: traceKey,
             cancellationToken: cancellationToken).ConfigureAwait(false);

@@ -279,7 +279,8 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     /// <param name="other">The object to be compared.</param>
     /// <returns>True if the two instance is the same.</returns>
     public bool Equals(ClassProperty? other) =>
-        PropertyInfo.Equals(other?.PropertyInfo);
+        other?.DeclaringType == DeclaringType
+        && PropertyInfo.Equals(other?.PropertyInfo);
 
 
     /// <summary>

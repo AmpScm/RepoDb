@@ -17,13 +17,13 @@
               </Exclude>
             </ModulePaths>
 
-            <SourcePaths>
+            <Sources>
               <Exclude>
-                <SourcePath>.*\.g\.cs$</SourcePath>
-                <SourcePath>.*/Generated/.*</SourcePath>
-                <SourcePath>.*Compat\.cs$</SourcePath>
+                <Source>.*\.g\.cs$</Source>
+                <Source>.*/Generated/.*</Source>
+                <Source>.*Compat\.cs$</Source>
               </Exclude>
-            </SourcePaths>
+            </Sources>
 
           </CodeCoverage>
         </Configuration>
@@ -43,13 +43,13 @@
               </Exclude>
             </ModulePaths>
 
-            <SourcePaths>
+            <Sources>
               <Exclude>
-                <SourcePath>.*\.g\.cs$</SourcePath>
-                <SourcePath>.*/Generated/.*</SourcePath>
-                <SourcePath>.*Compat\.cs$</SourcePath>
+                <Source>.*\.g\.cs$</Source>
+                <Source>.*/Generated/.*</Source>
+                <Source>.*Compat\.cs$</Source>
               </Exclude>
-            </SourcePaths>
+            </Sources>
 
           </CodeCoverage>
         </Configuration>

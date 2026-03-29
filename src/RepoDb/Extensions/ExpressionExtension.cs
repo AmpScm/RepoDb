@@ -52,9 +52,7 @@ public static partial class ExpressionExtension
     /// <returns></returns>
     /// <exception cref="NotSupportedException"></exception>
     public static Field GetField(this Expression expression)
-    {
-        return expression.GetField(out _);
-    }
+        => expression.GetField(out _);
 
     /// <summary>
     /// Gets the <see cref="Field"/> defined on the current instance of <see cref="UnaryExpression"/>
@@ -65,58 +63,74 @@ public static partial class ExpressionExtension
     /// <exception cref="NotSupportedException"></exception>
     public static Field GetField(this Expression expression, out object? coalesceValue)
     {
+        return expression.TryGetField(out var field, out coalesceValue) ? field : throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
+    }
+
+    /// <summary>
+    /// Gets the <see cref="Field"/> defined on the current instance of <see cref="Expression"/>
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="field"></param>
+    /// <returns></returns>
+    public static bool TryGetField(this Expression expression, [NotNullWhen(true)] out Field? field)
+    {
+        return expression.TryGetField(out field, out _);
+    }
+
+    /// <summary>
+    /// Gets the <see cref="Field"/> defined on the current instance of <see cref="Expression"/>
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="field"></param>
+    /// <param name="coalesceValue"></param>
+    /// <returns></returns>
+    /// <exception cref="NotSupportedException"></exception>
+    public static bool TryGetField(this Expression expression, [NotNullWhen(true)] out Field? field, out object? coalesceValue)
+    {
         ArgumentNullException.ThrowIfNull(expression);
 
         coalesceValue = null;
-        return expression switch
+        field = expression switch
         {
             MethodCallExpression methodCallExpression => GetField(methodCallExpression),
-            MemberExpression memberExpression => memberExpression.GetField(),
+            MemberExpression memberExpression => FieldFromMember(memberExpression),
             BinaryExpression { NodeType: ExpressionType.Coalesce } b when
-                b.Left.GetField(out _) is { } field
-                && b.Right.TryGetValue(out var value) => (coalesceValue = value) == value ? field : throw new NotSupportedException($"Expression '{expression}' is currently not supported."),
-            UnaryExpression { NodeType: ExpressionType.Convert } un when un.Operand.GetField(out coalesceValue) is { } cv => cv,
-            _ => throw new NotSupportedException($"Expression '{expression}' is currently not supported.")
+                b.Left.TryGetField(out var leftField)
+                && b.Right.TryGetValue(out var value) => (coalesceValue = value) == value ? leftField : throw new NotSupportedException($"Expression '{expression}' is currently not supported."),
+            UnaryExpression { NodeType: ExpressionType.Convert } un when un.Operand.TryGetField(out var cv, out coalesceValue) => cv,
+            _ => null
         };
+        return field is not null;
 
-        static Field GetField(MethodCallExpression expression)
+        static Field? GetField(MethodCallExpression expression)
         {
             ArgumentNullException.ThrowIfNull(expression);
             if (expression.Object is MemberExpression objectMemberExpression)
             {
-                return objectMemberExpression.GetField();
+                return FieldFromMember(objectMemberExpression);
             }
-            else if (expression.Method.Name == nameof(Enumerable.Contains))
+            else if (expression.Method.Name == nameof(Enumerable.Contains)
+                && (expression.Object is { } ? expression.Arguments[0] : expression.Arguments[1]) is MemberExpression memberExpression)
             {
-                var last = expression.Object is { } ? expression.Arguments[0] : expression.Arguments[1];
-                if (last is MemberExpression memberExpression)
-                {
-                    return memberExpression.GetField();
-                }
+                return FieldFromMember(memberExpression);
             }
-            else if (expression.Method.Name == nameof(JsonQueryExtensions.ExtractValue) && expression.Method.DeclaringType == typeof(JsonQueryExtensions))
+            else if (expression.Method.Name == nameof(JsonQueryExtensions.ExtractValue) && expression.Method.DeclaringType == typeof(JsonQueryExtensions)
+                && expression.Arguments[0].TryGetField(out var v))
             {
-                return expression.Arguments[0].GetField(out _);
+                return v;
             }
 
-            throw new NotSupportedException($"Expression '{expression}' is currently not supported.");
+            return null;
         }
-    }
 
-    /// <summary>
-    /// Gets the <see cref="Field"/> defined on the current instance of <see cref="MemberExpression"/>
-    /// </summary>
-    /// <param name="expression"></param>
-    /// <returns></returns>
-    /// <exception cref="NotSupportedException"></exception>
-    internal static Field GetField(this MemberExpression expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-        return expression.Member switch
+        static Field? FieldFromMember(MemberExpression expression)
         {
-            PropertyInfo propertyInfo =>  new Field(propertyInfo.GetMappedName(expression.Expression?.Type), expression.Type),
-            _ => throw new NotSupportedException("Only properties are currently supported.")
-        };
+            return expression.Member switch
+            {
+                PropertyInfo propertyInfo => new Field(propertyInfo.GetMappedName(expression.Expression?.Type), expression.Type),
+                _ => null
+            };
+        }
     }
 
     #endregion

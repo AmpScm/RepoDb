@@ -225,7 +225,7 @@ public static partial class DbConnectionExtension
 
         // DB Fields
         var dbFields = !string.IsNullOrWhiteSpace(tableName) ?
-            await DbFieldCache.GetAsync(connection, tableName, transaction, false, cancellationToken).ConfigureAwait(false) : null;
+            await DbFieldCache.GetInternalAsync(connection, tableName, transaction, false, cancellationToken).ConfigureAwait(false) : null;
 
         // Execute the actual method
 #if NET
@@ -732,7 +732,7 @@ public static partial class DbConnectionExtension
 
         // DB Fields
         var dbFields = !string.IsNullOrWhiteSpace(tableName) ?
-            await DbFieldCache.GetAsync(connection, tableName, transaction, false, cancellationToken).ConfigureAwait(false) : null;
+            await DbFieldCache.GetInternalAsync(connection, tableName, transaction, false, cancellationToken).ConfigureAwait(false) : null;
 
         // Execute the actual method
 #if NET

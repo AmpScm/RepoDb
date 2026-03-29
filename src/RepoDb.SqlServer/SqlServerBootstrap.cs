@@ -54,7 +54,7 @@ public static class SqlServerBootstrap
 
     internal static void InitializeSystemDataSqlClient()
     {
-        foreach(var className in new string[]
+        foreach (var className in new string[]
         {
             "System.Data.SqlClient.SqlConnection, System.Data.SqlClient",
             "System.Data.SqlClient.SqlConnection, System.Data"

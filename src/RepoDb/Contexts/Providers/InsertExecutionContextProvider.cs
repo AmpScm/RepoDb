@@ -116,7 +116,7 @@ internal static class InsertExecutionContextProvider
         }
 
         // Create
-        var dbFields = await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false);
+        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (dbFields.Any(x => x.IsReadOnly))
         {
@@ -162,11 +162,8 @@ internal static class InsertExecutionContextProvider
 
         // Variables for the entity action
         Action<object, object?>? keyPropertySetterFunc = null;
-        var keyField = ExecutionContextProvider
-            .GetTargetReturnColumnAsField(entityType, dbFields);
 
-        // Get the key setter
-        if (keyField is not null)
+        if (dbFields.GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } keyField)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);
