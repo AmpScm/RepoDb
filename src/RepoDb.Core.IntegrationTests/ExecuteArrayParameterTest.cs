@@ -23,7 +23,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -51,7 +51,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -79,7 +79,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -107,7 +107,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -132,7 +132,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -157,7 +157,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -182,7 +182,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -211,7 +211,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -239,7 +239,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -267,7 +267,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -295,7 +295,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -320,7 +320,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -345,7 +345,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -370,7 +370,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -399,7 +399,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -422,7 +422,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -445,7 +445,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -468,7 +468,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -488,7 +488,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -508,7 +508,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -528,7 +528,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -552,7 +552,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -575,7 +575,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -598,7 +598,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -621,7 +621,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -641,7 +641,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -661,7 +661,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -681,7 +681,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -705,7 +705,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -735,7 +735,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -765,7 +765,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -795,7 +795,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -822,7 +822,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -849,7 +849,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -876,7 +876,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -907,7 +907,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -937,7 +937,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -967,7 +967,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -997,7 +997,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1024,7 +1024,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1051,7 +1051,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1078,7 +1078,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1109,7 +1109,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1132,7 +1132,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1155,7 +1155,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1178,7 +1178,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1198,7 +1198,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1218,7 +1218,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1238,7 +1238,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1262,7 +1262,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new { Values = values };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1285,7 +1285,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Values = values;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1308,7 +1308,7 @@ public class ExecuteArrayParameterTest : TestBase
         // Set the properties
         param.Add("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1331,7 +1331,7 @@ public class ExecuteArrayParameterTest : TestBase
             {"Values", values }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1351,7 +1351,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1371,7 +1371,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryField("Values", values).AsEnumerable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1391,7 +1391,7 @@ public class ExecuteArrayParameterTest : TestBase
         var values = new int?[] { 1, 3, 4, 8 };
         var param = new QueryGroup(new QueryField("Values", values));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

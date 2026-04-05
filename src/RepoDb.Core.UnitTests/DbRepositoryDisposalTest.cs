@@ -1,5 +1,3 @@
-using System.Data;
-using RepoDb;
 using RepoDb.Enumerations;
 using RepoDb.UnitTests.CustomObjects;
 

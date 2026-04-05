@@ -777,7 +777,7 @@ public class StatementBuilderTest
         var expected =
             "INSERT INTO [Table] " +
             "([Field1], [Field2], [Field3]) " +
-            "OUTPUT INSERTED.[Field1] " +
+            //"OUTPUT INSERTED.[Field1] " +
             "VALUES " +
             "(@Field1, @Field2, @Field3);";
 

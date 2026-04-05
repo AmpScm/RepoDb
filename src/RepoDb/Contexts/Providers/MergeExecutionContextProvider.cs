@@ -32,19 +32,6 @@ internal static class MergeExecutionContextProvider
             hints);
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="qualifiers"></param>
-    /// <param name="fields"></param>
-    /// <param name="noUpdateFields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <returns></returns>
-    /// <param name="statementBuilder"></param>
     public static MergeExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
@@ -96,20 +83,6 @@ internal static class MergeExecutionContextProvider
         return context;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="qualifiers"></param>
-    /// <param name="fields"></param>
-    /// <param name="noUpdateFields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <returns></returns>
-    /// <param name="cancellationToken"></param>
     public static async Task<MergeExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         string tableName,
@@ -178,7 +151,7 @@ internal static class MergeExecutionContextProvider
         // Variables for the entity action
         Action<object, object?>? keyPropertySetterFunc = null;
 
-        if (dbFields.GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } keyField)
+        if (dbFields.GetReturnColumn() is { } keyField)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);

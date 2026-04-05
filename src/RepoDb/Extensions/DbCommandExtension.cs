@@ -496,11 +496,6 @@ public static class DbCommandExtension
         Type? entityType,
         DbFieldCollection? dbFields = null)
     {
-        if (queryField is null)
-        {
-            return;
-        }
-
         var fieldName = queryField.Field.FieldName;
 
         // Skip

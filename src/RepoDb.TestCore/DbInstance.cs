@@ -6,7 +6,7 @@ namespace RepoDb.TestCore;
 
 public abstract class DbInstance
 {
-    private Task? _initialized;
+    private protected abstract Task? _initialized { get; set; }
 
     public async Task ClassInitializeAsync(TestContext context)
     {
@@ -73,19 +73,19 @@ public abstract class DbInstance
     /// <summary>
     /// System connection string (used for database/schema creation as admin/system user on master/postgres/etc)
     /// </summary>
-    public string AdminConnectionString { get; protected set; }
+    public required string AdminConnectionString { get; init; }
 
     /// <summary>
     /// Owner connection string (used for setup operations like creating schemas, types, procedures)
     /// Typically same privilege level as db_owner in SQL Server
     /// This is the default ConnectionString for backward compatibility with existing tests
     /// </summary>
-    public string ConnectionString { get; protected set; }
+    public required string ConnectionString { get; init; }
 
     /// <summary>
     /// Limited user connection string (used for actual test operations with restricted privileges)
     /// </summary>
-    public string LimitedConnectionString { get; protected set; }
+    public required string LimitedConnectionString { get; init; }
 
     /// <summary>
     /// Creates a connection using the limited user connection string
@@ -131,6 +131,8 @@ public abstract class DbInstance
 
 public abstract class DbInstance<TDbConnection> : DbInstance where TDbConnection : DbConnection, new()
 {
+    static Task? __initialized;
+    private protected override Task? _initialized { get => __initialized; set => __initialized = value; }
     private string? _databaseName;
     public override DbConnection CreateConnection()
     {

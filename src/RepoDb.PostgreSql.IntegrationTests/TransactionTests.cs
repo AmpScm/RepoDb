@@ -1,8 +1,6 @@
 ﻿using System.Transactions;
-using Npgsql;
 using RepoDb.Enumerations;
 using RepoDb.PostgreSql.IntegrationTests.Models;
-using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests;
 
@@ -23,9 +21,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForBatchQuery()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.BatchQuery<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction);
     }
@@ -37,9 +35,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForBatchQueryAsync()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.BatchQueryAsync<CompleteTable>(0, 10, OrderField.Parse(new { Id = Order.Ascending }), it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
@@ -55,9 +53,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForCount()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.Count<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
@@ -69,9 +67,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForCountAsync()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.CountAsync<CompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
@@ -87,9 +85,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForCountAll()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.CountAll<CompleteTable>(transaction: transaction);
     }
@@ -101,9 +99,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForCountAllAsync()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.CountAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
@@ -122,12 +120,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.Delete<CompleteTable>(entity, transaction: transaction);
@@ -146,12 +144,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.Delete<CompleteTable>(entity, transaction: transaction);
@@ -174,12 +172,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -198,12 +196,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.DeleteAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -230,12 +228,12 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.DeleteAll<CompleteTable>(transaction: transaction);
@@ -254,12 +252,12 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.DeleteAll<CompleteTable>(transaction: transaction);
@@ -282,12 +280,12 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.DeleteAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -306,12 +304,12 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.DeleteAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -338,9 +336,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.Insert<CompleteTable>(entity, transaction: transaction);
@@ -359,9 +357,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.Insert<CompleteTable>(entity, transaction: transaction);
@@ -384,9 +382,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.InsertAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -405,9 +403,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.InsertAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -434,9 +432,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.InsertAll<CompleteTable>(entities, transaction: transaction);
@@ -455,9 +453,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.InsertAll<CompleteTable>(entities, transaction: transaction);
@@ -480,9 +478,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -501,9 +499,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.InsertAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -530,9 +528,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.Merge<CompleteTable>(entity, transaction: transaction);
@@ -551,9 +549,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.Merge<CompleteTable>(entity, transaction: transaction);
@@ -576,9 +574,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
         await connection.MergeAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -596,9 +594,9 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        var transaction = connection.EnsureOpen().BeginTransaction();
 
         // Act
         await connection.MergeAsync<CompleteTable>(entity, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -624,9 +622,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.MergeAll<CompleteTable>(entities, transaction: transaction);
@@ -645,9 +643,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             connection.MergeAll<CompleteTable>(entities, transaction: transaction);
@@ -670,9 +668,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -691,9 +689,9 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             // Act
             await connection.MergeAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -717,9 +715,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQuery()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.Query<CompleteTable>(it => it.Id != 0, transaction: transaction);
     }
@@ -731,9 +729,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryAsync()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryAsync<CompleteTable>(it => it.Id != 0, transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
@@ -749,9 +747,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQueryAll()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.QueryAll<CompleteTable>(transaction: transaction);
     }
@@ -763,9 +761,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryAllAsync()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryAllAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
@@ -781,9 +779,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT2()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.QueryMultiple<CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -793,9 +791,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT3()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -806,9 +804,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT4()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -820,9 +818,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT5()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -835,9 +833,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT6()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -851,9 +849,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForQueryMultipleT7()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -872,9 +870,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT2()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -884,9 +882,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT3()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -897,9 +895,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT4()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -911,9 +909,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT5()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -926,9 +924,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT6()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -942,9 +940,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForQueryMultipleAsyncT7()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(it => it.Id != 0,
             it => it.Id != 0,
@@ -967,9 +965,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public void TestDbTransactionForTruncate()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         connection.Truncate<CompleteTable>(transaction: transaction);
     }
@@ -981,9 +979,9 @@ public class TransactionTests : TestBase
     [TestMethod]
     public async Task TestDbTransactionForTruncateAsync()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Prepare
-        using NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction();
+        using var transaction = connection.EnsureOpen().BeginTransaction();
         // Act
         await connection.TruncateAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
     }
@@ -1002,12 +1000,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             entity.ColumnBoolean = false;
 
@@ -1031,12 +1029,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             entity.ColumnBoolean = false;
 
@@ -1064,12 +1062,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             entity.ColumnBoolean = false;
 
@@ -1093,12 +1091,12 @@ public class TransactionTests : TestBase
         // Setup
         CompleteTable entity = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<CompleteTable>(entity);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
             entity.ColumnBoolean = false;
 
@@ -1130,14 +1128,14 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = false);
+            foreach(var entity in entities)  entity.ColumnBoolean = false;
 
             // Act
             connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
@@ -1150,7 +1148,7 @@ public class TransactionTests : TestBase
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     [TestMethod]
@@ -1159,14 +1157,14 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = false);
+            foreach(var entity in entities)  entity.ColumnBoolean = false;
 
             // Act
             connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
@@ -1179,7 +1177,7 @@ public class TransactionTests : TestBase
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     #endregion
@@ -1192,14 +1190,14 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = false);
+            foreach(var entity in entities)  entity.ColumnBoolean = false;
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -1212,7 +1210,7 @@ public class TransactionTests : TestBase
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     [TestMethod]
@@ -1221,14 +1219,14 @@ public class TransactionTests : TestBase
         // Setup
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<CompleteTable>(entities);
 
         // Prepare
-        using (NpgsqlTransaction transaction = connection.EnsureOpen().BeginTransaction())
+        using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = false);
+            foreach(var entity in entities)  entity.ColumnBoolean = false;
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -1241,7 +1239,7 @@ public class TransactionTests : TestBase
         IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.IsTrue(queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     #endregion
@@ -1263,7 +1261,7 @@ public class TransactionTests : TestBase
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
-        using (NpgsqlConnection connection = this.CreateTestConnection())
+        using (var connection = CreateConnection())
         {
             // Act
             connection.InsertAll<CompleteTable>(entities);
@@ -1283,7 +1281,7 @@ public class TransactionTests : TestBase
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-        using (NpgsqlConnection connection = this.CreateTestConnection())
+        using (var connection = CreateConnection())
         {
             // Act
             await connection.InsertAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
@@ -1307,7 +1305,7 @@ public class TransactionTests : TestBase
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
-        using (NpgsqlConnection connection = this.CreateTestConnection())
+        using (var connection = CreateConnection())
         {
             // Act
             connection.MergeAll<CompleteTable>(entities);
@@ -1327,7 +1325,7 @@ public class TransactionTests : TestBase
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-        using (NpgsqlConnection connection = this.CreateTestConnection())
+        using (var connection = CreateConnection())
         {
             // Act
             await connection.MergeAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
@@ -1351,13 +1349,13 @@ public class TransactionTests : TestBase
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
         using var transaction = new TransactionScope();
-        using (NpgsqlConnection connection = this.CreateTestConnection())
+        using (var connection = CreateConnection())
         {
             // Act
             connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
-            entities.ForEach(entity => entity.ColumnBoolean = false);
+            foreach(var entity in entities)  entity.ColumnBoolean = false;
 
             // Act
             connection.UpdateAll<CompleteTable>(entities);
@@ -1366,7 +1364,7 @@ public class TransactionTests : TestBase
             IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            foreach(var entity in entities)  Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
         }
 
         // Complete
@@ -1380,13 +1378,13 @@ public class TransactionTests : TestBase
         List<CompleteTable> entities = Helper.CreateCompleteTables(10);
 
         using TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-        using (NpgsqlConnection connection = this.CreateTestConnection())
+        using (var connection = CreateConnection())
         {
             // Act
             connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
-            entities.ForEach(entity => entity.ColumnBoolean = false);
+            foreach(var entity in entities)  entity.ColumnBoolean = false;
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
@@ -1395,7 +1393,7 @@ public class TransactionTests : TestBase
             IEnumerable<CompleteTable> queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            foreach(var entity in entities)  Assert.IsFalse(queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
         }
 
         // Complete

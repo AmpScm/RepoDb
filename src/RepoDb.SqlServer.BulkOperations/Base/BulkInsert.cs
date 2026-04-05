@@ -295,7 +295,7 @@ public static partial class SqlConnectionExtension
             }
 
             // Pseudo temp table
-            var withPseudoExecution = (isReturnIdentity == true && identityDbField != null);
+            var withPseudoExecution = isReturnIdentity == true && identityDbField != null;
             var tempTableName = CreateBulkInsertTempTableIfNecessary(connection,
                 tableName,
                 usePhysicalPseudoTempTable,
@@ -478,7 +478,7 @@ public static partial class SqlConnectionExtension
                     options.HasFlag(SqlBulkCopyOptions.KeepIdentity));
 
                 // Execute the SQL
-                using (var reader = (DbDataReader)(await connection.ExecuteReaderAsync(sql, commandTimeout: bulkCopyTimeout, transaction: transaction, cancellationToken: cancellationToken)))
+                using (var reader = (DbDataReader)await connection.ExecuteReaderAsync(sql, commandTimeout: bulkCopyTimeout, transaction: transaction, cancellationToken: cancellationToken))
                 {
                     result = await SetIdentityForEntitiesAsync(entities, reader, identityDbField!, cancellationToken);
                 }

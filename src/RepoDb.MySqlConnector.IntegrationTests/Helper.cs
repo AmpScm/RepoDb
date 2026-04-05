@@ -149,7 +149,7 @@ public static class Helper
         {
             tables.Add(new CompleteTable
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnVarchar = $"ColumnVarChar:{i}",
                 ColumnInt = i,
                 ColumnDecimal2 = Convert.ToDecimal(i),
@@ -375,7 +375,8 @@ public static class Helper
                 DateTimeKind.Unspecified);
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             item["Id"] = (long)(i + 1);
             item["ColumnVarchar"] = $"ColumnVarChar:{i}";
             item["ColumnInt"] = i;
@@ -418,7 +419,7 @@ public static class Helper
             item["ColumnText"] = $"ColumText:{i}";
             item["ColumnTinyText"] = $"ColumnTinyText:{i}";
             item["ColumnBit"] = (UInt64)1;
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }
@@ -495,7 +496,7 @@ public static class Helper
         {
             tables.Add(new NonIdentityCompleteTable
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnVarchar = $"ColumnVarChar:{i}",
                 ColumnInt = i,
                 ColumnDecimal2 = Convert.ToDecimal(i),
@@ -721,7 +722,8 @@ public static class Helper
                 DateTimeKind.Unspecified);
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             item["Id"] = (long)(i + 1);
             item["ColumnVarchar"] = $"ColumnVarChar:{i}";
             item["ColumnInt"] = i;
@@ -764,7 +766,7 @@ public static class Helper
             item["ColumnText"] = $"ColumText:{i}";
             item["ColumnTinyText"] = $"ColumnTinyText:{i}";
             item["ColumnBit"] = (UInt64)1;
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }

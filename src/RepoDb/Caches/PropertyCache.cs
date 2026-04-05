@@ -130,7 +130,7 @@ public static class PropertyCache
             return [];
         }
 
-        return cache.GetOrAdd(entityType, (_) => entityType.GetClassProperties().AsList());
+        return cache.GetOrAdd(entityType, static entityType => entityType.GetClassProperties().AsList());
     }
 
     #endregion

@@ -13,9 +13,6 @@ namespace RepoDb;
 
 public static partial class NpgsqlConnectionExtension
 {
-    private readonly static PostgreSqlDbTypeNameToNpgsqlDbTypeResolver dbTypeNameToNpgsqlDbTypeResolver = new();
-    private readonly static ClientTypeToNpgsqlDbTypeResolver clientTypeToNpgsqlDbTypeResolver = new();
-
     internal static IEnumerable<ClassProperty> GetMatchedProperties(DbFieldCollection dbFields,
         IEnumerable<ClassProperty> properties,
         bool includePrimary,
@@ -66,8 +63,8 @@ public static partial class NpgsqlConnectionExtension
 
             // Resolve
             npgsqlDbType = !string.IsNullOrWhiteSpace(dbField.DatabaseType) ?
-                dbTypeNameToNpgsqlDbTypeResolver.Resolve(dbField.DatabaseType ?? "TEXT") :
-                clientTypeToNpgsqlDbTypeResolver.Resolve(dbField.Type ?? alternativeType);
+                PostgreSqlDbTypeNameToNpgsqlDbTypeResolver.Instance.Resolve(dbField.DatabaseType ?? "TEXT") :
+                ClientTypeToNpgsqlDbTypeResolver.Instance.Resolve(dbField.Type ?? alternativeType);
         }
 
         // Return
@@ -236,9 +233,10 @@ public static partial class NpgsqlConnectionExtension
     {
         foreach (var item in data)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var expandoObject = expando as IDictionary<string, object?>;
             expandoObject[column] = item;
-            yield return (ExpandoObject)expandoObject;
+            yield return expando;
         }
     }
 

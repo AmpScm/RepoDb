@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Reflection;
 using System.Text.Json.Nodes;
 using RepoDb.Attributes.Parameter;
@@ -144,7 +145,7 @@ public static class DbTestExtensions
                 qb.WriteText(sizeFormat);
             }
 
-            bool isIdentity = (identityKey?.FieldName == prop.FieldName);
+            bool isIdentity = identityKey?.FieldName == prop.FieldName;
 
             if (isIdentity && (stmt.PrimaryBeforeIdentity == false))
             {
@@ -252,5 +253,19 @@ public static class DbTestExtensions
             .TableNameFrom(tableName, dbSetting);
 
         await sql.ExecuteNonQueryAsync(qb.ToString(), trace: trace, cancellationToken: cancellationToken);
+    }
+
+
+    public static ExpandoObject AsExpandoObject<TObject>(this TObject value)
+        where TObject: class
+    {
+        var expando = new ExpandoObject();
+        var dict = (IDictionary<string, object?>)expando;
+        foreach(var p in typeof(TObject).GetProperties())
+        {
+            dict[p.Name] = p.GetValue(value);
+        }
+
+        return expando;
     }
 }

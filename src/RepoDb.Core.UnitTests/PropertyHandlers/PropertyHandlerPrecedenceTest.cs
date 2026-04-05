@@ -239,7 +239,7 @@ public class PropertyHandlerPrecedenceTest
         // Act
         using (var connection = new PropertyHandlerConnection())
         {
-            connection.Query<PropertyHandlerTestClassForQueryFields>((new QueryField("Id", 1)).AsEnumerable());
+            connection.Query<PropertyHandlerTestClassForQueryFields>(new QueryField("Id", 1).AsEnumerable());
         }
 
         // Assert
@@ -258,7 +258,7 @@ public class PropertyHandlerPrecedenceTest
         // Act
         using (var connection = new PropertyHandlerConnection())
         {
-            connection.Query<PropertyHandlerTestClassWithAttributeForQueryFields>((new QueryField("Id", 1)).AsEnumerable());
+            connection.Query<PropertyHandlerTestClassWithAttributeForQueryFields>(new QueryField("Id", 1).AsEnumerable());
         }
 
         // Assert

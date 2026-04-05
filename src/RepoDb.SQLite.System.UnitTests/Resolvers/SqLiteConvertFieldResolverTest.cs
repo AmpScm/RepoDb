@@ -17,11 +17,11 @@ public class SqLiteConvertFieldResolverTest
     #region SDS
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForInt32()
+    public void TestSystemSqLiteConvertFieldResolverForInt32()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(int));
 
         // Act
@@ -32,11 +32,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForInt64()
+    public void TestSystemSqLiteConvertFieldResolverForInt64()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(long));
 
         // Act
@@ -47,11 +47,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForInt16()
+    public void TestSystemSqLiteConvertFieldResolverForInt16()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(short));
 
         // Act
@@ -62,11 +62,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForDateTime()
+    public void TestSystemSqLiteConvertFieldResolverForDateTime()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(DateTime));
 
         // Act
@@ -77,11 +77,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForString()
+    public void TestSystemSqLiteConvertFieldResolverForString()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(string));
 
         // Act
@@ -92,11 +92,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForByte()
+    public void TestSystemSqLiteConvertFieldResolverForByte()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(byte));
 
         // Act
@@ -107,11 +107,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForDecimal()
+    public void TestSystemSqLiteConvertFieldResolverForDecimal()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(decimal));
 
         // Act
@@ -122,11 +122,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForFloat()
+    public void TestSystemSqLiteConvertFieldResolverForFloat()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(float));
 
         // Act
@@ -137,11 +137,11 @@ public class SqLiteConvertFieldResolverTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteConvertFieldResolverForTimeSpan()
+    public void TestSystemSqLiteConvertFieldResolverForTimeSpan()
     {
         // Setup
         var setting = DbSettingMapper.Get<SQLiteConnection>();
-        var resolver = new SqLiteConvertFieldResolver();
+        var resolver = new SQLiteConvertFieldResolver();
         var field = new Field("Field", typeof(TimeSpan));
 
         // Act

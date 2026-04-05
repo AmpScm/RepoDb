@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Models;
+﻿using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
@@ -17,7 +16,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.CountAll<CompleteTable>();
 
@@ -31,7 +30,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll<CompleteTable>(hints: "WhatEver"));
     }
@@ -46,7 +45,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
@@ -60,7 +59,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync<CompleteTable>(hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
     }
@@ -79,7 +78,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.CountAll(ClassMappedNameCache.Get<CompleteTable>());
 
@@ -93,7 +92,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.CountAll(ClassMappedNameCache.Get<CompleteTable>(),
             hints: "WhatEver"));
@@ -109,7 +108,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
@@ -123,7 +122,7 @@ public class CountAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));

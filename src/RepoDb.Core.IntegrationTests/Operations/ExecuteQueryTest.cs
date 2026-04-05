@@ -19,7 +19,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -50,7 +50,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -82,7 +82,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -114,7 +114,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -146,7 +146,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -178,7 +178,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -211,7 +211,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -239,7 +239,7 @@ public class ExecuteQueryTest : TestBase
             output
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -260,7 +260,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryViaDynamicsIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -268,7 +268,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryViaDynamicsIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -283,7 +283,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -314,7 +314,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -346,7 +346,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -378,7 +378,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -410,7 +410,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -442,7 +442,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -475,7 +475,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -503,7 +503,7 @@ public class ExecuteQueryTest : TestBase
             output
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -524,7 +524,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncViaDynamicsIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
@@ -532,7 +532,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncViaDynamicsIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
@@ -547,7 +547,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -565,7 +565,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -584,7 +584,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -603,7 +603,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -622,7 +622,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -641,7 +641,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -661,7 +661,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -685,7 +685,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -715,7 +715,7 @@ public class ExecuteQueryTest : TestBase
             { "ColumnInt", last.ColumnInt }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -739,7 +739,7 @@ public class ExecuteQueryTest : TestBase
         param.Add("ColumnFloat", last.ColumnFloat);
         param.Add("ColumnInt", last.ColumnInt);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -763,7 +763,7 @@ public class ExecuteQueryTest : TestBase
         param.ColumnFloat = last.ColumnFloat;
         param.ColumnInt = last.ColumnInt;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -787,7 +787,7 @@ public class ExecuteQueryTest : TestBase
             new QueryField("ColumnInt", last.ColumnInt)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -811,7 +811,7 @@ public class ExecuteQueryTest : TestBase
             new QueryField("ColumnInt", last.ColumnInt)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -831,7 +831,7 @@ public class ExecuteQueryTest : TestBase
         var last = tables.Last();
         var param = new QueryField("ColumnFloat", last.ColumnFloat);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -846,7 +846,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfTheParameterAreInvalidTypeDictionaryObject()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new Dictionary<string, int>();
 
@@ -857,7 +857,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -865,7 +865,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteQueryIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -880,7 +880,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -898,7 +898,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -917,7 +917,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -936,7 +936,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -955,7 +955,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -974,7 +974,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -994,7 +994,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1024,7 +1024,7 @@ public class ExecuteQueryTest : TestBase
             { "ColumnInt", last.ColumnInt }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1048,7 +1048,7 @@ public class ExecuteQueryTest : TestBase
         param.Add("ColumnFloat", last.ColumnFloat);
         param.Add("ColumnInt", last.ColumnInt);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1072,7 +1072,7 @@ public class ExecuteQueryTest : TestBase
         param.ColumnFloat = last.ColumnFloat;
         param.ColumnInt = last.ColumnInt;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1096,7 +1096,7 @@ public class ExecuteQueryTest : TestBase
             new QueryField("ColumnInt", last.ColumnInt)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1120,7 +1120,7 @@ public class ExecuteQueryTest : TestBase
             new QueryField("ColumnInt", last.ColumnInt)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1140,7 +1140,7 @@ public class ExecuteQueryTest : TestBase
         var last = tables.Last();
         var param = new QueryField("ColumnFloat", last.ColumnFloat);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1155,7 +1155,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfTheParameterAreInvalidTypeDictionaryObject()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new Dictionary<string, int>();
 
@@ -1166,7 +1166,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
@@ -1174,7 +1174,7 @@ public class ExecuteQueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteQueryAsyncIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }

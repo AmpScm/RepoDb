@@ -8,9 +8,6 @@ using RepoDb.Requests;
 
 namespace RepoDb.Contexts.Providers;
 
-/// <summary>
-///
-/// </summary>
 internal static class UpdateExecutionContextProvider
 {
     private static string GetKey(Type entityType,
@@ -30,18 +27,6 @@ internal static class UpdateExecutionContextProvider
             where?.GetHashCode().ToString(CultureInfo.InvariantCulture));
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="where"></param>
-    /// <param name="fields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <returns></returns>
     public static UpdateExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
@@ -92,19 +77,6 @@ internal static class UpdateExecutionContextProvider
         return context;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="where"></param>
-    /// <param name="fields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     public static async Task<UpdateExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         string tableName,

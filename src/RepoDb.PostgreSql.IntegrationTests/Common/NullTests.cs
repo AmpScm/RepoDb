@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using RepoDb.PostgreSql.IntegrationTests.Setup;
+﻿using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Common;
 

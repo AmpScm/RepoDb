@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq.Expressions;
-using System.Reflection;
 using RepoDb.Exceptions;
 
 namespace RepoDb.SqlServer.BulkOperations;
@@ -181,43 +180,35 @@ internal static class Compiler
     /// <returns></returns>
     public static Action<TEntity, object?>? GetPropertySetterFunc<TEntity>(string propertyName)
         where TEntity : class =>
-        PropertySetterFuncCache<TEntity>.GetFunc(PropertyCache.Get<TEntity>(propertyName, true));
+        PropertyCache.Get<TEntity>(propertyName, true) is { } pi
+        ? PropertySetterFuncCache<TEntity>.GetFunc(pi)
+        : null;
 
     private static class PropertySetterFuncCache<TEntity>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Action<TEntity, object?>?> cache = new();
+        private static readonly ConcurrentDictionary<ClassProperty, Action<TEntity, object?>?> cache = new();
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="classProperty"></param>
         /// <returns></returns>
-        public static Action<TEntity, object?>? GetFunc(ClassProperty? classProperty)
+        public static Action<TEntity, object?>? GetFunc(ClassProperty classProperty)
         {
-            if (classProperty is null)
+            return cache.GetOrAdd(classProperty, static classProperty =>
             {
-                return null;
-            }
+                var entity = Expression.Parameter(typeof(TEntity), "entity");
+                var value = Expression.Parameter(typeof(object), "value");
+                var converted = Expression.Convert(value, classProperty.PropertyInfo.PropertyType);
+                var body = (Expression)Expression.Call(entity, classProperty.PropertyInfo.SetMethod!, converted);
 
-            return cache.GetOrAdd(classProperty.GetHashCode(), (_) =>
-            {
-                if (classProperty is not null)
-                {
-                    var entity = Expression.Parameter(typeof(TEntity), "entity");
-                    var value = Expression.Parameter(typeof(object), "value");
-                    var converted = Expression.Convert(value, classProperty.PropertyInfo.PropertyType);
-                    var body = (Expression)Expression.Call(entity, classProperty.PropertyInfo.SetMethod!, converted);
-
-                    return Expression
-                        .Lambda<Action<TEntity, object?>>(body, entity, value)
-                        .Compile();
-                }
-                else
-                    return null;
+                return Expression
+                    .Lambda<Action<TEntity, object?>>(body, entity, value)
+                    .Compile();
             });
         }
-    }
+}
 
     #endregion
 }

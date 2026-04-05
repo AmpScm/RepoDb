@@ -162,7 +162,7 @@ public class StatementBuilderTest
             Field.From("Id", "Name", "Address"),
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null);
-        var expected = "INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress)";
+        var expected = "INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress) RETURNING \"Id\" INTO :RepoDb_Result";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -176,7 +176,7 @@ public class StatementBuilderTest
 
         // Act
         var query = builder.CreateInsert("Table",
-            Field.From("Id", "Name", "Address"),
+            Field.From("Name", "Address"),
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false));
         var expected = "INSERT INTO \"Table\" (\"Name\", \"Address\") VALUES (:pName, :pAddress) "
@@ -237,7 +237,7 @@ public class StatementBuilderTest
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null);
         // The "FORALL" is for RepoDB, not for Oracle. This prefix triggers a command update on execute
-        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress)";
+        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress) RETURNING \"Id\" INTO :RepoDb_Result";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -251,7 +251,7 @@ public class StatementBuilderTest
 
         // Act
         var query = builder.CreateInsertAll("Table",
-            Field.From("Id", "Name", "Address"),
+            Field.From("Name", "Address"),
             3,
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false));

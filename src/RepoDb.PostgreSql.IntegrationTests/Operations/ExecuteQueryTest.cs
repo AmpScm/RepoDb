@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -16,7 +15,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM \"CompleteTable\";");
 
@@ -31,7 +30,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.ExecuteQuery<CompleteTable>("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
             new { tables.Last().Id });
@@ -51,7 +50,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
@@ -66,7 +65,7 @@ public class ExecuteQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.ExecuteQueryAsync<CompleteTable>("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
             new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);

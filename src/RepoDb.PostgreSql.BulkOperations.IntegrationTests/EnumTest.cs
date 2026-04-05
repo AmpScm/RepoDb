@@ -59,13 +59,14 @@ public class EnumTest : TestBase
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             var index = i + 1;
-            expandoObject["Id"] = (long)(hasId ? index + addToKey : 0);
-            expandoObject["ColumnEnumHand"] = (Hands?)null;
-            expandoObject["ColumnEnumInt"] = (Hands?)null;
-            expandoObject["ColumnEnumText"] = (Hands?)null;
-            tables.Add((ExpandoObject)expandoObject);
+            item["Id"] = (long)(hasId ? index + addToKey : 0);
+            item["ColumnEnumHand"] = (Hands?)null;
+            item["ColumnEnumInt"] = (Hands?)null;
+            item["ColumnEnumText"] = (Hands?)null;
+            tables.Add(expando);
         }
         return tables;
     }

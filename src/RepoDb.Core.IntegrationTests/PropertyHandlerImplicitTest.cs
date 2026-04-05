@@ -306,7 +306,7 @@ public class PropertyHandlerImplicitTest : TestBase
 
     #region Helpers
 
-    private IEnumerable<EntityModelForClass> CreateEntityModelForClasses(int count,
+    private static IEnumerable<EntityModelForClass> CreateEntityModelForClasses(int count,
         bool isModelNull = false)
     {
         for (var i = 0; i < count; i++)
@@ -321,12 +321,12 @@ public class PropertyHandlerImplicitTest : TestBase
         }
     }
 
-    private IEnumerable<ImmutableEntityModelForClass> CreateImmutableEntityModelForClasses(int count,
+    private static IEnumerable<ImmutableEntityModelForClass> CreateImmutableEntityModelForClasses(int count,
         bool isModelNull = false)
     {
         for (var i = 0; i < count; i++)
         {
-            yield return new ImmutableEntityModelForClass((i + 1), isModelNull ? null :
+            yield return new ImmutableEntityModelForClass(i + 1, isModelNull ? null :
                 new TargetModel
                 {
                     Value = $"Value-{i}-{Guid.NewGuid()}",
@@ -334,7 +334,7 @@ public class PropertyHandlerImplicitTest : TestBase
         }
     }
 
-    private IEnumerable<EntityModelForIntToStringType> CreateEntityModelForIntToStringTypes(int count,
+    private static IEnumerable<EntityModelForIntToStringType> CreateEntityModelForIntToStringTypes(int count,
         bool isIntNull = false)
     {
         for (var i = 0; i < count; i++)
@@ -347,7 +347,7 @@ public class PropertyHandlerImplicitTest : TestBase
         }
     }
 
-    private IEnumerable<EntityModelForDateTimeKind> CreateEntityModelForDateTimeKinds(int count,
+    private static IEnumerable<EntityModelForDateTimeKind> CreateEntityModelForDateTimeKinds(int count,
         bool isDateTimeNull = false)
     {
         for (var i = 0; i < count; i++)
@@ -360,7 +360,7 @@ public class PropertyHandlerImplicitTest : TestBase
         }
     }
 
-    private IEnumerable<EntityModelForNumberPropertiesToLongType> CreateEntityModelForNumberPropertiesToLongTypes(int count,
+    private static IEnumerable<EntityModelForNumberPropertiesToLongType> CreateEntityModelForNumberPropertiesToLongTypes(int count,
         bool isIntNull = false)
     {
         for (var i = 0; i < count; i++)
@@ -383,7 +383,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForClasses(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -404,7 +404,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForClasses(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -425,7 +425,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForClasses(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -446,7 +446,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForClasses(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -471,7 +471,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateImmutableEntityModelForClasses(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -492,7 +492,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateImmutableEntityModelForClasses(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -513,7 +513,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateImmutableEntityModelForClasses(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -534,7 +534,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateImmutableEntityModelForClasses(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -559,7 +559,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -580,7 +580,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -601,7 +601,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -622,7 +622,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForIntToStringTypes(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -650,7 +650,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -674,7 +674,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -695,7 +695,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -716,7 +716,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForNumberPropertiesToLongTypes(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -744,7 +744,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -768,7 +768,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 
@@ -792,7 +792,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(models);
 
@@ -816,7 +816,7 @@ public class PropertyHandlerImplicitTest : TestBase
         // Setup
         var models = CreateEntityModelForDateTimeKinds(10, true).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         models.ForEach(e => connection.Insert(e));
 

@@ -16,9 +16,9 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.Insert<Entity<InheritedIdentityTable>>(entity);
+        connection.Insert(entity);
 
         // Act
         var deleteResult = connection.Delete<InheritedIdentityTable>(entity);
@@ -34,7 +34,7 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(entity);
 
@@ -56,7 +56,7 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<Entity<InheritedIdentityTable>, long>(entity);
 
@@ -82,9 +82,9 @@ public class BaseEnferredInheritanceTest : TestBase
         var entities = Helper.CreateInheritedIdentityTables(10)
             .Select(x => (Entity<InheritedIdentityTable>)x).ToList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertAllResult = connection.InsertAll<Entity<InheritedIdentityTable>>(entities, trace: new DiagnosticsTracer());
+        var insertAllResult = connection.InsertAll(entities, trace: new DiagnosticsTracer());
 
         // Assert
         Assert.AreEqual(entities.Count, insertAllResult);
@@ -95,8 +95,8 @@ public class BaseEnferredInheritanceTest : TestBase
 
         // Assert
         Assert.AreEqual(entities.Count, queryResult.Count());
-        entities.ForEach(entity =>
-            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
+        foreach (var entity in entities) 
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id));
     }
 
     #endregion
@@ -109,7 +109,7 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeResult = connection.Merge<Entity<InheritedIdentityTable>, long>(entity);
 
@@ -130,7 +130,7 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Merge<Entity<InheritedIdentityTable>, long>(entity);
 
@@ -168,9 +168,9 @@ public class BaseEnferredInheritanceTest : TestBase
         var entities = Helper.CreateInheritedIdentityTables(10)
             .Select(x => (Entity<InheritedIdentityTable>)x).ToList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var mergeAllRequest = connection.MergeAll<Entity<InheritedIdentityTable>>(entities);
+        var mergeAllRequest = connection.MergeAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, mergeAllRequest);
@@ -180,8 +180,8 @@ public class BaseEnferredInheritanceTest : TestBase
 
         // Assert
         Assert.AreEqual(entities.Count, queryResult.Count());
-        entities.ForEach(entity =>
-            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
+        foreach (var entity in entities) 
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id));
     }
 
     [TestMethod]
@@ -191,19 +191,19 @@ public class BaseEnferredInheritanceTest : TestBase
         var entities = Helper.CreateInheritedIdentityTables(10)
             .Select(x => (Entity<InheritedIdentityTable>)x).ToList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertAllResult = connection.InsertAll<Entity<InheritedIdentityTable>>(entities);
+        var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBit = false;
             entity.ColumnDateTime2 = DateTime.UtcNow;
-        });
+        }
 
         // Act
-        var mergeAllResult = connection.MergeAll<Entity<InheritedIdentityTable>>(entities);
+        var mergeAllResult = connection.MergeAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, mergeAllResult);
@@ -213,8 +213,8 @@ public class BaseEnferredInheritanceTest : TestBase
 
         // Assert
         Assert.AreEqual(entities.Count, queryResult.Count());
-        entities.ForEach(entity =>
-            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
+        foreach (var entity in entities) 
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id));
     }
 
     #endregion
@@ -227,7 +227,7 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert<Entity<InheritedIdentityTable>, long>(entity);
 
@@ -249,7 +249,7 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert<Entity<InheritedIdentityTable>, long>(entity);
 
@@ -258,7 +258,7 @@ public class BaseEnferredInheritanceTest : TestBase
         entity.ColumnDateTime2 = DateTime.UtcNow;
 
         // Act
-        var updateResult = connection.Update<Entity<InheritedIdentityTable>>(entity);
+        var updateResult = connection.Update(entity);
 
         // Assert
         Assert.IsGreaterThan(0, updateResult);
@@ -277,7 +277,7 @@ public class BaseEnferredInheritanceTest : TestBase
         // Setup
         Entity<InheritedIdentityTable> entity = Helper.CreateInheritedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert<Entity<InheritedIdentityTable>, long>(entity);
 
@@ -310,19 +310,19 @@ public class BaseEnferredInheritanceTest : TestBase
         var entities = Helper.CreateInheritedIdentityTables(10)
             .Select(x => (Entity<InheritedIdentityTable>)x).ToList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<Entity<InheritedIdentityTable>>(entities);
+        connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBit = false;
             entity.ColumnDateTime2 = DateTime.UtcNow;
-        });
+        }
 
         // Act
-        var updateAllResult = connection.UpdateAll<Entity<InheritedIdentityTable>>(entities);
+        var updateAllResult = connection.UpdateAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, updateAllResult);
@@ -332,8 +332,8 @@ public class BaseEnferredInheritanceTest : TestBase
 
         // Assert
         Assert.AreEqual(entities.Count, queryResult.Count());
-        entities.ForEach(entity =>
-            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id)));
+        foreach (var entity in entities) 
+            Helper.AssertPropertiesEquality(entity, queryResult.First(e => e.Id == entity.Id));
     }
 
     #endregion

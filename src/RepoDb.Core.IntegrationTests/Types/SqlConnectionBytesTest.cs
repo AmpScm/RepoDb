@@ -25,7 +25,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinary = bytes
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -53,7 +53,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinary = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -83,7 +83,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnTinyIntMapped = 128
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -111,7 +111,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinaryMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -141,7 +141,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnTinyInt = 128
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -171,7 +171,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinary = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -203,7 +203,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnTinyIntMapped = 128
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -233,7 +233,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinaryMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -269,7 +269,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinary = bytes
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<BytesClass>(), entity);
 
@@ -297,7 +297,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinary = (byte[])null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<BytesClass>(), entity);
 
@@ -327,7 +327,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnTinyInt = 128
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<BytesClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -357,7 +357,7 @@ public class SqlConnectionBytesTest : TestBase
             ColumnVarBinary = (byte[])null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<BytesClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;

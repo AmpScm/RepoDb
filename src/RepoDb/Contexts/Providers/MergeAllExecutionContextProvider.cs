@@ -9,9 +9,6 @@ using RepoDb.Requests;
 
 namespace RepoDb.Contexts.Providers;
 
-/// <summary>
-///
-/// </summary>
 internal static class MergeAllExecutionContextProvider
 {
     private static string GetKey(Type entityType,
@@ -37,21 +34,6 @@ internal static class MergeAllExecutionContextProvider
             hints);
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="entities"></param>
-    /// <param name="tableName"></param>
-    /// <param name="qualifiers"></param>
-    /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
-    /// <param name="fields"></param>
-    /// <param name="noUpdateFields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <returns></returns>
-    /// <param name="statementBuilder"></param>
     public static MergeAllExecutionContext Create(Type entityType,
         IDbConnection connection,
         IEnumerable<object> entities,
@@ -127,22 +109,6 @@ internal static class MergeAllExecutionContextProvider
         return context;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="entities"></param>
-    /// <param name="tableName"></param>
-    /// <param name="qualifiers"></param>
-    /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
-    /// <param name="fields"></param>
-    /// <param name="noUpdateFields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <returns></returns>
-    /// <param name="cancellationToken"></param>
     public static async Task<MergeAllExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         IEnumerable<object> entities,
@@ -260,7 +226,7 @@ internal static class MergeAllExecutionContextProvider
         // Variables for the context
         Action<object, object?>? keyPropertySetterFunc = null;
 
-        if (dbFields.GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } keyField)
+        if (dbFields.GetReturnColumn() is { } keyField)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);

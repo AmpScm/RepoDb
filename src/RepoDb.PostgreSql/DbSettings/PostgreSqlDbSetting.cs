@@ -26,6 +26,7 @@ public sealed record PostgreSqlDbSetting : BaseDbSetting
         OpeningQuote = "\"";
         ParameterPrefix = "@";
         MaxParameterCount = 8096; // PostgreSQL allows up to 32767 parameters, but we set it lower to avoid issues with large queries and code generated for that
+        UseArrayParameterTreshold = 15;
     }
 
     /// <inheritdoc />
@@ -84,4 +85,7 @@ public sealed record PostgreSqlDbSetting : BaseDbSetting
             DateTimePartQueryField.MillisecondFormat => "(EXTRACT(MILLISECOND FROM {0}) % 1000)",
             _ => base.TranslateFunctionalFormat(format)
         };
+
+    /// <inheritdoc />
+    public override string? CreateTableParameterText(string parameterName) => $"(SELECT unnest({parameterName}))";
 }

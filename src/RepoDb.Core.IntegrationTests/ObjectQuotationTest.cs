@@ -16,9 +16,9 @@ public class ObjectQuotationTest : TestBase
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var deleteResult = connection.Delete<UnorganizedTable>(last.Id);
 
         // Assert
@@ -32,9 +32,9 @@ public class ObjectQuotationTest : TestBase
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var deleteResult = connection.Delete<UnorganizedTable>(e => e.SessionId == last.SessionId);
 
         // Assert
@@ -51,7 +51,7 @@ public class ObjectQuotationTest : TestBase
         // Setup
         var entity = Helper.CreateUnorganizedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<UnorganizedTable, long>(entity);
 
@@ -70,9 +70,9 @@ public class ObjectQuotationTest : TestBase
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsInserted);
@@ -89,7 +89,7 @@ public class ObjectQuotationTest : TestBase
         // Setup
         var entity = Helper.CreateUnorganizedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge<UnorganizedTable, long>(entity);
 
@@ -120,24 +120,24 @@ public class ObjectQuotationTest : TestBase
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsAffected = connection.MergeAll<UnorganizedTable>(entities);
+        var rowsAffected = connection.MergeAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsAffected);
         Assert.AreEqual(entities.Count, connection.CountAll<UnorganizedTable>());
 
         // Setup
-        entities.ForEach(entity =>
+        foreach(var entity in entities)
         {
             entity.ColumnDateTime2 = DateTime.UtcNow;
             entity.ColumnInt = 2;
             entity.ColumnNVarChar = Guid.NewGuid().ToString();
-        });
+        }
 
         // Act
-        rowsAffected = connection.MergeAll<UnorganizedTable>(entities);
+        rowsAffected = connection.MergeAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsAffected);
@@ -146,7 +146,7 @@ public class ObjectQuotationTest : TestBase
         var queryAllResult = connection.QueryAll<UnorganizedTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
+        foreach(var entity in entities)  Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id));
     }
 
     #endregion
@@ -160,9 +160,9 @@ public class ObjectQuotationTest : TestBase
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var queryResult = connection.Query<UnorganizedTable>(last.Id).FirstOrDefault();
 
         // Assert
@@ -177,9 +177,9 @@ public class ObjectQuotationTest : TestBase
         var entities = Helper.CreateUnorganizedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var queryResult = connection.Query<UnorganizedTable>(e => e.SessionId == last.SessionId).FirstOrDefault();
 
         // Assert
@@ -197,14 +197,14 @@ public class ObjectQuotationTest : TestBase
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<UnorganizedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var queryAllResult = connection.QueryAll<UnorganizedTable>();
 
         // Assert
         Assert.AreEqual(entities.Count, queryAllResult.Count());
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
+        foreach(var entity in entities)  Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id));
     }
 
     #endregion
@@ -217,7 +217,7 @@ public class ObjectQuotationTest : TestBase
         // Setup
         var entity = Helper.CreateUnorganizedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<UnorganizedTable, long>(entity);
 
@@ -227,7 +227,7 @@ public class ObjectQuotationTest : TestBase
         entity.ColumnNVarChar = Guid.NewGuid().ToString();
 
         // Act
-        var updateReuslt = connection.Update<UnorganizedTable>(entity);
+        var updateReuslt = connection.Update(entity);
         var queryResult = connection.Query<UnorganizedTable>(id).First();
 
         // Assert
@@ -245,20 +245,20 @@ public class ObjectQuotationTest : TestBase
         // Setup
         var entities = Helper.CreateUnorganizedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsAffected = connection.InsertAll<UnorganizedTable>(entities);
+        var rowsAffected = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach(var entity in entities)
         {
             entity.ColumnDateTime2 = DateTime.UtcNow;
             entity.ColumnInt = 2;
             entity.ColumnNVarChar = Guid.NewGuid().ToString();
-        });
+        }
 
         // Act
-        rowsAffected = connection.UpdateAll<UnorganizedTable>(entities);
+        rowsAffected = connection.UpdateAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsAffected);
@@ -267,7 +267,7 @@ public class ObjectQuotationTest : TestBase
         var queryAllResult = connection.QueryAll<UnorganizedTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
+        foreach(var entity in entities)  Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id));
     }
 
     #endregion

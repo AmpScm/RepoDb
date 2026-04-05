@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Numerics;
+using System.Dynamic;
 using System.Reflection;
 using System.Text.Json.Nodes;
 using RepoDb.Attributes;
@@ -117,6 +117,9 @@ public static class TypeExtension
             || type == typeof(float)
 #if NET
             || type == typeof(Half)
+#if NET11_0_OR_GREATER
+            || type == typeof(System.Numerics.BFloat16)
+#endif
 #endif
         ;
     }
@@ -201,8 +204,7 @@ public static class TypeExtension
     /// <param name="type">The current type.</param>
     /// <returns>Returns true if the current type is of type <see cref="IDictionary{TKey, TValue}"/> (with string/object key-value-pair).</returns>
     public static bool IsDictionaryStringObject(this Type type) =>
-        type == StaticType.IDictionaryStringObject ||
-        type == StaticType.DictionaryStringObject || type == StaticType.ExpandoObject;
+        type == typeof(ExpandoObject) || type == typeof(Dictionary<string, object>) || type == typeof(IDictionary<string, object>);
 
     /// <summary>
     /// Checks whether the current type is wrapped within a <see cref="Nullable{T}"/> object.
@@ -268,7 +270,7 @@ public static class TypeExtension
         => TypeCache.Get(type).GetProperties().Select(property => new ClassProperty(type, property));
 
     /// <summary>
-    /// Returns the underlying type of the current type. If there is no underlying type, this will return the current type.
+    /// Returns the underlying type of the current type. If the type is not nullable, this will return the current type.
     /// </summary>
     /// <param name="type">The current type to check.</param>
     /// <returns>The underlying type or the current type.</returns>
@@ -318,6 +320,9 @@ public static class TypeExtension
         Type interfaceType)
     {
         ArgumentNullException.ThrowIfNull(currentType);
+        if (!interfaceType.IsGenericType)
+            return interfaceType.IsAssignableFrom(currentType);
+
         var targetInterface = currentType.IsInterface ? currentType :
             currentType
                 .GetInterfaces()

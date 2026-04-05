@@ -173,7 +173,7 @@ public class PropertyHandlerInvocationTest
         // Act
         using (var connection = new PropertyHandlerConnection())
         {
-            connection.Query<PropertyHandlerTestClassForQueryFields>((new QueryField("Id", 1)).AsEnumerable());
+            connection.Query<PropertyHandlerTestClassForQueryFields>(new QueryField("Id", 1).AsEnumerable());
         }
 
         // Assert

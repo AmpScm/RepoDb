@@ -31,12 +31,10 @@ public class SqlServerDbTypeNameToClientTypeResolver : IResolver<string, Type>
             "attribute" or "binary" or "filestream" or "image" or "rowversion" or "timestamp" or "varbinary" or "varbinary(max)" => typeof(byte[]),
             "bit" => typeof(bool),
             "char" or "nchar" or "ntext" or "nvarchar" or "text" or "varchar" or "xml" => typeof(string),
-            "date" =>
 #if NET
-            GlobalConfiguration.Options.DateOnlyAndTimeOnly ? typeof(DateOnly) :
+            "date" when GlobalConfiguration.Options.DateOnlyAndTimeOnly => typeof(DateOnly),
 #endif
-            typeof(DateTime),
-            "datetime" or "datetime2" or "smalldatetime" => typeof(DateTime),
+            "date" or "datetime" or "datetime2" or "smalldatetime" => typeof(DateTime),
             "datetimeoffset" => typeof(DateTimeOffset),
             "decimal" or "money" or "numeric" or "smallmoney" => typeof(decimal),
             "float" => typeof(double),
@@ -44,11 +42,10 @@ public class SqlServerDbTypeNameToClientTypeResolver : IResolver<string, Type>
             "real" => typeof(float),
             "smallint" => typeof(short),
             "sql_variant" => typeof(SqlVariant),
-            "time" =>
 #if NET
-            GlobalConfiguration.Options.DateOnlyAndTimeOnly ? typeof(TimeOnly) :
+            "time" when GlobalConfiguration.Options.DateOnlyAndTimeOnly => typeof(TimeOnly),
 #endif
-            typeof(TimeSpan),
+            "time" => typeof(TimeSpan),
             "tinyint" => typeof(byte),
             "uniqueidentifier" => typeof(Guid),
             "vector" => typeof(SqlVector<float>),

@@ -46,7 +46,7 @@ public class SqlConnectionSpatialsTest : TestBase
             ColumnGeometry = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -96,7 +96,7 @@ public class SqlConnectionSpatialsTest : TestBase
             ColumnGeometryMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -148,7 +148,7 @@ public class SqlConnectionSpatialsTest : TestBase
             ColumnGeometry = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -202,7 +202,7 @@ public class SqlConnectionSpatialsTest : TestBase
             ColumnGeometryMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -258,7 +258,7 @@ public class SqlConnectionSpatialsTest : TestBase
             ColumnGeometry = (object)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<SpatialsClass>(), entity);
 
@@ -310,7 +310,7 @@ public class SqlConnectionSpatialsTest : TestBase
             ColumnGeometry = (object)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<SpatialsClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;

@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 
@@ -18,7 +17,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.MergeAll<CompleteTable>(tables);
 
@@ -40,7 +39,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -69,7 +68,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -95,7 +94,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Helper.CreateNonIdentityCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.MergeAll<NonIdentityCompleteTable>(tables);
 
@@ -117,7 +116,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Database.CreateNonIdentityCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -145,7 +144,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -174,7 +173,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.MergeAllAsync<CompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -196,7 +195,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -225,7 +224,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -251,7 +250,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Helper.CreateNonIdentityCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.MergeAllAsync<NonIdentityCompleteTable>(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -273,7 +272,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Database.CreateNonIdentityCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -301,7 +300,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -334,7 +333,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.MergeAll(ClassMappedNameCache.Get<CompleteTable>(),
             tables);
@@ -357,7 +356,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.MergeAll(ClassMappedNameCache.Get<CompleteTable>(),
             tables);
@@ -381,7 +380,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -406,7 +405,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> entities = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
         tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
@@ -436,7 +435,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -462,7 +461,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<dynamic> tables = Helper.CreateCompleteTablesAsDynamics(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.MergeAll(ClassMappedNameCache.Get<CompleteTable>(),
             tables);
@@ -484,7 +483,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -513,7 +512,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -539,7 +538,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Helper.CreateNonIdentityCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables);
@@ -562,7 +561,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Database.CreateNonIdentityCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -591,7 +590,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -617,7 +616,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<dynamic> tables = Helper.CreateNonIdentityCompleteTablesAsDynamics(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.MergeAll(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables);
@@ -642,7 +641,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Database.CreateNonIdentityCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -671,7 +670,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -701,7 +700,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Helper.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
@@ -723,7 +722,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
@@ -747,7 +746,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -772,7 +771,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> entities = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
         tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
@@ -802,7 +801,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -828,7 +827,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<dynamic> tables = Helper.CreateCompleteTablesAsDynamics(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.MergeAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
@@ -850,7 +849,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<CompleteTable> tables = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -879,7 +878,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -905,7 +904,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Helper.CreateNonIdentityCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
@@ -927,7 +926,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Database.CreateNonIdentityCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -956,7 +955,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -982,7 +981,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<dynamic> tables = Helper.CreateNonIdentityCompleteTablesAsDynamics(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.MergeAllAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
@@ -1004,7 +1003,7 @@ public class MergeAllTest : TestBase
         // Setup
         List<NonIdentityCompleteTable> tables = Database.CreateNonIdentityCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 
@@ -1033,7 +1032,7 @@ public class MergeAllTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.ForEach(table => Helper.UpdateNonIdentityCompleteTableProperties(table));
 

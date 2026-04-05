@@ -50,9 +50,9 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
             return NpgsqlDbType.Polygon;
         }
         else if (type == typeof(NpgsqlRange<DateTime>) ||
-            type == typeof(NpgsqlRange<Decimal>) ||
-            type == typeof(NpgsqlRange<Int32>) ||
-            type == typeof(NpgsqlRange<Int64>))
+            type == typeof(NpgsqlRange<decimal>) ||
+            type == typeof(NpgsqlRange<int>) ||
+            type == typeof(NpgsqlRange<long>))
         {
             return NpgsqlDbType.Unknown;
         }
@@ -72,15 +72,15 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
         {
             return NpgsqlDbType.Unknown;
         }
-        else if (type == typeof(Boolean))
+        else if (type == typeof(bool))
         {
             return NpgsqlDbType.Boolean;
         }
-        else if (type == typeof(Byte[]))
+        else if (type == typeof(byte[]))
         {
             return NpgsqlDbType.Bytea;
         }
-        else if (type == typeof(Char))
+        else if (type == typeof(char))
         {
             return NpgsqlDbType.InternalChar;
         }
@@ -106,11 +106,11 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
             return NpgsqlDbType.Time;
         }
 #endif
-        else if (type == typeof(Decimal))
+        else if (type == typeof(decimal))
         {
             return NpgsqlDbType.Money;
         }
-        else if (type == typeof(Double))
+        else if (type == typeof(double))
         {
             return NpgsqlDbType.Double;
         }
@@ -118,15 +118,15 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
         {
             return NpgsqlDbType.Uuid;
         }
-        else if (type == typeof(Int16))
+        else if (type == typeof(short))
         {
             return NpgsqlDbType.Smallint;
         }
-        else if (type == typeof(Int32))
+        else if (type == typeof(int))
         {
             return NpgsqlDbType.Integer;
         }
-        else if (type == typeof(Int64))
+        else if (type == typeof(long))
         {
             return NpgsqlDbType.Bigint;
         }
@@ -138,11 +138,11 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
         {
             return NpgsqlDbType.MacAddr;
         }
-        else if (type == typeof(Single))
+        else if (type == typeof(float))
         {
             return NpgsqlDbType.Real;
         }
-        else if (type == typeof(String))
+        else if (type == typeof(string))
         {
             return NpgsqlDbType.Char;
         }
@@ -150,11 +150,11 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
         {
             return NpgsqlDbType.Interval;
         }
-        else if (type == typeof(UInt32))
+        else if (type == typeof(uint))
         {
             return NpgsqlDbType.Cid;
         }
-        else if (type == typeof(ValueTuple<System.Net.IPAddress, Int32>))
+        else if (type == typeof(ValueTuple<System.Net.IPAddress, int>))
         {
             return NpgsqlDbType.Cidr;
         }
@@ -162,52 +162,8 @@ public class ClientTypeToNpgsqlDbTypeResolver : IResolver<Type, NpgsqlDbType?>
         throw new InvalidOperationException($"The type '{type.FullName}' could not be resolved to '{typeof(NpgsqlDbType).FullName}'.");
     }
 
-    #region Extraction
-
-    //private string Extract()
-    //{
-    //    using (var connection = new NpgsqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        connection.Open();
-    //        using (var command = connection.CreateCommand())
-    //        {
-    //            using (var reader = connection.ExecuteReader("SELECT * FROM \"CompleteTable\";"))
-    //            {
-    //                var schemaTable = reader.GetSchemaTable();
-    //                var mappedType = new Dictionary<Type, string>();
-    //                var builder = new StringBuilder();
-    //                foreach (DataRow row in schemaTable.Rows)
-    //                {
-    //                    if (row.IsNull("DataType"))
-    //                    {
-    //                        continue;
-    //                    }
-    //                    var dataType = (Type)row["DataType"];
-    //                    var providerType = Convert.ToInt32(row["ProviderType"]);
-    //                    var npgsqlDbType = Enum.GetName(typeof(NpgsqlDbType), providerType);
-    //                    if (npgsqlDbType is null)
-    //                    {
-    //                        continue;
-    //                    }
-    //                    if (mappedType.ContainsKey(dataType))
-    //                    {
-    //                        continue;
-    //                    }
-    //                    mappedType.Add(dataType, npgsqlDbType);
-    //                }
-    //                var keys = mappedType.Keys.ToArray().OrderBy(e => e.FullName);
-    //                foreach (var key in keys)
-    //                {
-    //                    builder.AppendLine($"else if (type == typeof({key.FullName}))");
-    //                    builder.AppendLine("{");
-    //                    builder.AppendLine($"   return NpgsqlDbType.{mappedType[key]};");
-    //                    builder.AppendLine("}");
-    //                }
-    //                var extracted = builder.ToString();
-    //            }
-    //        }
-    //    }
-    //}
-
-    #endregion
+    /// <summary>
+    /// The default instance of the <see cref="ClientTypeToNpgsqlDbTypeResolver"/> class.
+    /// </summary>
+    public static readonly ClientTypeToNpgsqlDbTypeResolver Instance = new();
 }

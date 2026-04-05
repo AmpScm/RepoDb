@@ -16,7 +16,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -29,7 +29,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
             tables);
 
         // Assert
@@ -53,7 +53,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -66,7 +66,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+        var affectedRows = connection.UpdateAll(ClassMappedNameCache.Get<NonIdentityTable>(),
             tables,
             fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
@@ -91,7 +91,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -104,7 +104,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables);
+        var affectedRows = connection.UpdateAll(tables);
 
         // Assert
         Assert.AreEqual(tables.Count, affectedRows);
@@ -127,7 +127,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -140,7 +140,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+        var affectedRows = connection.UpdateAll(tables,
             fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)));
 
         // Assert
@@ -164,7 +164,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -177,7 +177,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables, 1);
+        var affectedRows = connection.UpdateAll(tables, 1);
 
         // Assert
         Assert.AreEqual(tables.Count, affectedRows);
@@ -200,7 +200,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -213,7 +213,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+        var affectedRows = connection.UpdateAll(tables,
             qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)));
 
         // Assert
@@ -237,7 +237,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -250,7 +250,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+        var affectedRows = connection.UpdateAll(tables,
             qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1);
 
         // Assert
@@ -274,7 +274,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -287,7 +287,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = connection.UpdateAll<NonIdentityTable>(tables,
+        var affectedRows = connection.UpdateAll(tables,
             hints: SqlServerTableHints.TabLock);
 
         // Assert
@@ -315,7 +315,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -328,7 +328,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -352,7 +352,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -365,7 +365,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
+        var affectedRows = await connection.UpdateAllAsync(ClassMappedNameCache.Get<NonIdentityTable>(),
             tables,
             fields: Field.From(nameof(NonIdentityTable.Id), nameof(NonIdentityTable.ColumnBit), nameof(NonIdentityTable.ColumnInt), nameof(NonIdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
@@ -390,7 +390,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -426,7 +426,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -463,7 +463,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -476,7 +476,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables, 1, cancellationToken: TestContext.CancellationToken);
+        var affectedRows = await connection.UpdateAllAsync(tables, 1, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(tables.Count, affectedRows);
@@ -499,7 +499,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -512,7 +512,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
+        var affectedRows = await connection.UpdateAllAsync(tables,
             qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -536,7 +536,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -549,7 +549,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
+        var affectedRows = await connection.UpdateAllAsync(tables,
             qualifiers: Field.From(nameof(NonIdentityTable.ColumnFloat), nameof(NonIdentityTable.ColumnNVarChar)), 1, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -573,7 +573,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -586,7 +586,7 @@ public class UpdateAllTest : TestBase
         });
 
         // Act
-        var affectedRows = await connection.UpdateAllAsync<NonIdentityTable>(tables,
+        var affectedRows = await connection.UpdateAllAsync(tables,
             hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -614,7 +614,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -656,7 +656,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -699,7 +699,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -736,7 +736,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -776,7 +776,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -818,7 +818,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -861,7 +861,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -904,7 +904,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -947,7 +947,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -990,7 +990,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1037,7 +1037,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1079,7 +1079,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1122,7 +1122,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1159,7 +1159,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1199,7 +1199,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1241,7 +1241,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1284,7 +1284,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1327,7 +1327,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1370,7 +1370,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1413,7 +1413,7 @@ public class UpdateAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

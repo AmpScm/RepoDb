@@ -52,7 +52,7 @@ public class SqlConnectionOthersTest : TestBase
             ColumnXml = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -110,7 +110,7 @@ public class SqlConnectionOthersTest : TestBase
             ColumnXmlMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -170,7 +170,7 @@ public class SqlConnectionOthersTest : TestBase
             ColumnXml = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -232,7 +232,7 @@ public class SqlConnectionOthersTest : TestBase
             ColumnXmlMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -296,7 +296,7 @@ public class SqlConnectionOthersTest : TestBase
             ColumnXml = (string)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<OthersClass>(), entity);
 
@@ -356,7 +356,7 @@ public class SqlConnectionOthersTest : TestBase
             ColumnXml = (string)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<OthersClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;

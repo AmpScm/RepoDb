@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Dynamic;
+using RepoDb.DbSettings;
 using RepoDb.Interfaces;
 
 namespace RepoDb;
@@ -71,6 +72,9 @@ public static partial class DbConnectionExtension
             entityType: entityType,
             dbFields: dbFields,
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck);
+
+        (connection.GetDbHelper() as BaseDbHelper)?.PrepareForExecuteReader(command);
+
         var hasError = false;
 
         // Ensure the DbCommand disposal
@@ -188,6 +192,8 @@ public static partial class DbConnectionExtension
             skipCommandArrayParametersCheck: skipCommandArrayParametersCheck,
             cancellationToken: cancellationToken).ConfigureAwait(false);
         var hasError = false;
+
+        (connection.GetDbHelper() as BaseDbHelper)?.PrepareForExecuteReader(command);
 
         // Ensure the DbCommand disposal
         try

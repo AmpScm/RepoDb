@@ -17,12 +17,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.Id), Operation.Between, new[] { 4, 6 });
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);
@@ -42,12 +42,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.Id), Operation.NotBetween, new[] { 4, 6 });
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);
@@ -71,9 +71,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => (new long[] { 4, 5 }).Contains(item.Id));
@@ -89,9 +89,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => (new long[] { }).Contains(item.Id));
@@ -107,9 +107,9 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var values = new long[] { 4, 5 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id));
@@ -129,12 +129,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
-        var queryResult = connection.Query<IdentityTable>(item => (new List<long>() { 4, 5 }).Contains(item.Id));
+        var queryResult = connection.Query<IdentityTable>(item => new List<long>() { 4, 5 }.Contains(item.Id));
 
         // Assert
         Assert.AreEqual(2, queryResult.Count());
@@ -147,12 +147,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
-        var queryResult = connection.Query<IdentityTable>(item => (new List<long>()).Contains(item.Id));
+        var queryResult = connection.Query<IdentityTable>(item => new List<long>().Contains(item.Id));
 
         // Assert
         Assert.AreEqual(0, queryResult.Count());
@@ -165,9 +165,9 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var values = new List<long>() { 4, 5 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id));
@@ -187,9 +187,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.Contains("NVARCHAR2"));
@@ -209,9 +209,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.StartsWith("NVar"));
@@ -231,9 +231,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.EndsWith("CHAR1"));
@@ -257,9 +257,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => (new long[] { 4, 5 }).Contains(item.Id) == false);
@@ -275,9 +275,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => !(new long[] { 4, 5 }).Contains(item.Id));
@@ -294,9 +294,9 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var values = new long[] { 4, 5 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id) == false);
@@ -313,9 +313,9 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var values = new long[] { 4, 5 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => !values.Contains(item.Id));
@@ -335,12 +335,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
-        var queryResult = connection.Query<IdentityTable>(item => (new List<long>() { 4, 5 }).Contains(item.Id) == false);
+        var queryResult = connection.Query<IdentityTable>(item => new List<long>() { 4, 5 }.Contains(item.Id) == false);
 
         // Assert
         Assert.AreEqual(8, queryResult.Count());
@@ -353,12 +353,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
-        var queryResult = connection.Query<IdentityTable>(item => !(new List<long>() { 4, 5 }).Contains(item.Id));
+        var queryResult = connection.Query<IdentityTable>(item => !new List<long>() { 4, 5 }.Contains(item.Id));
 
         // Assert
         Assert.AreEqual(8, queryResult.Count());
@@ -372,9 +372,9 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var values = new List<long>() { 4, 5 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => values.Contains(item.Id) == false);
@@ -391,9 +391,9 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var values = new List<long>() { 4, 5 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => !values.Contains(item.Id));
@@ -413,9 +413,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.Contains("NVARCHAR2") == false);
@@ -431,9 +431,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.Contains("NVARCHAR2"));
@@ -453,9 +453,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.StartsWith("NVar") == false);
@@ -471,9 +471,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.StartsWith("NVar"));
@@ -493,9 +493,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => item.ColumnNVarChar.EndsWith("CHAR1") == false);
@@ -511,9 +511,9 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(item => !item.ColumnNVarChar.EndsWith("CHAR1"));
@@ -537,12 +537,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.Id), Operation.In, new[] { 4, 7 });
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);
@@ -559,12 +559,12 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var value = new List<int> { 4, 7 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.Id), Operation.In, value);
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);
@@ -584,12 +584,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.Id), Operation.NotIn, new[] { 4, 7 });
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);
@@ -606,12 +606,12 @@ public class SpecialOperationTest : TestBase
         var entities = Helper.CreateIdentityTables(10);
         var value = new List<int> { 4, 7 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.Id), Operation.NotIn, value);
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);
@@ -631,12 +631,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.ColumnNVarChar), Operation.Like, "NVARCHAR1%"); // Matching: NVARCHAR1, NVARCHAR10
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);
@@ -656,12 +656,12 @@ public class SpecialOperationTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Prepare
         var field = new QueryField(nameof(IdentityTable.ColumnNVarChar), Operation.NotLike, "NVARCHAR1%"); // Not Matching: NVARCHAR1, NVARCHAR10
 
         // Act
-        connection.InsertAll<IdentityTable>(entities);
+        connection.InsertAll(entities);
 
         // Act
         var queryResult = connection.Query<IdentityTable>(field);

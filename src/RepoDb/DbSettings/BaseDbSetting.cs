@@ -83,9 +83,7 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     /// <inheritdoc />
     public int? UseInValuesTreshold { get; protected init; }
 
-    /// <summary>
-    ///
-    /// </summary>
+    /// <inheritdoc/>
     public int MaxArrayParameterValueCount { get; protected init; } = ushort.MaxValue;
 
     #endregion
@@ -154,6 +152,14 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
         // Set and return the hashcode
         return this.hashCode ??= hashCode;
     }
+
+
+    /// <summary>
+    /// Creates the text representation of a table parameter for the specified field type and values. This method is used to generate the appropriate SQL syntax for table parameters in databases that support them.
+    /// </summary>
+    /// <param name="parameterName"></param>
+    /// <returns></returns>
+    public virtual string? CreateTableParameterText(string parameterName) => null;
 
     #endregion
 }

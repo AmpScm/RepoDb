@@ -419,7 +419,7 @@ namespace RepoDb
                 return TimeSpan.FromTicks(milliseconds * TimeSpan.TicksPerMillisecond);
             }
 
-            public int Microseconds => (int)((ts.Ticks % TimeSpan.TicksPerMillisecond) / (TimeSpan.TicksPerMillisecond / 1000));
+            public int Microseconds => (int)(ts.Ticks % TimeSpan.TicksPerMillisecond / (TimeSpan.TicksPerMillisecond / 1000));
         }
 
 #endif

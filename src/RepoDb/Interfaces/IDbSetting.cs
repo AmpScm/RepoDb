@@ -74,7 +74,8 @@ public interface IDbSetting
     bool GenerateFinalSemiColon { get; }
 
     /// <summary>
-    ///
+    /// Gets the threshold value that determines when the "IN" clause should be used with values instead of separate  parameters.
+    /// This is used to optimize queries for databases that can optimize IN only with specific syntax
     /// </summary>
     int? UseInValuesTreshold { get; }
 
@@ -84,7 +85,8 @@ public interface IDbSetting
     int? UseArrayParameterTreshold { get; }
 
     /// <summary>
-    ///
+    /// Gets a number of values that can be used in an array parameter. This is used to optimize queries for databases that can
+    /// optimize array expressions different than writing out the arguments.
     /// </summary>
     int MaxArrayParameterValueCount { get; }
 }

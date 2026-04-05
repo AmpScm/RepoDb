@@ -1,4 +1,6 @@
-﻿using RepoDb.Attributes;
+﻿using System.Data.Common;
+using Npgsql;
+using RepoDb.Attributes;
 using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Enumerations;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
@@ -9,6 +11,20 @@ namespace RepoDb.PostgreSql.IntegrationTests;
 [TestClass]
 public class EnumTests : TestBase
 {
+    private static readonly Lazy<NpgsqlDataSource> setup = new(DoSetup, true);
+    public override DbConnection CreateConnection()
+    {
+        return setup.Value.CreateConnection();
+    }
+
+    private static NpgsqlDataSource DoSetup()
+    {
+        NpgsqlDataSourceBuilder src = new NpgsqlDataSourceBuilder(Database.ConnectionString);
+
+        src.MapEnum<Hands>("hand");
+        return src.Build();
+    }
+
     #region Enumerations
 
     #endregion
@@ -132,7 +148,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsTextAsNull()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithText person = GetPersonWithText(1).First();
         person.ColumnText = null;
@@ -150,7 +166,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsText()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithText person = GetPersonWithText(1).First();
 
@@ -167,7 +183,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsTextByBatch()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<PersonWithText> people = GetPersonWithText(10).AsList();
 
@@ -188,7 +204,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsIntegerAsNull()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithInteger person = GetPersonWithInteger(1).First();
         person.ColumnInteger = null;
@@ -206,7 +222,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsInteger()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithInteger person = GetPersonWithInteger(1).First();
 
@@ -223,7 +239,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsIntegerAsBatch()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<PersonWithInteger> people = GetPersonWithInteger(10).AsList();
 
@@ -244,7 +260,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsTextAsInt()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithTextAsInteger person = GetPersonWithTextAsInteger(1).First();
 
@@ -261,7 +277,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsTextAsIntAsBatch()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<PersonWithTextAsInteger> people = GetPersonWithTextAsInteger(10).AsList();
 
@@ -282,7 +298,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsEnum()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithEnum person = GetPersonWithEnum(1).First();
 
@@ -290,7 +306,7 @@ public class EnumTests : TestBase
         connection.Insert(person, trace: new DiagnosticsTracer());
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         PersonWithEnum queryResult = connection.Query<PersonWithEnum>(person.Id).First();
 
         // Assert
@@ -300,7 +316,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsEnumAsBatch()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<PersonWithEnum> people = GetPersonWithEnum(10).AsList();
 
@@ -308,7 +324,7 @@ public class EnumTests : TestBase
         connection.InsertAll(people);
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         List<PersonWithEnum> queryResult = connection.QueryAll<PersonWithEnum>().AsList();
 
         // Assert
@@ -322,7 +338,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsEnumViaEnum()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithEnum person = GetPersonWithEnum(1).First();
 
@@ -330,7 +346,7 @@ public class EnumTests : TestBase
         connection.Insert(person);
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         PersonWithEnum queryResult = connection.Query<PersonWithEnum>(where: p => p.ColumnEnumHand == person.ColumnEnumHand).First();
 
         // Assert
@@ -340,7 +356,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsEnumViaDynamicEnum()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithEnum person = GetPersonWithEnum(1).First();
 
@@ -348,7 +364,7 @@ public class EnumTests : TestBase
         connection.Insert(person);
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         PersonWithEnum queryResult = connection.Query<PersonWithEnum>(new { ColumnEnumHand = person.ColumnEnumHand }).First();
 
         // Assert
@@ -358,7 +374,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsNullableEnumAsNull()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithNullableEnum person = GetPersonWithNullableEnum(1).First();
         person.ColumnEnumHand = null;
@@ -367,7 +383,7 @@ public class EnumTests : TestBase
         connection.Insert(person);
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         PersonWithNullableEnum queryResult = connection.Query<PersonWithNullableEnum>(person.Id).First();
 
         // Assert
@@ -377,7 +393,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsNullableEnum()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithNullableEnum person = GetPersonWithNullableEnum(1).First();
 
@@ -385,7 +401,7 @@ public class EnumTests : TestBase
         connection.Insert(person);
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         PersonWithNullableEnum queryResult = connection.Query<PersonWithNullableEnum>(person.Id).First();
 
         // Assert
@@ -395,7 +411,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsNullableEnumAsBatch()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<PersonWithNullableEnum> people = GetPersonWithNullableEnum(10).AsList();
 
@@ -403,7 +419,7 @@ public class EnumTests : TestBase
         connection.InsertAll(people);
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         List<PersonWithNullableEnum> queryResult = connection.QueryAll<PersonWithNullableEnum>().AsList();
 
         // Assert
@@ -417,7 +433,7 @@ public class EnumTests : TestBase
     [TestMethod]
     public void TestInsertAndQueryEnumAsNullableEnumByEnum()
     {
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         PersonWithNullableEnum person = GetPersonWithNullableEnum(1).First();
 
@@ -425,7 +441,7 @@ public class EnumTests : TestBase
         connection.Insert(person);
 
         // Query
-        connection.ReloadTypes();
+        ((NpgsqlConnection)connection).ReloadTypes();
         PersonWithNullableEnum queryResult = connection.Query<PersonWithNullableEnum>(where: p => p.ColumnEnumHand == person.ColumnEnumHand).First();
 
         // Assert

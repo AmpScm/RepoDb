@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Models;
+﻿using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
@@ -17,7 +16,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Merge<CompleteTable>(table);
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(result);
@@ -33,7 +32,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -61,7 +60,7 @@ public class MergeTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
         table.ColumnInteger = 0;
@@ -92,7 +91,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.MergeAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
         IEnumerable<CompleteTable> queryResult = connection.Query<CompleteTable>(result);
@@ -108,7 +107,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -136,7 +135,7 @@ public class MergeTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
         table.ColumnInteger = 0;
@@ -171,7 +170,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table);
@@ -188,7 +187,7 @@ public class MergeTest : TestBase
         // Setup
         System.Dynamic.ExpandoObject table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             table);
@@ -206,7 +205,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -231,7 +230,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         System.Dynamic.ExpandoObject entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
         ((IDictionary<string, object?>)entity)["Id"] = table.Id;
@@ -261,7 +260,7 @@ public class MergeTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
         table.ColumnInteger = 0;
@@ -289,7 +288,7 @@ public class MergeTest : TestBase
         // Setup
         dynamic table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Merge(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table);
@@ -311,7 +310,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -340,7 +339,7 @@ public class MergeTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -370,7 +369,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -387,7 +386,7 @@ public class MergeTest : TestBase
         // Setup
         System.Dynamic.ExpandoObject table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -405,7 +404,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -430,7 +429,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         System.Dynamic.ExpandoObject entity = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
         ((IDictionary<string, object?>)entity)["Id"] = table.Id;
@@ -460,7 +459,7 @@ public class MergeTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -486,7 +485,7 @@ public class MergeTest : TestBase
         // Setup
         dynamic table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.MergeAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
@@ -508,7 +507,7 @@ public class MergeTest : TestBase
         // Setup
         CompleteTable table = Database.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 
@@ -537,7 +536,7 @@ public class MergeTest : TestBase
             new Field("Id", typeof(long))
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Helper.UpdateCompleteTableProperties(table);
 

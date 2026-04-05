@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Data.SqlClient;
 using RepoDb.Options;
 using RepoDb.TestCore;
@@ -14,6 +15,7 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
         TypeMapper.Add(typeof(DateTime), System.Data.DbType.DateTime2, true);
     }
 
+    [SetsRequiredMembers]
     public SqlServerDbInstance()
     {
         // System connection (sa on master)

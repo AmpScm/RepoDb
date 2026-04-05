@@ -38,7 +38,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionJsonExtract2()
     {
         var actual = QueryGroup.Parse<ForJsonEntity>(e => e.Data.ExtractValue(x => x.Name) == "a" && e.Data.ExtractValue(x => x.Nr) == 7);
-        Assert.AreEqual("((JSON_EXTRACT([Data], '$.Name') = @Data) AND (JSON_EXTRACT([Data], '$.Nr') = @Data_1))", actual.GetString(m_dbSetting));
+        Assert.AreEqual("(JSON_EXTRACT([Data], '$.Name') = @Data AND JSON_EXTRACT([Data], '$.Nr') = @Data_1)", actual.GetString(m_dbSetting));
     }
 
 
@@ -46,14 +46,14 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionJsonValue2()
     {
         var actual = QueryGroup.Parse<ForJsonEntity>(e => e.Data.Value.Name == "a" && e.Data.Value.Nr == 2);
-        Assert.AreEqual("((JSON_EXTRACT([Data], '$.Name') = @Data) AND (JSON_EXTRACT([Data], '$.Nr') = @Data_1))", actual.GetString(m_dbSetting));
+        Assert.AreEqual("(JSON_EXTRACT([Data], '$.Name') = @Data AND JSON_EXTRACT([Data], '$.Nr') = @Data_1)", actual.GetString(m_dbSetting));
     }
 
     [TestMethod]
     public void TestQueryGroupParseExpressionJsonExtractDeep()
     {
         var actual = QueryGroup.Parse<ForJsonEntity>(e => e.Data.ExtractValue(x => x.Values[0]) == "a" && e.Data.ExtractValue(x => x.Inner.Inner.Nr) == 7);
-        Assert.AreEqual("((JSON_EXTRACT([Data], '$.Values[0]') = @Data) AND (JSON_EXTRACT([Data], '$.Inner.Inner.Nr') = @Data_1))", actual.GetString(m_dbSetting));
+        Assert.AreEqual("(JSON_EXTRACT([Data], '$.Values[0]') = @Data AND JSON_EXTRACT([Data], '$.Inner.Inner.Nr') = @Data_1)", actual.GetString(m_dbSetting));
     }
 
 
@@ -61,7 +61,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionJsonValueDeep2()
     {
         var actual = QueryGroup.Parse<ForJsonEntity>(e => e.Data.Value.Values[0] == "a" && e.Data.Value.Inner.Inner.Nr == 2);
-        Assert.AreEqual("((JSON_EXTRACT([Data], '$.Values[0]') = @Data) AND (JSON_EXTRACT([Data], '$.Inner.Inner.Nr') = @Data_1))", actual.GetString(m_dbSetting));
+        Assert.AreEqual("(JSON_EXTRACT([Data], '$.Values[0]') = @Data AND JSON_EXTRACT([Data], '$.Inner.Inner.Nr') = @Data_1)", actual.GetString(m_dbSetting));
     }
 
 }

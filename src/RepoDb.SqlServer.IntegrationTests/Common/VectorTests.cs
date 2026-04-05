@@ -125,4 +125,74 @@ public class VectorTests : VectorTestsBase<SqlServerDbInstance>
             Console.WriteLine(c);
         }
     }
+
+    [TestMethod]
+    public void VectorMetaData()
+    {
+        if (!HaveVectorSupport())
+            return;
+
+        //class Vectors
+        //{
+        //    public int Id { get; set; }
+        //    public SqlVector<float> VectorData { get; set; }
+        //}
+
+        using var connection = (SqlConnection)CreateConnection();
+
+        connection.EnsureOpen();
+
+        var vectorDimensionCount = 3;
+
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = $@" IF OBJECT_ID('{nameof(Vectors)}', 'U') IS NOT NULL DROP TABLE {nameof(Vectors)};";
+            command.ExecuteNonQuery();
+        }
+
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = $@"
+                CREATE TABLE {nameof(Vectors)} (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    VectorData VECTOR({vectorDimensionCount})
+                );";
+            command.ExecuteNonQuery();
+        }
+
+        // Raw insert, like Microsoft sample code
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = $@"INSERT INTO {nameof(Vectors)} (VectorData) VALUES (@VectorData)";
+            var param = command.Parameters.Add("@VectorData", SqlDbTypeExtensions.Vector);
+
+            // Insert non-null vector
+            param.Value = new SqlVector<float>(new float[] { 3.14159f, 1.61803f, 1.41421f });
+            command.ExecuteNonQuery();
+        }
+
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = $@"SELECT Id, VectorData FROM {nameof(Vectors)}";
+            using var reader = command.ExecuteReader();
+
+            Assert.AreEqual(typeof(int), reader.GetFieldType(0));
+            Assert.AreEqual(typeof(byte[]), reader.GetFieldType(1)); // This should return SqlVector<float>, but currently returns byte[] due to a bug in SqlClient
+
+            while (reader.Read())
+            {
+                var value = reader.GetValue(1);
+
+                Assert.IsInstanceOfType<SqlVector<float>>(value); // This succeeds, so the library is correctly identifying the type as SqlVector<float> and returning it as such, but the GetFieldType method is incorrectly reporting it as byte[] due to a bug in SqlClient
+
+                var id = reader.GetFieldValue<int>(0);
+                var dt = reader.GetFieldValue<SqlVector<float>>(1);
+
+                Assert.ThrowsExactly<InvalidCastException>(() => reader.GetFieldValue<byte[]>(1));
+
+
+                var dt2 = reader.GetSqlVector<float>(1);
+            }
+        }
+    }
 }

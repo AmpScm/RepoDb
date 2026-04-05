@@ -1380,7 +1380,8 @@ public static class Helper
     /// <returns>An instance of <see cref="ExpandoObject"/> for [sc].[IdentityTable] table.</returns>
     public static ExpandoObject CreateExpandoObjectIdentityTable()
     {
-        var table = new ExpandoObject() as IDictionary<string, object?>;
+        var expando = new ExpandoObject();
+        var table = expando as IDictionary<string, object?>;
         table.Add("RowGuid", Guid.NewGuid());
         table.Add("ColumnBit", true);
         table.Add("ColumnDateTime", EpocDate.AddDays(1));
@@ -1389,7 +1390,7 @@ public static class Helper
         table.Add("ColumnFloat", Convert.ToDouble(1));
         table.Add("ColumnInt", 1);
         table.Add("ColumnNVarChar", Guid.NewGuid().ToString());
-        return (ExpandoObject)table;
+        return expando;
     }
 
     /// <summary>
@@ -1403,7 +1404,8 @@ public static class Helper
         for (var i = 0; i < count; i++)
         {
             var index = i + 1;
-            var table = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var table = expando as IDictionary<string, object?>;
             table.Add("RowGuid", Guid.NewGuid());
             table.Add("ColumnBit", true);
             table.Add("ColumnDateTime", EpocDate.AddDays(1));
@@ -1412,7 +1414,7 @@ public static class Helper
             table.Add("ColumnFloat", Convert.ToDouble(1));
             table.Add("ColumnInt", 1);
             table.Add("ColumnNVarChar", $"NVARCHAR-{index}-{Guid.NewGuid().ToString()}");
-            tables.Add((ExpandoObject)table);
+            tables.Add(expando);
         }
         return tables;
     }
@@ -1428,7 +1430,8 @@ public static class Helper
     /// <returns>An instance of <see cref="ExpandoObject"/> for [dbo].[NonIdentityTable] table.</returns>
     public static ExpandoObject CreateExpandoObjectNonIdentityTable()
     {
-        var table = new ExpandoObject() as IDictionary<string, object?>;
+        var expando = new ExpandoObject();
+        var table = expando as IDictionary<string, object?>;
         table.Add("Id", Guid.NewGuid());
         table.Add("RowGuid", Guid.NewGuid());
         table.Add("ColumnBit", true);
@@ -1438,7 +1441,7 @@ public static class Helper
         table.Add("ColumnFloat", Convert.ToDouble(1));
         table.Add("ColumnInt", 1);
         table.Add("ColumnNVarChar", Guid.NewGuid().ToString());
-        return (ExpandoObject)table;
+        return expando;
     }
 
     /// <summary>
@@ -1452,7 +1455,8 @@ public static class Helper
         for (var i = 0; i < count; i++)
         {
             var index = i + 1;
-            var table = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var table = expando as IDictionary<string, object?>;
             table.Add("Id", Guid.NewGuid());
             table.Add("RowGuid", Guid.NewGuid());
             table.Add("ColumnBit", true);
@@ -1462,7 +1466,7 @@ public static class Helper
             table.Add("ColumnFloat", Convert.ToDouble(1));
             table.Add("ColumnInt", 1);
             table.Add("ColumnNVarChar", $"NVARCHAR-{index}-{Guid.NewGuid().ToString()}");
-            tables.Add((ExpandoObject)table);
+            tables.Add(expando);
         }
         return tables;
     }

@@ -28,7 +28,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = 12345
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -68,7 +68,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -108,7 +108,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoneyMapped = 13456
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -148,7 +148,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoneyMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -188,7 +188,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = 12345
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -230,7 +230,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -272,7 +272,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoneyMapped = 13456
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -314,7 +314,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoneyMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -360,7 +360,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = 12345
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<NumbersClass>(), entity);
 
@@ -400,7 +400,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = (decimal?)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<NumbersClass>(), entity);
 
@@ -440,7 +440,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = 12345
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<NumbersClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -482,7 +482,7 @@ public class SqlConnectionNumbersTest : TestBase
             ColumnSmallMoney = (decimal?)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<NumbersClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;

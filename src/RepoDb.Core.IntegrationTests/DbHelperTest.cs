@@ -15,7 +15,7 @@ public class DbHelperTest : TestBase
     [TestMethod]
     public void TestDbHelperGetFields()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var helper = connection.GetDbHelper();
@@ -46,7 +46,7 @@ public class DbHelperTest : TestBase
     [TestMethod]
     public void TestDbHelperGetFieldsPrimary()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var helper = connection.GetDbHelper();
@@ -63,7 +63,7 @@ public class DbHelperTest : TestBase
     [TestMethod]
     public void TestDbHelperGetFieldsIdentity()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var helper = connection.GetDbHelper();
@@ -84,7 +84,7 @@ public class DbHelperTest : TestBase
     [TestMethod]
     public async Task TestDbHelperGetFieldsAsync()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var helper = connection.GetDbHelper();
@@ -115,7 +115,7 @@ public class DbHelperTest : TestBase
     [TestMethod]
     public async Task TestDbHelperGetFieldsAsyncPrimary()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var helper = connection.GetDbHelper();
@@ -132,7 +132,7 @@ public class DbHelperTest : TestBase
     [TestMethod]
     public async Task TestDbHelperGetFieldsAsyncIdentity()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var tables = Helper.CreateIdentityTables(10);
         var helper = connection.GetDbHelper();

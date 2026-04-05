@@ -1125,46 +1125,46 @@ public class TransactionTests : TestBase
      * System.Data.SQLite.SQLiteException: SQL logic error cannot VACUUM from within a transaction
      */
 
-    //#region Truncate
+    #region Truncate
 
-    //[TestMethod]
-    //public void TestSqlTransactionForTruncate()
-    //{
-    //    using (var connection = new SqliteConnection(Database.ConnectionString))
-    //    {
-    //        // Create the tables
-    //        Database.CreateCompleteTable(connection);
-    //        // Prepare
-    //        using (var transaction = connection.EnsureOpen().BeginTransaction())
-    //        {
-    //            // Act
-    //            connection.Truncate<CompleteTable>(transaction: transaction);
-    //        }
-    //    }
-    //}
+    [TestMethod]
+    public void TestSqlTransactionForTruncate()
+    {
+        using (var connection = new SqliteConnection(Database.ConnectionString))
+        {
+            // Create the tables
+            Database.CreateCompleteTable(connection);
+            // Prepare
+            using (var transaction = connection.EnsureOpen().BeginTransaction())
+            {
+                // Act
+                connection.Truncate<CompleteTable>(transaction: transaction);
+            }
+        }
+    }
 
-    //#endregion
+    #endregion
 
-    //#region TruncateAsync
+    #region TruncateAsync
 
-    //[TestMethod]
-    //public async Task TestSqlTransactionForTruncateAsync()
-    //{
-    //    using (var connection = new SqliteConnection(Database.ConnectionString))
-    //    {
-    //        // Create the tables
-    //        Database.CreateCompleteTable(connection);
+    [TestMethod]
+    public async Task TestSqlTransactionForTruncateAsync()
+    {
+        using (var connection = new SqliteConnection(Database.ConnectionString))
+        {
+            // Create the tables
+            Database.CreateCompleteTable(connection);
 
-    //        // Prepare
-    //        using (var transaction = connection.EnsureOpen().BeginTransaction())
-    //        {
-    //            // Act
-    //            connection.TruncateAsync<CompleteTable>(transaction: transaction);
-    //        }
-    //    }
-    //}
+            // Prepare
+            using (var transaction = connection.EnsureOpen().BeginTransaction())
+            {
+                // Act
+                await connection.TruncateAsync<CompleteTable>(transaction: transaction, cancellationToken: TestContext.CancellationToken);
+            }
+        }
+    }
 
-    //#endregion
+    #endregion
 
     #endregion
 
@@ -1328,7 +1328,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = "false");
+            foreach(var entity in entities)  entity.ColumnBoolean = "false";
 
             // Act
             connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
@@ -1341,7 +1341,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     [TestMethod]
@@ -1360,7 +1360,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = "false");
+            foreach(var entity in entities)  entity.ColumnBoolean = "false";
 
             // Act
             connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
@@ -1373,7 +1373,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual("true", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.AreEqual("true", queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     #endregion
@@ -1396,7 +1396,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = "false");
+            foreach(var entity in entities)  entity.ColumnBoolean = "false";
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -1409,7 +1409,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     [TestMethod]
@@ -1428,7 +1428,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBoolean = "false");
+            foreach(var entity in entities)  entity.ColumnBoolean = "false";
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -1441,7 +1441,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual("true", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+        foreach(var entity in entities)  Assert.AreEqual("true", queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
     }
 
     #endregion
@@ -1570,7 +1570,7 @@ public class TransactionTests : TestBase
             connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
-            entities.ForEach(entity => entity.ColumnBoolean = "false");
+            foreach(var entity in entities)  entity.ColumnBoolean = "false";
 
             // Act
             connection.UpdateAll<CompleteTable>(entities);
@@ -1579,7 +1579,7 @@ public class TransactionTests : TestBase
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            foreach(var entity in entities)  Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
         }
 
         // Complete
@@ -1602,7 +1602,7 @@ public class TransactionTests : TestBase
             connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
-            entities.ForEach(entity => entity.ColumnBoolean = "false");
+            foreach(var entity in entities)  entity.ColumnBoolean = "false";
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
@@ -1611,7 +1611,7 @@ public class TransactionTests : TestBase
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean));
+            foreach(var entity in entities)  Assert.AreEqual("false", queryResult.First(item => item.Id == entity.Id).ColumnBoolean);
         }
 
         // Complete

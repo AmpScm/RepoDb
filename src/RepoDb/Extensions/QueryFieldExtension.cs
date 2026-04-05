@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using RepoDb.DbSettings;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Extensions;
@@ -45,12 +46,6 @@ public static class QueryFieldExtension
         string? functionFormat,
         IDbSetting? dbSetting) =>
         queryField.Field.FieldName.AsField(functionFormat, dbSetting);
-
-    internal static string AsParameter(this QueryField queryField,
-        int index,
-        bool quote, IDbSetting? dbSetting) =>
-        queryField.Parameter.Name.AsParameter(index, dbSetting);
-
 
     internal static string AsInParameter(this QueryField queryField,
         int index,
@@ -101,7 +96,8 @@ public static class QueryFieldExtension
         }
         else
         {
-            return $"(SELECT * FROM {queryField.Parameter.Name.AsParameter(0, dbSetting, suffix: "_In_")})";
+            return (dbSetting as BaseDbSetting)?.CreateTableParameterText(queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_In_"))
+                ?? $"(SELECT * FROM {queryField.Parameter.Name.AsParameter(index, dbSetting, suffix: "_In_")})";
         }
     }
 

@@ -18,7 +18,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -38,7 +38,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -59,7 +59,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -80,7 +80,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -100,7 +100,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -120,7 +120,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -139,7 +139,7 @@ public class ExecuteReaderTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteReaderIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -147,7 +147,7 @@ public class ExecuteReaderTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteReaderIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -162,7 +162,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -182,7 +182,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -203,7 +203,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -224,7 +224,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -244,7 +244,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -264,7 +264,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -283,7 +283,7 @@ public class ExecuteReaderTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteReaderAsyncIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
@@ -291,7 +291,7 @@ public class ExecuteReaderTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteReaderAsyncIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }

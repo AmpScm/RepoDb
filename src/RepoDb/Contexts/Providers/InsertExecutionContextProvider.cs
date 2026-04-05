@@ -7,9 +7,6 @@ using RepoDb.Requests;
 
 namespace RepoDb.Contexts.Providers;
 
-/// <summary>
-///
-/// </summary>
 internal static class InsertExecutionContextProvider
 {
     private static string GetKey(Type type,
@@ -26,17 +23,6 @@ internal static class InsertExecutionContextProvider
             hints);
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="fields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <returns></returns>
     public static InsertExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
@@ -85,18 +71,6 @@ internal static class InsertExecutionContextProvider
         return context;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="fields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     public static async Task<InsertExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         string tableName,
@@ -163,7 +137,7 @@ internal static class InsertExecutionContextProvider
         // Variables for the entity action
         Action<object, object?>? keyPropertySetterFunc = null;
 
-        if (dbFields.GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } keyField)
+        if (dbFields.GetReturnColumn() is { } keyField)
         {
             keyPropertySetterFunc = FunctionCache
                 .GetDataEntityPropertySetterCompiledFunction(entityType, keyField);

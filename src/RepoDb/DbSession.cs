@@ -109,7 +109,7 @@ public readonly struct DbSession : IAsyncDisposable, IDisposable, IEquatable<DbS
     public override int GetHashCode() => _value.GetHashCode();
 
     /// <summary>
-    ///
+    /// Compares two <see cref="DbSession"/> instances for equality.
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>
@@ -120,7 +120,7 @@ public readonly struct DbSession : IAsyncDisposable, IDisposable, IEquatable<DbS
     }
 
     /// <summary>
-    ///
+    /// Compares two <see cref="DbSession"/> instances for inequality.
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>

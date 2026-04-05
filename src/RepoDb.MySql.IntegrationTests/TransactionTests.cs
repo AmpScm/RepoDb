@@ -1137,7 +1137,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBit = 0);
+            foreach(var entity in entities)  entity.ColumnBit = 0;
 
             // Act
             connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
@@ -1150,7 +1150,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        foreach(var entity in entities)  Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit);
     }
 
     [TestMethod]
@@ -1166,7 +1166,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBit = 0);
+            foreach(var entity in entities)  entity.ColumnBit = 0;
 
             // Act
             connection.UpdateAll<CompleteTable>(entities, transaction: transaction);
@@ -1179,7 +1179,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        foreach(var entity in entities)  Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit);
     }
 
     #endregion
@@ -1199,7 +1199,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBit = 0);
+            foreach(var entity in entities)  entity.ColumnBit = 0;
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -1212,7 +1212,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        foreach(var entity in entities)  Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit);
     }
 
     [TestMethod]
@@ -1228,7 +1228,7 @@ public class TransactionTests : TestBase
         // Prepare
         using (var transaction = connection.EnsureOpen().BeginTransaction())
         {
-            entities.ForEach(entity => entity.ColumnBit = 0);
+            foreach(var entity in entities)  entity.ColumnBit = 0;
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, transaction: transaction, cancellationToken: TestContext.CancellationToken);
@@ -1241,7 +1241,7 @@ public class TransactionTests : TestBase
         var queryResult = connection.QueryAll<CompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+        foreach(var entity in entities)  Assert.AreEqual((ulong)1, queryResult.First(item => item.Id == entity.Id).ColumnBit);
     }
 
     #endregion
@@ -1355,7 +1355,7 @@ public class TransactionTests : TestBase
             connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
-            entities.ForEach(entity => entity.ColumnBit = 0);
+            foreach(var entity in entities)  entity.ColumnBit = 0;
 
             // Act
             connection.UpdateAll<CompleteTable>(entities);
@@ -1364,7 +1364,7 @@ public class TransactionTests : TestBase
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            foreach(var entity in entities)  Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit);
         }
 
         // Complete
@@ -1384,7 +1384,7 @@ public class TransactionTests : TestBase
             connection.InsertAll<CompleteTable>(entities);
 
             // Prepare
-            entities.ForEach(entity => entity.ColumnBit = 0);
+            foreach(var entity in entities)  entity.ColumnBit = 0;
 
             // Act
             await connection.UpdateAllAsync<CompleteTable>(entities, cancellationToken: TestContext.CancellationToken);
@@ -1393,7 +1393,7 @@ public class TransactionTests : TestBase
             var queryResult = connection.QueryAll<CompleteTable>();
 
             // Assert
-            entities.ForEach(entity => Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit));
+            foreach(var entity in entities)  Assert.AreEqual((ulong)0, queryResult.First(item => item.Id == entity.Id).ColumnBit);
         }
 
         // Complete

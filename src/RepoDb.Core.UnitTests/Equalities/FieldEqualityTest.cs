@@ -37,7 +37,7 @@ public class FieldEqualityTest
         var objB = new Field("FieldName");
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -50,7 +50,7 @@ public class FieldEqualityTest
         var objA = new Field("FieldName");
 
         // Act
-        var equal = (objA.GetHashCode() == "[fieldname]".GetHashCode());
+        var equal = objA.GetHashCode() == "[fieldname]".GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -64,7 +64,7 @@ public class FieldEqualityTest
         var objB = new Field("FieldName");
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);

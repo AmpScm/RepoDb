@@ -12,7 +12,6 @@ namespace RepoDb.StatementBuilders;
 /// </summary>
 public sealed class SqlServerStatementBuilder : BaseStatementBuilder
 {
-    private const bool tryNoOutput = false;
     /// <summary>
     /// Creates a new instance of <see cref="SqlServerStatementBuilder"/> object.
     /// </summary>
@@ -120,7 +119,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
             .FieldsFrom(insertableFields, DbSetting)
             .CloseParen();
 
-        if (keyFields.Any(c => !tryNoOutput || c.IsIdentity || c.IsGenerated || c.HasDefaultValue))
+        if (keyFields.Any(c => c.IsIdentity || c.IsGenerated || c.HasDefaultValue))
         {
             builder
                 .Output()
@@ -190,7 +189,7 @@ public sealed class SqlServerStatementBuilder : BaseStatementBuilder
                 .FieldsFrom(insertableFields, DbSetting)
                 .CloseParen();
 
-            if (keyFields.Any(c => !tryNoOutput || c.IsGenerated || c.IsIdentity || c.HasDefaultValue))
+            if (keyFields.Any(c => c.IsGenerated || c.IsIdentity || c.HasDefaultValue))
             {
                 builder
                     .Output()

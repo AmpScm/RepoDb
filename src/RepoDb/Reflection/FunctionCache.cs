@@ -45,12 +45,9 @@ internal static class FunctionCache
         internal static Func<DbDataReader, TResult> Get(DbDataReader reader,
             DbFieldCollection? dbFields = null)
         {
-            var key = GetKey(reader);
-            return cache.GetOrAdd(key, valueFactory: l => FunctionFactory.CompileDataReaderToType<TResult>(reader, dbFields));
+            var key = HashCode.Combine(GetReaderFieldsHashCode(reader), typeof(TResult), dbFields);
+            return cache.GetOrAdd(key, (_) => Compiler.CompileDataReaderToType<TResult>(reader, dbFields));
         }
-
-        private static int GetKey(DbDataReader reader) =>
-            HashCode.Combine(GetReaderFieldsHashCode(reader), typeof(TResult));
     }
 
     #endregion
@@ -72,13 +69,10 @@ internal static class FunctionCache
         internal static Func<DbDataReader, dynamic> Get(DbDataReader reader,
             DbFieldCollection? dbFields = null)
         {
-            var key = GetKey(reader);
+            var key = HashCode.Combine(GetReaderFieldsHashCode(reader), dbFields);
 
-            return cache.GetOrAdd(key, (_) => FunctionFactory.CompileDataReaderToExpandoObject(reader, dbFields));
+            return cache.GetOrAdd(key, (_) => Compiler.CompileDataReaderToExpandoObject(reader, dbFields));
         }
-
-        private static int GetKey(DbDataReader reader) =>
-            GetReaderFieldsHashCode(reader);
     }
 
     #endregion
@@ -117,8 +111,8 @@ internal static class FunctionCache
 
             return _cache.GetOrAdd(key, (_) =>
                 TypeCache.Get(entityType).IsDictionaryStringObject
-                ? FunctionFactory.CompileDictionaryStringObjectDbParameterSetter(inputFields, dbSetting, dbHelper)
-                : FunctionFactory.CompileDataEntityDbParameterSetter(entityType, inputFields, outputFields, dbSetting, dbHelper)
+                ? Compiler.CompileDictionaryStringObjectDbParameterSetter(inputFields, dbSetting, dbHelper)
+                : Compiler.CompileDataEntityDbParameterSetter(entityType, inputFields, outputFields, dbSetting, dbHelper)
                 );
         }
 
@@ -179,12 +173,12 @@ internal static class FunctionCache
 
             return cache.GetOrAdd(key, (_) =>
                 TypeCache.Get(entityType).IsDictionaryStringObject
-                ? FunctionFactory.CompileDictionaryStringObjectListDbParameterSetter(
+                ? Compiler.CompileDictionaryStringObjectListDbParameterSetter(
                         inputFields,
                         batchSize,
                         dbSetting,
                         dbHelper)
-                : FunctionFactory.CompileDataEntityListDbParameterSetter(
+                : Compiler.CompileDataEntityListDbParameterSetter(
                         entityType,
                         inputFields,
                         outputFields,
@@ -245,8 +239,8 @@ internal static class FunctionCache
             var key = (type, field);
             return cache.GetOrAdd(key, (_) =>
                 TypeCache.Get(type).IsDictionaryStringObject
-                ? FunctionFactory.CompileDictionaryStringObjectItemSetter(type, field)
-                : FunctionFactory.CompileDataEntityPropertySetter(type, field)
+                ? Compiler.CompileDictionaryStringObjectItemSetter(type, field)
+                : Compiler.CompileDataEntityPropertySetter(type, field)
                 );
         }
     }
@@ -265,8 +259,8 @@ internal static class FunctionCache
             var key = (type, field);
             return cache.GetOrAdd(key, (_) =>
                 TypeCache.Get(type).IsDictionaryStringObject
-                ? FunctionFactory.CompileDictionaryStringObjectItemGetter(type, field)
-                : FunctionFactory.CompileDataEntityPropertyGetter(type, field)
+                ? Compiler.CompileDictionaryStringObjectItemGetter(type, field)
+                : Compiler.CompileDataEntityPropertyGetter(type, field)
                 );
         }
     }
@@ -297,7 +291,7 @@ internal static class FunctionCache
             var key = (paramType, entityType);
             return cache.GetOrAdd(key, (_) =>
                 paramType.IsPlainType()
-                ? FunctionFactory.GetPlainTypeToDbParametersCompiledFunction(paramType, entityType, dbFields)
+                ? Compiler.GetPlainTypeToDbParametersCompiledFunction(paramType, entityType, dbFields)
                 : null
             );
         }

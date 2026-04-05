@@ -16,7 +16,7 @@ public class DbSettingTest
     #region MDS
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingAreTableHintsSupportedProperty()
+    public void TestMsSqliteDbSettingAreTableHintsSupportedProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -26,7 +26,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingAverageableTypeProperty()
+    public void TestMsSqliteDbSettingAverageableTypeProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -36,7 +36,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingClosingQuoteProperty()
+    public void TestMsSqliteDbSettingClosingQuoteProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -46,7 +46,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingDefaultSchemaProperty()
+    public void TestMsSqliteDbSettingDefaultSchemaProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -56,7 +56,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingIsDirectionSupportedSupportedProperty()
+    public void TestMsSqliteDbSettingIsDirectionSupportedSupportedProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -66,7 +66,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingIsExecuteReaderDisposableProperty()
+    public void TestMsSqliteDbSettingIsExecuteReaderDisposableProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -76,7 +76,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingIsMultiStatementExecutableProperty()
+    public void TestMsSqliteDbSettingIsMultiStatementExecutableProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -86,7 +86,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingOpeningQuoteProperty()
+    public void TestMsSqliteDbSettingOpeningQuoteProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -96,7 +96,7 @@ public class DbSettingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingParameterPrefixProperty()
+    public void TestMsSqliteDbSettingParameterPrefixProperty()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();

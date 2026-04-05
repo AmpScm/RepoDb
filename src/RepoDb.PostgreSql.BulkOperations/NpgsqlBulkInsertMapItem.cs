@@ -8,8 +8,6 @@ namespace RepoDb.PostgreSql.BulkOperations;
 /// </summary>
 public class NpgsqlBulkInsertMapItem : BulkInsertMapItem
 {
-    private static readonly ClientTypeToNpgsqlDbTypeResolver clientTypeToNpgsqlDbTypeResolver = new ClientTypeToNpgsqlDbTypeResolver();
-
     #region Constructors
 
     /// <summary>
@@ -34,7 +32,7 @@ public class NpgsqlBulkInsertMapItem : BulkInsertMapItem
     public NpgsqlBulkInsertMapItem(string sourceColumn,
         string destinationColumn,
         Type? type) :
-        this(sourceColumn, destinationColumn, type != null ? clientTypeToNpgsqlDbTypeResolver.Resolve(type) : null)
+        this(sourceColumn, destinationColumn, type != null ? ClientTypeToNpgsqlDbTypeResolver.Instance.Resolve(type) : null)
     { }
 
     /// <summary>

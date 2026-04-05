@@ -18,7 +18,6 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     #region Fields
     private readonly int fieldCount; // 0
     private bool isClosed; // false
-    private int recordsAffected = -1;
     private readonly bool isDictionaryStringObject; // false
 
     #endregion
@@ -88,7 +87,6 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         isClosed = false;
         IsDisposed = false;
         Position = -1;
-        recordsAffected = -1;
 
         // Type
         var entityType = typeof(TEntity);
@@ -103,13 +101,13 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         HasOrderingColumn = hasOrderingColumn;
         EntityEnumerator = entities.GetEnumerator();
         Entities = entities;
-        Properties = GetClassProperties().AsList();
+        Properties = isDictionaryStringObject ? [] : PropertyCache.Get(EntityType).AsList();
         Fields = EnumerableExtension.AsList(GetFields(Entities.FirstOrDefault() as IDictionary<string, object?>));
         fieldCount = isDictionaryStringObject ? Fields.Count : Properties.Count;
     }
 
     /// <summary>
-    /// 
+    /// The tablename of the entities being read if available
     /// </summary>
     public string TableName { get; }
 
@@ -126,12 +124,6 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     /// Gets the instance of <see cref="IDbTransaction"/> in used.
     /// </summary>
     public IDbTransaction? Transaction { get; }
-
-    /// <summary>
-    /// Gets a value that indicates whether the current instance of <see cref="DataEntityDataReader{TEntity}"/> object has already been initialized.
-    /// </summary>
-    [Obsolete("Never updated"), EditorBrowsable(EditorBrowsableState.Never)]
-    public bool IsInitialized => true;
 
     /// <summary>
     /// Gets the instance of enumerator that iterates through a collection of data entity objects.
@@ -199,16 +191,14 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public bool IsDisposed { get; private set; }
 
     /// <summary>
-    /// Gets the number of rows affected by the iteration.
+    /// Gets the number of rows affected by the iteration (always returns 0).
     /// </summary>
-    public override int RecordsAffected =>
-        recordsAffected;
+    public override int RecordsAffected => 0;
 
     /// <summary>
     /// Gets the number of properties the data entity object has.
     /// </summary>
-    public override int FieldCount =>
-        fieldCount;
+    public override int FieldCount => HasOrderingColumn ? fieldCount + 1 : fieldCount;
 
     /// <summary>
     /// Gets a value that signify whether the current data reader has data entities.
@@ -244,7 +234,6 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         ThrowExceptionIfNotAvailable();
         EntityEnumerator = Entities.GetEnumerator();
         Position = -1;
-        recordsAffected = -1;
     }
 
     /// <summary>
@@ -465,7 +454,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     private string GetNameForEntities(int i)
     {
         ThrowExceptionIfNotAvailable();
-        if (i == Properties.Count && HasOrderingColumn)
+        if (i == fieldCount && HasOrderingColumn)
         {
             return BaseStatementBuilder.RepoDbOrderColumn;
         }
@@ -475,7 +464,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     private string GetNameForDictionaryStringObject(int i)
     {
         ThrowExceptionIfNotAvailable();
-        if (i == Fields.Count && HasOrderingColumn)
+        if (i == fieldCount && HasOrderingColumn)
         {
             return BaseStatementBuilder.RepoDbOrderColumn;
         }
@@ -553,44 +542,18 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     public override object GetValue(int ordinal) =>
         GetRawValue(ordinal) ?? DBNull.Value;
 
-    private object? GetRawValue(int ordinal) =>
-        (isDictionaryStringObject ? GetValueForDictionaryStringObject(ordinal) : GetValueForEntities(ordinal)) ?? DBNull.Value;
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="i"></param>
-    /// <returns></returns>
-    public object? GetValueForEntities(int i)
+    private object? GetRawValue(int ordinal)
     {
         ThrowExceptionIfNotAvailable();
-        if (i == Properties.Count)
+
+        if (ordinal == fieldCount && HasOrderingColumn)
         {
             return Position;
         }
-        else
-        {
-            return Properties[i].PropertyInfo.GetValue(EntityEnumerator.Current);
-        }
-    }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="i"></param>
-    /// <returns></returns>
-    public object? GetValueForDictionaryStringObject(int i)
-    {
-        ThrowExceptionIfNotAvailable();
-        if (i == Fields.Count)
-        {
-            return Position;
-        }
-        else
-        {
-            var dictionary = EntityEnumerator.Current as IDictionary<string, object?>;
-            return dictionary?[Fields[i].FieldName];
-        }
+        return isDictionaryStringObject
+            ? ((EntityEnumerator.Current as IDictionary<string, object?>)?[Fields[ordinal].FieldName])
+            : Properties[ordinal].PropertyInfo.GetValue(EntityEnumerator.Current);
     }
 
     /// <summary>
@@ -603,16 +566,15 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         ArgumentNullException.ThrowIfNull(values);
         ThrowExceptionIfNotAvailable();
 
-        if (values.Length != FieldCount)
-        {
-            throw new ArgumentOutOfRangeException($"The length of the array must be equals to the number of fields of the data entity (it should be {FieldCount}).");
-        }
+        ArgumentOutOfRangeException.ThrowIfLessThan(values.Length, FieldCount, nameof(values));
 
         int i = 0;
         foreach (var v in ClassExpression.GetPropertiesAndValues(EntityEnumerator.Current))
         {
             values[i++] = v.Value;
         }
+        if (HasOrderingColumn)
+            values[i] = Position;
         return FieldCount;
     }
 
@@ -636,7 +598,6 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     {
         ThrowExceptionIfNotAvailable();
         Position++;
-        recordsAffected++;
         return EntityEnumerator.MoveNext();
     }
 
@@ -645,7 +606,6 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     {
         ThrowExceptionIfNotAvailable();
         Position++;
-        recordsAffected++;
         return Task.FromResult(EntityEnumerator.MoveNext());
     }
 
@@ -659,15 +619,6 @@ public class DataEntityDataReader<TEntity> : DbDataReader
         {
             throw new InvalidOperationException("The reader is already closed.");
         }
-    }
-
-    private IEnumerable<ClassProperty> GetClassProperties()
-    {
-        if (isDictionaryStringObject)
-        {
-            return [];
-        }
-        return PropertyCache.Get(EntityType);
     }
 
     private static IEnumerable<Field> GetFields(IDictionary<string, object?>? dictionary)

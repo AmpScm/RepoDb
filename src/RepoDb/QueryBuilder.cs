@@ -511,7 +511,7 @@ public sealed class QueryBuilder
             .Append(')')
             .Append(queryField.Operation.GetText())
             .Append(',')
-            .Append(queryField.AsParameter(index, false, dbSetting));
+            .Append(queryField.Parameter.Name.AsParameter(index, dbSetting));
     }
 
     /// <summary>

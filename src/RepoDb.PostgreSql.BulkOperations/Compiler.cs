@@ -345,13 +345,13 @@ internal static class Compiler
     private static class PropertySetterFuncCache<TEntity>
         where TEntity : class
     {
-        private static readonly ConcurrentDictionary<int, Action<TEntity, object>> cache = new();
+        private static readonly ConcurrentDictionary<ClassProperty, Action<TEntity, object>> cache = new();
 
         public static Action<TEntity, object>? GetFunc(ClassProperty classProperty)
         {
             ArgumentNullException.ThrowIfNull(classProperty);
 
-            return cache.GetOrAdd(classProperty.GetHashCode(), (_) =>
+            return cache.GetOrAdd(classProperty, static classProperty =>
             {
                 var entity = Expression.Parameter(typeof(TEntity), "entity");
                 var value = Expression.Parameter(typeof(object), "value");

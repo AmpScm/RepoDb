@@ -26,7 +26,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = text
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -58,7 +58,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -91,7 +91,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarCharMapped = text
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -123,7 +123,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarCharMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -156,7 +156,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = text
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -190,7 +190,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -225,7 +225,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarCharMapped = text
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -259,7 +259,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarCharMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -298,7 +298,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = text
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<StringsClass>(), entity);
 
@@ -330,7 +330,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = (string)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<StringsClass>(), entity);
 
@@ -363,7 +363,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = text
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -397,7 +397,7 @@ public class SqlConnectionStringsTest : TestBase
             ColumnVarChar = (string)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<StringsClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;

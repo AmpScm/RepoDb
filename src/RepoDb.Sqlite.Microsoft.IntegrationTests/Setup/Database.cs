@@ -32,7 +32,7 @@ public static class Database
     public static IEnumerable<CompleteTable> CreateCompleteTables(int count,
         SqliteConnection connection = null)
     {
-        var hasConnection = (connection != null);
+        var hasConnection = connection != null;
         if (hasConnection == false)
         {
             connection = new SqliteConnection(ConnectionString);
@@ -60,7 +60,7 @@ public static class Database
     public static IEnumerable<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count,
         SqliteConnection connection = null)
     {
-        var hasConnection = (connection != null);
+        var hasConnection = connection != null;
         if (hasConnection == false)
         {
             connection = new SqliteConnection(ConnectionString);
@@ -93,7 +93,7 @@ public static class Database
 
     public static void CreateCompleteTable(SqliteConnection connection = null)
     {
-        var hasConnection = (connection != null);
+        var hasConnection = connection != null;
         if (hasConnection == false)
         {
             connection = new SqliteConnection(ConnectionString);
@@ -138,7 +138,7 @@ public static class Database
 
     public static void CreateNonIdentityCompleteTable(SqliteConnection connection = null)
     {
-        var hasConnection = (connection != null);
+        var hasConnection = connection != null;
         if (hasConnection == false)
         {
             connection = new SqliteConnection(ConnectionString);

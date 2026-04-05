@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;

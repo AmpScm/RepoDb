@@ -11,7 +11,9 @@ public partial class QueryField
     /// <summary>
     ///
     /// </summary>
-    protected internal virtual bool NoParametersNeeded => Operation is Operation.IsNotNull or Operation.IsNull;
+    protected internal virtual bool NoParametersNeeded =>
+        Operation is Operation.IsNotNull or Operation.IsNull
+        || (Operation is Operation.Equal or Operation.NotEqual && Value is null);
 
     private static ClassProperty? GetTargetProperty<TEntity>(Field field)
         where TEntity : class

@@ -16,7 +16,7 @@ public class DirectionalQueryFieldEqualityTest
         var objB = new DirectionalQueryField("FieldName", Operation.Equal, "Value2", ParameterDirection.Output);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -30,7 +30,7 @@ public class DirectionalQueryFieldEqualityTest
         var objB = new DirectionalQueryField("FieldName", Operation.Equal, "Value2", ParameterDirection.Output);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -44,7 +44,7 @@ public class DirectionalQueryFieldEqualityTest
         var objB = new DirectionalQueryField("FieldName", Operation.NotEqual, "Value2", ParameterDirection.Output);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -58,7 +58,7 @@ public class DirectionalQueryFieldEqualityTest
         var objB = new DirectionalQueryField("FieldName", Operation.NotEqual, "Value2", ParameterDirection.Output, 100);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -72,7 +72,7 @@ public class DirectionalQueryFieldEqualityTest
         var objB = new DirectionalQueryField("FieldName", Operation.NotEqual, typeof(string), ParameterDirection.Output);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -86,7 +86,7 @@ public class DirectionalQueryFieldEqualityTest
         var objB = new DirectionalQueryField("FieldName", Operation.Equal, "Value2", ParameterDirection.Output);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);

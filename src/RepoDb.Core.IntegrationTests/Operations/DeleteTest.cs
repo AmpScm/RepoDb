@@ -17,7 +17,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -40,7 +40,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -63,7 +63,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -86,7 +86,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -109,14 +109,14 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         tables.ForEach(item =>
         {
             // Act
-            var result = connection.Delete<IdentityTable>(item);
+            var result = connection.Delete(item);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -132,7 +132,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -150,7 +150,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -169,7 +169,7 @@ public class DeleteTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -187,7 +187,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -206,7 +206,7 @@ public class DeleteTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -224,7 +224,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -247,7 +247,7 @@ public class DeleteTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -271,7 +271,7 @@ public class DeleteTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -289,14 +289,14 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         tables.ForEach(item =>
         {
             // Act
-            var result = connection.Delete<IdentityTable>(item, hints: SqlServerTableHints.TabLock);
+            var result = connection.Delete(item, hints: SqlServerTableHints.TabLock);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -316,7 +316,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -339,7 +339,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -362,7 +362,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -385,7 +385,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -408,7 +408,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -416,7 +416,7 @@ public class DeleteTest : TestBase
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable>(item, cancellationToken: TestContext.CancellationToken);
+            var result = await connection.DeleteAsync(item, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -432,7 +432,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -450,7 +450,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -469,7 +469,7 @@ public class DeleteTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -487,7 +487,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -506,7 +506,7 @@ public class DeleteTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -525,7 +525,7 @@ public class DeleteTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), 6);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -548,7 +548,7 @@ public class DeleteTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -572,7 +572,7 @@ public class DeleteTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -590,7 +590,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -598,7 +598,7 @@ public class DeleteTest : TestBase
         foreach (var item in tables)
         {
             // Act
-            var result = await connection.DeleteAsync<IdentityTable>(item, hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
+            var result = await connection.DeleteAsync(item, hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -618,7 +618,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -637,7 +637,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -656,7 +656,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -675,7 +675,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -694,7 +694,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -713,7 +713,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -737,7 +737,7 @@ public class DeleteTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -762,7 +762,7 @@ public class DeleteTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -781,7 +781,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -798,7 +798,7 @@ public class DeleteTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnSqlConnectionDeleteViaTableNameIfThereIsNoKeyField()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.Delete(ClassMappedNameCache.Get<NonKeyedTable>(), 1));
     }
 
@@ -812,7 +812,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -831,7 +831,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -850,7 +850,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -869,7 +869,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -888,7 +888,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -908,7 +908,7 @@ public class DeleteTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), 6);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -932,7 +932,7 @@ public class DeleteTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -957,7 +957,7 @@ public class DeleteTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -976,7 +976,7 @@ public class DeleteTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -993,7 +993,7 @@ public class DeleteTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionDeleteAsyncViaTableNameIfThereIsNoKeyField()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.DeleteAsync(ClassMappedNameCache.Get<NonKeyedTable>(), 1, cancellationToken: TestContext.CancellationToken));
     }
     #endregion

@@ -484,6 +484,16 @@ public partial class QueryGroup : IEquatable<QueryGroup>
         bool isNot)
     {
         Conjunction = conjunction;
+
+        // Flatten all unneeded groups
+        if (queryFields is null
+            && queryGroups?.AsList() is { Count: > 1 } groups
+            && groups.All(x => x.QueryGroups is null && x.IsNot == isNot && (x.QueryFields?.Count == 1 || x.Conjunction == conjunction)))
+        {
+            queryFields = groups.SelectMany(x => x.QueryFields ?? []);
+            queryGroups = null;
+        }
+
         QueryFields = queryFields?.AsList();
         QueryGroups = queryGroups?.AsList();
         IsNot = isNot;

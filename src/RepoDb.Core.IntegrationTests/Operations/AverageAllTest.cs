@@ -15,7 +15,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -32,7 +32,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -50,7 +50,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -67,7 +67,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -90,7 +90,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        await using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        await using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -109,7 +109,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        await using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        await using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -128,7 +128,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -145,7 +145,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -167,7 +167,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -185,7 +185,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -204,7 +204,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -222,7 +222,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -245,7 +245,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -263,7 +263,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -282,7 +282,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -300,7 +300,7 @@ public class AverageAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

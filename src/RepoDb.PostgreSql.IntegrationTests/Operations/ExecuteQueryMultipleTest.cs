@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -16,7 +15,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using QueryMultipleExtractor extractor = connection.ExecuteQueryMultiple("SELECT * FROM \"CompleteTable\"; " +
             "SELECT * FROM \"CompleteTable\";");
@@ -41,7 +40,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using QueryMultipleExtractor extractor = connection.ExecuteQueryMultiple("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id1; " +
             "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id2;",
@@ -70,7 +69,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using QueryMultipleExtractor extractor = connection.ExecuteQueryMultiple("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id; " +
             "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
@@ -99,7 +98,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using QueryMultipleExtractor extractor = await connection.ExecuteQueryMultipleAsync("SELECT * FROM \"CompleteTable\"; " +
             "SELECT * FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
@@ -124,7 +123,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using QueryMultipleExtractor extractor = await connection.ExecuteQueryMultipleAsync("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id1; " +
             "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id2;",
@@ -153,7 +152,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using QueryMultipleExtractor extractor = await connection.ExecuteQueryMultipleAsync("SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id; " +
             "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = @Id;",

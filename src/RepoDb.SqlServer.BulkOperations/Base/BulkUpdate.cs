@@ -48,7 +48,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields?.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)
@@ -215,7 +215,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields?.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)

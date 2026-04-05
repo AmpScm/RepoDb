@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using Oracle.ManagedDataAccess.Client;
 using RepoDb.TestCore;
 
@@ -46,6 +47,7 @@ public class OracleDbInstance : DbInstance<OracleConnection>
         }
     }
 
+    [SetsRequiredMembers]
     public OracleDbInstance()
     {
         // Master connection

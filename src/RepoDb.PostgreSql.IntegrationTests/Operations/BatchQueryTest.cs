@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -18,7 +17,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.BatchQuery<CompleteTable>(0,
             3,
@@ -36,7 +35,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.BatchQuery<CompleteTable>(0,
             3,
@@ -54,7 +53,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.BatchQuery<CompleteTable>(2,
             3,
@@ -72,7 +71,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.BatchQuery<CompleteTable>(2,
             3,
@@ -90,7 +89,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery<CompleteTable>(0,
             3,
@@ -109,7 +108,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.BatchQueryAsync<CompleteTable>(0,
             3,
@@ -127,7 +126,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.BatchQueryAsync<CompleteTable>(0,
             3,
@@ -145,7 +144,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.BatchQueryAsync<CompleteTable>(2,
             3,
@@ -163,7 +162,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.BatchQueryAsync<CompleteTable>(2,
             3,
@@ -181,7 +180,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync<CompleteTable>(0,
             3,
@@ -204,7 +203,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -223,7 +222,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -242,7 +241,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             2,
@@ -261,7 +260,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             2,
@@ -280,7 +279,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.BatchQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -300,7 +299,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -319,7 +318,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -338,7 +337,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             2,
@@ -357,7 +356,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             2,
@@ -376,7 +375,7 @@ public class BatchQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.BatchQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,

@@ -16,9 +16,9 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var id = connection.Insert<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
             table);
 
         // Assert
@@ -37,9 +37,9 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var id = connection.Insert<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
             table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
@@ -60,7 +60,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<IdentityTable, long>(table);
 
@@ -80,9 +80,9 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var id = connection.Insert<IdentityTable>(table,
+        var id = connection.Insert(table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)));
 
         // Assert
@@ -99,7 +99,7 @@ public class InsertTest : TestBase
     [TestMethod]
     public void TestSqlConnectionInsertForIdentityTable()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var item = Helper.CreateIdentityTable();
 
@@ -119,7 +119,7 @@ public class InsertTest : TestBase
     [TestMethod]
     public void TestSqlConnectionInsertForNonIdentityTable()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var item = Helper.CreateNonIdentityTable();
 
@@ -143,7 +143,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<IdentityTable, long>(table,
             hints: SqlServerTableHints.TabLock);
@@ -168,7 +168,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateWithExtraFieldsIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<WithExtraFieldsIdentityTable, long>(table);
 
@@ -192,9 +192,9 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var id = await connection.InsertAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -213,9 +213,9 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var id = await connection.InsertAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var id = await connection.InsertAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
@@ -236,7 +236,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<IdentityTable, long>(table, cancellationToken: TestContext.CancellationToken);
 
@@ -256,9 +256,9 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var id = await connection.InsertAsync<IdentityTable>(table,
+        var id = await connection.InsertAsync(table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.RowGuid), nameof(IdentityTable.ColumnNVarChar)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -278,7 +278,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<IdentityTable, long>(table);
 
@@ -298,7 +298,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<NonIdentityTable, Guid>(table, cancellationToken: TestContext.CancellationToken);
 
@@ -319,7 +319,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<IdentityTable, long>(table,
             hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
@@ -344,7 +344,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateWithExtraFieldsIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<WithExtraFieldsIdentityTable, long>(table, cancellationToken: TestContext.CancellationToken);
 
@@ -368,7 +368,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table);
@@ -389,7 +389,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table,
@@ -412,7 +412,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
             table);
@@ -434,7 +434,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
@@ -459,7 +459,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table);
@@ -480,7 +480,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table,
@@ -503,7 +503,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table);
@@ -525,7 +525,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
@@ -550,7 +550,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table);
@@ -571,7 +571,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
@@ -594,7 +594,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
             table);
@@ -615,7 +615,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
             table);
@@ -636,7 +636,7 @@ public class InsertTest : TestBase
         // Setup
         var table = new { RowGuid = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table);
@@ -657,7 +657,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert(ClassMappedNameCache.Get<IdentityTable>(),
             table,
@@ -683,7 +683,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
@@ -704,7 +704,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<dynamic, long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table,
@@ -727,7 +727,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -749,7 +749,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<ExpandoObject, long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
@@ -774,7 +774,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
@@ -795,7 +795,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateDynamicIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             (object)table,
@@ -818,7 +818,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -840,7 +840,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateExpandoObjectIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
@@ -865,7 +865,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -886,7 +886,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table,
@@ -909,7 +909,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -930,7 +930,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<Guid>(ClassMappedNameCache.Get<NonIdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -951,7 +951,7 @@ public class InsertTest : TestBase
         // Setup
         var table = new { RowGuid = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync<long>(ClassMappedNameCache.Get<IdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -972,7 +972,7 @@ public class InsertTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = await connection.InsertAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,

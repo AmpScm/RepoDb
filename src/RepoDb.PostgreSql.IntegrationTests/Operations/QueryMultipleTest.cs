@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -18,7 +17,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = connection.QueryMultiple<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -38,7 +37,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -62,7 +61,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -90,7 +89,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -122,7 +121,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -158,7 +157,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = connection.QueryMultiple<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -198,7 +197,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.QueryMultiple<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -218,7 +217,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -238,7 +237,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -262,7 +261,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -290,7 +289,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -322,7 +321,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -358,7 +357,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Tuple<IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>, IEnumerable<CompleteTable>> result = await connection.QueryMultipleAsync<CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,
@@ -398,7 +397,7 @@ public class QueryMultipleTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.QueryMultipleAsync<CompleteTable, CompleteTable>(e => e.Id > 0,
             e => e.Id > 0,

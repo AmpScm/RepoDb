@@ -25,7 +25,7 @@ public class OrderFieldEqualityTest
         var objA = new OrderField("OrderFieldName", Order.Ascending);
 
         // Act
-        var equal = (objA.GetHashCode() == "fieldname".GetHashCode());
+        var equal = objA.GetHashCode() == "fieldname".GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -39,7 +39,7 @@ public class OrderFieldEqualityTest
         var objB = new OrderField("OrderFieldName", Order.Ascending);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -101,7 +101,7 @@ public class OrderFieldEqualityTest
         var objB = new OrderField("OrderFieldName", Order.Descending);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);

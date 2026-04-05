@@ -19,7 +19,7 @@ public class QuotationTest
     #region AsQuoted
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForQuotedAndTrimmed()
+    public void TestMsSqliteQuotationForQuotedAndTrimmed()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -32,7 +32,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForQuotedNonTrimmed()
+    public void TestMsSqliteQuotationForQuotedNonTrimmed()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -45,7 +45,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForQuotedForPreQuoted()
+    public void TestMsSqliteQuotationForQuotedForPreQuoted()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -58,7 +58,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForQuotedForPreQuotedWithSpace()
+    public void TestMsSqliteQuotationForQuotedForPreQuotedWithSpace()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -71,7 +71,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForQuotedForPreQuotedWithSpaceAndTrimmed()
+    public void TestMsSqliteQuotationForQuotedForPreQuotedWithSpaceAndTrimmed()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -88,7 +88,7 @@ public class QuotationTest
     #region AsUnquoted
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForUnquotedAndTrimmed()
+    public void TestMsSqliteQuotationForUnquotedAndTrimmed()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -101,7 +101,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForUnquotedNonTrimmed()
+    public void TestMsSqliteQuotationForUnquotedNonTrimmed()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -114,7 +114,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForUnquotedForPlain()
+    public void TestMsSqliteQuotationForUnquotedForPlain()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -127,7 +127,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForUnquotedForPlainWithSpace()
+    public void TestMsSqliteQuotationForUnquotedForPlainWithSpace()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();
@@ -140,7 +140,7 @@ public class QuotationTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteQuotationForUnquotedAndTrimmedForPlainWithSpace()
+    public void TestMsSqliteQuotationForUnquotedAndTrimmedForPlainWithSpace()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();

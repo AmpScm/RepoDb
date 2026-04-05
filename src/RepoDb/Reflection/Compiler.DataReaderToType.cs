@@ -31,14 +31,14 @@ internal partial class Compiler
         // .NET CLR Type
         else
         {
-            return CompileDataReaderToTargetType<TResult>(reader);
+            return CompileDataReaderToTargetType<TResult>(reader, dbFields);
         }
 
         // Throw an exception
         throw new NotSupportedException($"No compiled expression found for '{typeOfResult.FullName}' type.");
     }
 
-    private static Func<DbDataReader, TResult> CompileDataReaderToTargetType<TResult>(DbDataReader reader)
+    private static Func<DbDataReader, TResult> CompileDataReaderToTargetType<TResult>(DbDataReader reader, DbFieldCollection? dbFields)
     {
         var typeOfResult = typeof(TResult);
 
@@ -50,7 +50,7 @@ internal partial class Compiler
 
         // Variables
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
-        var readerField = GetDataReaderFields(reader, null).First();
+        var readerField = GetDataReaderFields(reader, dbFields).First();
         var classPropertyParameterInfo = new ClassPropertyParameterInfo { TargetType = typeOfResult };
         var expression = GetClassPropertyParameterInfoValueExpression(readerParameterExpression,
             classPropertyParameterInfo, readerField, reader.GetType());
@@ -127,7 +127,7 @@ internal partial class Compiler
         DbFieldCollection? dbFields)
     {
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
-        var readerFields = GetDataReaderFields(reader, dbFields).AsList();
+        var readerFields = GetDataReaderFields(reader, dbFields);
         var typeOfResult = typeof(TResult);
         var constructorInfo = typeOfResult.GetConstructorWithMostArguments()!;
         var parameters = constructorInfo.GetParameters();

@@ -11,6 +11,7 @@ using RepoDb.Trace;
 #pragma warning disable CS8618 // non nullable property, bla, bla
 namespace RepoDb.TestCore;
 
+[DoNotParallelize]
 public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstance> where TDbInstance : DbInstance, new()
 {
     protected override void PostInitialize()
@@ -340,9 +341,9 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         var r = (await sql.QueryAllAsync<WithComputed>(cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
-        Assert.AreEqual(1, r.ID);
-        Assert.AreEqual("a", r.Writable);
-        Assert.AreEqual("--a", r.Computed);
+        Assert.AreEqual(1, r?.ID);
+        Assert.AreEqual("a", r?.Writable);
+        Assert.AreEqual("--a", r?.Computed);
 
         await sql.QueryAllAsync<WithComputed>(orderBy: [OrderField.Parse<WithComputed>(x => x.Computed, Order.Ascending)], cancellationToken: TestContext.CancellationToken);
 
@@ -404,8 +405,8 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         var fromDUAL = sql.GetType().Name.Contains("Oracle") ? " FROM dual" : "";
 
         var t = sql.ExecuteQuery<Tuple<int, string>>("SELECT 1, 'a'" + fromDUAL).FirstOrDefault();
-        Assert.AreEqual(1, t.Item1);
-        Assert.AreEqual("a", t.Item2);
+        Assert.AreEqual(1, t?.Item1);
+        Assert.AreEqual("a", t?.Item2);
     }
 
     [TestMethod]
@@ -517,15 +518,16 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         var id1 = fd.First(x => x.FieldName == "ID");
         var id2 = fd.First(x => x.FieldName == "ID2");
         var val3 = fd.First(x => x.FieldName == "VAL3");
-        var dec = fd.GetByFieldName("DEC");
+
+        var dec = fd.GetByFieldName("DEC")!;
         Assert.AreEqual("ID", id1?.FieldName);
         Assert.AreEqual("ID2", id2?.FieldName);
         Assert.AreEqual("VAL3", val3?.FieldName);
-        Assert.AreEqual("DEC", dec?.FieldName);
+        Assert.AreEqual("DEC", dec.FieldName);
         Assert.AreEqual(typeof(string), id1?.Type);
         Assert.AreEqual(typeof(string), id2?.Type);
         Assert.AreEqual(typeof(string), val3?.Type);
-        Assert.AreEqual(typeof(decimal), dec?.Type);
+        Assert.AreEqual(typeof(decimal), dec.Type);
 
         Assert.AreEqual(VarCharName, id1?.DatabaseType);
         Assert.AreEqual(AltVarCharName == "varchar" ? VarCharName : AltVarCharName, id2?.DatabaseType);
@@ -689,7 +691,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         if (!await sql.SchemaObjectExistsAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<RelatedTable>();
+            await sql.CreateTableAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
         }
         else
         {
@@ -703,7 +705,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             new RelatedTable { ID = 4, Name = "d", Ordered = 40, Canceled = 40, Delivered = 0 }
         ], cancellationToken: TestContext.CancellationToken);
 
-        var rr = await sql.QueryReaderAsync((RelatedTable r) => r.ID > 2).ToListAsync(TestContext.CancellationToken);
+        var rr = await sql.QueryReaderAsync((RelatedTable r) => r.ID > 2, cancellationToken: TestContext.CancellationToken).ToListAsync(TestContext.CancellationToken);
         Assert.HasCount(2, rr);
     }
 
@@ -725,7 +727,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         if (!await sql.SchemaObjectExistsAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<RelatedTable>();
+            await sql.CreateTableAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
         }
         else
         {
@@ -987,26 +989,26 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         if (!await sql.SchemaObjectExistsAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<RelatedTable>();
+            await sql.CreateTableAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
         }
 
-        await sql.InsertAsync(new RelatedTable() { Name = "A" });
+        await sql.InsertAsync(new RelatedTable() { Name = "A" }, cancellationToken: TestContext.CancellationToken);
 
-        await sql.QueryAsync<RelatedTable>(x => x.Name.StartsWith("A"));
-        await sql.QueryAsync<RelatedTable>(x => x.Name.EndsWith("A"));
-        await sql.QueryAsync<RelatedTable>(x => x.Name.Equals("A"));
-        await sql.QueryAsync<RelatedTable>(x => x.Name.Trim() == "A");
-        await sql.QueryAsync<RelatedTable>(x => x.Name.TrimStart() == "A");
-        await sql.QueryAsync<RelatedTable>(x => x.Name.TrimEnd() == "A");
-        await sql.QueryAsync<RelatedTable>(x => x.Name.ToUpper() == "A");
-        await sql.QueryAsync<RelatedTable>(x => x.Name.ToLower() == "a");
-        await sql.QueryAsync<RelatedTable>(x => x.Name.Length == 1, trace: new DiagnosticsTracer());
-        await sql.QueryAsync<RelatedTable>(x => x.Name.Substring(0, 3) == "AAA", trace: new DiagnosticsTracer());
-        await sql.QueryAsync<RelatedTable>(new RightQueryField("Name", "AAA"), trace: new DiagnosticsTracer());
+        await sql.QueryAsync<RelatedTable>(x => x.Name.StartsWith("A"), cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.EndsWith("A"), cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.Equals("A"), cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.Trim() == "A", cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.TrimStart() == "A", cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.TrimEnd() == "A", cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.ToUpper() == "A", cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.ToLower() == "a", cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.Length == 1, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.Substring(0, 3) == "AAA", trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(new RightQueryField("Name", "AAA"), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
 #if NET
-        await sql.QueryAsync<RelatedTable>(x => x.Name.StartsWith('A'));
-        await sql.QueryAsync<RelatedTable>(x => x.Name.EndsWith('A'));
+        await sql.QueryAsync<RelatedTable>(x => x.Name.StartsWith('A'), cancellationToken: TestContext.CancellationToken);
+        await sql.QueryAsync<RelatedTable>(x => x.Name.EndsWith('A'), cancellationToken: TestContext.CancellationToken);
 #endif
     }
 
@@ -1017,14 +1019,14 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         if (!await sql.SchemaObjectExistsAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<RelatedTable>();
+            await sql.CreateTableAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
         }
         else
-            await sql.TruncateAsync<RelatedTable>();
+            await sql.TruncateAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
 
-        var idSrc = await sql.InsertAllAsync(Enumerable.Range(0, 20).Select(x => new RelatedTable { ID = x, Name = $"N{x}" }));
+        var idSrc = await sql.InsertAllAsync(Enumerable.Range(0, 20).Select(x => new RelatedTable { ID = x, Name = $"N{x}" }), cancellationToken: TestContext.CancellationToken);
 
-        var r = await sql.SkipQueryAsync<RelatedTable>(5, 9, orderBy: [OrderField.Parse<RelatedTable>(x => x.Name, Order.Ascending)], where: (object?)null, trace: new DiagnosticsTracer());
+        var r = await sql.SkipQueryAsync<RelatedTable>(5, 9, orderBy: [OrderField.Parse<RelatedTable>(x => x.Name, Order.Ascending)], where: (object?)null, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
         Assert.AreEqual("N13,N14,N15,N16,N17,N18,N19,N2,N3", string.Join(",", r.Select(x => x.Name)));
     }
@@ -1037,12 +1039,12 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         if (!await sql.SchemaObjectExistsAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<RelatedTable>();
+            await sql.CreateTableAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
         }
         else
-            await sql.TruncateAsync<RelatedTable>();
+            await sql.TruncateAsync<RelatedTable>(cancellationToken: TestContext.CancellationToken);
 
-        var idSrc = await sql.InsertAllAsync(Enumerable.Range(0, 20).Select(x => new RelatedTable { ID = x, Name = $"N{x}" }));
+        var idSrc = await sql.InsertAllAsync(Enumerable.Range(0, 20).Select(x => new RelatedTable { ID = x, Name = $"N{x}" }), cancellationToken: TestContext.CancellationToken);
 
         var (r, s, t) = await sql.QueryMultipleAsync<RelatedTable, RelatedTable, RelatedTable>(
             where1: x => x.Name.StartsWith("N1"),
@@ -1068,10 +1070,10 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
 
         if (!await sql.SchemaObjectExistsAsync<RecordQueryThing>(cancellationToken: TestContext.CancellationToken))
         {
-            await sql.CreateTableAsync<RecordQueryThing>();
+            await sql.CreateTableAsync<RecordQueryThing>(cancellationToken: TestContext.CancellationToken);
         }
         else
-            await sql.TruncateAsync<RecordQueryThing>();
+            await sql.TruncateAsync<RecordQueryThing>(cancellationToken: TestContext.CancellationToken);
 
         await sql.InsertAllAsync(Enumerable.Range(0, 10).Select(x => new RecordQueryThing(0, $"N{x}", x % 2 == 0 ? "Even" : "Odd")), cancellationToken: TestContext.CancellationToken);
 
@@ -1121,9 +1123,9 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.AreEqual(r.F, (float)d.F);
         Assert.AreEqual(r.D, (double)d.D);
 
-        Assert.AreEqual(1, await sql.CountAsync<HalfFloatTestHalf>(where: x => x.F == (Half)1.5));
+        Assert.AreEqual(1, await sql.CountAsync<HalfFloatTestHalf>(where: x => x.F == (Half)1.5, cancellationToken: TestContext.CancellationToken));
 
-        Assert.AreEqual(1, await sql.ExecuteScalarAsync<int>(sql.ReplaceForTests($"SELECT COUNT(*) FROM [{nameof(HalfFloatTest)}] WHERE [F]=@f"), new { f = (Half)1.5 }));
+        Assert.AreEqual(1, await sql.ExecuteScalarAsync<int>(sql.ReplaceForTests($"SELECT COUNT(*) FROM [{nameof(HalfFloatTest)}] WHERE [F]=@f"), new { f = (Half)1.5 }, cancellationToken: TestContext.CancellationToken));
     }
 #endif
 
@@ -1153,17 +1155,17 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         {
             new() { Value = new DateTime(2000, 1, 2, 3, 4, 5, 6, DateTimeKind.Utc)},
             new() { Value = new DateTime(2100, 7, 8, 9, 10, 11, 12, DateTimeKind.Utc)}
-        }, trace: new DiagnosticsTracer());
+        }, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
 
-        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Year == 2000, trace: new DiagnosticsTracer()));
-        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Month == 1, trace: new DiagnosticsTracer()));
-        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Day == 2, trace: new DiagnosticsTracer()));
-        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Hour == 3, trace: new DiagnosticsTracer()));
-        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Minute == 4, trace: new DiagnosticsTracer()));
-        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Second == 5, trace: new DiagnosticsTracer()));
-        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Millisecond == 6, trace: new DiagnosticsTracer()));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Year == 2000, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Month == 1, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Day == 2, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Hour == 3, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Minute == 4, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Second == 5, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
+        Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Millisecond == 6, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
         if (sql.GetType().Namespace is not "System.Data.SQLite") 
-            Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Date == new DateTime(2000, 1, 2, 0, 0, 0, DateTimeKind.Utc), trace: new DiagnosticsTracer()));
+            Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Date == new DateTime(2000, 1, 2, 0, 0, 0, DateTimeKind.Utc), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
     }
 }

@@ -192,66 +192,10 @@ public class TypeTransferTests : TestBase
                 Decimal = 2345m,
                 DecimalNull = 6789m
             };
-
-
-            /* Unmerged change from project 'RepoDb.Sqlite.Microsoft.IntegrationTests (net481)'
-            Before:
-                            var src = new DateTypesData
-                            {
-                                Bool = true,
-                                BoolNull = false,
-                                Date = DateOnly.FromDateTime(new DateTime(2000, 1, 1)),
-                                DateNull = DateOnly.FromDateTime(new DateTime(2001, 2, 2)),
-                                DateTime = new DateTime(2004, 3, 3),
-                                DateTimeNull = new DateTime(2004, 4, 4),
-                                DateTimeOffset = new DateTimeOffset(2010, 5, 5, 0, 0, 0, TimeSpan.Zero),
-                                DateTimeOffsetNull = new DateTimeOffset(2011, 6, 6, 0, 0, 0, TimeSpan.Zero),
-                                Decimal = 2345m,
-                                DecimalNull = 6789m
-                            };
-
-                            connection.Insert(src);
-            After:
-                        connection.Insert(src);
-            */
             connection.Insert(src);
 
 
             var item = connection.QueryAll<DateTypesData>().Single();
-
-
-            /* Unmerged change from project 'RepoDb.Sqlite.Microsoft.IntegrationTests (net481)'
-            Before:
-                            var item = connection.QueryAll<DateTypesData>().Single();
-
-                            Assert.AreEqual(src, item);
-
-                            src = src with
-                            {
-                                BoolNull = null,
-                                DateNull = null,
-                                DateTimeNull = null,
-                                DateTimeOffsetNull = null,
-                                DecimalNull = null,
-                            };
-
-                            connection.Update(src);
-            After:
-                        var item = connection.QueryAll<DateTypesData>().Single();
-
-                        Assert.AreEqual(src, item);
-
-                        src = src with
-                        {
-                            BoolNull = null,
-                            DateNull = null,
-                            DateTimeNull = null,
-                            DateTimeOffsetNull = null,
-                            DecimalNull = null,
-                        };
-
-                        connection.Update(src);
-            */
             Assert.AreEqual(src, item);
 
             src = src with

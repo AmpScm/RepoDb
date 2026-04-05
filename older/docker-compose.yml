@@ -9,13 +9,16 @@ services:
     restart: no
 
   oracle:
-    image: gvenzl/oracle-xe:18
+    image: gvenzl/oracle-xe:21-slim-faststart
     ports:
       - 127.0.0.1:41521:1521
       - 127.0.0.1:45500:5500
     environment:
-      ORACLE_PASSWORD: ddd53e85-b15e-4da8
-      ORACLE_ALLOW_REMOTE: true
+      ORACLE_PASSWORD: "ddd53e85-b15e-4da8"
+      ORACLE_ALLOW_REMOTE: "true"
+      ORACLE_SGA_TARGET: 512
+      ORACLE_PGA_AGGREGATE_TARGET: 256
+      ORACLE_DISABLE_ASYNCH_IO: "true"
     shm_size: '1gb'
     restart: no
 

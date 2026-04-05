@@ -10,7 +10,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverInt64()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Int64));
@@ -20,7 +20,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverByte()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Byte));
@@ -30,7 +30,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverBinary()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("BLOB", resolver.Resolve(DbType.Binary));
@@ -40,7 +40,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverBoolean()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("BOOLEAN", resolver.Resolve(DbType.Boolean));
@@ -50,7 +50,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverString()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("TEXT", resolver.Resolve(DbType.String));
@@ -60,7 +60,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverAnsiString()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("TEXT", resolver.Resolve(DbType.AnsiString));
@@ -70,7 +70,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverAnsiStringFixedLength()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("TEXT", resolver.Resolve(DbType.AnsiStringFixedLength));
@@ -80,7 +80,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverStringFixedLength()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("TEXT", resolver.Resolve(DbType.StringFixedLength));
@@ -90,7 +90,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverDate()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("DATE", resolver.Resolve(DbType.Date));
@@ -100,7 +100,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverDateTime()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("DATETIME", resolver.Resolve(DbType.DateTime));
@@ -110,7 +110,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverDateTime2()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("DATETIME", resolver.Resolve(DbType.DateTime2));
@@ -120,7 +120,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverDateTimeOffset()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("DATETIME", resolver.Resolve(DbType.DateTimeOffset));
@@ -130,7 +130,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverDecimal()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("DECIMAL", resolver.Resolve(DbType.Decimal));
@@ -140,7 +140,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverSingle()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("REAL", resolver.Resolve(DbType.Single));
@@ -150,7 +150,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverDouble()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("REAL", resolver.Resolve(DbType.Double));
@@ -160,7 +160,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverInt32()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Int32));
@@ -170,7 +170,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverInt16()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("INTEGER", resolver.Resolve(DbType.Int16));
@@ -180,7 +180,7 @@ public class DbTypeToSqLiteStringNameResolverTest
     public void TestDbTypeToSqLiteStringNameResolverTime()
     {
         // Setup
-        var resolver = new DbTypeToSqLiteStringNameResolver();
+        var resolver = new DbTypeToSQLiteStringNameResolver();
 
         // Assert
         Assert.AreEqual("TIME", resolver.Resolve(DbType.Time));

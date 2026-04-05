@@ -5,19 +5,19 @@ namespace RepoDb.DbSettings;
 /// <summary>
 /// A setting class used for SQLite data provider.
 /// </summary>
-public sealed record SqLiteDbSetting : BaseDbSetting
+public sealed record SqliteDbSetting : BaseDbSetting
 {
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteDbSetting"/> class.
+    /// Creates a new instance of <see cref="SqliteDbSetting"/> class.
     /// </summary>
-    public SqLiteDbSetting()
+    public SqliteDbSetting()
         : this(false)
     { }
 
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteDbSetting"/> class.
+    /// Creates a new instance of <see cref="SqliteDbSetting"/> class.
     /// </summary>
-    public SqLiteDbSetting(bool isExecuteReaderDisposable)
+    public SqliteDbSetting(bool isExecuteReaderDisposable)
     {
         AreTableHintsSupported = false;
         AverageableType = typeof(double);

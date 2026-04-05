@@ -36,11 +36,11 @@ This fork enhances the original RepoDb with:
 
 Choose your database platform:
 
-- **[SQL Server](docs/getstarted/sqlserver.md)** – Full-featured support with Microsoft.Data.SqlClient
-- **[SQLite](docs/getstarted/sqlite.md)** – Perfect for testing and embedded scenarios
-- **[MySQL](docs/getstarted/mysql.md)** – Popular relational database support
-- **[Oracle](docs/getstarted/oracle.md)** – Enterprise database support
-- **[PostgreSQL](docs/getstarted/postgresql.md)** – Advanced open-source database
+- **[SQL Server](docs/getstarted/sqlserver.md)** – Using Microsoft.Data.SqlClient or if really necessary System.Data.SqlClient
+- **[PostgreSQL](docs/getstarted/postgresql.md)** – Uses the well-tested Npgsql
+- **[MySQL](docs/getstarted/mysql.md)** – Supports for both MySql or MyslConnector
+- **[SQLite](docs/getstarted/sqlite.md)** – Microsoft.Data.Sqlite and System.Data.SQLite
+- **[Oracle](docs/getstarted/oracle.md)** – Now supported using Oracle.ManagedDataAccess.Core or Oracle.ManagedDataAccess for .Net Framework.
 
 ### Example Usage
 

@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Models;
+﻿using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
@@ -17,7 +16,7 @@ public class TruncateTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.Truncate<CompleteTable>();
         long countResult = connection.CountAll<CompleteTable>();
@@ -36,7 +35,7 @@ public class TruncateTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.TruncateAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
         long countResult = connection.CountAll<CompleteTable>();
@@ -59,7 +58,7 @@ public class TruncateTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.Truncate(ClassMappedNameCache.Get<CompleteTable>());
         long countResult = connection.CountAll<CompleteTable>();
@@ -78,7 +77,7 @@ public class TruncateTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.TruncateAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
         long countResult = connection.CountAll<CompleteTable>();

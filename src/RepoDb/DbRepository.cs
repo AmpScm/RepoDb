@@ -312,7 +312,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     }
 
     /// <summary>
-    /// Dispose the current repository instance (of type <see cref="DbRepository{TDbConnection}"/>). It is not necessary to call this method if the value of the <see cref="ConnectionPersistency"/>
+    /// Dispose the current repository instance (of type <see cref="DbRepository{TDbConnection}"/>). It may not be necessary to call this method if the value of the <see cref="ConnectionPersistency"/>
     /// property is equals to <see cref="ConnectionPersistency.PerCall"/>. This method only manages the connection persistency for the repositories where the value
     /// of the <see cref="ConnectionPersistency"/> property is equals to <see cref="ConnectionPersistency.Instance"/>.
     /// </summary>
@@ -323,7 +323,7 @@ public partial class DbRepository<TDbConnection> : IDisposable
     }
 
     /// <summary>
-    ///
+    /// Disposes the current repository instance (of type <see cref="DbRepository{TDbConnection}"/>). It is not necessary to call this method if the value of the <see cref="ConnectionPersistency"/>
     /// </summary>
     /// <param name="disposing"></param>
     protected virtual void Dispose(bool disposing)

@@ -290,7 +290,7 @@ public abstract partial class BaseRepository<TEntity, TDbConnection> : IDisposab
     }
 
     /// <summary>
-    ///
+    /// Disposes the current repository instance. It may not be necessary to call this method depending on the value of the <see cref="ConnectionPersistency"/>
     /// </summary>
     /// <param name="disposing"></param>
     protected virtual void Dispose(bool disposing)

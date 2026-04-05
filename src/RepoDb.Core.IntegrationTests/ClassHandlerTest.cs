@@ -119,7 +119,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -149,7 +149,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -173,7 +173,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -200,7 +200,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -221,7 +221,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -239,7 +239,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -257,7 +257,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTableWithTestModels(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerTestModelClassHandler>(typeof(ClassHandlerIdentityTableWithTestModel));
 
@@ -275,7 +275,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -293,7 +293,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTableWithTestModels(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerTestModelClassHandler>(typeof(ClassHandlerIdentityTableWithTestModel));
 
@@ -311,7 +311,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -329,7 +329,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -347,7 +347,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTableWithTestModels(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerTestModelClassHandler>(typeof(ClassHandlerIdentityTableWithTestModel));
 
@@ -365,7 +365,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -383,7 +383,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTableWithTestModels(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerTestModelClassHandler>(typeof(ClassHandlerIdentityTableWithTestModel));
 
@@ -401,7 +401,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert(table);
 
@@ -423,7 +423,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -444,7 +444,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -471,7 +471,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -492,7 +492,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -513,7 +513,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -534,7 +534,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTableWithTestModels(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<InvalidTypeException>(() => connection.Insert(table));
 
@@ -555,7 +555,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -576,7 +576,7 @@ public class ClassHandlerTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTableWithTestModels(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<InvalidTypeException>(() => connection.InsertAll(tables));
 

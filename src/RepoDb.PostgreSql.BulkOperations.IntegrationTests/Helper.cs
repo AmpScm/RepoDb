@@ -631,17 +631,18 @@ public static class Helper
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             var index = i + 1;
-            expandoObject["Id"] = (long)(hasId ? index + addToKey : 0);
-            expandoObject["ColumnBigInt"] = (long)index;
-            expandoObject["ColumnBoolean"] = true;
-            expandoObject["ColumnInteger"] = index;
-            expandoObject["ColumnNumeric"] = (decimal)index;
-            expandoObject["ColumnReal"] = (float)index;
-            expandoObject["ColumnSmallInt"] = (short)index;
-            expandoObject["ColumnText"] = $"Text-{index}";
-            tables.Add((ExpandoObject)expandoObject);
+            item["Id"] = (long)(hasId ? index + addToKey : 0);
+            item["ColumnBigInt"] = (long)index;
+            item["ColumnBoolean"] = true;
+            item["ColumnInteger"] = index;
+            item["ColumnNumeric"] = (decimal)index;
+            item["ColumnReal"] = (float)index;
+            item["ColumnSmallInt"] = (short)index;
+            item["ColumnText"] = $"Text-{index}";
+            tables.Add(expando);
         }
         return tables;
     }
@@ -685,17 +686,18 @@ public static class Helper
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             var index = i + 1;
-            expandoObject["IdMapped"] = (long)(hasId ? index + addToKey : 0);
-            expandoObject["ColumnBigIntMapped"] = (long)index;
-            expandoObject["ColumnBooleanMapped"] = true;
-            expandoObject["ColumnIntegerMapped"] = index;
-            expandoObject["ColumnNumericMapped"] = (decimal)index;
-            expandoObject["ColumnRealMapped"] = (float)index;
-            expandoObject["ColumnSmallIntMapped"] = (short)index;
-            expandoObject["ColumnTextMapped"] = $"Text-{index}";
-            tables.Add((ExpandoObject)expandoObject);
+            item["IdMapped"] = (long)(hasId ? index + addToKey : 0);
+            item["ColumnBigIntMapped"] = (long)index;
+            item["ColumnBooleanMapped"] = true;
+            item["ColumnIntegerMapped"] = index;
+            item["ColumnNumericMapped"] = (decimal)index;
+            item["ColumnRealMapped"] = (float)index;
+            item["ColumnSmallIntMapped"] = (short)index;
+            item["ColumnTextMapped"] = $"Text-{index}";
+            tables.Add(expando);
         }
         return tables;
     }
@@ -739,13 +741,14 @@ public static class Helper
         var tables = new List<dynamic>();
         for (var i = 0; i < count; i++)
         {
-            var expandoObject = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             var index = i + 1;
-            expandoObject["Id"] = (long)(hasId ? index + addToKey : 0);
-            expandoObject["ColumnEnumHand"] = Hands.Right;
-            expandoObject["ColumnEnumInt"] = (int?)null; // Hands.Left;
-            expandoObject["ColumnEnumText"] = (string)null; // Hands.Unidentified;
-            tables.Add((ExpandoObject)expandoObject);
+            item["Id"] = (long)(hasId ? index + addToKey : 0);
+            item["ColumnEnumHand"] = Hands.Right;
+            item["ColumnEnumInt"] = (int?)null; // Hands.Left;
+            item["ColumnEnumText"] = (string)null; // Hands.Unidentified;
+            tables.Add(expando);
         }
         return tables;
     }

@@ -46,7 +46,7 @@ public static partial class SqlConnectionExtension
                 {
                     var value = Converter.DbNullToNull(reader.GetFieldValue<object>(0));
                     var index = reader.GetFieldValue<int>(1);
-                    var entity = list[(index < 0 ? result : index)];
+                    var entity = list[index < 0 ? result : index];
                     func(entity, value);
                     result++;
                 }
@@ -72,7 +72,7 @@ public static partial class SqlConnectionExtension
             {
                 var value = Converter.DbNullToNull(await reader.GetFieldValueAsync<object>(0, cancellationToken));
                 var index = await reader.GetFieldValueAsync<int>(1, cancellationToken);
-                var dictionary = (IDictionary<string, object?>)list[(index < 0 ? result : index)];
+                var dictionary = (IDictionary<string, object?>)list[index < 0 ? result : index];
                 dictionary[identityDbField.FieldName] = value;
                 result++;
             }
@@ -84,7 +84,7 @@ public static partial class SqlConnectionExtension
             {
                 var value = Converter.DbNullToNull(await reader.GetFieldValueAsync<object>(0, cancellationToken));
                 var index = await reader.GetFieldValueAsync<int>(1, cancellationToken);
-                var entity = list[(index < 0 ? result : index)];
+                var entity = list[index < 0 ? result : index];
                 func?.Invoke(entity, value);
                 result++;
             }

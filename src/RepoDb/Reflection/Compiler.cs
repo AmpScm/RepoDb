@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Data;
@@ -246,18 +247,36 @@ internal sealed partial class Compiler
     private static ParameterInfo? GetPropertyHandlerSetParameter(MethodInfo? setMethod) =>
         setMethod?.GetParameters().First();
 
-    private static IEnumerable<DataReaderField> GetDataReaderFields(DbDataReader reader,
+    private static List<DataReaderField> GetDataReaderFields(DbDataReader reader,
         DbFieldCollection? dbFields)
     {
-        return Enumerable.Range(0, reader.FieldCount)
-            .Select(reader.GetName)
-            .Select((name, ordinal) => new DataReaderField
+        var fields = new List<DataReaderField>(reader.FieldCount);
+
+        for (int i = 0; i < reader.FieldCount; i++)
+        {
+            var name = reader.GetName(i);
+            var dbField = dbFields?.GetByFieldName(name);
+            fields.Add(new DataReaderField
             {
                 Name = name,
-                Ordinal = ordinal,
-                Type = reader.GetFieldType(ordinal) ?? StaticType.Object,
-                DbField = dbFields?.GetByFieldName(name)
+                Ordinal = i,
+                Type = FilterUninteresting(reader.GetFieldType(i), dbField) ?? dbField?.Type ?? typeof(object),
+                DbField = dbField
             });
+        }
+        return fields;
+
+        static Type? FilterUninteresting(Type value, DbField? dbField)
+        {
+            if (value == typeof(object))
+                return null;
+            else if (value == typeof(byte[]) && (object.ReferenceEquals("MSSQL", dbField?.Provider) || dbField is null)) // Work around SqlVector bug in SqlClient 7.0.0
+            {
+                return null;
+            }
+            else
+                return value;
+        }
     }
 
     private static object? GetHandlerInstance(ClassPropertyParameterInfo classPropertyParameterInfo,
@@ -287,12 +306,37 @@ internal sealed partial class Compiler
         static Expression UnwrapUnary(Expression e) => e is UnaryExpression ue ? UnwrapUnary(ue.Operand) : e;
     }
 
-    private static MethodInfo? GetDbReaderGetValueMethod(Type targetType, Type? readerType) =>
-        readerType?.GetMethod(string.Concat("Get", targetType?.Name), [StaticType.Int32])
-        ?? StaticType.DbDataReader.GetMethod(string.Concat("Get", targetType?.Name));
+#if NET
+    private static readonly SearchValues<char> _ignoreTypesContaining = SearchValues.Create(['`', '<', '.']);
+#endif
+    private static MethodInfo? GetDbReaderGetValueMethod(Type targetType, Type readerType)
+    {
+        string name = targetType.Name;
+#if NET
+        if (name.ContainsAny(_ignoreTypesContaining))
+            return null;
+#endif
+        name = "Get" + name;
+
+        return
+            readerType.GetMethod(name, [StaticType.Int32])
+            ?? StaticType.DbDataReader.GetMethod(name, [StaticType.Int32]);
+    }
 
     private static MethodInfo GetDbReaderGetValueOrDefaultMethod(DataReaderField readerField, Type readerType)
-        => GetDbReaderGetValueMethod(readerField.Type, readerType) ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default));
+        => GetDbReaderGetValueMethod(readerField.Type, readerType)
+#if NET
+        ?? (!SkipFieldsFor(readerType, readerField.Type) ? GetMethodInfo<DbDataReader>((x) => x.GetFieldValue<int>(default)).GetGenericMethodDefinition().MakeGenericMethod([readerField.Type]) : null)
+#endif
+        ?? GetMethodInfo<DbDataReader>((x) => x.GetValue(default));
+
+    private static bool SkipFieldsFor(Type readerType, Type elementType)
+    {
+        if (object.ReferenceEquals(readerType.Name, "SqlDataReader") && elementType == typeof(byte[]))
+            return true; // Bug on SqlVector<float> with 7.0.0
+
+        return false;
+    }
 
     private static TEnum? EnumParseNull<TEnum>(string value) where TEnum : unmanaged, Enum
     {
@@ -428,12 +472,12 @@ internal sealed partial class Compiler
 
     private static string StrictToString(DateTime value)
     {
-        return value.ToString("o", CultureInfo.InvariantCulture);
+        return value.ToString(@"yyyy\-MM\-dd HH\:mm\:ss.FFFFFFF", CultureInfo.InvariantCulture);
     }
 
     private static string StrictToString(DateTimeOffset value)
     {
-        return value.ToString("o", CultureInfo.InvariantCulture);
+        return value.ToString(@"yyyy\-MM\-dd HH\:mm\:ss.FFFFFFFzzz", CultureInfo.InvariantCulture);
     }
 
     private static DateTimeOffset StrictParseDateTimeOffset(string value)
@@ -456,7 +500,7 @@ internal sealed partial class Compiler
 
     private static string StrictToString(DateOnly value)
     {
-        return value.ToString("d", CultureInfo.InvariantCulture);
+        return value.ToString(@"yyyy\-MM\-dd", CultureInfo.InvariantCulture);
     }
 
     private static TimeOnly StrictParseTimeOnly(string value)
@@ -473,7 +517,7 @@ internal sealed partial class Compiler
 
     private static string StrictToString(TimeOnly value)
     {
-        return value.ToString("o", CultureInfo.InvariantCulture);
+        return value.ToString(@"HH:mm:ss.FFFFFFF", CultureInfo.InvariantCulture);
     }
 #endif
 
@@ -895,7 +939,13 @@ internal sealed partial class Compiler
 #endif
             else if (fromType == typeof(string) && underlyingToType.ImplementsIParsable())
             {
-                var parseMethod = underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)])!;
+                MethodInfo parseMethod =
+                    underlyingToType.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, [typeof(string), typeof(IFormatProvider)])
+#if NET
+                    ?? GetMethodInfo(() => ParseIt<int>("", null)).GetGenericMethodDefinition().MakeGenericMethod(underlyingToType) // Needed for System.Char and probably others that implement this explicitly
+#endif
+                    !;
+
                 result = Expression.Call(parseMethod, expression, Expression.Constant(CultureInfo.InvariantCulture));
             }
             else if (toType == typeof(string) && typeof(IFormattable).IsAssignableFrom(underlyingFromType))
@@ -1003,6 +1053,10 @@ internal sealed partial class Compiler
         }
     }
 
+#if NET
+    private static TResult ParseIt<TResult>(string value, IFormatProvider? formatProvider) where TResult: IParsable<TResult> => TResult.Parse(value, formatProvider);
+#endif
+
     private static object? WrapConvertChangeType(object? value, Type fromType, Type conversionType)
     {
         var actualType = value?.GetType();
@@ -1012,6 +1066,17 @@ internal sealed partial class Compiler
             if (actualType is { } && Compiler.TryConvertViaProvider(value, conversionType, actualType, out var newValue))
             {
                 return newValue;
+            }
+            else if (value is string str)
+            {
+                if (typeof(JsonNode).IsAssignableFrom(conversionType))
+                {
+                    return JsonNode.Parse(str);
+                }
+                else if (conversionType.IsGenericType && conversionType.GetGenericTypeDefinition() == typeof(DbJsonValue<>))
+                {
+                    return Activator.CreateInstance(conversionType, [JsonNode.Parse(str)]);
+                }
             }
 
             if (value is IConvertible) // Convert.ChangeType only supports system types that support IConvertable

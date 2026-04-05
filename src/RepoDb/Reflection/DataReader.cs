@@ -16,19 +16,17 @@ public static class DataReader
     /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="reader">The <see cref="DbDataReader"/> to be converted.</param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
-    ///
     /// <returns>A list of the target result type.</returns>
-    public static IEnumerable<TResult> ToEnumerable<TResult>(DbDataReader reader,
-        DbFieldCollection? dbFields = null)
+    public static IEnumerable<TResult> ToEnumerable<TResult>(DbDataReader reader, DbFieldCollection? dbFields = null)
     {
-        if (reader?.IsClosed == false && reader.HasRows)
+        if (reader?.IsClosed != false || !reader.HasRows)
+            yield break;
+
+        var func = FunctionCache.GetDataReaderToTypeCompiledFunction<TResult>(reader,
+            dbFields);
+        while (reader.Read())
         {
-            var func = FunctionCache.GetDataReaderToTypeCompiledFunction<TResult>(reader,
-                dbFields);
-            while (reader.Read())
-            {
-                yield return func(reader);
-            }
+            yield return func(reader);
         }
     }
 
@@ -43,13 +41,12 @@ public static class DataReader
     /// <param name="reader">The <see cref="DbDataReader"/> to be converted.</param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
-    ///
     /// <returns>A list of the target result type.</returns>
-    public static async IAsyncEnumerable<TResult> ToEnumerableAsync<TResult>(DbDataReader reader,
-        DbFieldCollection? dbFields = null,
+    public static async IAsyncEnumerable<TResult> ToEnumerableAsync<TResult>(DbDataReader reader, DbFieldCollection? dbFields = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        if (reader?.IsClosed != false || !reader.HasRows) yield break;
+        if (reader?.IsClosed != false || !reader.HasRows)
+            yield break;
 
         var func = FunctionCache.GetDataReaderToTypeCompiledFunction<TResult>(reader,
             dbFields);
@@ -69,19 +66,17 @@ public static class DataReader
     /// </summary>
     /// <param name="reader">The <see cref="DbDataReader"/> to be converted.</param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
-    ///
     /// <returns>An array of dynamic objects.</returns>
-    public static IEnumerable<dynamic> ToEnumerable(DbDataReader reader,
-        DbFieldCollection? dbFields = null)
+    public static IEnumerable<dynamic> ToEnumerable(DbDataReader reader, DbFieldCollection? dbFields = null)
     {
-        if (reader?.IsClosed == false && reader.HasRows)
-        {
-            var func = FunctionCache.GetDataReaderToExpandoObjectCompileFunction(reader,
+        if (reader?.IsClosed != false || !reader.HasRows)
+            yield break;
+
+        var func = FunctionCache.GetDataReaderToExpandoObjectCompileFunction(reader,
                 dbFields);
-            while (reader.Read())
-            {
-                yield return func(reader);
-            }
+        while (reader.Read())
+        {
+            yield return func(reader);
         }
     }
 
@@ -95,13 +90,13 @@ public static class DataReader
     /// <param name="reader">The <see cref="DbDataReader"/> to be converted.</param>
     /// <param name="dbFields">The list of the <see cref="DbField"/> objects to be used.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> object to be used during the asynchronous operation.</param>
-    ///
     /// <returns>An array of dynamic objects.</returns>
     public static async IAsyncEnumerable<dynamic> ToEnumerableAsync(DbDataReader reader,
         DbFieldCollection? dbFields = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        if (reader?.IsClosed != false || !reader.HasRows) yield break;
+        if (reader?.IsClosed != false || !reader.HasRows)
+            yield break;
 
         var func = FunctionCache.GetDataReaderToExpandoObjectCompileFunction(reader,
             dbFields);

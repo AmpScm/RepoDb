@@ -156,7 +156,7 @@ public static class Converter
         }
 
 #if NET
-        if (type == StaticType.String && value is IFormattable fmt && value.GetType().HandleAsStringForDB())
+        if (type == StaticType.String && value is IFormattable fmt)
         {
             return (T)(object)fmt.ToString(null, CultureInfo.InvariantCulture);
         }
@@ -175,6 +175,10 @@ public static class Converter
         try
         {
             return (T)Convert.ChangeType(value, type, CultureInfo.InvariantCulture);
+        }
+        catch when(type == typeof(string) && value is { })
+        {
+            return (T)(object)(value.ToString() ?? "");
         }
         catch (InvalidCastException ex)
         {
@@ -195,7 +199,7 @@ public static class Converter
     #endregion
 
     /// <summary>
-    ///
+    ///The default json options instance
     /// </summary>
     public static readonly JsonSerializerOptions DefaultJsonSerializerOptions = new()
     {
@@ -203,7 +207,7 @@ public static class Converter
     };
 
     /// <summary>
-    ///
+    /// The current set of Json options used for db operations
     /// </summary>
     public static JsonSerializerOptions JsonSerializerOptions => GlobalConfiguration.Options?.JsonSerializerOptions ?? DefaultJsonSerializerOptions;
 

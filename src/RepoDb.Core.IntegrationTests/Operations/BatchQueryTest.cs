@@ -18,7 +18,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -44,7 +44,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -69,7 +69,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -95,7 +95,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -121,7 +121,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -147,7 +147,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -173,7 +173,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -199,7 +199,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -225,7 +225,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -251,7 +251,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -277,7 +277,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -308,7 +308,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -340,7 +340,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -366,7 +366,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -392,7 +392,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -417,7 +417,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -443,7 +443,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -469,7 +469,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -495,7 +495,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -521,7 +521,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -547,7 +547,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -573,7 +573,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -598,7 +598,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -624,7 +624,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -655,7 +655,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -687,7 +687,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -713,7 +713,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<MissingFieldsException>(() => connection.BatchQuery<IdentityTable>(page: 0,
             rowsPerBatch: 10,
@@ -735,7 +735,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -761,7 +761,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -792,7 +792,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -824,7 +824,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -850,7 +850,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -876,7 +876,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -907,7 +907,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -939,7 +939,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -969,7 +969,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -996,7 +996,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1022,7 +1022,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1049,7 +1049,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1076,7 +1076,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1103,7 +1103,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1130,7 +1130,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1157,7 +1157,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1184,7 +1184,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1211,7 +1211,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1238,7 +1238,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1270,7 +1270,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1303,7 +1303,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1330,7 +1330,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1357,7 +1357,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1383,7 +1383,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1410,7 +1410,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1437,7 +1437,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1464,7 +1464,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1491,7 +1491,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1518,7 +1518,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1545,7 +1545,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1571,7 +1571,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1598,7 +1598,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1630,7 +1630,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1663,7 +1663,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1690,7 +1690,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.BatchQueryAsync<IdentityTable>(page: 0,
             rowsPerBatch: 10,
@@ -1714,7 +1714,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1741,7 +1741,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1773,7 +1773,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1806,7 +1806,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1833,7 +1833,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1860,7 +1860,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1892,7 +1892,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1925,7 +1925,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1956,7 +1956,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1982,7 +1982,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2008,7 +2008,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2034,7 +2034,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2060,7 +2060,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2090,7 +2090,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2120,7 +2120,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2150,7 +2150,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2180,7 +2180,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2206,7 +2206,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2237,7 +2237,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2269,7 +2269,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2295,7 +2295,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<MissingFieldsException>(() => connection.BatchQuery<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             page: 0,
@@ -2318,7 +2318,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2345,7 +2345,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2372,7 +2372,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2399,7 +2399,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2426,7 +2426,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2457,7 +2457,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2488,7 +2488,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2519,7 +2519,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(20);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2550,7 +2550,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2577,7 +2577,7 @@ public class BatchQueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 3);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2609,7 +2609,7 @@ public class BatchQueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 20)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2642,7 +2642,7 @@ public class BatchQueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2669,7 +2669,7 @@ public class BatchQueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.BatchQueryAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             page: 0,

@@ -1,5 +1,4 @@
 ﻿using RepoDb.Attributes.Parameter;
-using RepoDb.Resolvers;
 using System.Data;
 
 namespace RepoDb.UnitTests.Cachers;
@@ -19,7 +18,6 @@ public partial class PropertyValueAttributeResolverTest
     [TestCleanup]
     public void Cleanup()
     {
-        PropertyValueAttributeCache.Flush();
         PropertyValueAttributeMapper.Clear();
     }
 
@@ -79,7 +77,7 @@ public partial class PropertyValueAttributeResolverTest
         var classProperty = PropertyCache.Get<PropertyValueAttributeClass>("PropertyInt", true);
 
         // Act
-        var actual = new PropertyValueAttributePropertyLevelResolver().Resolve(classProperty.PropertyInfo);
+        var actual = classProperty.GetPropertyValueAttributes();
 
         // Assert
         Assert.AreEqual(2, actual.Count());
@@ -96,7 +94,7 @@ public partial class PropertyValueAttributeResolverTest
         var classProperty = PropertyCache.Get<PropertyValueAttributeClass>("PropertyString", true);
 
         // Act
-        var actual = new PropertyValueAttributePropertyLevelResolver().Resolve(classProperty.PropertyInfo);
+        var actual = classProperty.GetPropertyValueAttributes();
 
         // Assert
         Assert.AreEqual(7, actual.Count());
@@ -113,7 +111,7 @@ public partial class PropertyValueAttributeResolverTest
         var classProperty = PropertyCache.Get<PropertyValueAttributeClass>("PropertyDecimal", true);
 
         // Act
-        var actual = new PropertyValueAttributePropertyLevelResolver().Resolve(classProperty.PropertyInfo);
+        var actual = classProperty.GetPropertyValueAttributes();
 
         // Assert
         Assert.AreEqual(11, actual.Count());

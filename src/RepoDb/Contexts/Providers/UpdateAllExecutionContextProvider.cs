@@ -34,20 +34,6 @@ internal static class UpdateAllExecutionContextProvider
             hints);
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="entities"></param>
-    /// <param name="qualifiers"></param>
-    /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
-    /// <param name="fields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <returns></returns>
     public static UpdateAllExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
@@ -103,21 +89,6 @@ internal static class UpdateAllExecutionContextProvider
         return context;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="entityType"></param>
-    /// <param name="connection"></param>
-    /// <param name="tableName"></param>
-    /// <param name="entities"></param>
-    /// <param name="qualifiers"></param>
-    /// <param name="batchSize">The batch to use. Use 0 for auto-chunking.</param>
-    /// <param name="fields"></param>
-    /// <param name="hints"></param>
-    /// <param name="transaction"></param>
-    /// <param name="statementBuilder"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     public static async Task<UpdateAllExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         string tableName,

@@ -13,7 +13,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryWithNoAffectedTableRows()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteNonQuery("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;");
 
@@ -27,7 +27,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -44,7 +44,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -62,7 +62,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -80,7 +80,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -97,7 +97,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -114,7 +114,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -132,7 +132,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -150,7 +150,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -167,7 +167,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -186,7 +186,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -206,7 +206,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -222,7 +222,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryByExecutingAStoredProcedureWithMultipleParameters()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteNonQuery("[dbo].[sp_multiply]",
             param: new { Value1 = 100, Value2 = 200 },
@@ -235,7 +235,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryByExecutingAStoredProcedureWithMultipleParametersAndWithOuputParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var output = new DirectionalQueryField("Output", ParameterDirection.Output, 16, DbType.Int32);
         var param = new[]
@@ -258,7 +258,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteNonQueryByExecutingAStoredProcedureWithMultipleOutputParameters()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var userId = new DirectionalQueryField("UserId", null, ParameterDirection.Output, 16);
         var serverName = new DirectionalQueryField("ServerName", null, ParameterDirection.Output, 256);
@@ -286,7 +286,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteNonQueryIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -294,7 +294,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnTestSqlConnectionExecuteNonQueryIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<SqlException>(() => connection.ExecuteQuery<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);"));
     }
@@ -306,7 +306,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteNonQueryAsyncWithNoAffectedTableRows()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = await connection.ExecuteNonQueryAsync("SELECT * FROM (SELECT 1 * 100 AS Value) TMP;", cancellationToken: TestContext.CancellationToken);
 
@@ -320,7 +320,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -337,7 +337,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -355,7 +355,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -373,7 +373,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -390,7 +390,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -407,7 +407,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -425,7 +425,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -443,7 +443,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -460,7 +460,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -479,7 +479,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -499,7 +499,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -515,7 +515,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteNonQueryAsyncByExecutingAStoredProcedureWithMultipleParameters()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = await connection.ExecuteNonQueryAsync("[dbo].[sp_multiply]",
             param: new { Value1 = 100, Value2 = 200 },
@@ -528,7 +528,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteNonQueryAsyncByExecutingAStoredProcedureWithMultipleParametersAndWithOuputParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var output = new DirectionalQueryField("Output", ParameterDirection.Output, 16, DbType.Int32);
         var param = new[]
@@ -551,7 +551,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteNonQueryAsyncIfTheParametersAreNotDefined()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT * FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }
@@ -559,7 +559,7 @@ public class ExecuteNonQueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnTestSqlConnectionExecuteNonQueryAsyncIfThereAreSqlStatementProblems()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<SqlException>(async () => await connection.ExecuteQueryAsync<IdentityTable>("SELECT FROM [sc].[IdentityTable] WHERE (Id = @Id);", cancellationToken: TestContext.CancellationToken));
     }

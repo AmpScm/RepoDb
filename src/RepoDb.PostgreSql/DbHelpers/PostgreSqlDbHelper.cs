@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Common;
@@ -5,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Npgsql;
+using NpgsqlTypes;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -281,6 +283,35 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
     #endregion
 
     #endregion
+
+    /// <inheritdoc/>
+    public override bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values)
+    {
+        var elementType = fieldType ?? values.GetElementType();
+
+        return elementType.GetUnderlyingType() is { IsPrimitive: true } && ClientTypeToNpgsqlDbTypeResolver.Instance.Resolve(elementType) is { };
+    }
+
+    /// <inheritdoc/>
+    public override DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName)
+    {
+        var elementType = (fieldType ?? values.GetElementType()).GetUnderlyingType();
+        var set = values.AsTypedSet();
+        var npgType = ClientTypeToNpgsqlDbTypeResolver.Instance.Resolve(elementType)!.Value | NpgsqlDbType.Array;
+
+        Array items = Array.CreateInstance(elementType, set.Count);
+
+        int i = 0;
+        foreach (var n in set)
+        {
+            items.SetValue(n, i++);
+        }
+
+        return new NpgsqlParameter(parameterName, npgType)
+        {
+            Value = items
+        };
+    }
 
     private const string PostgresRuntimeInfoQuery = @"
         SHOW server_version;

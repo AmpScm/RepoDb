@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Linq.Expressions;
 using RepoDb.Contexts.Providers;
+using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
@@ -2189,16 +2190,34 @@ public static partial class DbConnectionExtension
                 return result;
             }
 
-            using var reader = command.ExecuteReader();
 
-            if (reader.Read())
+            if (((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command, tableName) is not { } fetch)
             {
-                result = Converter.ToType<TResult>(reader.GetValue(0))!;
+                using var reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    result = Converter.ToType<TResult>(reader.GetValue(0))!;
+                }
+                else if (DbFieldCache.Get(connection, tableName, transaction).GetReturnColumn() is { } returnField
+                    && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
+                {
+                    result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
+                }
             }
-            else if (DbFieldCache.Get(connection, tableName, transaction).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
-                && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
+            else
             {
-                result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
+                command.ExecuteNonQuery();
+
+                if (fetch() is { } rawResult)
+                {
+                    result = Converter.ToType<TResult>(rawResult)!;
+                }
+                else if (DbFieldCache.Get(connection, tableName, transaction).GetReturnColumn() is { } returnField
+                    && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
+                {
+                    result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
+                }
             }
 
             // After Execution
@@ -2296,20 +2315,37 @@ public static partial class DbConnectionExtension
                 return result;
             }
 
-            // Actual Execution
+            if (((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command, tableName) is not { } fetch)
+            {
+                // Actual Execution
 #if NET
-            await
+                await
 #endif
-            using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+                using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
-            if (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
-            {
-                result = Converter.ToType<TResult>(reader.GetValue(0))!;
+                if (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+                {
+                    result = Converter.ToType<TResult>(reader.GetValue(0))!;
+                }
+                else if ((await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false)).GetReturnColumn() is { } returnField
+                    && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
+                {
+                    result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
+                }
             }
-            else if ((await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false)).GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField
-                && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
+            else
             {
-                result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
+                await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+
+                if (fetch() is { } rawResult)
+                {
+                    result = Converter.ToType<TResult>(rawResult)!;
+                }
+                else if (DbFieldCache.Get(connection, tableName, transaction).GetReturnColumn() is { } returnField
+                    && PropertyCache.Get(entityType, returnField.FieldName) is { } pcv)
+                {
+                    result = Converter.ToType<TResult>(pcv.PropertyInfo.GetValue(entity))!;
+                }
             }
 
             // After Execution

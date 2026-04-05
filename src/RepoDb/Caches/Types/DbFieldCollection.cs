@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
+using RepoDb.Options;
 
 namespace RepoDb;
 
@@ -39,12 +40,12 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     }
 
     /// <summary>
-    ///
+    /// Gets the primary key columns of this table if there are any.
     /// </summary>
     public DbFieldCollection? PrimaryFields => lazyPrimaryFields.Value;
 
     /// <summary>
-    /// Gets the identity column of this table if there is ine
+    /// Gets the identity column of this table if there is one.
     /// </summary>
     /// <returns>A identity column definition.</returns>
     public DbField? Identity => lazyIdentity.Value;
@@ -96,13 +97,19 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
     private DbField? GetIdentityDbField() => this.FirstOrDefault(df => df.IsIdentity);
 
     /// <summary>
-    ///
+    /// Gets the database fields as Fieldset
     /// </summary>
     /// <returns></returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public FieldSet GetAsFields() => AsFields();
 
-    internal DbField? GetKeyColumnReturn(KeyColumnReturnBehavior keyColumnReturnBehavior) => keyColumnReturnBehavior switch
+    /// <summary>
+    /// Gets the column that should be returned
+    /// </summary>
+    /// <returns></returns>
+    /// <remarks>The value depends on the keys of the database and the <see cref="GlobalConfiguration" />'s <see cref="GlobalConfigurationOptions.KeyColumnReturnBehavior"/> setting</remarks>
+    public DbField? GetReturnColumn() => GlobalConfiguration.Options.KeyColumnReturnBehavior
+        switch
     {
         KeyColumnReturnBehavior.Primary => PrimaryFields?.FirstOrDefault(),
         KeyColumnReturnBehavior.Identity => Identity,

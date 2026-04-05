@@ -182,7 +182,7 @@ public static class Helper
         {
             tables.Add(new CompleteTable
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnBigInt = i,
                 ColumnBlob = Encoding.Default.GetBytes($"ColumnBlob:{i}"),
                 ColumnBoolean = "true",
@@ -303,7 +303,8 @@ public static class Helper
         var tables = new List<ExpandoObject>();
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             item["Id"] = (long)(i + 1);
             item["ColumnBigInt"] = (long)i;
             item["ColumnBlob"] = Encoding.Default.GetBytes($"ColumnBlob:{i}");
@@ -322,7 +323,7 @@ public static class Helper
             item["ColumnText"] = $"ColumnText:{i}";
             item["ColumnTime"] = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
             item["ColumnVarChar"] = $"ColumnVarChar:{i}";
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }
@@ -352,7 +353,7 @@ public static class Helper
         item["ColumnText"] = $"ColumnText:{Guid.NewGuid()}:Updated";
         item["ColumnTime"] = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
         item["ColumnVarChar"] = $"ColumnVarChar:{Guid.NewGuid()}:Updated";
-        return (ExpandoObject)item;
+        return table;
     }
 
     #endregion
@@ -497,7 +498,8 @@ public static class Helper
         var tables = new List<ExpandoObject>();
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             item["Id"] = Guid.NewGuid();
             item["ColumnBigInt"] = (long)i;
             item["ColumnBlob"] = Encoding.Default.GetBytes($"ColumnBlob:{i}");
@@ -516,7 +518,7 @@ public static class Helper
             item["ColumnText"] = $"ColumnText:{i}";
             item["ColumnTime"] = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
             item["ColumnVarChar"] = $"ColumnVarChar:{i}";
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }
@@ -546,7 +548,7 @@ public static class Helper
         item["ColumnText"] = $"ColumnText:{Guid.NewGuid()}:Updated";
         item["ColumnTime"] = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
         item["ColumnVarChar"] = $"ColumnVarChar:{Guid.NewGuid()}:Updated";
-        return (ExpandoObject)item;
+        return table;
     }
 
     #endregion

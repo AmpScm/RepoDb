@@ -1,7 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Setup;
-
-namespace RepoDb.PostgreSql.IntegrationTests;
+﻿namespace RepoDb.PostgreSql.IntegrationTests;
 
 [TestClass]
 public class DbHelperTests : TestBase
@@ -13,7 +10,7 @@ public class DbHelperTests : TestBase
     [TestMethod]
     public void TestDbHelperGetFields()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
@@ -46,7 +43,7 @@ public class DbHelperTests : TestBase
     [TestMethod]
     public void TestDbHelperGetFieldsPrimary()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
@@ -62,7 +59,7 @@ public class DbHelperTests : TestBase
     [TestMethod]
     public void TestDbHelperGetFieldsIdentity()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
@@ -82,7 +79,7 @@ public class DbHelperTests : TestBase
     [TestMethod]
     public async Task TestDbHelperGetFieldsAsync()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
@@ -115,7 +112,7 @@ public class DbHelperTests : TestBase
     [TestMethod]
     public async Task TestDbHelperGetFieldsAsyncPrimary()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 
@@ -131,7 +128,7 @@ public class DbHelperTests : TestBase
     [TestMethod]
     public async Task TestDbHelperGetFieldsAsyncIdentity()
     {
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         Interfaces.IDbHelper helper = connection.GetDbHelper();
 

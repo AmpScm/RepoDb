@@ -357,7 +357,8 @@ public static class Helper
         for (var i = 0; i < count; i++)
         {
             var index = i + 1;
-            var item = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             if (hasId)
             {
                 item["Id"] = index;
@@ -370,31 +371,7 @@ public static class Helper
             item["ColumnFloat"] = random.Next(100);
             item["ColumnInt"] = random.Next(100);
             item["ColumnNVarChar"] = $"NVARCHAR{index}";
-            tables.Add((ExpandoObject)item);
-        }
-        return tables;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="tables"></param>
-    /// <returns></returns>
-    public static List<ExpandoObject> UpdateBulkOperationExpandoObjectIdentityTables(List<ExpandoObject> tables)
-    {
-        var random = new Random();
-        foreach (var table in tables)
-        {
-            var item = table as IDictionary<string, object?>;
-            //item["RowGuid"] = Guid.NewGuid();
-            item["ColumnBit"] = true;
-            item["ColumnDateTime"] = EpocDate.AddDays(random.Next(100));
-            item["ColumnDateTime2"] = DateTime.UtcNow;
-            item["ColumnDecimal"] = random.Next(100);
-            item["ColumnFloat"] = random.Next(100);
-            //item["ColumnInt"] = random.Next(100);
-            item["ColumnNVarChar"] = $"{item["ColumnNVarChar"]}-Updated";
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }
@@ -407,7 +384,8 @@ public static class Helper
     public static ExpandoObject CreateBulkOperationExpandoObjectIdentityTable(bool hasId = false)
     {
         var random = new Random();
-        var item = new ExpandoObject() as IDictionary<string, object?>;
+        var expando = new ExpandoObject();
+        var item = expando as IDictionary<string, object?>;
         if (hasId)
         {
             item["Id"] = 1;
@@ -420,7 +398,7 @@ public static class Helper
         item["ColumnFloat"] = random.Next(100);
         //item["ColumnInt"] = random.Next(100);
         item["ColumnNVarChar"] = $"NVARCHAR{random.Next(100)}";
-        return (ExpandoObject)item;
+        return expando;
     }
 
     /// <summary>
@@ -672,30 +650,6 @@ public static class Helper
             item["UnmatchedColumnFloat"] = random.Next(100);
             item["UnmatchedColumnInt"] = random.Next(100);
             item["UnmatchedColumnNVarChar"] = $"NVARCHAR{index}";
-            tables.Add((ExpandoObject)item);
-        }
-        return tables;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="tables"></param>
-    /// <returns></returns>
-    public static List<ExpandoObject> UpdateBulkOperationExpandoObjectMappedIdentityTables(List<ExpandoObject> tables)
-    {
-        var random = new Random();
-        foreach (var table in tables)
-        {
-            var item = table as IDictionary<string, object?>;
-            //item["RowGuid"] = Guid.NewGuid();
-            item["UnmatchedColumnBit"] = true;
-            item["UnmatchedColumnDateTime"] = EpocDate.AddDays(random.Next(100));
-            item["UnmatchedColumnDateTime2"] = DateTime.UtcNow;
-            item["UnmatchedColumnDecimal"] = random.Next(100);
-            item["UnmatchedColumnFloat"] = random.Next(100);
-            //item["UnmatchedColumnInt"] = random.Next(100);
-            item["UnmatchedColumnNVarChar"] = $"{item["UnmatchedColumnNVarChar"]}-Updated";
             tables.Add((ExpandoObject)item);
         }
         return tables;

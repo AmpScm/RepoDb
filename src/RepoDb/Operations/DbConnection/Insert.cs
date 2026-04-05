@@ -684,7 +684,8 @@ public static partial class DbConnectionExtension
             }
 
             // Actual Execution
-            var fetch = ((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command);
+            bool fetchResult = false;
+            var fetch = ((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command, tableName);
             if (fetch is not { })
             {
                 using var rdr = command.ExecuteReader();
@@ -693,21 +694,38 @@ public static partial class DbConnectionExtension
                 {
                     result = Converter.ToType<TResult>(rdr.GetValue(0))!;
                 }
+                else
+                    fetchResult = true;
             }
             else
             {
-                result = Converter.ToType<TResult>(fetch?.Invoke())!;
+                command.ExecuteNonQuery();
+
+                result = Converter.ToType<TResult>(fetch())!;
+            }
+
+            // Set the return value
+            if ((fetchResult || result is null)
+                && DbFieldCache.Get(connection, tableName, transaction)?.GetReturnColumn() is { } returnColumn)
+            {
+                // Normal entity or Expando?
+                if ((PropertyCache.Get(entityType, returnColumn) is { } prop
+                    ? prop.PropertyInfo.GetValue(entity)
+                    : entity is IDictionary<string, object?> dict && dict.TryGetValue(returnColumn.FieldName, out var v)
+                        ? v
+                        : null) is { } r)
+                {
+                    result = Converter.ToType<TResult>(r)!;
+                }
+            }
+            else
+            {
+                context.IdentitySetterFunc?.Invoke(entity, result);
             }
 
             // After Execution
             Tracer
                 .InvokeAfterExecution(traceResult, trace, result);
-
-            // Set the return value
-            if (result is not null)
-            {
-                context.IdentitySetterFunc?.Invoke(entity, result);
-            }
         }
 
         // Return the result
@@ -785,9 +803,8 @@ public static partial class DbConnectionExtension
             }
 
             // Actual Execution
-
-            var fetch = ((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command);
-
+            bool fetchResult = false;
+            var fetch = ((BaseDbHelper)GetDbHelper(connection)).PrepareForIdentityOutput(command, tableName);
             if (fetch is { })
             {
                 await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
@@ -805,17 +822,32 @@ public static partial class DbConnectionExtension
                 {
                     result = Converter.ToType<TResult>(rdr.GetValue(0))!;
                 }
+                else
+                    fetchResult = true;
+            }
+
+            // Set the return value
+            if ((fetchResult || result is null)
+                && (await DbFieldCache.GetAsync(connection, tableName, transaction, cancellationToken).ConfigureAwait(false))?.GetReturnColumn() is { } returnColumn)
+            {
+                // Normal entity or Expando?
+                if ((PropertyCache.Get(entityType, returnColumn) is { } prop
+                    ? prop.PropertyInfo.GetValue(entity)
+                    : entity is IDictionary<string, object?> dict && dict.TryGetValue(returnColumn.FieldName, out var v)
+                        ? v
+                        : null) is { } r)
+                {
+                    result = Converter.ToType<TResult>(r)!;
+                }
+            }
+            else
+            {
+                context.IdentitySetterFunc?.Invoke(entity, result);
             }
 
             // After Execution
             await Tracer
                 .InvokeAfterExecutionAsync(traceResult, trace, result, cancellationToken).ConfigureAwait(false);
-
-            // Set the return value
-            if (result is not null)
-            {
-                context.IdentitySetterFunc?.Invoke(entity, result);
-            }
         }
 
         // Return the result

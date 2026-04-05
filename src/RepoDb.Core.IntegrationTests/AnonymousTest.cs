@@ -35,15 +35,15 @@ public class AnonymousTest : TestBase
     public void TestExecuteQueryForAnonymous() =>
         TestExecuteQueryForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private static void TestExecuteQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private void TestExecuteQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(tables);
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.ExecuteQuery<TAnonymous>("SELECT * FROM [sc].[IdentityTable];");
@@ -60,15 +60,15 @@ public class AnonymousTest : TestBase
     public async Task TestExecuteQueryAsyncForAnonymous() =>
         await TestExecuteQueryAsyncForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private static async Task TestExecuteQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private async Task TestExecuteQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(tables);
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.ExecuteQueryAsync<TAnonymous>("SELECT * FROM [sc].[IdentityTable];");
@@ -89,15 +89,15 @@ public class AnonymousTest : TestBase
     public void TestQueryForAnonymous() =>
         TestQueryForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private static void TestQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private void TestQueryForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(tables);
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.Query<TAnonymous>("[sc].[IdentityTable]",
@@ -115,15 +115,15 @@ public class AnonymousTest : TestBase
     public async Task TestQueryAsyncForAnonymous() =>
         await TestQueryAsyncForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private static async Task TestQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private async Task TestQueryAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(tables);
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.QueryAsync<TAnonymous>("[sc].[IdentityTable]",
@@ -145,15 +145,15 @@ public class AnonymousTest : TestBase
     public void TestQueryAllForAnonymous() =>
         TestQueryAllForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private static void TestQueryAllForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private void TestQueryAllForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(tables);
+        connection.InsertAll(tables);
 
         // Act
         var result = connection.QueryAll<TAnonymous>("[sc].[IdentityTable]");
@@ -170,15 +170,15 @@ public class AnonymousTest : TestBase
     public async Task TestQueryAllAsyncForAnonymous() =>
         await TestQueryAllAsyncForAnonymousTrigger(CreateIdentityTableTypeDef());
 
-    private static async Task TestQueryAllAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
+    private async Task TestQueryAllAsyncForAnonymousTrigger<TAnonymous>(TAnonymous typeDef)
         where TAnonymous : class
     {
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTable>(tables);
+        connection.InsertAll(tables);
 
         // Act
         var result = await connection.QueryAllAsync<TAnonymous>("[sc].[IdentityTable]");

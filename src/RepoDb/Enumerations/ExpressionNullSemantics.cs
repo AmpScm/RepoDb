@@ -6,7 +6,7 @@
 public enum ExpressionNullSemantics
 {
     /// <summary>
-    ///
+    /// 
     /// </summary>
     SqlNull,
     /// <summary>

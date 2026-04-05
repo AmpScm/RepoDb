@@ -58,8 +58,8 @@ public class AdditionalDbTypesTests : TestBase
         Assert.IsTrue(all.Any(x => x.DateOnlyNullable == null), "Found null DateOnly?");
 
         var cmp1 = new DateOnly(2024, 1, 1);
-        Assert.HasCount(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnly == cmp1, transaction: t)));
-        Assert.HasCount(1, (await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnlyNullable == new DateOnly(2026, 1, 1), transaction: t)));
+        Assert.HasCount(1, await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnly == cmp1, transaction: t));
+        Assert.HasCount(1, await connection.QueryAsync<DateOnlyTestData>(where: x => x.DateOnlyNullable == new DateOnly(2026, 1, 1), transaction: t));
     }
 
     [TestMethod]

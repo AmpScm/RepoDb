@@ -124,7 +124,7 @@ public class ObjectNameCasingTest : TestBase
             ColumnNVarCharMapped = Helper.GetAssemblyDescription()
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -156,7 +156,7 @@ public class ObjectNameCasingTest : TestBase
             ColumnNVarCharMapped = Helper.GetAssemblyDescription()
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.InsertAll(new[] { entity });
 
@@ -192,7 +192,7 @@ public class ObjectNameCasingTest : TestBase
             COLUMNNVARCHAR = Helper.GetAssemblyDescription()
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert("COMPLETETABLE", entity);
 
@@ -260,7 +260,7 @@ public class ObjectNameCasingTest : TestBase
             COLUMNNVARCHAR = Helper.GetAssemblyDescription()
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.InsertAll("COMPLETETABLE",
             new[] { entity },

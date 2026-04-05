@@ -6,7 +6,7 @@ namespace RepoDb.Resolvers;
 /// <summary>
 /// A class that is being used to resolve the <see cref="DbType"/> into its equivalent database string name.
 /// </summary>
-public class DbTypeToSqLiteStringNameResolver : IResolver<DbType, string?>
+public class DbTypeToSQLiteStringNameResolver : IResolver<DbType, string?>
 {
     /// <summary>
     /// Returns the equivalent <see cref="DbType"/> of the .NET CLR Types.

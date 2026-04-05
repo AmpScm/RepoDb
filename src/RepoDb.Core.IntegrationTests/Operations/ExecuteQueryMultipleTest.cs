@@ -20,7 +20,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -55,7 +55,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -91,7 +91,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -127,7 +127,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -164,7 +164,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -204,7 +204,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -239,7 +239,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -275,7 +275,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -311,7 +311,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -348,7 +348,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -392,7 +392,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -427,7 +427,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -463,7 +463,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -499,7 +499,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -536,7 +536,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -576,7 +576,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -611,7 +611,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -647,7 +647,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await connection.InsertAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
@@ -683,7 +683,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -720,7 +720,7 @@ public class ExecuteQueryMultipleTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -761,7 +761,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleForScalarAsTypedResultWithoutParameters()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -790,11 +790,11 @@ public class ExecuteQueryMultipleTest : TestBase
         var param = new
         {
             Value1 = DateTime.UtcNow,
-            Value2 = (2 * 7),
+            Value2 = 2 * 7,
             Value3 = "USER"
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT @Value1;
                     SELECT @Value2;
@@ -827,7 +827,7 @@ public class ExecuteQueryMultipleTest : TestBase
             Value3 = 3
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
@@ -861,7 +861,7 @@ public class ExecuteQueryMultipleTest : TestBase
             output
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = connection.ExecuteQueryMultiple(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
@@ -886,7 +886,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleForScalarAsTypedResultWithoutParametersAndWithManualNextResultCall()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -917,7 +917,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleForScalarWithoutParameters()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -948,11 +948,11 @@ public class ExecuteQueryMultipleTest : TestBase
         var param = new
         {
             Value1 = DateTime.UtcNow,
-            Value2 = (2 * 7),
+            Value2 = 2 * 7,
             Value3 = "USER"
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT @Value1;
                     SELECT @Value2;
@@ -987,7 +987,7 @@ public class ExecuteQueryMultipleTest : TestBase
             Value3 = 3
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
@@ -1014,7 +1014,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleForScalarWithoutParametersAndWithManualNextResultCall()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = connection.ExecuteQueryMultiple(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -1051,7 +1051,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncForScalarAsTypedResultWithoutParameters()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -1080,11 +1080,11 @@ public class ExecuteQueryMultipleTest : TestBase
         var param = new
         {
             Value1 = DateTime.UtcNow,
-            Value2 = (2 * 7),
+            Value2 = 2 * 7,
             Value3 = "USER"
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     SELECT @Value2;
@@ -1117,7 +1117,7 @@ public class ExecuteQueryMultipleTest : TestBase
             Value3 = 3
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
@@ -1151,7 +1151,7 @@ public class ExecuteQueryMultipleTest : TestBase
             output
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
@@ -1176,7 +1176,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncForScalarAsTypedResultWithoutParametersAndWithManualNextResultCall()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -1207,7 +1207,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncForScalarWithoutParameters()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -1238,11 +1238,11 @@ public class ExecuteQueryMultipleTest : TestBase
         var param = new
         {
             Value1 = DateTime.UtcNow,
-            Value2 = (2 * 7),
+            Value2 = 2 * 7,
             Value3 = "USER"
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     SELECT @Value2;
@@ -1277,7 +1277,7 @@ public class ExecuteQueryMultipleTest : TestBase
             Value3 = 3
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT @Value1;
                     EXEC [dbo].[sp_get_database_date_time];
@@ -1304,7 +1304,7 @@ public class ExecuteQueryMultipleTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncForScalarWithoutParametersAndWithManualNextResultCall()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using var result = await connection.ExecuteQueryMultipleAsync(@"SELECT GETUTCDATE();
                     SELECT (2 * 7);
@@ -1343,7 +1343,7 @@ public class ExecuteQueryMultipleTest : TestBase
         var identityTables = Helper.CreateIdentityTables(10).AsList();
         var nonIdentityTables = Helper.CreateNonIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        using var connection = CreateConnection().EnsureOpen();
         // Act
         connection.InsertAll(identityTables);
         connection.InsertAll(nonIdentityTables);

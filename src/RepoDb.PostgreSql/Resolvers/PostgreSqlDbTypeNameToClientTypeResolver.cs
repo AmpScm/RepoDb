@@ -201,33 +201,6 @@ public class PostgreSqlDbTypeNameToClientTypeResolver : IResolver<string, Type>
         };
     }
 
-    #region Extraction
-
-    //private string Extract()
-    //{
-    //    using (var connection = new NpgsqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        connection.Open();
-    //        using (var command = connection.CreateCommand())
-    //        {
-    //            using (var reader = connection.ExecuteReader("SELECT * FROM \"CompleteTable\";"))
-    //            {
-    //                var builder = new StringBuilder();
-    //                for (var i = 0; i < reader.FieldCount; i++)
-    //                {
-    //                    var dataTypeName = reader.GetDataTypeName(i);
-    //                    var fieldType = reader.GetFieldType(i);
-    //                    builder.AppendLine($"\"{dataTypeName}\" => typeof({fieldType.FullName})");
-    //                }
-    //                var extracted = builder.ToString();
-    //            }
-    //        }
-    //    }
-    //}
-
-    #endregion
-
-
     // These are updated by RepoDb.PostgreSql.Vectors to light up vector support.
 #pragma warning disable CS0649 // Field is never assigned
     internal static Type? VectorType;

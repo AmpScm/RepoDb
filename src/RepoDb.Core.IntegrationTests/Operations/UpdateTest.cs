@@ -17,7 +17,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -27,7 +27,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
             table);
 
         // Assert
@@ -46,7 +46,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -56,7 +56,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var affectedRows = connection.Update(ClassMappedNameCache.Get<IdentityTable>(),
             table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
@@ -76,7 +76,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -86,7 +86,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(table);
+        var affectedRows = connection.Update(table);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -104,7 +104,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -114,7 +114,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(table,
+        var affectedRows = connection.Update(table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)));
 
         // Assert
@@ -133,7 +133,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -162,7 +162,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -191,7 +191,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -201,7 +201,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(table,
+        var affectedRows = connection.Update(table,
             c => c.Id == table.Id);
 
         // Assert
@@ -220,7 +220,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -230,7 +230,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(table,
+        var affectedRows = connection.Update(table,
             c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar);
 
         // Assert
@@ -249,7 +249,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -261,7 +261,7 @@ public class UpdateTest : TestBase
         var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(table,
+        var affectedRows = connection.Update(table,
             field);
 
         // Assert
@@ -286,7 +286,7 @@ public class UpdateTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -316,7 +316,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -334,7 +334,7 @@ public class UpdateTest : TestBase
         var queryGroup = new QueryGroup(fields);
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(table,
+        var affectedRows = connection.Update(table,
             queryGroup);
 
         // Assert
@@ -354,7 +354,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -364,7 +364,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = connection.Update<IdentityTable>(table,
+        var affectedRows = connection.Update(table,
             hints: SqlServerTableHints.TabLock);
 
         // Assert
@@ -387,7 +387,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -417,7 +417,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -447,7 +447,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -458,7 +458,7 @@ public class UpdateTest : TestBase
 
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity,
+        var affectedRows = connection.Update(entity,
             c => c.Id == entity.Id);
 
         // Assert
@@ -477,7 +477,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -490,7 +490,7 @@ public class UpdateTest : TestBase
 
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, field);
+        var affectedRows = connection.Update(entity, field);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -509,7 +509,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -546,7 +546,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -565,7 +565,7 @@ public class UpdateTest : TestBase
 
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-        var affectedRows = connection.Update<WithExtraFieldsIdentityTable>(entity, queryGroup);
+        var affectedRows = connection.Update(entity, queryGroup);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -588,7 +588,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -598,7 +598,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -617,7 +617,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -627,7 +627,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var affectedRows = await connection.UpdateAsync(ClassMappedNameCache.Get<IdentityTable>(),
             table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
@@ -647,7 +647,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -657,7 +657,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table, cancellationToken: TestContext.CancellationToken);
+        var affectedRows = await connection.UpdateAsync(table, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -675,7 +675,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -685,7 +685,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+        var affectedRows = await connection.UpdateAsync(table,
             fields: Field.From(nameof(IdentityTable.Id), nameof(IdentityTable.ColumnBit), nameof(IdentityTable.ColumnInt), nameof(IdentityTable.ColumnDecimal)), cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -704,7 +704,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -733,7 +733,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -762,7 +762,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -772,7 +772,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+        var affectedRows = await connection.UpdateAsync(table,
             c => c.Id == table.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -790,7 +790,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -800,7 +800,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+        var affectedRows = await connection.UpdateAsync(table,
             c => c.ColumnFloat == table.ColumnFloat && c.ColumnNVarChar == table.ColumnNVarChar, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -819,7 +819,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -831,7 +831,7 @@ public class UpdateTest : TestBase
         var field = new QueryField(nameof(IdentityTable.ColumnInt), table.ColumnInt);
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+        var affectedRows = await connection.UpdateAsync(table,
             field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -851,7 +851,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -888,7 +888,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -906,7 +906,7 @@ public class UpdateTest : TestBase
         var queryGroup = new QueryGroup(fields);
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+        var affectedRows = await connection.UpdateAsync(table,
             queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -926,7 +926,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -936,7 +936,7 @@ public class UpdateTest : TestBase
         table.ColumnDecimal = table.ColumnDecimal * 100;
 
         // Act
-        var affectedRows = await connection.UpdateAsync<IdentityTable>(table,
+        var affectedRows = await connection.UpdateAsync(table,
             hints: SqlServerTableHints.TabLock, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -959,7 +959,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -989,7 +989,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1019,7 +1019,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1030,7 +1030,7 @@ public class UpdateTest : TestBase
 
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+        var affectedRows = await connection.UpdateAsync(entity,
             c => c.Id == entity.Id, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -1049,7 +1049,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1062,7 +1062,7 @@ public class UpdateTest : TestBase
 
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+        var affectedRows = await connection.UpdateAsync(entity,
             field, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -1082,7 +1082,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1120,7 +1120,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1139,7 +1139,7 @@ public class UpdateTest : TestBase
 
         // Act
         var entity = Helper.ConverToType<WithExtraFieldsIdentityTable>(table);
-        var affectedRows = await connection.UpdateAsync<WithExtraFieldsIdentityTable>(entity,
+        var affectedRows = await connection.UpdateAsync(entity,
             queryGroup, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -1163,7 +1163,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1198,7 +1198,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1235,7 +1235,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1263,7 +1263,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1295,7 +1295,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1322,7 +1322,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1350,7 +1350,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1378,7 +1378,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1402,7 +1402,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1432,7 +1432,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1465,7 +1465,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1503,7 +1503,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1542,7 +1542,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateDynamicNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), (object)table);
 
@@ -1567,7 +1567,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = new { Id = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), table);
 
@@ -1592,7 +1592,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1620,9 +1620,9 @@ public class UpdateTest : TestBase
         // Setup
         var data = Helper.CreateNonKeyedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.Update<NonKeyedTable>(data));
+        Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.Update(data));
     }
 
     [TestMethod]
@@ -1631,7 +1631,7 @@ public class UpdateTest : TestBase
         // Setup
         var data = Helper.CreateDynamicNonKeyedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(), (object)data));
     }
@@ -1646,7 +1646,7 @@ public class UpdateTest : TestBase
             AnyField = 1
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<EmptyException>(() => connection.Update(ClassMappedNameCache.Get<NonIdentityTable>(), data));
     }
@@ -1661,7 +1661,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1696,7 +1696,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1733,7 +1733,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1761,7 +1761,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1793,7 +1793,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1820,7 +1820,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1848,7 +1848,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1876,7 +1876,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1900,7 +1900,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1930,7 +1930,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -1963,7 +1963,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -2001,7 +2001,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -2040,7 +2040,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = new { Id = Guid.NewGuid(), ColumnBit = true, ColumnInt = 1 };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(ClassMappedNameCache.Get<NonIdentityTable>(), table);
 
@@ -2065,7 +2065,7 @@ public class UpdateTest : TestBase
         // Setup
         var table = Helper.CreateNonIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -2090,7 +2090,7 @@ public class UpdateTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionUpdateAsyncViaTableNameIfThereIsNoKeyField()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         var data = new
         {
             ColumnInt = 1,
@@ -2103,7 +2103,7 @@ public class UpdateTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionUpdateAsyncViaTableNameIfTheFieldsAreNotFound()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         var data = new
         {
             Id = 1,

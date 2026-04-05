@@ -19,20 +19,20 @@ public partial class QueryGroup
     /// <param name="transaction"></param>
     /// <param name="tableName"></param>
     /// <returns>An instance of an object that contains all the definition of the converted underlying <see cref="QueryFields"/>s.</returns>
-    internal static object AsMappedObject(
+    internal static Dictionary<string, object?> AsMappedObject(
         IReadOnlyList<QueryGroupTypeMap> queryGroupTypeMaps,
         IDbConnection connection,
         IDbTransaction? transaction,
         string? tableName = null)
     {
-        var dictionary = new ExpandoObject() as IDictionary<string, object?>;
+        var dictionary = new Dictionary<string, object?>();
 
         foreach (var queryGroupTypeMap in queryGroupTypeMaps)
         {
             AsMappedObject(dictionary, queryGroupTypeMap, connection, transaction, tableName);
         }
 
-        return (ExpandoObject)dictionary;
+        return dictionary;
     }
 
     /// <summary>
@@ -46,21 +46,21 @@ public partial class QueryGroup
     /// <param name="tableName"></param>
     /// <param name="cancellationToken"></param>
     /// <returns>An instance of an object that contains all the definition of the converted underlying <see cref="QueryFields"/>s.</returns>
-    internal static async ValueTask<object> AsMappedObjectAsync(
+    internal static async ValueTask<Dictionary<string, object?>> AsMappedObjectAsync(
         IReadOnlyList<QueryGroupTypeMap> queryGroupTypeMaps,
         IDbConnection connection,
         IDbTransaction? transaction,
         string? tableName = null,
         CancellationToken cancellationToken = default)
     {
-        var dictionary = new ExpandoObject() as IDictionary<string, object?>;
+        var dictionary = new Dictionary<string, object?>();
 
         foreach (var queryGroupTypeMap in queryGroupTypeMaps)
         {
             await AsMappedObjectAsync(dictionary, queryGroupTypeMap, tableName, connection, transaction, cancellationToken).ConfigureAwait(false);
         }
 
-        return (ExpandoObject)dictionary;
+        return dictionary;
     }
 
     private static void AsMappedObject(IDictionary<string, object?> dictionary,

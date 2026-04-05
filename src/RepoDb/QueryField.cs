@@ -189,7 +189,7 @@ public partial class QueryField : IEquatable<QueryField>
         // [Column] = @Column
         else
         {
-            return string.Concat(this.AsField(functionFormat, dbSetting), " ", Operation.GetText(), " ", this.AsParameter(index /*, functionFormat*/, true, dbSetting));
+            return string.Concat(this.AsField(functionFormat, dbSetting), " ", Operation.GetText(), " ", this.Parameter.Name.AsParameter(index /*, functionFormat*/, dbSetting));
         }
     }
 
@@ -220,7 +220,6 @@ public partial class QueryField : IEquatable<QueryField>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns>The value of the converted <see cref="Parameter"/> object.</returns>
-    [Obsolete("Use .Value property instead."), EditorBrowsable(EditorBrowsableState.Never)]
     public T? GetValue<T>() =>
         Converter.ToType<T>(Value);
 

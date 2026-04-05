@@ -26,7 +26,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -58,7 +58,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -92,7 +92,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTimeMapped = dateTime.TimeOfDay
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -124,7 +124,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTimeMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -158,7 +158,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -191,7 +191,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -227,7 +227,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTimeMapped = dateTime.TimeOfDay
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -260,7 +260,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTimeMapped = null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -300,7 +300,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<DatesClass>(), entity);
 
@@ -332,7 +332,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = (TimeSpan?)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(ClassMappedNameCache.Get<DatesClass>(), entity);
 
@@ -366,7 +366,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = dateTime.TimeOfDay
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<DatesClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;
@@ -400,7 +400,7 @@ public class SqlConnectionDatesTest : TestBase
             ColumnTime = (TimeSpan?)null
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var insertResult = connection.InsertAsync(ClassMappedNameCache.Get<DatesClass>(), entity, cancellationToken: TestContext.CancellationToken);
         var id = await insertResult;

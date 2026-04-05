@@ -18,7 +18,7 @@ public class StatementBuilderTest
     #region CreateBatchQuery
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateBatchQuery()
+    public void TestSystemSqLiteStatementBuilderCreateBatchQuery()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -36,7 +36,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateBatchQueryWithPage()
+    public void TestSystemSqLiteStatementBuilderCreateBatchQueryWithPage()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -116,7 +116,7 @@ public class StatementBuilderTest
     #region CreateExists
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateExists()
+    public void TestSystemSqLiteStatementBuilderCreateExists()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -135,7 +135,7 @@ public class StatementBuilderTest
     #region CreateInsert
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateInsert()
+    public void TestSystemSqLiteStatementBuilderCreateInsert()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -152,7 +152,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateInsertWithPrimary()
+    public void TestSystemSqLiteStatementBuilderCreateInsertWithPrimary()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -170,7 +170,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateInsertWithIdentity()
+    public void TestSystemSqLiteStatementBuilderCreateInsertWithIdentity()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -206,7 +206,7 @@ public class StatementBuilderTest
     #region CreateInsertAll
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateInsertAll()
+    public void TestSystemSqLiteStatementBuilderCreateInsertAll()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -225,7 +225,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateInsertAllWithPrimary()
+    public void TestSystemSqLiteStatementBuilderCreateInsertAllWithPrimary()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -245,7 +245,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateInsertAllWithIdentity()
+    public void TestSystemSqLiteStatementBuilderCreateInsertAllWithIdentity()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -286,7 +286,7 @@ public class StatementBuilderTest
     #region CreateMergeAll
 
     //[TestMethod]
-    //public void TestSdsSqLiteStatementBuilderCreateMergeAll()
+    //public void TestSystemSqLiteStatementBuilderCreateMergeAll()
     //{
     //    // Setup
     //    var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -308,7 +308,7 @@ public class StatementBuilderTest
     //}
 
     //[TestMethod]
-    //public void TestSdsSqLiteStatementBuilderCreateMergeAllWithPrimaryAsQualifier()
+    //public void TestSystemSqLiteStatementBuilderCreateMergeAllWithPrimaryAsQualifier()
     //{
     //    // Setup
     //    var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -330,7 +330,7 @@ public class StatementBuilderTest
     //}
 
     //[TestMethod]
-    //public void TestSdsSqLiteStatementBuilderCreateMergeAllWithIdentity()
+    //public void TestSystemSqLiteStatementBuilderCreateMergeAllWithIdentity()
     //{
     //    // Setup
     //    var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -421,7 +421,7 @@ public class StatementBuilderTest
     #region CreateQuery
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQuery()
+    public void TestSystemSqLiteStatementBuilderCreateQuery()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -438,7 +438,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQueryWithExpression()
+    public void TestSystemSqLiteStatementBuilderCreateQueryWithExpression()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -454,7 +454,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQueryWithTop()
+    public void TestSystemSqLiteStatementBuilderCreateQueryWithTop()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -473,7 +473,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQueryOrderBy()
+    public void TestSystemSqLiteStatementBuilderCreateQueryOrderBy()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -490,7 +490,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQueryOrderByFields()
+    public void TestSystemSqLiteStatementBuilderCreateQueryOrderByFields()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -507,7 +507,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQueryOrderByDescending()
+    public void TestSystemSqLiteStatementBuilderCreateQueryOrderByDescending()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -524,7 +524,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQueryOrderByFieldsDescending()
+    public void TestSystemSqLiteStatementBuilderCreateQueryOrderByFieldsDescending()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -541,7 +541,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateQueryOrderByFieldsMultiDirection()
+    public void TestSystemSqLiteStatementBuilderCreateQueryOrderByFieldsMultiDirection()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -576,7 +576,7 @@ public class StatementBuilderTest
     #region CreateSkipQuery
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateSkipQuery()
+    public void TestSystemSqLiteStatementBuilderCreateSkipQuery()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -594,7 +594,7 @@ public class StatementBuilderTest
     }
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateSkipQueryWithPage()
+    public void TestSystemSqLiteStatementBuilderCreateSkipQueryWithPage()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
@@ -674,14 +674,14 @@ public class StatementBuilderTest
     #region CreateTruncate
 
     [TestMethod]
-    public void TestSdsSqLiteStatementBuilderCreateTruncate()
+    public void TestSystemSqLiteStatementBuilderCreateTruncate()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SQLiteConnection>();
 
         // Act
         var query = builder.CreateTruncate("Table");
-        var expected = "DELETE FROM [Table]; VACUUM;";
+        var expected = "DELETE FROM [Table];";
 
         // Assert
         Assert.AreEqual(expected, query);

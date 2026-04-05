@@ -16,7 +16,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -34,7 +34,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -52,7 +52,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -71,7 +71,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -94,7 +94,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -118,7 +118,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -136,7 +136,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -154,7 +154,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -172,7 +172,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -191,7 +191,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -214,7 +214,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -238,7 +238,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -260,7 +260,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -278,7 +278,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -296,7 +296,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -315,7 +315,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -338,7 +338,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -362,7 +362,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -380,7 +380,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -398,7 +398,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -416,7 +416,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -435,7 +435,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -458,7 +458,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -482,7 +482,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -504,7 +504,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -523,7 +523,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -543,7 +543,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -567,7 +567,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -592,7 +592,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -611,7 +611,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -630,7 +630,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -650,7 +650,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -674,7 +674,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -699,7 +699,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -722,7 +722,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -741,7 +741,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -761,7 +761,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -785,7 +785,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -810,7 +810,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -829,7 +829,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -848,7 +848,7 @@ public class MinTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -868,7 +868,7 @@ public class MinTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var field = new QueryField(nameof(IdentityTable.ColumnInt), Operation.GreaterThan, 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -892,7 +892,7 @@ public class MinTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -917,7 +917,7 @@ public class MinTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

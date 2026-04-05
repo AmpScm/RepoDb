@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.Reflection;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
@@ -18,7 +17,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = connection.ExecuteReader("SELECT \"Id\", \"ColumnInteger\", \"ColumnDate\" FROM \"CompleteTable\";");
         while (reader.Read())
@@ -42,7 +41,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = connection.ExecuteReader("SELECT \"Id\", \"ColumnInteger\", \"ColumnDate\" FROM \"CompleteTable\"; SELECT \"Id\", \"ColumnInteger\", \"ColumnDate\" FROM \"CompleteTable\";");
         do
@@ -69,7 +68,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = connection.ExecuteReader("SELECT * FROM \"CompleteTable\";");
         // Act
@@ -85,7 +84,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = connection.ExecuteReader("SELECT * FROM \"CompleteTable\";");
         // Act
@@ -105,7 +104,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = await connection.ExecuteReaderAsync("SELECT \"Id\", \"ColumnInteger\", \"ColumnDate\" FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
         while (reader.Read())
@@ -129,7 +128,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = await connection.ExecuteReaderAsync("SELECT \"Id\", \"ColumnInteger\", \"ColumnDate\" FROM \"CompleteTable\"; SELECT \"Id\", \"ColumnInteger\", \"ColumnDate\" FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
         do
@@ -156,7 +155,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = await connection.ExecuteReaderAsync("SELECT * FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
         // Act
@@ -172,7 +171,7 @@ public class ExecuteReaderTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         using System.Data.IDataReader reader = await connection.ExecuteReaderAsync("SELECT * FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
         // Act

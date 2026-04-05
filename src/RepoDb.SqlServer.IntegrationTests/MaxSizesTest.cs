@@ -77,11 +77,11 @@ public class MaxSizesTest : TestBase
         var result = connection.QueryAll<MaxNVarCharClass>();
 
         // Assert
-        entities.ForEach(entity =>
+        foreach(var entity in entities)
         {
             var item = result.First(e => e.SessionId == entity.SessionId);
             Helper.AssertPropertiesEquality(entity, item);
-        });
+        }
     }
 
     [TestMethod]
@@ -98,10 +98,10 @@ public class MaxSizesTest : TestBase
         var result = connection.QueryAll<MaxVarBinaryClass>();
 
         // Assert
-        entities.ForEach(entity =>
+        foreach(var entity in entities)
         {
             var item = result.First(e => e.SessionId == entity.SessionId);
             Helper.AssertPropertiesEquality(entity, item);
-        });
+        }
     }
 }

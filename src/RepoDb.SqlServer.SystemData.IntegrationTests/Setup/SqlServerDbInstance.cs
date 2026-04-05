@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using RepoDb.TestCore;
 
 namespace RepoDb.SqlServer.SystemData.IntegrationTests.Setup;
@@ -18,6 +19,7 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
         TypeMapper.Add(typeof(TimeSpan), System.Data.DbType.Time, true);
     }
 
+    [SetsRequiredMembers]
     public SqlServerDbInstance()
     {
         // System connection (sa on master)

@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Enumerations;
+﻿using RepoDb.Enumerations;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -18,7 +17,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
             (object?)null);
@@ -34,7 +33,7 @@ public class SumTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
             e => ids.Contains(e.Id));
@@ -49,7 +48,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
             new { tables.First().Id });
@@ -64,7 +63,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
             new QueryField("Id", tables.First().Id));
@@ -84,7 +83,7 @@ public class SumTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
             queryFields);
@@ -105,7 +104,7 @@ public class SumTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum<CompleteTable>(e => e.ColumnInteger,
             queryGroup);
@@ -120,7 +119,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.Sum<CompleteTable>(e => e.ColumnInteger,
             (object?)null,
@@ -137,7 +136,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
             (object?)null, cancellationToken: TestContext.CancellationToken);
@@ -153,7 +152,7 @@ public class SumTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
             e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
@@ -168,7 +167,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
             new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
@@ -183,7 +182,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
             new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
@@ -203,7 +202,7 @@ public class SumTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
             queryFields, cancellationToken: TestContext.CancellationToken);
@@ -224,7 +223,7 @@ public class SumTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
             queryGroup, cancellationToken: TestContext.CancellationToken);
@@ -239,7 +238,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAsync<CompleteTable>(e => e.ColumnInteger,
             (object?)null,
@@ -260,7 +259,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -276,7 +275,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -292,7 +291,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -313,7 +312,7 @@ public class SumTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -335,7 +334,7 @@ public class SumTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -351,7 +350,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.Sum(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -369,7 +368,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -385,7 +384,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -401,7 +400,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -422,7 +421,7 @@ public class SumTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -444,7 +443,7 @@ public class SumTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),
@@ -460,7 +459,7 @@ public class SumTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SumAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new Field("ColumnInteger", typeof(int)),

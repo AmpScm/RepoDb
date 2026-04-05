@@ -55,7 +55,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)
@@ -100,7 +100,7 @@ public static partial class SqlConnectionExtension
             }
 
             // Create a temporary table
-            var hasOrderingColumn = (isReturnIdentity == true && identityDbField != null);
+            var hasOrderingColumn = isReturnIdentity == true && identityDbField != null;
             var sql = GetCreateTemporaryTableSqlText(tableName,
                 tempTableName,
                 fields,
@@ -220,7 +220,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields?.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)
@@ -372,7 +372,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields?.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)
@@ -418,7 +418,7 @@ public static partial class SqlConnectionExtension
             }
 
             // Create a temporary table
-            var hasOrderingColumn = (isReturnIdentity == true && identityDbField != null);
+            var hasOrderingColumn = isReturnIdentity == true && identityDbField != null;
             var sql = GetCreateTemporaryTableSqlText(tableName,
                 tempTableName,
                 fields,
@@ -555,7 +555,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)
@@ -600,7 +600,7 @@ public static partial class SqlConnectionExtension
             }
 
             // Create a temporary table
-            var hasOrderingColumn = (isReturnIdentity == true && identityDbField != null);
+            var hasOrderingColumn = isReturnIdentity == true && identityDbField != null;
             var sql = GetCreateTemporaryTableSqlText(tableName,
                 tempTableName,
                 fields,
@@ -722,7 +722,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)
@@ -861,7 +861,7 @@ public static partial class SqlConnectionExtension
 
         // Variables
         var dbSetting = connection.GetDbSetting();
-        var hasTransaction = (transaction != null);
+        var hasTransaction = transaction != null;
         var result = default(int);
 
         transaction = await CreateOrValidateCurrentTransactionAsync(connection, transaction, cancellationToken);
@@ -878,7 +878,7 @@ public static partial class SqlConnectionExtension
             var fields = dbFields.AsFields().AsEnumerable();
             var primaryDbField = dbFields?.PrimaryFields?.OneOrDefault();
             var identityDbField = dbFields?.Identity;
-            var primaryOrIdentityDbField = (primaryDbField ?? identityDbField);
+            var primaryOrIdentityDbField = primaryDbField ?? identityDbField;
 
             // Validate the primary keys
             if (qualifiers?.Any() != true)
@@ -924,7 +924,7 @@ public static partial class SqlConnectionExtension
             }
 
             // Create a temporary table
-            var hasOrderingColumn = (isReturnIdentity == true && identityDbField != null);
+            var hasOrderingColumn = isReturnIdentity == true && identityDbField != null;
             var sql = GetCreateTemporaryTableSqlText(tableName,
                 tempTableName,
                 fields,
@@ -982,7 +982,7 @@ public static partial class SqlConnectionExtension
 
                 while (await reader.ReadAsync(cancellationToken))
                 {
-                    var value = Converter.DbNullToNull((await reader.GetFieldValueAsync<object>(0, cancellationToken)));
+                    var value = Converter.DbNullToNull(await reader.GetFieldValueAsync<object>(0, cancellationToken));
                     dataTable.Rows[result][column] = value;
                     result++;
                 }

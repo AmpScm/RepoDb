@@ -5,7 +5,7 @@ namespace RepoDb;
 /// <summary>
 /// A class that is being used to handle the field definition of the data reader.
 /// </summary>
-[DebuggerDisplay($"{{{nameof(Name)},nq}} ({{{nameof(Type)},nq}})")]
+[DebuggerDisplay($"{{{nameof(Ordinal)}}}: {{{nameof(Name)},nq}} ({{{nameof(Type)}}}) - {{{nameof(DbField)}}}")]
 internal record DataReaderField
 {
     /// <summary>
@@ -27,11 +27,4 @@ internal record DataReaderField
     /// Gets or sets the type value.
     /// </summary>
     public required Type Type { get; init; }
-
-    /// <summary>
-    /// Returns a string that represents the current object.
-    /// </summary>
-    /// <returns>The name of the field and the type.</returns>
-    public override string ToString() =>
-        string.Concat(Name, " (", Type?.FullName, ")");
 }

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Dynamic;
+using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Reflection;
@@ -106,6 +107,8 @@ public static partial class DbConnectionExtension
 
         // Variables
         IEnumerable<dynamic>? result = null;
+
+        (connection.GetDbHelper() as BaseDbHelper)?.PrepareForExecuteReader(command);
 
         // Before Execution
         var traceResult = Tracer
@@ -244,6 +247,8 @@ public static partial class DbConnectionExtension
 
         // Variables
         IEnumerable<dynamic>? result = null;
+
+        (connection.GetDbHelper() as BaseDbHelper)?.PrepareForExecuteReader(command);
 
         // Before Execution
         var traceResult = await Tracer
@@ -750,6 +755,8 @@ public static partial class DbConnectionExtension
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
         IEnumerable<TResult>? result = null;
+
+        (connection.GetDbHelper() as BaseDbHelper)?.PrepareForExecuteReader(command);
 
         // Before Execution
         var traceResult = await Tracer

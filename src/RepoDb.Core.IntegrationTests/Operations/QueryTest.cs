@@ -19,7 +19,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -39,7 +39,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -62,7 +62,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -86,7 +86,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -110,7 +110,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -134,7 +134,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -158,7 +158,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -180,7 +180,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -203,7 +203,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -226,7 +226,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var top = 3;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -250,7 +250,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -271,7 +271,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -293,7 +293,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -312,7 +312,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -331,7 +331,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -350,7 +350,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -368,7 +368,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -391,7 +391,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -419,7 +419,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -447,7 +447,7 @@ public class QueryTest : TestBase
         };
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -472,7 +472,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -498,7 +498,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields, Conjunction.Or);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -527,7 +527,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -556,7 +556,7 @@ public class QueryTest : TestBase
         var queryGroup = new QueryGroup(fields);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -582,7 +582,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -601,7 +601,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -619,7 +619,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -637,7 +637,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -655,7 +655,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -673,7 +673,7 @@ public class QueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<MissingFieldsException>(() => connection.Query<IdentityTable>(what: null, orderBy: orderBy.AsEnumerable()));
     }
@@ -688,7 +688,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -715,7 +715,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -724,7 +724,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -733,7 +733,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -751,7 +751,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -769,7 +769,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -788,7 +788,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -797,7 +797,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(3, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -807,7 +807,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -816,7 +816,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -826,7 +826,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -835,7 +835,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(3, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -845,7 +845,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -854,7 +854,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -864,7 +864,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -873,7 +873,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(8, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -883,7 +883,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -892,7 +892,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -902,7 +902,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -911,7 +911,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(8, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -920,7 +920,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -929,7 +929,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(10, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -938,7 +938,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -947,7 +947,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -956,7 +956,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -965,7 +965,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(1, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -974,7 +974,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -983,7 +983,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -992,7 +992,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1001,7 +1001,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(1, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -1010,7 +1010,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1019,7 +1019,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -1028,7 +1028,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1046,7 +1046,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1063,7 +1063,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1081,7 +1081,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1098,7 +1098,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1116,7 +1116,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1125,7 +1125,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -1134,7 +1134,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1152,7 +1152,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1161,7 +1161,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     #endregion
@@ -1174,7 +1174,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1194,7 +1194,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1217,7 +1217,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1241,7 +1241,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1265,7 +1265,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1289,7 +1289,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1313,7 +1313,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1335,7 +1335,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1358,7 +1358,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1381,7 +1381,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var top = 3;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1405,7 +1405,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1426,7 +1426,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1448,7 +1448,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1467,7 +1467,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1486,7 +1486,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1505,7 +1505,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1523,7 +1523,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1546,7 +1546,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1574,7 +1574,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1602,7 +1602,7 @@ public class QueryTest : TestBase
         };
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1627,7 +1627,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1653,7 +1653,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields, Conjunction.Or);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1682,7 +1682,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1711,7 +1711,7 @@ public class QueryTest : TestBase
         var queryGroup = new QueryGroup(fields);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1737,7 +1737,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1756,7 +1756,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1774,7 +1774,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1792,7 +1792,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1810,7 +1810,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1828,7 +1828,7 @@ public class QueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAsync<IdentityTable>(what: null, orderBy: orderBy.AsEnumerable(), cancellationToken: TestContext.CancellationToken));
     }
@@ -1843,7 +1843,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1870,7 +1870,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1879,7 +1879,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -1888,7 +1888,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1906,7 +1906,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1924,7 +1924,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1943,7 +1943,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1952,7 +1952,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(3, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -1962,7 +1962,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1971,7 +1971,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(tables.Count, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -1981,7 +1981,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1990,7 +1990,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(3, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2000,7 +2000,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2009,7 +2009,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2019,7 +2019,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2028,7 +2028,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(8, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2038,7 +2038,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2047,7 +2047,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2057,7 +2057,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var values = new[] { "NVARCHAR1", "NVARCHAR2" };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2066,7 +2066,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(8, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2075,7 +2075,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2084,7 +2084,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(10, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2093,7 +2093,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2102,7 +2102,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(2, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2111,7 +2111,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2120,7 +2120,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(1, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2129,7 +2129,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2138,7 +2138,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2147,7 +2147,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2156,7 +2156,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(1, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2165,7 +2165,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2174,7 +2174,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2183,7 +2183,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2201,7 +2201,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2218,7 +2218,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2236,7 +2236,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2253,7 +2253,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2271,7 +2271,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2280,7 +2280,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     [TestMethod]
@@ -2289,7 +2289,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2307,7 +2307,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2316,7 +2316,7 @@ public class QueryTest : TestBase
 
         // Assert
         Assert.AreEqual(9, result.Count());
-        result.AsList().ForEach(table => Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table));
+        foreach (var table in result) Helper.AssertPropertiesEquality(tables.First(t => t.Id == table.Id), table);
     }
 
     #endregion
@@ -2329,7 +2329,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2359,7 +2359,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2383,7 +2383,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2413,7 +2413,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2437,7 +2437,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2464,7 +2464,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var top = 3;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2489,7 +2489,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2511,7 +2511,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2534,7 +2534,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateNonIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2554,7 +2554,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2574,7 +2574,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2598,7 +2598,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2627,7 +2627,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2657,7 +2657,7 @@ public class QueryTest : TestBase
         };
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2684,7 +2684,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2712,7 +2712,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields, Conjunction.Or);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2742,7 +2742,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2773,7 +2773,7 @@ public class QueryTest : TestBase
         var queryGroup = new QueryGroup(fields);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2801,7 +2801,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2820,7 +2820,7 @@ public class QueryTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnSqlConnectionQueryViaTableNameIfThereIsNoKeyField()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<KeyFieldNotFoundException>(() => connection.Query(ClassMappedNameCache.Get<NonKeyedTable>(),
             1));
@@ -2832,7 +2832,7 @@ public class QueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<MissingFieldsException>(() => connection.Query<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             what: null,
@@ -2849,7 +2849,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2879,7 +2879,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2903,7 +2903,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2933,7 +2933,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2957,7 +2957,7 @@ public class QueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -2984,7 +2984,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var top = 3;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3009,7 +3009,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3031,7 +3031,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3054,7 +3054,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateNonIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3074,7 +3074,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3094,7 +3094,7 @@ public class QueryTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var last = tables.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3118,7 +3118,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3147,7 +3147,7 @@ public class QueryTest : TestBase
             new QueryField(nameof(IdentityTable.ColumnInt), Operation.LessThanOrEqual, 8)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3177,7 +3177,7 @@ public class QueryTest : TestBase
         };
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3204,7 +3204,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3232,7 +3232,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields, Conjunction.Or);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3262,7 +3262,7 @@ public class QueryTest : TestBase
         };
         var queryGroup = new QueryGroup(fields);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3293,7 +3293,7 @@ public class QueryTest : TestBase
         var queryGroup = new QueryGroup(fields);
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3321,7 +3321,7 @@ public class QueryTest : TestBase
         var top = 3;
         var orderBy = new OrderField(nameof(IdentityTable.ColumnInt), Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -3340,7 +3340,7 @@ public class QueryTest : TestBase
     [TestMethod]
     public async Task ThrowExceptionOnSqlConnectionQueryAsyncViaTableNameIfThereIsNoKeyField()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<KeyFieldNotFoundException>(async () => await connection.QueryAsync(ClassMappedNameCache.Get<NonKeyedTable>(),
             1, cancellationToken: TestContext.CancellationToken));
@@ -3352,7 +3352,7 @@ public class QueryTest : TestBase
         // Setup
         var orderBy = new OrderField("InvalidColumn", Order.Descending);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<MissingFieldsException>(async () => await connection.QueryAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
             what: null,
@@ -3378,7 +3378,7 @@ public class QueryTest : TestBase
     [TestMethod]
     public void TestDateTimeCasts()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         var dt = DateTimeOffset.Now.Date.AddDays(14); // Converts to DateTime, without you knowing
         DateTimeOffset dto = DateTimeOffset.Now.Date.AddDays(14);
 

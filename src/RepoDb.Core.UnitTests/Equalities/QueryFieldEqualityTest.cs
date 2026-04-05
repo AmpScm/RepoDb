@@ -16,7 +16,7 @@ public class QueryFieldEqualityTest
         var objB = new QueryField("FieldName", "Value2");
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -30,7 +30,7 @@ public class QueryFieldEqualityTest
         var objB = new QueryField("FieldName", Operation.Equal, "Value2");
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -44,7 +44,7 @@ public class QueryFieldEqualityTest
         var objB = new QueryField("FieldName", Operation.NotEqual, "Value2");
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -58,7 +58,7 @@ public class QueryFieldEqualityTest
         var objB = new QueryField("FieldName", Operation.Equal, "Value2");
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -159,7 +159,7 @@ public class QueryFieldEqualityTest
         var objB = new QueryField("FieldName", Operation.Equal, "Value2", DbType.StringFixedLength);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -173,7 +173,7 @@ public class QueryFieldEqualityTest
         var objB = new QueryField("FieldName", Operation.Equal, "Value2", DbType.StringFixedLength);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);

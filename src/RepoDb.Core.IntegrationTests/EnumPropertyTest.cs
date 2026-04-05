@@ -100,7 +100,7 @@ public class EnumPropertyTest : TestBase
 
     #region Helpers
 
-    public EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler CreateEnumCompleteTableNullablePropertiesAndWithPropertyHandler()
+    public static EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler CreateEnumCompleteTableNullablePropertiesAndWithPropertyHandler()
     {
         return new EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler
         {
@@ -110,7 +110,7 @@ public class EnumPropertyTest : TestBase
         };
     }
 
-    public EnumCompleteTableWithPropertyHandler CreateEnumCompleteTableWithPropertyHandler()
+    public static EnumCompleteTableWithPropertyHandler CreateEnumCompleteTableWithPropertyHandler()
     {
         return new EnumCompleteTableWithPropertyHandler
         {
@@ -120,7 +120,7 @@ public class EnumPropertyTest : TestBase
         };
     }
 
-    public EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler CreateEnumCompleteTableWithNullablePropertiesAndWithPropertyHandler()
+    public static EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler CreateEnumCompleteTableWithNullablePropertiesAndWithPropertyHandler()
     {
         return new EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler
         {
@@ -130,7 +130,7 @@ public class EnumPropertyTest : TestBase
         };
     }
 
-    public IEnumerable<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler> CreateEnumCompleteTableWithPropertyHandlers(int count = 10)
+    public static IEnumerable<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler> CreateEnumCompleteTableWithPropertyHandlers(int count = 10)
     {
         for (var i = 0; i < count; i++)
         {
@@ -143,7 +143,7 @@ public class EnumPropertyTest : TestBase
         }
     }
 
-    public EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler CreateEnumCompleteTableWithPropertyHandlerAsNull()
+    public static EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler CreateEnumCompleteTableWithPropertyHandlerAsNull()
     {
         return new EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler
         {
@@ -153,7 +153,7 @@ public class EnumPropertyTest : TestBase
         };
     }
 
-    public IEnumerable<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler> CreateEnumCompleteTableWithPropertyHandlersAsNull(int count = 10)
+    public static IEnumerable<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler> CreateEnumCompleteTableWithPropertyHandlersAsNull(int count = 10)
     {
         for (var i = 0; i < count; i++)
         {
@@ -171,7 +171,6 @@ public class EnumPropertyTest : TestBase
         for (var i = 0; i < count; i++)
         {
             var direction = i % 2 == 0 ? Direction.West : Direction.East;
-            var index = i + 1;
             tables.Add(new EnumCompleteTable
             {
                 SessionId = Guid.NewGuid(),
@@ -197,7 +196,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = CreateEnumCompleteTableWithNullablePropertiesAndWithPropertyHandler();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.ExecuteScalar<Guid>("INSERT INTO [dbo].[CompleteTable] " +
             "(SessionId, ColumnBit, ColumnNVarChar) " +
@@ -221,7 +220,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = CreateEnumCompleteTableWithNullablePropertiesAndWithPropertyHandler();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler, Guid>(entity);
 
@@ -237,7 +236,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = CreateEnumCompleteTableWithPropertyHandlerAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler, Guid>(entity);
 
@@ -257,9 +256,9 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = CreateEnumCompleteTableWithPropertyHandlers(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var result = connection.InsertAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>(entities);
+        var result = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count(), connection.CountAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>());
@@ -271,9 +270,9 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = CreateEnumCompleteTableWithPropertyHandlersAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var result = connection.InsertAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>(entities);
+        var result = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count(), connection.CountAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>());
@@ -289,7 +288,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = CreateEnumCompleteTableWithNullablePropertiesAndWithPropertyHandler();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler, Guid>(entity);
         var queryResult = connection.Query<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>(insertResult).First();
@@ -304,7 +303,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = CreateEnumCompleteTableWithPropertyHandlerAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler, Guid>(entity);
         var queryResult = connection.Query<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>(insertResult).First();
@@ -323,13 +322,13 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = CreateEnumCompleteTableWithPropertyHandlers(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertResult = connection.InsertAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>(entities);
+        var insertResult = connection.InsertAll(entities);
         var queryResult = connection.QueryAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>().AsList();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -338,13 +337,13 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = CreateEnumCompleteTableWithPropertyHandlersAsNull(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertResult = connection.InsertAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>(entities);
+        var insertResult = connection.InsertAll(entities);
         var queryResult = connection.QueryAll<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler>().AsList();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     #endregion
@@ -359,7 +358,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var executeResult = connection.ExecuteQuery<EnumCompleteTable>("SELECT * FROM CompleteTable WHERE ColumnNVarChar = @ColumnNVarChar;",
@@ -369,7 +368,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, executeResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, executeResult.Where(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, executeResult.Where(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -378,7 +377,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateTypeLevelMappedForStringEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var executeResult = connection.ExecuteQuery<TypeLevelMappedForStringEnumCompleteTable>("SELECT * FROM CompleteTable WHERE ColumnNVarChar = @ColumnNVarChar;",
@@ -388,7 +387,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Where(e => e.ColumnNVarChar == Continent.Asia).Count(), executeResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, executeResult.Where(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, executeResult.Where(item => item.SessionId == entity.SessionId));
     }
 
     #endregion
@@ -401,7 +400,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
@@ -412,7 +411,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -422,7 +421,7 @@ public class EnumPropertyTest : TestBase
         var entities = Helper.CreateEnumCompleteTables(10);
         var where = (Expression<Func<EnumCompleteTable, bool>>)(e => e.ColumnNVarChar == Direction.West);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query(where);
@@ -431,7 +430,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -440,7 +439,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query<EnumCompleteTable>(new QueryField("ColumnNVarChar", Direction.West));
@@ -449,7 +448,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -458,7 +457,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query<EnumCompleteTable>(new QueryField("ColumnNVarChar", Direction.West).AsEnumerable());
@@ -467,7 +466,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -476,7 +475,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query<EnumCompleteTable>(new QueryGroup(new QueryField("ColumnNVarChar", Direction.West)));
@@ -485,7 +484,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     #endregion
@@ -499,7 +498,7 @@ public class EnumPropertyTest : TestBase
         var entities = CreateEnumCompleteTablesRandomized(10);
         var where = (Expression<Func<EnumCompleteTable, bool>>)(e => e.ColumnNVarChar == Direction.West || e.ColumnNVarChar == Direction.East);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query(where);
@@ -508,7 +507,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -518,7 +517,7 @@ public class EnumPropertyTest : TestBase
         var entities = CreateEnumCompleteTablesRandomized(10);
         var where = (Expression<Func<EnumCompleteTable, bool>>)(e => e.ColumnInt == Direction.West || e.ColumnInt == Direction.East);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query(where);
@@ -527,7 +526,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -543,7 +542,7 @@ public class EnumPropertyTest : TestBase
         var where = new QueryGroup(fields, RepoDb.Enumerations.Conjunction.Or);
 
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query<EnumCompleteTable>(where);
@@ -552,7 +551,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -568,7 +567,7 @@ public class EnumPropertyTest : TestBase
         var where = new QueryGroup(fields, RepoDb.Enumerations.Conjunction.Or);
 
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
         var queryResult = connection.Query<EnumCompleteTable>(where);
@@ -577,7 +576,7 @@ public class EnumPropertyTest : TestBase
         Assert.AreEqual(entities.Count, queryResult.Count());
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     #endregion
@@ -592,7 +591,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTable, Guid>(entity);
 
@@ -614,7 +613,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTable, Guid>(entity);
 
@@ -636,7 +635,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
 
@@ -658,7 +657,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
 
@@ -680,7 +679,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForStringCompleteTable, Guid>(entity);
 
@@ -702,7 +701,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForStringCompleteTable, Guid>(entity);
 
@@ -724,7 +723,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForIntCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForIntCompleteTable, Guid>(entity);
 
@@ -746,7 +745,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForIntCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForIntCompleteTable, Guid>(entity);
 
@@ -772,7 +771,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
@@ -781,7 +780,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -790,7 +789,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
@@ -799,7 +798,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -808,7 +807,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
@@ -817,7 +816,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -826,7 +825,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
@@ -835,7 +834,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -844,16 +843,16 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertAllResult = connection.InsertAll<FlaggedEnumForStringCompleteTable>(entities);
+        var insertAllResult = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(insertAllResult, connection.CountAll<FlaggedEnumForStringCompleteTable>());
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -862,16 +861,16 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForStringCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertAllResult = connection.InsertAll<FlaggedEnumForStringCompleteTable>(entities);
+        var insertAllResult = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(insertAllResult, connection.CountAll<FlaggedEnumForStringCompleteTable>());
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -880,16 +879,16 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForIntCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertAllResult = connection.InsertAll<FlaggedEnumForIntCompleteTable>(entities);
+        var insertAllResult = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(insertAllResult, connection.CountAll<FlaggedEnumForIntCompleteTable>());
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -898,16 +897,16 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForIntCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertAllResult = connection.InsertAll<FlaggedEnumForIntCompleteTable>(entities);
+        var insertAllResult = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(insertAllResult, connection.CountAll<FlaggedEnumForIntCompleteTable>());
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     #endregion
@@ -920,7 +919,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -942,7 +941,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -964,7 +963,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTable, Guid>(entity);
 
@@ -994,7 +993,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTable, Guid>(entity);
 
@@ -1024,7 +1023,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -1046,7 +1045,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -1068,7 +1067,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
 
@@ -1094,7 +1093,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
 
@@ -1120,7 +1119,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -1142,7 +1141,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -1164,7 +1163,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -1186,7 +1185,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge(entity);
 
@@ -1212,7 +1211,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1221,7 +1220,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1230,7 +1229,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1239,7 +1238,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1248,19 +1247,19 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBigInt = Direction.East;
             entity.ColumnBit = BooleanValue.False;
             entity.ColumnInt = Direction.East;
             entity.ColumnNVarChar = Direction.East;
             entity.ColumnSmallInt = Direction.East;
-        });
+        }
 
         // Act
         var mergeAllResult = connection.MergeAll(entities);
@@ -1272,7 +1271,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1281,19 +1280,19 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBigInt = null;
             entity.ColumnBit = null;
             entity.ColumnInt = null;
             entity.ColumnNVarChar = null;
             entity.ColumnSmallInt = Direction.None;
-        });
+        }
 
         // Act
         var mergeAllResult = connection.MergeAll(entities);
@@ -1305,7 +1304,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1314,7 +1313,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1323,7 +1322,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1332,7 +1331,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1341,7 +1340,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1350,15 +1349,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = Direction.East;
-        });
+        }
 
         // Act
         var mergeAllResult = connection.MergeAll(entities);
@@ -1370,7 +1369,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1379,15 +1378,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = null;
-        });
+        }
 
         // Act
         var mergeAllResult = connection.MergeAll(entities);
@@ -1399,7 +1398,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1408,7 +1407,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1417,7 +1416,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1426,7 +1425,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForStringCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1435,7 +1434,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1444,7 +1443,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForIntCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1453,7 +1452,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1462,7 +1461,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForIntCompleteTablesAsNull(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var mergeAllResult = connection.MergeAll(entities);
 
@@ -1471,7 +1470,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     #endregion
@@ -1484,7 +1483,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<EnumCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<EnumCompleteTable>().First();
@@ -1499,7 +1498,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<EnumCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<EnumCompleteTable>().First();
@@ -1514,7 +1513,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>().First();
@@ -1529,7 +1528,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>().First();
@@ -1544,7 +1543,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<FlaggedEnumForStringCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>().First();
@@ -1559,7 +1558,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<FlaggedEnumForStringCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>().First();
@@ -1574,7 +1573,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForIntCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<FlaggedEnumForIntCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>().First();
@@ -1589,7 +1588,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForIntCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<FlaggedEnumForIntCompleteTable, Guid>(entity);
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>().First();
@@ -1608,7 +1607,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTable, Guid>(entity);
 
@@ -1638,7 +1637,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTable, Guid>(entity);
 
@@ -1668,7 +1667,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
 
@@ -1694,7 +1693,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateEnumAsIntForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumAsIntForStringCompleteTable, Guid>(entity);
 
@@ -1720,7 +1719,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForStringCompleteTable, Guid>(entity);
 
@@ -1746,7 +1745,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForStringCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForStringCompleteTable, Guid>(entity);
 
@@ -1772,7 +1771,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForIntCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForIntCompleteTable, Guid>(entity);
 
@@ -1798,7 +1797,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = Helper.CreateFlaggedEnumForIntCompleteTableAsNull();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<FlaggedEnumForIntCompleteTable, Guid>(entity);
 
@@ -1828,19 +1827,19 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBigInt = Direction.East;
             entity.ColumnBit = BooleanValue.False;
             entity.ColumnInt = Direction.East;
             entity.ColumnNVarChar = Direction.East;
             entity.ColumnSmallInt = Direction.East;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -1852,7 +1851,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1861,19 +1860,19 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBigInt = null;
             entity.ColumnBit = null;
             entity.ColumnInt = null;
             entity.ColumnNVarChar = null;
             entity.ColumnSmallInt = Direction.None;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -1885,7 +1884,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1894,15 +1893,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = Direction.East;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -1914,7 +1913,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1923,15 +1922,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateEnumAsIntForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = null;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -1943,7 +1942,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<EnumAsIntForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1952,15 +1951,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = StorageType.MemoryStorage | StorageType.Folder | StorageType.Drive;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -1972,7 +1971,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -1981,15 +1980,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForStringCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = null;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -2001,7 +2000,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForStringCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -2010,15 +2009,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForIntCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = StorageType.MemoryStorage | StorageType.Folder | StorageType.Drive;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -2030,7 +2029,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     [TestMethod]
@@ -2039,15 +2038,15 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entities = Helper.CreateFlaggedEnumForIntCompleteTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertAllResult = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnNVarChar = null;
-        });
+        }
 
         // Act
         var updateAllResult = connection.UpdateAll(entities);
@@ -2059,7 +2058,7 @@ public class EnumPropertyTest : TestBase
         var queryResult = connection.QueryAll<FlaggedEnumForIntCompleteTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryResult.First(item => item.SessionId == entity.SessionId));
     }
 
     #endregion
@@ -2083,7 +2082,7 @@ public class EnumPropertyTest : TestBase
         }
 
         public TEnum Get(TDbType input, PropertyHandlerGetOptions options)
-            => input == null || !dbToEnum.TryGetValue(input, out var v) ? default: v;
+            => input == null || !dbToEnum.TryGetValue(input, out var v) ? default : v;
 
         public TDbType Set(TEnum input, PropertyHandlerSetOptions options)
             => input == null || !enumToDb.TryGetValue(input, out var v) ? default : v;
@@ -2119,7 +2118,7 @@ public class EnumPropertyTest : TestBase
             [CustomedFloatEnum.B] = 4.2f
         });
 
-    private void EnsureCustomedMappingEnumPropertyHandler<TEnum>(object propertyHandler)
+    private static void EnsureCustomedMappingEnumPropertyHandler<TEnum>(object propertyHandler)
     {
         if (PropertyHandlerMapper.Get<object>(typeof(TEnum)) == null)
         {
@@ -2133,7 +2132,7 @@ public class EnumPropertyTest : TestBase
         EnsureCustomedMappingEnumPropertyHandler<CustomedStringEnum>(customedStringEnumHandler);
         EnsureCustomedMappingEnumPropertyHandler<CustomedStringEnum?>(customedStringEnumHandler);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         var enumValue = connection.ExecuteQuery<CustomedStringEnum>("select 'Special-B'").First();
         Assert.AreEqual(CustomedStringEnum.B, enumValue);
 
@@ -2151,7 +2150,7 @@ public class EnumPropertyTest : TestBase
     public void TestEnumSetFromStringWithPropertyHandler()
     {
         EnsureCustomedMappingEnumPropertyHandler<CustomedStringEnum>(customedStringEnumHandler);
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         var entry = new CustomedEnumModel<CustomedStringEnum> { Value = CustomedStringEnum.B };
         var stringValue = connection.ExecuteQuery<string>("select @Value", entry).First();
         Assert.AreEqual("Special-B", stringValue);
@@ -2167,7 +2166,7 @@ public class EnumPropertyTest : TestBase
         EnsureCustomedMappingEnumPropertyHandler<CustomedDecimalEnum>(customedDecimalEnumHandler);
         EnsureCustomedMappingEnumPropertyHandler<CustomedDecimalEnum?>(customedDecimalEnumHandler);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         var enumValue = connection.ExecuteQuery<CustomedDecimalEnum>("select convert(decimal(8,3), 6.2)").First();
         Assert.AreEqual(CustomedDecimalEnum.B, enumValue);
 
@@ -2185,7 +2184,7 @@ public class EnumPropertyTest : TestBase
     public void TestEnumSetFromDecimalWithPropertyHandler()
     {
         EnsureCustomedMappingEnumPropertyHandler<CustomedDecimalEnum>(customedDecimalEnumHandler);
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         var entry = new CustomedEnumModel<CustomedDecimalEnum> { Value = CustomedDecimalEnum.B };
         var decimalValue = connection.ExecuteQuery<decimal>("select @Value", entry).First();
         Assert.AreEqual(6.2m, decimalValue);
@@ -2207,7 +2206,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = CreateEnumCompleteTableWithPropertyHandler();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTableWithPropertyHandler, Guid>(entity);
 
@@ -2229,7 +2228,7 @@ public class EnumPropertyTest : TestBase
         // Setup
         var entity = CreateEnumCompleteTableNullablePropertiesAndWithPropertyHandler();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<EnumCompleteTableWithNullablePropertiesAndWithPropertyHandler, Guid>(entity);
 
@@ -2260,7 +2259,7 @@ public class EnumPropertyTest : TestBase
             ColumnNVarChar = "OutsideOfEnumRange"
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<Guid>(ClassMappedNameCache.Get<EnumCompleteTable>(), entity);
 
@@ -2293,7 +2292,7 @@ public class EnumPropertyTest : TestBase
             ColumnNVarChar = "OutsideOfEnumRange"
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<Guid>(ClassMappedNameCache.Get<EnumCompleteTable>(), entity);
 

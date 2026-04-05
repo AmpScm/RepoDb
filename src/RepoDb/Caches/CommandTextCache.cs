@@ -446,7 +446,7 @@ public static class CommandTextCache
         dbFieldListUpdated = list.Where(x => x.IsPrimary || x.IsIdentity).ToList();
 
         if (dbFieldListUpdated.Count > 1
-            && dbFields.GetKeyColumnReturn(GlobalConfiguration.Options.KeyColumnReturnBehavior) is { } returnField)
+            && dbFields.GetReturnColumn() is { } returnField)
         {
             for (int i = 0; i < dbFieldListUpdated.Count; i++)
             {

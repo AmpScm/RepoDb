@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections;
+using System.Data;
 using System.Data.Common;
 using System.Transactions;
 using RepoDb.Contexts.Execution;
@@ -499,7 +500,7 @@ public static partial class DbConnectionExtension
                     context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                 }
 
-                var fetchIdentity = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command);
+                var fetchIdentity = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command, tableName);
 
                 // Prepare the command
                 if (doPrepare)
@@ -528,7 +529,15 @@ public static partial class DbConnectionExtension
                     {
                         var position = 0;
 
-                        foreach (var value in fetchIdentity() as System.Collections.IEnumerable ?? Array.Empty<object>())
+                        var rawResult = fetchIdentity();
+                        IEnumerable idResult = rawResult switch
+                        {
+                            IEnumerable collection => collection, // Multi-insert
+                            null => Array.Empty<object>(),
+                            _ => new object[] { rawResult } // Single insert-all
+                        };
+
+                        foreach (var value in idResult)
                         {
                             context.IdentitySetterFunc.Invoke(batchItems.GetAt(position++), value);
                         }
@@ -687,7 +696,7 @@ public static partial class DbConnectionExtension
 
                 // Prepare the command
 
-                var fetchIdentity = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command);
+                var fetchIdentity = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command, tableName);
 
                 if (doPrepare)
                 {
@@ -716,7 +725,16 @@ public static partial class DbConnectionExtension
                     {
                         var position = 0;
 
-                        foreach (var value in fetchIdentity() as System.Collections.IEnumerable ?? Array.Empty<object>())
+                        var rawResult = fetchIdentity();
+                        IEnumerable idResult = rawResult switch
+                        {
+                            IEnumerable collection => collection, // Multi-insert
+                            null => Array.Empty<object>(),
+                            _ => new object[] { rawResult } // Single insert-all
+                        };
+
+
+                        foreach (var value in idResult)
                         {
                             context.IdentitySetterFunc.Invoke(batchItems.GetAt(position++), value);
                         }

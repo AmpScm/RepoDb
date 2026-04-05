@@ -16,7 +16,7 @@ public class MappingTest
     #region MDS
 
     [TestMethod]
-    public void TestMdsSqLiteStatementBuilderMapper()
+    public void TestMsSqliteStatementBuilderMapper()
     {
         // Setup
         var builder = StatementBuilderMapper.Get<SqliteConnection>();
@@ -26,7 +26,7 @@ public class MappingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbHelperMapper()
+    public void TestMsSqliteDbHelperMapper()
     {
         // Setup
         var helper = DbHelperMapper.Get<SqliteConnection>();
@@ -36,7 +36,7 @@ public class MappingTest
     }
 
     [TestMethod]
-    public void TestMdsSqLiteDbSettingMapper()
+    public void TestMsSqliteDbSettingMapper()
     {
         // Setup
         var setting = DbSettingMapper.Get<SqliteConnection>();

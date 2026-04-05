@@ -1,5 +1,6 @@
 ﻿using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
+using RepoDb.Trace;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
 
@@ -16,7 +17,7 @@ public class DeleteAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.DeleteAll<CompleteTable>();
 
@@ -31,7 +32,7 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.DeleteAll<CompleteTable>(primaryKeys);
 
@@ -46,7 +47,7 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x=>x.ColumnText));
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.DeleteAll<CompleteTable>(primaryKeys);
 
@@ -64,7 +65,7 @@ public class DeleteAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.DeleteAllAsync<CompleteTable>(cancellationToken: TestContext.CancellationToken);
 
@@ -79,7 +80,7 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
 
@@ -94,9 +95,9 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x => x.ColumnText));
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
-        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken);
+        int result = await connection.DeleteAllAsync<CompleteTable>(primaryKeys, cancellationToken: TestContext.CancellationToken, trace: new DiagnosticsTracer());
 
         // Assert
         Assert.AreEqual(tables.Count(), result);
@@ -116,7 +117,7 @@ public class DeleteAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>());
 
@@ -131,7 +132,7 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
@@ -146,7 +147,7 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x => x.ColumnText));
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.DeleteAll(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys);
 
@@ -164,7 +165,7 @@ public class DeleteAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), cancellationToken: TestContext.CancellationToken);
 
@@ -179,7 +180,7 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 
@@ -194,7 +195,7 @@ public class DeleteAllTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(5000, fields: Field.Parse<CompleteTable>(x => x.ColumnText));
         IEnumerable<object> primaryKeys = ClassExpression.GetEntitiesPropertyValues<CompleteTable, object>(tables, e => e.Id);
 
-        using Npgsql.NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<CompleteTable>(), primaryKeys, cancellationToken: TestContext.CancellationToken);
 

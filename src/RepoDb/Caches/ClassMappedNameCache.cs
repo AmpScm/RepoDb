@@ -22,11 +22,11 @@ public static class ClassMappedNameCache
 
 
     /// <summary>
-    ///
+    /// Gets the cached database object name of the data entity type.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="throwOnError"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the target type.</typeparam>
+    /// <param name="throwOnError">Indicates whether to throw an exception if the mapping is not found.</param>
+    /// <returns>The cached mapped name of the data entity, or null if not found and throwOnError is false.</returns>
     public static string? Get<T>(bool throwOnError) => Get(typeof(T), throwOnError);
 
     /// <summary>

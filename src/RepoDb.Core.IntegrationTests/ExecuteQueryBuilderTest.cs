@@ -27,7 +27,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.In, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -59,7 +59,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotIn, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -95,7 +95,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.In, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -127,7 +127,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotIn, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -167,7 +167,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.Between, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -198,7 +198,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -229,7 +229,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -253,7 +253,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -277,7 +277,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -301,7 +301,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -329,7 +329,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.Between, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -360,7 +360,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -391,7 +391,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -415,7 +415,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -439,7 +439,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, values));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -466,7 +466,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.NotBetween, null));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -496,7 +496,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var where = new QueryGroup(new QueryField("Id", Operation.GreaterThanOrEqual, 0));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -524,7 +524,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -553,7 +553,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.GreaterThanOrEqual, 0));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -589,7 +589,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var where = new QueryGroup(new QueryField("Id", Operation.GreaterThanOrEqual, 4));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -616,7 +616,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -643,7 +643,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var where = new QueryGroup(new QueryField("Id", Operation.GreaterThanOrEqual, 4));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -674,7 +674,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -704,7 +704,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -733,7 +733,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var table = Helper.CreateIdentityTables(1).First();
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var dbFields = DbFieldCache.Get(connection, ClassMappedNameCache.Get<IdentityTable>(), null);
         var builder = connection.GetStatementBuilder();
@@ -767,7 +767,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var where = new QueryGroup(new QueryField("Id", Operation.GreaterThanOrEqual, 0));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -795,7 +795,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -823,7 +823,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var table = Helper.CreateIdentityTables(1).First();
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert(table);
 
@@ -837,7 +837,7 @@ public class ExecuteQueryBuilderTest : TestBase
             ClassMappedNameCache.Get<IdentityTable>(),
             fields: fields,
             noUpdateFields: null,
-            keyFields: dbFields.Where(df => (df.IsPrimary || df.IsIdentity)), qualifiers: fields.Where(f => dbFields.Any(df => (df.IsPrimary || df.IsIdentity) && df.FieldName == f.FieldName)));
+            keyFields: dbFields.Where(df => df.IsPrimary || df.IsIdentity), qualifiers: fields.Where(f => dbFields.Any(df => (df.IsPrimary || df.IsIdentity) && df.FieldName == f.FieldName)));
 
         // Act
         var affectedRow = connection.ExecuteNonQuery(sql, table);
@@ -863,7 +863,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var where = new QueryGroup(new QueryField("Id", Operation.GreaterThanOrEqual, 6));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -891,7 +891,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -920,7 +920,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var where = new QueryGroup(new QueryField("Id", Operation.In, new[] { 4, 6 }));
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -955,7 +955,7 @@ public class ExecuteQueryBuilderTest : TestBase
             Conjunction.Or);
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -988,7 +988,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1020,7 +1020,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var where = new QueryGroup(new QueryField("Id", Operation.GreaterThanOrEqual, 6));
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1048,7 +1048,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1075,7 +1075,7 @@ public class ExecuteQueryBuilderTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1105,7 +1105,7 @@ public class ExecuteQueryBuilderTest : TestBase
         var table = Helper.CreateIdentityTables(1).First();
         var fields = FieldCache.Get<IdentityTable>();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert(table);
 

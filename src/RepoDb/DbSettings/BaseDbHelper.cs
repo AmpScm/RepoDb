@@ -17,7 +17,7 @@ namespace RepoDb.DbSettings;
 public abstract class BaseDbHelper : IDbHelper
 {
     /// <summary>
-    ///
+    /// Initializes a new instance of the <see cref="BaseDbHelper"/> class.
     /// </summary>
     /// <param name="dbResolver"></param>
     protected BaseDbHelper(IResolver<string, Type> dbResolver)
@@ -27,74 +27,29 @@ public abstract class BaseDbHelper : IDbHelper
         DbTypeResolver = dbResolver;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
+    /// <inheritdoc/>
     public IResolver<string, Type> DbTypeResolver { get; protected init; }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <param name="fieldType"></param>
-    /// <param name="values"></param>
-    /// <param name="parameterName"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public virtual DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName)
     {
         return null;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <param name="fieldType"></param>
-    /// <param name="values"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public ValueTask<DbParameter?> CreateTableParameterAsync(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName, CancellationToken cancellationToken = default)
     {
         return new(CreateTableParameter(connection, transaction, fieldType, values, parameterName));
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <param name="fieldType"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="values"></param>
-    /// <returns></returns>
-    public virtual string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, string parameterName, IEnumerable values)
-    {
-        return null;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <param name="fieldType"></param>
-    /// <param name="values"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public virtual bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values)
     {
         return CreateTableParameter(connection, transaction, fieldType, values, "Q") is not null;
     }
 
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public virtual DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction)
     {
         return new()
@@ -102,13 +57,7 @@ public abstract class BaseDbHelper : IDbHelper
         };
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public virtual ValueTask<DbRuntimeSetting> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction? transaction, CancellationToken cancellationToken)
     {
         return new(GetDbConnectionRuntimeInformation(connection, transaction));
@@ -148,18 +97,30 @@ public abstract class BaseDbHelper : IDbHelper
         return value;
     }
 
-    /// <inheritdoc />
-    public virtual Func<object?>? PrepareForIdentityOutput(DbCommand command) => null;
+    /// <summary>
+    /// Allows the db provider to tweak the <paramref name="command"/> before calling an operation that should support returning identity information
+    /// </summary>
+    /// <param name="command"></param>
+    /// <param name="tableName"></param>
+    /// <returns></returns>
+    public virtual Func<object?>? PrepareForIdentityOutput(DbCommand command, string tableName) => null;
 
     /// <summary>
-    ///
+    /// Allows the db provider to tweak the <paramref name="command"/> before calling ExecuteNonQueryAsync for batch operations like UPDATE
     /// </summary>
     /// <param name="command"></param>
     /// <param name="count"></param>
     public virtual void PrepareForBatchOperation(DbCommand command, int count) { }
 
     /// <summary>
-    ///
+    /// Allows the db provider to tweak the <paramref name="command"/> before calling ExecuteReader or ExecuteReaderAsync for multi-returns
+    /// </summary>
+    /// <param name="command"></param>
+    public virtual void PrepareForExecuteReader(DbCommand command) { }
+
+    /// <summary>
+    /// Gets the post-creation expression for a parameter. This is used to set the value of the parameter after it has been created. This is useful for parameters that require special handling,
+    /// such as table-valued parameters or JSON parameters.
     /// </summary>
     /// <param name="dbParameterExpression"></param>
     /// <param name="propertyExpression"></param>
@@ -171,7 +132,9 @@ public abstract class BaseDbHelper : IDbHelper
     }
 
     /// <summary>
-    ///
+    /// Gets the JSON column type for the database connection. This is used to determine the column type to use for JSON columns. This is useful for databases that
+    /// support JSON columns, such as MySQL and PostgreSQL in certain versions. By default, it returns null, which means that JSON columns are not supported.
+    /// Derived classes can override this method to provide the appropriate JSON column type for their respective databases.
     /// </summary>
     /// <param name="sql"></param>
     /// <param name="transaction"></param>
@@ -179,7 +142,9 @@ public abstract class BaseDbHelper : IDbHelper
     public virtual string? GetJsonColumnType(DbConnection sql, DbTransaction? transaction) => (sql.GetStatementBuilder() as BaseStatementBuilder)?.JsonColumnType;
 
     /// <summary>
-    ///
+    /// Gets the provider-specific type transforms. This is used to transform expressions from one type to another for specific database providers. This is useful for databases that have
+    /// specific requirements for certain db specific types that are custom wrapped, such as Vectors. Check the sources of the common implementations to find the very
+    /// few cases where this is used. The info is used by the expression compiler to create entities and db values
     /// </summary>
     protected static ConcurrentDictionary<(Type fromType, Type toType), Func<Expression, Expression?>> ProviderSpecificTypeTransforms => Compiler.ProviderSpecificTransforms;
 }

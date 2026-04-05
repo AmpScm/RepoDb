@@ -229,7 +229,7 @@ public partial class PropertyHandlerMapperTest
 
         // Act
         var actual = PropertyHandlerMapper.Get<PropertyHandlerMapperTestClass, object>(propertyName);
-        var expected = (actual is TextPropertyHandler);
+        var expected = actual is TextPropertyHandler;
 
         // Assert
         Assert.IsTrue(expected);
@@ -247,7 +247,7 @@ public partial class PropertyHandlerMapperTest
 
         // Act
         var actual = PropertyHandlerMapper.Get<PropertyHandlerMapperTestClass, object>(field);
-        var expected = (actual is TextPropertyHandler);
+        var expected = actual is TextPropertyHandler;
 
         // Assert
         Assert.IsTrue(expected);
@@ -264,7 +264,7 @@ public partial class PropertyHandlerMapperTest
 
         // Act
         var actual = PropertyHandlerMapper.Get<PropertyHandlerMapperTestClass, object>(e => e.ColumnString);
-        var expected = (actual is TextPropertyHandler);
+        var expected = actual is TextPropertyHandler;
 
         // Assert
         Assert.IsTrue(expected);

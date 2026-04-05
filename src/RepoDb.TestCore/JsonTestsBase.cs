@@ -81,13 +81,13 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         Assert.HasCount(1, result);
         Assert.IsNotNull(result.First().JsonNode);
-        Assert.AreEqual(@"{""Key"":""NewValue""}", result.First().JsonNode.ToJsonString(Converter.JsonSerializerOptions));
+        Assert.AreEqual(@"{""Key"":""NewValue""}", result.First().JsonNode?.ToJsonString(Converter.JsonSerializerOptions));
     }
 
 
     class JsonPerson
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int Age { get; set; }
     }
 
@@ -178,7 +178,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
 
         var r = await sql.QueryAsync<JsonBTestClass>(where: x => x.JsonNode.ExtractValue<string>("Key") == "Value", trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken);
         Assert.HasCount(1, r);
-        Assert.AreEqual("{\"Key\":\"Value\"}", r.First().JsonNode.ToJsonString(Converter.JsonSerializerOptions));
+        Assert.AreEqual("{\"Key\":\"Value\"}", r.First().JsonNode?.ToJsonString(Converter.JsonSerializerOptions));
     }
 
     [Table(nameof(JsonTestClass))]
@@ -289,7 +289,7 @@ public abstract class JsonTestsBase<TDbInstance> : DbTestBase<TDbInstance> where
     {
         [Identity]
         public int ID { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
         public string? ValueNull { get; set; }
     }
 

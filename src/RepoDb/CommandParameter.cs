@@ -24,11 +24,11 @@ internal sealed record class CommandParameter
     }
 
     /// <summary>
-    ///
+    /// Creates a new instance of <see cref="CommandParameter"/> class.
     /// </summary>
-    /// <param name="field"></param>
-    /// <param name="parameter"></param>
-    /// <param name="mappedToType"></param>
+    /// <param name="field">The <see cref="Field"/> object that is connected.</param>
+    /// <param name="parameter">The <see cref="Parameter"/> object that is connected.</param>
+    /// <param name="mappedToType">The parent type where this parameter is mapped.</param>
     public CommandParameter(Field field,
         Parameter? parameter,
         Type mappedToType)

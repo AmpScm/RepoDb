@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections;
+using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Transactions;
@@ -421,9 +422,6 @@ public static partial class DbConnectionExtension
                 GetEntityType(entities));
             qualifiers = keys;
         }
-
-        // Variables needed
-        var setting = connection.GetDbSetting();
 
         // Return the result
         if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
@@ -893,9 +891,6 @@ public static partial class DbConnectionExtension
             qualifiers = keys;
         }
 
-        // Variables needed
-        var setting = connection.GetDbSetting();
-
         // Return the result
         if (TypeCache.Get(GetEntityType(entities)).IsDictionaryStringObject)
         {
@@ -1282,7 +1277,6 @@ public static partial class DbConnectionExtension
         // Create the command
         using (var command = (DbCommand)connection.CreateCommand("", CommandType.Text, commandTimeout, transaction))
         {
-
             int? positionIndex = null;
             bool doPrepare = dbSetting.IsPreparable;
 
@@ -1318,7 +1312,7 @@ public static partial class DbConnectionExtension
                     context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                 }
 
-                (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForBatchOperation(command, batchItems.Count);
+                var fetcher = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command, tableName);
 
                 // Prepare the command
                 if (doPrepare)
@@ -1326,12 +1320,13 @@ public static partial class DbConnectionExtension
                     command.Prepare();
                 }
 
+                // Before Execution
+                var traceResult = Tracer
+                    .InvokeBeforeExecution(traceKey, trace, command);
+
                 // Actual Execution
-                if (context.KeyPropertySetterFunc == null)
+                if (context.KeyPropertySetterFunc == null || fetcher is { })
                 {
-                    // Before Execution
-                    var traceResult = Tracer
-                        .InvokeBeforeExecution(traceKey, trace, command);
 
                     // Silent cancellation
                     if (traceResult?.CancellableTraceLog?.IsCancelled == true)
@@ -1339,18 +1334,30 @@ public static partial class DbConnectionExtension
                         return result;
                     }
 
-                    // No identity setters
                     result += command.ExecuteNonQuery();
 
-                    // After Execution
-                    Tracer
-                        .InvokeAfterExecution(traceResult, trace, result);
+                    // Identity setters via output parameters?
+                    if (fetcher is { } && context.KeyPropertySetterFunc is { })
+                    {
+                        var rawResult = fetcher();
+
+                        var items = rawResult switch
+                        {
+                            IEnumerable enumerable => enumerable,
+                            null => Array.Empty<object>(),
+                            _ => new[] { rawResult }
+                        };
+
+                        int i = 0;
+                        foreach (var value in items)
+                        {
+                            if (value is { })
+                                context.KeyPropertySetterFunc(batchItems.GetAt(i++), value);
+                        }
+                    }
                 }
                 else
                 {
-                    // Before Execution
-                    var traceResult = Tracer
-                        .InvokeBeforeExecution(traceKey, trace, command);
 
                     // Set the identity back
                     using var reader = command.ExecuteReader();
@@ -1367,7 +1374,7 @@ public static partial class DbConnectionExtension
                                 positionIndex ??= (reader.FieldCount > 1) && string.Equals(BaseStatementBuilder.RepoDbOrderColumn, reader.GetName(reader.FieldCount - 1), StringComparison.OrdinalIgnoreCase) ? reader.FieldCount - 1 : -1;
 
                                 var index = positionIndex >= 0 && positionIndex < reader.FieldCount ? reader.GetInt32(positionIndex.Value) : position;
-                                context.KeyPropertySetterFunc.Invoke(batchItems.GetAt(index), value);
+                                context.KeyPropertySetterFunc(batchItems.GetAt(index), value);
                             }
                             position++;
                         }
@@ -1375,13 +1382,15 @@ public static partial class DbConnectionExtension
                     while (position < batchItems.Count && reader.NextResult());
 
                     result += batchItems.Count;
-
-                    // After Execution
-                    Tracer
-                        .InvokeAfterExecution(traceResult, trace, result);
                 }
+
+                // After Execution
+                Tracer
+                    .InvokeAfterExecution(traceResult, trace, result);
+
             }
         }
+
 
         myTransaction?.Commit();
 
@@ -1501,7 +1510,7 @@ public static partial class DbConnectionExtension
                     context.MultipleDataEntitiesParametersSetterFunc?.Invoke(command, batchItems.OfType<object?>().AsList());
                 }
 
-                (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForBatchOperation(command, batchItems.Count);
+                var fetcher = (dbh ??= GetDbHelper(connection) as BaseDbHelper)?.PrepareForIdentityOutput(command, tableName);
 
                 // Prepare the command
                 if (doPrepare)
@@ -1522,10 +1531,32 @@ public static partial class DbConnectionExtension
 
 
                 // Actual Execution
-                if (context.KeyPropertySetterFunc == null)
+                if (context.KeyPropertySetterFunc == null || fetcher is { })
                 {
                     // No identity setters
                     result += await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+
+
+                    // Identity setters via output parameters?
+                    if (fetcher is { } && context.KeyPropertySetterFunc is { })
+                    {
+                        var rawResult = fetcher();
+
+                        var items = rawResult switch
+                        {
+                            IEnumerable enumerable => enumerable,
+                            null => Array.Empty<object>(),
+                            _ => new[] { rawResult }
+                        };
+
+                        int i = 0;
+                        foreach (var value in items)
+                        {
+                            if (value is { })
+                                context.KeyPropertySetterFunc(batchItems.GetAt(i), value);
+                            i++;
+                        }
+                    }
                 }
                 else
                 {

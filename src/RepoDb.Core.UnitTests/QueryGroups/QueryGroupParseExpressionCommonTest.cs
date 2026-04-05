@@ -56,7 +56,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 && e.PropertyInt == 2).GetString(m_dbSetting);
-        var expected = "(([PropertyInt] = @PropertyInt) AND ([PropertyInt] = @PropertyInt_1))";
+        var expected = "([PropertyInt] = @PropertyInt AND [PropertyInt] = @PropertyInt_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -71,7 +71,7 @@ public partial class QueryGroupTest
         {
             // Act
             var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 && e.PropertyInt == 2).GetString(m_dbSetting);
-            var expected = "(([PropertyInt] = @PropertyInt AND [PropertyInt] IS NOT NULL) AND ([PropertyInt] = @PropertyInt_2 AND [PropertyInt] IS NOT NULL))";
+            var expected = "([PropertyInt] = @PropertyInt AND [PropertyInt] IS NOT NULL AND [PropertyInt] = @PropertyInt_2 AND [PropertyInt] IS NOT NULL)";
 
             // Assert
             Assert.AreEqual(expected, actual);
@@ -87,7 +87,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 || e.PropertyInt == 2).GetString(m_dbSetting);
-        var expected = "(([PropertyInt] = @PropertyInt) OR ([PropertyInt] = @PropertyInt_1))";
+        var expected = "([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -123,7 +123,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 && e.PropertyString == "A").GetString(m_dbSetting);
-        var expected = "(([PropertyInt] = @PropertyInt) AND ([PropertyString] = @PropertyString))";
+        var expected = "([PropertyInt] = @PropertyInt AND [PropertyString] = @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -134,7 +134,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 || e.PropertyString == "A").GetString(m_dbSetting);
-        var expected = "(([PropertyInt] = @PropertyInt) OR ([PropertyString] = @PropertyString))";
+        var expected = "([PropertyInt] = @PropertyInt OR [PropertyString] = @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -145,7 +145,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1 || e.PropertyDouble == 2) && e.PropertyString == "A").GetString(m_dbSetting);
-        var expected = "((([PropertyInt] = @PropertyInt) OR ([PropertyDouble] = @PropertyDouble)) AND ([PropertyString] = @PropertyString))";
+        var expected = "(([PropertyInt] = @PropertyInt OR [PropertyDouble] = @PropertyDouble) AND ([PropertyString] = @PropertyString))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -156,7 +156,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1 && e.PropertyDouble == 2) || e.PropertyString == "A").GetString(m_dbSetting);
-        var expected = "((([PropertyInt] = @PropertyInt) AND ([PropertyDouble] = @PropertyDouble)) OR ([PropertyString] = @PropertyString))";
+        var expected = "(([PropertyInt] = @PropertyInt AND [PropertyDouble] = @PropertyDouble) OR ([PropertyString] = @PropertyString))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -166,8 +166,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionWithDoubleGroupForAnd()
     {
         // Act
-        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1 && e.PropertyDouble == 2) && (e.PropertyString == "A" && e.PropertySingle == 1)).GetString(m_dbSetting);
-        var expected = "((([PropertyInt] = @PropertyInt) AND ([PropertyDouble] = @PropertyDouble)) AND (([PropertyString] = @PropertyString) AND ([PropertySingle] = @PropertySingle)))";
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 && e.PropertyDouble == 2 && e.PropertyString == "A" && e.PropertySingle == 1).GetString(m_dbSetting);
+        var expected = "([PropertyInt] = @PropertyInt AND [PropertyDouble] = @PropertyDouble AND [PropertyString] = @PropertyString AND [PropertySingle] = @PropertySingle)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -177,8 +177,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionWithDoubleGroupForOr()
     {
         // Act
-        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1 || e.PropertyDouble == 2) || (e.PropertyString == "A" || e.PropertySingle == 1)).GetString(m_dbSetting);
-        var expected = "((([PropertyInt] = @PropertyInt) OR ([PropertyDouble] = @PropertyDouble)) OR (([PropertyString] = @PropertyString) OR ([PropertySingle] = @PropertySingle)))";
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 || e.PropertyDouble == 2 || e.PropertyString == "A" || e.PropertySingle == 1).GetString(m_dbSetting);
+        var expected = "([PropertyInt] = @PropertyInt OR [PropertyDouble] = @PropertyDouble OR [PropertyString] = @PropertyString OR [PropertySingle] = @PropertySingle)";
 
         // Assert
         Assert.AreEqual(expected, actual);

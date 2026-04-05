@@ -1,23 +1,23 @@
 ﻿using RepoDb.Resolvers;
 
-namespace RepoDb.SQLite.System.UnitTests.Resolvers;
+namespace RepoDb.Sqlite.Microsoft.UnitTests.Resolvers;
 
 [TestClass]
-public class SdsSqLiteDbTypeNameToClientTypeResolverTest
+public class SqliteDbTypeNameToClientTypeResolverTest
 {
     [TestInitialize]
     public void Initialize()
     {
         GlobalConfiguration
-            .Setup()
-            .UseSQLite();
+            .Setup(new())
+            .UseSqlite();
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForBigInt()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForBigInt()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("BIGINT");
@@ -27,10 +27,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForInteger()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForInteger()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("INTEGER");
@@ -40,10 +40,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForBlob()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForBlob()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("BLOB");
@@ -53,23 +53,23 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForBoolean()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForBoolean()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("BOOLEAN");
 
         // Assert
-        Assert.AreEqual(typeof(long), result);
+        Assert.AreEqual(typeof(string), result);
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForChar()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForChar()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("CHAR");
@@ -79,10 +79,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForString()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForString()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("STRING");
@@ -92,10 +92,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForText()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForText()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("TEXT");
@@ -105,10 +105,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForVarChar()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForVarChar()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("VARCHAR");
@@ -118,10 +118,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForDate()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForDate()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("DATE");
@@ -131,10 +131,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForDateTime()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForDateTime()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("DATETIME");
@@ -144,10 +144,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForTime()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForTime()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("TIME");
@@ -157,10 +157,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForDecimal()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForDecimal()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("DECIMAL");
@@ -170,10 +170,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForNumeric()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForNumeric()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("NUMERIC");
@@ -183,10 +183,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForDouble()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForDouble()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("DOUBLE");
@@ -196,10 +196,10 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForReal()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForReal()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("REAL");
@@ -209,36 +209,36 @@ public class SdsSqLiteDbTypeNameToClientTypeResolverTest
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForInt()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForInt()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("INT");
 
         // Assert
-        Assert.AreEqual(typeof(int), result);
+        Assert.AreEqual(typeof(long), result);
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForNone()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForNone()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("NONE");
 
         // Assert
-        Assert.AreEqual(typeof(object), result);
+        Assert.AreEqual(typeof(string), result);
     }
 
     [TestMethod]
-    public void TestSqLiteDbTypeNameToClientTypeResolverForOther()
+    public void TestMsSqliteDbTypeNameToClientTypeResolverForOther()
     {
         // Setup
-        var resolver = new SqLiteDbTypeNameToClientTypeResolver();
+        var resolver = new SqliteDbTypeNameToClientTypeResolver();
 
         // Act
         var result = resolver.Resolve("WHATEVER");

@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Numerics;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Resolvers;

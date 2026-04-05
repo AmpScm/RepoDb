@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
+using RepoDb.Caches;
 using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
@@ -27,7 +28,7 @@ public sealed class OracleDbHelper : BaseDbHelper
     }
 
     /// <inheritdoc />
-    public IDbSetting DbSetting { get; }
+    private IDbSetting DbSetting { get; }
 
     /// <inheritdoc />
     public override Expression? GetParameterPostCreationExpression(ParameterExpression dbParameterExpression, ParameterExpression? propertyExpression, DbField dbField)
@@ -86,20 +87,20 @@ public sealed class OracleDbHelper : BaseDbHelper
     /// <inheritdoc />
     public override DbFieldCollection GetFields(IDbConnection connection, string tableName, IDbTransaction? transaction = null)
     {
-        var commandText = GetFieldsQuery;
-        var param = new
-        {
-            Schema = DataEntityExtension.GetSchema(tableName, DbSetting)?.ToUpperInvariant(),
-            TableName = DataEntityExtension.GetTableName(tableName, DbSetting)
-        };
-        var param2 = string.IsNullOrWhiteSpace(param.Schema) ? (object)new { param.TableName } : null;
-        if (param2 is { })
-        {
-            commandText = commandText.Replace(":Schema", "USER");
-        }
+        connection.EnsureOpen();
+        using var command = (DbCommand)connection.CreateCommand(GetFieldsQuery, transaction: transaction);
+
+        command.Parameters.Add(command.CreateParameter(":TableName", DataEntityExtension.GetTableName(tableName, DbSetting), DbType.String));
+
+        var schema = DataEntityExtension.GetSchema(tableName, DbSetting)?.AsUnquoted(DbSetting);
+
+        if (string.IsNullOrWhiteSpace(schema))
+            command.CommandText = command.CommandText.Replace(":Schema", "USER");
+        else
+            command.Parameters.Add(command.CreateParameter(":Schema", schema!.ToUpperInvariant(), DbType.String));
 
         // Iterate and extract
-        using var reader = (DbDataReader)connection.ExecuteReader(commandText, param2 ?? param, transaction: transaction);
+        using var reader = command.ExecuteReader();
 
         var dbFields = new List<DbField>();
 
@@ -116,21 +117,27 @@ public sealed class OracleDbHelper : BaseDbHelper
     /// <inheritdoc />
     public override async ValueTask<DbFieldCollection> GetFieldsAsync(IDbConnection connection, string tableName, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     {
-        var commandText = GetFieldsQuery;
-        var param = new
-        {
-            Schema = DataEntityExtension.GetSchema(tableName, DbSetting)?.AsUnquoted(DbSetting).ToUpperInvariant(),
-            TableName = DataEntityExtension.GetTableName(tableName, DbSetting).AsUnquoted(DbSetting)
-        };
-        var param2 = string.IsNullOrWhiteSpace(param.Schema) ? (object)new { param.TableName } : null;
-        if (param2 is { })
-        {
-            commandText = commandText.Replace(":Schema", "USER");
-        }
+        await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
+#if NET
+        await
+#endif
+        using var command = (DbCommand)connection.CreateCommand(GetFieldsQuery, transaction: transaction);
+
+        command.Parameters.Add(command.CreateParameter(":TableName", DataEntityExtension.GetTableName(tableName, DbSetting), DbType.String));
+
+        var schema = DataEntityExtension.GetSchema(tableName, DbSetting)?.AsUnquoted(DbSetting);
+
+        if (string.IsNullOrWhiteSpace(schema))
+            command.CommandText = command.CommandText.Replace(":Schema", "USER");
+        else
+            command.Parameters.Add(command.CreateParameter(":Schema", schema!.ToUpperInvariant(), DbType.String));
+
 
         // Iterate and extract
-        using var reader = (DbDataReader)await connection.ExecuteReaderAsync(commandText, param2 ?? param, transaction: transaction,
-            cancellationToken: cancellationToken);
+#if NET
+        await
+#endif
+        using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
 
         var dbFields = new List<DbField>();
 
@@ -165,16 +172,35 @@ public sealed class OracleDbHelper : BaseDbHelper
     private DbField ReaderToDbField(DbDataReader reader)
     {
         var dbType = reader.IsDBNull(4) ? "VARCHAR2" : reader.GetString(4);
+        var type = DbTypeResolver.Resolve(dbType) ?? typeof(object);
+        var size = reader.IsDBNull(5) ? null : (int?)reader.GetInt32(5);
+        var precision = reader.IsDBNull(6) ? null : (byte?)reader.GetInt32(6);
+        var scale = reader.IsDBNull(7) ? null : (byte?)reader.GetInt32(7);
+
+        if (type == typeof(decimal))
+        {
+            type = precision switch
+            {
+                <= 9 when scale == 0 => typeof(int),
+                <= 19 when scale == 0 => typeof(long),
+                _ => type
+            };
+        }
+        else if (type == typeof(string))
+        {
+            if (size == 1 && string.Equals("CHAR", dbType, StringComparison.OrdinalIgnoreCase))
+                type = typeof(char);
+        }
 
         return new DbField(
             reader.GetString(0),                                // COLUMN_NAME
             !reader.IsDBNull(1) && reader.GetInt32(1) == 1,    // IsPrimary
             !reader.IsDBNull(2) && reader.GetInt32(2) == 1,    // IsIdentity
             !reader.IsDBNull(3) && reader.GetInt32(3) == 1,    // IsNullable
-            DbTypeResolver.Resolve(dbType) ?? typeof(object),
-            reader.IsDBNull(5) ? null : reader.GetInt32(5),    // Size
-            reader.IsDBNull(6) ? null : (byte)reader.GetInt32(6), // Precision
-            reader.IsDBNull(7) ? null : (byte)reader.GetInt32(7), // Scale
+            type,
+            size,
+            precision,
+            scale,
             dbType,
             !reader.IsDBNull(8) && reader.GetInt32(8) == 1,    // HasDefaultValue
             !reader.IsDBNull(9) && reader.GetInt32(9) == 1,    // IsComputed
@@ -244,7 +270,7 @@ public sealed class OracleDbHelper : BaseDbHelper
     }
 
     /// <inheritdoc />
-    public override Func<object?> PrepareForIdentityOutput(DbCommand command)
+    public override Func<object?> PrepareForIdentityOutput(DbCommand command, string tableName)
     {
         int collectionSize = 0;
         if (command is OracleCommand cmd)
@@ -279,12 +305,38 @@ public sealed class OracleDbHelper : BaseDbHelper
 
             if (cmd.CommandText.EndsWith(":RepoDb_Result", StringComparison.Ordinal))
             {
+                if ((cmd.CommandText.StartsWith("/*FORALL*/MERGE ", StringComparison.Ordinal)
+                    || cmd.CommandText.StartsWith("MERGE ", StringComparison.Ordinal))
+                    && DbRuntimeSettingCache.Get(command.Connection!, command.Transaction) is { } v && v.EngineVersion.Major < 23)
+                {
+                    // Oracle does not support returning values from a MERGE statement when using array binding prior to version 23.0, so we cannot proceed with this
+                    // method. Lets do the next best thing and make the merge 'work'
+
+                    int n = cmd.CommandText.LastIndexOf(" RETURNING ", StringComparison.Ordinal);
+
+                    cmd.CommandText = cmd.CommandText.Substring(0, n);
+                    return static () => null;
+                }
+
+                // Lets assume this value is already cached... As we already calculated the insert/merge
+                var returnField = DbFieldCache.Get(command.Connection!, tableName, command.Transaction).GetReturnColumn();
+
                 var p = new OracleParameter()
                 {
                     ParameterName = ":RepoDb_Result",
                     Direction = ParameterDirection.Output,
-                    OracleDbType = OracleDbType.Int32
+                    OracleDbType = returnField?.Type switch
+                    {
+                        null => OracleDbType.Int64,
+                        Type t when t == typeof(int) => OracleDbType.Int32,
+                        Type t when t == typeof(long) => OracleDbType.Int64,
+                        Type t when t == typeof(short) => OracleDbType.Int16,
+                        Type t when t == typeof(decimal) => OracleDbType.Decimal,
+                        _ => OracleDbType.Varchar2
+                    },
                 };
+                if (p.OracleDbType == OracleDbType.Varchar2)
+                    p.ArrayBindSize = Enumerable.Repeat(returnField?.Size ?? 32, cmd.ArrayBindCount).ToArray();
 
                 command.Parameters.Add(p);
 
@@ -323,15 +375,7 @@ public sealed class OracleDbHelper : BaseDbHelper
         if (commandText is not { })
             return;
 
-        if (commandText.StartsWith("/*ASCURSOR:", StringComparison.Ordinal) && commandText.IndexOf("*/", 11, StringComparison.Ordinal) is { } nEnd
-            && int.TryParse(commandText.Substring(11, nEnd - 11), out int nItems))
-        {
-            for (int i = 0; i < nItems; i++)
-            {
-                cmd.Parameters.Add($":c{i}", OracleDbType.RefCursor, ParameterDirection.Output);
-            }
-        }
-        else if (count <= 1 || !commandText.StartsWith("/*FORALL*/", StringComparison.Ordinal))
+        if (count <= 1 || !commandText.StartsWith("/*FORALL*/", StringComparison.Ordinal))
         {
             cmd.ArrayBindCount = 0;
         }
@@ -350,6 +394,28 @@ public sealed class OracleDbHelper : BaseDbHelper
 
             while (cmd.Parameters.Count > nFields)
                 cmd.Parameters.RemoveAt(cmd.Parameters.Count - 1);
+        }
+    }
+
+    /// <inheritdoc />
+    public override void PrepareForExecuteReader(DbCommand command)
+    {
+        OracleCommand cmd = (OracleCommand)command;
+        var commandText = cmd.CommandText;
+
+        if (commandText is not { })
+            return;
+
+        if (commandText.StartsWith("/*ASCURSOR:", StringComparison.Ordinal) && commandText.IndexOf("*/", 11, StringComparison.Ordinal) is { } nEnd
+            && !cmd.Parameters.Cast<OracleParameter>().Any(x => x.OracleDbType == OracleDbType.RefCursor)
+            && int.TryParse(commandText.Substring(11, nEnd - 11), out int nItems))
+        {
+            cmd.BindByName = true; // Arguments will certainly be out-of-order
+
+            for (int i = 0; i < nItems; i++)
+            {
+                cmd.Parameters.Add($":c_cur{i}", OracleDbType.RefCursor, ParameterDirection.Output);
+            }
         }
     }
 

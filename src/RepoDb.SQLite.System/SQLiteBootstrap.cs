@@ -43,11 +43,11 @@ public static class SQLiteBootstrap
         DbSettingMapper.Add<SQLiteConnection>(sdsDbSetting, true);
 
         // Map the DbHelper
-        DbHelperMapper.Add<SQLiteConnection>(new SQLiteDbHelper(sdsDbSetting, new SqLiteDbTypeNameToClientTypeResolver()), true);
+        DbHelperMapper.Add<SQLiteConnection>(new SQLiteDbHelper(sdsDbSetting, new SQLiteDbTypeNameToClientTypeResolver()), true);
 
         // Map the Statement Builder
         StatementBuilderMapper.Add<SQLiteConnection>(new SQLiteStatementBuilder(sdsDbSetting,
-            new SqLiteConvertFieldResolver(),
+            new SQLiteConvertFieldResolver(),
             new ClientTypeToAverageableClientTypeResolver()), true);
 
         #endregion

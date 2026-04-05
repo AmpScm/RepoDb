@@ -1,6 +1,5 @@
 ﻿#nullable enable
 using System.Linq.Expressions;
-using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using RepoDb.Extensions;
@@ -351,7 +350,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] LIKE @PropertyString) OR ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "([PropertyString] LIKE @PropertyString OR [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -365,7 +364,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] LIKE @PropertyString) AND ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "([PropertyString] LIKE @PropertyString AND [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -379,7 +378,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT (([PropertyString] LIKE @PropertyString) OR ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "NOT ([PropertyString] LIKE @PropertyString OR [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -393,7 +392,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] LIKE @PropertyString) OR ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "([PropertyString] LIKE @PropertyString OR [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -407,7 +406,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT (([PropertyString] LIKE @PropertyString) AND ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "NOT ([PropertyString] LIKE @PropertyString AND [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -421,7 +420,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] LIKE @PropertyString) AND ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "([PropertyString] LIKE @PropertyString AND [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -435,7 +434,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] NOT LIKE @PropertyString) OR ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "([PropertyString] NOT LIKE @PropertyString OR [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -449,7 +448,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] NOT LIKE @PropertyString) AND ([PropertyString] LIKE @PropertyString_1))";
+        var expected = "([PropertyString] NOT LIKE @PropertyString AND [PropertyString] LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -463,7 +462,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] LIKE @PropertyString) OR ([PropertyString] NOT LIKE @PropertyString_1))";
+        var expected = "([PropertyString] LIKE @PropertyString OR [PropertyString] NOT LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -477,7 +476,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] LIKE @PropertyString) AND ([PropertyString] NOT LIKE @PropertyString_1))";
+        var expected = "([PropertyString] LIKE @PropertyString AND [PropertyString] NOT LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -491,7 +490,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] NOT LIKE @PropertyString) OR ([PropertyString] NOT LIKE @PropertyString_1))";
+        var expected = "([PropertyString] NOT LIKE @PropertyString OR [PropertyString] NOT LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -505,7 +504,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] NOT LIKE @PropertyString) AND ([PropertyString] NOT LIKE @PropertyString_1))";
+        var expected = "([PropertyString] NOT LIKE @PropertyString AND [PropertyString] NOT LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -927,7 +926,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionListContains()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new List<int>() { 1, 2 }).Contains(e.PropertyInt));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => new List<int>() { 1, 2 }.Contains(e.PropertyInt));
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -941,7 +940,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionNotListContains()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(new List<int>() { 1, 2 }).Contains(e.PropertyInt));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !new List<int>() { 1, 2 }.Contains(e.PropertyInt));
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -955,7 +954,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionNotListContainsEqualsTrue()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(new List<int>() { 1, 2 }).Contains(e.PropertyInt) == true);
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !new List<int>() { 1, 2 }.Contains(e.PropertyInt) == true);
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -969,7 +968,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionNotListContainsEqualsFalse()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(new List<int>() { 1, 2 }).Contains(e.PropertyInt) == false);
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !new List<int>() { 1, 2 }.Contains(e.PropertyInt) == false);
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -1013,7 +1012,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionListContainsEqualsTrue()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new List<int>() { 1, 2 }).Contains(e.PropertyInt) == true);
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => new List<int>() { 1, 2 }.Contains(e.PropertyInt) == true);
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -1027,7 +1026,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionListContainsEqualsFalse()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new List<int>() { 1, 2 }).Contains(e.PropertyInt) == false);
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => new List<int>() { 1, 2 }.Contains(e.PropertyInt) == false);
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -1071,7 +1070,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionListContainsAtMappedProperty()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new List<string>() { "A", "B" }).Contains(e.MappedPropertyString));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => new List<string>() { "A", "B" }.Contains(e.MappedPropertyString));
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -1100,7 +1099,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionListContainsAtQuotedProperty()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new List<string>() { "A", "B" }).Contains(e.QuotedPropertyString));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => new List<string>() { "A", "B" }.Contains(e.QuotedPropertyString));
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -1129,7 +1128,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionListContainsAtUnorganizedProperty()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (new List<string>() { "A", "B" }).Contains(e.UnorganizedPropertyString));
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => new List<string>() { "A", "B" }.Contains(e.UnorganizedPropertyString));
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
@@ -1254,7 +1253,7 @@ public partial class QueryGroupTest
 
         Assert.AreEqual(true, ExprValue(() => !False));
         Assert.AreEqual(true, ExprValue(() => True || False));
-        Assert.AreEqual(true, ExprValue(() => True || (False || True)));
+        Assert.AreEqual(true, ExprValue(() => True || False || True));
         Assert.AreEqual(true, ExprValue(() => True == !False));
         Assert.AreEqual(true, ExprValue(() => True != False));
         Assert.AreEqual(true, ExprValue(() => True && !False));
@@ -1264,7 +1263,7 @@ public partial class QueryGroupTest
         Assert.AreEqual(true, ExprValue(() => BoolNull == null));
         Assert.AreEqual(true, ExprValue(() => BoolNull.HasValue == false));
         Assert.AreEqual(true, ExprValue(() => TrueNull.Value != false));
-        Assert.AreEqual(true, ExprValue(() => (((bool?)True ?? BoolNull)!) == true));
+        Assert.AreEqual(true, ExprValue(() => ((bool?)True ?? BoolNull)! == true));
 
         Assert.AreEqual(true, ExprValue(() => new { a = 12 }.a == 12));
         Assert.AreEqual(true, ExprValue(() => TrueNull.HasValue));
@@ -1331,16 +1330,16 @@ public partial class QueryGroupTest
 
         // Not is in many cases handled as <>
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !e.PropertyBoolean && e.PropertyBoolean);
-        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1)", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !e.PropertyBoolean && e.PropertyBoolean || e.PropertyBoolean);
-        Assert.AreEqual("((([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1)) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (!e.PropertyBoolean && e.PropertyBoolean) || e.PropertyBoolean);
-        Assert.AreEqual("((([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1)) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (!e.PropertyBoolean && e.PropertyBoolean) || !e.PropertyBoolean);
-        Assert.AreEqual("((([PropertyBoolean] <> @PropertyBoolean) AND ([PropertyBoolean] = @PropertyBoolean_1)) OR ([PropertyBoolean] <> @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1) OR ([PropertyBoolean] <> @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(e.PropertyInt == 12) || !e.PropertyBoolean);
         Assert.AreEqual("(NOT (([PropertyInt] = @PropertyInt)) OR ([PropertyBoolean] <> @PropertyBoolean))", parsed.GetString(m_dbSetting));
@@ -1353,16 +1352,16 @@ public partial class QueryGroupTest
     {
         // With the newer TryGet helpers we can also parse queries that are not strictly db-left, value-right
         var parsed = QueryGroup.Parse<ValueItem>(e => e.V == 5 || 6 == e.V);
-        Assert.AreEqual("(([V] = @V) OR ([V] = @V_1))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([V] = @V OR [V] = @V_1)", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<ValueItem>(e => e.V < 5 || 6 < e.V);
-        Assert.AreEqual("(([V] < @V) OR ([V] > @V_1))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([V] < @V OR [V] > @V_1)", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<ValueItem>(e => e.V > 22 && 44 > e.V);
-        Assert.AreEqual("(([V] > @V) AND ([V] < @V_1))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([V] > @V AND [V] < @V_1)", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<ValueItem>(e => !(e.V == 5 || 6 == e.V));
-        Assert.AreEqual("NOT ((([V] = @V) OR ([V] = @V_1)))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("NOT (([V] = @V OR [V] = @V_1))", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<ValueItem>(e => !(e.V >= 5) || !(6 <= e.V));
         Assert.AreEqual("(NOT (([V] >= @V)) OR NOT (([V] >= @V_1)))", parsed.GetString(m_dbSetting));

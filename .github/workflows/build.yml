@@ -43,6 +43,10 @@ jobs:
            env:
              ORACLE_PASSWORD: ddd53e85-b15e-4da8
              ORACLE_ALLOW_REMOTE: true
+             ORACLE_DISABLE_APEX: true
+             ORACLE_DISABLE_JSON: true
+             ORACLE_SGA_TARGET: 512
+             ORACLE_PGA_AGGREGATE_TARGET: 256
 
         postgresql:
           image: pgvector/pgvector:pg18

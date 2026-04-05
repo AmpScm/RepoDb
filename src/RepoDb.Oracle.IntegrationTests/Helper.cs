@@ -1,0 +1,618 @@
+﻿using System.Dynamic;
+using System.Text.Json.Nodes;
+using RepoDb.Extensions;
+using RepoDb.Oracle.IntegrationTests.Models;
+using RepoDb.TestCore;
+
+namespace RepoDb.Oracle.IntegrationTests;
+
+public static class Helper
+{
+    #region Properties
+
+    /// <summary>
+    /// Gets the value of the Epoc date.
+    /// </summary>
+    public static DateTime EpocDate { get; } = new DateTime(1970, 1, 1, 0, 0, 0);
+
+    /// <summary>
+    /// Gets the current <see cref="Random"/> object in used.
+    /// </summary>
+    public static Random Randomizer { get; } = new(1);
+
+    #endregion
+
+    #region Methods
+
+    private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fffff";
+
+    private static DateTime ToKind(DateTime value, DateTimeKind kind) =>
+        DateTime.SpecifyKind(value, kind);
+
+    private static DateTime ToUtcKind(DateTime value) =>
+        ToKind(value, DateTimeKind.Utc);
+
+    private static DateTime GetCurrentUniversalTime() =>
+        //DateTime.UtcNow()
+        ToUtcKind(DateTime.Parse(DateTime.UtcNow.ToString(DateTimeFormat)));
+
+    private static DateTimeOffset ToDateTimeOffset(DateTime value) =>
+        new(value);
+
+    /// <summary>
+    /// Asserts the properties equality of 2 types.
+    /// </summary>
+    /// <typeparam name="T1">The type of first object.</typeparam>
+    /// <typeparam name="T2">The type of second object.</typeparam>
+    /// <param name="t1">The instance of first object.</param>
+    /// <param name="t2">The instance of second object.</param>
+    public static void AssertPropertiesEquality<T1, T2>(T1 t1, T2 t2)
+    {
+        System.Reflection.PropertyInfo[] propertiesOfType1 = typeof(T1).GetProperties();
+        System.Reflection.PropertyInfo[] propertiesOfType2 = typeof(T2).GetProperties();
+        propertiesOfType1.AsList().ForEach(propertyOfType1 =>
+        {
+            if (propertyOfType1.Name == "Id")
+            {
+                return;
+            }
+            System.Reflection.PropertyInfo propertyOfType2 = propertiesOfType2.FirstOrDefault(p => p.Name == propertyOfType1.Name);
+            if (propertyOfType2 is null)
+            {
+                return;
+            }
+            object value1 = propertyOfType1.GetValue(t1);
+            object value2 = propertyOfType2.GetValue(t2);
+            if (value1 is Array array1 && value2 is Array array2)
+            {
+                for (int i = 0; i < Math.Min(array1.Length, array2.Length); i++)
+                {
+                    object v1 = array1.GetValue(i);
+                    object v2 = array2.GetValue(i);
+                    Assert.AreEqual(v1, v2,
+                        $"Assert failed for '{propertyOfType1.Name}'. The values are '{value1} ({propertyOfType1.PropertyType.FullName})' and '{value2} ({propertyOfType2.PropertyType.FullName})'.");
+                }
+            }
+            else if (value1 is DateTime || value2 is DateTime)
+            {
+                DateTime dtValue1 = value1 is DateTime dt1 ? dt1 : ((DateTimeOffset)value1).DateTime;
+                DateTime dtValue2 = value2 is DateTime dt2 ? dt2 : ((DateTimeOffset)value2).DateTime;
+                if (dtValue1.Kind != dtValue2.Kind && ToUtcKind(dtValue1) != ToUtcKind(dtValue2))
+                {
+                    dtValue1 = dtValue1.ToUniversalTime();
+                    dtValue2 = dtValue2.ToUniversalTime();
+                }
+                Assert.AreEqual(dtValue1, dtValue2,
+                    $"Assert failed for '{propertyOfType1.Name}'.");
+            }
+            else if (value1 is JsonNode jn1 && value2 is JsonNode jn2)
+            {
+                Assert.AreEqual(jn1.ToJsonString(), jn2.ToJsonString(),
+                    $"Assert failed for '{propertyOfType1.Name}'.");
+            }
+            else
+            {
+                Assert.AreEqual(value1, value2,
+                    $"Assert failed for '{propertyOfType1.Name}'.");
+            }
+        });
+    }
+
+    /// <summary>
+    /// Asserts the members equality of 2 object and <see cref="ExpandoObject"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of first object.</typeparam>
+    /// <param name="obj">The instance of first object.</param>
+    /// <param name="expandoObj">The instance of second object.</param>
+    public static void AssertMembersEquality(object obj, object expandoObj)
+    {
+        IDictionary<string, object?> dictionary = new ExpandoObject() as IDictionary<string, object?>;
+        foreach (System.Reflection.PropertyInfo property in expandoObj.GetType().GetProperties())
+        {
+            dictionary.Add(property.Name, property.GetValue(expandoObj));
+        }
+        AssertMembersEquality(obj, dictionary);
+    }
+
+    /// <summary>
+    /// Asserts the members equality of 2 object and <see cref="ExpandoObject"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of first object.</typeparam>
+    /// <param name="obj">The instance of first object.</param>
+    /// <param name="expandoObj">The instance of second object.</param>
+    public static void AssertMembersEquality(object obj, ExpandoObject expandoObj)
+    {
+        IDictionary<string, object?> dictionary = expandoObj as IDictionary<string, object?>;
+        AssertMembersEquality(obj, dictionary);
+    }
+
+    /// <summary>
+    /// Asserts the members equality of 2 objects.
+    /// </summary>
+    /// <typeparam name="T">The type of first object.</typeparam>
+    /// <param name="obj">The instance of first object.</param>
+    /// <param name="dictionary">The instance of second object.</param>
+    public static void AssertMembersEquality(object obj, IDictionary<string, object?> dictionary)
+    {
+        System.Reflection.PropertyInfo[] properties = obj.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            if (property.Name == "Id")
+            {
+                return;
+            }
+            if (dictionary.TryGetValue(property.Name, out var value2))
+            {
+                object value1 = property.GetValue(obj);
+                if (value1 is Array array1 && value2 is Array array2)
+                {
+                    for (int i = 0; i < Math.Min(array1.Length, array2.Length); i++)
+                    {
+                        object v1 = array1.GetValue(i);
+                        object v2 = array2.GetValue(i);
+                        Assert.AreEqual(v1, v2,
+                            $"Assert failed for '{property.Name}'. The values are '{v1}' and '{v2}'.");
+                    }
+                }
+                else if (value1 is DateTime || value2 is DateTime)
+                {
+                    DateTime dtValue1 = value1 is DateTime dt1 ? dt1 : ((DateTimeOffset)value1).DateTime;
+                    DateTime dtValue2 = value2 is DateTime dt2 ? dt2 : ((DateTimeOffset)value2).DateTime;
+                    if (dtValue1.Kind != dtValue2.Kind && ToUtcKind(dtValue1) != ToUtcKind(dtValue2))
+                    {
+                        dtValue1 = dtValue1.ToUniversalTime();
+                        dtValue2 = dtValue2.ToUniversalTime();
+                    }
+                    Assert.AreEqual(dtValue1, dtValue2,
+                        $"Assert failed for '{property.Name}'. The values are '{value1}' and '{value2}'.");
+                }
+                else
+                {
+                    Type propertyType = property.PropertyType.GetUnderlyingType();
+                    try
+                    {
+                        Assert.AreEqual(Convert.ChangeType(value1, propertyType), Convert.ChangeType(value2, propertyType),
+                            $"Assert failed for '{property.Name}'. The values are '{value1}' and '{value2}'.");
+                    }
+                    catch (InvalidCastException ice)
+                    {
+                        throw new InvalidCastException($"While processing '{property.Name}'. The values are '{value1}' and '{value2}'.", ice);
+                    }
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region CompleteTable
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static List<CompleteTable> CreateCompleteTables(int count)
+    {
+        List<CompleteTable> tables = new List<CompleteTable>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
+        {
+            tables.Add(new CompleteTable
+            {
+                Id = i + 1,
+                ColumnBigInt = Convert.ToInt64(i),
+                ColumnBit = true,
+                ColumnChar = "C",
+                ColumnDate = now.Date,
+                //ColumnJson = "{\"field1\": 1, \"field2\": 2}",
+                ColumnMoney = Convert.ToDecimal(i),
+                ColumnReal = Convert.ToSingle(i),
+                ColumnSmallInt = Convert.ToInt16(i),
+                ColumnText = $"ColumnText{i}",
+                ColumnDateTimeOffset = ToDateTimeOffset(now),
+                ColumnDateTime = now,
+                ColumnDateTime2 = now,
+                ColumnBinary = new byte[] { 1, 2, 3, 4 },
+                ColumnInt = i + 27,
+                ColumnDecimal = i + 33.05m,
+                ColumnFloat = Math.Round(100.0 / (float)i, 5),
+                ColumnNText = "qqq",
+                ColumnNChar = "N",
+                ColumnTinyInt = Convert.ToByte(i % 256),
+                //ColumnUniqueIdentifier = Guid.NewGuid(),
+                ColumnVarChar = $"Item {i}",
+                ColumnNumeric = i + 1000
+
+            });
+        }
+        return tables;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="table"></param>
+    public static void UpdateCompleteTableProperties(CompleteTable table)
+    {
+        DateTime now = GetCurrentUniversalTime();
+        table.ColumnBigInt = Convert.ToInt64(2);
+        //table.ColumnBit = true;
+        table.ColumnChar = "C";
+        table.ColumnDate = now.Date;
+        //table.ColumnJson = "{\"field1\": 1, \"field2\": 2}";
+        table.ColumnMoney = Convert.ToDecimal(2);
+        table.ColumnReal = Convert.ToSingle(2);
+        table.ColumnSmallInt = Convert.ToInt16(2);
+        table.ColumnText = $"{table.ColumnText} (Updated)";
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static List<dynamic> CreateCompleteTablesAsDynamics(int count)
+    {
+        List<dynamic> tables = new List<dynamic>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
+        {
+            tables.Add(new
+            {
+                Id = (long)(i + 1),
+                ColumnBigInt = Convert.ToInt64(i),
+                ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 },
+                ColumnBigSerial = Convert.ToInt64(i),
+                //ColumnBit = true,
+                ColumnBoolean = true,
+                ColumnChar = 'C',
+                ColumnCharacter = "C",
+                ColumnCharacterVarying = "ColumnCharacterVarying",
+                ColumnDate = now.Date,
+                ColumnDateAsArray = new[] { now.Date, now.Date, now.Date },
+                ColumnInt = Convert.ToInt32(i),
+                ColumnIntegerAsArray = new[] { 1, 2, 3, 4, 5 },
+                ColumnInterval = now.TimeOfDay,
+                ColumnIntervalAsArray = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay },
+                //ColumnJson = "{\"field1\": 1, \"field2\": 2}",
+                ColumnMoney = Convert.ToDecimal(i),
+                ColumnName = $"ColumnName{i}",
+                ColumnReal = Convert.ToSingle(i),
+                ColumnSmallInt = Convert.ToInt16(i),
+                ColumnText = $"ColumnText{i}",
+                ColumnTimestampWithTimeZone = ToDateTimeOffset(now),
+                ColumnTimestampWithoutTimeZone = now
+            }.AsExpandoObject());
+        }
+        return tables;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="table"></param>
+    public static void UpdateCompleteTableAsDynamicProperties(dynamic table)
+    {
+        DateTime now = GetCurrentUniversalTime();
+        table.ColumnBigInt = Convert.ToInt64(2);
+        table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
+        table.ColumnBigSerial = Convert.ToInt64(2);
+        //table.ColumnBit = true;
+        table.ColumnBoolean = Randomizer.Next() % 2 != 0;
+        table.ColumnChar = 'C';
+        table.ColumnCharacter = "C";
+        table.ColumnCharacterVarying = "ColumnCharacterVarying";
+        table.ColumnDate = now.Date;
+        table.ColumnDateAsArray = new[] { now.Date, now.Date, now.Date };
+        table.ColumnInt = Convert.ToInt32(2);
+        table.ColumnIntAsArray = new[] { 1, 2, 3, 4, 5 };
+        table.ColumnInterval = now.TimeOfDay;
+        table.ColumnIntervalAsArray = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay };
+        //table.ColumnJson = "{\"field1\": 1, \"field2\": 2}";
+        table.ColumnMoney = Convert.ToDecimal(2);
+        table.ColumnName = $"{table.ColumnName} (Updated)";
+        table.ColumnReal = Convert.ToSingle(2);
+        table.ColumnSmallInt = Convert.ToInt16(2);
+        table.ColumnText = $"{table.ColumnText} (Updated)";
+        table.ColumnTimestampWithTimeZone = ToDateTimeOffset(now);
+        table.ColumnTimestampWithoutTimeZone = now;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static List<ExpandoObject> CreateCompleteTablesAsExpandoObjects(int count)
+    {
+        List<ExpandoObject> tables = new List<ExpandoObject>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
+        {
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
+            item["Id"] = (long)(i + 1);
+            item["ColumnBigInt"] = Convert.ToInt64(i);
+            item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
+            item["ColumnBigSerial"] = Convert.ToInt64(i);
+            //item["ColumnBit"] = true;
+            item["ColumnBoolean"] = true;
+            item["ColumnChar"] = 'C';
+            item["ColumnCharacter"] = "C";
+            item["ColumnCharacterVarying"] = "ColumnCharacterVarying";
+            item["ColumnDate"] = now.Date;
+            item["ColumnDateAsArray"] = new[] { now.Date, now.Date, now.Date };
+            item["ColumnInt"] = Convert.ToInt32(i);
+            item["ColumnIntegerAsArray"] = new[] { 1, 2, 3, 4, 5 };
+            item["ColumnInterval"] = now.TimeOfDay;
+            item["ColumnIntervalAsArray"] = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay };
+            //item["ColumnJson"] = "{\"field1\": 1, \"field2\": 2}";
+            item["ColumnMoney"] = Convert.ToDecimal(i);
+            item["ColumnName"] = $"ColumnName{i}";
+            item["ColumnReal"] = Convert.ToSingle(i);
+            item["ColumnSmallInt"] = Convert.ToInt16(i);
+            item["ColumnText"] = $"ColumnText{i}";
+            item["ColumnTimestampWithTimeZone"] = ToDateTimeOffset(now);
+            item["ColumnTimestampWithoutTimeZone"] = now;
+            tables.Add(expando);
+        }
+        return tables;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="table"></param>
+    public static void UpdateCompleteTableAsExpandoObjectProperties(CompleteTable table)
+    {
+        DateTime now = GetCurrentUniversalTime();
+        IDictionary<string, object?> item = table as IDictionary<string, object?>;
+        item["ColumnBigInt"] = Convert.ToInt64(2);
+        item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
+        item["ColumnBigSerial"] = Convert.ToInt64(2);
+        //item["ColumnBit"] = true;
+        item["ColumnBoolean"] = true;
+        item["ColumnChar"] = 'C';
+        item["ColumnCharacter"] = "C";
+        item["ColumnCharacterVarying"] = "ColumnCharacterVarying";
+        item["ColumnDate"] = now.Date;
+        item["ColumnDateAsArray"] = new[] { now.Date, now.Date, now.Date };
+        item["ColumnInt"] = Convert.ToInt32(2);
+        item["ColumnIntegerAsArray"] = new[] { 1, 2, 3, 4, 5 };
+        item["ColumnInterval"] = now.TimeOfDay;
+        item["ColumnIntervalAsArray"] = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay };
+        //item["ColumnJson"] = "{\"field1\": 1, \"field2\": 2}";
+        item["ColumnMoney"] = Convert.ToDecimal(2);
+        item["ColumnName"] = $"ColumnName-{Guid.NewGuid()}-Updated";
+        item["ColumnReal"] = Convert.ToSingle(2);
+        item["ColumnSmallInt"] = Convert.ToInt16(2);
+        item["ColumnText"] = $"ColumnText-{Guid.NewGuid()}-Updated";
+        item["ColumnTimestampWithTimeZone"] = ToDateTimeOffset(now);
+        item["ColumnTimestampWithoutTimeZone"] = now;
+    }
+
+    #endregion
+
+    #region NonIdentityCompleteTable
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static List<NonIdentityCompleteTable> CreateNonIdentityCompleteTables(int count)
+    {
+        List<NonIdentityCompleteTable> tables = new List<NonIdentityCompleteTable>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
+        {
+            tables.Add(new NonIdentityCompleteTable
+            {
+                Id = i + 1,
+                ColumnBigInt = Convert.ToInt64(i),
+                ColumnBit = true,
+                ColumnChar = "C",
+                ColumnDate = now.Date,
+                //ColumnJson = "{\"field1\": 1, \"field2\": 2}",
+                ColumnMoney = Convert.ToDecimal(i),
+                ColumnReal = Convert.ToSingle(i),
+                ColumnSmallInt = Convert.ToInt16(i),
+                ColumnText = $"ColumnText{i}",
+                ColumnDateTimeOffset = ToDateTimeOffset(now),
+                ColumnDateTime = now,
+                ColumnDateTime2 = now,
+                ColumnBinary = new byte[] { 1, 2, 3, 4 },
+                ColumnInt = i + 27,
+                ColumnDecimal = i + 33.05m,
+                ColumnFloat = Math.Round(100.0 / (float)i, 5),
+                ColumnNText = "qqq",
+                ColumnNChar = "N",
+                ColumnTinyInt = Convert.ToByte(i % 256),
+                //ColumnUniqueIdentifier = Guid.NewGuid(),
+                ColumnVarChar = $"Item {i}",
+                ColumnNumeric = i + 1000
+            });
+        }
+        return tables;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="table"></param>
+    public static void UpdateNonIdentityCompleteTableProperties(NonIdentityCompleteTable table)
+    {
+        DateTime now = GetCurrentUniversalTime();
+
+        table.ColumnBigInt++;
+        //table.ColumnBit = true,
+        table.ColumnChar = "D";
+        table.ColumnDate = now.Date;
+        //table.//ColumnJson = "{\"field1\": 1, \"field2\": 2}",
+        table.ColumnMoney += 3m;
+        table.ColumnReal += 2f;
+        table.ColumnSmallInt *= 3;
+        table.ColumnText = "New text";
+        table.ColumnDateTimeOffset = ToDateTimeOffset(now);
+        table.ColumnDateTime = now;
+        table.ColumnDateTime2 = now;
+        table.ColumnBinary = new byte[] { 6, 7, 8, 9 };
+        table.ColumnInt += 9;
+        table.ColumnDecimal += 3.3m;
+        table.ColumnFloat = Math.Round(table.ColumnFloat.Value * 1.05, 5);
+        table.ColumnNText = "rrr";
+        table.ColumnNChar = "D";
+        table.ColumnTinyInt++;
+        //table.//ColumnUniqueIdentifier = Guid.NewGuid(),
+        table.ColumnVarChar = $"New Item {table.Id}";
+        table.ColumnNumeric += 4;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static List<dynamic> CreateNonIdentityCompleteTablesAsDynamics(int count)
+    {
+        List<dynamic> tables = new List<dynamic>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
+        {
+            tables.Add(new
+            {
+                Id = (long)(i + 1),
+                ColumnBigInt = Convert.ToInt64(i),
+                ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 },
+                ColumnBigSerial = Convert.ToInt64(i),
+                //ColumnBit = true,
+                ColumnBoolean = true,
+                ColumnChar = "C",
+                ColumnCharacter = "C",
+                ColumnCharacterVarying = "ColumnCharacterVarying",
+                ColumnDate = now.Date,
+                ColumnDateAsArray = new[] { now.Date, now.Date, now.Date },
+                ColumnInt = Convert.ToInt32(i),
+                ColumnIntegerAsArray = new[] { 1, 2, 3, 4, 5 },
+                ColumnInterval = now.TimeOfDay,
+                ColumnIntervalAsArray = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay },
+                //ColumnJson = "{\"field1\": 1, \"field2\": 2}",
+                ColumnMoney = Convert.ToDecimal(i),
+                ColumnName = $"ColumnName{i}",
+                ColumnReal = Convert.ToSingle(i),
+                ColumnSmallInt = Convert.ToInt16(i),
+                ColumnText = $"ColumnText{i}",
+                ColumnTimestampWithTimeZone = ToDateTimeOffset(now),
+                ColumnTimestampWithoutTimeZone = now
+            });
+        }
+        return tables;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="table"></param>
+    public static void UpdateNonIdentityCompleteTableAsDynamicProperties(dynamic table)
+    {
+        DateTime now = GetCurrentUniversalTime();
+        table.ColumnBigInt = Convert.ToInt64(2);
+        table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
+        table.ColumnBigSerial = Convert.ToInt64(2);
+        //table.ColumnBit = true;
+        table.ColumnBoolean = Randomizer.Next() % 2 != 0;
+        table.ColumnChar = 'C';
+        table.ColumnCharacter = "C";
+        table.ColumnCharacterVarying = "ColumnCharacterVarying";
+        table.ColumnDate = now.Date;
+        table.ColumnDateAsArray = new[] { now.Date, now.Date, now.Date };
+        table.ColumnInt = Convert.ToInt32(2);
+        table.ColumnIntAsArray = new[] { 1, 2, 3, 4, 5 };
+        table.ColumnInterval = now.TimeOfDay;
+        table.ColumnIntervalAsArray = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay };
+        //table.ColumnJson = "{\"field1\": 1, \"field2\": 2}";
+        table.ColumnMoney = Convert.ToDecimal(2);
+        table.ColumnName = $"{table.ColumnName} (Updated)";
+        table.ColumnReal = Convert.ToSingle(2);
+        table.ColumnSmallInt = Convert.ToInt16(2);
+        table.ColumnText = $"{table.ColumnText} (Updated)";
+        table.ColumnTimestampWithTimeZone = ToDateTimeOffset(now);
+        table.ColumnTimestampWithoutTimeZone = now;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static List<ExpandoObject> CreateNonIdentityCompleteTablesAsExpandoObjects(int count)
+    {
+        List<ExpandoObject> tables = new List<ExpandoObject>();
+        DateTime now = GetCurrentUniversalTime();
+        for (int i = 0; i < count; i++)
+        {
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
+            item["Id"] = i + 1;
+            item["ColumnBigInt"] = Convert.ToInt64(i);
+            item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
+            item["ColumnBigSerial"] = Convert.ToInt64(i);
+            //item["ColumnBit"] = true;
+            item["ColumnBoolean"] = true;
+            item["ColumnChar"] = 'C';
+            item["ColumnCharacter"] = "C";
+            item["ColumnCharacterVarying"] = "ColumnCharacterVarying";
+            item["ColumnDate"] = now.Date;
+            item["ColumnDateAsArray"] = new[] { now.Date, now.Date, now.Date };
+            item["ColumnInt"] = Convert.ToInt32(i);
+            item["ColumnIntegerAsArray"] = new[] { 1, 2, 3, 4, 5 };
+            item["ColumnInterval"] = now.TimeOfDay;
+            item["ColumnIntervalAsArray"] = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay };
+            //item["ColumnJson"] = "{\"field1\": 1, \"field2\": 2}";
+            item["ColumnMoney"] = Convert.ToDecimal(i);
+            item["ColumnName"] = $"ColumnName{i}";
+            item["ColumnReal"] = Convert.ToSingle(i);
+            item["ColumnSmallInt"] = Convert.ToInt16(i);
+            item["ColumnText"] = $"ColumnText{i}";
+            item["ColumnTimestampWithTimeZone"] = ToDateTimeOffset(now);
+            item["ColumnTimestampWithoutTimeZone"] = now;
+            tables.Add(expando);
+        }
+        return tables;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="table"></param>
+    public static void UpdateNonIdentityCompleteTableAsExpandoObjectProperties(CompleteTable table)
+    {
+        DateTime now = GetCurrentUniversalTime();
+        IDictionary<string, object?> item = table as IDictionary<string, object?>;
+        item["ColumnBigInt"] = Convert.ToInt64(2);
+        item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
+        item["ColumnBigSerial"] = Convert.ToInt64(2);
+        //item["ColumnBit"] = true;
+        item["ColumnBoolean"] = true;
+        item["ColumnChar"] = 'C';
+        item["ColumnCharacter"] = "C";
+        item["ColumnCharacterVarying"] = "ColumnCharacterVarying";
+        item["ColumnDate"] = now.Date;
+        item["ColumnDateAsArray"] = new[] { now.Date, now.Date, now.Date };
+        item["ColumnInt"] = Convert.ToInt32(2);
+        item["ColumnIntegerAsArray"] = new[] { 1, 2, 3, 4, 5 };
+        item["ColumnInterval"] = now.TimeOfDay;
+        item["ColumnIntervalAsArray"] = new[] { now.TimeOfDay, now.TimeOfDay, now.TimeOfDay };
+        //item["ColumnJson"] = "{\"field1\": 1, \"field2\": 2}";
+        item["ColumnMoney"] = Convert.ToDecimal(2);
+        item["ColumnName"] = $"ColumnName-{Guid.NewGuid()}-Updated";
+        item["ColumnReal"] = Convert.ToSingle(2);
+        item["ColumnSmallInt"] = Convert.ToInt16(2);
+        item["ColumnText"] = $"ColumnText-{Guid.NewGuid()}-Updated";
+        item["ColumnTimestampWithTimeZone"] = ToDateTimeOffset(now);
+        item["ColumnTimestampWithoutTimeZone"] = now;
+    }
+
+    #endregion
+}

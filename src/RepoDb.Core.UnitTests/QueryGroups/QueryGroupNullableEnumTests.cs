@@ -7,7 +7,7 @@ namespace RepoDb.UnitTests;
 [TestClass]
 public class QueryGroupNullableEnumTests
 {
-    private readonly IDbSetting _dbSetting = new CustomDbSetting();
+    private static readonly IDbSetting _dbSetting = new CustomDbSetting();
 
     public enum Direction
     {
@@ -41,8 +41,8 @@ public class QueryGroupNullableEnumTests
             Assert.AreEqual(
                 setting switch
                 {
-                    ExpressionNullSemantics.SqlNull => "(([Direction] = @Direction) AND ([AdditionalDirection] IS NULL))",
-                    ExpressionNullSemantics.NullNotEqual => "(([Direction] = @Direction AND [Direction] IS NOT NULL) AND ([AdditionalDirection] IS NULL))",
+                    ExpressionNullSemantics.SqlNull => "([Direction] = @Direction AND [AdditionalDirection] IS NULL)",
+                    ExpressionNullSemantics.NullNotEqual => "([Direction] = @Direction AND [Direction] IS NOT NULL AND [AdditionalDirection] IS NULL)",
                     _ => null,
                 }, v.GetString(_dbSetting));
 
@@ -51,8 +51,8 @@ public class QueryGroupNullableEnumTests
             Assert.AreEqual(
                 setting switch
                 {
-                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND NOT ((([Direction] = @Direction) AND ([AdditionalDirection] IS NULL))))",
-                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND NOT ((([Direction] = @Direction AND [Direction] IS NOT NULL) AND ([AdditionalDirection] IS NULL))))",
+                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND NOT (([Direction] = @Direction AND [AdditionalDirection] IS NULL)))",
+                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND NOT (([Direction] = @Direction AND [Direction] IS NOT NULL AND [AdditionalDirection] IS NULL)))",
                     _ => null
                 }, v.GetString(_dbSetting));
 
@@ -61,8 +61,8 @@ public class QueryGroupNullableEnumTests
             Assert.AreEqual(
                 setting switch
                 {
-                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND (([Direction] <> @Direction) OR ([AdditionalDirection] IS NOT NULL)))",
-                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND (([Direction] <> @Direction OR [Direction] IS NULL) OR ([AdditionalDirection] IS NOT NULL)))",
+                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND ([Direction] <> @Direction OR [AdditionalDirection] IS NOT NULL))",
+                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND ([Direction] <> @Direction OR [Direction] IS NULL OR [AdditionalDirection] IS NOT NULL))",
                     _ => null
                 }, v.GetString(_dbSetting));
 
@@ -72,8 +72,8 @@ public class QueryGroupNullableEnumTests
             Assert.AreEqual(
                 setting switch
                 {
-                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND NOT ((([Direction] = @Direction) AND ([AdditionalDirection] = @AdditionalDirection))))",
-                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND NOT ((([Direction] = @Direction AND [Direction] IS NOT NULL) AND ([AdditionalDirection] = @AdditionalDirection AND [AdditionalDirection] IS NOT NULL))))",
+                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND NOT (([Direction] = @Direction AND [AdditionalDirection] = @AdditionalDirection)))",
+                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND NOT (([Direction] = @Direction AND [Direction] IS NOT NULL AND [AdditionalDirection] = @AdditionalDirection AND [AdditionalDirection] IS NOT NULL)))",
                     _ => null
                 }, v.GetString(_dbSetting));
 
@@ -82,8 +82,8 @@ public class QueryGroupNullableEnumTests
             Assert.AreEqual(
                 setting switch
                 {
-                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND (([Direction] <> @Direction) OR ([AdditionalDirection] <> @AdditionalDirection)))",
-                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND (([Direction] <> @Direction OR [Direction] IS NULL) OR ([AdditionalDirection] <> @AdditionalDirection OR [AdditionalDirection] IS NULL)))",
+                    ExpressionNullSemantics.SqlNull => "(([N] = @N) AND ([Direction] <> @Direction OR [AdditionalDirection] <> @AdditionalDirection))",
+                    ExpressionNullSemantics.NullNotEqual => "(([N] = @N AND [N] IS NOT NULL) AND ([Direction] <> @Direction OR [Direction] IS NULL OR [AdditionalDirection] <> @AdditionalDirection OR [AdditionalDirection] IS NULL))",
                     _ => null
                 }, v.GetString(_dbSetting));
         }

@@ -1,4 +1,3 @@
-using System.Collections;
 using RepoDb.Extensions;
 
 namespace RepoDb.Core.UnitTests;

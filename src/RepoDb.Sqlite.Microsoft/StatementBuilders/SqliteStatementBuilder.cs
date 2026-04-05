@@ -5,22 +5,22 @@ using RepoDb.Interfaces;
 namespace RepoDb.StatementBuilders;
 
 /// <summary>
-/// A class that is being used to build a SQL Statement for SqLite.
+/// A class that is being used to build a SQL Statement for Sqlite.
 /// </summary>
 #if !SQLITESYSTEM
-public sealed class SqLiteStatementBuilder : BaseStatementBuilder
+public sealed class SqliteStatementBuilder : BaseStatementBuilder
 #else
 public sealed class SQLiteStatementBuilder : BaseStatementBuilder
 #endif
 {
 #if !SQLITESYSTEM
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteStatementBuilder"/> class.
+    /// Creates a new instance of <see cref="SqliteStatementBuilder"/> class.
     /// </summary>
     /// <param name="dbSetting">The database settings object currently in used.</param>
     /// <param name="convertFieldResolver">The resolver used when converting a field in the database layer.</param>
     /// <param name="averageableClientTypeResolver">The resolver used to identity the type for average.</param>
-    public SqLiteStatementBuilder(IDbSetting dbSetting,
+    public SqliteStatementBuilder(IDbSetting dbSetting,
         IResolver<Field, IDbSetting, string?>? convertFieldResolver = null,
         IResolver<Type, Type?>? averageableClientTypeResolver = null)
         : base(dbSetting,
@@ -485,8 +485,6 @@ public sealed class SQLiteStatementBuilder : BaseStatementBuilder
             .Delete()
             .From()
             .TableNameFrom(tableName, DbSetting)
-            .End(DbSetting)
-            .WriteText("VACUUM")
             .End(DbSetting);
 
         // Return the query

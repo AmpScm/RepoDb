@@ -6,20 +6,20 @@ namespace RepoDb.Resolvers;
 /// <summary>
 /// A class that is being used to resolve the <see cref="Field"/> name conversion for SqLite.
 /// </summary>
-public class SqLiteConvertFieldResolver : DbConvertFieldResolver
+public class SQLiteConvertFieldResolver : DbConvertFieldResolver
 {
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteConvertFieldResolver"/> class.
+    /// Creates a new instance of <see cref="SQLiteConvertFieldResolver"/> class.
     /// </summary>
-    public SqLiteConvertFieldResolver()
+    public SQLiteConvertFieldResolver()
         : this(ClientTypeToDbTypeResolver.Instance,
-             new DbTypeToSqLiteStringNameResolver())
+             new DbTypeToSQLiteStringNameResolver())
     { }
 
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteConvertFieldResolver"/> class.
+    /// Creates a new instance of <see cref="SQLiteConvertFieldResolver"/> class.
     /// </summary>
-    public SqLiteConvertFieldResolver(IResolver<Type, DbType?> dbTypeResolver,
+    public SQLiteConvertFieldResolver(IResolver<Type, DbType?> dbTypeResolver,
         IResolver<DbType, string?> stringNameResolver)
         : base(dbTypeResolver,
               stringNameResolver)

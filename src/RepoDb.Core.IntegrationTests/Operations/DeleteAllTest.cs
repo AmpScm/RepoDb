@@ -15,12 +15,12 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
-        var result = connection.DeleteAll<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = connection.DeleteAll(ClassMappedNameCache.Get<IdentityTable>(),
             tables);
 
         // Assert
@@ -34,7 +34,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonMappedIdentityTable(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
 
@@ -52,7 +52,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -72,7 +72,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -92,7 +92,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -110,7 +110,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -128,12 +128,12 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
-        var result = connection.DeleteAll<IdentityTable>(tables);
+        var result = connection.DeleteAll(tables);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -146,7 +146,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -169,12 +169,12 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAllAsync<IdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
+        var result = await connection.DeleteAllAsync(ClassMappedNameCache.Get<IdentityTable>(),
             tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
@@ -188,7 +188,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -208,7 +208,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -228,7 +228,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -246,7 +246,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -264,12 +264,12 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
-        var result = await connection.DeleteAllAsync<IdentityTable>(tables, cancellationToken: TestContext.CancellationToken);
+        var result = await connection.DeleteAllAsync(tables, cancellationToken: TestContext.CancellationToken);
 
         // Assert
         Assert.AreEqual(10, result);
@@ -283,7 +283,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonMappedIdentityTable(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(ClassMappedNameCache.Get<IdentityTable>(), tables);
 
@@ -302,7 +302,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -325,7 +325,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -343,7 +343,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -362,7 +362,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -381,7 +381,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -405,7 +405,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -423,7 +423,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -442,7 +442,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -461,7 +461,7 @@ public class DeleteAllTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Enumerations;
+﻿using RepoDb.Enumerations;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -18,7 +17,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count<CompleteTable>((object?)null);
 
@@ -33,7 +32,7 @@ public class CountTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count<CompleteTable>(e => ids.Contains(e.Id));
 
@@ -47,7 +46,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count<CompleteTable>(new { tables.First().Id });
 
@@ -61,7 +60,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count<CompleteTable>(new QueryField("Id", tables.First().Id));
 
@@ -80,7 +79,7 @@ public class CountTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count<CompleteTable>(queryFields);
 
@@ -100,7 +99,7 @@ public class CountTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count<CompleteTable>(queryGroup);
 
@@ -114,7 +113,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.Count<CompleteTable>((object?)null,
             hints: "WhatEver"));
@@ -130,7 +129,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync<CompleteTable>((object?)null, cancellationToken: TestContext.CancellationToken);
 
@@ -145,7 +144,7 @@ public class CountTest : TestBase
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync<CompleteTable>(e => ids.Contains(e.Id), cancellationToken: TestContext.CancellationToken);
 
@@ -159,7 +158,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync<CompleteTable>(new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
 
@@ -173,7 +172,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync<CompleteTable>(new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
 
@@ -192,7 +191,7 @@ public class CountTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync<CompleteTable>(queryFields, cancellationToken: TestContext.CancellationToken);
 
@@ -212,7 +211,7 @@ public class CountTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync<CompleteTable>(queryGroup, cancellationToken: TestContext.CancellationToken);
 
@@ -226,7 +225,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync<CompleteTable>((object?)null,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
@@ -246,7 +245,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null);
@@ -261,7 +260,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             new { tables.First().Id });
@@ -276,7 +275,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             new QueryField("Id", tables.First().Id));
@@ -296,7 +295,7 @@ public class CountTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             queryFields);
@@ -317,7 +316,7 @@ public class CountTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             queryGroup);
@@ -332,7 +331,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.Count(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,
@@ -349,7 +348,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null, cancellationToken: TestContext.CancellationToken);
@@ -364,7 +363,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new { tables.First().Id }, cancellationToken: TestContext.CancellationToken);
@@ -379,7 +378,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             new QueryField("Id", tables.First().Id), cancellationToken: TestContext.CancellationToken);
@@ -399,7 +398,7 @@ public class CountTest : TestBase
             new QueryField("Id", Operation.LessThan, tables.Last().Id)
         };
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             queryFields, cancellationToken: TestContext.CancellationToken);
@@ -420,7 +419,7 @@ public class CountTest : TestBase
         };
         QueryGroup queryGroup = new QueryGroup(queryFields);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long result = await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             queryGroup, cancellationToken: TestContext.CancellationToken);
@@ -435,7 +434,7 @@ public class CountTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.CountAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object?)null,

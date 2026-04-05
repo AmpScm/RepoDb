@@ -22,19 +22,19 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     private T? _value;
 
     /// <summary>
-    ///
+    /// Gets the JSON representation of the value.
     /// </summary>
     public JsonNode Json => _json ??= Converter.ToJsonObject(_value)!;
 
     /// <summary>
-    ///
+    /// Gets the value represented by the JSON.
     /// </summary>
-    public T Value => _value ?? (_value = Converter.FromJsonToObject<T>(_json));
+    public T Value => _value ??= Converter.FromJsonToObject<T>(_json);
 
     /// <summary>
-    ///
+    /// Creates a new instance of <see cref="DbJsonValue{T}"/> from a JSON node.
     /// </summary>
-    /// <param name="json"></param>
+    /// <param name="json">The JSON node to initialize the value from.</param>
     public DbJsonValue(JsonNode json)
     {
         ArgumentNullException.ThrowIfNull(json);
@@ -43,7 +43,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     }
 
     /// <summary>
-    ///
+    /// Creates a new instance of <see cref="DbJsonValue{T}"/> from a value of type <typeparamref name="T"/>.
     /// </summary>
     /// <param name="value"></param>
     public DbJsonValue(T value)
@@ -69,7 +69,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     }
 
     /// <inheritdoc/>
-    public override readonly int GetHashCode() => 1;
+    public override int GetHashCode() => Value.GetHashCode();
 
     /// <inheritdoc/>
     public string ToString(string? format, IFormatProvider? formatProvider)
@@ -91,6 +91,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     /// <inheritdoc/>
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out DbJsonValue<T> result)
     {
+        GC.KeepAlive(provider); // Required for IParsable<>
         if (string.IsNullOrWhiteSpace(s))
         {
             result = default;
@@ -163,7 +164,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     }
 
     /// <summary>
-    ///
+    /// Compares two <see cref="DbJsonValue{T}"/> instances for equality.
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
@@ -171,7 +172,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     public static bool operator ==(DbJsonValue<T> v1, DbJsonValue<T> v2) => v1.Equals(v2);
 
     /// <summary>
-    ///
+    /// Compares two <see cref="DbJsonValue{T}"/> instances for inequality.
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
@@ -179,7 +180,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     public static bool operator !=(DbJsonValue<T> v1, DbJsonValue<T> v2) => !v1.Equals(v2);
 
     /// <summary>
-    ///
+    /// Compares a <see cref="DbJsonValue{T}"/> instance with a <see cref="JsonNode"/> for equality.
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
@@ -187,7 +188,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     public static bool operator ==(DbJsonValue<T> v1, JsonNode v2) => v1.Equals(v2);
 
     /// <summary>
-    ///
+    /// Compares a <see cref="DbJsonValue{T}"/> instance with a <see cref="JsonNode"/> for inequality.
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
@@ -195,7 +196,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     public static bool operator !=(DbJsonValue<T> v1, JsonNode v2) => !v1.Equals(v2);
 
     /// <summary>
-    ///
+    /// Compares a <see cref="DbJsonValue{T}"/> instance with a value of type <typeparamref name="T"/> for equality.
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
@@ -203,7 +204,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     public static bool operator ==(JsonNode v1, DbJsonValue<T> v2) => v2.Equals(v1);
 
     /// <summary>
-    ///
+    /// Compares a <see cref="DbJsonValue{T}"/> instance with a value of type <typeparamref name="T"/> for inequality.
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
@@ -211,7 +212,7 @@ public struct DbJsonValue<T> : IFormattable, IDbJsonValue, IEquatable<T>, IEquat
     public static bool operator !=(JsonNode v1, DbJsonValue<T> v2) => !v2.Equals(v1);
 
     /// <summary>
-    ///
+    /// Compares a <see cref="DbJsonValue{T}"/> instance with a value of type <typeparamref name="T"/> for equality.
     /// </summary>
     /// <param name="value"></param>
     public static implicit operator DbJsonValue<T>(T value) => new DbJsonValue<T> { _value = value };

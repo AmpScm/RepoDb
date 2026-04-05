@@ -123,6 +123,13 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
                 .OpenParen()
                 .WriteText(string.Join(", ", insertColumns.Select(f => $"S.{f.FieldName.AsQuoted(DbSetting)}")))
                 .CloseParen();
+
+            if (keyFields.GetReturnColumn() is { } returnColumn)
+                builder
+                    .Returning()
+                    .FieldFrom(returnColumn, DbSetting)
+                    .Into()
+                    .WriteText(":RepoDb_Result");
         }
 
         return builder.ToString();
@@ -150,16 +157,13 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
                 keyFields,
                 hints));
 
-        var primaryField = keyFields.FirstOrDefault(f => f.IsPrimary);
-        var identityField = keyFields.FirstOrDefault(f => f.IsIdentity);
-
         // If an identityField is present, add output handling
-        if (identityField is { })
+        if (keyFields.GetReturnColumn() is { } returnColumn)
         {
             // Oracle requires RETURNING <column> INTO :outParam
             builder
                 .Returning()
-                .FieldFrom(identityField, DbSetting)
+                .FieldFrom(returnColumn, DbSetting)
                 .Into()
                 .WriteText(":RepoDb_Result");
         }
@@ -260,7 +264,7 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
         // Build the query
         builder
             .Select()
-            .WriteText($"1 AS {("ExistsValue").AsQuoted(DbSetting)}")
+            .WriteText($"1 AS {"ExistsValue".AsQuoted(DbSetting)}")
             .From()
             .TableNameFrom(tableName, DbSetting)
             .HintsFrom(hints)
@@ -283,9 +287,9 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
             $"/*ASCURSOR:{commandTexts.Count}*/BEGIN");
 
         int n = 0;
-        foreach(var s in commandTexts)
+        foreach (var s in commandTexts)
         {
-            sb.Append($" OPEN :c{n++} FOR ");
+            sb.Append($" OPEN :c_cur{n++} FOR ");
             sb.Append(s);
             sb.AppendLine(";");
         }

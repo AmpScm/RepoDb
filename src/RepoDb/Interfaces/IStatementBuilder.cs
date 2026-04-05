@@ -291,9 +291,5 @@ public interface IStatementBuilder
     /// </summary>
     /// <param name="commandTexts"></param>
     /// <returns></returns>
-    string CombineQueries(ICollection<string> commandTexts)
-#if NET
-        => string.Join(" ", commandTexts)
-#endif
-    ;
+    string CombineQueries(ICollection<string> commandTexts);
 }

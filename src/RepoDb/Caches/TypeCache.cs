@@ -21,6 +21,6 @@ public static class TypeCache
             return CachedType.Null;
         }
 
-        return cache.GetOrAdd(type, (t) => new CachedType(t));
+        return cache.GetOrAdd(type, static (t) => new CachedType(t));
     }
 }

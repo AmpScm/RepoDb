@@ -23,7 +23,7 @@ public static class SqliteBootstrap
     #region Methods
 
     /// <summary>
-    /// Initializes all necessary settings for SqLite.
+    /// Initializes all necessary settings for Sqlite.
     /// </summary>
     [Obsolete("This class will soon to be hidden as internal class. Use the 'GlobalConfiguration.Setup().UseSqlite()' method instead.")]
     public static void Initialize() => InitializeInternal();
@@ -37,15 +37,15 @@ public static class SqliteBootstrap
         }
 
         // Map the DbSetting
-        var mdsDbSetting = new SqLiteDbSetting(false);
+        var mdsDbSetting = new SqliteDbSetting(false);
         DbSettingMapper.Add<SqliteConnection>(mdsDbSetting, true);
 
         // Map the DbHelper
-        DbHelperMapper.Add<SqliteConnection>(new SqLiteDbHelper(mdsDbSetting, new SqLiteDbTypeNameToClientTypeResolver()), true);
+        DbHelperMapper.Add<SqliteConnection>(new SqliteDbHelper(mdsDbSetting, new SqliteDbTypeNameToClientTypeResolver()), true);
 
         // Map the Statement Builder
-        StatementBuilderMapper.Add<SqliteConnection>(new SqLiteStatementBuilder(mdsDbSetting,
-            new SqLiteConvertFieldResolver(),
+        StatementBuilderMapper.Add<SqliteConnection>(new SqliteStatementBuilder(mdsDbSetting,
+            new SqliteConvertFieldResolver(),
             new ClientTypeToAverageableClientTypeResolver()), true);
 
         // Set the flag

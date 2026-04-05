@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Data.SqlClient;
 using RepoDb.TestCore;
 
@@ -19,6 +20,7 @@ public class SqlServerDbInstance : DbInstance<SqlConnection>
         TypeMapper.Add(typeof(DateTimeOffset), System.Data.DbType.DateTimeOffset, true);
     }
 
+    [SetsRequiredMembers]
     public SqlServerDbInstance()
     {
         // System connection (sa on master)

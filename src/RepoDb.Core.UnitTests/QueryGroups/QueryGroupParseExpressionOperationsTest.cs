@@ -76,7 +76,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionForEqualEqualsFalse()
     {
         // Act
-        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1) == false).GetString(m_dbSetting);
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 == false).GetString(m_dbSetting);
         var expected = "NOT ([PropertyInt] = @PropertyInt)";
 
         // Assert
@@ -87,7 +87,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionForEqualEqualsTrue()
     {
         // Act
-        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1) == true).GetString(m_dbSetting);
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 == true).GetString(m_dbSetting);
         var expected = "([PropertyInt] = @PropertyInt)";
 
         // Assert
@@ -100,7 +100,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionForParameterEqual()
     {
         // Act
-        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == e.PropertyInt)).GetString(m_dbSetting);
+        var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == e.PropertyInt).GetString(m_dbSetting);
         var expected = "([PropertyInt] = [PropertyInt])";
 
         // Assert
@@ -108,7 +108,7 @@ public partial class QueryGroupTest
 
         QueryGroupTestExpressionClass gg = new();
 
-        actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == gg.PropertyInt)).GetString(m_dbSetting);
+        actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == gg.PropertyInt).GetString(m_dbSetting);
         expected = "([PropertyInt] = @PropertyInt)";
     }
 

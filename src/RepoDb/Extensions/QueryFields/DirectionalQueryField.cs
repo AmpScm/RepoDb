@@ -11,6 +11,9 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
 {
     private int? hashCode;
 
+    /// <inheritdoc />
+    protected internal override bool NoParametersNeeded => base.NoParametersNeeded && Direction is null or ParameterDirection.Input;
+
     #region Constructors
 
     #region NoValues

@@ -1,35 +1,6 @@
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateFormat = "DATE({0})" -> string!
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.DayFormat = "DAY({0})" -> string!
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.HourFormat = "HOUR({0})" -> string!
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.MillisecondFormat = "MILLISECOND({0})" -> string!
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.MinuteFormat = "MINUTE({0})" -> string!
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.MonthFormat = "MONTH({0})" -> string!
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.SecondFormat = "SECOND({0})" -> string!
-const RepoDb.Extensions.QueryFields.DateTimePartQueryField.YearFormat = "YEAR({0})" -> string!
-const RepoDb.Extensions.QueryFields.JsonExtractQueryField.JsonExtractFormat = "JSON_EXTRACT({0}, @@path@@)" -> string!
-const RepoDb.Extensions.QueryFields.LengthQueryField.LengthFormat = "LENGTH({0})" -> string!
 const RepoDb.TraceKeys.QueryReader = "QueryReader" -> string!
 override RepoDb.DataEntityDataReader<TEntity>.IsDBNullAsync(int ordinal, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 override RepoDb.DataEntityDataReader<TEntity>.ReadAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
-RepoDb.DataEntityDataReader<TEntity>.TableName.get -> string!
-RepoDb.DbJsonValue<T>.Equals(RepoDb.DbJsonValue<T!> other) -> bool
-RepoDb.DbJsonValue<T>.Equals(System.Text.Json.Nodes.JsonNode! other) -> bool
-RepoDb.DbJsonValue<T>.Equals(T? other) -> bool
-RepoDb.Extensions.QueryFields.DateTimePartQueryField
-RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, object? value, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
-RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, object? value, System.Data.DbType? dbType, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
-RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
-RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, System.Data.DbType? dbType, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
-RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Date = 0 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Day = 3 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Hour = 4 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Millisecond = 7 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Minute = 5 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Month = 2 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Second = 6 -> RepoDb.Extensions.QueryFields.DateTimePartType
-RepoDb.Extensions.QueryFields.DateTimePartType.Year = 1 -> RepoDb.Extensions.QueryFields.DateTimePartType
-static readonly RepoDb.Resolvers.PropertyValueAttributeTypeLevelResolver.Instance -> RepoDb.Resolvers.PropertyValueAttributeTypeLevelResolver!
 static RepoDb.DbConnectionExtension.GetDbRuntimeSettingAsync(this System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<RepoDb.DbSettings.DbRuntimeSetting!>
 static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbConnection! connection, RepoDb.QueryGroup? where = null, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null) -> System.Collections.Generic.IEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbConnection! connection, string! tableName, RepoDb.QueryGroup? where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null) -> System.Collections.Generic.IEnumerable<TEntity!>!
@@ -37,7 +8,6 @@ static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbCon
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, RepoDb.QueryGroup? where = null, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, string! tableName, RepoDb.QueryGroup? where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, System.Linq.Expressions.Expression<System.Func<TEntity!, bool>!>! where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
-static RepoDb.Extensions.ExpressionExtension.GetField(this System.Linq.Expressions.Expression! expression) -> RepoDb.Field!
-static RepoDb.Extensions.ExpressionExtension.TryGetField(this System.Linq.Expressions.Expression! expression, out RepoDb.Field? field) -> bool
-static RepoDb.Extensions.ExpressionExtension.TryGetField(this System.Linq.Expressions.Expression! expression, out RepoDb.Field? field, out object? coalesceValue) -> bool
-static RepoDb.Extensions.ExpressionExtension.TryGetValue(this System.Linq.Expressions.Expression! expression, out object? value) -> bool
+static RepoDb.Schema.DbSchemaExtensions.SchemaObjectExists<TEntity>(this System.Data.Common.DbConnection! connection, RepoDb.Enumerations.DbSchemaType? type = null, System.Data.Common.DbTransaction? transaction = null) -> bool
+static RepoDb.Schema.DbSchemaExtensions.SchemaObjectExists<TEntity>(this System.Data.Common.DbConnection! connection, string? tableName, RepoDb.Enumerations.DbSchemaType? type = null, System.Data.Common.DbTransaction? transaction = null) -> bool
+

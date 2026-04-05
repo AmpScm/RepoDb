@@ -43,6 +43,36 @@ public static class DbSchemaExtensions
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <param name="connection"></param>
+    /// <param name="type"></param>
+    /// <param name="transaction"></param>
+    /// <returns></returns>
+    public static bool SchemaObjectExists<TEntity>(this DbConnection connection, DbSchemaType? type = null, DbTransaction? transaction = null)
+    {
+        return SchemaObjectExists<TEntity>(connection, null, type, transaction);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <param name="connection"></param>
+    /// <param name="tableName"></param>
+    /// <param name="type"></param>
+    /// <param name="transaction"></param>
+    /// <returns></returns>
+    public static bool SchemaObjectExists<TEntity>(this DbConnection connection, string? tableName, DbSchemaType? type = null, DbTransaction? transaction = null)
+    {
+        tableName ??= ClassMappedNameCache.Get<TEntity>();
+
+        var setting = connection.GetDbSetting();
+        return SchemaObjectExists(connection, DataEntityExtension.GetTableName(tableName, setting), DataEntityExtension.GetSchema(tableName, setting), type, transaction);
+    }
+
+    /// <summary>
     /// Checks if the schema object exists in the current database.
     /// </summary>
     /// <param name="connection"></param>

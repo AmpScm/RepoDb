@@ -45,7 +45,7 @@ public static class PropertyHandlerCache
         ArgumentNullException.ThrowIfNull(type);
 
         // Try get the value
-        var value = typeCache.GetOrAdd(type, (_) => PropertyHandlerTypeLevelResolver.Instance.Resolve(type));
+        var value = typeCache.GetOrAdd(type, PropertyHandlerTypeLevelResolver.Instance.Resolve);
 
         return value as TPropertyHandler;
     }

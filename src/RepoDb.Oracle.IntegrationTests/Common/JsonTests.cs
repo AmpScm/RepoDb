@@ -1,6 +1,4 @@
-﻿using System.Data.Common;
-using Oracle.ManagedDataAccess.Client;
-using RepoDb.Oracle.IntegrationTests.Setup;
+﻿using RepoDb.Oracle.IntegrationTests.Setup;
 
 namespace RepoDb.Oracle.IntegrationTests.Common;
 

@@ -1,5 +1,4 @@
 using System.Data.Common;
-using RepoDb;
 using RepoDb.UnitTests.CustomObjects;
 
 namespace RepoDb.Core.UnitTests;

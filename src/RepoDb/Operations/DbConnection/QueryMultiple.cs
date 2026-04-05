@@ -1,11 +1,9 @@
 ﻿using System.Data;
 using System.Data.Common;
-using System.Linq.Expressions;
 using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Reflection;
-using RepoDb.Requests;
 
 namespace RepoDb;
 
@@ -239,19 +237,8 @@ public static partial class DbConnectionExtension
         return (commandText, param);
     }
 
-    private static Func<DbCommand, TraceResult?> CreateCallback(Func<DbCommand, TraceResult?> func) =>
-        (command) =>
-        {
-            (command.Connection?.GetDbHelper() as BaseDbHelper)?.PrepareForBatchOperation(command, -1);
-            return func(command);
-        };
-
-    private static Func<DbCommand, CancellationToken, ValueTask<TraceResult?>> CreateCallbackAsync(Func<DbCommand, CancellationToken, ValueTask<TraceResult?>> func) =>
-        (command, cancellationToken) =>
-        {
-            (command.Connection?.GetDbHelper() as BaseDbHelper)?.PrepareForBatchOperation(command, -1);
-            return func(command, cancellationToken);
-        };
+    private static Func<DbCommand, TraceResult?> CreateCallback(Func<DbCommand, TraceResult?> func) => func;
+    private static Func<DbCommand, CancellationToken, ValueTask<TraceResult?>> CreateCallbackAsync(Func<DbCommand, CancellationToken, ValueTask<TraceResult?>> func) => func;
 
 
     #endregion

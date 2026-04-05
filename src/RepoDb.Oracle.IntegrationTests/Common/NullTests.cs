@@ -1,6 +1,4 @@
-﻿using System.Data.Common;
-using Oracle.ManagedDataAccess.Client;
-using RepoDb.Oracle.IntegrationTests.Setup;
+﻿using RepoDb.Oracle.IntegrationTests.Setup;
 
 namespace RepoDb.Oracle.IntegrationTests.Common;
 
@@ -22,6 +20,8 @@ public class NullTests : RepoDb.TestCore.NullTestsBase<OracleDbInstance>
     public override string UuidDbType => "RAW(16)";
     public override string TextDbType => "CLOB";
     public override string IntDbType => "NUMBER";
+
+    public override string DecimalName => "NUMBER";
 
     protected override string IdentityDefinition => "NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1)";
 

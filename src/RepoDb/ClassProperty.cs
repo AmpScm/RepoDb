@@ -54,12 +54,12 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
     public string PropertyName => PropertyInfo.Name;
 
     /// <summary>
-    ///
+    /// Gets the field name mapped to the current property. The field name is being cached for better performance.
     /// </summary>
     public string FieldName => field ??= PropertyMappedNameCache.Get(DeclaringType, PropertyInfo);
 
     /// <summary>
-    ///
+    /// Gets the name of the property. This is an alias for <see cref="PropertyName"/>.
     /// </summary>
     [Obsolete("Please use .PropertyName or .FieldName")]
     public string Name => PropertyName;
@@ -87,15 +87,15 @@ public sealed class ClassProperty : IEquatable<ClassProperty>
      * AsField
      */
 
-    private Field? _field;
+    internal Field Field => field ??= new Field(FieldName, PropertyInfo.PropertyType);
 
     /// <summary>
-    /// Convert the <see cref="ClassProperty"/> into a <see cref="Field"/> objects.
+    /// Convert the <see cref="ClassProperty"/> into a <see cref="RepoDb.Field"/> objects.
     /// </summary>
-    /// <returns>An instance of <see cref="string"/> object.</returns>
+    /// <returns>An instance of <see cref="RepoDb.Field"/> object.</returns>
     public Field AsField()
     {
-        return _field ??= new Field(FieldName, PropertyInfo.PropertyType);
+        return Field;
     }
 
     /*

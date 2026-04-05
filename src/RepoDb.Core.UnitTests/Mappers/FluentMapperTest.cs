@@ -39,7 +39,6 @@ public partial class FluentMapperTest
         PrimaryMapper.Clear();
         IdentityMapper.Clear();
         TypeMapper.Clear();
-        //PropertyHandlerMapper.Clear();
         PropertyValueAttributeMapper.Clear();
 
         ClassMappedNameCache.Flush();
@@ -47,8 +46,6 @@ public partial class FluentMapperTest
         PrimaryCache.Flush();
         IdentityCache.Flush();
         TypeMapCache.Flush();
-        //PropertyHandlerMapper.Clear();
-        PropertyValueAttributeCache.Flush();
     }
 
     #region SubClasses
@@ -468,8 +465,7 @@ public partial class FluentMapperTest
     public void TestFluentMapPropertyValueAttributesMapping()
     {
         // Act
-        var actual = PropertyValueAttributeCache
-            .Get<FluentMapperTestClass>(e => e.PropertyString);
+        var actual = PropertyCache.Get<FluentMapperTestClass>(e => e.PropertyString).GetPropertyValueAttributes();
 
         // Assert
         Assert.AreEqual(7, actual.Count());
@@ -483,8 +479,7 @@ public partial class FluentMapperTest
     public void TestFluentMapPropertyValueAttributesMappingWithMapAttribute()
     {
         // Act
-        var actual = PropertyValueAttributeCache
-            .Get<FluentMapperTestWithAttributesClass>(e => e.PropertyString);
+        var actual = PropertyCache.Get<FluentMapperTestWithAttributesClass>(e => e.PropertyString).GetPropertyValueAttributes();
 
         // Assert
         Assert.AreEqual(12, actual.Count());
@@ -506,8 +501,7 @@ public partial class FluentMapperTest
             .PropertyValueAttributes(e => e.PropertyString, attributes, true);
 
         // Act
-        var actual = PropertyValueAttributeCache
-            .Get<FluentMapperTestClass>(e => e.PropertyString).ToList();
+        var actual = PropertyCache.Get<FluentMapperTestClass>(e => e.PropertyString).GetPropertyValueAttributes().ToList();
 
         // Assert
         for (var i = 0; i < attributes.Count; i++)

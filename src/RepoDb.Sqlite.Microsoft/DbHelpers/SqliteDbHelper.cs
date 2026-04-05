@@ -10,18 +10,18 @@ using RepoDb.Interfaces;
 namespace RepoDb.DbHelpers;
 
 /// <summary>
-/// A helper class for database specially for the direct access. This class is only meant for SqLite.
+/// A helper class for database specially for the direct access. This class is only meant for Sqlite.
 /// </summary>
-public sealed partial class SqLiteDbHelper : BaseDbHelper
+public sealed partial class SqliteDbHelper : BaseDbHelper
 {
     private const string doubleQuote = "\"";
 
     /// <summary>
-    /// Creates a new instance of <see cref="SqLiteDbHelper"/> class.
+    /// Creates a new instance of <see cref="SqliteDbHelper"/> class.
     /// </summary>
     /// <param name="dbTypeResolver">The type resolver to be used.</param>
     /// <param name="dbSetting">The instance of the <see cref="IDbSetting"/> object to be used.</param>
-    public SqLiteDbHelper(IDbSetting dbSetting,
+    public SqliteDbHelper(IDbSetting dbSetting,
         IResolver<string, Type> dbTypeResolver)
         : base(dbTypeResolver)
     {
@@ -29,7 +29,7 @@ public sealed partial class SqLiteDbHelper : BaseDbHelper
     }
 
     /// <summary>
-    /// Gets the database setting used by this <see cref="SqLiteDbHelper"/> instance.
+    /// Gets the database setting used by this <see cref="SqliteDbHelper"/> instance.
     /// </summary>
     public IDbSetting DbSetting { get; }
 

@@ -111,6 +111,8 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             "MSSQL");
     }
 
+#if NO
+    // Currently SqlServer only has a non async implementation of this, so we do a lot of async calls for no use at all, allocating a lot of state machine and tasks.
     private async Task<DbField> ReaderToDbFieldAsync(DbDataReader reader,
         CancellationToken cancellationToken = default)
     {
@@ -127,6 +129,7 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             !await reader.IsDBNullAsync(9, cancellationToken) && await reader.GetFieldValueAsync<bool>(9, cancellationToken),
             "MSSQL");
     }
+#endif
 
     #endregion
 
@@ -231,7 +234,8 @@ public sealed class SqlServerDbHelper : BaseDbHelper
             // Iterate the list of the fields
             while (await reader.ReadAsync(cancellationToken))
             {
-                dbFields.Add(await ReaderToDbFieldAsync(reader, cancellationToken));
+                //dbFields.Add(await ReaderToDbFieldAsync(reader, cancellationToken));
+                dbFields.Add(ReaderToDbField(reader));
             }
         }
 
@@ -473,21 +477,6 @@ public sealed class SqlServerDbHelper : BaseDbHelper
         return info?.ParameterTypeMap is { } pm
             && (fieldType ?? values.GetElementType()) is { } elementType
             && pm.TryGetValue(elementType, out _);
-    }
-
-    /// <inheritdoc />
-    public override string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, string parameterName, IEnumerable values)
-    {
-        var info = DbRuntimeSettingCache.Get(connection, transaction);
-
-        if (info?.ParameterTypeMap is { } pm
-            && (fieldType ?? values.GetElementType()) is { } elementType
-            && pm.TryGetValue(elementType, out _))
-        {
-            return $"SELECT * FROM {parameterName}";
-        }
-
-        return null;
     }
 
     /// <inheritdoc />

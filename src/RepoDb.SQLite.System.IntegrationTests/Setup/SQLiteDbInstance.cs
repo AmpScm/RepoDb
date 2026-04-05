@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using System.Data.SQLite;
+using System.Diagnostics.CodeAnalysis;
 using RepoDb.TestCore;
 
 namespace RepoDb.SQLite.System.IntegrationTests.Setup;
@@ -14,6 +15,7 @@ public class SQLiteDbInstance : DbInstance<SQLiteConnection>
         GlobalConfiguration.Setup(GlobalConfiguration.Options).UseSQLite();
     }
 
+    [SetsRequiredMembers]
     public SQLiteDbInstance()
     {
         // Database is shared when cache key is shared, until last connection dies

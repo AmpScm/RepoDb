@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
+using RepoDb.Interfaces;
+using RepoDb.UnitTests.CustomObjects;
 
 namespace RepoDb.UnitTests.Equalities;
 
 [TestClass]
 public class QueryGroupEqualityTest
 {
+    private static readonly IDbSetting _dbSetting = new CustomDbSetting();
     private class EntityClass
     {
         public int Id { get; set; }
@@ -24,7 +27,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse(new { Id = 2 });
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -38,7 +41,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable());
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -52,7 +55,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), Conjunction.Or);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -66,7 +69,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), Conjunction.Or);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -80,7 +83,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), true);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -94,7 +97,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), false);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -108,7 +111,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(c => c.Id == 2);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -122,11 +125,11 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(c => c.Id != 1 && c.Value == 1);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
-        Assert.HasCount(objA.QueryGroups.Count, objB.QueryGroups);
+        Assert.HasCount(objA.QueryFields.Count, objB.QueryFields);
     }
 
     [TestMethod]
@@ -137,11 +140,14 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(c => c.Id != 1 && c.Value == 1);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
-        Assert.AreEqual(objA.QueryGroups?.Count, objB.QueryGroups?.Count);
+        //Assert.AreEqual(objA.QueryGroups?.Count, objB.QueryGroups?.Count);
+
+        Assert.AreEqual("(([Id] = @Id) AND NOT (([Value] <> @Value)))", objA.GetString(_dbSetting));
+        Assert.AreEqual("([Id] <> @Id AND [Value] = @Value)", objB.GetString(_dbSetting));
     }
 
     [TestMethod]
@@ -152,7 +158,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 1 && e.Name.Contains("Name2"));
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -166,7 +172,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 1 && e.Name.Contains("Name2") == true);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -180,7 +186,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse(new { Id = 2, Name = "Name2" });
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -202,7 +208,7 @@ public class QueryGroupEqualityTest
         ]);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -224,7 +230,7 @@ public class QueryGroupEqualityTest
         ], Conjunction.And);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -246,7 +252,7 @@ public class QueryGroupEqualityTest
         ], Conjunction.Or);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -268,7 +274,7 @@ public class QueryGroupEqualityTest
         ], true);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -290,7 +296,7 @@ public class QueryGroupEqualityTest
         ], false);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -304,7 +310,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 2 && e.Name == "Name2");
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -318,7 +324,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 1 && e.Name.Contains("Name2"));
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -332,7 +338,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 1 && e.Name.Contains("Name2") == true);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -350,7 +356,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse(new { Id = 2 });
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -364,7 +370,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable());
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -378,7 +384,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), Conjunction.And);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -392,7 +398,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), Conjunction.Or);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -406,7 +412,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), true);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -420,7 +426,7 @@ public class QueryGroupEqualityTest
         var objB = new QueryGroup(new QueryField("Id", 2).AsEnumerable(), false);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -434,7 +440,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(c => c.Id == 2);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -448,7 +454,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(c => c.Id != 1 && c.Value == 1);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -462,7 +468,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Name.Contains("Name2"));
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -476,7 +482,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Name.Contains("Name2") == false);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -490,7 +496,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse(new { Id = 2, Name = "Name2" });
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -512,7 +518,7 @@ public class QueryGroupEqualityTest
         ]);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -534,7 +540,7 @@ public class QueryGroupEqualityTest
         ], Conjunction.And);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -556,7 +562,7 @@ public class QueryGroupEqualityTest
         ], Conjunction.Or);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -578,7 +584,7 @@ public class QueryGroupEqualityTest
         ], true);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -600,7 +606,7 @@ public class QueryGroupEqualityTest
         ], false);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -614,7 +620,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 2 && e.Name == "Name2");
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -628,7 +634,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 2 && e.Name.Contains("Name2"));
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -642,7 +648,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse<EntityClass>(e => e.Id == 2 && e.Name.Contains("Name2") == false);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsFalse(equal);
@@ -660,7 +666,7 @@ public class QueryGroupEqualityTest
         var objB = QueryGroup.Parse(new { Id = 2 });
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);

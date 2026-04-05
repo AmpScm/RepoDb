@@ -37,29 +37,8 @@ public class PostgreSqlDbTypeNameToNpgsqlDbTypeResolver : IResolver<string, Npgs
         return new ClientTypeToNpgsqlDbTypeResolver().Resolve(clientTypeResolver);
     }
 
-    #region Extraction
-
-    //private string Extract()
-    //{
-    //    using (var connection = new NpgsqlConnection(Database.ConnectionStringForRepoDb))
-    //    {
-    //        connection.Open();
-    //        using (var command = connection.CreateCommand())
-    //        {
-    //            using (var reader = connection.ExecuteReader("SELECT * FROM \"CompleteTable\";"))
-    //            {
-    //                var builder = new StringBuilder();
-    //                for (var i = 0; i < reader.FieldCount; i++)
-    //                {
-    //                    var dataTypeName = reader.GetDataTypeName(i);
-    //                    var fieldType = reader.GetFieldType(i);
-    //                    builder.AppendLine($"\"{dataTypeName}\" => typeof({fieldType.FullName})");
-    //                }
-    //                var extracted = builder.ToString();
-    //            }
-    //        }
-    //    }
-    //}
-
-    #endregion
+    /// <summary>
+    /// The default instance of <see cref="PostgreSqlDbTypeNameToNpgsqlDbTypeResolver"/> to be used as the default resolver.
+    /// </summary>
+    public static readonly PostgreSqlDbTypeNameToNpgsqlDbTypeResolver Instance = new();
 }

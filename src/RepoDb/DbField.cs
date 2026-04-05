@@ -41,7 +41,7 @@ public sealed class DbField : Field, IEquatable<DbField>
     { }
 
     /// <summary>
-    ///
+    /// Creates a new instance of <see cref="DbField"/> object.
     /// </summary>
     /// <param name="name"></param>
     /// <param name="isPrimary"></param>
@@ -153,7 +153,7 @@ public sealed class DbField : Field, IEquatable<DbField>
     public Type TypeNullable() => IsNullable && Type.IsValueType ? typeof(Nullable<>).MakeGenericType(Type) : Type;
 
     /// <summary>
-    ///
+    /// Converts the current instance of <see cref="DbField"/> to a <see cref="Field"/> object.
     /// </summary>
     /// <returns></returns>
     public Field AsField() => this;

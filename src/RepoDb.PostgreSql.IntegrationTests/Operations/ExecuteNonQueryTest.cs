@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Setup;
+﻿using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
 
@@ -14,7 +13,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\";");
 
@@ -28,7 +27,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
             new { tables.Last().Id });
@@ -43,7 +42,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.ExecuteNonQuery("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";");
 
@@ -61,7 +60,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
@@ -75,7 +74,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\" WHERE \"Id\" = @Id;",
             new { tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
@@ -90,7 +89,7 @@ public class ExecuteNonQueryTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.ExecuteNonQueryAsync("DELETE FROM \"CompleteTable\"; DELETE FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 

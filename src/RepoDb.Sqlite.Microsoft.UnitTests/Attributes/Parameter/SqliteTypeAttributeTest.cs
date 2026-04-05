@@ -11,7 +11,7 @@ public class SqliteTypeAttributeTest
     [TestInitialize]
     public void Initialize()
     {
-        DbSettingMapper.Add<SqliteConnection>(new SqLiteDbSetting(), true);
+        DbSettingMapper.Add<SqliteConnection>(new SqliteDbSetting(), true);
     }
 
     #region Classes

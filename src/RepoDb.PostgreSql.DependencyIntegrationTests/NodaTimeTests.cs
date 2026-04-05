@@ -18,7 +18,7 @@ public class NodaTimeTests : DbTestBase
 
         GlobalConfiguration.Setup(GlobalConfiguration.Options with
         {
-            KeyColumnReturnBehavior = KeyColumnReturnBehavior.Identity
+            KeyColumnReturnBehavior = KeyColumnReturnBehavior.Identity,
         }).UsePostgreSql();
 
         using var conn = dataSource.CreateConnection().EnsureOpen();

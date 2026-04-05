@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Enumerations;
+﻿using RepoDb.Enumerations;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -18,7 +17,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Average<CompleteTable>(e => e.ColumnInteger,
             (object?)null);
@@ -33,7 +32,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
         object result = connection.Average<CompleteTable>(e => e.ColumnInteger,
@@ -49,7 +48,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.Average<CompleteTable>(e => e.ColumnInteger,
             (object?)null,
@@ -66,7 +65,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
             (object?)null, cancellationToken: TestContext.CancellationToken);
@@ -81,7 +80,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
         object result = await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
@@ -97,7 +96,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync<CompleteTable>(e => e.ColumnInteger,
             (object?)null,
@@ -118,7 +117,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
@@ -134,7 +133,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
         object result = connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
@@ -151,7 +150,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.Average(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
@@ -169,7 +168,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
@@ -185,7 +184,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         long[] ids = new[] { tables.First().Id, tables.Last().Id };
         object result = await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
@@ -202,7 +201,7 @@ public class AverageTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.AverageAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),

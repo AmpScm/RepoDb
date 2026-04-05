@@ -1,8 +1,6 @@
-﻿using Npgsql;
-using NpgsqlTypes;
+﻿using NpgsqlTypes;
 using RepoDb.Attributes.Parameter.Npgsql;
 using RepoDb.Extensions;
-using RepoDb.PostgreSql.IntegrationTests.Setup;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -61,7 +59,7 @@ public class AttributeTest : TestBase
         // Setup
         AttributeTable table = CreateAttributeTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.Insert<AttributeTable>(table);
 
@@ -81,7 +79,7 @@ public class AttributeTest : TestBase
         // Setup
         List<AttributeTable> tables = CreateAttributeTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<AttributeTable>(tables);
 
@@ -101,7 +99,7 @@ public class AttributeTest : TestBase
         // Setup
         AttributeTable table = CreateAttributeTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object id = connection.Insert<AttributeTable>(table);
 
@@ -118,7 +116,7 @@ public class AttributeTest : TestBase
         // Setup
         List<AttributeTable> tables = CreateAttributeTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll<AttributeTable>(tables);
 

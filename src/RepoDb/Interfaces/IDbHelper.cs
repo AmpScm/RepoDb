@@ -74,7 +74,7 @@ public interface IDbHelper
     #region DynamicHandler
 
     /// <summary>
-    ///
+    /// Gets the runtime information of the database connection.
     /// </summary>
     /// <param name="connection"></param>
     /// <param name="transaction"></param>
@@ -82,7 +82,7 @@ public interface IDbHelper
     DbRuntimeSetting GetDbConnectionRuntimeInformation(IDbConnection connection, IDbTransaction? transaction);
 
     /// <summary>
-    ///
+    /// Gets the runtime information of the database connection in an asynchronous way.
     /// </summary>
     /// <param name="connection"></param>
     /// <param name="transaction"></param>
@@ -91,7 +91,8 @@ public interface IDbHelper
     ValueTask<DbRuntimeSetting> GetDbConnectionRuntimeInformationAsync(IDbConnection connection, IDbTransaction? transaction, CancellationToken cancellationToken);
 
     /// <summary>
-    ///
+    /// Creates a table parameter for the specified field type and values. This method is used to optimize table -valued parameters for databases that support them.
+    /// The implementation should return a <see cref="DbParameter"/> that can be used in a query, or null if table parameters are not supported for the given field type and values.
     /// </summary>
     /// <param name="connection"></param>
     /// <param name="transaction"></param>
@@ -102,7 +103,8 @@ public interface IDbHelper
     DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName);
 
     /// <summary>
-    ///
+    /// Checks if a table parameter can be created for the specified field type and values. This method is used to determine if the database supports table parameters
+    /// for the given field type and values before attempting to create one.
     /// </summary>
     /// <param name="connection"></param>
     /// <param name="transaction"></param>
@@ -112,7 +114,7 @@ public interface IDbHelper
     bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values);
 
     /// <summary>
-    ///
+    /// Creates a table parameter for the specified field type and values in an asynchronous way. This method is used to optimize table -valued parameters for databases that support them.
     /// </summary>
     /// <param name="connection"></param>
     /// <param name="transaction"></param>
@@ -122,17 +124,6 @@ public interface IDbHelper
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     ValueTask<DbParameter?> CreateTableParameterAsync(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="connection"></param>
-    /// <param name="transaction"></param>
-    /// <param name="fieldType"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="values"></param>
-    /// <returns></returns>
-    string? CreateTableParameterText(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, string parameterName, IEnumerable values);
 
     #endregion
 }

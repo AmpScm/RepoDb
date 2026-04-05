@@ -93,7 +93,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -127,7 +127,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -158,7 +158,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -176,7 +176,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -198,7 +198,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -220,7 +220,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -238,7 +238,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -260,7 +260,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var handler = ClassHandlerCache.Get<ClassHandlerIdentityTableClassHandler>(typeof(ClassHandlerIdentityTable));
         handler.Reset();
@@ -282,7 +282,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert(table);
 
@@ -308,7 +308,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -339,7 +339,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var table = CreateClassHandlerIdentityTables(1).First();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert(table);
 
@@ -360,7 +360,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -385,7 +385,7 @@ public class ClassHandlerImplicitTest : TestBase
         // Setup
         var tables = CreateClassHandlerIdentityTables(10).AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

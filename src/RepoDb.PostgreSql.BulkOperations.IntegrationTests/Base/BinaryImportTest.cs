@@ -178,7 +178,7 @@ public class BinaryImportTest : TestBase
                 new NpgsqlBulkInsertMapItem(nameof(BulkOperationUnmatchedIdentityTable.ColumnSmallIntMapped), "ColumnSmallInt"),
                 new NpgsqlBulkInsertMapItem(nameof(BulkOperationUnmatchedIdentityTable.ColumnTextMapped), "ColumnText")
             };
-        entities.ForEach(entity => entity.IdMapped += 100);
+        foreach(var entity in entities)  entity.IdMapped += 100;
 
         // Act
         var result = connection.BinaryImport(

@@ -19,7 +19,7 @@ public sealed record OracleDbSetting : BaseDbSetting
         IsMultiStatementExecutable = true;
         IsPreparable = true;
         ParameterPrefix = ":p";
-        MaxParameterCount = 8096; // 32766;
+        MaxParameterCount = 999; //   Oracle.ManagedDataAccess.Client.OracleException: ORA-01795: maximum number of expressions in a list is 1000 https://docs.oracle.com/error-help/db/ora-01795/
         MaxQueriesInBatchCount = 1000;
         GenerateFinalSemiColon = false;
     }

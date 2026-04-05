@@ -192,7 +192,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForPropertyHandler()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<uint>("SELECT CONVERT(INT, 1) AS Value UNION ALL SELECT 2;").AsList();
 
@@ -211,7 +211,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForEnumFromString()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Gender>("SELECT 'Male' AS Value UNION ALL SELECT 'Female';").AsList();
 
@@ -224,7 +224,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableEnumFromString()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Gender?>("SELECT 'Male' AS Value UNION ALL SELECT 'Female';").AsList();
 
@@ -237,7 +237,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableEnumFromStringWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Gender?>("SELECT CONVERT(NVARCHAR, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
@@ -254,7 +254,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForEnumFromNonString()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Gender>("SELECT 1 AS Value UNION ALL SELECT 2;").AsList();
 
@@ -267,7 +267,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableEnumFromNonString()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Gender?>("SELECT 1 AS Value UNION ALL SELECT 2;").AsList();
 
@@ -280,7 +280,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableEnumFromNonStringWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Gender?>("SELECT CONVERT(INT, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
@@ -301,7 +301,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForString()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<string>("SELECT 'ABC' AS Value UNION ALL SELECT 'DEF';").AsList();
 
@@ -314,13 +314,13 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForStringWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<string>("SELECT CONVERT(NVARCHAR, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.AreEqual(default, item));
+        foreach (var item in result) Assert.AreEqual(default, item);
     }
 
     // Guid
@@ -328,7 +328,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForGuid()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var value = Guid.NewGuid();
 
@@ -338,19 +338,19 @@ public class ExecuteQueryRawTest : TestBase
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.AreEqual(value, item));
+        foreach (var item in result) Assert.AreEqual(value, item);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForGuidWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Guid>("SELECT CONVERT(UNIQUEIDENTIFIER, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.AreEqual(default, item));
+        foreach (var item in result) Assert.AreEqual(default, item);
     }
 
     // Long
@@ -358,7 +358,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForLong()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<long>("SELECT CONVERT(BIGINT, 100) AS Value UNION ALL SELECT 200;").AsList();
 
@@ -371,13 +371,13 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForLongWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<long>("SELECT CONVERT(BIGINT, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.AreEqual(default, item));
+        foreach (var item in result) Assert.AreEqual(default, item);
     }
 
     // DateTime
@@ -385,7 +385,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForDateTime()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var value = DateTime.UtcNow.Date.AddDays(-new Random().Next(100));
 
@@ -395,19 +395,19 @@ public class ExecuteQueryRawTest : TestBase
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.AreEqual(value, item));
+        foreach (var item in result) Assert.AreEqual(value, item);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForDateTimeWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<DateTime>("SELECT CONVERT(DATETIME, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.AreEqual(default, item));
+        foreach (var item in result) Assert.AreEqual(default, item);
     }
 
     #endregion
@@ -419,7 +419,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableGuid()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var value = Guid.NewGuid();
 
@@ -429,19 +429,19 @@ public class ExecuteQueryRawTest : TestBase
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.AreEqual(value, item));
+        foreach (var item in result) Assert.AreEqual(value, item);
     }
 
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableGuidWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<Guid?>("SELECT CONVERT(UNIQUEIDENTIFIER, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.IsNull(item));
+        foreach (var item in result) Assert.IsNull(item);
     }
 
     // Long
@@ -449,7 +449,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableLong()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<long?>("SELECT CONVERT(BIGINT, 100) AS Value UNION ALL SELECT 200;").AsList();
 
@@ -462,13 +462,13 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableLongWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<long?>("SELECT CONVERT(BIGINT, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.IsNull(item));
+        foreach (var item in result) Assert.IsNull(item);
     }
 
     // DateTime
@@ -476,7 +476,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableDateTime()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var value1 = DateTime.UtcNow.Date.AddDays(-100);
         var value2 = DateTime.UtcNow.Date.AddDays(-50);
@@ -494,13 +494,13 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryTypeResultForNullableDateTimeWithNullResults()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<DateTime?>("SELECT CONVERT(DATETIME, NULL) AS Value UNION ALL SELECT NULL;").AsList();
 
         // Assert
         Assert.HasCount(2, result);
-        result.ForEach(item => Assert.IsNull(item));
+        foreach (var item in result) Assert.IsNull(item);
     }
 
     #endregion
@@ -508,7 +508,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void ThrowExceptionOnSqlConnectionExecuteQueryTypeResultWithMoreColumns()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<InvalidOperationException>(() => connection.ExecuteQuery<int>("SELECT 1 AS Column1, 2 AS Column2 UNION ALL SELECT 3, 4;").AsList());
     }
@@ -522,7 +522,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWhateverClassWithNonNullableProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -558,7 +558,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWhateverClassWithNonNullablePropertiesAndWithExtraClassProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -588,7 +588,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWithWhateverClassWithNonNullablePropertiesAndWithExtraQueryProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -630,7 +630,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWhateverClassWithNullableProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -666,7 +666,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWhateverClassWithNullablePropertiesAndWithExtraClassProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -696,7 +696,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWithWhateverClassWithNullablePropertiesAndWithExtraQueryProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -742,7 +742,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMappedWhateverClassWithNonNullableProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -778,7 +778,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMappedWhateverClassWithNonNullablePropertiesAndWithExtraClassProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -808,7 +808,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWithMappedWhateverClassWithNonNullablePropertiesAndWithExtraQueryProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -850,7 +850,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMappedWhateverClassWithNullableProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -886,7 +886,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMappedWhateverClassWithNullablePropertiesAndWithExtraClassProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -916,7 +916,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWithMappedWhateverClassWithNullablePropertiesAndWithExtraQueryProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -963,7 +963,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWithStringRecordParam()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<string>("WITH CTE AS (SELECT 'ABC' AS Value UNION ALL SELECT 'DEF') SELECT * FROM CTE WHERE Value = @Value;",
             new { Value = new StringRecord("ABC") }).AsList();
@@ -976,7 +976,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWithMultipleStringRecordParams()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<string>("WITH CTE AS (SELECT 'ABC' AS Value UNION ALL SELECT 'DEF' UNION ALL SELECT 'GHI') SELECT * FROM CTE WHERE Value IN (@Values);",
             new { Values = new StringRecord[] { "ABC", "DEF", "GHI" } }).AsList();
@@ -999,7 +999,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryViaIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<int>("SELECT 1 * @Value;",
             new { Value = new SqlParameter("_", 100) }).FirstOrDefault();
@@ -1011,7 +1011,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryViaQueryFieldForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<int>("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100))).FirstOrDefault();
@@ -1023,7 +1023,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryViaQueryFieldsForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<int>("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable()).FirstOrDefault();
@@ -1035,7 +1035,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryViaQueryGroupsForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteQuery<int>("SELECT 1 * @Value;",
             new QueryGroup(new QueryField("Value", new SqlParameter("_", 100)))).FirstOrDefault();
@@ -1051,7 +1051,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryAsyncViaIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
             new { Value = new SqlParameter("_", 100) }, cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
@@ -1063,7 +1063,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryAsyncViaQueryFieldForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100)), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
@@ -1075,7 +1075,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryAsyncViaQueryFieldsForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
@@ -1087,7 +1087,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryAsyncViaQueryGroupsForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = (await connection.ExecuteQueryAsync<int>("SELECT 1 * @Value;",
             new QueryGroup(new QueryField("Value", new SqlParameter("_", 100))), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
@@ -1111,7 +1111,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleWhateverClassWithNonNullableProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -1161,7 +1161,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleWhateverClassWithNonNullablePropertiesAndWithExtraClassProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -1199,7 +1199,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleWithWhateverClassWithNonNullablePropertiesAndWithExtraQueryProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -1256,7 +1256,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleWhateverClassWithNullableProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -1305,7 +1305,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleWhateverClassWithNullablePropertiesAndWithExtraClassProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -1343,7 +1343,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleWithWhateverClassWithNullablePropertiesAndWithExtraQueryProperties()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new
         {
@@ -1404,7 +1404,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleViaIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = connection.ExecuteQueryMultiple("SELECT 1 * @Value;",
             new { Value = new SqlParameter("_", 100) }))
@@ -1420,7 +1420,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleViaQueryFieldForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = connection.ExecuteQueryMultiple("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100))))
@@ -1436,7 +1436,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleViaQueryFieldsForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = connection.ExecuteQueryMultiple("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable()))
@@ -1452,7 +1452,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryMultipleViaQueryGroupForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = connection.ExecuteQueryMultiple("SELECT 1 * @Value;",
             new QueryGroup(new QueryField("Value", new SqlParameter("_", 100)))))
@@ -1472,7 +1472,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncViaIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
             new { Value = new SqlParameter("_", 100) }, cancellationToken: TestContext.CancellationToken))
@@ -1488,7 +1488,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncViaQueryFieldForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100)), cancellationToken: TestContext.CancellationToken))
@@ -1504,7 +1504,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncViaQueryFieldsForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
             new QueryField("Value", new SqlParameter("_", 100)).AsEnumerable(), cancellationToken: TestContext.CancellationToken))
@@ -1520,7 +1520,7 @@ public class ExecuteQueryRawTest : TestBase
     [TestMethod]
     public async Task TestSqlConnectionExecuteQueryMultipleAsyncViaQueryGroupForIDbDataParameter()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         using (var result = await connection.ExecuteQueryMultipleAsync("SELECT 1 * @Value;",
             new QueryGroup(new QueryField("Value", new SqlParameter("_", 100))), cancellationToken: TestContext.CancellationToken))

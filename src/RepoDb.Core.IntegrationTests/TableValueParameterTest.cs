@@ -11,7 +11,7 @@ public class TableValueParameterTest : TestBase
 {
     #region Helpers
 
-    private DataTable CreateDataTable(string tableName)
+    private static DataTable CreateDataTable(string tableName)
     {
         var table = new DataTable
         {
@@ -20,7 +20,7 @@ public class TableValueParameterTest : TestBase
         return table;
     }
 
-    private void CreateColumns(DataTable table)
+    private static void CreateColumns(DataTable table)
     {
         table.Columns.Add(new DataColumn("Id", typeof(long)));
         table.Columns.Add(new DataColumn("RowGuid", typeof(Guid)));
@@ -33,14 +33,14 @@ public class TableValueParameterTest : TestBase
         table.Columns.Add(new DataColumn("ColumnNVarChar", typeof(string)));
     }
 
-    private void CreateRows(DataTable table,
+    private static void CreateRows(DataTable table,
         int count = 10)
     {
         var random = new Random();
         for (var i = 0; i < count; i++)
         {
             var row = table.NewRow();
-            row["Id"] = (i + 1);
+            row["Id"] = i + 1;
             row["RowGuid"] = Guid.NewGuid();
             row["ColumnBit"] = true;
             row["ColumnDateTime"] = DateTime.UtcNow.Date;
@@ -61,7 +61,7 @@ public class TableValueParameterTest : TestBase
         return table;
     }
 
-    private string GetSqlText()
+    private static string GetSqlText()
     {
         return @"CREATE PROC sp_ExecuteQueryByType(@Table IdentityType READONLY)
                 AS
@@ -82,7 +82,7 @@ public class TableValueParameterTest : TestBase
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var tables = connection.ExecuteQuery<IdentityTable>("EXEC [sp_identity_table_type] @Table = @Table;",
             new { Table = dataTable })?.AsList();
@@ -104,7 +104,7 @@ public class TableValueParameterTest : TestBase
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = connection.ExecuteNonQuery("EXEC [sp_identity_table_type] @Table = @Table;",
             new { Table = dataTable });
@@ -124,7 +124,7 @@ public class TableValueParameterTest : TestBase
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var tables = (await connection.ExecuteQueryAsync<IdentityTable>("EXEC [sp_identity_table_type] @Table = @Table;",
             new { Table = dataTable }, cancellationToken: TestContext.CancellationToken))?.AsList();
@@ -146,7 +146,7 @@ public class TableValueParameterTest : TestBase
         // Setup
         var dataTable = CreateIdentityTableType(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var result = await connection.ExecuteNonQueryAsync("EXEC [sp_identity_table_type] @Table = @Table;",
             new { Table = dataTable }, cancellationToken: TestContext.CancellationToken);

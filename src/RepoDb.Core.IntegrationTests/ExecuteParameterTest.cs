@@ -25,7 +25,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -48,7 +48,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -71,7 +71,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -94,7 +94,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -112,7 +112,7 @@ public class ExecuteParameterTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -135,7 +135,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -158,7 +158,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
 
         // Act
         connection.InsertAll(tables);
@@ -174,7 +174,7 @@ public class ExecuteParameterTest : TestBase
     [TestMethod]
     public void TestSqlConnectionExecuteQueryWithParameterAsNullDecimal()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb).EnsureOpen();
+        using var connection = CreateConnection().EnsureOpen();
         // Act Query
         var data = connection.ExecuteQuery<decimal?>("select @value", new { value = (decimal?)null }).First();
 
@@ -197,7 +197,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -220,7 +220,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -243,7 +243,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -266,7 +266,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -285,7 +285,7 @@ public class ExecuteParameterTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var param = new QueryField("ColumnInt", 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -308,7 +308,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -331,7 +331,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -358,7 +358,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -381,7 +381,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -404,7 +404,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -428,7 +428,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -446,7 +446,7 @@ public class ExecuteParameterTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Setup
         var param = new QueryField("ColumnInt", 5);
 
@@ -472,7 +472,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -495,7 +495,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -522,7 +522,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -545,7 +545,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -568,7 +568,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -591,7 +591,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -610,7 +610,7 @@ public class ExecuteParameterTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var param = new QueryField("ColumnInt", 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -633,7 +633,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -656,7 +656,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -683,7 +683,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -708,7 +708,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -733,7 +733,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -758,7 +758,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -779,7 +779,7 @@ public class ExecuteParameterTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var param = new QueryField("ColumnInt", 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -804,7 +804,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -829,7 +829,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -858,7 +858,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -883,7 +883,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -908,7 +908,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -933,7 +933,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -954,7 +954,7 @@ public class ExecuteParameterTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var param = new QueryField("ColumnInt", 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -979,7 +979,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1004,7 +1004,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1033,7 +1033,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1056,7 +1056,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1079,7 +1079,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1102,7 +1102,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1121,7 +1121,7 @@ public class ExecuteParameterTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var param = new QueryField("ColumnInt", 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1144,7 +1144,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1167,7 +1167,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1194,7 +1194,7 @@ public class ExecuteParameterTest : TestBase
             ColumnBit = true
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1217,7 +1217,7 @@ public class ExecuteParameterTest : TestBase
         param.ColumnInt = 5;
         param.ColumnBit = true;
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1240,7 +1240,7 @@ public class ExecuteParameterTest : TestBase
         param.Add("ColumnInt", 5);
         param.Add("ColumnBit", true);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1263,7 +1263,7 @@ public class ExecuteParameterTest : TestBase
             { "ColumnBit", true }
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1282,7 +1282,7 @@ public class ExecuteParameterTest : TestBase
         var tables = Helper.CreateIdentityTables(10);
         var param = new QueryField("ColumnInt", 5);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1305,7 +1305,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         };
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -1328,7 +1328,7 @@ public class ExecuteParameterTest : TestBase
             new QueryField("ColumnBit", true)
         });
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

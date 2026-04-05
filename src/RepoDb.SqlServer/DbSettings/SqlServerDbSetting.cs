@@ -50,4 +50,8 @@ public sealed record SqlServerDbSetting : BaseDbSetting
             _ => base.TranslateFunctionalFormat(format)
 
         };
+
+
+    /// <inheritdoc/>
+    public override string? CreateTableParameterText(string parameterName) => $"(SELECT * FROM {parameterName})";
 }

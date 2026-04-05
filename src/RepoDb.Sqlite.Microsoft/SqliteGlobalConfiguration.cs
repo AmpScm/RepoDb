@@ -8,7 +8,7 @@ namespace RepoDb;
 public static partial class SqliteGlobalConfiguration
 {
     /// <summary>
-    /// Initializes all necessary settings for SqLite.
+    /// Initializes all necessary settings for Sqlite.
     /// </summary>
     /// <param name="globalConfiguration">The instance of the global configuration in used.</param>
     /// <returns>The used global configuration instance itself.</returns>

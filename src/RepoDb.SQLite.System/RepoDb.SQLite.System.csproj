@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\RepoDb\Compat.cs" />
-    <Compile Include="..\RepoDb.Sqlite.Microsoft\StatementBuilders\SqLiteStatementBuilder.cs">
+    <Compile Include="..\RepoDb.Sqlite.Microsoft\StatementBuilders\SqliteStatementBuilder.cs">
       <Link>StatementBuilders\SQLiteStatementBuilder.cs</Link>
     </Compile>
     <None Include="README.md" Pack="True" PackagePath="\" />

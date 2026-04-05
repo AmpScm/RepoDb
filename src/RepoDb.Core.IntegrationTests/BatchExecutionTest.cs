@@ -9,8 +9,8 @@ public class BatchExecutionTest : TestBase
     [TestMethod]
     public async Task TestBatchExecutionForInsertAll()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
+        using var connection = CreateConnection();
+        for (var i = Constant.DefaultBatchOperationSize * 2; i > 0; i--)
         {
             var identityTables = Helper.CreateIdentityTables(i);
             connection.InsertAll(identityTables);
@@ -25,8 +25,8 @@ public class BatchExecutionTest : TestBase
     [TestMethod]
     public async Task TestBatchExecutionForUpdateAll()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        for (var i = (Constant.DefaultBatchOperationSize + 2); i > 0; i--)
+        using var connection = CreateConnection();
+        for (var i = Constant.DefaultBatchOperationSize + 2; i > 0; i--)
         {
             var identityTables = Helper.CreateIdentityTables(i);
             connection.InsertAll(identityTables);
@@ -38,8 +38,8 @@ public class BatchExecutionTest : TestBase
     [TestMethod]
     public async Task TestBatchExecutionForMergeAllEmptyTable()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
+        using var connection = CreateConnection();
+        for (var i = Constant.DefaultBatchOperationSize * 2; i > 0; i--)
         {
             var identityTables = Helper.CreateIdentityTables(i);
             connection.MergeAll(identityTables);
@@ -50,8 +50,8 @@ public class BatchExecutionTest : TestBase
     [TestMethod]
     public async Task TestBatchExecutionForMergeAllNonEmptyTable()
     {
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
-        for (var i = (Constant.DefaultBatchOperationSize * 2); i > 0; i--)
+        using var connection = CreateConnection();
+        for (var i = Constant.DefaultBatchOperationSize * 2; i > 0; i--)
         {
             var identityTables = Helper.CreateIdentityTables(i);
             connection.InsertAll(identityTables);

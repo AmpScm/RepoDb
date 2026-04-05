@@ -142,7 +142,7 @@ public static class Helper
         {
             tables.Add(new CompleteTable
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnBigInt = Convert.ToInt64(i),
                 ColumnBinary = (byte[])null,
                 ColumnBit = true,
@@ -245,7 +245,7 @@ public static class Helper
         {
             tables.Add(new
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnBigInt = Convert.ToInt64(i),
                 ColumnBinary = (byte[])null,
                 ColumnBit = true,
@@ -347,8 +347,9 @@ public static class Helper
 
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object?>;
-            item["Id"] = (i + 1);
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
+            item["Id"] = i + 1;
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBinary"] = (byte[])null;
             item["ColumnBit"] = true;
@@ -383,7 +384,7 @@ public static class Helper
             item["ColumnVarChar"] = "VarChar";
             item["ColumnXml"] = (string?)null;
             item["SessionId"] = Guid.NewGuid();
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }
@@ -457,7 +458,7 @@ public static class Helper
         {
             tables.Add(new NonIdentityCompleteTable
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnBigInt = Convert.ToInt64(i),
                 ColumnBinary = (byte[])null,
                 ColumnBit = true,
@@ -561,7 +562,7 @@ public static class Helper
         {
             tables.Add(new
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnBigInt = Convert.ToInt64(i),
                 ColumnBinary = (byte[])null,
                 ColumnBit = true,
@@ -663,8 +664,9 @@ public static class Helper
 
         for (var i = 0; i < count; i++)
         {
-            var item = new ExpandoObject() as IDictionary<string, object?>;
-            item["Id"] = (i + 1);
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
+            item["Id"] = i + 1;
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBinary"] = (byte[])null;
             item["ColumnBit"] = true;
@@ -699,7 +701,7 @@ public static class Helper
             item["ColumnVarChar"] = "VarChar";
             item["ColumnXml"] = (string?)null;
             item["SessionId"] = Guid.NewGuid();
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }

@@ -61,7 +61,7 @@ public class ObjectMappingTest : TestBase
 
     #region Methods
 
-    private MappedCompleteTable GetMappedCompleteTable()
+    private static MappedCompleteTable GetMappedCompleteTable()
     {
         return new MappedCompleteTable
         {
@@ -75,7 +75,7 @@ public class ObjectMappingTest : TestBase
         };
     }
 
-    private IEnumerable<MappedCompleteTable> GetMappedCompleteTables(int count = 10)
+    private static IEnumerable<MappedCompleteTable> GetMappedCompleteTables(int count = 10)
     {
         var random = new Random();
         for (var i = 0; i < count; i++)
@@ -93,7 +93,7 @@ public class ObjectMappingTest : TestBase
         }
     }
 
-    private MappedIdentityTable GetMappedIdentityTable()
+    private static MappedIdentityTable GetMappedIdentityTable()
     {
         return new MappedIdentityTable
         {
@@ -107,9 +107,8 @@ public class ObjectMappingTest : TestBase
         };
     }
 
-    private IEnumerable<MappedIdentityTable> GetMappedIdentityTables(int count = 10)
+    private static IEnumerable<MappedIdentityTable> GetMappedIdentityTables(int count = 10)
     {
-        var random = new Random();
         for (var i = 0; i < count; i++)
         {
             yield return new MappedIdentityTable
@@ -137,7 +136,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -158,7 +157,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -179,7 +178,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -204,7 +203,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -228,7 +227,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -252,7 +251,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -276,7 +275,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -299,7 +298,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -327,7 +326,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -360,7 +359,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -368,7 +367,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedIdentityTable>(entity, c => c.IdMapped == (long)id);
+        var affectedRows = connection.Update(entity, c => c.IdMapped == (long)id);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -393,7 +392,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -402,7 +401,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedIdentityTable>(entity, field);
+        var affectedRows = connection.Update(entity, field);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -428,7 +427,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -437,7 +436,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedIdentityTable>(entity, fields);
+        var affectedRows = connection.Update(entity, fields);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -463,7 +462,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -472,7 +471,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedIdentityTable>(entity, queryGroup);
+        var affectedRows = connection.Update(entity, queryGroup);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -502,7 +501,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedIdentityTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -510,7 +509,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Merged)";
 
         // Act Update
-        var mergeResult = connection.Merge<MappedIdentityTable>(entity,
+        var mergeResult = connection.Merge(entity,
             qualifiers: Field.From(new[] { "Id" }));
 
         // Assert
@@ -540,7 +539,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entities = GetMappedIdentityTables().AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act InsertAll
         var rowsInserted = connection.InsertAll(entities);
 
@@ -550,7 +549,7 @@ public class ObjectMappingTest : TestBase
         // Assert
         Assert.IsNotNull(data);
         Assert.AreEqual(rowsInserted, data.Count());
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             var mappedObject = data.FirstOrDefault(d => d.IdMapped == entity.IdMapped);
             Assert.IsNotNull(mappedObject);
@@ -561,7 +560,7 @@ public class ObjectMappingTest : TestBase
             Assert.AreEqual(entity.ColumnFloatMapped, mappedObject.ColumnFloatMapped);
             Assert.AreEqual(entity.ColumnIntMapped, mappedObject.ColumnIntMapped);
             Assert.AreEqual(entity.ColumnNVarCharMapped, mappedObject.ColumnNVarCharMapped);
-        });
+        }
     }
 
     #endregion
@@ -574,12 +573,12 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entities = GetMappedIdentityTables().AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act InsertAll
         var rowsInserted = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.RowGuidMapped = Guid.NewGuid();
             entity.ColumnBitMapped = !entity.ColumnBitMapped;
@@ -588,7 +587,7 @@ public class ObjectMappingTest : TestBase
             entity.ColumnFloatMapped = 500;
             entity.ColumnIntMapped = 100;
             entity.ColumnNVarCharMapped = $"Merged - {entity.ColumnNVarCharMapped}";
-        });
+        }
 
         // Act MergeAll
         var rowsMerged = connection.MergeAll(entities);
@@ -599,7 +598,7 @@ public class ObjectMappingTest : TestBase
         // Assert333333333333
         Assert.IsNotNull(data);
         Assert.AreEqual(rowsMerged, data.Count());
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             var mappedObject = data.FirstOrDefault(d => d.IdMapped == entity.IdMapped);
             Assert.IsNotNull(mappedObject);
@@ -610,7 +609,7 @@ public class ObjectMappingTest : TestBase
             Assert.AreEqual(entity.ColumnFloatMapped, mappedObject.ColumnFloatMapped);
             Assert.AreEqual(entity.ColumnIntMapped, mappedObject.ColumnIntMapped);
             Assert.AreEqual(entity.ColumnNVarCharMapped, mappedObject.ColumnNVarCharMapped);
-        });
+        }
     }
 
     #endregion
@@ -627,7 +626,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -650,7 +649,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -673,7 +672,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -696,7 +695,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -719,7 +718,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -746,7 +745,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -778,7 +777,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -786,7 +785,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedCompleteTable>(entity, c => c.SessionIdMapped == (Guid)id);
+        var affectedRows = connection.Update(entity, c => c.SessionIdMapped == (Guid)id);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -810,7 +809,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -819,7 +818,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedCompleteTable>(entity, field);
+        var affectedRows = connection.Update(entity, field);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -844,7 +843,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -853,7 +852,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedCompleteTable>(entity, fields);
+        var affectedRows = connection.Update(entity, fields);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -878,7 +877,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -887,7 +886,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Updated)";
 
         // Act Update
-        var affectedRows = connection.Update<MappedCompleteTable>(entity, queryGroup);
+        var affectedRows = connection.Update(entity, queryGroup);
 
         // Assert
         Assert.AreEqual(1, affectedRows);
@@ -916,7 +915,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entity = GetMappedCompleteTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act Insert
         var id = connection.Insert(entity);
 
@@ -924,7 +923,7 @@ public class ObjectMappingTest : TestBase
         entity.ColumnNVarCharMapped = $"{entity.ColumnNVarCharMapped} (Merged)";
 
         // Act Update
-        var mergeResult = connection.Merge<MappedCompleteTable>(entity,
+        var mergeResult = connection.Merge(entity,
             qualifiers: Field.From(new[] { "SessionId" }));
 
         // Assert
@@ -953,7 +952,7 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entities = GetMappedCompleteTables().AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act InsertAll
         var rowsInserted = connection.InsertAll(entities);
 
@@ -963,7 +962,7 @@ public class ObjectMappingTest : TestBase
         // Assert
         Assert.IsNotNull(data);
         Assert.AreEqual(rowsInserted, data.Count());
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             var mappedObject = data.FirstOrDefault(d => d.SessionIdMapped == entity.SessionIdMapped);
             Assert.IsNotNull(mappedObject);
@@ -973,7 +972,7 @@ public class ObjectMappingTest : TestBase
             Assert.AreEqual(entity.ColumnDateTimeMapped, mappedObject.ColumnDateTimeMapped);
             Assert.AreEqual(entity.ColumnIntMapped, mappedObject.ColumnIntMapped);
             Assert.AreEqual(entity.ColumnNVarCharMapped, mappedObject.ColumnNVarCharMapped);
-        });
+        }
     }
 
     #endregion
@@ -986,12 +985,12 @@ public class ObjectMappingTest : TestBase
         // Setup
         var entities = GetMappedCompleteTables().AsList();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act InsertAll
         var rowsInserted = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBigIntMapped = 1000;
             entity.ColumnBitMapped = !entity.ColumnBitMapped;
@@ -999,7 +998,7 @@ public class ObjectMappingTest : TestBase
             entity.ColumnDateTimeMapped = entity.ColumnDateTimeMapped.Value.AddMonths(1);
             entity.ColumnIntMapped = 100;
             entity.ColumnNVarCharMapped = $"Merged - {entity.ColumnNVarCharMapped}";
-        });
+        }
 
         // Act MergeAll
         var rowsMerged = connection.MergeAll(entities);
@@ -1010,7 +1009,7 @@ public class ObjectMappingTest : TestBase
         // Assert333333333333
         Assert.IsNotNull(data);
         Assert.AreEqual(rowsMerged, data.Count());
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             var mappedObject = data.FirstOrDefault(d => d.SessionIdMapped == entity.SessionIdMapped);
             Assert.IsNotNull(mappedObject);
@@ -1020,7 +1019,7 @@ public class ObjectMappingTest : TestBase
             Assert.AreEqual(entity.ColumnDateTimeMapped, mappedObject.ColumnDateTimeMapped);
             Assert.AreEqual(entity.ColumnIntMapped, mappedObject.ColumnIntMapped);
             Assert.AreEqual(entity.ColumnNVarCharMapped, mappedObject.ColumnNVarCharMapped);
-        });
+        }
     }
 
     #endregion

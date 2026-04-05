@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -18,7 +17,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
             0,
@@ -37,7 +36,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
             0,
@@ -56,7 +55,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
             6,
@@ -75,7 +74,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = connection.SkipQuery<CompleteTable>(
             6,
@@ -94,7 +93,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery<CompleteTable>(
             0,
@@ -114,7 +113,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
             0,
@@ -133,7 +132,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
             0,
@@ -152,7 +151,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
             6,
@@ -171,7 +170,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<CompleteTable> result = await connection.SkipQueryAsync<CompleteTable>(
             6,
@@ -190,7 +189,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync<CompleteTable>(
             0,
@@ -214,7 +213,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -233,7 +232,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -252,7 +251,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             6,
@@ -271,7 +270,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             6,
@@ -290,7 +289,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.SkipQuery(ClassMappedNameCache.Get<CompleteTable>(),
             5,
@@ -310,7 +309,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -329,7 +328,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,
@@ -348,7 +347,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             6,
@@ -367,7 +366,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         IEnumerable<dynamic> result = await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             6,
@@ -386,7 +385,7 @@ public class SkipQueryTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.SkipQueryAsync(ClassMappedNameCache.Get<CompleteTable>(),
             0,

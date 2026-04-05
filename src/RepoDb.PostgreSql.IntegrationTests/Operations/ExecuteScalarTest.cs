@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Setup;
+﻿using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
 
@@ -14,7 +13,7 @@ public class ExecuteScalarTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.ExecuteScalar("SELECT COUNT(*) FROM \"CompleteTable\";");
 
@@ -28,7 +27,7 @@ public class ExecuteScalarTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM \"CompleteTable\";");
 
@@ -46,7 +45,7 @@ public class ExecuteScalarTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.ExecuteScalarAsync("SELECT COUNT(*) FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 
@@ -60,7 +59,7 @@ public class ExecuteScalarTest : TestBase
         // Setup
         IEnumerable<Models.CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         int result = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM \"CompleteTable\";", cancellationToken: TestContext.CancellationToken);
 

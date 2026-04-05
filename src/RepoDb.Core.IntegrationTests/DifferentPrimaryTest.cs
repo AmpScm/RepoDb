@@ -16,7 +16,7 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var insertResult = connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
@@ -37,9 +37,9 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTableWithDifferentPrimaries(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var insertAllResult = connection.InsertAll<IdentityTableWithDifferentPrimary>(entities);
+        var insertAllResult = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, insertAllResult);
@@ -50,9 +50,9 @@ public class DifferentPrimaryTest : TestBase
 
         // Assert
         Assert.AreEqual(entities.Count, queryResult.Count());
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
             Helper.AssertPropertiesEquality(entity,
-                queryResult.ElementAt(entities.IndexOf(entity))));
+                queryResult.ElementAt(entities.IndexOf(entity)));
     }
 
     #endregion
@@ -65,12 +65,12 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.Insert<IdentityTableWithDifferentPrimary>(entity);
+        connection.Insert(entity);
 
         // Act
-        var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity);
+        var deleteResult = connection.Delete(entity);
 
         // Assert
         Assert.IsGreaterThan(0, deleteResult);
@@ -83,9 +83,9 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.Insert<IdentityTableWithDifferentPrimary>(entity);
+        connection.Insert(entity);
 
         // Act
         var deleteResult = connection.Delete<IdentityTableWithDifferentPrimary>(entity.RowGuid);
@@ -105,7 +105,7 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
@@ -127,7 +127,7 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
@@ -136,7 +136,7 @@ public class DifferentPrimaryTest : TestBase
         entity.ColumnDateTime2 = DateTime.UtcNow;
 
         // Act
-        var updateResult = connection.Update<IdentityTableWithDifferentPrimary>(entity);
+        var updateResult = connection.Update(entity);
 
         // Assert
         Assert.IsGreaterThan(0, updateResult);
@@ -155,7 +155,7 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entity = Helper.CreateIdentityTableWithDifferentPrimary();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.Insert<IdentityTableWithDifferentPrimary, long>(entity);
 
@@ -187,19 +187,19 @@ public class DifferentPrimaryTest : TestBase
         // Setup
         var entities = Helper.CreateIdentityTableWithDifferentPrimaries(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        connection.InsertAll<IdentityTableWithDifferentPrimary>(entities);
+        connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnBit = false;
             entity.ColumnDateTime2 = DateTime.UtcNow;
-        });
+        }
 
         // Act
-        var updateAllResult = connection.UpdateAll<IdentityTableWithDifferentPrimary>(entities);
+        var updateAllResult = connection.UpdateAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, updateAllResult);
@@ -209,9 +209,9 @@ public class DifferentPrimaryTest : TestBase
 
         // Assert
         Assert.AreEqual(entities.Count, queryResult.Count());
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
             Helper.AssertPropertiesEquality(entity,
-                queryResult.ElementAt(entities.IndexOf(entity))));
+                queryResult.ElementAt(entities.IndexOf(entity)));
     }
 
     #endregion

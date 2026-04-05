@@ -322,7 +322,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueWithStringNewClassInstance()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (new QueryGroupTestExpressionClass() { PropertyString = "ABC" }).PropertyString);
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == new QueryGroupTestExpressionClass() { PropertyString = "ABC" }.PropertyString);
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
@@ -374,7 +374,7 @@ public partial class QueryGroupTest
     {
         // Setup
         var member = new QueryGroupTestExpressionClassMember() { PropertyString = "ABC" };
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (new QueryGroupTestExpressionClass() { Member = member }).Member.PropertyString);
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == new QueryGroupTestExpressionClass() { Member = member }.Member.PropertyString);
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
@@ -388,7 +388,7 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueWithStringNewClassInstanceMemberSetInstance()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == (new QueryGroupTestExpressionClass() { Member = new QueryGroupTestExpressionClassMember() { PropertyString = "ABC" } }).Member.PropertyString);
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyString == new QueryGroupTestExpressionClass() { Member = new QueryGroupTestExpressionClassMember() { PropertyString = "ABC" } }.Member.PropertyString);
 
         // Act
         var actual = parsed.QueryFields[0].Parameter.Value;
@@ -886,8 +886,8 @@ public partial class QueryGroupTest
         var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => p.Direction == Direction.East || p.Direction == Direction.West);
 
         // Act
-        var actual1 = parsed.QueryGroups[0].QueryFields[0].Parameter.Value;
-        var actual2 = parsed.QueryGroups[parsed.QueryGroups.Count - 1].QueryFields[0].Parameter.Value;
+        var actual1 = parsed.QueryFields.First().Parameter.Value;
+        var actual2 = parsed.QueryFields.Last().Parameter.Value;
 
         // Assert
         Assert.AreEqual(Direction.East, actual1);

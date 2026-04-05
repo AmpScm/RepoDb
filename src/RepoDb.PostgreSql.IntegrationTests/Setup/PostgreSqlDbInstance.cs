@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using Npgsql;
 using RepoDb.TestCore;
 
@@ -11,6 +12,7 @@ public class PostgreSqlDbInstance : DbInstance<NpgsqlConnection>
         GlobalConfiguration.Setup(GlobalConfiguration.Options).UsePostgreSql();
     }
 
+    [SetsRequiredMembers]
     public PostgreSqlDbInstance()
     {
         // Master connection

@@ -16,9 +16,9 @@ public class DottedTableTest : TestBase
         var entities = Helper.CreateDottedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<DottedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var deleteResult = connection.Delete<DottedTable>(last.Id);
 
         // Assert
@@ -32,9 +32,9 @@ public class DottedTableTest : TestBase
         var entities = Helper.CreateDottedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<DottedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var deleteResult = connection.Delete<DottedTable>(e => e.SessionId == last.SessionId);
 
         // Assert
@@ -51,7 +51,7 @@ public class DottedTableTest : TestBase
         // Setup
         var entity = Helper.CreateDottedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<DottedTable, long>(entity);
 
@@ -70,9 +70,9 @@ public class DottedTableTest : TestBase
         // Setup
         var entities = Helper.CreateDottedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<DottedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsInserted);
@@ -89,7 +89,7 @@ public class DottedTableTest : TestBase
         // Setup
         var entity = Helper.CreateDottedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Merge<DottedTable, long>(entity);
 
@@ -120,24 +120,24 @@ public class DottedTableTest : TestBase
         // Setup
         var entities = Helper.CreateDottedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsAffected = connection.MergeAll<DottedTable>(entities);
+        var rowsAffected = connection.MergeAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsAffected);
         Assert.AreEqual(entities.Count, connection.CountAll<DottedTable>());
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnDateTime2 = DateTime.UtcNow;
             entity.ColumnInt = 2;
             entity.ColumnNVarChar = Guid.NewGuid().ToString();
-        });
+        }
 
         // Act
-        rowsAffected = connection.MergeAll<DottedTable>(entities);
+        rowsAffected = connection.MergeAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsAffected);
@@ -146,7 +146,7 @@ public class DottedTableTest : TestBase
         var queryAllResult = connection.QueryAll<DottedTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id));
     }
 
     #endregion
@@ -160,9 +160,9 @@ public class DottedTableTest : TestBase
         var entities = Helper.CreateDottedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<DottedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var queryResult = connection.Query<DottedTable>(last.Id).FirstOrDefault();
 
         // Assert
@@ -177,9 +177,9 @@ public class DottedTableTest : TestBase
         var entities = Helper.CreateDottedTables(10);
         var last = entities.Last();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<DottedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var queryResult = connection.Query<DottedTable>(e => e.SessionId == last.SessionId).FirstOrDefault();
 
         // Assert
@@ -197,14 +197,14 @@ public class DottedTableTest : TestBase
         // Setup
         var entities = Helper.CreateDottedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsInserted = connection.InsertAll<DottedTable>(entities);
+        var rowsInserted = connection.InsertAll(entities);
         var queryAllResult = connection.QueryAll<DottedTable>();
 
         // Assert
         Assert.AreEqual(entities.Count, queryAllResult.Count());
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id));
     }
 
     #endregion
@@ -217,7 +217,7 @@ public class DottedTableTest : TestBase
         // Setup
         var entity = Helper.CreateDottedTable();
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         var id = connection.Insert<DottedTable, long>(entity);
 
@@ -227,7 +227,7 @@ public class DottedTableTest : TestBase
         entity.ColumnNVarChar = Guid.NewGuid().ToString();
 
         // Act
-        var updateReuslt = connection.Update<DottedTable>(entity);
+        var updateReuslt = connection.Update(entity);
         var queryResult = connection.Query<DottedTable>(id).First();
 
         // Assert
@@ -245,20 +245,20 @@ public class DottedTableTest : TestBase
         // Setup
         var entities = Helper.CreateDottedTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
-        var rowsAffected = connection.InsertAll<DottedTable>(entities);
+        var rowsAffected = connection.InsertAll(entities);
 
         // Setup
-        entities.ForEach(entity =>
+        foreach (var entity in entities)
         {
             entity.ColumnDateTime2 = DateTime.UtcNow;
             entity.ColumnInt = 2;
             entity.ColumnNVarChar = Guid.NewGuid().ToString();
-        });
+        }
 
         // Act
-        rowsAffected = connection.UpdateAll<DottedTable>(entities);
+        rowsAffected = connection.UpdateAll(entities);
 
         // Assert
         Assert.AreEqual(entities.Count, rowsAffected);
@@ -267,7 +267,7 @@ public class DottedTableTest : TestBase
         var queryAllResult = connection.QueryAll<DottedTable>();
 
         // Assert
-        entities.ForEach(entity => Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id)));
+        foreach (var entity in entities) Helper.AssertPropertiesEquality(entity, queryAllResult.First(item => item.Id == entity.Id));
     }
 
     #endregion

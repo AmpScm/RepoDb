@@ -8,6 +8,16 @@ abstract RepoDb.StatementBuilders.BaseStatementBuilder.CreateMerge(string! table
 abstract RepoDb.StatementBuilders.BaseStatementBuilder.CreateMergeAll(string! tableName, System.Collections.Generic.IEnumerable<RepoDb.Field!>! fields, System.Collections.Generic.IEnumerable<RepoDb.Field!>? noUpdateFields, System.Collections.Generic.IEnumerable<RepoDb.Field!>! qualifiers, int batchSize, System.Collections.Generic.IEnumerable<RepoDb.DbField!>! keyFields, string? hints = null) -> string!
 const RepoDb.Constant.DefaultBatchOperationSize = 10 -> int
 const RepoDb.Constant.DefaultCacheItemExpirationInMinutes = 180 -> int
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateFormat = "DATE({0})" -> string!
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.DayFormat = "DAY({0})" -> string!
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.HourFormat = "HOUR({0})" -> string!
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.MillisecondFormat = "MILLISECOND({0})" -> string!
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.MinuteFormat = "MINUTE({0})" -> string!
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.MonthFormat = "MONTH({0})" -> string!
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.SecondFormat = "SECOND({0})" -> string!
+const RepoDb.Extensions.QueryFields.DateTimePartQueryField.YearFormat = "YEAR({0})" -> string!
+const RepoDb.Extensions.QueryFields.JsonExtractQueryField.JsonExtractFormat = "JSON_EXTRACT({0}, @@path@@)" -> string!
+const RepoDb.Extensions.QueryFields.LengthQueryField.LengthFormat = "LENGTH({0})" -> string!
 const RepoDb.StatementBuilders.BaseStatementBuilder.RepoDbOrderColumn = "__RepoDb_OrderColumn" -> string!
 const RepoDb.TraceKeys.Average = "Average" -> string!
 const RepoDb.TraceKeys.AverageAll = "AverageAll" -> string!
@@ -104,6 +114,7 @@ override RepoDb.DbSettings.DbRuntimeSetting.GetHashCode() -> int
 override RepoDb.DbSettings.DbRuntimeSetting.ToString() -> string!
 override RepoDb.DirectionalQueryField.Equals(object? obj) -> bool
 override RepoDb.DirectionalQueryField.GetHashCode() -> int
+override RepoDb.DirectionalQueryField.NoParametersNeeded.get -> bool
 override RepoDb.Extensions.QueryFields.ExpressionQueryField.GetString(int index, RepoDb.Interfaces.IDbSetting? dbSetting) -> string!
 override RepoDb.Extensions.QueryFields.ExpressionQueryField.NoParametersNeeded.get -> bool
 override RepoDb.Extensions.QueryFields.FieldComparisonQueryField.GetString(RepoDb.Interfaces.IDbSetting? dbSetting) -> string!
@@ -653,12 +664,10 @@ RepoDb.DataEntityDataReader<TEntity>.Dispose() -> void
 RepoDb.DataEntityDataReader<TEntity>.Entities.get -> System.Collections.Generic.IEnumerable<TEntity!>!
 RepoDb.DataEntityDataReader<TEntity>.EntityEnumerator.get -> System.Collections.Generic.IEnumerator<TEntity!>!
 RepoDb.DataEntityDataReader<TEntity>.GetData(int i) -> System.Data.IDataReader!
-RepoDb.DataEntityDataReader<TEntity>.GetValueForDictionaryStringObject(int i) -> object?
-RepoDb.DataEntityDataReader<TEntity>.GetValueForEntities(int i) -> object?
 RepoDb.DataEntityDataReader<TEntity>.IsDisposed.get -> bool
-RepoDb.DataEntityDataReader<TEntity>.IsInitialized.get -> bool
 RepoDb.DataEntityDataReader<TEntity>.Position.get -> int
 RepoDb.DataEntityDataReader<TEntity>.Reset() -> void
+RepoDb.DataEntityDataReader<TEntity>.TableName.get -> string!
 RepoDb.DataEntityDataReader<TEntity>.Transaction.get -> System.Data.IDbTransaction?
 RepoDb.DbConnectionExtension
 RepoDb.DbField
@@ -690,6 +699,7 @@ RepoDb.DbFieldCollection.GetAsFields() -> RepoDb.FieldSet!
 RepoDb.DbFieldCollection.GetByFieldName(string! name) -> RepoDb.DbField?
 RepoDb.DbFieldCollection.GetByName(string! name) -> RepoDb.DbField?
 RepoDb.DbFieldCollection.GetEnumerator() -> System.Collections.Generic.IEnumerator<RepoDb.DbField!>!
+RepoDb.DbFieldCollection.GetReturnColumn() -> RepoDb.DbField?
 RepoDb.DbFieldCollection.Identity.get -> RepoDb.DbField?
 RepoDb.DbFieldCollection.IsEmpty() -> bool
 RepoDb.DbFieldCollection.IsProperSubsetOf(System.Collections.Generic.IEnumerable<RepoDb.DbField!>! other) -> bool
@@ -704,6 +714,9 @@ RepoDb.DbJsonValue<T>
 RepoDb.DbJsonValue<T>.DbJsonValue() -> void
 RepoDb.DbJsonValue<T>.DbJsonValue(System.Text.Json.Nodes.JsonNode! json) -> void
 RepoDb.DbJsonValue<T>.DbJsonValue(T! value) -> void
+RepoDb.DbJsonValue<T>.Equals(RepoDb.DbJsonValue<T!> other) -> bool
+RepoDb.DbJsonValue<T>.Equals(System.Text.Json.Nodes.JsonNode! other) -> bool
+RepoDb.DbJsonValue<T>.Equals(T? other) -> bool
 RepoDb.DbJsonValue<T>.Json.get -> System.Text.Json.Nodes.JsonNode!
 RepoDb.DbJsonValue<T>.ToString(string? format, System.IFormatProvider? formatProvider) -> string!
 RepoDb.DbJsonValue<T>.Value.get -> T!
@@ -1784,6 +1797,20 @@ RepoDb.Extensions.OrderExtension
 RepoDb.Extensions.OrderFieldExtension
 RepoDb.Extensions.PropertyInfoExtension
 RepoDb.Extensions.QueryFieldExtension
+RepoDb.Extensions.QueryFields.DateTimePartQueryField
+RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, object? value, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
+RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, object? value, System.Data.DbType? dbType, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
+RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
+RepoDb.Extensions.QueryFields.DateTimePartQueryField.DateTimePartQueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, System.Data.DbType? dbType, RepoDb.Extensions.QueryFields.DateTimePartType dateTimePart = RepoDb.Extensions.QueryFields.DateTimePartType.Date) -> void
+RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Date = 0 -> RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Day = 3 -> RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Hour = 4 -> RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Millisecond = 7 -> RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Minute = 5 -> RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Month = 2 -> RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Second = 6 -> RepoDb.Extensions.QueryFields.DateTimePartType
+RepoDb.Extensions.QueryFields.DateTimePartType.Year = 1 -> RepoDb.Extensions.QueryFields.DateTimePartType
 RepoDb.Extensions.QueryFields.ExpressionQueryField
 RepoDb.Extensions.QueryFields.ExpressionQueryField.ExpressionQueryField(System.Collections.Generic.IEnumerable<RepoDb.Field!>! fields, RepoDb.Enumerations.Operation operation) -> void
 RepoDb.Extensions.QueryFields.ExpressionQueryField.ExpressionQueryField(System.Collections.Generic.IEnumerable<string!>! fields, RepoDb.Enumerations.Operation operation) -> void
@@ -1896,7 +1923,6 @@ RepoDb.Interfaces.IDbHelper
 RepoDb.Interfaces.IDbHelper.CanCreateTableParameter(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Type? fieldType, System.Collections.IEnumerable! values) -> bool
 RepoDb.Interfaces.IDbHelper.CreateTableParameter(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Type? fieldType, System.Collections.IEnumerable! values, string! parameterName) -> System.Data.Common.DbParameter?
 RepoDb.Interfaces.IDbHelper.CreateTableParameterAsync(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Type? fieldType, System.Collections.IEnumerable! values, string! parameterName, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<System.Data.Common.DbParameter?>
-RepoDb.Interfaces.IDbHelper.CreateTableParameterText(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Type? fieldType, string! parameterName, System.Collections.IEnumerable! values) -> string?
 RepoDb.Interfaces.IDbHelper.DbTypeResolver.get -> RepoDb.Interfaces.IResolver<string!, System.Type!>!
 RepoDb.Interfaces.IDbHelper.GetDbConnectionRuntimeInformation(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction) -> RepoDb.DbSettings.DbRuntimeSetting!
 RepoDb.Interfaces.IDbHelper.GetDbConnectionRuntimeInformationAsync(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<RepoDb.DbSettings.DbRuntimeSetting!>
@@ -2037,7 +2063,6 @@ RepoDb.PropertyValue.Property.init -> void
 RepoDb.PropertyValue.PropertyValue(string! name, object? value, RepoDb.ClassProperty! property) -> void
 RepoDb.PropertyValue.Value.get -> object?
 RepoDb.PropertyValue.Value.init -> void
-RepoDb.PropertyValueAttributeCache
 RepoDb.PropertyValueAttributeMapper
 RepoDb.QueryBuilder
 RepoDb.QueryBuilder.And() -> RepoDb.QueryBuilder!
@@ -2261,12 +2286,6 @@ RepoDb.Resolvers.PropertyHandlerTypeLevelResolver.Resolve(System.Type! type) -> 
 RepoDb.Resolvers.PropertyMappedNameResolver
 RepoDb.Resolvers.PropertyMappedNameResolver.PropertyMappedNameResolver() -> void
 RepoDb.Resolvers.PropertyMappedNameResolver.Resolve(System.Reflection.PropertyInfo! propertyInfo, System.Type? entityType) -> string!
-RepoDb.Resolvers.PropertyValueAttributePropertyLevelResolver
-RepoDb.Resolvers.PropertyValueAttributePropertyLevelResolver.PropertyValueAttributePropertyLevelResolver() -> void
-RepoDb.Resolvers.PropertyValueAttributePropertyLevelResolver.Resolve(System.Reflection.PropertyInfo! propertyInfo) -> System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>!
-RepoDb.Resolvers.PropertyValueAttributeTypeLevelResolver
-RepoDb.Resolvers.PropertyValueAttributeTypeLevelResolver.PropertyValueAttributeTypeLevelResolver() -> void
-RepoDb.Resolvers.PropertyValueAttributeTypeLevelResolver.Resolve(System.Type! type) -> System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>!
 RepoDb.Resolvers.TypeMapPropertyLevelResolver
 RepoDb.Resolvers.TypeMapPropertyLevelResolver.Resolve(System.Reflection.PropertyInfo! propertyInfo) -> System.Data.DbType?
 RepoDb.Resolvers.TypeMapPropertyLevelResolver.TypeMapPropertyLevelResolver() -> void
@@ -2326,7 +2345,6 @@ static readonly RepoDb.Resolvers.DbTypeToClientTypeResolver.Instance -> RepoDb.R
 static readonly RepoDb.Resolvers.PropertyHandlerPropertyLevelResolver.Instance -> RepoDb.Resolvers.PropertyHandlerPropertyLevelResolver!
 static readonly RepoDb.Resolvers.PropertyHandlerTypeLevelResolver.Instance -> RepoDb.Resolvers.PropertyHandlerTypeLevelResolver!
 static readonly RepoDb.Resolvers.PropertyMappedNameResolver.Instance -> RepoDb.Resolvers.PropertyMappedNameResolver!
-static readonly RepoDb.Resolvers.PropertyValueAttributePropertyLevelResolver.Instance -> RepoDb.Resolvers.PropertyValueAttributePropertyLevelResolver!
 static readonly RepoDb.Resolvers.TypeMapPropertyLevelResolver.Instance -> RepoDb.Resolvers.TypeMapPropertyLevelResolver!
 static readonly RepoDb.Resolvers.TypeMapTypeLevelResolver.Instance -> RepoDb.Resolvers.TypeMapTypeLevelResolver!
 static RepoDb.Attributes.Parameter.PropertyValueAttribute.operator !=(RepoDb.Attributes.Parameter.PropertyValueAttribute? objA, RepoDb.Attributes.Parameter.PropertyValueAttribute? objB) -> bool
@@ -3257,6 +3275,7 @@ static RepoDb.Extensions.DbCommandExtension.SetValue(this System.Data.IDbCommand
 static RepoDb.Extensions.DbFieldExtension.AsEnumerable(this RepoDb.DbField! dbField) -> RepoDb.DbFieldCollection!
 static RepoDb.Extensions.DbFieldExtension.AsFields(this System.Collections.Generic.IEnumerable<RepoDb.DbField!>! dbFields) -> System.Collections.Generic.IEnumerable<RepoDb.Field!>!
 static RepoDb.Extensions.DbFieldExtension.GetByFieldName(this System.Collections.Generic.IEnumerable<RepoDb.DbField!>! dbFields, string? name, System.StringComparison stringComparison = System.StringComparison.OrdinalIgnoreCase) -> RepoDb.DbField?
+static RepoDb.Extensions.DbFieldExtension.GetReturnColumn(this System.Collections.Generic.IEnumerable<RepoDb.DbField!>! fields) -> RepoDb.DbField?
 static RepoDb.Extensions.DbFieldExtension.OneOrDefault<TItem>(this System.Collections.Generic.IEnumerable<TItem>! source) -> TItem?
 static RepoDb.Extensions.DbFieldExtension.OneOrDefault<TItem>(this System.Collections.Generic.IEnumerable<TItem>! source, System.Func<TItem, bool>! predicate) -> TItem?
 static RepoDb.Extensions.EnumerableExtension.AsArray<T>(this System.Collections.Generic.IEnumerable<T>! value) -> T[]!
@@ -3266,8 +3285,12 @@ static RepoDb.Extensions.EnumerableExtension.ChunkOptimally<T>(this System.Colle
 static RepoDb.Extensions.EnumerableExtension.GetElementType(this System.Collections.IEnumerable! enumerable, bool checkObject = true) -> System.Type!
 static RepoDb.Extensions.EnumerableExtension.Split<T>(this System.Collections.Generic.IEnumerable<T>! value, int sizePerSplit) -> System.Collections.Generic.IEnumerable<T[]!>!
 static RepoDb.Extensions.EnumerableExtension.WithType<T>(this System.Collections.IEnumerable! value) -> System.Collections.Generic.IEnumerable<T>!
+static RepoDb.Extensions.ExpressionExtension.GetField(this System.Linq.Expressions.Expression! expression) -> RepoDb.Field!
 static RepoDb.Extensions.ExpressionExtension.GetField(this System.Linq.Expressions.Expression! expression, out object? coalesceValue) -> RepoDb.Field!
 static RepoDb.Extensions.ExpressionExtension.GetValue(this System.Linq.Expressions.Expression! expression) -> object?
+static RepoDb.Extensions.ExpressionExtension.TryGetField(this System.Linq.Expressions.Expression! expression, out RepoDb.Field? field) -> bool
+static RepoDb.Extensions.ExpressionExtension.TryGetField(this System.Linq.Expressions.Expression! expression, out RepoDb.Field? field, out object? coalesceValue) -> bool
+static RepoDb.Extensions.ExpressionExtension.TryGetValue(this System.Linq.Expressions.Expression! expression, out object? value) -> bool
 static RepoDb.Extensions.FieldExtension.AsEnumerable(this RepoDb.Field! field) -> RepoDb.FieldSet!
 static RepoDb.Extensions.FieldExtension.AsFieldSet(this System.Collections.Generic.IEnumerable<RepoDb.Field!>! fields) -> RepoDb.FieldSet!
 static RepoDb.Extensions.FieldExtension.AsJoinQualifier(this RepoDb.Field! field, string! leftAlias, string! rightAlias, bool considerNulls, RepoDb.Interfaces.IDbSetting! dbSetting) -> string!
@@ -3457,12 +3480,6 @@ static RepoDb.PropertyMapper.Remove<TEntity>(string! propertyName) -> bool
 static RepoDb.PropertyMapper.Remove<TEntity>(System.Linq.Expressions.Expression<System.Func<TEntity!, object?>!>! expression) -> bool
 static RepoDb.PropertyValue.operator !=(RepoDb.PropertyValue? left, RepoDb.PropertyValue? right) -> bool
 static RepoDb.PropertyValue.operator ==(RepoDb.PropertyValue? left, RepoDb.PropertyValue? right) -> bool
-static RepoDb.PropertyValueAttributeCache.Flush() -> void
-static RepoDb.PropertyValueAttributeCache.Get(System.Type! type) -> System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>!
-static RepoDb.PropertyValueAttributeCache.Get<TEntity>(RepoDb.Field! field) -> System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>!
-static RepoDb.PropertyValueAttributeCache.Get<TEntity>(string! propertyName) -> System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>!
-static RepoDb.PropertyValueAttributeCache.Get<TEntity>(System.Linq.Expressions.Expression<System.Func<TEntity!, object?>!>! expression) -> System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>!
-static RepoDb.PropertyValueAttributeCache.Get<TType>() -> System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>!
 static RepoDb.PropertyValueAttributeMapper.Add(System.Reflection.PropertyInfo! propertyInfo, RepoDb.Attributes.Parameter.PropertyValueAttribute! attribute) -> void
 static RepoDb.PropertyValueAttributeMapper.Add(System.Reflection.PropertyInfo! propertyInfo, RepoDb.Attributes.Parameter.PropertyValueAttribute! attribute, bool force) -> void
 static RepoDb.PropertyValueAttributeMapper.Add(System.Reflection.PropertyInfo! propertyInfo, System.Collections.Generic.IEnumerable<RepoDb.Attributes.Parameter.PropertyValueAttribute!>! attributes) -> void
@@ -3561,7 +3578,6 @@ virtual RepoDb.DbRepository<TDbConnection>.CreateConnection(bool force) -> TDbCo
 virtual RepoDb.DbRepository<TDbConnection>.Dispose(bool disposing) -> void
 virtual RepoDb.DbSettings.BaseDbHelper.CanCreateTableParameter(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Type? fieldType, System.Collections.IEnumerable! values) -> bool
 virtual RepoDb.DbSettings.BaseDbHelper.CreateTableParameter(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Type? fieldType, System.Collections.IEnumerable! values, string! parameterName) -> System.Data.Common.DbParameter?
-virtual RepoDb.DbSettings.BaseDbHelper.CreateTableParameterText(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Type? fieldType, string! parameterName, System.Collections.IEnumerable! values) -> string?
 virtual RepoDb.DbSettings.BaseDbHelper.GetDbConnectionRuntimeInformation(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction) -> RepoDb.DbSettings.DbRuntimeSetting!
 virtual RepoDb.DbSettings.BaseDbHelper.GetDbConnectionRuntimeInformationAsync(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<RepoDb.DbSettings.DbRuntimeSetting!>
 virtual RepoDb.DbSettings.BaseDbHelper.GetFieldsAsync(System.Data.IDbConnection! connection, string! tableName, System.Data.IDbTransaction? transaction = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<RepoDb.DbFieldCollection!>
@@ -3570,8 +3586,10 @@ virtual RepoDb.DbSettings.BaseDbHelper.GetParameterPostCreationExpression(System
 virtual RepoDb.DbSettings.BaseDbHelper.GetSchemaObjectsAsync(System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<System.Collections.Generic.IEnumerable<RepoDb.DbSchemaObject!>!>
 virtual RepoDb.DbSettings.BaseDbHelper.ParameterValueToDb(object? value, System.Data.IDbDataParameter! parameter) -> object?
 virtual RepoDb.DbSettings.BaseDbHelper.PrepareForBatchOperation(System.Data.Common.DbCommand! command, int count) -> void
-virtual RepoDb.DbSettings.BaseDbHelper.PrepareForIdentityOutput(System.Data.Common.DbCommand! command) -> System.Func<object?>?
+virtual RepoDb.DbSettings.BaseDbHelper.PrepareForExecuteReader(System.Data.Common.DbCommand! command) -> void
+virtual RepoDb.DbSettings.BaseDbHelper.PrepareForIdentityOutput(System.Data.Common.DbCommand! command, string! tableName) -> System.Func<object?>?
 virtual RepoDb.DbSettings.BaseDbSetting.CreateJsonExtract(string! path, RepoDb.Parameter! parameter) -> string?
+virtual RepoDb.DbSettings.BaseDbSetting.CreateTableParameterText(string! parameterName) -> string?
 virtual RepoDb.DbSettings.BaseDbSetting.EqualityContract.get -> System.Type!
 virtual RepoDb.DbSettings.BaseDbSetting.Equals(RepoDb.DbSettings.BaseDbSetting? other) -> bool
 virtual RepoDb.DbSettings.BaseDbSetting.PrintMembers(System.Text.StringBuilder! builder) -> bool

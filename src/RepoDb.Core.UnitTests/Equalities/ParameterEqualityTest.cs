@@ -27,7 +27,7 @@ public class ParameterEqualityTest
         var objB = new Parameter("ParameterName", new object());
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -40,7 +40,7 @@ public class ParameterEqualityTest
         var objA = new Parameter("ParameterName", new object());
 
         // Act
-        var equal = (objA.GetHashCode() == "Parametername".GetHashCode());
+        var equal = objA.GetHashCode() == "Parametername".GetHashCode();
 
         // Assert
         Assert.IsFalse(equal);
@@ -54,7 +54,7 @@ public class ParameterEqualityTest
         var objB = new Parameter("ParameterName", new object());
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);
@@ -116,7 +116,7 @@ public class ParameterEqualityTest
         var objB = new Parameter("ParameterName", new object(), DbType.StringFixedLength);
 
         // Act
-        var equal = (objA.GetHashCode() == objB.GetHashCode());
+        var equal = objA.GetHashCode() == objB.GetHashCode();
 
         // Assert
         Assert.IsTrue(equal);
@@ -130,7 +130,7 @@ public class ParameterEqualityTest
         var objB = new Parameter("ParameterName", new object(), DbType.StringFixedLength);
 
         // Act
-        var equal = (objA == objB);
+        var equal = objA == objB;
 
         // Assert
         Assert.IsTrue(equal);

@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Models;
+﻿using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
@@ -17,7 +16,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.MinAll<CompleteTable>(e => e.ColumnInteger);
 
@@ -31,7 +30,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.MinAll<CompleteTable>(e => e.ColumnInteger,
             hints: "WhatEver"));
@@ -47,7 +46,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.MinAllAsync<CompleteTable>(e => e.ColumnInteger, cancellationToken: TestContext.CancellationToken);
 
@@ -61,7 +60,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAllAsync<CompleteTable>(e => e.ColumnInteger,
             hints: "WhatEver", cancellationToken: TestContext.CancellationToken));
@@ -81,7 +80,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.MinAll(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First());
@@ -96,7 +95,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         Assert.ThrowsExactly<NotSupportedException>(() => connection.MinAll(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),
@@ -113,7 +112,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.MinAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(), cancellationToken: TestContext.CancellationToken);
@@ -128,7 +127,7 @@ public class MinAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         await Assert.ThrowsExactlyAsync<NotSupportedException>(async () => await connection.MinAllAsync(ClassMappedNameCache.Get<CompleteTable>(),
             Field.Parse<CompleteTable>(e => e.ColumnInteger).First(),

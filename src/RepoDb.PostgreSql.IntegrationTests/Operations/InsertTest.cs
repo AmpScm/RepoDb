@@ -1,6 +1,4 @@
-﻿using Npgsql;
-using RepoDb.PostgreSql.IntegrationTests.Models;
-using RepoDb.PostgreSql.IntegrationTests.Setup;
+﻿using RepoDb.PostgreSql.IntegrationTests.Models;
 
 namespace RepoDb.PostgreSql.IntegrationTests.Operations;
 
@@ -17,7 +15,7 @@ public class InsertTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert<CompleteTable>(table);
 
@@ -40,7 +38,7 @@ public class InsertTest : TestBase
         // Setup
         NonIdentityCompleteTable table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert<NonIdentityCompleteTable>(table);
 
@@ -66,7 +64,7 @@ public class InsertTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync<CompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
@@ -89,7 +87,7 @@ public class InsertTest : TestBase
         // Setup
         NonIdentityCompleteTable table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync<NonIdentityCompleteTable>(table, cancellationToken: TestContext.CancellationToken);
 
@@ -119,7 +117,7 @@ public class InsertTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
             table);
@@ -142,7 +140,7 @@ public class InsertTest : TestBase
         // Setup
         dynamic table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table);
@@ -165,7 +163,7 @@ public class InsertTest : TestBase
         // Setup
         System.Dynamic.ExpandoObject table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert(ClassMappedNameCache.Get<CompleteTable>(),
             table);
@@ -189,7 +187,7 @@ public class InsertTest : TestBase
         // Setup
         NonIdentityCompleteTable table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table);
@@ -212,7 +210,7 @@ public class InsertTest : TestBase
         // Setup
         dynamic table = Helper.CreateNonIdentityCompleteTablesAsDynamics(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             (object)table);
@@ -235,7 +233,7 @@ public class InsertTest : TestBase
         // Setup
         System.Dynamic.ExpandoObject table = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = connection.Insert(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table);
@@ -262,7 +260,7 @@ public class InsertTest : TestBase
         // Setup
         CompleteTable table = Helper.CreateCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -285,7 +283,7 @@ public class InsertTest : TestBase
         // Setup
         dynamic table = Helper.CreateCompleteTablesAsDynamics(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
@@ -308,7 +306,7 @@ public class InsertTest : TestBase
         // Setup
         System.Dynamic.ExpandoObject table = Helper.CreateCompleteTablesAsExpandoObjects(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync(ClassMappedNameCache.Get<CompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -332,7 +330,7 @@ public class InsertTest : TestBase
         // Setup
         NonIdentityCompleteTable table = Helper.CreateNonIdentityCompleteTables(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);
@@ -355,7 +353,7 @@ public class InsertTest : TestBase
         // Setup
         dynamic table = Helper.CreateNonIdentityCompleteTablesAsDynamics(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             (object)table, cancellationToken: TestContext.CancellationToken);
@@ -378,7 +376,7 @@ public class InsertTest : TestBase
         // Setup
         System.Dynamic.ExpandoObject table = Helper.CreateNonIdentityCompleteTablesAsExpandoObjects(1).First();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Act
         object result = await connection.InsertAsync(ClassMappedNameCache.Get<NonIdentityCompleteTable>(),
             table, cancellationToken: TestContext.CancellationToken);

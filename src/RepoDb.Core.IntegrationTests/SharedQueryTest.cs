@@ -21,7 +21,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -44,7 +44,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -62,7 +62,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -80,13 +80,13 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
         var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            (new QueryField("Id", tables.Last().Id)).AsEnumerable()).FirstOrDefault();
+            new QueryField("Id", tables.Last().Id).AsEnumerable()).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -98,7 +98,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -133,7 +133,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -156,7 +156,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -174,7 +174,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -192,13 +192,13 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<IdentityTable>(),
-            (new QueryField("Id", tables.Last().Id)).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
+            new QueryField("Id", tables.Last().Id).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -210,7 +210,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -249,7 +249,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -272,7 +272,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -290,7 +290,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -308,13 +308,13 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
         var result = connection.Query<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (new QueryField("Id", tables.Last().Id)).AsEnumerable()).FirstOrDefault();
+            new QueryField("Id", tables.Last().Id).AsEnumerable()).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -326,7 +326,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -361,7 +361,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -384,7 +384,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -402,7 +402,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -420,13 +420,13 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
         // Act
         var result = (await connection.QueryAsync<SharedIdentityTable>(ClassMappedNameCache.Get<NonIdentityTable>(),
-            (new QueryField("Id", tables.Last().Id)).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
+            new QueryField("Id", tables.Last().Id).AsEnumerable(), cancellationToken: TestContext.CancellationToken)).FirstOrDefault();
 
         // Assert
         Helper.AssertPropertiesEquality(tables.Last(), result);
@@ -438,7 +438,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -481,7 +481,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -507,7 +507,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -537,7 +537,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 
@@ -563,7 +563,7 @@ public class SharedQueryTest : TestBase
         // Setup
         var tables = Helper.CreateNonIdentityTables(10);
 
-        using var connection = new SqlConnection(Database.ConnectionStringForRepoDb);
+        using var connection = CreateConnection();
         // Act
         connection.InsertAll(tables);
 

@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using MySqlConnector;
 using RepoDb.TestCore;
 
@@ -11,6 +12,7 @@ public class MysqlDbInstance : DbInstance<MySqlConnection>
         GlobalConfiguration.Setup(GlobalConfiguration.Options).UseMySqlConnector();
     }
 
+    [SetsRequiredMembers]
     public MysqlDbInstance()
     {
         AdminConnectionString =

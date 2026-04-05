@@ -192,7 +192,7 @@ public static class Helper
         {
             tables.Add(new CompleteTable
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnBigInt = Convert.ToInt64(i),
                 ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 },
                 ColumnBigSerial = Convert.ToInt64(i),
@@ -231,7 +231,7 @@ public static class Helper
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
         //table.ColumnBit = true;
-        table.ColumnBoolean = (Randomizer.Next() % 2 != 0);
+        table.ColumnBoolean = Randomizer.Next() % 2 != 0;
         table.ColumnChar = 'C';
         table.ColumnCharacter = "C";
         table.ColumnCharacterVarying = "ColumnCharacterVarying";
@@ -303,7 +303,7 @@ public static class Helper
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
         //table.ColumnBit = true;
-        table.ColumnBoolean = (Randomizer.Next() % 2 != 0);
+        table.ColumnBoolean = Randomizer.Next() % 2 != 0;
         table.ColumnChar = 'C';
         table.ColumnCharacter = "C";
         table.ColumnCharacterVarying = "ColumnCharacterVarying";
@@ -334,7 +334,8 @@ public static class Helper
         DateTime now = GetCurrentUniversalTime();
         for (int i = 0; i < count; i++)
         {
-            IDictionary<string, object?> item = new ExpandoObject() as IDictionary<string, object?>;
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
             item["Id"] = (long)(i + 1);
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
@@ -358,7 +359,7 @@ public static class Helper
             item["ColumnText"] = $"ColumnText{i}";
             item["ColumnTimestampWithTimeZone"] = ToDateTimeOffset(now);
             item["ColumnTimestampWithoutTimeZone"] = now;
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }
@@ -412,7 +413,7 @@ public static class Helper
         {
             tables.Add(new NonIdentityCompleteTable
             {
-                Id = (i + 1),
+                Id = i + 1,
                 ColumnBigInt = Convert.ToInt64(i),
                 ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 },
                 ColumnBigSerial = Convert.ToInt64(i),
@@ -451,7 +452,7 @@ public static class Helper
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
         //table.ColumnBit = true;
-        table.ColumnBoolean = (Randomizer.Next() % 2 != 0);
+        table.ColumnBoolean = Randomizer.Next() % 2 != 0;
         table.ColumnChar = 'C';
         table.ColumnCharacter = "C";
         table.ColumnCharacterVarying = "ColumnCharacterVarying";
@@ -523,7 +524,7 @@ public static class Helper
         table.ColumnBigIntAsArray = new long[] { 1, 2, 3, 4, 5 };
         table.ColumnBigSerial = Convert.ToInt64(2);
         //table.ColumnBit = true;
-        table.ColumnBoolean = (Randomizer.Next() % 2 != 0);
+        table.ColumnBoolean = Randomizer.Next() % 2 != 0;
         table.ColumnChar = 'C';
         table.ColumnCharacter = "C";
         table.ColumnCharacterVarying = "ColumnCharacterVarying";
@@ -554,8 +555,9 @@ public static class Helper
         DateTime now = GetCurrentUniversalTime();
         for (int i = 0; i < count; i++)
         {
-            IDictionary<string, object?> item = new ExpandoObject() as IDictionary<string, object?>;
-            item["Id"] = (i + 1);
+            var expando = new ExpandoObject();
+            var item = expando as IDictionary<string, object?>;
+            item["Id"] = i + 1;
             item["ColumnBigInt"] = Convert.ToInt64(i);
             item["ColumnBigIntAsArray"] = new long[] { 1, 2, 3, 4, 5 };
             item["ColumnBigSerial"] = Convert.ToInt64(i);
@@ -578,7 +580,7 @@ public static class Helper
             item["ColumnText"] = $"ColumnText{i}";
             item["ColumnTimestampWithTimeZone"] = ToDateTimeOffset(now);
             item["ColumnTimestampWithoutTimeZone"] = now;
-            tables.Add((ExpandoObject)item);
+            tables.Add(expando);
         }
         return tables;
     }

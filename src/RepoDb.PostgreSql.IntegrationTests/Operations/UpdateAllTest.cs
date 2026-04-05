@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using RepoDb.Extensions;
+﻿using RepoDb.Extensions;
 using RepoDb.PostgreSql.IntegrationTests.Models;
 using RepoDb.PostgreSql.IntegrationTests.Setup;
 
@@ -18,7 +17,7 @@ public class UpdateAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -46,7 +45,7 @@ public class UpdateAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -78,7 +77,7 @@ public class UpdateAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -102,7 +101,7 @@ public class UpdateAllTest : TestBase
         // Setup
         List<CompleteTable> entities = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
         tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);
@@ -132,7 +131,7 @@ public class UpdateAllTest : TestBase
         // Setup
         IEnumerable<CompleteTable> tables = Database.CreateCompleteTables(10);
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         tables.AsList().ForEach(table => Helper.UpdateCompleteTableProperties(table));
 
@@ -156,7 +155,7 @@ public class UpdateAllTest : TestBase
         // Setup
         List<CompleteTable> entities = Database.CreateCompleteTables(10).AsList();
 
-        using NpgsqlConnection connection = this.CreateTestConnection();
+        using var connection = CreateConnection();
         // Setup
         List<System.Dynamic.ExpandoObject> tables = Helper.CreateCompleteTablesAsExpandoObjects(10).AsList();
         tables.ForEach(e => ((IDictionary<string, object?>)e)["Id"] = entities[tables.IndexOf(e)].Id);

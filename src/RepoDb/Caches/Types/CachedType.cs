@@ -49,7 +49,7 @@ public sealed class CachedType
     }
 
     /// <summary>
-    ///
+    /// Represents a null CachedType.
     /// </summary>
     public static readonly CachedType Null = new();
 

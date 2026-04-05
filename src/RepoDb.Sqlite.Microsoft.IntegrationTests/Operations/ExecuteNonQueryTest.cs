@@ -48,7 +48,7 @@ public class ExecuteNonQueryTest : TestBase
         var result = connection.ExecuteNonQuery("DELETE FROM [CompleteTable]; VACUUM;");
 
         // Assert
-        Assert.AreEqual((tables.Count() * 2), result);
+        Assert.AreEqual(tables.Count() * 2, result);
     }
 
     #endregion
@@ -95,7 +95,7 @@ public class ExecuteNonQueryTest : TestBase
         var result = await connection.ExecuteNonQueryAsync("DELETE FROM [CompleteTable]; VACUUM;", cancellationToken: TestContext.CancellationToken);
 
         // Assert
-        Assert.AreEqual((tables.Count() * 2), result);
+        Assert.AreEqual(tables.Count() * 2, result);
     }
 
     #endregion

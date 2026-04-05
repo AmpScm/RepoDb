@@ -42,7 +42,7 @@ public static class TypeMapCache
         ArgumentNullException.ThrowIfNull(type);
 
         // Try get the value
-        return typeCache.GetOrAdd(type, (_) => TypeMapTypeLevelResolver.Instance.Resolve(type));
+        return typeCache.GetOrAdd(type, TypeMapTypeLevelResolver.Instance.Resolve);
     }
 
     #endregion
@@ -110,7 +110,7 @@ public static class TypeMapCache
         var key = (entityType, propertyInfo);
 
         // Try get the value
-        return propertyCache.GetOrAdd(key, (_) => TypeMapPropertyLevelResolver.Instance.Resolve(propertyInfo));
+        return propertyCache.GetOrAdd(key, (_) => TypeMapPropertyLevelResolver.Instance.Resolve(propertyInfo.ResolveFor(entityType)));
     }
 
     #endregion

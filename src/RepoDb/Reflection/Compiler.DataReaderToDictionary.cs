@@ -1,7 +1,6 @@
 ﻿using System.Data.Common;
 using System.Dynamic;
 using System.Linq.Expressions;
-using RepoDb.Extensions;
 
 namespace RepoDb.Reflection;
 
@@ -12,7 +11,6 @@ internal partial class Compiler
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="dbFields"></param>
-    ///
     /// <returns></returns>
     public static Func<DbDataReader, ExpandoObject> CompileDataReaderToExpandoObject(DbDataReader reader,
         DbFieldCollection? dbFields)
@@ -20,7 +18,7 @@ internal partial class Compiler
         var readerParameterExpression = Expression.Parameter(StaticType.DbDataReader, "reader");
         var readerFields = GetDataReaderFields(reader, dbFields);
         var memberBindings = GetMemberBindingsForDictionary(readerParameterExpression,
-            readerFields.AsList(), reader.GetType());
+            readerFields, reader.GetType());
 
         // Throw an error if there are no matching at least one
         if (memberBindings.Count <= 0)
@@ -29,7 +27,7 @@ internal partial class Compiler
         }
 
         // Initialize the members
-        var body = Expression.ListInit(Expression.New(StaticType.ExpandoObject), memberBindings);
+        var body = Expression.ListInit(Expression.New(typeof(ExpandoObject)), memberBindings);
 
         // Set the function value
         return Expression
