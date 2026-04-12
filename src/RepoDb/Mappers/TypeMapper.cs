@@ -16,6 +16,38 @@ public static class TypeMapper
 
     private static readonly ConcurrentDictionary<Type, DbType> typeMaps = new();
     private static readonly ConcurrentDictionary<(Type, PropertyInfo PropertyInfo), DbType> propertyMaps = new();
+    private static readonly ConcurrentDictionary<Type, bool> passthroughTypes = new();
+
+    #endregion
+
+    #region Passthrough
+
+    /// <summary>
+    /// Registers a type as provider-handled. RepoDb will not attempt to convert
+    /// values of this type, passing them directly to the ADO.NET provider.
+    /// Use this for types handled by provider plugins (e.g. NodaTime types
+    /// with Npgsql's UseNodaTime()).
+    /// </summary>
+    /// <typeparam name="TType">The type to pass through without conversion.</typeparam>
+    public static void AddPassthrough<TType>() =>
+        AddPassthrough(typeof(TType));
+
+    /// <summary>
+    /// Registers a type as provider-handled. RepoDb will not attempt to convert
+    /// values of this type, passing them directly to the ADO.NET provider.
+    /// </summary>
+    /// <param name="type">The type to pass through without conversion.</param>
+    public static void AddPassthrough(Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        passthroughTypes[type] = true;
+    }
+
+    /// <summary>
+    /// Returns true if the type has been registered as a passthrough type.
+    /// </summary>
+    internal static bool IsPassthrough(Type type) =>
+        passthroughTypes.ContainsKey(type);
 
     #endregion
 

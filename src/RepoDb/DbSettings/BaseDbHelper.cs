@@ -83,7 +83,8 @@ public abstract class BaseDbHelper : IDbHelper
     /// <returns>The converted value.</returns>
     public virtual object? ParameterValueToDb(object? value, IDbDataParameter parameter)
     {
-        if (value is IFormattable f && value.GetType().HandleAsStringForDB())
+        if (value is IFormattable f && value.GetType() is { } vt
+            && vt.HandleAsStringForDB() && !TypeMapper.IsPassthrough(vt))
         {
             return f.ToString(null, CultureInfo.InvariantCulture);
         }

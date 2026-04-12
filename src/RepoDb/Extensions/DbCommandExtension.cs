@@ -687,6 +687,10 @@ public static class DbCommandExtension
 
             if (dbFieldType != valueType)
             {
+                // Skip conversion for types registered as provider-handled
+                if (TypeMapper.IsPassthrough(valueType))
+                    return false;
+
                 if (value is not null)
                 {
                     value = AutomaticConvert(value, valueType, dbFieldType);

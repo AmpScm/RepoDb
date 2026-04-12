@@ -818,6 +818,10 @@ internal sealed partial class Compiler
         {
             return Expression.Convert(expression, underlyingToType);
         }
+        else if (TypeMapper.IsPassthrough(underlyingFromType))
+        {
+            // Registered passthrough type — skip conversion, let the provider handle it
+        }
         else
         {
             return ConvertExpressionToSystemConvertExpression();
