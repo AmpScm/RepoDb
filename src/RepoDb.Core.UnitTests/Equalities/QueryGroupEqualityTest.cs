@@ -120,15 +120,10 @@ public class QueryGroupEqualityTest
     [TestMethod]
     public void TestQueryGroupHashCodeEqualityForCollidedExpressions()
     {
-        // Prepare
         var objA = QueryGroup.Parse<EntityClass>(c => c.Id == 1 && c.Value != 1);
         var objB = QueryGroup.Parse<EntityClass>(c => c.Id != 1 && c.Value == 1);
 
-        // Act
-        var equal = objA.GetHashCode() == objB.GetHashCode();
-
-        // Assert
-        Assert.IsFalse(equal);
+        Assert.AreNotEqual(objA.GetHashCode(), objB.GetHashCode());
         Assert.HasCount(objA.QueryFields.Count, objB.QueryFields);
     }
 
@@ -139,14 +134,12 @@ public class QueryGroupEqualityTest
         var objA = QueryGroup.Parse<EntityClass>(c => c.Id == 1 && !(c.Value != 1));
         var objB = QueryGroup.Parse<EntityClass>(c => c.Id != 1 && c.Value == 1);
 
-        // Act
-        var equal = objA.GetHashCode() == objB.GetHashCode();
-
         // Assert
-        Assert.IsFalse(equal);
+        Assert.AreNotEqual(objA.GetHashCode(), objB.GetHashCode());
+
         //Assert.AreEqual(objA.QueryGroups?.Count, objB.QueryGroups?.Count);
 
-        Assert.AreEqual("(([Id] = @Id) AND NOT (([Value] <> @Value)))", objA.GetString(_dbSetting));
+        Assert.AreEqual("([Id] = @Id AND [Value] = @Value)", objA.GetString(_dbSetting));
         Assert.AreEqual("([Id] <> @Id AND [Value] = @Value)", objB.GetString(_dbSetting));
     }
 

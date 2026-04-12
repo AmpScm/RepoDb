@@ -49,15 +49,13 @@ public sealed record GlobalConfigurationOptions
     public bool DateOnlyAndTimeOnly { get; init; }
 #endif
 
-
-    /// <summary>
-    ///
-    /// </summary>
-    [Obsolete("This property is not used anymore. Use the SqlServer specific settings object instead.", error: true), EditorBrowsable(EditorBrowsableState.Never)]
-    public bool SqlServerIdentityInsert { get; init; }
-
     /// <summary>
     /// The <see cref="JsonSerializerOptions"/> used for JSON serialization and deserialization in text based json columns.
     /// </summary>
     public JsonSerializerOptions JsonSerializerOptions { get; init; } = Converter.JsonSerializerOptions;
+
+    /// <summary>
+    /// Gets or initializes the setting whether field operations may be updated (following the SQL rules) to shrink queries
+    /// </summary>
+    public QueryGroupOptimization QueryGroupOptimization { get; init; } = QueryGroupOptimization.Full;
 }

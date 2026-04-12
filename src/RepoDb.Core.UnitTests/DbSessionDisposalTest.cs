@@ -1,7 +1,7 @@
 using System.Data.Common;
 using RepoDb.UnitTests.CustomObjects;
 
-namespace RepoDb.Core.UnitTests;
+namespace RepoDb.UnitTests;
 
 [TestClass]
 public class DbSessionDisposalTest

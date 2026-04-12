@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using RepoDb.Enumerations;
+﻿using RepoDb.Enumerations;
 using RepoDb.Options;
 
 namespace RepoDb.Extensions;
@@ -83,9 +82,10 @@ public static class DbFieldExtension
     public static DbField? GetReturnColumn(this IEnumerable<DbField> fields) =>
         GlobalConfiguration.Options.KeyColumnReturnBehavior switch
         {
-            KeyColumnReturnBehavior.Primary => fields.FirstOrDefault(x=>x.IsPrimary),
+            KeyColumnReturnBehavior.Primary => fields.FirstOrDefault(x => x.IsPrimary),
             KeyColumnReturnBehavior.Identity => fields.FirstOrDefault(x => x.IsIdentity),
-            KeyColumnReturnBehavior.PrimaryOrElseIdentity => fields.FirstOrDefault(x=>x.IsPrimary) ?? fields.FirstOrDefault(x=>x.IsIdentity),
+            KeyColumnReturnBehavior.PrimaryOrElseIdentity => fields.FirstOrDefault(x => x.IsPrimary) ?? fields.FirstOrDefault(x => x.IsIdentity),
+            KeyColumnReturnBehavior.Default or
             KeyColumnReturnBehavior.IdentityOrElsePrimary => fields.FirstOrDefault(x => x.IsIdentity) ?? fields.FirstOrDefault(x => x.IsPrimary),
             _ => throw new NotSupportedException($"The key column return behavior '{GlobalConfiguration.Options.KeyColumnReturnBehavior}' is not supported."),
         };

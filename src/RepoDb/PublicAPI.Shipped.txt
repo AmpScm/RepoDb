@@ -87,8 +87,10 @@ override RepoDb.DataEntityDataReader<TEntity>.GetValues(object?[]! values) -> in
 override RepoDb.DataEntityDataReader<TEntity>.HasRows.get -> bool
 override RepoDb.DataEntityDataReader<TEntity>.IsClosed.get -> bool
 override RepoDb.DataEntityDataReader<TEntity>.IsDBNull(int ordinal) -> bool
+override RepoDb.DataEntityDataReader<TEntity>.IsDBNullAsync(int ordinal, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 override RepoDb.DataEntityDataReader<TEntity>.NextResult() -> bool
 override RepoDb.DataEntityDataReader<TEntity>.Read() -> bool
+override RepoDb.DataEntityDataReader<TEntity>.ReadAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 override RepoDb.DataEntityDataReader<TEntity>.RecordsAffected.get -> int
 override RepoDb.DataEntityDataReader<TEntity>.this[int i].get -> object!
 override RepoDb.DataEntityDataReader<TEntity>.this[string! name].get -> object!
@@ -124,8 +126,6 @@ override RepoDb.Extensions.QueryFields.FunctionalQueryField.GetString(int index,
 override RepoDb.Extensions.QueryFields.JsonExtractQueryField.Equals(RepoDb.QueryField? other) -> bool
 override RepoDb.Extensions.QueryFields.JsonExtractQueryField.GetHashCode() -> int
 override RepoDb.Extensions.QueryFields.JsonExtractQueryField.GetString(int index, RepoDb.Interfaces.IDbSetting? dbSetting) -> string!
-override RepoDb.Extensions.QueryFields.LeftQueryField.GetHashCode() -> int
-override RepoDb.Extensions.QueryFields.RightQueryField.GetHashCode() -> int
 override RepoDb.Field.Equals(object? obj) -> bool
 override RepoDb.Field.GetHashCode() -> int
 override RepoDb.Field.ToString() -> string!
@@ -1888,8 +1888,12 @@ RepoDb.Field.Type.get -> System.Type?
 RepoDb.FieldCache
 RepoDb.FieldSet
 RepoDb.FieldSet.Contains(RepoDb.Field! item) -> bool
+RepoDb.FieldSet.ContainsFieldName(string! fieldName) -> bool
 RepoDb.FieldSet.Count.get -> int
+RepoDb.FieldSet.Equals(RepoDb.FieldSet? other) -> bool
+RepoDb.FieldSet.FieldSet(params System.ReadOnlySpan<RepoDb.Field!> fields) -> void
 RepoDb.FieldSet.FieldSet(System.Collections.Generic.IEnumerable<RepoDb.Field!>! fields) -> void
+RepoDb.FieldSet.GetByFieldName(string! fieldName) -> RepoDb.Field?
 RepoDb.FieldSet.GetEnumerator() -> System.Collections.Generic.IEnumerator<RepoDb.Field!>!
 RepoDb.FieldSet.IsProperSubsetOf(System.Collections.Generic.IEnumerable<RepoDb.Field!>! other) -> bool
 RepoDb.FieldSet.IsProperSupersetOf(System.Collections.Generic.IEnumerable<RepoDb.Field!>! other) -> bool
@@ -1945,6 +1949,7 @@ RepoDb.Interfaces.IDbSetting.IsPreparable.get -> bool
 RepoDb.Interfaces.IDbSetting.MaxArrayParameterValueCount.get -> int
 RepoDb.Interfaces.IDbSetting.MaxParameterCount.get -> int
 RepoDb.Interfaces.IDbSetting.MaxQueriesInBatchCount.get -> int
+RepoDb.Interfaces.IDbSetting.NoUnderscoreArguments.get -> bool
 RepoDb.Interfaces.IDbSetting.OpeningQuote.get -> string!
 RepoDb.Interfaces.IDbSetting.ParameterPrefix.get -> string!
 RepoDb.Interfaces.IDbSetting.UseArrayParameterTreshold.get -> int?
@@ -2025,8 +2030,6 @@ RepoDb.Options.GlobalConfigurationOptions.JsonSerializerOptions.get -> System.Te
 RepoDb.Options.GlobalConfigurationOptions.JsonSerializerOptions.init -> void
 RepoDb.Options.GlobalConfigurationOptions.KeyColumnReturnBehavior.get -> RepoDb.Enumerations.KeyColumnReturnBehavior
 RepoDb.Options.GlobalConfigurationOptions.KeyColumnReturnBehavior.init -> void
-RepoDb.Options.GlobalConfigurationOptions.SqlServerIdentityInsert.get -> bool
-RepoDb.Options.GlobalConfigurationOptions.SqlServerIdentityInsert.init -> void
 RepoDb.Options.PropertyHandlerGetOptions
 RepoDb.Options.PropertyHandlerGetOptions.DataReader.get -> System.Data.Common.DbDataReader!
 RepoDb.Options.PropertyHandlerOptions
@@ -2177,18 +2180,17 @@ RepoDb.QueryBuilder.WriteQuoted(string? text, RepoDb.Interfaces.IDbSetting? dbSe
 RepoDb.QueryBuilder.WriteText(string? text) -> RepoDb.QueryBuilder!
 RepoDb.QueryField
 RepoDb.QueryField.Field.get -> RepoDb.Field!
-RepoDb.QueryField.FieldName.get -> string?
+RepoDb.QueryField.FieldName.get -> string!
 RepoDb.QueryField.GetName() -> string?
 RepoDb.QueryField.GetString(int index, string? functionFormat, RepoDb.Interfaces.IDbSetting? dbSetting) -> string!
 RepoDb.QueryField.GetValue<T>() -> T?
-RepoDb.QueryField.IsForUpdate() -> void
+RepoDb.QueryField.IsForUpdate(RepoDb.Interfaces.IDbSetting! setting) -> void
 RepoDb.QueryField.Operation.get -> RepoDb.Enumerations.Operation
 RepoDb.QueryField.Parameter.get -> RepoDb.Parameter!
 RepoDb.QueryField.QueryField(RepoDb.Field! field, object? value) -> void
 RepoDb.QueryField.QueryField(string! fieldName, object? value) -> void
 RepoDb.QueryField.QueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value) -> void
 RepoDb.QueryField.QueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, System.Data.DbType? dbType) -> void
-RepoDb.QueryField.QueryField(string! fieldName, RepoDb.Enumerations.Operation operation, object? value, System.Data.DbType? dbType, bool prependUnderscore = false) -> void
 RepoDb.QueryField.Reset() -> void
 RepoDb.QueryField.Value.get -> object?
 RepoDb.QueryGroup
@@ -2197,21 +2199,21 @@ RepoDb.QueryGroup.Equals(RepoDb.QueryGroup? other) -> bool
 RepoDb.QueryGroup.Fix() -> RepoDb.QueryGroup!
 RepoDb.QueryGroup.GetFields(bool traverse) -> System.Collections.Generic.IEnumerable<RepoDb.QueryField!>?
 RepoDb.QueryGroup.GetString(int index, RepoDb.Interfaces.IDbSetting! dbSetting) -> string!
-RepoDb.QueryGroup.IsForUpdate() -> void
+RepoDb.QueryGroup.IsForUpdate(RepoDb.Interfaces.IDbSetting! setting) -> void
 RepoDb.QueryGroup.IsNot.get -> bool
 RepoDb.QueryGroup.QueryFields.get -> System.Collections.Generic.IReadOnlyList<RepoDb.QueryField!>?
 RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField) -> void
 RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, bool isNot) -> void
 RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, RepoDb.Enumerations.Conjunction conjunction) -> void
 RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, RepoDb.QueryGroup! queryGroup, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, RepoDb.QueryGroup! queryGroup, RepoDb.Enumerations.Conjunction conjunction) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, RepoDb.QueryGroup! queryGroup, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, RepoDb.QueryGroup? queryGroup) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups, RepoDb.Enumerations.Conjunction conjunction) -> void
-RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField! queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, RepoDb.QueryGroup? queryGroup) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, RepoDb.QueryGroup? queryGroup, bool isNot) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, RepoDb.QueryGroup? queryGroup, RepoDb.Enumerations.Conjunction conjunction) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, RepoDb.QueryGroup? queryGroup, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups, bool isNot) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups, RepoDb.Enumerations.Conjunction conjunction) -> void
+RepoDb.QueryGroup.QueryGroup(RepoDb.QueryField? queryField, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
 RepoDb.QueryGroup.QueryGroup(RepoDb.QueryGroup! queryGroup) -> void
 RepoDb.QueryGroup.QueryGroup(RepoDb.QueryGroup! queryGroup, bool isNot) -> void
 RepoDb.QueryGroup.QueryGroup(RepoDb.QueryGroup! queryGroup, RepoDb.Enumerations.Conjunction conjunction) -> void
@@ -2220,13 +2222,13 @@ RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.Query
 RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, bool isNot) -> void
 RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, RepoDb.Enumerations.Conjunction conjunction) -> void
 RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, RepoDb.QueryGroup! queryGroup) -> void
-RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, RepoDb.QueryGroup! queryGroup, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, RepoDb.QueryGroup! queryGroup, RepoDb.Enumerations.Conjunction conjunction) -> void
-RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, RepoDb.QueryGroup! queryGroup, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups) -> void
-RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups, bool isNot) -> void
-RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups, RepoDb.Enumerations.Conjunction conjunction) -> void
+RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, RepoDb.QueryGroup? queryGroup) -> void
+RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, RepoDb.QueryGroup? queryGroup, bool isNot) -> void
+RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, RepoDb.QueryGroup? queryGroup, RepoDb.Enumerations.Conjunction conjunction) -> void
+RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, RepoDb.QueryGroup? queryGroup, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
+RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups) -> void
+RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups, bool isNot) -> void
+RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups, RepoDb.Enumerations.Conjunction conjunction) -> void
 RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryField!>? queryFields, System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>? queryGroups, RepoDb.Enumerations.Conjunction conjunction, bool isNot) -> void
 RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups) -> void
 RepoDb.QueryGroup.QueryGroup(System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups, bool isNot) -> void
@@ -3362,6 +3364,7 @@ static RepoDb.Field.Parse<TEntity>(TEntity? instance = null) -> RepoDb.FieldSet!
 static RepoDb.FieldCache.Flush() -> void
 static RepoDb.FieldCache.Get(System.Type! entityType) -> RepoDb.FieldSet!
 static RepoDb.FieldCache.Get<TEntity>() -> RepoDb.FieldSet!
+static RepoDb.FieldSet.Create(System.ReadOnlySpan<RepoDb.Field!> items) -> RepoDb.FieldSet!
 static RepoDb.FieldSet.From<TEntity>() -> RepoDb.FieldSet!
 static RepoDb.FieldSet.operator !=(RepoDb.FieldSet? left, RepoDb.FieldSet? right) -> bool
 static RepoDb.FieldSet.operator ==(RepoDb.FieldSet? objA, RepoDb.FieldSet? objB) -> bool
@@ -3519,6 +3522,7 @@ static RepoDb.PropertyValueAttributeMapper.Remove<TEntity>(string! propertyName)
 static RepoDb.PropertyValueAttributeMapper.Remove<TEntity>(System.Linq.Expressions.Expression<System.Func<TEntity!, object?>!>! expression) -> bool
 static RepoDb.QueryField.operator !=(RepoDb.QueryField? objA, RepoDb.QueryField? objB) -> bool
 static RepoDb.QueryField.operator ==(RepoDb.QueryField? objA, RepoDb.QueryField? objB) -> bool
+static RepoDb.QueryGroup.implicit operator RepoDb.QueryGroup?(RepoDb.QueryField? queryField) -> RepoDb.QueryGroup?
 static RepoDb.QueryGroup.operator !=(RepoDb.QueryGroup? objA, RepoDb.QueryGroup? objB) -> bool
 static RepoDb.QueryGroup.operator ==(RepoDb.QueryGroup? objA, RepoDb.QueryGroup? objB) -> bool
 static RepoDb.QueryGroup.Parse<T>(T obj) -> RepoDb.QueryGroup?

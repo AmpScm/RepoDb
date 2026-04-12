@@ -76,4 +76,25 @@ internal static class OperationExtensions
              Operation.GreaterThanOrEqual => Operation.LessThanOrEqual,
              _ => throw new NotSupportedException($"The operation '{operation}' doesn't support the switching of operands.")
          };
+
+
+    public static Operation Negate(this Operation operation)
+         => operation switch
+         {
+             Operation.Equal => Operation.NotEqual,
+             Operation.NotEqual => Operation.Equal,
+             Operation.LessThan => Operation.GreaterThanOrEqual,
+             Operation.GreaterThan => Operation.LessThanOrEqual,
+             Operation.LessThanOrEqual => Operation.GreaterThan,
+             Operation.GreaterThanOrEqual => Operation.LessThan,
+             Operation.Like => Operation.NotLike,
+             Operation.NotLike => Operation.Like,
+             Operation.Between => Operation.NotBetween,
+             Operation.NotBetween => Operation.Between,
+             Operation.In => Operation.NotIn,
+             Operation.NotIn => Operation.In,
+             Operation.IsNull => Operation.IsNotNull,
+             Operation.IsNotNull => Operation.IsNull,
+             _ => throw new NotSupportedException($"The operation '{operation}' doesn't support the negation.")
+         };
 }

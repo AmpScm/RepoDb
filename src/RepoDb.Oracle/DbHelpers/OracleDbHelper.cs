@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections;
+using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
@@ -9,6 +10,7 @@ using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
+using RepoDb.Oracle.Mappings;
 using RepoDb.Resolvers;
 using OracleINullable = Oracle.ManagedDataAccess.Types.INullable;
 
@@ -417,6 +419,39 @@ public sealed class OracleDbHelper : BaseDbHelper
                 cmd.Parameters.Add($":c_cur{i}", OracleDbType.RefCursor, ParameterDirection.Output);
             }
         }
+    }
+
+    /// <inheritdoc />
+    public override bool CanCreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values)
+    {
+        var elementType = fieldType ?? values.GetElementType();
+
+        if (elementType == typeof(int) || elementType == typeof(long) || elementType == typeof(short) || elementType == typeof(uint) || elementType == typeof(ushort) || elementType == typeof(byte) || elementType == typeof(sbyte))
+            return true;
+
+        return false;
+    }
+
+    /// <inheritdoc />
+    public override DbParameter? CreateTableParameter(IDbConnection connection, IDbTransaction? transaction, Type? fieldType, IEnumerable values, string parameterName)
+    {
+        var elementType = fieldType ?? values.GetElementType();
+        var p = new OracleParameter();
+        p.OracleDbType = OracleDbType.Object;
+        p.UdtTypeName = ODCINumberListFactory.ODCINUMBERLIST;
+
+        var set = values.AsTypedSet();
+
+        var items = new long[set.Count];
+        int i = 0;
+        foreach (var o in set)
+        {
+            items[i++] = Converter.ToType<long>(o);
+        }
+
+        p.Value = items;
+
+        return p;
     }
 
     /// <inheritdoc />

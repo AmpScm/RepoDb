@@ -48,8 +48,8 @@ public class ExecuteQueryMultipleTest : TestBase
         // Act
         using QueryMultipleExtractor extractor = connection.ExecuteQueryMultiple(
             connection.CombineQueries(
-            "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId1",
-            "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId2"),
+            "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id1",
+            "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id2"),
             new
             {
                 Id1 = tables.First().Id,
@@ -79,8 +79,8 @@ public class ExecuteQueryMultipleTest : TestBase
         // Act
         using QueryMultipleExtractor extractor = connection.ExecuteQueryMultiple(
             [
-                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId",
-                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId"
+                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id",
+                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id"
             ],
             new { Id = tables.Last().Id });
         List<IEnumerable<CompleteTable>> list =
@@ -139,8 +139,8 @@ public class ExecuteQueryMultipleTest : TestBase
         // Act
         using QueryMultipleExtractor extractor = await connection.ExecuteQueryMultipleAsync(
             [
-                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId1",
-                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId2",
+                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id1",
+                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id2",
             ],
             new
             {
@@ -171,8 +171,8 @@ public class ExecuteQueryMultipleTest : TestBase
         // Act
         using QueryMultipleExtractor extractor = await connection.ExecuteQueryMultipleAsync(
             [
-                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId",
-                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :pId"
+                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id",
+                "SELECT * FROM \"CompleteTable\" WHERE \"Id\" = :Id"
             ],
             new { Id = tables.Last().Id }, cancellationToken: TestContext.CancellationToken);
         List<IEnumerable<CompleteTable>> list =

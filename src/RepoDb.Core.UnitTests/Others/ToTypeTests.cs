@@ -1,4 +1,4 @@
-﻿namespace RepoDb.Core.UnitTests.Others;
+﻿namespace RepoDb.UnitTests.Others;
 
 [TestClass]
 public class ToTypeTests

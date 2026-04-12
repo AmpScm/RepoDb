@@ -162,15 +162,14 @@ public static class DbCommandExtension
         Type? entityType,
         DbFieldCollection? dbFields = null)
     {
-        // Check
-        if (param is null)
-        {
-            return;
-        }
+        ArgumentNullException.ThrowIfNull(command);
 
-        // IDictionary<string, object?>
         switch (param)
         {
+            case null:
+                return;
+
+            // IDictionary<string, object?>
             case IDictionary<string, object?> objects:
                 CreateParameters(command, objects, propertiesToSkip, dbFields);
                 break;
@@ -187,12 +186,12 @@ public static class DbCommandExtension
 
             // QueryGroup
             case QueryGroup group:
-                CreateParameters(command, group, propertiesToSkip, entityType, dbFields);
+                command.CreateParameters(group, propertiesToSkip, entityType, dbFields);
                 break;
 
             // Other
             default:
-                CreateParametersInternal(command, param, propertiesToSkip, entityType, dbFields);
+                command.CreateParametersInternal(param, propertiesToSkip, entityType, dbFields);
                 break;
         }
     }
@@ -344,7 +343,7 @@ public static class DbCommandExtension
         return null;
     }
 
-    private static void CreateParametersInternal(IDbCommand command,
+    private static void CreateParametersInternal(this IDbCommand command,
         object param,
         HashSet<string>? propertiesToSkip,
         Type? entityType,
@@ -438,7 +437,7 @@ public static class DbCommandExtension
         }
     }
 
-    internal static void CreateParameters(IDbCommand command,
+    internal static void CreateParameters(this IDbCommand command,
         QueryGroup? queryGroup,
         HashSet<string>? propertiesToSkip,
         Type? entityType,
@@ -649,8 +648,7 @@ public static class DbCommandExtension
         Type? fallbackType) =>
         classProperty?.GetPropertyValueAttributes() ?? fallbackType?.GetPropertyValueAttributes();
 
-    private static void InvokePropertyValueAttributes(IDbDataParameter parameter,
-        IEnumerable<PropertyValueAttribute>? attributes)
+    private static void InvokePropertyValueAttributes(IDbDataParameter parameter, IEnumerable<PropertyValueAttribute>? attributes)
     {
         if (attributes?.Any() != true)
         {
@@ -659,17 +657,18 @@ public static class DbCommandExtension
 
         // In RepoDb, the only way the parameter has '@_' is when the time you call the QueryField.IsForUpdate()
         // method and it is only happening on update operations.
-        var isForUpdate = parameter.ParameterName.StartsWith('_') || parameter.ParameterName.StartsWith("@_", StringComparison.Ordinal);
+        var isForUpdate = parameter.ParameterName is { Length: > 1 } pmName
+            && (pmName[0] == '_'
+            || pmName.Length > 2 && pmName[0] is '@' or ':' && pmName[1] == '_'
+            || pmName.Length > 5 && pmName[0] is '@' or ':' && pmName[1] == 'R' && pmName[2] == 'd' && pmName[3] == 'B' && pmName[4] == '_');
 
         foreach (var attribute in attributes)
         {
-            var exclude = isForUpdate &&
+            if (isForUpdate &&
                 (
                     attribute is NameAttribute ||
                     string.Equals(nameof(IDbDataParameter.ParameterName), attribute.PropertyName, StringComparison.OrdinalIgnoreCase)
-                );
-
-            if (exclude)
+                ))
             {
                 continue;
             }
@@ -777,6 +776,16 @@ public static class DbCommandExtension
             {
                 return AutomaticConvert((float?)(Half?)value, typeof(float), targetType);
             }
+#if NET11_0_OR_GREATER
+            else if (targetType == typeof(System.Numerics.BFloat16) && fromType.IsBinaryIntFloatOrDecimal())
+            {
+                return (BFloat16?)(float?)Convert.ChangeType(value, typeof(float), CultureInfo.InvariantCulture);
+            }
+            else if (fromType == typeof(System.Numerics.BFloat16))
+            {
+                return AutomaticConvert((float?)(Half?)value, typeof(float), targetType);
+            }
+#endif
 #endif
             else if (value == DBNull.Value)
             {

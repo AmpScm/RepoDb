@@ -1,6 +1,6 @@
 using RepoDb.Extensions;
 
-namespace RepoDb.Core.UnitTests;
+namespace RepoDb.UnitTests;
 
 [TestClass]
 public class ListExtensionTest

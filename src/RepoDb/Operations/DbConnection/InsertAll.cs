@@ -2,8 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Transactions;
-using RepoDb.Contexts.Execution;
-using RepoDb.Contexts.Providers;
+using RepoDb.Contexts;
 using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -449,6 +448,8 @@ public static partial class DbConnectionExtension
             return default;
         }
 
+        var theFields = fields.AsFieldSet();
+
         // Validate the batch size
         int maxBatchSize = dbSetting.IsMultiStatementExecutable
             ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
@@ -480,7 +481,7 @@ public static partial class DbConnectionExtension
                         connection,
                         tableName,
                         batchItems.Count,
-                        fields,
+                        theFields,
                         hints,
                         transaction,
                         statementBuilder);
@@ -636,6 +637,8 @@ public static partial class DbConnectionExtension
             return default;
         }
 
+        var theFields = fields.AsFieldSet();
+
         // Validate the batch size
         int maxBatchSize = dbSetting.IsMultiStatementExecutable
             ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
@@ -673,7 +676,7 @@ public static partial class DbConnectionExtension
                         connection,
                         tableName,
                         batchItems.Count,
-                        fields,
+                        theFields,
                         hints,
                         transaction,
                         statementBuilder,

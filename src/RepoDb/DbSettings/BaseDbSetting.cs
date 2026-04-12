@@ -86,6 +86,9 @@ public abstract record BaseDbSetting : IDbSetting, IEquatable<BaseDbSetting>
     /// <inheritdoc/>
     public int MaxArrayParameterValueCount { get; protected init; } = ushort.MaxValue;
 
+    /// <inheritdoc/>
+    public bool NoUnderscoreArguments { get; protected init; }
+
     #endregion
 
     /// <summary>

@@ -6,6 +6,10 @@
 public enum KeyColumnReturnBehavior
 {
     /// <summary>
+    /// 
+    /// </summary>
+    Default = 0,
+    /// <summary>
     /// Returns the value of the primary column.
     /// </summary>
     Primary = 1,

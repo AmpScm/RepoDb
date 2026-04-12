@@ -1,6 +1,5 @@
 ﻿using Moq;
-using RepoDb.Context.Caches;
-using RepoDb.Contexts.Caches;
+using RepoDb.Contexts;
 using RepoDb.Enumerations;
 using RepoDb.Interfaces;
 using RepoDb.UnitTests.CustomObjects;

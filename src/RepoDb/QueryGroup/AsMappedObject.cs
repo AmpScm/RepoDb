@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Data;
-using System.Dynamic;
 using System.Globalization;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;

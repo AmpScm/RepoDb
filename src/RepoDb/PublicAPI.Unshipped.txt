@@ -1,6 +1,18 @@
 const RepoDb.TraceKeys.QueryReader = "QueryReader" -> string!
-override RepoDb.DataEntityDataReader<TEntity>.IsDBNullAsync(int ordinal, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
-override RepoDb.DataEntityDataReader<TEntity>.ReadAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+override RepoDb.Extensions.QueryFields.FieldComparisonQueryField.Equals(RepoDb.QueryField? other) -> bool
+override RepoDb.Extensions.QueryFields.FieldComparisonQueryField.GetHashCode() -> int
+RepoDb.DbSettings.BaseDbSetting.NoUnderscoreArguments.get -> bool
+RepoDb.DbSettings.BaseDbSetting.NoUnderscoreArguments.init -> void
+RepoDb.Enumerations.KeyColumnReturnBehavior.Default = 0 -> RepoDb.Enumerations.KeyColumnReturnBehavior
+RepoDb.Enumerations.QueryGroupOptimization
+RepoDb.Enumerations.QueryGroupOptimization.Full = 200 -> RepoDb.Enumerations.QueryGroupOptimization
+RepoDb.Enumerations.QueryGroupOptimization.None = 0 -> RepoDb.Enumerations.QueryGroupOptimization
+RepoDb.Enumerations.QueryGroupOptimization.Normal = 100 -> RepoDb.Enumerations.QueryGroupOptimization
+RepoDb.Options.GlobalConfigurationOptions.QueryGroupOptimization.get -> RepoDb.Enumerations.QueryGroupOptimization
+RepoDb.Options.GlobalConfigurationOptions.QueryGroupOptimization.init -> void
+RepoDb.QueryGroup.And(RepoDb.QueryGroup! queryGroup) -> RepoDb.QueryGroup!
+RepoDb.QueryGroup.Not(bool isNot = true) -> RepoDb.QueryGroup!
+RepoDb.QueryGroup.Or(RepoDb.QueryGroup! queryGroup) -> RepoDb.QueryGroup!
 static RepoDb.DbConnectionExtension.GetDbRuntimeSettingAsync(this System.Data.IDbConnection! connection, System.Data.IDbTransaction? transaction = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<RepoDb.DbSettings.DbRuntimeSetting!>
 static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbConnection! connection, RepoDb.QueryGroup? where = null, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null) -> System.Collections.Generic.IEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbConnection! connection, string! tableName, RepoDb.QueryGroup? where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null) -> System.Collections.Generic.IEnumerable<TEntity!>!
@@ -8,6 +20,12 @@ static RepoDb.DbConnectionExtension.QueryReader<TEntity>(this System.Data.IDbCon
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, RepoDb.QueryGroup? where = null, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, string! tableName, RepoDb.QueryGroup? where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
 static RepoDb.DbConnectionExtension.QueryReaderAsync<TEntity>(this System.Data.IDbConnection! connection, System.Linq.Expressions.Expression<System.Func<TEntity!, bool>!>! where, System.Collections.Generic.IEnumerable<RepoDb.Field!>? fields = null, System.Collections.Generic.IEnumerable<RepoDb.OrderField!>? orderBy = null, int top = 0, int offset = 0, string? hints = null, int commandTimeout = 0, string? traceKey = "QueryReader", System.Data.IDbTransaction? transaction = null, RepoDb.Interfaces.ITrace? trace = null, RepoDb.Interfaces.IStatementBuilder? statementBuilder = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TEntity!>!
+static RepoDb.QueryGroup.And(params System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields) -> RepoDb.QueryGroup!
+static RepoDb.QueryGroup.And(params System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups) -> RepoDb.QueryGroup!
+static RepoDb.QueryGroup.operator !(RepoDb.QueryGroup! queryGroup) -> RepoDb.QueryGroup!
+static RepoDb.QueryGroup.operator &(RepoDb.QueryGroup! left, RepoDb.QueryGroup! right) -> RepoDb.QueryGroup!
+static RepoDb.QueryGroup.operator |(RepoDb.QueryGroup! left, RepoDb.QueryGroup! right) -> RepoDb.QueryGroup!
+static RepoDb.QueryGroup.Or(params System.Collections.Generic.IEnumerable<RepoDb.QueryField!>! queryFields) -> RepoDb.QueryGroup!
+static RepoDb.QueryGroup.Or(params System.Collections.Generic.IEnumerable<RepoDb.QueryGroup!>! queryGroups) -> RepoDb.QueryGroup!
 static RepoDb.Schema.DbSchemaExtensions.SchemaObjectExists<TEntity>(this System.Data.Common.DbConnection! connection, RepoDb.Enumerations.DbSchemaType? type = null, System.Data.Common.DbTransaction? transaction = null) -> bool
 static RepoDb.Schema.DbSchemaExtensions.SchemaObjectExists<TEntity>(this System.Data.Common.DbConnection! connection, string? tableName, RepoDb.Enumerations.DbSchemaType? type = null, System.Data.Common.DbTransaction? transaction = null) -> bool
-

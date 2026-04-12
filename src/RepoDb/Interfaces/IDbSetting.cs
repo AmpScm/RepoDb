@@ -89,4 +89,9 @@ public interface IDbSetting
     /// optimize array expressions different than writing out the arguments.
     /// </summary>
     int MaxArrayParameterValueCount { get; }
+
+    /// <summary>
+    /// Gets a boolean indicating that _ arguments are not supported
+    /// </summary>
+    bool NoUnderscoreArguments { get; }
 }

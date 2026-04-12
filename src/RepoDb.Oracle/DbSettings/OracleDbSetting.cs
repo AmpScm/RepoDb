@@ -18,9 +18,11 @@ public sealed record OracleDbSetting : BaseDbSetting
         IsExecuteReaderDisposable = true;
         IsMultiStatementExecutable = true;
         IsPreparable = true;
-        ParameterPrefix = ":p";
+        ParameterPrefix = ":";
+        NoUnderscoreArguments = true;
         MaxParameterCount = 999; //   Oracle.ManagedDataAccess.Client.OracleException: ORA-01795: maximum number of expressions in a list is 1000 https://docs.oracle.com/error-help/db/ora-01795/
         MaxQueriesInBatchCount = 1000;
+        UseArrayParameterTreshold = 15;
         GenerateFinalSemiColon = false;
     }
 
@@ -62,5 +64,11 @@ public sealed record OracleDbSetting : BaseDbSetting
 
             _ => base.TranslateFunctionalFormat(format)
         };
+    }
+
+    /// <inheritdoc />
+    public override string? CreateTableParameterText(string parameterName)
+    {
+        return $"(SELECT COLUMN_VALUE FROM TABLE({parameterName}))";
     }
 }

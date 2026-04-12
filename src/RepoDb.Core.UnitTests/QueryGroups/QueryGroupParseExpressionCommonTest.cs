@@ -8,6 +8,12 @@ public partial class QueryGroupTest
         GlobalConfiguration.Setup(new());
     }
 
+    [TestCleanup]
+    public void Cleanup()
+    {
+        GlobalConfiguration.Setup(new());
+    }
+
     #region Name
 
     [TestMethod]
@@ -145,7 +151,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1 || e.PropertyDouble == 2) && e.PropertyString == "A").GetString(m_dbSetting);
-        var expected = "(([PropertyInt] = @PropertyInt OR [PropertyDouble] = @PropertyDouble) AND ([PropertyString] = @PropertyString))";
+        var expected = "([PropertyString] = @PropertyString AND ([PropertyInt] = @PropertyInt OR [PropertyDouble] = @PropertyDouble))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -156,7 +162,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (e.PropertyInt == 1 && e.PropertyDouble == 2) || e.PropertyString == "A").GetString(m_dbSetting);
-        var expected = "(([PropertyInt] = @PropertyInt AND [PropertyDouble] = @PropertyDouble) OR ([PropertyString] = @PropertyString))";
+        var expected = "([PropertyString] = @PropertyString OR ([PropertyInt] = @PropertyInt AND [PropertyDouble] = @PropertyDouble))";
 
         // Assert
         Assert.AreEqual(expected, actual);

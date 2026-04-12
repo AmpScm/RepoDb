@@ -46,6 +46,13 @@ public static class CommandTextCache
         return cache.GetOrAdd(request, (_) => creator(request, dbFields));
     }
 
+
+    internal static string GetCachedWithDbFields<TRequest>(TRequest request, DbFieldCollection fields, Func<TRequest, DbFieldCollection, string> creator)
+        where TRequest : BaseRequest
+    {
+        return cache.GetOrAdd(request, (_) => creator(request, fields));
+    }
+
     #region GetAverageText
 
     internal static string GetAverageText(AverageRequest request)

@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
+using RepoDb.Enumerations;
 using RepoDb.Extensions;
 
 namespace RepoDb.UnitTests;
@@ -60,7 +61,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -88,7 +89,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] NOT LIKE @PropertyString)";
+        var expected = "([PropertyString] LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -102,7 +103,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -130,7 +131,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] NOT LIKE @PropertyString)";
+        var expected = "([PropertyString] LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -198,7 +199,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -216,7 +217,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] NOT LIKE @PropertyString)";
+        var expected = "([PropertyString] LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -294,7 +295,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -308,7 +309,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -378,7 +379,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString OR [PropertyString] LIKE @PropertyString_1)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString AND [PropertyString] NOT LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -406,7 +407,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString AND [PropertyString] LIKE @PropertyString_1)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString OR [PropertyString] NOT LIKE @PropertyString_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -518,7 +519,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "(([PropertyString] LIKE @PropertyString) AND ([PropertyString] <> @PropertyString_1 OR [PropertyString] <> @PropertyString_2))";
+        var expected = "([PropertyString] LIKE @PropertyString AND ([PropertyString] <> @PropertyString_1 OR [PropertyString] <> @PropertyString_2))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -620,7 +621,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -634,7 +635,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -723,7 +724,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -738,7 +739,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -972,7 +973,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1030,7 +1031,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1060,7 +1061,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -1333,16 +1334,16 @@ public partial class QueryGroupTest
         Assert.AreEqual("([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1)", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !e.PropertyBoolean && e.PropertyBoolean || e.PropertyBoolean);
-        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([PropertyBoolean] = @PropertyBoolean OR ([PropertyBoolean] <> @PropertyBoolean_1 AND [PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (!e.PropertyBoolean && e.PropertyBoolean) || e.PropertyBoolean);
-        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1) OR ([PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([PropertyBoolean] = @PropertyBoolean OR ([PropertyBoolean] <> @PropertyBoolean_1 AND [PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => (!e.PropertyBoolean && e.PropertyBoolean) || !e.PropertyBoolean);
-        Assert.AreEqual("(([PropertyBoolean] <> @PropertyBoolean AND [PropertyBoolean] = @PropertyBoolean_1) OR ([PropertyBoolean] <> @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([PropertyBoolean] <> @PropertyBoolean OR ([PropertyBoolean] <> @PropertyBoolean_1 AND [PropertyBoolean] = @PropertyBoolean_2))", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => !(e.PropertyInt == 12) || !e.PropertyBoolean);
-        Assert.AreEqual("(NOT (([PropertyInt] = @PropertyInt)) OR ([PropertyBoolean] <> @PropertyBoolean))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([PropertyInt] <> @PropertyInt OR [PropertyBoolean] <> @PropertyBoolean)", parsed.GetString(m_dbSetting));
     }
 
     record ValueItem(int V);
@@ -1361,10 +1362,10 @@ public partial class QueryGroupTest
         Assert.AreEqual("([V] > @V AND [V] < @V_1)", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<ValueItem>(e => !(e.V == 5 || 6 == e.V));
-        Assert.AreEqual("NOT (([V] = @V OR [V] = @V_1))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([V] <> @V AND [V] <> @V_1)", parsed.GetString(m_dbSetting));
 
         parsed = QueryGroup.Parse<ValueItem>(e => !(e.V >= 5) || !(6 <= e.V));
-        Assert.AreEqual("(NOT (([V] >= @V)) OR NOT (([V] >= @V_1)))", parsed.GetString(m_dbSetting));
+        Assert.AreEqual("([V] < @V OR [V] < @V_1)", parsed.GetString(m_dbSetting));
     }
 
     record ValueJsonItem(JsonObject ob, DbJsonValue<ValueItem> vv);
@@ -1385,15 +1386,20 @@ public partial class QueryGroupTest
         parsed = QueryGroup.Parse<ValueJsonItem>(e => e.ob.ExtractValue<int>("V") < 3);
         Assert.AreEqual("(JSON_EXTRACT([ob], '$.V') < @ob)", parsed.GetString(m_dbSetting));
 
-        //parsed = QueryGroup.Parse<ValueJsonItem>(e => e.vv.Json.ExtractValue((ValueItem x) => x.V) < 3);
-        //Assert.AreEqual("(JSON_EXTRACT([vv], '$.V') < @vv)", parsed.GetString(m_dbSetting));
-
-
         ValueJsonItem item = new(new JsonObject() { ["V"] = 5 }, new DbJsonValue<ValueItem>(new ValueItem(5)));
 
         // And assert some value retrievals work as expected when not processed on server
         Assert.AreEqual(5, ExprValue(() => item.vv.Value.V));
         Assert.AreEqual(5, ExprValue(() => item.ob.ExtractValue((ValueItem x) => x.V)));
         Assert.AreEqual(5, ExprValue(() => item.ob.ExtractValue<int>("V")));
+    }
+
+    [TestMethod]
+    public void TestEmptyChildGroupRemoval()
+    {
+        Assert.Throws<ArgumentException>(() => new QueryGroup(queryFields: null, queryGroups: null));
+        Assert.Throws<ArgumentException>(() => new QueryGroup(queryFields: [], queryGroups: []));
+        Assert.Throws<ArgumentException>(() => new QueryGroup(queryFields: null, queryGroups: []));
+        Assert.Throws<ArgumentException>(() => new QueryGroup(queryFields: [], queryGroups: null));
     }
 }

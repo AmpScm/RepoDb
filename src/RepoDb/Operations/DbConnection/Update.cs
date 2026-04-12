@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
-using RepoDb.Contexts.Providers;
+using RepoDb.Contexts;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 
@@ -626,7 +626,7 @@ public static partial class DbConnectionExtension
                 tableName: tableName,
                 entity: (IDictionary<string, object?>)entity,
                 where: where,
-                fields: fields ?? GetQualifiedFields(entity),
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entity),
                 hints: hints,
                 commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -640,7 +640,7 @@ public static partial class DbConnectionExtension
                 tableName: tableName,
                 entity: entity,
                 where: where,
-                fields: fields ?? GetQualifiedFields(entity),
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entity),
                 hints: hints,
                 commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -689,7 +689,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(key, entity),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -736,7 +736,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -781,7 +781,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: await WhatToQueryGroupAsync(connection, tableName, what, transaction, cancellationToken).ConfigureAwait(false),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -826,7 +826,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: connection.ToQueryGroup(where, transaction),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -871,7 +871,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: where != null ? new QueryGroup(where.AsEnumerable()) : null,
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -916,7 +916,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -961,7 +961,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: where,
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1003,7 +1003,7 @@ public static partial class DbConnectionExtension
             tableName: GetMappedName(entity),
             entity: entity,
             where: ToQueryGroup(key, entity),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1048,7 +1048,7 @@ public static partial class DbConnectionExtension
             tableName: GetMappedName(entity),
             entity: entity,
             where: await WhatToQueryGroupAsync(GetEntityType(entity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1091,7 +1091,7 @@ public static partial class DbConnectionExtension
             tableName: GetMappedName(entity),
             entity: entity,
             where: await WhatToQueryGroupAsync(GetEntityType(entity), connection, what, transaction, cancellationToken).ConfigureAwait(false),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1134,7 +1134,7 @@ public static partial class DbConnectionExtension
             tableName: GetMappedName(entity),
             entity: entity,
             where: connection.ToQueryGroup(where, transaction),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1177,7 +1177,7 @@ public static partial class DbConnectionExtension
             tableName: GetMappedName(entity),
             entity: entity,
             where: ToQueryGroup(where),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1220,7 +1220,7 @@ public static partial class DbConnectionExtension
             tableName: GetMappedName(entity),
             entity: entity,
             where: ToQueryGroup(where),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1263,7 +1263,7 @@ public static partial class DbConnectionExtension
             tableName: GetMappedName(entity),
             entity: entity,
             where: where,
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1294,7 +1294,7 @@ public static partial class DbConnectionExtension
         string tableName,
         TEntity entity,
         QueryGroup? where,
-        IEnumerable<Field>? fields = null,
+        FieldSet? fields = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Update,
@@ -1584,7 +1584,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(key, entity),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1627,7 +1627,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1670,7 +1670,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1713,7 +1713,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: ToQueryGroup(where),
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1756,7 +1756,7 @@ public static partial class DbConnectionExtension
             tableName: tableName,
             entity: entity,
             where: where,
-            fields: fields,
+            fields: fields?.AsFieldSet(),
             hints: hints,
             commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1790,7 +1790,7 @@ public static partial class DbConnectionExtension
         string tableName,
         TEntity entity,
         QueryGroup? where,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Update,
@@ -1800,7 +1800,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Set the flags
-        where?.IsForUpdate();
+        where?.IsForUpdate(connection.GetDbSetting());
 
         // Get the context
         var entityType = GetEntityType(entity);
@@ -1808,7 +1808,7 @@ public static partial class DbConnectionExtension
             connection,
             tableName,
             where,
-            fields,
+            fields: fields,
             hints,
             transaction,
             statementBuilder);
@@ -1872,7 +1872,7 @@ public static partial class DbConnectionExtension
         string tableName,
         TEntity entity,
         QueryGroup? where,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Update,
@@ -1883,7 +1883,7 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Set the flags
-        where?.IsForUpdate();
+        where?.IsForUpdate(connection.GetDbSetting());
 
         // Get the context
         var entityType = GetEntityType(entity);

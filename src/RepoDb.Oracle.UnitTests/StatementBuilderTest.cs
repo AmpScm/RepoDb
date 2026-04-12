@@ -124,7 +124,7 @@ public class StatementBuilderTest
         // Act
         var query = builder.CreateExists("Table",
             QueryGroup.Parse(new { Id = 1 }));
-        var expected = "SELECT 1 AS \"ExistsValue\" FROM \"Table\" WHERE (\"Id\" = :pId) FETCH FIRST 1 ROWS ONLY";
+        var expected = "SELECT 1 AS \"ExistsValue\" FROM \"Table\" WHERE (\"Id\" = :Id) FETCH FIRST 1 ROWS ONLY";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -145,7 +145,7 @@ public class StatementBuilderTest
             Field.From("Id", "Name", "Address"),
             primaryField: null,
             null);
-        var expected = "INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress)";
+        var expected = "INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id, :Name, :Address)";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -162,7 +162,7 @@ public class StatementBuilderTest
             Field.From("Id", "Name", "Address"),
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null);
-        var expected = "INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress) RETURNING \"Id\" INTO :RepoDb_Result";
+        var expected = "INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id, :Name, :Address) RETURNING \"Id\" INTO :RepoDb_Result";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -179,7 +179,7 @@ public class StatementBuilderTest
             Field.From("Name", "Address"),
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false));
-        var expected = "INSERT INTO \"Table\" (\"Name\", \"Address\") VALUES (:pName, :pAddress) "
+        var expected = "INSERT INTO \"Table\" (\"Name\", \"Address\") VALUES (:Name, :Address) "
             + "RETURNING \"Id\" INTO :RepoDb_Result";
 
         // Assert
@@ -218,7 +218,7 @@ public class StatementBuilderTest
             null);
 
         // The "FORALL" is for RepoDB, not for Oracle. This prefix triggers a command update on execute
-        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress)";
+        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id, :Name, :Address)";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -237,7 +237,7 @@ public class StatementBuilderTest
             new DbField("Id", true, false, false, typeof(int), null, null, null, null, false),
             null);
         // The "FORALL" is for RepoDB, not for Oracle. This prefix triggers a command update on execute
-        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress) RETURNING \"Id\" INTO :RepoDb_Result";
+        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id, :Name, :Address) RETURNING \"Id\" INTO :RepoDb_Result";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -256,7 +256,7 @@ public class StatementBuilderTest
             null,
             new DbField("Id", false, true, false, typeof(int), null, null, null, null, false));
         // The "FORALL" is for RepoDB, not for Oracle. This prefix triggers a command update on execute
-        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Name\", \"Address\") VALUES (:pName, :pAddress) RETURNING \"Id\" INTO :RepoDb_Result";
+        var expected = "/*FORALL*/INSERT INTO \"Table\" (\"Name\", \"Address\") VALUES (:Name, :Address) RETURNING \"Id\" INTO :RepoDb_Result";
 
         // Assert
         Assert.AreEqual(expected, query);
@@ -299,9 +299,9 @@ public class StatementBuilderTest
     //        3,
     //        new DbField("Id", true, false, false, typeof(int), null, null, null, null),
     //        null);
-    //    var expected = "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress ) ; SELECT CAST(:pId AS BIGINT) AS \"Result\" ; " +
-    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId_1, :pName_1, :pAddress_1 ) ; SELECT CAST(:pId_1 AS BIGINT) AS \"Result\" ; " +
-    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId_2, :pName_2, :pAddress_2 ) ; SELECT CAST(:pId_2 AS BIGINT) AS \"Result\"";
+    //    var expected = "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id, :Name, :Address ) ; SELECT CAST(:Id AS BIGINT) AS \"Result\" ; " +
+    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id_1, :Name_1, :Address_1 ) ; SELECT CAST(:Id_1 AS BIGINT) AS \"Result\" ; " +
+    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id_2, :Name_2, :Address_2 ) ; SELECT CAST(:Id_2 AS BIGINT) AS \"Result\"";
 
     //    // Assert
     //    Assert.AreEqual(expected, query);
@@ -321,9 +321,9 @@ public class StatementBuilderTest
     //        3,
     //        new DbField("Id", true, false, false, typeof(int), null, null, null, null),
     //        null);
-    //    var expected = "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress ) ; SELECT CAST(:pId AS BIGINT) AS \"Result\" ; " +
-    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId_1, :pName_1, :pAddress_1 ) ; SELECT CAST(:pId_1 AS BIGINT) AS \"Result\" ; " +
-    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId_2, :pName_2, :pAddress_2 ) ; SELECT CAST(:pId_2 AS BIGINT) AS \"Result\"";
+    //    var expected = "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id, :Name, :Address ) ; SELECT CAST(:Id AS BIGINT) AS \"Result\" ; " +
+    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id_1, :Name_1, :Address_1 ) ; SELECT CAST(:Id_1 AS BIGINT) AS \"Result\" ; " +
+    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id_2, :Name_2, :Address_2 ) ; SELECT CAST(:Id_2 AS BIGINT) AS \"Result\"";
 
     //    // Assert
     //    Assert.AreEqual(expected, query);
@@ -343,9 +343,9 @@ public class StatementBuilderTest
     //        3,
     //        new DbField("Id", true, false, false, typeof(int), null, null, null, null),
     //        new DbField("Id", false, true, false, typeof(int), null, null, null, null));
-    //    var expected = "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId, :pName, :pAddress ) ; SELECT CAST(COALESCE(last_insert_rowid(), :pId) AS INT) AS \"Result\" ; " +
-    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId_1, :pName_1, :pAddress_1 ) ; SELECT CAST(COALESCE(last_insert_rowid(), :pId_1) AS INT) AS \"Result\" ; " +
-    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:pId_2, :pName_2, :pAddress_2 ) ; SELECT CAST(COALESCE(last_insert_rowid(), :pId_2) AS INT) AS \"Result\"";
+    //    var expected = "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id, :Name, :Address ) ; SELECT CAST(COALESCE(last_insert_rowid(), :Id) AS INT) AS \"Result\" ; " +
+    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id_1, :Name_1, :Address_1 ) ; SELECT CAST(COALESCE(last_insert_rowid(), :Id_1) AS INT) AS \"Result\" ; " +
+    //        "INSERT OR REPLACE INTO \"Table\" (\"Id\", \"Name\", \"Address\") VALUES (:Id_2, :Name_2, :Address_2 ) ; SELECT CAST(COALESCE(last_insert_rowid(), :Id_2) AS INT) AS \"Result\"";
 
     //    // Assert
     //    Assert.AreEqual(expected, query);
@@ -447,7 +447,7 @@ public class StatementBuilderTest
         var query = builder.CreateQuery("Table",
             Field.From("Id", "Name", "Address"),
             QueryGroup.Parse(new { Id = 1, Name = "Michael" }));
-        var expected = "SELECT \"Id\", \"Name\", \"Address\" FROM \"Table\" WHERE (\"Id\" = :pId AND \"Name\" = :pName)";
+        var expected = "SELECT \"Id\", \"Name\", \"Address\" FROM \"Table\" WHERE (\"Id\" = :Id AND \"Name\" = :Name)";
 
         // Assert
         Assert.AreEqual(expected, query);

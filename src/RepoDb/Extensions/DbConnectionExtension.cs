@@ -545,7 +545,7 @@ public static partial class DbConnectionExtension
         GetAndGuardPrimaryKeyOrIdentityKey(connection, ClassMappedNameCache.Get(entityType) ?? throw new ArgumentException($"Can't map {entityType} to valid tablename"),
             transaction, entityType);
 
-    internal static IEnumerable<Field> GetAndGuardPrimaryKeyOrIdentityKey(IDbConnection connection,
+    internal static FieldSet GetAndGuardPrimaryKeyOrIdentityKey(IDbConnection connection,
         string tableName,
         IDbTransaction? transaction,
         Type entityType)
@@ -564,14 +564,14 @@ public static partial class DbConnectionExtension
         return GetAndGuardPrimaryKeyOrIdentityKey(tableName, keys);
     }
 
-    internal static ValueTask<IEnumerable<Field>> GetAndGuardPrimaryKeyOrIdentityKeyAsync(Type entityType,
+    internal static ValueTask<FieldSet> GetAndGuardPrimaryKeyOrIdentityKeyAsync(Type entityType,
         IDbConnection connection,
         IDbTransaction? transaction,
         CancellationToken cancellationToken = default) =>
         GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, ClassMappedNameCache.Get(entityType) ?? throw new ArgumentException($"Can't map {entityType} to valid tablename"),
             transaction, entityType, cancellationToken);
 
-    internal static async ValueTask<IEnumerable<Field>> GetAndGuardPrimaryKeyOrIdentityKeyAsync(IDbConnection connection,
+    internal static async ValueTask<FieldSet> GetAndGuardPrimaryKeyOrIdentityKeyAsync(IDbConnection connection,
         string tableName,
         IDbTransaction? transaction,
         Type entityType,
@@ -590,31 +590,31 @@ public static partial class DbConnectionExtension
         Field? field) =>
         field?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(tableName);
 
-    internal static IEnumerable<Field> GetAndGuardPrimaryKeyOrIdentityKey(string tableName,
-        IEnumerable<Field>? fields) =>
+    internal static FieldSet GetAndGuardPrimaryKeyOrIdentityKey(string tableName,
+        FieldSet? fields) =>
         fields ?? throw GetKeyFieldNotFoundException(tableName);
 
-    internal static IEnumerable<Field>? GetAndGuardPrimaryKeyOrIdentityKey(Type entityType,
+    internal static FieldSet? GetAndGuardPrimaryKeyOrIdentityKey(Type entityType,
         DbFieldCollection dbFields) =>
         entityType == null ? null :
             TypeCache.Get(entityType).IsDictionaryStringObject ?
             GetAndGuardPrimaryKeyOrIdentityKeyForDictionaryStringObject(entityType, dbFields) :
             GetAndGuardPrimaryKeysOrIdentityKeyForEntity(entityType, dbFields);
 
-    internal static IEnumerable<Field> GetAndGuardPrimaryKeyOrIdentityKeyForDictionaryStringObject(Type type,
+    internal static FieldSet GetAndGuardPrimaryKeyOrIdentityKeyForDictionaryStringObject(Type type,
         DbFieldCollection dbFields)
     {
         // Primary/Identity
-        var dbField = (dbFields.PrimaryFields ??
+        var fields = (dbFields.PrimaryFields ??
             dbFields.Identity?.AsEnumerable() ??
             dbFields.GetByFieldName("Id")?.AsEnumerable())
             ?? throw GetKeyFieldNotFoundException(type);
 
         // Return
-        return dbField;
+        return fields.AsFieldSet();
     }
 
-    internal static IEnumerable<Field> GetAndGuardPrimaryKeysOrIdentityKeyForEntity(Type type,
+    internal static FieldSet GetAndGuardPrimaryKeysOrIdentityKeyForEntity(Type type,
         DbFieldCollection dbFields)
     {
         // Properties
@@ -632,7 +632,7 @@ public static partial class DbConnectionExtension
 
         // Identity
         return dbFields?.Identity is { } dbIdentity
-            ? (IEnumerable<Field>)(properties.GetByFieldName(dbIdentity.FieldName)?.AsField()?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(type))
+            ? (properties.GetByFieldName(dbIdentity.FieldName)?.AsField()?.AsEnumerable() ?? throw GetKeyFieldNotFoundException(type)).AsFieldSet()
             : throw GetKeyFieldNotFoundException(type);
     }
 
@@ -817,11 +817,11 @@ public static partial class DbConnectionExtension
         if (TypeCache.Get(type).IsClassType)
         {
             var classProperty = PropertyCache.Get(typeof(T), field, true) ?? throw new InvalidOperationException();
-            return new QueryGroup(classProperty.PropertyInfo.AsQueryField(what));
+            return classProperty.PropertyInfo.AsQueryField(what);
         }
         else
         {
-            return new QueryGroup(new QueryField(field, what));
+            return new QueryField(field, what);
         }
     }
 
@@ -877,12 +877,12 @@ public static partial class DbConnectionExtension
                 var properties = PropertyCache.Get(type) ?? type.GetClassProperties();
                 if (properties?.GetByFieldName(dbField.FieldName) is { } property)
                 {
-                    return new QueryGroup(property.PropertyInfo.AsQueryField(entity));
+                    return property.PropertyInfo.AsQueryField(entity);
                 }
             }
             else
             {
-                return new QueryGroup(new QueryField(dbField, entity));
+                return new QueryField(dbField, entity);
             }
         }
         throw new KeyFieldNotFoundException($"No primary key and identity key found.");
@@ -937,21 +937,10 @@ public static partial class DbConnectionExtension
 
     internal static QueryGroup? ToQueryGroup(IEnumerable<QueryField>? queryFields)
     {
-        return queryFields is null ? null : new QueryGroup(queryFields);
+        return queryFields?.Any() != true ? null : new QueryGroup(queryFields);
     }
 
     #endregion
-
-    internal static void ThrowIfNullOrEmpty<TEntity>(IEnumerable<TEntity> entities)
-        where TEntity : class
-    {
-        ArgumentNullException.ThrowIfNull(entities);
-
-        if (!entities.Any())
-        {
-            throw new EmptyException(nameof(entities), "The entities must not be empty.");
-        }
-    }
 
     internal static void ValidateTransactionConnectionObject(this IDbConnection connection,
         IDbTransaction? transaction)
@@ -968,42 +957,6 @@ public static partial class DbConnectionExtension
         DbFieldCollection dbFields) =>
         DbCommandExtension.CreateParameters(command, where, null, entityType, dbFields);
 
-    internal static QueryGroup CreateQueryGroupForUpsert(object entity,
-        IEnumerable<ClassProperty> properties,
-        IEnumerable<Field> qualifiers)
-    {
-        var queryFields = new List<QueryField>();
-        foreach (var field in qualifiers)
-        {
-            if (properties.GetByFieldName(field.FieldName) is { } property)
-            {
-                queryFields.Add(new QueryField(field, property.PropertyInfo.GetValue(entity)));
-            }
-        }
-        return new QueryGroup(queryFields);
-    }
-
-    internal static QueryGroup CreateQueryGroupForUpsert(IDictionary<string, object?> dictionary,
-        IEnumerable<Field>? qualifiers = null)
-    {
-        if (qualifiers?.Any() != true)
-        {
-            throw new MissingFieldsException();
-        }
-
-        var queryFields = new List<QueryField>();
-
-        foreach (var field in qualifiers)
-        {
-            if (dictionary.TryGetValue(field.FieldName, out var value))
-            {
-                queryFields.Add(new QueryField(field, value));
-            }
-        }
-
-        return queryFields.Count == 0 ? throw new MissingFieldsException() : new QueryGroup(queryFields);
-    }
-
     internal static IEnumerable<object> ExtractPropertyValues<TEntity>(IEnumerable<TEntity> entities, Field keyField) where TEntity : class
     {
         var property = PropertyCache.Get(GetEntityType(entities), keyField, true)!;
@@ -1011,7 +964,7 @@ public static partial class DbConnectionExtension
         return ClassExpression.GetEntitiesPropertyValues<TEntity, object>(entities, property);
     }
 
-    internal static IEnumerable<Field> GetQualifiedFields<TEntity>(TEntity? entity)
+    internal static FieldSet GetQualifiedFields<TEntity>(TEntity? entity)
         where TEntity : class
     {
         var typeOfEntity = entity?.GetType() ?? typeof(TEntity);
@@ -1019,35 +972,10 @@ public static partial class DbConnectionExtension
         return TypeCache.Get(typeOfEntity).IsClassType ? FieldCache.Get(typeOfEntity) : Field.Parse<TEntity>(entity);
     }
 
-    internal static IEnumerable<Field>? GetQualifiedFields<TEntity>()
+    internal static FieldSet? GetQualifiedFields<TEntity>()
         where TEntity : class
     {
-        return TypeCache.Get(typeof(TEntity)).IsClassType ? FieldCache.Get<TEntity>() : (IEnumerable<Field>?)null;
-    }
-
-    internal static string ToRawSqlWithArrayParams(string commandText,
-        string parameterName,
-        IEnumerable<object> values,
-        IDbSetting dbSetting)
-    {
-        // Check for the defined parameter
-        if (!commandText.Contains(parameterName, StringComparison.OrdinalIgnoreCase))
-        {
-            return commandText;
-        }
-
-        // Return if there is no values
-        if (values?.Any() != true)
-        {
-            return commandText;
-        }
-
-        // Get the variables needed
-        var parameters = values.Select((_, index) =>
-            string.Concat(parameterName, index.ToString(CultureInfo.InvariantCulture)).AsParameter(dbSetting));
-
-        // Replace the target parameter when used as parameter. (Not as prefix of longer parameter)
-        return Regex.Replace(commandText, Regex.Escape(parameterName.AsParameter(dbSetting)) + "\\b", parameters.Join(", "));
+        return TypeCache.Get(typeof(TEntity)).IsClassType ? FieldCache.Get<TEntity>() : (FieldSet?)null;
     }
 
     #region CreateDbCommandForExecution

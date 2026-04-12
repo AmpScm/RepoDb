@@ -34,4 +34,9 @@ public class SqliteDbTypeNameToClientTypeResolver : IResolver<string, Type>
             _ => typeof(object),
         };
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly SqliteDbTypeNameToClientTypeResolver Instance = new();
 }

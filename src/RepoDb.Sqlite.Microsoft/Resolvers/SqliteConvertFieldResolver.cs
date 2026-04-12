@@ -13,7 +13,7 @@ public class SqliteConvertFieldResolver : DbConvertFieldResolver
     /// </summary>
     public SqliteConvertFieldResolver()
         : this(ClientTypeToDbTypeResolver.Instance,
-             new DbTypeToSqliteStringNameResolver())
+             DbTypeToSqliteStringNameResolver.Instance)
     { }
 
     /// <summary>
@@ -21,7 +21,7 @@ public class SqliteConvertFieldResolver : DbConvertFieldResolver
     /// </summary>
     public SqliteConvertFieldResolver(IResolver<Type, DbType?> dbTypeResolver,
         IResolver<DbType, string?> stringNameResolver)
-        : base(dbTypeResolver,
-              stringNameResolver)
+        : base(dbTypeResolver ?? ClientTypeToDbTypeResolver.Instance,
+              stringNameResolver ?? DbTypeToSqliteStringNameResolver.Instance)
     { }
 }

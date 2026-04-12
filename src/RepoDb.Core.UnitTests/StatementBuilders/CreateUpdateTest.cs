@@ -1,10 +1,12 @@
-﻿using RepoDb.UnitTests.CustomObjects;
+﻿using RepoDb.Interfaces;
+using RepoDb.UnitTests.CustomObjects;
 
 namespace RepoDb.UnitTests.StatementBuilders;
 
 [TestClass]
 public class BaseStatementBuilderCreateUpdateTest
 {
+    private IDbSetting _setting = new CustomDbSetting();
     [TestInitialize]
     public void Initialize()
     {
@@ -96,7 +98,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var where = new QueryGroup(new QueryField("Field1", 1));
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -124,7 +126,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -152,7 +154,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -180,7 +182,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -208,7 +210,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -236,7 +238,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -264,7 +266,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Id", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -292,7 +294,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,
@@ -320,7 +322,7 @@ public class BaseStatementBuilderCreateUpdateTest
         var field = new DbField("Field1", true, true, false, typeof(int), null, null, null, null);
 
         // Setup
-        where.IsForUpdate();
+        where.IsForUpdate(_setting);
 
         // Act
         var actual = statementBuilder.CreateUpdate(tableName: tableName,

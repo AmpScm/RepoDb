@@ -56,7 +56,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count();
+            int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count;
             using var myTransaction = transaction is null && chunkSize < entities.Count() ? connection.EnsureOpen().BeginTransaction() : null;
             transaction ??= myTransaction;
             int deleted = 0;
@@ -416,7 +416,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count();
+            int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count;
 
             await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
 #if NET
@@ -569,7 +569,9 @@ public static partial class DbConnectionExtension
 
         string tableName = GetMappedName(entities);
         var key = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(GetEntityType(entities), connection, transaction, cancellationToken).ConfigureAwait(false);
-        if (key.OneOrDefault() is { } one)
+        if (key.Count == 0)
+            throw new KeyNotFoundException();
+        else if (key.OneOrDefault() is { } one)
         {
             var keys = ExtractPropertyValues(entities, one).AsList();
 
@@ -586,7 +588,7 @@ public static partial class DbConnectionExtension
         }
         else
         {
-            int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count();
+            int chunkSize = connection.GetDbSetting().MaxParameterCount / key.Count;
 
             await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);
 #if NET
@@ -893,7 +895,7 @@ public static partial class DbConnectionExtension
             if (keyValues.Length == 0)
                 continue;
 
-            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues, null, false));
+            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues, null));
 
             where.Fix(connection, transaction, tableName);
 
@@ -1051,7 +1053,7 @@ public static partial class DbConnectionExtension
         // Call the underlying method
         foreach (var keyValues in keys.Split(parameterBatchCount) ?? [])
         {
-            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues, null, false));
+            var where = new QueryGroup(new QueryField(keyField, Operation.In, keyValues, null));
 
             where.Fix(connection, transaction, tableName);
 

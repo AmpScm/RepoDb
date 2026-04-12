@@ -194,7 +194,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
     {
         public int ID { get; set; }
         public DateTimeOffset? Txt { get; set; }
-        public DateTimeOffset? Date { get; set; }
+        public DateTimeOffset? DDate { get; set; }
     }
 
     public virtual string DateTimeDbType => "datetime";
@@ -212,7 +212,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             await PerformCreateTableAsync(sql, $@"CREATE TABLE [CommonDateTimeNullTestData] (
                         [ID] int NOT NULL,
                         [Txt] {VarCharName}(128) NULL,
-                        [Date] {DateTimeDbType} NULL
+                        [DDate] {DateTimeDbType} NULL
                 )");
         }
         else
@@ -225,14 +225,14 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         await sql.InsertAllAsync(
             [
                 new DateTestData(){ ID = 1, Txt = new DateTime(2001, 1,1,1,1,1, DateTimeKind.Utc), Date = new DateTime(2002, 1,2,2,2,2, DateTimeKind.Utc)},
-                new DateTestData(){ ID = 2, Txt =null, Date = null }
+                new DateTestData(){ ID = 2, Txt = null, Date = null }
             ],
             trace: new DiagnosticsTracer(),
             transaction: t, cancellationToken: TestContext.CancellationToken);
         await sql.InsertAllAsync(
             [
-                new DateOffsetTestData(){ ID = 3, Txt = new DateTimeOffset(2003, 1,3,3,3,3, TimeSpan.Zero), Date = new DateTimeOffset(2004, 1,4,4,4,4, TimeSpan.Zero)},
-                new DateOffsetTestData(){ ID = 4, Txt =null, Date = null }
+                new DateOffsetTestData(){ ID = 3, Txt = new DateTimeOffset(2003, 1,3,3,3,3, TimeSpan.Zero), DDate = new DateTimeOffset(2004, 1,4,4,4,4, TimeSpan.Zero)},
+                new DateOffsetTestData(){ ID = 4, Txt =null, DDate = null }
             ], transaction: t, cancellationToken: TestContext.CancellationToken);
 
         var all = sql.QueryAll<DateTestData>(transaction: t);
@@ -253,7 +253,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
             }
         }
 
-        var l = sql.Query<DateOffsetTestData>(where: x => x.Date < DateTimeOffset.Now, transaction: t);
+        var l = sql.Query<DateOffsetTestData>(where: x => x.DDate < DateTimeOffset.Now, transaction: t);
 
         await t.RollbackAsync(TestContext.CancellationToken);
     }
@@ -1165,7 +1165,7 @@ public abstract partial class NullTestsBase<TDbInstance> : DbTestBase<TDbInstanc
         Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Second == 5, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
         Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Millisecond == 6, trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
 
-        if (sql.GetType().Namespace is not "System.Data.SQLite") 
+        if (sql.GetType().Namespace is not "System.Data.SQLite")
             Assert.HasCount(1, await sql.QueryAsync<DateTimeExtractData>(d => d.Value.Date == new DateTime(2000, 1, 2, 0, 0, 0, DateTimeKind.Utc), trace: new DiagnosticsTracer(), cancellationToken: TestContext.CancellationToken));
     }
 }

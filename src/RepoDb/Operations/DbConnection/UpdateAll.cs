@@ -2,8 +2,7 @@
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Transactions;
-using RepoDb.Contexts.Execution;
-using RepoDb.Contexts.Providers;
+using RepoDb.Contexts;
 using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -407,8 +406,8 @@ public static partial class DbConnectionExtension
                 tableName: tableName,
                 entities: entities.WithType<IDictionary<string, object?>>(),
                 batchSize: batchSize,
-                fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
-                qualifiers: qualifiers,
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                qualifiers: qualifiers?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -422,8 +421,8 @@ public static partial class DbConnectionExtension
                 tableName: tableName,
                 entities: entities,
                 batchSize: batchSize,
-                fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
-                qualifiers: qualifiers,
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                qualifiers: qualifiers?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -853,8 +852,8 @@ public static partial class DbConnectionExtension
                 tableName: tableName,
                 entities: entities.WithType<IDictionary<string, object?>>(),
                 batchSize: batchSize,
-                fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
-                qualifiers: qualifiers,
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                qualifiers: qualifiers?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -869,8 +868,8 @@ public static partial class DbConnectionExtension
                 tableName: tableName,
                 entities: entities,
                 batchSize: batchSize,
-                fields: fields ?? GetQualifiedFields(entities?.FirstOrDefault()),
-                qualifiers: qualifiers,
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entities?.FirstOrDefault()),
+                qualifiers: qualifiers?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
             traceKey: traceKey,
@@ -1176,9 +1175,9 @@ public static partial class DbConnectionExtension
     internal static int UpdateAllInternalBase<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.UpdateAll,
@@ -1200,7 +1199,7 @@ public static partial class DbConnectionExtension
 
         // Validate the batch size
         int maxBatchSize = dbSetting.IsMultiStatementExecutable
-            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Concat(qualifiers ?? []).DistinctBy(x => x.FieldName).Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
+            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Concat(qualifiers ?? FieldSet.Empty).DistinctBy(x => x.FieldName).Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
 
         // Get the context
@@ -1308,9 +1307,9 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<int> UpdateAllInternalBaseAsync<TEntity>(this IDbConnection connection,
         string tableName,
         IEnumerable<TEntity> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.UpdateAll,
@@ -1332,7 +1331,7 @@ public static partial class DbConnectionExtension
 
         // Validate the batch size
         int maxBatchSize = dbSetting.IsMultiStatementExecutable
-            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Concat(qualifiers ?? []).Select(x => x.FieldName).Distinct().Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
+            ? Math.Min(batchSize <= 0 ? dbSetting.MaxParameterCount / fields.Concat(qualifiers ?? FieldSet.Empty).Select(x => x.FieldName).Distinct().Count() : batchSize, dbSetting.MaxQueriesInBatchCount)
             : 1;
 
         await connection.EnsureOpenAsync(cancellationToken).ConfigureAwait(false);

@@ -72,7 +72,7 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
         if (_nameMap is null)
         {
             // If the collection is large, we will create a map for faster access
-            if (_fields.Count > 10)
+            if (_fields.Count > 5)
                 _nameMap = _fields.ToDictionary(df => df.FieldName, df => df, StringComparer.OrdinalIgnoreCase);
             else
                 return _fields.AsEnumerable().GetByFieldName(name);
@@ -114,6 +114,7 @@ public sealed class DbFieldCollection : IReadOnlyCollection<DbField>, IEquatable
         KeyColumnReturnBehavior.Primary => PrimaryFields?.FirstOrDefault(),
         KeyColumnReturnBehavior.Identity => Identity,
         KeyColumnReturnBehavior.PrimaryOrElseIdentity => PrimaryFields?.FirstOrDefault() ?? Identity,
+        KeyColumnReturnBehavior.Default or
         KeyColumnReturnBehavior.IdentityOrElsePrimary => Identity ?? PrimaryFields?.FirstOrDefault(),
         _ => throw new NotSupportedException($"The key column return behavior '{GlobalConfiguration.Options.KeyColumnReturnBehavior}' is not supported."),
     };

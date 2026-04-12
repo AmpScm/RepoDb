@@ -1,46 +1,25 @@
 ﻿using System.Data;
-using System.Globalization;
-using RepoDb.Contexts.Caches;
-using RepoDb.Contexts.Execution;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Requests;
 
-namespace RepoDb.Contexts.Providers;
+namespace RepoDb.Contexts;
 
 internal static class UpdateExecutionContextProvider
 {
-    private static string GetKey(Type entityType,
-        string tableName,
-        IEnumerable<Field> fields,
-        string? hints,
-        QueryGroup? where)
-    {
-        return string.Concat(entityType.FullName,
-            ";",
-            tableName,
-            ";",
-            fields?.Select(f => f.FieldName).Join(","),
-            ";",
-            hints,
-            ";",
-            where?.GetHashCode().ToString(CultureInfo.InvariantCulture));
-    }
-
     public static UpdateExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
         QueryGroup? where,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         IDbTransaction? transaction = null,
         IStatementBuilder? statementBuilder = null)
     {
-        var key = GetKey(entityType, tableName, fields, hints, where);
+        var key = (entityType, tableName, fields, hints, where);
 
         // Get from cache
-        var context = UpdateExecutionContextCache.Get(key);
-        if (context is not null)
+        if (UpdateExecutionContextCache.Get(key) is { } context)
         {
             return context;
         }
@@ -48,46 +27,21 @@ internal static class UpdateExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields.Any(x => x.IsReadOnly))
-        {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
-        }
-
-        var request = new UpdateRequest(tableName,
-            connection,
-            transaction,
-            where,
-            fields,
-            hints,
-            statementBuilder);
-        var commandText = CommandTextCache.GetCached(request, CommandTextCache.GetUpdateText);
-
-        // Call
-        context = CreateInternal(entityType,
-            connection,
-            tableName,
-            dbFields,
-            fields,
-            commandText);
-
-        // Add to cache
-        UpdateExecutionContextCache.Add(key, context);
-
         // Return
-        return context;
+        return UpdateExecutionContextCache.GetOrAdd(key, (_) => CreateInternal(entityType, connection, tableName, where, fields, hints, transaction, statementBuilder, dbFields));
     }
 
     public static async Task<UpdateExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         string tableName,
         QueryGroup? where,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         IDbTransaction? transaction = null,
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        var key = GetKey(entityType, tableName, fields, hints, where);
+        var key = (entityType, tableName, fields, hints, where);
 
         // Get from cache
         var context = UpdateExecutionContextCache.Get(key);
@@ -99,9 +53,14 @@ internal static class UpdateExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
 
+        return UpdateExecutionContextCache.GetOrAdd(key, (_) => CreateInternal(entityType, connection, tableName, where, fields, hints, transaction, statementBuilder, dbFields));
+    }
+
+    private static UpdateExecutionContext CreateInternal(Type entityType, IDbConnection connection, string tableName, QueryGroup? where, FieldSet fields, string? hints, IDbTransaction? transaction, IStatementBuilder? statementBuilder, DbFieldCollection dbFields)
+    {
         if (dbFields.Any(x => x.IsReadOnly))
         {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true).AsFieldSet();
         }
 
         var request = new UpdateRequest(tableName,
@@ -111,30 +70,8 @@ internal static class UpdateExecutionContextProvider
             fields,
             hints,
             statementBuilder);
-        var commandText = await CommandTextCache.GetCachedAsync(request, CommandTextCache.GetUpdateText, cancellationToken).ConfigureAwait(false);
+        var commandText = CommandTextCache.GetCachedWithDbFields(request, dbFields, CommandTextCache.GetUpdateText);
 
-        // Call
-        context = CreateInternal(entityType,
-            connection,
-            tableName,
-            dbFields,
-            fields,
-            commandText);
-
-        // Add to cache
-        UpdateExecutionContextCache.Add(key, context);
-
-        // Return
-        return context;
-    }
-
-    private static UpdateExecutionContext CreateInternal(Type entityType,
-        IDbConnection connection,
-        string tableName,
-        DbFieldCollection dbFields,
-        IEnumerable<Field> fields,
-        string commandText)
-    {
         var dbSetting = connection.GetDbSetting();
         var dbHelper = connection.GetDbHelper();
         var inputFields = new List<DbField>();
@@ -149,7 +86,6 @@ internal static class UpdateExecutionContextProvider
         return new UpdateExecutionContext
         {
             CommandText = commandText,
-            InputFields = inputFields,
             ParametersSetterFunc = FunctionCache.GetDataEntityDbParameterSetterCompiledFunction(entityType,
                 string.Concat(entityType.FullName, ".", tableName, ".Update"),
                 inputFields,

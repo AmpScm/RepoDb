@@ -92,7 +92,8 @@ public static partial class ExpressionExtension
         field = expression switch
         {
             MethodCallExpression methodCallExpression => GetField(methodCallExpression),
-            MemberExpression memberExpression => FieldFromMember(memberExpression),
+            MemberExpression memberExpression when memberExpression.Expression is ParameterExpression => FieldFromMember(memberExpression),
+            MemberExpression memberExpression when memberExpression.Expression?.TryGetField(out var ff) == true && memberExpression.Member.DeclaringType is { IsGenericType: true} dt && dt.GetGenericTypeDefinition() == typeof(Nullable<>) => ff,
             BinaryExpression { NodeType: ExpressionType.Coalesce } b when
                 b.Left.TryGetField(out var leftField)
                 && b.Right.TryGetValue(out var value) => (coalesceValue = value) == value ? leftField : throw new NotSupportedException($"Expression '{expression}' is currently not supported."),
