@@ -30,9 +30,11 @@ public partial class QueryGroupTest
         // Act
         var queryGroup = new QueryGroup(new QueryGroup(queryField));
 
+        // This is now folded in the outer group
+
         // Assert
-        Assert.IsNull(queryGroup.QueryFields);
-        Assert.HasCount(1, queryGroup.QueryGroups);
+        Assert.IsNull(queryGroup.QueryGroups);
+        Assert.HasCount(1, queryGroup.QueryFields);
     }
 
     [TestMethod]
@@ -57,9 +59,11 @@ public partial class QueryGroupTest
         // Act
         var queryGroup = new QueryGroup(new QueryGroup(queryField).AsEnumerable());
 
+        // Groups folded in the outer group
+
         // Assert
-        Assert.IsNull(queryGroup.QueryFields);
-        Assert.HasCount(1, queryGroup.QueryGroups);
+        Assert.IsNull(queryGroup.QueryGroups);
+        Assert.HasCount(1, queryGroup.QueryFields);
     }
 
     [TestMethod]
@@ -73,8 +77,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA, new QueryGroup(queryFieldB));
 
         // Assert
-        Assert.HasCount(1, queryGroup.QueryFields);
-        Assert.HasCount(1, queryGroup.QueryGroups);
+        Assert.HasCount(2, queryGroup.QueryFields);
+        Assert.IsNull(queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -88,8 +92,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA.AsEnumerable(), new QueryGroup(queryFieldB));
 
         // Assert
-        Assert.HasCount(1, queryGroup.QueryFields);
-        Assert.HasCount(1, queryGroup.QueryGroups);
+        Assert.HasCount(2, queryGroup.QueryFields);
+        Assert.IsNull(queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -103,8 +107,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA, new QueryGroup(queryFieldB).AsEnumerable());
 
         // Assert
-        Assert.HasCount(1, queryGroup.QueryFields);
-        Assert.HasCount(1, queryGroup.QueryGroups);
+        Assert.HasCount(2, queryGroup.QueryFields);
+        Assert.IsNull(queryGroup.QueryGroups);
     }
 
     [TestMethod]
@@ -118,8 +122,8 @@ public partial class QueryGroupTest
         var queryGroup = new QueryGroup(queryFieldA.AsEnumerable(), new QueryGroup(queryFieldB).AsEnumerable());
 
         // Assert
-        Assert.HasCount(1, queryGroup.QueryFields);
-        Assert.HasCount(1, queryGroup.QueryGroups);
+        Assert.HasCount(2, queryGroup.QueryFields);
+        Assert.IsNull(queryGroup.QueryGroups);
     }
 
     #endregion
@@ -444,11 +448,11 @@ public partial class QueryGroupTest
             new QueryField("Field1", Operation.Equal, "Value1"),
             new QueryField("Field2", Operation.Equal, "Value2")
         ],
-        true);
+        isNot: true);
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "NOT ([Field1] = @Field1 AND [Field2] = @Field2)";
+        var expected = "([Field1] <> @Field1 OR [Field2] <> @Field2)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -471,7 +475,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "(([Field1] = @Field1 AND [Field2] = @Field2))";
+        var expected = "([Field1] = @Field1 AND [Field2] = @Field2)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -490,7 +494,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "(([Field1] = @Field1 AND [Field1] = @Field1_1))";
+        var expected = "([Field1] = @Field1 AND [Field1] = @Field1_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -510,7 +514,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "([Field1] = @Field1 AND ([Field2] = @Field2 AND [Field3] = @Field3))";
+        var expected = "([Field1] = @Field1 AND [Field2] = @Field2 AND [Field3] = @Field3)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -530,7 +534,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "([Field1] = @Field1 AND ([Field2] = @Field2 AND [Field2] = @Field2_1))";
+        var expected = "([Field1] = @Field1 AND [Field2] = @Field2 AND [Field2] = @Field2_1)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -550,7 +554,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "([Field1] = @Field1 AND ([Field1] = @Field1_1 AND [Field1] = @Field1_2))";
+        var expected = "([Field1] = @Field1 AND [Field1] = @Field1_1 AND [Field1] = @Field1_2)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -614,7 +618,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "([Field1] = @Field1 OR ([Field2] = @Field2 OR [Field3] = @Field3))";
+        var expected = "([Field1] = @Field1 OR [Field2] = @Field2 OR [Field3] = @Field3)";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -640,7 +644,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = queryGroup.GetString(m_dbSetting);
-        var expected = "([Field2] = @Field2 OR (([Field1] NOT LIKE @Field1 AND [Field1] NOT LIKE @Field1_1 AND [Field1] NOT LIKE @Field1_2) OR ([Field1] = @Field1_3)))";
+        var expected = "([Field2] = @Field2 OR [Field1] = @Field1 OR ([Field1] NOT LIKE @Field1_1 AND [Field1] NOT LIKE @Field1_2 AND [Field1] NOT LIKE @Field1_3))";
 
         // Assert
         Assert.AreEqual(expected, actual);

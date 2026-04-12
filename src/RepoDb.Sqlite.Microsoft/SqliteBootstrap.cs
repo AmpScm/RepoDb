@@ -37,16 +37,14 @@ public static class SqliteBootstrap
         }
 
         // Map the DbSetting
-        var mdsDbSetting = new SqliteDbSetting(false);
-        DbSettingMapper.Add<SqliteConnection>(mdsDbSetting, true);
+        var setting = new SqliteDbSetting();
+        DbSettingMapper.Add<SqliteConnection>(setting, true);
 
         // Map the DbHelper
-        DbHelperMapper.Add<SqliteConnection>(new SqliteDbHelper(mdsDbSetting, new SqliteDbTypeNameToClientTypeResolver()), true);
+        DbHelperMapper.Add<SqliteConnection>(new SqliteDbHelper(setting), true);
 
         // Map the Statement Builder
-        StatementBuilderMapper.Add<SqliteConnection>(new SqliteStatementBuilder(mdsDbSetting,
-            new SqliteConvertFieldResolver(),
-            new ClientTypeToAverageableClientTypeResolver()), true);
+        StatementBuilderMapper.Add<SqliteConnection>(new SqliteStatementBuilder(setting), true);
 
         // Set the flag
         IsInitialized = true;

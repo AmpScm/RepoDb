@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Text;
 using RepoDb.DbSettings;
+using RepoDb.Enumerations;
+using RepoDb.Extensions.QueryFields;
 using RepoDb.Interfaces;
 
 namespace RepoDb.Extensions;
@@ -33,9 +35,9 @@ public static class QueryFieldExtension
         }
     }
 
-    internal static void PrependAnUnderscoreAtParameter(this QueryField queryField)
+    internal static void PrependAnUnderscoreAtParameter(this QueryField queryField, IDbSetting setting)
     {
-        queryField.Parameter?.PrependAnUnderscoreAtParameter();
+        queryField.Parameter?.PrependAnUnderscoreAtParameter(setting);
     }
 
     internal static string AsField(this QueryField queryField,
@@ -131,5 +133,19 @@ public static class QueryFieldExtension
         {
             return string.Concat(queryField.AsField(functionFormat, dbSetting), " ", queryField.Operation.GetText(), " ", queryField.AsInParameter(index, /*, functionFormat*/ dbSetting));
         }
+    }
+
+    internal static QueryField? Negate(this QueryField from)
+    {
+        // Type is open for inheritance. This works for our implementations, but might not work for others
+        Type type = from.GetType();
+        if (type == typeof(QueryField))
+            return new QueryField(from.Field, from.Operation.Negate(), from.Parameter, from.Parameter.DbType);
+        else if (from is JsonExtractQueryField jsq)
+            return new JsonExtractQueryField(jsq.FieldName, jsq.Path, jsq.Operation.Negate(), jsq.Parameter, jsq.Parameter.DbType);
+        else if (from is FunctionalQueryField fqf && type.Assembly == typeof(FunctionalQueryField).Assembly)
+            return new FunctionalQueryField(fqf.FieldName, from.Operation.Negate(), fqf.Parameter, fqf.Parameter.DbType, fqf.Format);
+
+        return null;
     }
 }

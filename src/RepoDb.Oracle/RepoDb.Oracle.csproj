@@ -10,8 +10,8 @@
     <PackageId>$(PackagePrefix)$(AssemblyName)</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Oracle.ManagedDataAccess" Condition="'$(TargetFramework)' ==  'net48'"/>
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Condition="'$(TargetFramework)' !=  'net48'"/>
+    <PackageReference Include="Oracle.ManagedDataAccess" Condition="'$(TargetFramework)' ==  'net48'" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Condition="'$(TargetFramework)' !=  'net48'" />
     <ProjectReference Include="..\RepoDb\RepoDb.csproj" />
   </ItemGroup>
   <ItemGroup>

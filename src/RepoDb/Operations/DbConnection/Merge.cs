@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
-using RepoDb.Contexts.Providers;
+using RepoDb.Contexts;
 using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
@@ -752,9 +752,9 @@ public static partial class DbConnectionExtension
             return MergeInternalBase<IDictionary<string, object?>, TResult>(connection: connection,
                 tableName: tableName,
                 entity: (IDictionary<string, object?>)entity,
-                qualifiers: qualifiers,
-                fields: fields ?? GetQualifiedFields(entity),
-                noUpdateFields: noUpdateFields,
+                qualifiers: qualifiers?.AsFieldSet(),
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -767,9 +767,9 @@ public static partial class DbConnectionExtension
             return MergeInternalBase<TEntity, TResult>(connection: connection,
                 tableName: tableName,
                 entity: entity,
-                qualifiers: qualifiers,
-                fields: fields ?? GetQualifiedFields(entity),
-                noUpdateFields: noUpdateFields,
+                qualifiers: qualifiers?.AsFieldSet(),
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -1563,9 +1563,9 @@ public static partial class DbConnectionExtension
                 connection: connection,
                 tableName: tableName,
                 entity: (IDictionary<string, object?>)entity,
-                fields: fields ?? GetQualifiedFields(entity),
-                noUpdateFields: noUpdateFields,
-                qualifiers: qualifiers,
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields?.AsFieldSet(),
+                qualifiers: qualifiers?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -1580,9 +1580,9 @@ public static partial class DbConnectionExtension
                 connection: connection,
                 tableName: tableName,
                 entity: entity,
-                fields: fields ?? GetQualifiedFields(entity),
-                noUpdateFields: noUpdateFields,
-                qualifiers: qualifiers,
+                fields: fields?.AsFieldSet() ?? GetQualifiedFields(entity),
+                noUpdateFields: noUpdateFields?.AsFieldSet(),
+                qualifiers: qualifiers?.AsFieldSet(),
                 hints: hints,
                 commandTimeout: commandTimeout,
                 traceKey: traceKey,
@@ -2142,9 +2142,9 @@ public static partial class DbConnectionExtension
     internal static TResult MergeInternalBase<TEntity, TResult>(this IDbConnection connection,
         string tableName,
         TEntity entity,
-        IEnumerable<Field>? qualifiers,
-        IEnumerable<Field> fields,
-        IEnumerable<Field>? noUpdateFields,
+        FieldSet? qualifiers,
+        FieldSet fields,
+        FieldSet? noUpdateFields,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -2153,11 +2153,9 @@ public static partial class DbConnectionExtension
         where TEntity : class
     {
         // Check the qualifiers
-        if (qualifiers?.Any() != true)
+        if (qualifiers?.Count is not > 0)
         {
-            var keys = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction,
-                entity.GetType());
-            qualifiers = keys;
+            qualifiers = GetAndGuardPrimaryKeyOrIdentityKey(connection, tableName, transaction, entity.GetType());
         }
 
         // Get the context
@@ -2261,9 +2259,9 @@ public static partial class DbConnectionExtension
     internal static async ValueTask<TResult> MergeInternalBaseAsync<TEntity, TResult>(this IDbConnection connection,
         string tableName,
         TEntity entity,
-        IEnumerable<Field> fields,
-        IEnumerable<Field>? noUpdateFields,
-        IEnumerable<Field>? qualifiers = null,
+        FieldSet fields,
+        FieldSet? noUpdateFields,
+        FieldSet? qualifiers = null,
         string? hints = null,
         int commandTimeout = 0,
         string? traceKey = TraceKeys.Merge,
@@ -2274,11 +2272,10 @@ public static partial class DbConnectionExtension
     {
         ArgumentNullException.ThrowIfNull(entity);
         // Check the qualifiers
-        if (qualifiers?.Any() != true)
+        if (qualifiers?.Count is not > 0)
         {
-            var keys = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction,
+            qualifiers = await GetAndGuardPrimaryKeyOrIdentityKeyAsync(connection, tableName, transaction,
                 entity.GetType() ?? typeof(TEntity), cancellationToken).ConfigureAwait(false);
-            qualifiers = keys;
         }
 
         // Get the context

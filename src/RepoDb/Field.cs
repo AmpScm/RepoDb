@@ -173,11 +173,11 @@ public class Field : IEquatable<Field>
         ArgumentNullException.ThrowIfNull(expression);
         return new(expression.Body.UnwrapUnary(ExpressionType.Convert) switch
         {
-            MemberExpression memberExpression => [memberExpression.TryGetField(out var field) == true ? field : throw new InvalidExpressionException($"Expression '{expression}' is not a valid field expression.")],
+            MemberExpression memberExpression => [memberExpression.TryGetField(out var field) ? field : throw new InvalidExpressionException($"Expression '{memberExpression}' is not a valid field expression.")],
             NewExpression newExpression when newExpression.Members is { Count: > 0 } =>
-                            newExpression.Arguments.Select(a => (a as MemberExpression)?.TryGetField(out var field) == true ? field : throw new InvalidExpressionException($"Expression '{expression}' is not a valid field expression."))
+                            newExpression.Arguments.Select(a => (a as MemberExpression)?.TryGetField(out var field) == true ? field : throw new InvalidExpressionException($"Expression '{a}' in '{newExpression}' is not a valid field expression."))
                             .ToList(),
-            _ => throw new InvalidExpressionException($"Expression '{expression}' is not like `arg.Property` or `new {{ arg.Prop1, arg.Prop2, .. }}`.")
+            _ => throw new InvalidExpressionException($"Expression '{expression.Body}' is not like `arg.Property` or `new {{ arg.Prop1, arg.Prop2, .. }}`.")
         });
     }
 

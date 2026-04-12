@@ -30,8 +30,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               null,
               direction,
               null,
-              null,
-              false)
+              null)
     { }
 
     /// <summary>
@@ -48,8 +47,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               null,
               direction,
               size,
-              null,
-              false)
+              null)
     { }
 
     /// <summary>
@@ -68,8 +66,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               null,
               direction,
               size,
-              dbType,
-              false)
+              dbType)
     { }
 
     #endregion
@@ -90,8 +87,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               value,
               direction,
               null,
-              null,
-              false)
+              null)
     { }
 
     /// <summary>
@@ -110,8 +106,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               value,
               direction,
               size,
-              null,
-              false)
+              null)
     { }
 
     /// <summary>
@@ -132,8 +127,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               value,
               direction,
               size,
-              dbType,
-              false)
+              dbType)
     { }
 
     /// <summary>
@@ -150,8 +144,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               null,
               direction,
               null,
-              null,
-              false)
+              null)
     { }
 
     /// <summary>
@@ -170,8 +163,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               value,
               direction,
               null,
-              null,
-              false)
+              null)
     { }
 
     /// <summary>
@@ -192,8 +184,7 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
               value,
               direction,
               size,
-              null,
-              false)
+              null)
     { }
 
     /// <summary>
@@ -205,39 +196,8 @@ public class DirectionalQueryField : QueryField, IEquatable<DirectionalQueryFiel
     /// <param name="direction">The direction to be used for the parameter object.</param>
     /// <param name="size">The sizeof the parameter value.</param>
     /// <param name="dbType">The database type to be used for the query expression.</param>
-    public DirectionalQueryField(string fieldName,
-        Operation operation,
-        object? value,
-        ParameterDirection? direction,
-        int? size,
-        DbType? dbType)
-        : this(fieldName,
-              operation,
-              value,
-              direction,
-              size,
-              dbType,
-              false)
-    { }
-
-    /// <summary>
-    /// Creates a new instance of <see cref="DirectionalQueryField"/> object.
-    /// </summary>
-    /// <param name="fieldName">The name of the field for the query expression.</param>
-    /// <param name="operation">The operation to be used for the query expression.</param>
-    /// <param name="value">The value to be used for the query expression.</param>
-    /// <param name="direction">The direction to be used for the parameter object.</param>
-    /// <param name="size">The sizeof the parameter value.</param>
-    /// <param name="dbType">The database type to be used for the query expression.</param>
-    /// <param name="prependUnderscore">The value to identify whether the underscore prefix will be appended to the parameter name.</param>
-    internal DirectionalQueryField(string fieldName,
-        Operation operation,
-        object? value,
-        ParameterDirection? direction,
-        int? size,
-        DbType? dbType,
-        bool prependUnderscore = false)
-        : base(fieldName, operation, value, dbType, prependUnderscore)
+    public DirectionalQueryField(string fieldName, Operation operation, object? value, ParameterDirection? direction, int? size, DbType? dbType)
+        : base(fieldName, operation, value, dbType)
     {
         Direction = direction;
         Size = size;

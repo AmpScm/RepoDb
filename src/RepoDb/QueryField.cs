@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using RepoDb.Enumerations;
@@ -32,7 +31,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="value">The value to be used for the query expression.</param>
     public QueryField(string fieldName,
         object? value)
-        : this(fieldName, Operation.Equal, value, null, false)
+        : this(fieldName, Operation.Equal, value, null)
     { }
 
     /// <summary>
@@ -42,7 +41,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="value">The value to be used for the query expression.</param>
     public QueryField(Field field,
         object? value)
-        : this(field ?? throw new ArgumentNullException(nameof(field)), Operation.Equal, value, null, false)
+        : this(field ?? throw new ArgumentNullException(nameof(field)), Operation.Equal, value, null)
     { }
 
     /// <summary>
@@ -54,7 +53,7 @@ public partial class QueryField : IEquatable<QueryField>
     public QueryField(string fieldName,
         Operation operation,
         object? value)
-        : this(fieldName, operation, value, null, false)
+        : this(fieldName, operation, value, null)
     { }
 
     /// <summary>
@@ -68,23 +67,7 @@ public partial class QueryField : IEquatable<QueryField>
         Operation operation,
         object? value,
         DbType? dbType)
-        : this(fieldName, operation, value, dbType, false)
-    { }
-
-    /// <summary>
-    /// Creates a new instance of <see cref="QueryField"/> object.
-    /// </summary>
-    /// <param name="fieldName">The name of the field for the query expression.</param>
-    /// <param name="operation">The operation to be used for the query expression.</param>
-    /// <param name="value">The value to be used for the query expression.</param>
-    /// <param name="dbType">The database type to be used for the query expression.</param>
-    /// <param name="prependUnderscore">The value to identify whether the underscore prefix will be appended to the parameter name.</param>
-    public QueryField(string fieldName,
-        Operation operation,
-        object? value,
-        DbType? dbType,
-        bool prependUnderscore = false)
-        : this(new Field(fieldName), operation, value, dbType, prependUnderscore)
+        : this(new Field(fieldName), operation, value, dbType)
     { }
 
     /// <summary>
@@ -94,16 +77,14 @@ public partial class QueryField : IEquatable<QueryField>
     /// <param name="operation">The operation to be used for the query expression.</param>
     /// <param name="value">The value to be used for the query expression.</param>
     /// <param name="dbType">The database type to be used for the query expression.</param>
-    /// <param name="prependUnderscore">The value to identify whether the underscore prefix will be appended to the parameter name.</param>
     internal QueryField(Field field,
         Operation operation,
         object? value,
-        DbType? dbType,
-        bool prependUnderscore = false)
+        DbType? dbType)
     {
         Field = field;
         Operation = operation;
-        Parameter = new Parameter(field.FieldName, value, dbType, prependUnderscore);
+        Parameter = (value as Parameter) ?? new Parameter(field.FieldName, value, dbType);
     }
 
     #endregion
@@ -202,8 +183,7 @@ public partial class QueryField : IEquatable<QueryField>
     /// <summary>
     /// Returns the name of the <see cref="Field"/> object current in used.
     /// </summary>
-    public string? FieldName
-        => Field?.FieldName;
+    public string FieldName => Field.FieldName;
 
     /// <summary>
     /// Returns the value of the <see cref="Parameter"/> object currently in used. However, if this instance of object has already been used as a database parameter
@@ -226,9 +206,10 @@ public partial class QueryField : IEquatable<QueryField>
     /// <summary>
     /// Make the current instance of <see cref="QueryField"/> object to become an expression for 'Update' operations.
     /// </summary>
-    public void IsForUpdate()
+    /// <param name="setting"></param>
+    public void IsForUpdate(IDbSetting setting)
     {
-        this.PrependAnUnderscoreAtParameter();
+        this.PrependAnUnderscoreAtParameter(setting);
     }
 
     /// <summary>
@@ -406,36 +387,4 @@ public partial class QueryField : IEquatable<QueryField>
     }
 
     #endregion
-
-
-    internal QueryField ApplyNot()
-    {
-        if (GetType() != typeof(QueryField))
-            throw new InvalidOperationException();
-
-        return new QueryField(
-            this.Field,
-            this.Operation switch
-            {
-                Operation.Equal => Operation.NotEqual,
-                Operation.NotEqual => Operation.Equal,
-                Operation.Between => Operation.NotBetween,
-                Operation.NotBetween => Operation.Between,
-                Operation.In => Operation.NotIn,
-                Operation.NotIn => Operation.In,
-                Operation.IsNull => Operation.IsNotNull,
-                Operation.IsNotNull => Operation.IsNull,
-                Operation.Like => Operation.NotLike,
-                Operation.NotLike => Operation.Like,
-                Operation.LessThan => Operation.GreaterThanOrEqual,
-                Operation.LessThanOrEqual => Operation.GreaterThan,
-                Operation.GreaterThan => Operation.LessThanOrEqual,
-                Operation.GreaterThanOrEqual => Operation.LessThan,
-                _ => throw new NotSupportedException($"The '{Operation.GetText()}' operation is not invertable.")
-            },
-            this.Parameter.Value,
-            this.Parameter.DbType,
-            false);
-    }
-
 }

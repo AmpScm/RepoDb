@@ -8,8 +8,6 @@ namespace RepoDb.Extensions.QueryFields;
 /// </summary>
 public sealed class RightQueryField : FunctionalQueryField
 {
-    private int? hashCode;
-
     #region Constructors
 
     /// <summary>
@@ -86,31 +84,6 @@ public sealed class RightQueryField : FunctionalQueryField
     /// Gets the value that defines the number of characters from the right to be evaluated.
     /// </summary>
     public int CharCount { get; }
-
-    #endregion
-
-    #region Equality and comparers
-
-    /// <summary>
-    /// Returns the hashcode for this <see cref="RightQueryField"/>.
-    /// </summary>
-    /// <returns>The hashcode value.</returns>
-    public override int GetHashCode()
-    {
-        if (this.hashCode != null)
-        {
-            return this.hashCode.Value;
-        }
-
-        // Base
-        var hashCode = base.GetHashCode();
-
-        // CharCount
-        hashCode = HashCode.Combine(hashCode, CharCount);
-
-        // Return
-        return this.hashCode ??= hashCode;
-    }
 
     #endregion
 }

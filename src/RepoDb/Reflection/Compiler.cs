@@ -1,4 +1,3 @@
-using System.Buffers;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +15,9 @@ using RepoDb.Exceptions;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Resolvers;
+#if NET
+using System.Buffers;
+#endif
 
 namespace RepoDb.Reflection;
 
@@ -1054,7 +1056,7 @@ internal sealed partial class Compiler
     }
 
 #if NET
-    private static TResult ParseIt<TResult>(string value, IFormatProvider? formatProvider) where TResult: IParsable<TResult> => TResult.Parse(value, formatProvider);
+    private static TResult ParseIt<TResult>(string value, IFormatProvider? formatProvider) where TResult : IParsable<TResult> => TResult.Parse(value, formatProvider);
 #endif
 
     private static object? WrapConvertChangeType(object? value, Type fromType, Type conversionType)

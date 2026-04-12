@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using RepoDb.Extensions;
+using RepoDb.Interfaces;
 
 namespace RepoDb;
 
@@ -19,7 +20,7 @@ public sealed class Parameter : IEquatable<Parameter>
     /// <param name="value">The value of the parameter.</param>
     public Parameter(string name,
         object? value)
-        : this(name, value, null, false)
+        : this(name, value, null)
     { }
 
     /// <summary>
@@ -31,20 +32,6 @@ public sealed class Parameter : IEquatable<Parameter>
     public Parameter(string name,
         object? value,
         DbType? dbType)
-        : this(name, value, dbType, false)
-    { }
-
-    /// <summary>
-    /// Creates a new instance of <see cref="Parameter"/> object.
-    /// </summary>
-    /// <param name="name">The name of the parameter.</param>
-    /// <param name="value">The value of the parameter.</param>
-    /// <param name="dbType">The database type of the parameter.</param>
-    /// <param name="prependUnderscore">The value to identify whether the underscope prefix will be prepended.</param>
-    internal Parameter(string name,
-        object? value,
-        DbType? dbType,
-        bool prependUnderscore)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
@@ -54,12 +41,7 @@ public sealed class Parameter : IEquatable<Parameter>
         OriginalValue = value;
         Value = value;
         DbType = dbType;
-        if (prependUnderscore)
-        {
-            PrependAnUnderscoreAtParameter();
-        }
     }
-
     #endregion
 
     #region Properties
@@ -96,9 +78,16 @@ public sealed class Parameter : IEquatable<Parameter>
     /// <summary>
     /// Prepend an underscore on the current parameter object.
     /// </summary>
-    internal void PrependAnUnderscoreAtParameter()
+    internal void PrependAnUnderscoreAtParameter(IDbSetting setting)
     {
-        if (!Name.StartsWith('_'))
+        bool noUnderscoreArguments = setting?.NoUnderscoreArguments ?? false;
+
+        if (noUnderscoreArguments)
+        {
+            if (!Name.StartsWith("RdB_", StringComparison.Ordinal))
+                Name = "RdB_" + Name;
+        }
+        else if (!Name.StartsWith('_'))
         {
             Name = '_' + Name;
         }

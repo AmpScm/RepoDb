@@ -1,51 +1,59 @@
 ﻿using System.Data;
-using RepoDb.Contexts.Caches;
-using RepoDb.Contexts.Execution;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Requests;
 
-namespace RepoDb.Contexts.Providers;
+namespace RepoDb.Contexts;
 
 internal static class InsertExecutionContextProvider
 {
-    private static string GetKey(Type type,
-        string tableName,
-        IEnumerable<Field> fields,
-        string? hints)
-    {
-        return string.Concat(type.FullName,
-            ";",
-            tableName,
-            ";",
-            fields?.Select(f => f.FieldName).Join(","),
-            ";",
-            hints);
-    }
-
     public static InsertExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         IDbTransaction? transaction = null,
         IStatementBuilder? statementBuilder = null)
     {
-        var key = GetKey(entityType, tableName, fields, hints);
+        var key = (entityType, tableName, fields, hints);
 
-        // Get from cache
-        var context = InsertExecutionContextCache.Get(key);
-        if (context is not null)
+        if (InsertExecutionContextCache.Get(key) is { } context)
         {
             return context;
         }
 
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
+        return InsertExecutionContextCache.GetOrAdd(key, (_) => CreateInternal(entityType, connection, tableName, fields, hints, transaction, statementBuilder, dbFields));
+    }
 
+    public static async Task<InsertExecutionContext> CreateAsync(Type entityType,
+        IDbConnection connection,
+        string tableName,
+        FieldSet fields,
+        string? hints = null,
+        IDbTransaction? transaction = null,
+        IStatementBuilder? statementBuilder = null,
+        CancellationToken cancellationToken = default)
+    {
+        var key = (entityType, tableName, fields.AsFieldSet(), hints);
+
+        if (InsertExecutionContextCache.Get(key) is { } context)
+        {
+            return context;
+        }
+
+        // Create
+        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        return InsertExecutionContextCache.GetOrAdd(key, (_) => CreateInternal(entityType, connection, tableName, fields, hints, transaction, statementBuilder, dbFields));
+    }
+
+    private static InsertExecutionContext CreateInternal(Type entityType, IDbConnection connection, string tableName, FieldSet fields, string? hints, IDbTransaction? transaction, IStatementBuilder? statementBuilder, DbFieldCollection dbFields)
+    {
         if (dbFields.Any(x => x.IsReadOnly))
         {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true).AsFieldSet();
         }
 
         var request = new InsertRequest(entityType,
@@ -55,78 +63,8 @@ internal static class InsertExecutionContextProvider
             fields,
             hints,
             statementBuilder);
-        var commandText = CommandTextCache.GetCached(request, CommandTextCache.GetInsertText);
+        var commandText = CommandTextCache.GetCachedWithDbFields(request, dbFields, CommandTextCache.GetInsertText);
 
-        // Call
-        context = CreateInternal(entityType, connection,
-            dbFields,
-            tableName,
-            fields,
-            commandText);
-
-        // Add to cache
-        InsertExecutionContextCache.Add(key, context);
-
-        // Return
-        return context;
-    }
-
-    public static async Task<InsertExecutionContext> CreateAsync(Type entityType,
-        IDbConnection connection,
-        string tableName,
-        IEnumerable<Field> fields,
-        string? hints = null,
-        IDbTransaction? transaction = null,
-        IStatementBuilder? statementBuilder = null,
-        CancellationToken cancellationToken = default)
-    {
-        var key = GetKey(entityType, tableName, fields, hints);
-
-        // Get from cache
-        var context = InsertExecutionContextCache.Get(key);
-        if (context is not null)
-        {
-            return context;
-        }
-
-        // Create
-        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
-
-        if (dbFields.Any(x => x.IsReadOnly))
-        {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
-        }
-
-        var request = new InsertRequest(tableName,
-            connection,
-            transaction,
-            fields,
-            hints,
-            statementBuilder);
-        var commandText = await CommandTextCache.GetCachedAsync(request, CommandTextCache.GetInsertText, cancellationToken).ConfigureAwait(false);
-
-        // Call
-        context = CreateInternal(entityType,
-            connection,
-            dbFields,
-            tableName,
-            fields,
-            commandText);
-
-        // Add to cache
-        InsertExecutionContextCache.Add(key, context);
-
-        // Return
-        return context;
-    }
-
-    private static InsertExecutionContext CreateInternal(Type entityType,
-        IDbConnection connection,
-        DbFieldCollection dbFields,
-        string tableName,
-        IEnumerable<Field> fields,
-        string commandText)
-    {
         var dbSetting = connection.GetDbSetting();
         var dbHelper = connection.GetDbHelper();
         var inputFields = dbFields
@@ -147,7 +85,6 @@ internal static class InsertExecutionContextProvider
         return new InsertExecutionContext
         {
             CommandText = commandText,
-            InputFields = inputFields,
             ParametersSetterFunc = FunctionCache
                 .GetDataEntityDbParameterSetterCompiledFunction(entityType,
                     string.Concat(entityType.FullName, ".", tableName, ".Insert"),

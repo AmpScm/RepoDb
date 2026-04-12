@@ -1,27 +1,10 @@
-﻿using System.Collections.Concurrent;
-using RepoDb.Contexts.Execution;
+﻿using KeyType = (System.Type entityType, string tableName, RepoDb.FieldSet fields, int batchSize, string?);
 
-namespace RepoDb.Contexts.Caches;
+namespace RepoDb.Contexts;
 
 /// <summary>
-/// A class that is being used to cache the execution context of the MergeAll operation.
+/// A class that is being used to cache the execution context of the InsertAll operation.
 /// </summary>
-internal static class InsertAllExecutionContextCache
+internal sealed class InsertAllExecutionContextCache : ExecutionContextCache<KeyType, InsertAllExecutionContext>
 {
-    private static readonly ConcurrentDictionary<string, InsertAllExecutionContext> cache = new();
-
-    /// <summary>
-    /// Flushes all the cached execution context.
-    /// </summary>
-    public static void Flush() =>
-        cache.Clear();
-
-    internal static void Add(string key,
-        InsertAllExecutionContext context) =>
-        cache.TryAdd(key, context);
-
-    internal static InsertAllExecutionContext? Get(string key)
-    {
-        return cache.TryGetValue(key, out var result) ? result : null;
-    }
 }

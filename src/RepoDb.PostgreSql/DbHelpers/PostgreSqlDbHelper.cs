@@ -300,12 +300,7 @@ public sealed class PostgreSqlDbHelper : BaseDbHelper
         var npgType = ClientTypeToNpgsqlDbTypeResolver.Instance.Resolve(elementType)!.Value | NpgsqlDbType.Array;
 
         Array items = Array.CreateInstance(elementType, set.Count);
-
-        int i = 0;
-        foreach (var n in set)
-        {
-            items.SetValue(n, i++);
-        }
+        set.CopyTo(items, 0);
 
         return new NpgsqlParameter(parameterName, npgType)
         {

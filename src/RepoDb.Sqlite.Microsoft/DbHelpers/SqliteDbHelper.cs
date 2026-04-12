@@ -6,6 +6,7 @@ using RepoDb.DbSettings;
 using RepoDb.Enumerations;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
+using RepoDb.Resolvers;
 
 namespace RepoDb.DbHelpers;
 
@@ -22,8 +23,8 @@ public sealed partial class SqliteDbHelper : BaseDbHelper
     /// <param name="dbTypeResolver">The type resolver to be used.</param>
     /// <param name="dbSetting">The instance of the <see cref="IDbSetting"/> object to be used.</param>
     public SqliteDbHelper(IDbSetting dbSetting,
-        IResolver<string, Type> dbTypeResolver)
-        : base(dbTypeResolver)
+        IResolver<string, Type>? dbTypeResolver = null)
+        : base(dbTypeResolver ?? SqliteDbTypeNameToClientTypeResolver.Instance)
     {
         DbSetting = dbSetting;
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using RepoDb.Extensions;
@@ -613,7 +612,7 @@ public class DataEntityDataReader<TEntity> : DbDataReader
     {
         if (IsDisposed)
         {
-            throw new InvalidOperationException("The reader is already disposed.");
+            throw new ObjectDisposedException(nameof(DataEntityDataReader<>), "The reader is already disposed.");
         }
         if (IsClosed)
         {

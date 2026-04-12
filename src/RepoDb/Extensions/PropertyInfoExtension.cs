@@ -89,21 +89,8 @@ public static class PropertyInfoExtension
     /// <param name="property">The instance of <see cref="PropertyInfo"/> to be converted.</param>
     /// <param name="entity">The entity object where the value of the property will be retrieved.</param>
     /// <returns>An instance of query field object that holds the converted name and values of the property.</returns>
-    public static QueryField AsQueryField(this PropertyInfo property,
-        object entity) =>
-        AsQueryField(property, entity, false);
-
-    /// <summary>
-    /// Converts a <see cref="PropertyInfo"/> into a query field object.
-    /// </summary>
-    /// <param name="property">The instance of <see cref="PropertyInfo"/> to be converted.</param>
-    /// <param name="entity">The entity object where the value of the property will be retrieved.</param>
-    /// <returns>An instance of query field object that holds the converted name and values of the property.</returns>
-    /// <param name="prependUnderscore">The value to identify whether the underscore prefix will be appended to the parameter name.</param>
-    internal static QueryField AsQueryField(this PropertyInfo property,
-        object entity,
-        bool prependUnderscore) =>
-        new(property.AsField(), Operation.Equal, property.GetHandledValue(entity), null, prependUnderscore);
+    public static QueryField AsQueryField(this PropertyInfo property, object entity) =>
+        new(property.AsField(), Operation.Equal, property.GetHandledValue(entity), null);
 
     /// <summary>
     /// Converts a <see cref="PropertyInfo"/> into a mapped name.

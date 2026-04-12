@@ -684,7 +684,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForArrayAll()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s != p.PropertyString));
+        // Tests using '==' operator instead of the more likely '!=' operator to ensure that the correct form is parsed for this test
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s == p.PropertyString));
 
         // Act
         var actual1 = parsed.QueryFields[0].Parameter.Value;
@@ -699,7 +700,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForArrayAllEqualsFalse()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s != p.PropertyString) == false);
+        // Tests using '==' operator instead of the more likely '!=' operator to ensure that the correct form is parsed for this test
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s == p.PropertyString) == false);
 
         // Act
         var actual1 = parsed.QueryFields[0].Parameter.Value;
@@ -714,7 +716,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForArrayAllEqualsTrue()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s != p.PropertyString) == true);
+        // Tests using '==' operator instead of the more likely '!=' operator to ensure that the correct form is parsed for this test
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).All(s => s == p.PropertyString) == true);
 
         // Act
         var actual1 = parsed.QueryFields[0].Parameter.Value;
@@ -822,7 +825,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForArrayNotAny()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => !(new[] { "A", "B" }).Any(s => s == p.PropertyString));
+        // Tests using '!=' operator instead of the more likely '==' operator to ensure that the correct form is parsed for this test
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => !(new[] { "A", "B" }).Any(s => s != p.PropertyString));
 
         // Act
         var actual1 = parsed.QueryFields[0].Parameter.Value;
@@ -836,7 +840,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForArrayNotAnyEqualsFalse()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s == p.PropertyString) == false);
+        // Tests using '!=' operator instead of the more likely '==' operator to ensure that the correct form is parsed for this test
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s != p.PropertyString) == false);
 
         // Act
         var actual1 = parsed.QueryFields[0].Parameter.Value;
@@ -851,7 +856,8 @@ public partial class QueryGroupTest
     public void TestQueryGroupParseExpressionValueForArrayNotAnyEqualsTrue()
     {
         // Setup
-        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s == p.PropertyString) == true);
+        // Tests using '!=' operator instead of the more likely '==' operator to ensure that the correct form is parsed for this test
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(p => (new[] { "A", "B" }).Any(s => s != p.PropertyString) == true);
 
         // Act
         var actual1 = parsed.QueryFields[0].Parameter.Value;

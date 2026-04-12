@@ -54,7 +54,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyString] LIKE @PropertyString)";
+        var expected = "([PropertyString] NOT LIKE @PropertyString)";
 
         // Assert
         Assert.AreEqual(expected, actual);

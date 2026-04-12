@@ -77,7 +77,7 @@ public partial class QueryGroupTest
     {
         // Act
         var actual = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => e.PropertyInt == 1 == false).GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] = @PropertyInt)";
+        var expected = "([PropertyInt] <> @PropertyInt)";
 
         // Assert
         Assert.AreEqual(expected, actual);

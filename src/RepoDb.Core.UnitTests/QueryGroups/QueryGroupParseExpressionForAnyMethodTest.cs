@@ -12,7 +12,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -41,7 +41,22 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    public void TestQueryGroupParseExpressionAnyFromVariableEnumerable()
+    {
+        // Setup
+        IEnumerable<int> list = [1, 2];
+        var parsed = QueryGroup.Parse<QueryGroupTestExpressionClass>(e => list.Any(p => p == e.PropertyInt));
+
+        // Act
+        var actual = parsed.GetString(m_dbSetting);
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -74,7 +89,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -92,7 +107,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] <> @PropertyInt OR [PropertyInt] <> @PropertyInt_1)";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -110,7 +125,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -128,7 +143,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -142,7 +157,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -156,7 +171,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] <> @PropertyInt OR [PropertyInt] <> @PropertyInt_1)";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -170,7 +185,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -184,7 +199,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] = @PropertyInt OR [PropertyInt] = @PropertyInt_1)";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -198,7 +213,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "NOT ([PropertyInt] <> @PropertyInt OR [PropertyInt] <> @PropertyInt_1)";
+        var expected = "([PropertyInt] IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -212,7 +227,7 @@ public partial class QueryGroupTest
 
         // Act
         var actual = parsed.GetString(m_dbSetting);
-        var expected = "([PropertyInt] <> @PropertyInt OR [PropertyInt] <> @PropertyInt_1)";
+        var expected = "([PropertyInt] NOT IN (@PropertyInt_In_0, @PropertyInt_In_1))";
 
         // Assert
         Assert.AreEqual(expected, actual);

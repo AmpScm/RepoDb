@@ -1,55 +1,30 @@
 ﻿using System.Data;
 using System.Data.Common;
-using System.Globalization;
-using RepoDb.Contexts.Caches;
-using RepoDb.Contexts.Execution;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Requests;
 
-namespace RepoDb.Contexts.Providers;
+namespace RepoDb.Contexts;
 
 /// <summary>
 ///
 /// </summary>
 internal static class UpdateAllExecutionContextProvider
 {
-    private static string GetKey(Type entityType,
-        string tableName,
-        IEnumerable<Field>? qualifiers,
-        IEnumerable<Field> fields,
-        int batchSize,
-        string? hints)
-    {
-        return string.Concat(entityType.FullName,
-            ";",
-            tableName,
-            ";",
-            qualifiers?.Select(f => f.FieldName).Join(","),
-            ";",
-            fields?.Select(f => f.FieldName).Join(","),
-            ";",
-            batchSize.ToString(CultureInfo.InvariantCulture),
-            ";",
-            hints);
-    }
-
     public static UpdateAllExecutionContext Create(Type entityType,
         IDbConnection connection,
         string tableName,
         IEnumerable<object> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         IDbTransaction? transaction = null,
         IStatementBuilder? statementBuilder = null)
     {
-        var key = GetKey(entityType, tableName, qualifiers, fields, batchSize, hints);
+        var key = (entityType, tableName, qualifiers, fields, batchSize, hints);
 
-        // Get from cache
-        var context = UpdateAllExecutionContextCache.Get(key);
-        if (context is not null)
+        if (UpdateAllExecutionContextCache.Get(key) is { } context)
         {
             return context;
         }
@@ -57,55 +32,25 @@ internal static class UpdateAllExecutionContextProvider
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
 
-        if (dbFields.Any(x => x.IsGenerated))
-        {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
-        }
-
-        var request = new UpdateAllRequest(tableName,
-            connection,
-            transaction,
-            fields,
-            qualifiers,
-            batchSize,
-            hints,
-            statementBuilder);
-        var commandText = CommandTextCache.GetCached(request, CommandTextCache.GetUpdateAllText);
-
-        // Call
-        context = CreateInternal(entityType,
-            connection,
-            tableName,
-            entities,
-            dbFields,
-            batchSize,
-            fields,
-            commandText);
-
-        // Add to cache
-        UpdateAllExecutionContextCache.Add(key, context);
-
-        // Return
-        return context;
+        return UpdateAllExecutionContextCache.GetOrAdd(key, (_) => CreateInternal2(entityType, connection, tableName, entities, qualifiers, batchSize, fields, hints, transaction, statementBuilder, dbFields));
     }
 
     public static async Task<UpdateAllExecutionContext> CreateAsync(Type entityType,
         IDbConnection connection,
         string tableName,
         IEnumerable<object> entities,
-        IEnumerable<Field>? qualifiers,
+        FieldSet? qualifiers,
         int batchSize,
-        IEnumerable<Field> fields,
+        FieldSet fields,
         string? hints = null,
         IDbTransaction? transaction = null,
         IStatementBuilder? statementBuilder = null,
         CancellationToken cancellationToken = default)
     {
-        var key = GetKey(entityType, tableName, qualifiers, fields, batchSize, hints);
+        var key = (entityType, tableName, qualifiers, fields, batchSize, hints);
 
         // Get from cache
-        var context = UpdateAllExecutionContextCache.Get(key);
-        if (context is not null)
+        if (UpdateAllExecutionContextCache.Get(key) is { } context)
         {
             return context;
         }
@@ -113,9 +58,14 @@ internal static class UpdateAllExecutionContextProvider
         // Create
         var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
 
+        return UpdateAllExecutionContextCache.GetOrAdd(key, (_) => CreateInternal2(entityType, connection, tableName, entities, qualifiers, batchSize, fields, hints, transaction, statementBuilder, dbFields));
+    }
+
+    private static UpdateAllExecutionContext CreateInternal2(Type entityType, IDbConnection connection, string tableName, IEnumerable<object> entities, FieldSet? qualifiers, int batchSize, FieldSet fields, string? hints, IDbTransaction? transaction, IStatementBuilder? statementBuilder, DbFieldCollection dbFields)
+    {
         if (dbFields.Any(x => x.IsGenerated))
         {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsGenerated != true).AsFieldSet();
         }
 
         var request = new UpdateAllRequest(tableName,
@@ -126,34 +76,8 @@ internal static class UpdateAllExecutionContextProvider
             batchSize,
             hints,
             statementBuilder);
-        var commandText = await CommandTextCache.GetCachedAsync(request, CommandTextCache.GetUpdateAllText, cancellationToken).ConfigureAwait(false);
+        var commandText = CommandTextCache.GetCachedWithDbFields(request, dbFields, CommandTextCache.GetUpdateAllText);
 
-        // Call
-        context = CreateInternal(entityType,
-            connection,
-            tableName,
-            entities,
-            dbFields,
-            batchSize,
-            fields,
-            commandText);
-
-        // Add to cache
-        UpdateAllExecutionContextCache.Add(key, context);
-
-        // Return
-        return context;
-    }
-
-    private static UpdateAllExecutionContext CreateInternal(Type entityType,
-        IDbConnection connection,
-        string tableName,
-        IEnumerable<object> entities,
-        DbFieldCollection dbFields,
-        int batchSize,
-        IEnumerable<Field> fields,
-        string commandText)
-    {
         // Variables needed
         var dbSetting = connection.GetDbSetting();
         var dbHelper = connection.GetDbHelper();
@@ -202,7 +126,6 @@ internal static class UpdateAllExecutionContextProvider
         return new UpdateAllExecutionContext
         {
             CommandText = commandText,
-            InputFields = inputFields,
             BatchSize = batchSize,
             SingleDataEntityParametersSetterFunc = singleEntityParametersSetterFunc,
             MultipleDataEntitiesParametersSetterFunc = multipleEntitiesParametersSetterFunc

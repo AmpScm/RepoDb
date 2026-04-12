@@ -83,8 +83,16 @@ jobs:
       - name: restore
         run: dotnet restore
 
+      - name: Set version variables
+        id: version
+        run: |
+          COMMIT_DATE=$(git log -1 --format='%ai' | cut -d' ' -f1)
+          DATE=$(echo $COMMIT_DATE | awk -F'-' '{print $1"."$2$3}')
+          BUILD_NUM=$(printf "%d" $(( ${{ github.run_number }} % 60000 )))
+          echo "version=1.${DATE}.${BUILD_NUM}" >> $GITHUB_OUTPUT
+
       - name: build
-        run: dotnet build -c Release --no-restore
+        run: dotnet build -c Release -p:Version="${{ steps.version.outputs.version }}" -p:PackagePrefix=AmpScm. --no-restore
 
       - name: Run tests for .NET 10.0 with coverage
         run: |
@@ -95,13 +103,6 @@ jobs:
             -- \
             dotnet test -c Release -f net10.0 --no-build \
               --report-github --report-github-summary-include-passed=false
-
-      - name: Set version variables
-        id: version
-        run: |
-          DATE=$(date +'%Y.%02m%02d')
-          BUILD_NUM=$(printf "%d" $(( ${{ github.run_number }} % 60000 )))
-          echo "version=1.${DATE}.${BUILD_NUM}" >> $GITHUB_OUTPUT
 
       - name: Pack packages
         run: dotnet pack -c Release -p:Version="${{ steps.version.outputs.version }}" -p:PackagePrefix=AmpScm. -o release

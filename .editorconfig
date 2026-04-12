@@ -98,3 +98,6 @@ dotnet_diagnostic.IDE0061.severity = none
 
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = silent
+
+# IDE0023: Use block body for conversion operator
+dotnet_diagnostic.IDE0023.severity = none

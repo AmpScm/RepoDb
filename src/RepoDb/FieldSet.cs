@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace RepoDb;
 
 /// <summary>
-///
+/// Keeps a set of <see cref="Field"/>
 /// </summary>
 [DebuggerDisplay($"{{{nameof(DebuggerDisplay)},nq}}")]
-public sealed class FieldSet : IReadOnlyCollection<Field>
+public sealed class FieldSet : IReadOnlyCollection<Field>, IEquatable<FieldSet>
 #if NET
     , IReadOnlySet<Field>
 #endif
@@ -16,14 +17,13 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     private readonly HashSet<Field> _fields;
     private static readonly HashSet<Field> EmptyFields = new(Field.CompareByName);
     private int? _hashCode;
-
     private FieldSet()
     {
         _fields = EmptyFields;
     }
 
     /// <summary>
-    ///
+    /// Initializes a new set of <see cref="Field"/> instances
     /// </summary>
     /// <param name="fields"></param>
     public FieldSet(IEnumerable<Field> fields)
@@ -35,12 +35,51 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     }
 
     /// <summary>
-    ///
+    /// Initializes a new set of <see cref="Field"/> instances
+    /// </summary>
+    /// <param name="fields"></param>
+    public FieldSet(params ReadOnlySpan<Field> fields)
+    {
+        if (fields.Length == 0)
+            _fields = EmptyFields;
+        else
+        {
+            _fields = new HashSet<Field>(fields.ToArray(), Field.CompareByName);
+        }
+    }
+
+    /// <summary>
+    /// Gets the standard empty <see cref="FieldSet"/>
     /// </summary>
     public static readonly FieldSet Empty = new();
 
-    /// <inheritdoc/>>
+    /// <summary>
+    /// Gets the total number of fields in this set.
+    /// </summary>
     public int Count => _fields.Count;
+
+    /// <summary>
+    /// Gets a field by its name using case-insensitive comparison.
+    /// </summary>
+    /// <param name="fieldName">The name of the field to retrieve.</param>
+    /// <returns>A <see cref="Field"/> with the specified name, or <see langword="null"/> if not found.</returns>
+    public Field? GetByFieldName(string fieldName)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(fieldName);
+
+        return _fields.FirstOrDefault(f => f.FieldName.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>
+    /// Determines whether a field with the specified name exists in this set using case-insensitive comparison.
+    /// </summary>
+    /// <param name="fieldName">The name of the field to check for.</param>
+    /// <returns><see langword="true"/> if a field with the specified name exists; otherwise, <see langword="false"/>.</returns>
+    public bool ContainsFieldName(string fieldName)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(fieldName);
+        return _fields.Any(f => f.FieldName.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
+    }
 
     /// <inheritdoc/>>
     public bool Contains(Field item)
@@ -107,11 +146,16 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     /// <inheritdoc/>>
     public override bool Equals(object? obj)
     {
-        if (obj is not FieldSet fs || fs.Count != Count)
-            return false;
-
-        return SetEquals(fs);
+        return obj is FieldSet fs && Equals(fs);
     }
+
+    /// <inheritdoc/>>
+    public bool Equals([NotNullWhen(true)] FieldSet? other)
+    {
+        return other?.Count == Count
+            && (ReferenceEquals(this, other) ||  SetEquals(other));
+    }
+
     /// <inheritdoc/>>
     public override int GetHashCode()
     {
@@ -119,7 +163,7 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     }
 
     /// <summary>
-    ///
+    /// Checks if both sets have the same fields
     /// </summary>
     /// <param name="objA"></param>
     /// <param name="objB"></param>
@@ -137,14 +181,14 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
         => !(left == right);
 
     /// <summary>
-    ///
+    /// Initializes Fieldset from the specified entity using <see cref="FieldCache"/>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <returns></returns>
     public static FieldSet From<TEntity>()
         where TEntity : class
     {
-        return new FieldSet(FieldCache.Get<TEntity>());
+        return FieldCache.Get<TEntity>();
     }
 
     /// <summary>
@@ -161,4 +205,17 @@ public sealed class FieldSet : IReadOnlyCollection<Field>
     }
 
     private string DebuggerDisplay => $"{Count} fields: " + string.Join(",", _fields.Select(x => x.FieldName));
+
+    /// <summary>
+    /// Initializes a new set of <see cref="Field"/> instances
+    /// </summary>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    public static FieldSet Create(ReadOnlySpan<Field> items)
+    {
+        if (items.Length == 0)
+            return Empty;
+        else
+            return new(items);
+    }
 }

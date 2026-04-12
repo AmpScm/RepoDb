@@ -52,4 +52,9 @@ public class DbTypeToSqliteStringNameResolver : IResolver<DbType, string?>
                  */
         };
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly DbTypeToSqliteStringNameResolver Instance = new();
 }

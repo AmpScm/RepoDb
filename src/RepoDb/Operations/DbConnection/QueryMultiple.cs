@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.Common;
-using RepoDb.DbSettings;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Reflection;

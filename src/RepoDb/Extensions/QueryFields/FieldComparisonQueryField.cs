@@ -36,4 +36,18 @@ public sealed class FieldComparisonQueryField : ExpressionQueryField
         // Example: [Left] = [Right]
         return $"{Left.FieldName.AsField(dbSetting)} {Operation.GetText()} {Right.FieldName.AsField(dbSetting)}";
     }
+
+    /// <inheritdoc/>>
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(base.GetHashCode(), Left, Right);
+    }
+
+    /// <inheritdoc/>>
+    public override bool Equals(QueryField? other)
+    {
+        return other is FieldComparisonQueryField fqf
+            && fqf.Left == Left
+            && fqf.Right == Right;
+    }
 }

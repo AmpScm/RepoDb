@@ -68,8 +68,8 @@ public sealed class OracleStatementBuilder : BaseStatementBuilder
 
         // UPDATE SET T.ColX = S.ColX (exclude qualifiers and identity fields)
         var updateFields = fieldList
-            .Where(f => qualifierList.GetByFieldName(f.FieldName) is null &&
-                        noUpdateFields?.GetByFieldName(f.FieldName) is null &&
+            .Where(f => !qualifierList.ContainsFieldName(f.FieldName) &&
+                        noUpdateFields?.ContainsFieldName(f.FieldName) != true &&
                         keyFields.GetByFieldName(f.FieldName) is not { IsIdentity: true })
             .AsFieldSet();
 

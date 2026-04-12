@@ -40,35 +40,19 @@ public partial class QueryField
         };
     }
 
-    private static QueryField ToIn(Field field,
-        System.Collections.IEnumerable enumerable,
-        ExpressionType? unaryNodeType = null)
+    internal static QueryField ToIn(Field field, System.Collections.IEnumerable enumerable, bool isNot = false)
     {
-        var operation = unaryNodeType == ExpressionType.Not ? Operation.NotIn : Operation.In;
-        return new QueryField(field, operation, enumerable.AsTypedSet(), null, false);
+        var operation = isNot ? Operation.NotIn : Operation.In;
+        return new QueryField(field, operation, enumerable.AsTypedSet(), null);
     }
 
-    private static IEnumerable<QueryField> ToQueryFields(Field field,
-        System.Collections.IEnumerable enumerable,
-        ExpressionType? unaryNodeType = null)
+    internal static QueryField ToLike(Field field, object? value, bool isNot = false)
     {
-        var operation = (unaryNodeType is ExpressionType.Not or ExpressionType.NotEqual) ?
-            Operation.NotEqual : Operation.Equal;
-        foreach (var item in enumerable)
-        {
-            yield return new QueryField(field, operation, item, null, false);
-        }
+        var operation = isNot ? Operation.NotLike : Operation.Like;
+        return new QueryField(field, operation, value, null);
     }
 
-    private static QueryField ToLike(Field field,
-        object? value,
-        ExpressionType? unaryNodeType = null)
-    {
-        var operation = unaryNodeType == ExpressionType.Not ? Operation.NotLike : Operation.Like;
-        return new QueryField(field, operation, value, null, false);
-    }
-
-    private static string ConvertToLikeableValue(string methodName,
+    internal static string ConvertToLikeableValue(string methodName,
         string value)
     {
         if (methodName == nameof(string.Contains))
@@ -121,7 +105,7 @@ public partial class QueryField
             value = ToEnumValue(ut, value);
         }
 
-        var check = new QueryField(field, operation, value, null, false);
+        var check = new QueryField(field, operation, value, null);
 
         if (coalesceValue is { })
         {
@@ -129,12 +113,12 @@ public partial class QueryField
             {
                 // X = @Y OR X IS NULL
 
-                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null, false)], Conjunction.Or);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null)], Conjunction.Or);
             }
             else if (operation is Operation.NotEqual && !Equals(value, coalesceValue))
             {
                 // X <> @Y OR X IS NULL
-                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null, false)], Conjunction.Or);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null)], Conjunction.Or);
             }
             else
                 throw new InvalidExpressionException($"Invalid expression '??' can only be applied in an Equals or NotEquals .");
@@ -142,18 +126,18 @@ public partial class QueryField
         else if (operation == Operation.Equal)
         {
             if (value is null)
-                check = new QueryField(field, Operation.IsNull, value, null, false);
+                check = new QueryField(field, Operation.IsNull, value, null);
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
-                return new QueryGroup([check, new QueryField(field, Operation.IsNotNull, value, null, false) { CanSkip = true }], Conjunction.And);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNotNull, value, null) { CanSkip = true }], Conjunction.And);
         }
         else if (operation == Operation.NotEqual)
         {
             if (value is null)
-                check = new QueryField(field, Operation.IsNotNull, value, null, false);
+                check = new QueryField(field, Operation.IsNotNull, value, null);
             else if (GlobalConfiguration.Options.ExpressionNullSemantics == ExpressionNullSemantics.NullNotEqual)
             {
                 // X != @Y OR X is NULL
-                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null, false) { CanSkip = true }], Conjunction.Or);
+                return new QueryGroup([check, new QueryField(field, Operation.IsNull, value, null) { CanSkip = true }], Conjunction.Or);
             }
         }
 
@@ -178,286 +162,34 @@ public partial class QueryField
      * Member
      */
 
-    internal static IEnumerable<QueryField> Parse<TEntity>(MemberExpression expression,
-        ExpressionType? unaryNodeType = null)
-        where TEntity : class
-    {
-        // Property
-        var property = GetProperty<TEntity>(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
-
-        // Operation
-        var operation = unaryNodeType == ExpressionType.Not ? Operation.NotEqual : Operation.Equal;
-
-        // Value
-        object? value;
-        if (expression.Type == StaticType.Boolean)
-        {
-            value = true;
-        }
-        else if (!expression.TryGetValue(out value))
-            throw new InvalidOperationException($"Can't parse '{expression}' to value");
-
-        // Return
-        return new QueryField(property.FieldName, operation, value, null, false).AsEnumerable();
-    }
-
-    /*
-     * MethodCall
-     */
-
-    internal static IEnumerable<QueryField>? Parse<TEntity>(MethodCallExpression expression,
-    ExpressionType? unaryNodeType = null)
-    where TEntity : class
-    {
-        if (expression.Method.Name == nameof(string.Equals))
-        {
-            var r = ParseEquals<TEntity>(expression);
-            if (unaryNodeType == ExpressionType.Not)
-                r = r.ApplyNot();
-
-            return r.AsEnumerable();
-        }
-        else if (expression.Method.Name == "CompareString")
-        {
-            // Usual case for VB.Net (Microsoft.VisualBasic.CompilerServices.Operators.CompareString #767)
-            var r = ParseCompareString<TEntity>(expression);
-            if (unaryNodeType == ExpressionType.Not)
-                r = r.ApplyNot();
-
-            return r.AsEnumerable();
-        }
-        else if (expression.Method.Name == nameof(string.Contains))
-        {
-            return ParseContains<TEntity>(expression, unaryNodeType)?.AsEnumerable();
-        }
-        else if (expression.Method.Name is (nameof(string.StartsWith)) or
-            (nameof(string.EndsWith)))
-        {
-            return ParseStartEndsWith<TEntity>(expression, unaryNodeType)?.AsEnumerable();
-        }
-        else if (expression.Method.Name == nameof(Enumerable.All))
-        {
-            return ParseAll<TEntity>(expression, unaryNodeType);
-        }
-        else if (expression.Method.Name == nameof(Enumerable.Any))
-        {
-            return ParseAny<TEntity>(expression, unaryNodeType);
-        }
-        else
-            return null;
-    }
-
-    internal static QueryField ParseEquals<TEntity>(MethodCallExpression expression)
-        where TEntity : class
-    {
-        if (expression.Object is null
-            && expression.Method.DeclaringType == typeof(string)
-            && expression.Arguments.Count == 2
-            && expression.Arguments[1].TryGetValue(out var pv))
-        {
-            var property = GetProperty<TEntity>(expression.Arguments[0]) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
-
-            return new QueryField(property.AsField(), Converter.ToType<string>(pv));
-        }
-        else
-        {
-            // Property
-            var property = MyGetProperty(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
-
-            // Value
-            if (expression?.Object?.Type == StaticType.String
-                && expression.Arguments[0].TryGetValue(out var pv2))
-            {
-                var value = Converter.ToType<string>(pv2);
-                return new QueryField(property.AsField(), value);
-            }
-        }
-
-        throw new InvalidOperationException($"Can't parse '{expression}' to query");
-
-        static ClassProperty? MyGetProperty(MethodCallExpression expression) =>
-            expression.Object?.Type == StaticType.String ?
-            GetProperty<TEntity>((MemberExpression)expression.Object) :
-            GetProperty<TEntity>(expression.Arguments[1]);
-    }
-
-    internal static QueryField ParseCompareString<TEntity>(MethodCallExpression expression)
-        where TEntity : class
-    {
-        // Property
-        var property = (expression.Arguments[0] as MemberExpression)?.Member ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
-
-        // Value
-        if (!expression.Arguments[1].TryGetValue(out var vv))
-            throw new InvalidOperationException($"Can't parse {expression.Arguments[1]} to value");
-
-        var value = Converter.ToType<string>(vv);
-
-        // Return
-        if (property is PropertyInfo pi
-            && PropertyCache.Get(pi.DeclaringType, pi, true) is { } mappedProperty)
-        {
-            return new QueryField(mappedProperty.AsField(), value);
-        }
-        return new QueryField(property.GetMappedName(), value);
-    }
-
-    /// <summary>
-    /// Parses variable.Contains(entity.Property) or entity.Propery.Contains(variable), directly on object or via extension method
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <param name="expression"></param>
-    /// <param name="unaryNodeType"></param>
-    /// <returns></returns>
-    internal static QueryField ParseContains<TEntity>(MethodCallExpression expression,
-        ExpressionType? unaryNodeType = null)
-        where TEntity : class
-    {
-        // Value. The list to check in
-        var listExpression = expression.Object ?? expression.Arguments[0];
-        var memberExpression = expression.Object != null ? expression.Arguments[0] : expression.Arguments[1];
-
-        if (listExpression.Type != StaticType.String)
-        {
-            // Handling variable.Contains(entity.Property)
-            // Property. The argument of List.Contains(<what>, ...) or the second argument of Extension.Contains(list, <what>, ...)
-            var valueExpression = listExpression;
-            var propExpression = memberExpression;
-
-            var property = GetProperty<TEntity>(propExpression) ?? throw new InvalidOperationException($"Can't parse '{propExpression}' to entity property");
-
-            if (!valueExpression.TryGetValue(out var listValue))
-                throw new InvalidOperationException($"Can't parse {valueExpression} to list value");
-
-            var enumerable = Converter.ToType<System.Collections.IEnumerable>(listValue);
-            return ToIn(property.AsField(), enumerable!, unaryNodeType);
-        }
-        else
-        {
-            // Handling entity.Property.Contains(variable)
-
-            var valueExpression = memberExpression;
-            var propExpression = listExpression;
-
-            var property = GetProperty<TEntity>(propExpression) ?? throw new InvalidOperationException($"Can't parse '{propExpression}' to entity property");
-
-            if (!valueExpression.TryGetValue(out var value))
-                throw new InvalidOperationException($"Can't parse {valueExpression} to needle value");
-
-            var likeable = ConvertToLikeableValue("Contains", Converter.ToType<string>(value ?? ""));
-            return ToLike(property.AsField(), likeable, unaryNodeType);
-        }
-    }
-
-    /// <summary>
-    /// Parses entity.Property.StartsWith(...)
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <param name="expression"></param>
-    /// <param name="unaryNodeType"></param>
-    /// <returns></returns>
-    internal static QueryField ParseStartEndsWith<TEntity>(MethodCallExpression expression,
-        ExpressionType? unaryNodeType = null)
-        where TEntity : class
-    {
-        // Property
-        var propertyExpression = expression.Object ?? expression.Arguments[0];
-        var matchExpression = expression.Object != null ? expression.Arguments[0] : expression.Arguments[1];
-        var property = GetProperty<TEntity>(propertyExpression) ?? throw new InvalidOperationException($"Can't parse '{propertyExpression}' to entity property");
-
-        // Values
-        if (!matchExpression.TryGetValue(out var needleValue))
-            throw new InvalidOperationException($"Can't parse {matchExpression} to needle value");
-        var value = Converter.ToType<string>(needleValue);
-
-        // Fields
-        return ToLike(property.AsField(),
-            ConvertToLikeableValue(expression.Method.Name, value ?? ""), unaryNodeType);
-    }
-
-    internal static IEnumerable<QueryField> ParseAll<TEntity>(MethodCallExpression expression,
-        ExpressionType? unaryNodeType = null)
-        where TEntity : class
-    {
-        // Property
-        var property = MyGetProperty(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
-
-        // Value
-        if (!expression.Arguments[0].TryGetValue(out var listValue))
-            throw new InvalidOperationException($"Can't parse {expression.Arguments[0]} to list value");
-        var enumerable = Converter.ToType<System.Collections.IEnumerable>(listValue);
-        return ToQueryFields(property.AsField(), enumerable!, unaryNodeType);
-
-        static ClassProperty? MyGetProperty(MethodCallExpression expression) =>
-            expression.Object?.Type == StaticType.String ?
-            GetProperty<TEntity>(expression.Object) :
-            GetProperty<TEntity>(expression.Arguments[1]);
-    }
-
-    internal static IEnumerable<QueryField> ParseAny<TEntity>(MethodCallExpression expression,
-        ExpressionType? unaryNodeType = null)
-        where TEntity : class
-    {
-        // Property
-        var property = MyGetProperty(expression) ?? throw new InvalidOperationException($"Can't parse '{expression}' to entity property");
-
-        // Value
-        if (!expression.Arguments[0].TryGetValue(out var listValue))
-            throw new InvalidOperationException($"Can't parse {expression.Arguments[0]} to list value");
-        var enumerable = Converter.ToType<System.Collections.IEnumerable>(listValue);
-        return ToQueryFields(property.AsField(), enumerable!, unaryNodeType);
-
-        static ClassProperty? MyGetProperty(MethodCallExpression expression) =>
-            expression.Object?.Type == StaticType.String ?
-            GetProperty<TEntity>(expression.Object) :
-            GetProperty<TEntity>(expression.Arguments[1]);
-    }
 
     #region GetProperty
 
-    internal static ClassProperty? GetProperty<TEntity>(Expression expression)
+    private static ClassProperty? GetProperty<TEntity>(Expression expression)
         where TEntity : class
     {
         return expression switch
         {
-            LambdaExpression lambdaExpression => GetProperty<TEntity>(lambdaExpression),
-            BinaryExpression binaryExpression => GetProperty<TEntity>(binaryExpression),
+            LambdaExpression lambdaExpression => GetProperty<TEntity>(lambdaExpression.Body),
+            BinaryExpression binaryExpression => GetProperty<TEntity>(binaryExpression.Left) ?? GetProperty<TEntity>(binaryExpression.Right),
             MethodCallExpression methodCallExpression when methodCallExpression.Method is { IsSpecialName: true, Name: "op_Implicit" } m && m.DeclaringType?.IsSpan() == true => GetProperty<TEntity>(methodCallExpression.Arguments[0]),
-            MethodCallExpression methodCallExpression => MethodGetProperty(methodCallExpression),
+            MethodCallExpression mce => mce.Object?.Type == StaticType.String ?
+                GetProperty<TEntity>(mce.Object) :
+                GetProperty<TEntity>(mce.Arguments[1]),
             MemberExpression memberExpression => GetProperty<TEntity>(memberExpression),
             _ => null
         };
-
-
-        static ClassProperty? MethodGetProperty(MethodCallExpression expression) =>
-            expression.Object?.Type == StaticType.String ?
-            GetProperty<TEntity>(expression.Object) :
-            GetProperty<TEntity>(expression.Arguments[1]);
     }
 
-    private static ClassProperty? GetProperty<TEntity>(LambdaExpression expression)
-        where TEntity : class =>
-        GetProperty<TEntity>(expression.Body);
-
-    private static ClassProperty? GetProperty<TEntity>(BinaryExpression expression)
-        where TEntity : class =>
-        GetProperty<TEntity>(expression.Left) ?? GetProperty<TEntity>(expression.Right);
-
-    internal static ClassProperty? GetProperty<TEntity>(MemberExpression expression)
+    private static ClassProperty? GetProperty<TEntity>(MemberExpression memberExpression)
         where TEntity : class
     {
-        var member = expression.Member;
-
-        if (member.DeclaringType is { } dt && dt.IsGenericType && dt.GetGenericTypeDefinition() == StaticType.Nullable && expression.Expression is { })
-            return GetProperty<TEntity>(expression.Expression);
-
-        if (expression.Member is PropertyInfo pi)
-            return GetProperty<TEntity>(pi);
-        else
-            return null;
+        return memberExpression.Member.DeclaringType is { } dt && dt.IsGenericType && dt.GetGenericTypeDefinition() == StaticType.Nullable && memberExpression.Expression is { }
+            ? GetProperty<TEntity>(memberExpression.Expression)
+            : memberExpression.Member is PropertyInfo pi ? GetProperty<TEntity>(pi) : null;
     }
 
-    internal static ClassProperty? GetProperty<TEntity>(PropertyInfo propertyInfo)
+    private static ClassProperty? GetProperty<TEntity>(PropertyInfo propertyInfo)
         where TEntity : class
     {
         if (propertyInfo is null)

@@ -103,7 +103,7 @@ public class DbSettingTest
         var setting = DbSettingMapper.Get<OracleConnection>();
 
         // Assert
-        Assert.AreEqual(":p", setting.ParameterPrefix);
+        Assert.AreEqual(":", setting.ParameterPrefix);
     }
 
     #endregion

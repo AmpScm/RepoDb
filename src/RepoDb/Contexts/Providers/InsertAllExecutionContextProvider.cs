@@ -1,61 +1,68 @@
 ﻿using System.Data;
 using System.Data.Common;
-using System.Globalization;
-using RepoDb.Contexts.Caches;
-using RepoDb.Contexts.Execution;
 using RepoDb.Extensions;
 using RepoDb.Interfaces;
 using RepoDb.Requests;
 
-namespace RepoDb.Contexts.Providers;
+namespace RepoDb.Contexts;
 
 /// <summary>
 ///
 /// </summary>
 internal static class InsertAllExecutionContextProvider
 {
-    private static string GetKey(Type entityType,
-        string tableName,
-        IEnumerable<Field> fields,
-        int batchSize,
-        string? hints)
-    {
-        return string.Concat(entityType.FullName,
-            ";",
-            tableName,
-            ";",
-            fields?.Select(f => f.FieldName).Join(","),
-            ";",
-            batchSize.ToString(CultureInfo.InvariantCulture),
-            ";",
-            hints);
-    }
-
     public static InsertAllExecutionContext Create(Type entityType,
-        IDbConnection connection,
-        string tableName,
-        int batchSize,
-        IEnumerable<Field> fields,
-        string? hints = null,
-        IDbTransaction? transaction = null,
-        IStatementBuilder? statementBuilder = null)
+       IDbConnection connection,
+       string tableName,
+       int batchSize,
+       FieldSet fields,
+       string? hints = null,
+       IDbTransaction? transaction = null,
+       IStatementBuilder? statementBuilder = null)
     {
-        var key = GetKey(entityType, tableName, fields, batchSize, hints);
+        var key = (entityType, tableName, fields, batchSize, hints);
 
         // Get from cache
-        var context = InsertAllExecutionContextCache.Get(key);
-        if (context is not null)
+        if (InsertAllExecutionContextCache.Get(key) is { } context)
         {
             return context;
         }
 
         // Create
         var dbFields = DbFieldCache.Get(connection, tableName, transaction);
+        return InsertAllExecutionContextCache.GetOrAdd(key, (_) => CreateInternal(entityType, connection, tableName, batchSize, fields, hints, transaction, statementBuilder, dbFields));
+    }
+
+    public static async Task<InsertAllExecutionContext> CreateAsync(Type entityType,
+        IDbConnection connection,
+        string tableName,
+        int batchSize,
+        FieldSet fields,
+        string? hints = null,
+        IDbTransaction? transaction = null,
+        IStatementBuilder? statementBuilder = null,
+        CancellationToken cancellationToken = default)
+    {
+        var key = (entityType, tableName, fields, batchSize, hints);
+
+        // Get from cache
+        if (InsertAllExecutionContextCache.Get(key) is { } context)
+        {
+            return context;
+        }
+
+        // Create
+        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
+        return InsertAllExecutionContextCache.GetOrAdd(key, (_) => CreateInternal(entityType, connection, tableName, batchSize, fields, hints, transaction, statementBuilder, dbFields));
+    }
+
+    private static InsertAllExecutionContext CreateInternal(Type entityType, IDbConnection connection, string tableName, int batchSize, FieldSet fields, string? hints, IDbTransaction? transaction, IStatementBuilder? statementBuilder, DbFieldCollection dbFields)
+    {
         string commandText;
 
         if (dbFields.Any(x => x.IsReadOnly))
         {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
+            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true).AsFieldSet();
         }
 
         // Create a different kind of requests
@@ -69,7 +76,7 @@ internal static class InsertAllExecutionContextProvider
                 batchSize,
                 hints,
                 statementBuilder);
-            commandText = CommandTextCache.GetCached(request, CommandTextCache.GetInsertAllText);
+            commandText = CommandTextCache.GetCachedWithDbFields(request, dbFields, CommandTextCache.GetInsertAllText);
         }
         else
         {
@@ -80,108 +87,15 @@ internal static class InsertAllExecutionContextProvider
                 fields,
                 hints,
                 statementBuilder);
-            commandText = CommandTextCache.GetCached(request, CommandTextCache.GetInsertText);
+            commandText = CommandTextCache.GetCachedWithDbFields(request, dbFields, CommandTextCache.GetInsertText);
         }
 
-        // Call
-        context = CreateInternal(entityType,
-            connection,
-            tableName,
-            dbFields,
-            batchSize,
-            fields,
-            commandText);
-
-        // Add to cache
-        InsertAllExecutionContextCache.Add(key, context);
-
-        // Return
-        return context;
-    }
-
-    public static async Task<InsertAllExecutionContext> CreateAsync(Type entityType,
-        IDbConnection connection,
-        string tableName,
-        int batchSize,
-        IEnumerable<Field> fields,
-        string? hints = null,
-        IDbTransaction? transaction = null,
-        IStatementBuilder? statementBuilder = null,
-        CancellationToken cancellationToken = default)
-    {
-        var key = GetKey(entityType, tableName, fields, batchSize, hints);
-
-        // Get from cache
-        var context = InsertAllExecutionContextCache.Get(key);
-        if (context is not null)
-        {
-            return context;
-        }
-
-        // Create
-        var dbFields = await DbFieldCache.GetInternalAsync(connection, tableName, transaction, cancellationToken: cancellationToken).ConfigureAwait(false);
-        string commandText;
-
-        if (dbFields.Any(x => x.IsReadOnly))
-        {
-            fields = fields.Where(f => dbFields.GetByFieldName(f.FieldName)?.IsReadOnly != true);
-        }
-
-        // Create a different kind of requests
-        if (batchSize > 1)
-        {
-            var request = new InsertAllRequest(tableName,
-                connection,
-                transaction,
-                fields,
-                batchSize,
-                hints,
-                statementBuilder);
-            commandText = await CommandTextCache.GetCachedAsync(request, CommandTextCache.GetInsertAllText, cancellationToken).ConfigureAwait(false);
-        }
-        else
-        {
-            var request = new InsertRequest(tableName,
-                connection,
-                transaction,
-                fields,
-                hints,
-                statementBuilder);
-            commandText = await CommandTextCache.GetCachedAsync(request, CommandTextCache.GetInsertText, cancellationToken).ConfigureAwait(false);
-        }
-
-        // Call
-        context = CreateInternal(entityType,
-            connection,
-            tableName,
-            dbFields,
-            batchSize,
-            fields,
-            commandText);
-
-        // Add to cache
-        InsertAllExecutionContextCache.Add(key, context);
-
-        // Return
-        return context;
-    }
-
-    private static InsertAllExecutionContext CreateInternal(Type entityType,
-        IDbConnection connection,
-        string tableName,
-        DbFieldCollection dbFields,
-        int batchSize,
-        IEnumerable<Field> fields,
-        string commandText)
-    {
         var dbSetting = connection.GetDbSetting();
         var dbHelper = connection.GetDbHelper();
         IEnumerable<DbField>? inputFields = null;
 
         // Filter the actual properties for input fields
-        inputFields = dbFields
-            .Where(dbField => !dbField.IsIdentity)
-            .Where(dbField => fields.ContainsFieldName(dbField.FieldName))
+        inputFields = dbFields.Where(dbField => fields.ContainsFieldName(dbField.FieldName))
             .AsList();
 
         // Variables for the context
@@ -223,7 +137,6 @@ internal static class InsertAllExecutionContextProvider
         return new InsertAllExecutionContext
         {
             CommandText = commandText,
-            InputFields = inputFields,
             BatchSize = batchSize,
             SingleDataEntityParametersSetterFunc = singleEntityParametersSetterFunc,
             MultipleDataEntitiesParametersSetterFunc = multipleEntitiesParametersSetterFunc,
